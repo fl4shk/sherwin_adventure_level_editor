@@ -1,0 +1,280 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+apparent_view	sfml_canvas_widget_classes.hpp	/^	sf::View apparent_view;$/;"	kind:m	class:sfml_canvas_widget	access:protected
+argv_copy	level_editor_widget_class.hpp	/^	vector<string>* argv_copy;$/;"	kind:m	class:level_editor_widget	access:public
+argv_copy	primary_widget_class.hpp	/^	vector<string> argv_copy;$/;"	kind:m	class:primary_widget	access:protected
+canvas_image	sfml_canvas_widget_classes.hpp	/^	unique_ptr<sf::Image> canvas_image;$/;"	kind:m	class:sfml_canvas_widget	access:protected
+canvas_sprite	sfml_canvas_widget_classes.hpp	/^	unique_ptr<sf::Sprite> canvas_sprite;$/;"	kind:m	class:sfml_canvas_widget	access:protected
+canvas_texture	sfml_canvas_widget_classes.hpp	/^	unique_ptr<sf::Texture> canvas_texture;$/;"	kind:m	class:sfml_canvas_widget	access:protected
+canvas_tile_grid_render_texture	sfml_canvas_widget_classes.hpp	/^	sf::RenderTexture canvas_tile_grid_render_texture;$/;"	kind:m	class:sfml_canvas_widget	access:protected
+canvas_tile_grid_slot_image	sfml_canvas_widget_classes.hpp	/^	unique_ptr<sf::Image> canvas_tile_grid_slot_image;$/;"	kind:m	class:sfml_canvas_widget	access:protected
+canvas_tile_grid_slot_sprite	sfml_canvas_widget_classes.hpp	/^	unique_ptr<sf::Sprite> canvas_tile_grid_slot_sprite;$/;"	kind:m	class:sfml_canvas_widget	access:protected
+canvas_tile_grid_slot_texture	sfml_canvas_widget_classes.hpp	/^	unique_ptr<sf::Texture> canvas_tile_grid_slot_texture;$/;"	kind:m	class:sfml_canvas_widget	access:protected
+closeEvent	primary_widget_class.hpp	/^	inline void closeEvent( QCloseEvent* event )$/;"	kind:f	class:primary_widget	access:protected	signature:( QCloseEvent* event )
+default_parent_title	level_editor_widget_class.cpp	/^const QString level_editor_widget::default_parent_title $/;"	kind:m	class:level_editor_widget	file:
+default_parent_title	level_editor_widget_class.hpp	/^	static const QString default_parent_title;$/;"	kind:m	class:level_editor_widget	access:public
+disable_tile_grid	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget::disable_tile_grid()$/;"	kind:f	class:sfml_canvas_widget	signature:()
+disable_tile_grid	sfml_canvas_widget_classes.hpp	/^	void disable_tile_grid();$/;"	kind:p	class:sfml_canvas_widget	access:public	signature:()
+enable_tile_grid	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget::enable_tile_grid()$/;"	kind:f	class:sfml_canvas_widget	signature:()
+enable_tile_grid	sfml_canvas_widget_classes.hpp	/^	void enable_tile_grid();$/;"	kind:p	class:sfml_canvas_widget	access:public	signature:()
+export_file_as	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget::export_file_as( const string& output_file_name )$/;"	kind:f	class:sfml_canvas_widget	signature:( const string& output_file_name )
+export_file_as	sfml_canvas_widget_classes.hpp	/^	void export_file_as( const string& output_file_name );$/;"	kind:p	class:sfml_canvas_widget	access:public	signature:( const string& output_file_name )
+file_menu	primary_widget_class.hpp	/^	QMenu* file_menu, * second_menu;$/;"	kind:m	class:primary_widget	access:protected
+full_resize	sfml_canvas_widget_classes.hpp	/^	inline void full_resize( const QSize& n_size )$/;"	kind:f	class:sfml_canvas_widget_base	access:protected	signature:( const QSize& n_size )
+generate_canvas_tile_grid	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget::generate_canvas_tile_grid()$/;"	kind:f	class:sfml_canvas_widget	signature:()
+generate_canvas_tile_grid	sfml_canvas_widget_classes.hpp	/^	void generate_canvas_tile_grid();$/;"	kind:p	class:sfml_canvas_widget	access:protected	signature:()
+generate_central_widget	primary_widget_class.cpp	/^void primary_widget::generate_central_widget()$/;"	kind:f	class:primary_widget	signature:()
+generate_central_widget	primary_widget_class.hpp	/^	void generate_central_widget();$/;"	kind:p	class:primary_widget	access:protected	signature:()
+generate_menus	primary_widget_class.cpp	/^void primary_widget::generate_menus()$/;"	kind:f	class:primary_widget	signature:()
+generate_menus	primary_widget_class.hpp	/^	void generate_menus();$/;"	kind:p	class:primary_widget	access:protected	signature:()
+generate_toolbar	primary_widget_class.cpp	/^bool primary_widget::generate_toolbar()$/;"	kind:f	class:primary_widget	signature:()
+generate_toolbar	primary_widget_class.hpp	/^	bool generate_toolbar();$/;"	kind:p	class:primary_widget	access:protected	signature:()
+get_apparent_view	sfml_canvas_widget_classes.cpp	/^const sf::View& sfml_canvas_widget::get_apparent_view()$/;"	kind:f	class:sfml_canvas_widget	signature:()
+get_apparent_view	sfml_canvas_widget_classes.hpp	/^	const sf::View& get_apparent_view();$/;"	kind:p	class:sfml_canvas_widget	access:public	signature:()
+get_tile_grid_enabled	sfml_canvas_widget_classes.hpp	/^	inline bool get_tile_grid_enabled() const$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:() const
+grid_widget	layout_widget_classes.hpp	/^	inline grid_widget( QWidget* parent = 0 ) : QWidget(parent)$/;"	kind:f	class:grid_widget	access:public	signature:( QWidget* parent = 0 )
+grid_widget	layout_widget_classes.hpp	/^class grid_widget : public QWidget$/;"	kind:c	inherits:QWidget
+grid_widget::grid_widget	layout_widget_classes.hpp	/^	inline grid_widget( QWidget* parent = 0 ) : QWidget(parent)$/;"	kind:f	class:grid_widget	access:public	signature:( QWidget* parent = 0 )
+grid_widget::layout	layout_widget_classes.hpp	/^	QGridLayout* layout;$/;"	kind:m	class:grid_widget	access:public
+hbox_layout	level_editor_widget_class.hpp	/^	QHBoxLayout* hbox_layout;$/;"	kind:m	class:level_editor_widget	access:public
+hbox_widget	layout_widget_classes.hpp	/^	inline hbox_widget( QWidget* parent = 0 ) : QWidget(parent)$/;"	kind:f	class:hbox_widget	access:public	signature:( QWidget* parent = 0 )
+hbox_widget	layout_widget_classes.hpp	/^class hbox_widget : public QWidget$/;"	kind:c	inherits:QWidget
+hbox_widget::hbox_widget	layout_widget_classes.hpp	/^	inline hbox_widget( QWidget* parent = 0 ) : QWidget(parent)$/;"	kind:f	class:hbox_widget	access:public	signature:( QWidget* parent = 0 )
+hbox_widget::layout	layout_widget_classes.hpp	/^	QHBoxLayout* layout;$/;"	kind:m	class:hbox_widget	access:public
+hello	level_editor_widget_class.cpp	/^void level_editor_widget::hello()$/;"	kind:f	class:level_editor_widget	signature:()
+hello	level_editor_widget_class.hpp	/^	void hello();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
+initialized	sfml_canvas_widget_classes.hpp	/^	bool initialized;$/;"	kind:m	class:sfml_canvas_widget_base	access:public
+keyPressEvent	level_editor_widget_class.cpp	/^void level_editor_widget::keyPressEvent( QKeyEvent* event )$/;"	kind:f	class:level_editor_widget	signature:( QKeyEvent* event )
+keyPressEvent	level_editor_widget_class.hpp	/^	void keyPressEvent( QKeyEvent* event );$/;"	kind:p	class:level_editor_widget	access:protected	signature:( QKeyEvent* event )
+laugh	primary_widget_class.cpp	/^void primary_widget::laugh()$/;"	kind:f	class:primary_widget	signature:()
+laugh	primary_widget_class.hpp	/^	void laugh();$/;"	kind:p	class:primary_widget	access:protected	signature:()
+laugh_icon_file_name	primary_widget_class.cpp	/^const QString primary_widget::laugh_icon_file_name$/;"	kind:m	class:primary_widget	file:
+laugh_icon_file_name	primary_widget_class.hpp	/^	static const QString laugh_icon_file_name, quit_icon_file_name;$/;"	kind:m	class:primary_widget	access:protected
+layout	layout_widget_classes.hpp	/^	QGridLayout* layout;$/;"	kind:m	class:grid_widget	access:public
+layout	layout_widget_classes.hpp	/^	QHBoxLayout* layout;$/;"	kind:m	class:hbox_widget	access:public
+layout	layout_widget_classes.hpp	/^	QVBoxLayout* layout;$/;"	kind:m	class:vbox_widget	access:public
+layout_widget_classes_hpp	layout_widget_classes.hpp	2;"	kind:d
+level_editor_widget	level_editor_widget_class.cpp	/^level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,$/;"	kind:f	class:level_editor_widget	signature:( vector<string>* s_argv_copy, QWidget* s_parent )
+level_editor_widget	level_editor_widget_class.hpp	/^	level_editor_widget( vector<string>* s_argv_copy, $/;"	kind:p	class:level_editor_widget	access:public	signature:( vector<string>* s_argv_copy, QWidget* s_parent = 0 )
+level_editor_widget	level_editor_widget_class.hpp	/^class level_editor_widget : public QWidget$/;"	kind:c	inherits:QWidget
+level_editor_widget::argv_copy	level_editor_widget_class.hpp	/^	vector<string>* argv_copy;$/;"	kind:m	class:level_editor_widget	access:public
+level_editor_widget::default_parent_title	level_editor_widget_class.cpp	/^const QString level_editor_widget::default_parent_title $/;"	kind:m	class:level_editor_widget	file:
+level_editor_widget::default_parent_title	level_editor_widget_class.hpp	/^	static const QString default_parent_title;$/;"	kind:m	class:level_editor_widget	access:public
+level_editor_widget::hbox_layout	level_editor_widget_class.hpp	/^	QHBoxLayout* hbox_layout;$/;"	kind:m	class:level_editor_widget	access:public
+level_editor_widget::hello	level_editor_widget_class.cpp	/^void level_editor_widget::hello()$/;"	kind:f	class:level_editor_widget	signature:()
+level_editor_widget::hello	level_editor_widget_class.hpp	/^	void hello();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
+level_editor_widget::keyPressEvent	level_editor_widget_class.cpp	/^void level_editor_widget::keyPressEvent( QKeyEvent* event )$/;"	kind:f	class:level_editor_widget	signature:( QKeyEvent* event )
+level_editor_widget::keyPressEvent	level_editor_widget_class.hpp	/^	void keyPressEvent( QKeyEvent* event );$/;"	kind:p	class:level_editor_widget	access:protected	signature:( QKeyEvent* event )
+level_editor_widget::level_editor_widget	level_editor_widget_class.cpp	/^level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,$/;"	kind:f	class:level_editor_widget	signature:( vector<string>* s_argv_copy, QWidget* s_parent )
+level_editor_widget::level_editor_widget	level_editor_widget_class.hpp	/^	level_editor_widget( vector<string>* s_argv_copy, $/;"	kind:p	class:level_editor_widget	access:public	signature:( vector<string>* s_argv_copy, QWidget* s_parent = 0 )
+level_editor_widget::parent	level_editor_widget_class.hpp	/^	QWidget* parent;$/;"	kind:m	class:level_editor_widget	access:public
+level_editor_widget::save_file	level_editor_widget_class.cpp	/^void level_editor_widget::save_file()$/;"	kind:f	class:level_editor_widget	signature:()
+level_editor_widget::save_file	level_editor_widget_class.hpp	/^	void save_file();$/;"	kind:p	class:level_editor_widget	access:public	signature:()
+level_editor_widget::save_file_as	level_editor_widget_class.cpp	/^void level_editor_widget::save_file_as()$/;"	kind:f	class:level_editor_widget	signature:()
+level_editor_widget::save_file_as	level_editor_widget_class.hpp	/^	void save_file_as();$/;"	kind:p	class:level_editor_widget	access:public	signature:()
+level_editor_widget::scroll_area	level_editor_widget_class.hpp	/^	QScrollArea* scroll_area;$/;"	kind:m	class:level_editor_widget	access:public
+level_editor_widget::show_geometry_stuff	level_editor_widget_class.cpp	/^void level_editor_widget::show_geometry_stuff()$/;"	kind:f	class:level_editor_widget	signature:()
+level_editor_widget::show_geometry_stuff	level_editor_widget_class.hpp	/^	void show_geometry_stuff();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
+level_editor_widget::show_horizontal_scroll_bar_stuff	level_editor_widget_class.cpp	/^void level_editor_widget::show_horizontal_scroll_bar_stuff()$/;"	kind:f	class:level_editor_widget	signature:()
+level_editor_widget::show_horizontal_scroll_bar_stuff	level_editor_widget_class.hpp	/^	void show_horizontal_scroll_bar_stuff();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
+level_editor_widget::show_vertical_scroll_bar_stuff	level_editor_widget_class.cpp	/^void level_editor_widget::show_vertical_scroll_bar_stuff()$/;"	kind:f	class:level_editor_widget	signature:()
+level_editor_widget::show_vertical_scroll_bar_stuff	level_editor_widget_class.hpp	/^	void show_vertical_scroll_bar_stuff();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
+level_editor_widget::the_sfml_canvas_widget	level_editor_widget_class.hpp	/^	sfml_canvas_widget* the_sfml_canvas_widget; $/;"	kind:m	class:level_editor_widget	access:public
+level_editor_widget::zoom_in	level_editor_widget_class.cpp	/^bool level_editor_widget::zoom_in()$/;"	kind:f	class:level_editor_widget	signature:()
+level_editor_widget::zoom_in	level_editor_widget_class.hpp	/^	bool zoom_in();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
+level_editor_widget::zoom_out	level_editor_widget_class.cpp	/^bool level_editor_widget::zoom_out()$/;"	kind:f	class:level_editor_widget	signature:()
+level_editor_widget::zoom_out	level_editor_widget_class.hpp	/^	bool zoom_out();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
+level_editor_widget_class_hpp	level_editor_widget_class.hpp	2;"	kind:d
+main	main.cpp	/^int main( int argc, char** argv )$/;"	kind:f	signature:( int argc, char** argv )
+menu_laugh_action	primary_widget_class.hpp	/^	QAction* menu_laugh_action, * menu_save_action, * menu_save_as_action, $/;"	kind:m	class:primary_widget	access:protected
+menu_quit_action	primary_widget_class.hpp	/^		* menu_quit_action;$/;"	kind:m	class:primary_widget	access:protected
+menu_save_action	primary_widget_class.hpp	/^	QAction* menu_laugh_action, * menu_save_action, * menu_save_as_action, $/;"	kind:m	class:primary_widget	access:protected
+menu_save_as_action	primary_widget_class.hpp	/^	QAction* menu_laugh_action, * menu_save_action, * menu_save_as_action, $/;"	kind:m	class:primary_widget	access:protected
+minimum_scale_factor_for_tile_grid	sfml_canvas_widget_classes.hpp	/^	static constexpr u32 minimum_scale_factor_for_tile_grid = 2;$/;"	kind:m	class:sfml_canvas_widget	access:public
+misc_funcs_hpp	misc_funcs.hpp	2;"	kind:d
+misc_includes_hpp	misc_includes.hpp	2;"	kind:d
+misc_types_hpp	misc_types.hpp	2;"	kind:d
+modified_recently	sfml_canvas_widget_classes.hpp	/^	bool modified_recently, zoomed_recently;$/;"	kind:m	class:sfml_canvas_widget	access:public
+mouseMoveEvent	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget::mouseMoveEvent( QMouseEvent* event )$/;"	kind:f	class:sfml_canvas_widget	signature:( QMouseEvent* event )
+mouseMoveEvent	sfml_canvas_widget_classes.hpp	/^	void mouseMoveEvent( QMouseEvent* event );$/;"	kind:p	class:sfml_canvas_widget	access:protected	signature:( QMouseEvent* event )
+mousePressEvent	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget::mousePressEvent( QMouseEvent* event )$/;"	kind:f	class:sfml_canvas_widget	signature:( QMouseEvent* event )
+mousePressEvent	sfml_canvas_widget_classes.hpp	/^	void mousePressEvent( QMouseEvent* event );$/;"	kind:p	class:sfml_canvas_widget	access:protected	signature:( QMouseEvent* event )
+mouseReleaseEvent	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget::mouseReleaseEvent( QMouseEvent* event )$/;"	kind:f	class:sfml_canvas_widget	signature:( QMouseEvent* event )
+mouseReleaseEvent	sfml_canvas_widget_classes.hpp	/^	void mouseReleaseEvent( QMouseEvent* event );$/;"	kind:p	class:sfml_canvas_widget	access:protected	signature:( QMouseEvent* event )
+num_pixels_per_block_colum	sfml_canvas_widget_classes.hpp	/^		num_pixels_per_block_colum = 16;$/;"	kind:m	class:sfml_canvas_widget	access:public
+num_pixels_per_block_row	sfml_canvas_widget_classes.hpp	/^		num_pixels_per_tile_column = 8, num_pixels_per_block_row = 16,$/;"	kind:m	class:sfml_canvas_widget	access:public
+num_pixels_per_tile_column	sfml_canvas_widget_classes.hpp	/^		num_pixels_per_tile_column = 8, num_pixels_per_block_row = 16,$/;"	kind:m	class:sfml_canvas_widget	access:public
+num_pixels_per_tile_row	sfml_canvas_widget_classes.hpp	/^	static constexpr u32 num_pixels_per_tile_row = 8,$/;"	kind:m	class:sfml_canvas_widget	access:public
+on_init	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget_base::on_init()$/;"	kind:f	class:sfml_canvas_widget_base	signature:()
+on_init	sfml_canvas_widget_classes.hpp	/^	inline void on_init()$/;"	kind:f	class:sfml_canvas_widget	access:protected	signature:()
+on_init	sfml_canvas_widget_classes.hpp	/^	virtual void on_init();$/;"	kind:p	class:sfml_canvas_widget_base	access:protected	signature:()
+on_update	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget::on_update()$/;"	kind:f	class:sfml_canvas_widget	signature:()
+on_update	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget_base::on_update()$/;"	kind:f	class:sfml_canvas_widget_base	signature:()
+on_update	sfml_canvas_widget_classes.hpp	/^	virtual void on_update();$/;"	kind:p	class:sfml_canvas_widget_base	access:protected	signature:()
+on_update	sfml_canvas_widget_classes.hpp	/^	void on_update();$/;"	kind:p	class:sfml_canvas_widget	access:protected	signature:()
+paintEngine	sfml_canvas_widget_classes.cpp	/^QPaintEngine* sfml_canvas_widget_base::paintEngine() const$/;"	kind:f	class:sfml_canvas_widget_base	signature:() const
+paintEngine	sfml_canvas_widget_classes.hpp	/^	virtual QPaintEngine* paintEngine() const;$/;"	kind:p	class:sfml_canvas_widget_base	access:protected	signature:() const
+paintEvent	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget_base::paintEvent( QPaintEvent* event )$/;"	kind:f	class:sfml_canvas_widget_base	signature:( QPaintEvent* event )
+paintEvent	sfml_canvas_widget_classes.hpp	/^	virtual void paintEvent( QPaintEvent* event );$/;"	kind:p	class:sfml_canvas_widget_base	access:protected	signature:( QPaintEvent* event )
+parent	level_editor_widget_class.hpp	/^	QWidget* parent;$/;"	kind:m	class:level_editor_widget	access:public
+parent	sfml_canvas_widget_classes.hpp	/^	QWidget* parent;$/;"	kind:m	class:sfml_canvas_widget_base	access:public
+point_is_in_image	sfml_canvas_widget_classes.hpp	/^	inline bool point_is_in_image( const sf::Vector2i& pos )$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:( const sf::Vector2i& pos )
+prev_mouse_pos	sfml_canvas_widget_classes.hpp	/^	QPoint prev_mouse_pos;$/;"	kind:m	class:sfml_canvas_widget	access:protected
+primary_widget	primary_widget_class.cpp	/^primary_widget::primary_widget( vector<string>& s_argv_copy, $/;"	kind:f	class:primary_widget	signature:( vector<string>& s_argv_copy, QWidget* parent )
+primary_widget	primary_widget_class.hpp	/^	primary_widget( vector<string>& s_argv_copy, QWidget* parent = 0 );$/;"	kind:p	class:primary_widget	access:public	signature:( vector<string>& s_argv_copy, QWidget* parent = 0 )
+primary_widget	primary_widget_class.hpp	/^class primary_widget : public QMainWindow$/;"	kind:c	inherits:QMainWindow
+primary_widget::argv_copy	primary_widget_class.hpp	/^	vector<string> argv_copy;$/;"	kind:m	class:primary_widget	access:protected
+primary_widget::closeEvent	primary_widget_class.hpp	/^	inline void closeEvent( QCloseEvent* event )$/;"	kind:f	class:primary_widget	access:protected	signature:( QCloseEvent* event )
+primary_widget::file_menu	primary_widget_class.hpp	/^	QMenu* file_menu, * second_menu;$/;"	kind:m	class:primary_widget	access:protected
+primary_widget::generate_central_widget	primary_widget_class.cpp	/^void primary_widget::generate_central_widget()$/;"	kind:f	class:primary_widget	signature:()
+primary_widget::generate_central_widget	primary_widget_class.hpp	/^	void generate_central_widget();$/;"	kind:p	class:primary_widget	access:protected	signature:()
+primary_widget::generate_menus	primary_widget_class.cpp	/^void primary_widget::generate_menus()$/;"	kind:f	class:primary_widget	signature:()
+primary_widget::generate_menus	primary_widget_class.hpp	/^	void generate_menus();$/;"	kind:p	class:primary_widget	access:protected	signature:()
+primary_widget::generate_toolbar	primary_widget_class.cpp	/^bool primary_widget::generate_toolbar()$/;"	kind:f	class:primary_widget	signature:()
+primary_widget::generate_toolbar	primary_widget_class.hpp	/^	bool generate_toolbar();$/;"	kind:p	class:primary_widget	access:protected	signature:()
+primary_widget::laugh	primary_widget_class.cpp	/^void primary_widget::laugh()$/;"	kind:f	class:primary_widget	signature:()
+primary_widget::laugh	primary_widget_class.hpp	/^	void laugh();$/;"	kind:p	class:primary_widget	access:protected	signature:()
+primary_widget::laugh_icon_file_name	primary_widget_class.cpp	/^const QString primary_widget::laugh_icon_file_name$/;"	kind:m	class:primary_widget	file:
+primary_widget::laugh_icon_file_name	primary_widget_class.hpp	/^	static const QString laugh_icon_file_name, quit_icon_file_name;$/;"	kind:m	class:primary_widget	access:protected
+primary_widget::menu_laugh_action	primary_widget_class.hpp	/^	QAction* menu_laugh_action, * menu_save_action, * menu_save_as_action, $/;"	kind:m	class:primary_widget	access:protected
+primary_widget::menu_quit_action	primary_widget_class.hpp	/^		* menu_quit_action;$/;"	kind:m	class:primary_widget	access:protected
+primary_widget::menu_save_action	primary_widget_class.hpp	/^	QAction* menu_laugh_action, * menu_save_action, * menu_save_as_action, $/;"	kind:m	class:primary_widget	access:protected
+primary_widget::menu_save_as_action	primary_widget_class.hpp	/^	QAction* menu_laugh_action, * menu_save_action, * menu_save_as_action, $/;"	kind:m	class:primary_widget	access:protected
+primary_widget::primary_widget	primary_widget_class.cpp	/^primary_widget::primary_widget( vector<string>& s_argv_copy, $/;"	kind:f	class:primary_widget	signature:( vector<string>& s_argv_copy, QWidget* parent )
+primary_widget::primary_widget	primary_widget_class.hpp	/^	primary_widget( vector<string>& s_argv_copy, QWidget* parent = 0 );$/;"	kind:p	class:primary_widget	access:public	signature:( vector<string>& s_argv_copy, QWidget* parent = 0 )
+primary_widget::quit	primary_widget_class.cpp	/^void primary_widget::quit()$/;"	kind:f	class:primary_widget	signature:()
+primary_widget::quit	primary_widget_class.hpp	/^	void quit();$/;"	kind:p	class:primary_widget	access:protected	signature:()
+primary_widget::quit_icon_file_name	primary_widget_class.cpp	/^	primary_widget::quit_icon_file_name$/;"	kind:m	class:primary_widget	file:
+primary_widget::quit_icon_file_name	primary_widget_class.hpp	/^	static const QString laugh_icon_file_name, quit_icon_file_name;$/;"	kind:m	class:primary_widget	access:protected
+primary_widget::second_menu	primary_widget_class.hpp	/^	QMenu* file_menu, * second_menu;$/;"	kind:m	class:primary_widget	access:protected
+primary_widget::the_central_widget	primary_widget_class.hpp	/^	level_editor_widget* the_central_widget;$/;"	kind:m	class:primary_widget	access:protected
+primary_widget::toolbar	primary_widget_class.hpp	/^	QToolBar* toolbar;$/;"	kind:m	class:primary_widget	access:protected
+primary_widget::toolbar_laugh_action	primary_widget_class.hpp	/^	QAction* toolbar_laugh_action, * toolbar_quit_action;$/;"	kind:m	class:primary_widget	access:protected
+primary_widget::toolbar_quit_action	primary_widget_class.hpp	/^	QAction* toolbar_laugh_action, * toolbar_quit_action;$/;"	kind:m	class:primary_widget	access:protected
+primary_widget_class_hpp	primary_widget_class.hpp	2;"	kind:d
+quit	primary_widget_class.cpp	/^void primary_widget::quit()$/;"	kind:f	class:primary_widget	signature:()
+quit	primary_widget_class.hpp	/^	void quit();$/;"	kind:p	class:primary_widget	access:protected	signature:()
+quit_icon_file_name	primary_widget_class.cpp	/^	primary_widget::quit_icon_file_name$/;"	kind:m	class:primary_widget	file:
+quit_icon_file_name	primary_widget_class.hpp	/^	static const QString laugh_icon_file_name, quit_icon_file_name;$/;"	kind:m	class:primary_widget	access:protected
+quit_non_slot	misc_funcs.hpp	/^inline void quit_non_slot( int return_val = 0 )$/;"	kind:f	signature:( int return_val = 0 )
+s16	misc_types.hpp	/^typedef uint16_t u16; typedef int16_t s16;$/;"	kind:t
+s32	misc_types.hpp	/^typedef uint32_t u32; typedef int32_t s32;$/;"	kind:t
+s64	misc_types.hpp	/^typedef uint64_t u64; typedef int64_t s64;$/;"	kind:t
+s8	misc_types.hpp	/^typedef uint8_t u8; typedef int8_t s8;$/;"	kind:t
+save_file	level_editor_widget_class.cpp	/^void level_editor_widget::save_file()$/;"	kind:f	class:level_editor_widget	signature:()
+save_file	level_editor_widget_class.hpp	/^	void save_file();$/;"	kind:p	class:level_editor_widget	access:public	signature:()
+save_file_as	level_editor_widget_class.cpp	/^void level_editor_widget::save_file_as()$/;"	kind:f	class:level_editor_widget	signature:()
+save_file_as	level_editor_widget_class.hpp	/^	void save_file_as();$/;"	kind:p	class:level_editor_widget	access:public	signature:()
+scale_factor	sfml_canvas_widget_classes.hpp	/^	u32 scale_factor;$/;"	kind:m	class:sfml_canvas_widget	access:public
+scroll_area	level_editor_widget_class.hpp	/^	QScrollArea* scroll_area;$/;"	kind:m	class:level_editor_widget	access:public
+second_menu	primary_widget_class.hpp	/^	QMenu* file_menu, * second_menu;$/;"	kind:m	class:primary_widget	access:protected
+set_min_max_sizes	sfml_canvas_widget_classes.hpp	/^	inline void set_min_max_sizes( const QSize& n_size )$/;"	kind:f	class:sfml_canvas_widget_base	access:protected	signature:( const QSize& n_size )
+sfml_canvas_widget	sfml_canvas_widget_classes.cpp	/^sfml_canvas_widget::sfml_canvas_widget( QWidget* s_parent, $/;"	kind:f	class:sfml_canvas_widget	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size )
+sfml_canvas_widget	sfml_canvas_widget_classes.hpp	/^	sfml_canvas_widget( QWidget* s_parent, const QPoint& s_position,$/;"	kind:p	class:sfml_canvas_widget	access:public	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size )
+sfml_canvas_widget	sfml_canvas_widget_classes.hpp	/^class sfml_canvas_widget : public sfml_canvas_widget_base$/;"	kind:c	inherits:sfml_canvas_widget_base
+sfml_canvas_widget::apparent_view	sfml_canvas_widget_classes.hpp	/^	sf::View apparent_view;$/;"	kind:m	class:sfml_canvas_widget	access:protected
+sfml_canvas_widget::canvas_image	sfml_canvas_widget_classes.hpp	/^	unique_ptr<sf::Image> canvas_image;$/;"	kind:m	class:sfml_canvas_widget	access:protected
+sfml_canvas_widget::canvas_sprite	sfml_canvas_widget_classes.hpp	/^	unique_ptr<sf::Sprite> canvas_sprite;$/;"	kind:m	class:sfml_canvas_widget	access:protected
+sfml_canvas_widget::canvas_texture	sfml_canvas_widget_classes.hpp	/^	unique_ptr<sf::Texture> canvas_texture;$/;"	kind:m	class:sfml_canvas_widget	access:protected
+sfml_canvas_widget::canvas_tile_grid_render_texture	sfml_canvas_widget_classes.hpp	/^	sf::RenderTexture canvas_tile_grid_render_texture;$/;"	kind:m	class:sfml_canvas_widget	access:protected
+sfml_canvas_widget::canvas_tile_grid_slot_image	sfml_canvas_widget_classes.hpp	/^	unique_ptr<sf::Image> canvas_tile_grid_slot_image;$/;"	kind:m	class:sfml_canvas_widget	access:protected
+sfml_canvas_widget::canvas_tile_grid_slot_sprite	sfml_canvas_widget_classes.hpp	/^	unique_ptr<sf::Sprite> canvas_tile_grid_slot_sprite;$/;"	kind:m	class:sfml_canvas_widget	access:protected
+sfml_canvas_widget::canvas_tile_grid_slot_texture	sfml_canvas_widget_classes.hpp	/^	unique_ptr<sf::Texture> canvas_tile_grid_slot_texture;$/;"	kind:m	class:sfml_canvas_widget	access:protected
+sfml_canvas_widget::disable_tile_grid	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget::disable_tile_grid()$/;"	kind:f	class:sfml_canvas_widget	signature:()
+sfml_canvas_widget::disable_tile_grid	sfml_canvas_widget_classes.hpp	/^	void disable_tile_grid();$/;"	kind:p	class:sfml_canvas_widget	access:public	signature:()
+sfml_canvas_widget::enable_tile_grid	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget::enable_tile_grid()$/;"	kind:f	class:sfml_canvas_widget	signature:()
+sfml_canvas_widget::enable_tile_grid	sfml_canvas_widget_classes.hpp	/^	void enable_tile_grid();$/;"	kind:p	class:sfml_canvas_widget	access:public	signature:()
+sfml_canvas_widget::export_file_as	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget::export_file_as( const string& output_file_name )$/;"	kind:f	class:sfml_canvas_widget	signature:( const string& output_file_name )
+sfml_canvas_widget::export_file_as	sfml_canvas_widget_classes.hpp	/^	void export_file_as( const string& output_file_name );$/;"	kind:p	class:sfml_canvas_widget	access:public	signature:( const string& output_file_name )
+sfml_canvas_widget::generate_canvas_tile_grid	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget::generate_canvas_tile_grid()$/;"	kind:f	class:sfml_canvas_widget	signature:()
+sfml_canvas_widget::generate_canvas_tile_grid	sfml_canvas_widget_classes.hpp	/^	void generate_canvas_tile_grid();$/;"	kind:p	class:sfml_canvas_widget	access:protected	signature:()
+sfml_canvas_widget::get_apparent_view	sfml_canvas_widget_classes.cpp	/^const sf::View& sfml_canvas_widget::get_apparent_view()$/;"	kind:f	class:sfml_canvas_widget	signature:()
+sfml_canvas_widget::get_apparent_view	sfml_canvas_widget_classes.hpp	/^	const sf::View& get_apparent_view();$/;"	kind:p	class:sfml_canvas_widget	access:public	signature:()
+sfml_canvas_widget::get_tile_grid_enabled	sfml_canvas_widget_classes.hpp	/^	inline bool get_tile_grid_enabled() const$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:() const
+sfml_canvas_widget::minimum_scale_factor_for_tile_grid	sfml_canvas_widget_classes.hpp	/^	static constexpr u32 minimum_scale_factor_for_tile_grid = 2;$/;"	kind:m	class:sfml_canvas_widget	access:public
+sfml_canvas_widget::modified_recently	sfml_canvas_widget_classes.hpp	/^	bool modified_recently, zoomed_recently;$/;"	kind:m	class:sfml_canvas_widget	access:public
+sfml_canvas_widget::mouseMoveEvent	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget::mouseMoveEvent( QMouseEvent* event )$/;"	kind:f	class:sfml_canvas_widget	signature:( QMouseEvent* event )
+sfml_canvas_widget::mouseMoveEvent	sfml_canvas_widget_classes.hpp	/^	void mouseMoveEvent( QMouseEvent* event );$/;"	kind:p	class:sfml_canvas_widget	access:protected	signature:( QMouseEvent* event )
+sfml_canvas_widget::mousePressEvent	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget::mousePressEvent( QMouseEvent* event )$/;"	kind:f	class:sfml_canvas_widget	signature:( QMouseEvent* event )
+sfml_canvas_widget::mousePressEvent	sfml_canvas_widget_classes.hpp	/^	void mousePressEvent( QMouseEvent* event );$/;"	kind:p	class:sfml_canvas_widget	access:protected	signature:( QMouseEvent* event )
+sfml_canvas_widget::mouseReleaseEvent	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget::mouseReleaseEvent( QMouseEvent* event )$/;"	kind:f	class:sfml_canvas_widget	signature:( QMouseEvent* event )
+sfml_canvas_widget::mouseReleaseEvent	sfml_canvas_widget_classes.hpp	/^	void mouseReleaseEvent( QMouseEvent* event );$/;"	kind:p	class:sfml_canvas_widget	access:protected	signature:( QMouseEvent* event )
+sfml_canvas_widget::num_pixels_per_block_colum	sfml_canvas_widget_classes.hpp	/^		num_pixels_per_block_colum = 16;$/;"	kind:m	class:sfml_canvas_widget	access:public
+sfml_canvas_widget::num_pixels_per_block_row	sfml_canvas_widget_classes.hpp	/^		num_pixels_per_tile_column = 8, num_pixels_per_block_row = 16,$/;"	kind:m	class:sfml_canvas_widget	access:public
+sfml_canvas_widget::num_pixels_per_tile_column	sfml_canvas_widget_classes.hpp	/^		num_pixels_per_tile_column = 8, num_pixels_per_block_row = 16,$/;"	kind:m	class:sfml_canvas_widget	access:public
+sfml_canvas_widget::num_pixels_per_tile_row	sfml_canvas_widget_classes.hpp	/^	static constexpr u32 num_pixels_per_tile_row = 8,$/;"	kind:m	class:sfml_canvas_widget	access:public
+sfml_canvas_widget::on_init	sfml_canvas_widget_classes.hpp	/^	inline void on_init()$/;"	kind:f	class:sfml_canvas_widget	access:protected	signature:()
+sfml_canvas_widget::on_update	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget::on_update()$/;"	kind:f	class:sfml_canvas_widget	signature:()
+sfml_canvas_widget::on_update	sfml_canvas_widget_classes.hpp	/^	void on_update();$/;"	kind:p	class:sfml_canvas_widget	access:protected	signature:()
+sfml_canvas_widget::point_is_in_image	sfml_canvas_widget_classes.hpp	/^	inline bool point_is_in_image( const sf::Vector2i& pos )$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:( const sf::Vector2i& pos )
+sfml_canvas_widget::prev_mouse_pos	sfml_canvas_widget_classes.hpp	/^	QPoint prev_mouse_pos;$/;"	kind:m	class:sfml_canvas_widget	access:protected
+sfml_canvas_widget::scale_factor	sfml_canvas_widget_classes.hpp	/^	u32 scale_factor;$/;"	kind:m	class:sfml_canvas_widget	access:public
+sfml_canvas_widget::sfml_canvas_widget	sfml_canvas_widget_classes.cpp	/^sfml_canvas_widget::sfml_canvas_widget( QWidget* s_parent, $/;"	kind:f	class:sfml_canvas_widget	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size )
+sfml_canvas_widget::sfml_canvas_widget	sfml_canvas_widget_classes.hpp	/^	sfml_canvas_widget( QWidget* s_parent, const QPoint& s_position,$/;"	kind:p	class:sfml_canvas_widget	access:public	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size )
+sfml_canvas_widget::tile_grid_enabled	sfml_canvas_widget_classes.hpp	/^	bool tile_grid_enabled_recently, tile_grid_enabled;$/;"	kind:m	class:sfml_canvas_widget	access:protected
+sfml_canvas_widget::tile_grid_enabled_recently	sfml_canvas_widget_classes.hpp	/^	bool tile_grid_enabled_recently, tile_grid_enabled;$/;"	kind:m	class:sfml_canvas_widget	access:protected
+sfml_canvas_widget::view_center_x	sfml_canvas_widget_classes.hpp	/^	float view_center_x, view_center_y;$/;"	kind:m	class:sfml_canvas_widget	access:public
+sfml_canvas_widget::view_center_y	sfml_canvas_widget_classes.hpp	/^	float view_center_x, view_center_y;$/;"	kind:m	class:sfml_canvas_widget	access:public
+sfml_canvas_widget::zoomed_recently	sfml_canvas_widget_classes.hpp	/^	bool modified_recently, zoomed_recently;$/;"	kind:m	class:sfml_canvas_widget	access:public
+sfml_canvas_widget_base	sfml_canvas_widget_classes.cpp	/^sfml_canvas_widget_base::sfml_canvas_widget_base( QWidget* s_parent, $/;"	kind:f	class:sfml_canvas_widget_base	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size, u32 frame_time )
+sfml_canvas_widget_base	sfml_canvas_widget_classes.hpp	/^	sfml_canvas_widget_base( QWidget* s_parent, const QPoint& s_position,$/;"	kind:p	class:sfml_canvas_widget_base	access:public	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size, u32 frame_time = 1 )
+sfml_canvas_widget_base	sfml_canvas_widget_classes.hpp	/^class sfml_canvas_widget_base : public QWidget, public sf::RenderWindow$/;"	kind:c	inherits:QWidget,sf::RenderWindow
+sfml_canvas_widget_base::full_resize	sfml_canvas_widget_classes.hpp	/^	inline void full_resize( const QSize& n_size )$/;"	kind:f	class:sfml_canvas_widget_base	access:protected	signature:( const QSize& n_size )
+sfml_canvas_widget_base::initialized	sfml_canvas_widget_classes.hpp	/^	bool initialized;$/;"	kind:m	class:sfml_canvas_widget_base	access:public
+sfml_canvas_widget_base::on_init	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget_base::on_init()$/;"	kind:f	class:sfml_canvas_widget_base	signature:()
+sfml_canvas_widget_base::on_init	sfml_canvas_widget_classes.hpp	/^	virtual void on_init();$/;"	kind:p	class:sfml_canvas_widget_base	access:protected	signature:()
+sfml_canvas_widget_base::on_update	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget_base::on_update()$/;"	kind:f	class:sfml_canvas_widget_base	signature:()
+sfml_canvas_widget_base::on_update	sfml_canvas_widget_classes.hpp	/^	virtual void on_update();$/;"	kind:p	class:sfml_canvas_widget_base	access:protected	signature:()
+sfml_canvas_widget_base::paintEngine	sfml_canvas_widget_classes.cpp	/^QPaintEngine* sfml_canvas_widget_base::paintEngine() const$/;"	kind:f	class:sfml_canvas_widget_base	signature:() const
+sfml_canvas_widget_base::paintEngine	sfml_canvas_widget_classes.hpp	/^	virtual QPaintEngine* paintEngine() const;$/;"	kind:p	class:sfml_canvas_widget_base	access:protected	signature:() const
+sfml_canvas_widget_base::paintEvent	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget_base::paintEvent( QPaintEvent* event )$/;"	kind:f	class:sfml_canvas_widget_base	signature:( QPaintEvent* event )
+sfml_canvas_widget_base::paintEvent	sfml_canvas_widget_classes.hpp	/^	virtual void paintEvent( QPaintEvent* event );$/;"	kind:p	class:sfml_canvas_widget_base	access:protected	signature:( QPaintEvent* event )
+sfml_canvas_widget_base::parent	sfml_canvas_widget_classes.hpp	/^	QWidget* parent;$/;"	kind:m	class:sfml_canvas_widget_base	access:public
+sfml_canvas_widget_base::set_min_max_sizes	sfml_canvas_widget_classes.hpp	/^	inline void set_min_max_sizes( const QSize& n_size )$/;"	kind:f	class:sfml_canvas_widget_base	access:protected	signature:( const QSize& n_size )
+sfml_canvas_widget_base::sfml_canvas_widget_base	sfml_canvas_widget_classes.cpp	/^sfml_canvas_widget_base::sfml_canvas_widget_base( QWidget* s_parent, $/;"	kind:f	class:sfml_canvas_widget_base	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size, u32 frame_time )
+sfml_canvas_widget_base::sfml_canvas_widget_base	sfml_canvas_widget_classes.hpp	/^	sfml_canvas_widget_base( QWidget* s_parent, const QPoint& s_position,$/;"	kind:p	class:sfml_canvas_widget_base	access:public	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size, u32 frame_time = 1 )
+sfml_canvas_widget_base::showEvent	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget_base::showEvent( QShowEvent* event )$/;"	kind:f	class:sfml_canvas_widget_base	signature:( QShowEvent* event )
+sfml_canvas_widget_base::showEvent	sfml_canvas_widget_classes.hpp	/^	virtual void showEvent( QShowEvent* event );$/;"	kind:p	class:sfml_canvas_widget_base	access:protected	signature:( QShowEvent* event )
+sfml_canvas_widget_base::timer	sfml_canvas_widget_classes.hpp	/^	QTimer timer;$/;"	kind:m	class:sfml_canvas_widget_base	access:public
+sfml_canvas_widget_base::~sfml_canvas_widget_base	sfml_canvas_widget_classes.cpp	/^sfml_canvas_widget_base::~sfml_canvas_widget_base()$/;"	kind:f	class:sfml_canvas_widget_base	signature:()
+sfml_canvas_widget_base::~sfml_canvas_widget_base	sfml_canvas_widget_classes.hpp	/^	virtual ~sfml_canvas_widget_base();$/;"	kind:p	class:sfml_canvas_widget_base	access:public	signature:()
+sfml_canvas_widget_classes_hpp	sfml_canvas_widget_classes.hpp	2;"	kind:d
+showEvent	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget_base::showEvent( QShowEvent* event )$/;"	kind:f	class:sfml_canvas_widget_base	signature:( QShowEvent* event )
+showEvent	sfml_canvas_widget_classes.hpp	/^	virtual void showEvent( QShowEvent* event );$/;"	kind:p	class:sfml_canvas_widget_base	access:protected	signature:( QShowEvent* event )
+show_geometry_stuff	level_editor_widget_class.cpp	/^void level_editor_widget::show_geometry_stuff()$/;"	kind:f	class:level_editor_widget	signature:()
+show_geometry_stuff	level_editor_widget_class.hpp	/^	void show_geometry_stuff();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
+show_horizontal_scroll_bar_stuff	level_editor_widget_class.cpp	/^void level_editor_widget::show_horizontal_scroll_bar_stuff()$/;"	kind:f	class:level_editor_widget	signature:()
+show_horizontal_scroll_bar_stuff	level_editor_widget_class.hpp	/^	void show_horizontal_scroll_bar_stuff();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
+show_quit_message	misc_funcs.hpp	/^inline void show_quit_message()$/;"	kind:f	signature:()
+show_vertical_scroll_bar_stuff	level_editor_widget_class.cpp	/^void level_editor_widget::show_vertical_scroll_bar_stuff()$/;"	kind:f	class:level_editor_widget	signature:()
+show_vertical_scroll_bar_stuff	level_editor_widget_class.hpp	/^	void show_vertical_scroll_bar_stuff();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
+the_central_widget	primary_widget_class.hpp	/^	level_editor_widget* the_central_widget;$/;"	kind:m	class:primary_widget	access:protected
+the_sfml_canvas_widget	level_editor_widget_class.hpp	/^	sfml_canvas_widget* the_sfml_canvas_widget; $/;"	kind:m	class:level_editor_widget	access:public
+tile_grid_enabled	sfml_canvas_widget_classes.hpp	/^	bool tile_grid_enabled_recently, tile_grid_enabled;$/;"	kind:m	class:sfml_canvas_widget	access:protected
+tile_grid_enabled_recently	sfml_canvas_widget_classes.hpp	/^	bool tile_grid_enabled_recently, tile_grid_enabled;$/;"	kind:m	class:sfml_canvas_widget	access:protected
+timer	sfml_canvas_widget_classes.hpp	/^	QTimer timer;$/;"	kind:m	class:sfml_canvas_widget_base	access:public
+toolbar	primary_widget_class.hpp	/^	QToolBar* toolbar;$/;"	kind:m	class:primary_widget	access:protected
+toolbar_laugh_action	primary_widget_class.hpp	/^	QAction* toolbar_laugh_action, * toolbar_quit_action;$/;"	kind:m	class:primary_widget	access:protected
+toolbar_quit_action	primary_widget_class.hpp	/^	QAction* toolbar_laugh_action, * toolbar_quit_action;$/;"	kind:m	class:primary_widget	access:protected
+u16	misc_types.hpp	/^typedef uint16_t u16; typedef int16_t s16;$/;"	kind:t
+u32	misc_types.hpp	/^typedef uint32_t u32; typedef int32_t s32;$/;"	kind:t
+u64	misc_types.hpp	/^typedef uint64_t u64; typedef int64_t s64;$/;"	kind:t
+u8	misc_types.hpp	/^typedef uint8_t u8; typedef int8_t s8;$/;"	kind:t
+uint	misc_types.hpp	/^typedef unsigned int uint;$/;"	kind:t
+vbox_widget	layout_widget_classes.hpp	/^	inline vbox_widget( QWidget* parent = 0 ) : QWidget(parent)$/;"	kind:f	class:vbox_widget	access:public	signature:( QWidget* parent = 0 )
+vbox_widget	layout_widget_classes.hpp	/^class vbox_widget : public QWidget$/;"	kind:c	inherits:QWidget
+vbox_widget::layout	layout_widget_classes.hpp	/^	QVBoxLayout* layout;$/;"	kind:m	class:vbox_widget	access:public
+vbox_widget::vbox_widget	layout_widget_classes.hpp	/^	inline vbox_widget( QWidget* parent = 0 ) : QWidget(parent)$/;"	kind:f	class:vbox_widget	access:public	signature:( QWidget* parent = 0 )
+view_center_x	sfml_canvas_widget_classes.hpp	/^	float view_center_x, view_center_y;$/;"	kind:m	class:sfml_canvas_widget	access:public
+view_center_y	sfml_canvas_widget_classes.hpp	/^	float view_center_x, view_center_y;$/;"	kind:m	class:sfml_canvas_widget	access:public
+zoom_in	level_editor_widget_class.cpp	/^bool level_editor_widget::zoom_in()$/;"	kind:f	class:level_editor_widget	signature:()
+zoom_in	level_editor_widget_class.hpp	/^	bool zoom_in();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
+zoom_out	level_editor_widget_class.cpp	/^bool level_editor_widget::zoom_out()$/;"	kind:f	class:level_editor_widget	signature:()
+zoom_out	level_editor_widget_class.hpp	/^	bool zoom_out();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
+zoomed_recently	sfml_canvas_widget_classes.hpp	/^	bool modified_recently, zoomed_recently;$/;"	kind:m	class:sfml_canvas_widget	access:public
+~sfml_canvas_widget_base	sfml_canvas_widget_classes.cpp	/^sfml_canvas_widget_base::~sfml_canvas_widget_base()$/;"	kind:f	class:sfml_canvas_widget_base	signature:()
+~sfml_canvas_widget_base	sfml_canvas_widget_classes.hpp	/^	virtual ~sfml_canvas_widget_base();$/;"	kind:p	class:sfml_canvas_widget_base	access:public	signature:()

@@ -1,0 +1,18 @@
+syn keyword CTagsMember the_central_widget menu_laugh_action minimum_scale_factor_for_tile_grid scroll_area hbox_layout num_pixels_per_block_colum canvas_image canvas_texture menu_save_action tile_grid_enabled_recently tile_grid_enabled modified_recently num_pixels_per_block_row layout quit_icon_file_name
+syn keyword CTagsMember initialized apparent_view prev_mouse_pos scale_factor menu_quit_action parent laugh_icon_file_name toolbar_quit_action timer num_pixels_per_tile_row argv_copy toolbar num_pixels_per_tile_column the_sfml_canvas_widget second_menu zoomed_recently canvas_tile_grid_slot_texture view_center_y canvas_tile_grid_slot_sprite view_center_x canvas_sprite menu_save_as_action file_menu default_parent_title canvas_tile_grid_render_texture toolbar_laugh_action canvas_tile_grid_slot_image
+syn keyword CTagsFunction full_resize show_geometry_stuff showEvent
+syn keyword CTagsFunction keyPressEvent on_init generate_toolbar point_is_in_image quit show_vertical_scroll_bar_stuff mouseReleaseEvent save_file_as hello get_apparent_view generate_menus get_tile_grid_enabled mousePressEvent zoom_in laugh quit_non_slot disable_tile_grid enable_tile_grid on_update closeEvent save_file export_file_as paintEvent show_horizontal_scroll_bar_stuff show_quit_message zoom_out generate_canvas_tile_grid generate_central_widget mouseMoveEvent main paintEngine set_min_max_sizes
+syn keyword CTagsType s8 s64 uint s16 u32 u16 u8 s32 u64
+syn keyword CTagsDefinedName sfml_canvas_widget_classes_hpp primary_widget_class_hpp layout_widget_classes_hpp misc_includes_hpp misc_types_hpp level_editor_widget_class_hpp misc_funcs_hpp
+syn keyword CTagsClass vbox_widget primary_widget grid_widget sfml_canvas_widget hbox_widget level_editor_widget sfml_canvas_widget_base
+
+" Matches for file level_editor_widget_class.cpp:
+if (has_key(b:TagHighlightPrivate, "NormalisedPath") && b:TagHighlightPrivate["NormalisedPath"] == "level_editor_widget_class.cpp") || TagHighlight#Option#GetOption("IgnoreFileScope")
+	syn keyword CTagsMember default_parent_title
+	
+endif
+" Matches for file primary_widget_class.cpp:
+if (has_key(b:TagHighlightPrivate, "NormalisedPath") && b:TagHighlightPrivate["NormalisedPath"] == "primary_widget_class.cpp") || TagHighlight#Option#GetOption("IgnoreFileScope")
+	syn keyword CTagsMember laugh_icon_file_name quit_icon_file_name
+	
+endif
