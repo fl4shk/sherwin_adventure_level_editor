@@ -18,32 +18,21 @@
 
 
 
+#include "block_selector_widget_class.hpp"
 
-#include "misc_includes.hpp"
-#include "primary_widget_class.hpp"
-
-
-
-int main( int argc, char** argv )
+block_selector_widget::block_selector_widget( QWidget* s_parent,
+	const QPoint& s_position, const QSize& s_size ) : QWidget(s_parent),
+	parent(s_parent)
 {
-	vector<string> argv_copy;
+	move(s_position);
+	resize(s_size);
 	
-	for ( int i=0; i<argc; ++i )
-	{
-		argv_copy.push_back(string(argv[i]));
-	}
+	the_core_widget = new block_selector_core_widget( this, QPoint(), 
+		QSize() );
 	
-	if ( argv_copy.size() != 2 )
-	{
-		//cout << "Usage:  " << argv_copy.at(0) << " png_image_file\n";
-		cout << "Usage:  " << argv_copy.at(0) << " level_file\n";
-		return 1;
-	}
+	grid_layout = new QGridLayout(this);
+	grid_layout->addWidget( the_core_widget, 0, 0 );
 	
-	QApplication app( argc, argv );
-	
-	primary_widget window(argv_copy);
-	window.show();
-	
-	return app.exec();
 }
+
+

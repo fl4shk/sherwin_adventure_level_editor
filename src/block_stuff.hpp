@@ -1,0 +1,110 @@
+// This file is part of Sherwin's Adventure Level Editor.
+// 
+// Copyright 2015-2016 by Andrew Clark (FL4SHK).
+// 
+// Sherwin's Adventure Level Editor is free software: you can redistribute
+// it and/or modify it under the terms of the GNU General Public License as
+// published by the Free Software Foundation, either version 3 of the
+// License, or (at your option) any later version.
+// 
+// Sherwin's Adventure Level Editor is distributed in the hope that it will
+// be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+// of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License along
+// with Sherwin's Adventure Level Editor.  If not, see
+// <http://www.gnu.org/licenses/>.
+
+
+#ifndef block_stuff_hpp
+#define block_stuff_hpp
+
+// These block_type's are used by BG0
+enum block_type
+{
+	// A graphics-less block that sprites are free to move through.
+	bt_air,
+	
+	// A block that looks like a wooden log.  It is indestructible, which
+	// is quite unlike real life wooden logs.
+	bt_log,
+	
+	// A wooden block without anything inside.  It is destroyed (that is,
+	// replaced with an air block) when strongly hit.
+	bt_wood,
+	
+	// A block with eyes without anything inside.  It becomes an empty
+	// block upon being strongly hit.
+	bt_eyes,
+	
+	// A block with an exclamation point on it.  The purpose of these
+	// blocks is yet to be chosen, but I'm thinking that some kind of event
+	// will happen when one is strongly hit.
+	bt_exclam,
+	
+	// An empty block that is indestructible.  
+	bt_dud,
+	
+	// Wooden blocks with contents
+	bt_wood_with_bt_dud,
+	bt_wood_with_st_waffle,
+	bt_wood_with_st_muffin,
+	bt_wood_with_st_fire_muffin,
+	bt_wood_with_st_ice_muffin,
+	bt_wood_with_st_chocolate_muffin,
+	
+	// Eyes blocks with contents
+	//bt_eyes_with_bt_dud		// This is the same as bt_eyes.
+	bt_eyes_with_st_waffle,
+	bt_eyes_with_st_muffin,
+	bt_eyes_with_st_fire_muffin,
+	bt_eyes_with_st_ice_muffin,
+	bt_eyes_with_st_chocolate_muffin,
+	
+	
+	// Grass/Dirt blocks
+	bt_grass_single,
+	
+	bt_grass_top_left,
+	bt_grass_top_middle,
+	bt_grass_top_right,
+	
+	bt_dirt_middle_left,
+	bt_dirt_middle_middle,
+	bt_dirt_middle_right,
+	
+	bt_dirt_bottom_left,
+	bt_dirt_bottom_middle,
+	bt_dirt_bottom_right,
+	
+	
+	// 45 degree angle slope
+	bt_grass_slope_p16_p16,
+	
+	// 135 degree angle slope
+	bt_grass_slope_n16_p16,
+	
+	// Approximately 26.57 degrees angle slope, with two blocks
+	bt_grass_slope_p32_p16_short,
+	bt_grass_slope_p32_p16_tall,
+	
+	// Approximately 153.43 degrees angle slope, with two blocks
+	bt_grass_slope_n32_p16_tall,
+	bt_grass_slope_n32_p16_short,
+	
+	// These two blocks are for decoration
+	bt_grass_in_slope_left,
+	bt_grass_in_slope_right,
+	
+	
+	// bt_count is the amount of block types.  It is automatically updated
+	// by the compiler.
+	bt_count,
+	
+};
+
+
+
+
+#endif		// block_stuff_hpp

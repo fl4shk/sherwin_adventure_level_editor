@@ -1,0 +1,7 @@
+*.swp
+*.swo
+deps/*
+objs/*
+asmouts/*
+moc_sources/*
+sherwin_adventure_level_editor

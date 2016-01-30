@@ -1,3 +1,23 @@
+// This file is part of Sherwin's Adventure Level Editor.
+// 
+// Copyright 2015-2016 by Andrew Clark (FL4SHK).
+// 
+// Sherwin's Adventure Level Editor is free software: you can redistribute
+// it and/or modify it under the terms of the GNU General Public License as
+// published by the Free Software Foundation, either version 3 of the
+// License, or (at your option) any later version.
+// 
+// Sherwin's Adventure Level Editor is distributed in the hope that it will
+// be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+// of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License along
+// with Sherwin's Adventure Level Editor.  If not, see
+// <http://www.gnu.org/licenses/>.
+
+
+
 #include "level_editor_widget_class.hpp"
 
 const QString level_editor_widget::default_parent_title 
@@ -16,52 +36,43 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 	
 	//the_sfml_canvas_widget = new sfml_canvas_widget( this, QPoint( 0, 0 ), 
 	//	QSize( 200, 200 ), string("the_powerup_gfx.png") );
-	the_sfml_canvas_widget = new sfml_canvas_widget( this, QPoint( 0, 0 ),
-		QSize( 200, 200 ) );
+	//the_sfml_canvas_widget = new sfml_canvas_widget( this, QPoint( 0, 0 ),
+	//	QSize( 200, 200 ), argv_copy->at(1) );
+	the_core_widget = new level_editor_core_widget( this, QPoint( 0, 0 ),
+		QSize( 200, 200 ), argv_copy->at(1) );
+	the_block_selector_widget = new block_selector_widget( this, 
+		QPoint( 0, 0 ), QSize( 300, 300 ) );
 	
+	//the_sfml_canvas_widget->set_the_block_selector_core_widget
+	//	(the_block_selector_widget->the_core_widget);
+	//the_block_selector_widget->the_core_widget
+	//	->set_the_sfml_canvas_widget(the_sfml_canvas_widget);
+	
+	the_core_widget->set_the_block_selector_core_widget
+		(the_block_selector_widget->the_core_widget);
+	the_block_selector_widget->the_core_widget
+		->set_the_level_editor_core_widget(the_core_widget);
+	
+	
+	
+	//if ( !the_sfml_canvas_widget->open_image() )
+	//{
+	//	quit_non_slot();
+	//}
 	
 	
 	// scroll_area stuff
 	scroll_area = new QScrollArea(this);
-	scroll_area->setWidget(the_sfml_canvas_widget);
+	scroll_area->setWidget(the_core_widget);
 	scroll_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 	scroll_area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 	
 	// hbox_layout stuff
 	hbox_layout = new QHBoxLayout(this);
 	hbox_layout->addWidget(scroll_area);
+	hbox_layout->addWidget(the_block_selector_widget);
 	
-	//setLayout(hbox_layout);
 	
-	
-	////vbox_layout = new QVBoxLayout(this);
-	////vbox_layout->setGeometry( QRect( QPoint( 0, 0 ), QSize( 200, 200 ) ) );
-	////hbox_layout->addLayout(vbox_layout);
-	//
-	////// Show Horizontal ScrollBar Stuff
-	////QPushButton* show_horiz_sb_stuff_button 
-	////	= new QPushButton( "Show Horiz", this );
-	////connect( show_horiz_sb_stuff_button, &QPushButton::clicked, this,
-	////	&level_editor_widget::show_horizontal_scroll_bar_stuff );
-	////vbox_layout->addWidget(show_horiz_sb_stuff_button);
-	////
-	////// Show Vertical ScrollBar Stuff
-	////QPushButton* show_vert_sb_stuff_button 
-	////	= new QPushButton( "Show Vert", this );
-	////connect( show_vert_sb_stuff_button, &QPushButton::clicked, this,
-	////	&level_editor_widget::show_vertical_scroll_bar_stuff );
-	////vbox_layout->addWidget(show_vert_sb_stuff_button);
-	////
-	////// Show Geometry Stuff
-	////QPushButton* show_geometry_stuff_button
-	////	= new QPushButton( "Show Geometry", this );
-	////connect( show_geometry_stuff_button, &QPushButton::clicked, this,
-	////	&level_editor_widget::show_geometry_stuff );
-	////vbox_layout->addWidget(show_geometry_stuff_button);
-	////
-	////
-	//////hbox_layout->addLayout( vbox_layout, Qt::AlignTop | Qt::AlignRight );
-	////hbox_layout->addLayout( vbox_layout );
 	
 }
 
@@ -76,13 +87,13 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 
 bool level_editor_widget::zoom_in()
 {
-	if ( the_sfml_canvas_widget->scale_factor == 16 )
+	if ( the_core_widget->the_sfml_canvas_widget->scale_factor == 16 )
 	{
 		return false;
 	}
 	
-	the_sfml_canvas_widget->scale_factor <<= 1;
-	the_sfml_canvas_widget->zoomed_recently = true;
+	the_core_widget->the_sfml_canvas_widget->scale_factor <<= 1;
+	the_core_widget->the_sfml_canvas_widget->zoomed_recently = true;
 	
 	scroll_area->horizontalScrollBar()->setValue
 		( scroll_area->horizontalScrollBar()->value() << 1 );
@@ -95,13 +106,13 @@ bool level_editor_widget::zoom_in()
 
 bool level_editor_widget::zoom_out()
 {
-	if ( the_sfml_canvas_widget->scale_factor == 1 )
+	if ( the_core_widget->the_sfml_canvas_widget->scale_factor == 1 )
 	{
 		return false;
 	}
 	
-	the_sfml_canvas_widget->scale_factor >>= 1;
-	the_sfml_canvas_widget->zoomed_recently = true;
+	the_core_widget->the_sfml_canvas_widget->scale_factor >>= 1;
+	the_core_widget->the_sfml_canvas_widget->zoomed_recently = true;
 	
 	scroll_area->horizontalScrollBar()->setValue
 		( scroll_area->horizontalScrollBar()->value() >> 1 );
@@ -124,18 +135,42 @@ void level_editor_widget::keyPressEvent( QKeyEvent* event )
 	else if ( event->key() == Qt::Key_T )
 	{
 		// Temporary until a toggle button is created for this purpose.
-		if ( !the_sfml_canvas_widget->get_tile_grid_enabled() )
+		if ( !the_core_widget->the_sfml_canvas_widget
+			->get_block_grid_enabled() )
 		{
-			the_sfml_canvas_widget->enable_tile_grid();
+			the_core_widget->the_sfml_canvas_widget->enable_block_grid();
 			//cout << "Tile grid now enabled.\n";
 		}
 		else
 		{
-			the_sfml_canvas_widget->disable_tile_grid();
+			the_core_widget->the_sfml_canvas_widget->disable_block_grid();
 			//cout << "Tile grid now disabled.\n";
 		}
 	}
 }
+
+
+bool level_editor_widget::open_level()
+{
+	fstream level_file( the_core_widget->level_file_name, 
+		ios_base::in | ios_base::binary );
+	
+	if ( !level_file.is_open() )
+	{
+		cout << "Unable to open " << the_core_widget->level_file_name 
+			<< " for reading.\n";
+		return false;
+	}
+	
+	return true;
+}
+
+void level_editor_widget::export_file_as( const string& output_file_name )
+{
+	
+}
+
+
 
 
 void level_editor_widget::hello()
@@ -170,7 +205,7 @@ void level_editor_widget::save_file()
 {
 	cout << "Saving....\n";
 	
-	//the_sfml_canvas_widget->export_file();
+	export_file();
 }
 
 void level_editor_widget::save_file_as()
@@ -182,6 +217,6 @@ void level_editor_widget::save_file_as()
 	
 	cout << "Saving....\n";
 	
-	the_sfml_canvas_widget->export_file_as(output_file_name.toStdString());
+	export_file_as(output_file_name.toStdString());
 }
 

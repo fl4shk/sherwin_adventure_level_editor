@@ -17,33 +17,32 @@
 // <http://www.gnu.org/licenses/>.
 
 
+#include "level_editor_core_widget_class.hpp"
 
 
-#include "misc_includes.hpp"
-#include "primary_widget_class.hpp"
-
-
-
-int main( int argc, char** argv )
+level_editor_core_widget::level_editor_core_widget( QWidget* s_parent,
+	const QPoint& s_position, const QSize& s_size, 
+	const string& s_level_file_name )
+	: QWidget(s_parent), parent(s_parent),
+	level_file_name(s_level_file_name)
 {
-	vector<string> argv_copy;
+	// Set strong focus to enable keyboard events (and maybe mouse events?)
+	// to be received.
+	setFocusPolicy(Qt::StrongFocus);
 	
-	for ( int i=0; i<argc; ++i )
-	{
-		argv_copy.push_back(string(argv[i]));
-	}
+	move(s_position);
+	resize(s_size);
 	
-	if ( argv_copy.size() != 2 )
-	{
-		//cout << "Usage:  " << argv_copy.at(0) << " png_image_file\n";
-		cout << "Usage:  " << argv_copy.at(0) << " level_file\n";
-		return 1;
-	}
-	
-	QApplication app( argc, argv );
-	
-	primary_widget window(argv_copy);
-	window.show();
-	
-	return app.exec();
+	the_sfml_canvas_widget = new sfml_canvas_widget( this, s_position, 
+		s_size );
 }
+
+
+void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
+{
+	cout << "level_editor_core_widget's mouse position:  "
+		<< event->x() << ", " << event->y() << endl;
+	
+}
+
+

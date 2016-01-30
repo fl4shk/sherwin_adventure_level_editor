@@ -18,32 +18,30 @@
 
 
 
+#ifndef block_selector_widget_class_hpp
+#define block_selector_widget_class_hpp
 
-#include "misc_includes.hpp"
-#include "primary_widget_class.hpp"
+#include "sfml_canvas_widget_classes.hpp"
+#include "block_selector_core_widget_class.hpp"
 
-
-
-int main( int argc, char** argv )
+class block_selector_widget : public QWidget
 {
-	vector<string> argv_copy;
+public:		// variables
+	QWidget* parent;
 	
-	for ( int i=0; i<argc; ++i )
-	{
-		argv_copy.push_back(string(argv[i]));
-	}
+	block_selector_core_widget* the_core_widget;
+	QGridLayout* grid_layout;
 	
-	if ( argv_copy.size() != 2 )
-	{
-		//cout << "Usage:  " << argv_copy.at(0) << " png_image_file\n";
-		cout << "Usage:  " << argv_copy.at(0) << " level_file\n";
-		return 1;
-	}
 	
-	QApplication app( argc, argv );
+public:		// functions
+	block_selector_widget( QWidget* s_parent, 
+		const QPoint& s_position, const QSize& s_size );
 	
-	primary_widget window(argv_copy);
-	window.show();
+protected:		// functions
 	
-	return app.exec();
-}
+	
+};
+
+
+
+#endif		// block_selector_widget_class_hpp

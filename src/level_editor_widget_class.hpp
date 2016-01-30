@@ -1,8 +1,31 @@
+// This file is part of Sherwin's Adventure Level Editor.
+// 
+// Copyright 2015-2016 by Andrew Clark (FL4SHK).
+// 
+// Sherwin's Adventure Level Editor is free software: you can redistribute
+// it and/or modify it under the terms of the GNU General Public License as
+// published by the Free Software Foundation, either version 3 of the
+// License, or (at your option) any later version.
+// 
+// Sherwin's Adventure Level Editor is distributed in the hope that it will
+// be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+// of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License along
+// with Sherwin's Adventure Level Editor.  If not, see
+// <http://www.gnu.org/licenses/>.
+
+
+
 #ifndef level_editor_widget_class_hpp
 #define level_editor_widget_class_hpp
 
 #include "misc_includes.hpp"
 #include "sfml_canvas_widget_classes.hpp"
+#include "block_selector_widget_class.hpp"
+#include "level_editor_core_widget_class.hpp"
+
 
 class level_editor_widget : public QWidget
 {
@@ -11,6 +34,7 @@ class level_editor_widget : public QWidget
 public:		// variables
 	vector<string>* argv_copy;
 	
+	
 	static const QString default_parent_title;
 	
 	QWidget* parent;
@@ -18,9 +42,15 @@ public:		// variables
 	QHBoxLayout* hbox_layout;
 	//QVBoxLayout* vbox_layout;
 	
+	
 	QScrollArea* scroll_area;
 	
-	sfml_canvas_widget* the_sfml_canvas_widget; 
+	level_editor_core_widget* the_core_widget;
+	
+	// Another QScrollArea should be created for use with
+	// the_block_selector_widget in the future.
+	block_selector_widget* the_block_selector_widget;
+	
 	
 	
 public:		// functions
@@ -49,6 +79,22 @@ protected:		// functions
 	//		widget_y - scroll_area->geometry().y()
 	//		+ scroll_area->verticalScrollBar()->value() );
 	//}
+	
+	inline bool open_level( const string& n_level_file_name )
+	{
+		the_core_widget->level_file_name = n_level_file_name;
+		return open_level();
+	}
+	
+	bool open_level();
+	
+	
+	inline void export_file()
+	{
+		export_file_as(the_core_widget->level_file_name);
+	}
+	
+	void export_file_as( const string& output_file_name );
 	
 	
 	
