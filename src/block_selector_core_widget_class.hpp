@@ -106,18 +106,18 @@ public:		// functions
 		//return (u32)( ( pos_in_block_selection_coords.y 
 		//	* num_blocks_per_row ) + pos_in_block_selection_coords.x );
 		return (u32)( ( pos_in_block_selection_coords.y
-			* get_num_blocks_per_row() ) 
+			* get_num_blocks_per_column() ) 
 			+ pos_in_block_selection_coords.x );
 	}
 	
 	inline u32 get_num_blocks_per_row() const
 	{
-		return block_gfx_raw_texture.getSize().x / slot_inner_width;
+		return block_gfx_raw_texture.getSize().y / slot_inner_height;
 	}
 	
 	inline u32 get_num_blocks_per_column() const
 	{
-		return block_gfx_raw_texture.getSize().y / slot_inner_height;
+		return block_gfx_raw_texture.getSize().x / slot_inner_width;
 	}
 	
 	inline u32 get_num_blocks_per_palette() const

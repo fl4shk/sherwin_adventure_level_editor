@@ -413,8 +413,12 @@ void sfml_canvas_widget::on_update()
 	if (zoomed_recently)
 	{
 		zoomed_recently = false;
-		full_resize(QSize( canvas_image->getSize().x * scale_factor, 
-			canvas_image->getSize().y * scale_factor ));
+		//full_resize(QSize( canvas_image->getSize().x * scale_factor, 
+		//	canvas_image->getSize().y * scale_factor ));
+		//full_resize(QSize( canvas_sprite->getSize().x * scale_factor, 
+		//	canvas_sprite->getSize().y * scale_factor ));
+		full_resize(QSize( canvas_texture->getSize().x * scale_factor, 
+			canvas_texture->getSize().y * scale_factor ));
 		
 		if ( get_block_grid_enabled() )
 		{

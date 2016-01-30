@@ -33,19 +33,19 @@ block_selector_core_widget::block_selector_core_widget
 	selected_block_sprite.setTexture(block_gfx_raw_texture);
 	
 	
-	block_palette_render_texture.create( get_num_blocks_per_row() 
-		* slot_outer_width, get_num_blocks_per_column() 
+	block_palette_render_texture.create( get_num_blocks_per_column() 
+		* slot_outer_width, get_num_blocks_per_row() 
 		* slot_outer_height );
 	block_palette_render_texture.clear(sf::Color::White);
 	block_palette_texture = block_palette_render_texture.getTexture();
 	block_palette_sprite.setTexture(block_palette_texture);
 	
-	
 	// These are needed to make it so that this widget actually shows up.
-	full_resize( QSize( block_gfx_raw_texture.getSize().x, 
-		block_gfx_raw_texture.getSize().y ) );
-	set_min_max_sizes( QSize( block_gfx_raw_texture.getSize().x,
-		block_gfx_raw_texture.getSize().y ) );
+	full_resize( QSize( get_num_blocks_per_column() * slot_outer_width,
+		get_num_blocks_per_row() * slot_outer_height ) );
+	set_min_max_sizes( QSize( get_num_blocks_per_column() 
+		* slot_outer_width, get_num_blocks_per_row() 
+		* slot_outer_height ) );
 	
 	
 	//slot_outer_usual_image.create( slot_outer_width, slot_outer_height, 
@@ -60,7 +60,7 @@ block_selector_core_widget::block_selector_core_widget
 	slot_outer_left_selected_image.create( slot_outer_width, 
 		slot_outer_height, sf::Color::Black );
 	slot_outer_right_selected_image.create( slot_outer_width, 
-		slot_outer_height, sf::Color::Green );
+		slot_outer_height, sf::Color::Red );
 	
 	//slot_inner_texture.loadFromImage(slot_inner_image);
 	
@@ -83,6 +83,32 @@ block_selector_core_widget::block_selector_core_widget
 
 void block_selector_core_widget::mousePressEvent( QMouseEvent* event )
 {
+	sf::Vector2i event_pos_in_block_selection_coords
+		( event->x() / slot_outer_width, 
+		event->y() / slot_outer_height );
+	
+	if ( event->button() == Qt::LeftButton )
+	{
+		u32 n_left_current_block_index 
+			= block_selection_coords_to_current_block_index
+			(event_pos_in_block_selection_coords);
+		
+		if ( n_left_current_block_index < get_num_blocks_per_palette() )
+		{
+			set_left_current_block_index(n_left_current_block_index);
+		}
+	}
+	else if ( event->button() == Qt::RightButton )
+	{
+		u32 n_right_current_block_index 
+			= block_selection_coords_to_current_block_index
+			(event_pos_in_block_selection_coords);
+		
+		if ( n_right_current_block_index < get_num_blocks_per_palette() )
+		{
+			set_right_current_block_index(n_right_current_block_index);
+		}
+	}
 	
 }
 
@@ -96,9 +122,9 @@ void block_selector_core_widget::generate_block_palette_render_texture()
 	u32 num_blocks_per_column = get_num_blocks_per_column(),
 		num_blocks_per_row = get_num_blocks_per_row();
 	
-	for ( u32 j=0; j<num_blocks_per_column; ++j )
+	for ( u32 j=0; j<num_blocks_per_row; ++j )
 	{
-		for ( u32 i=0; i<num_blocks_per_row; ++i )
+		for ( u32 i=0; i<num_blocks_per_column; ++i )
 		{
 			//slot_inner_image.setPixel( 0, 0, palette.at
 			//	( j * num_colors_per_row + i ) );
@@ -116,10 +142,13 @@ void block_selector_core_widget::generate_block_palette_render_texture()
 			selected_block_sprite.setPosition( i * slot_outer_width + 1,
 				j * slot_outer_height + 1 );
 			
+			//cout << "xpos == " << i * slot_outer_width + 1 << endl;
+			//cout << "ypos == " << j * slot_outer_height + 1 << endl;
+			
 			// Highlight the SELECTED blocks with a border, drawing the
 			// LEFT mouse button selected block one on top of the right
 			// mouse button selected block.
-			if ( left_current_block_index == j * num_blocks_per_row + i )
+			if ( left_current_block_index == j * num_blocks_per_column + i )
 			{
 				slot_outer_left_selected_sprite.setPosition
 					( selected_block_sprite.getPosition().x - 1,
@@ -129,7 +158,7 @@ void block_selector_core_widget::generate_block_palette_render_texture()
 					(slot_outer_left_selected_sprite);
 			}
 			else if ( right_current_block_index 
-				== j * num_blocks_per_row + i )
+				== j * num_blocks_per_column + i )
 			{
 				slot_outer_right_selected_sprite.setPosition
 					( selected_block_sprite.getPosition().x - 1,
