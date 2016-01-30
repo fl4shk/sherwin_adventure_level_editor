@@ -17,9 +17,11 @@
 // <http://www.gnu.org/licenses/>.
 
 
-
-
 #include "block_selector_core_widget_class.hpp"
+
+const string block_selector_core_widget::block_gfx_file_name
+	= "gfx/the_block_gfx.png";
+
 
 block_selector_core_widget::block_selector_core_widget
 	( QWidget* s_parent, const QPoint& s_position, const QSize& s_size ) 
@@ -27,13 +29,53 @@ block_selector_core_widget::block_selector_core_widget
 	left_current_block_index(0), right_current_block_index(0),
 	block_palette_modified_recently(false)
 {
-	test_texture.loadFromFile("icons/laugh_icon_32x32.png");
+	block_gfx_raw_texture.loadFromFile(block_gfx_file_name);
+	selected_block_sprite.setTexture(block_gfx_raw_texture);
+	
+	
+	block_palette_render_texture.create( get_num_blocks_per_row() 
+		* slot_outer_width, get_num_blocks_per_column() 
+		* slot_outer_height );
+	block_palette_render_texture.clear(sf::Color::White);
+	block_palette_texture = block_palette_render_texture.getTexture();
+	block_palette_sprite.setTexture(block_palette_texture);
+	
 	
 	// These are needed to make it so that this widget actually shows up.
-	full_resize( QSize( test_texture.getSize().x, 
-		test_texture.getSize().y ) );
-	set_min_max_sizes( QSize( test_texture.getSize().x,
-		test_texture.getSize().y ) );
+	full_resize( QSize( block_gfx_raw_texture.getSize().x, 
+		block_gfx_raw_texture.getSize().y ) );
+	set_min_max_sizes( QSize( block_gfx_raw_texture.getSize().x,
+		block_gfx_raw_texture.getSize().y ) );
+	
+	
+	//slot_outer_usual_image.create( slot_outer_width, slot_outer_height, 
+	//	sf::Color::Black );
+	//slot_outer_left_selected_image.create( slot_outer_width, 
+	//	slot_outer_height, sf::Color::White );
+	//slot_outer_right_selected_image.create( slot_outer_width, 
+	//	slot_outer_height, sf::Color::Cyan );
+	
+	slot_outer_usual_image.create( slot_outer_width, slot_outer_height, 
+		sf::Color::Cyan );
+	slot_outer_left_selected_image.create( slot_outer_width, 
+		slot_outer_height, sf::Color::Black );
+	slot_outer_right_selected_image.create( slot_outer_width, 
+		slot_outer_height, sf::Color::Green );
+	
+	//slot_inner_texture.loadFromImage(slot_inner_image);
+	
+	slot_outer_usual_texture.loadFromImage(slot_outer_usual_image);
+	slot_outer_left_selected_texture.loadFromImage
+		(slot_outer_left_selected_image);
+	slot_outer_right_selected_texture.loadFromImage
+		(slot_outer_right_selected_image);
+	
+	
+	slot_outer_usual_sprite.setTexture(slot_outer_usual_texture);
+	slot_outer_left_selected_sprite.setTexture
+		(slot_outer_left_selected_texture);
+	slot_outer_right_selected_sprite.setTexture
+		(slot_outer_right_selected_texture);
 	
 }
 
@@ -45,6 +87,74 @@ void block_selector_core_widget::mousePressEvent( QMouseEvent* event )
 }
 
 
+void block_selector_core_widget::generate_block_palette_render_texture()
+{
+	//cout << "block_palette_render_texture:  " 
+	//	<< block_palette_render_texture.setActive(true) << endl;
+	block_palette_render_texture.clear(sf::Color::Green);
+	
+	u32 num_blocks_per_column = get_num_blocks_per_column(),
+		num_blocks_per_row = get_num_blocks_per_row();
+	
+	for ( u32 j=0; j<num_blocks_per_column; ++j )
+	{
+		for ( u32 i=0; i<num_blocks_per_row; ++i )
+		{
+			//slot_inner_image.setPixel( 0, 0, palette.at
+			//	( j * num_colors_per_row + i ) );
+			//slot_inner_texture.loadFromImage(slot_inner_image);
+			//
+			////slot_inner_sprite.setPosition( i * slot_outer_width + 1,
+			////	block_palette_render_texture.getSize().y 
+			////	- ( ( j + 1 ) * slot_outer_height - 1 ) );
+			
+			selected_block_sprite.setTextureRect( sf::IntRect
+				( sf::Vector2i( i * slot_inner_width, 
+				j * slot_inner_height ), sf::Vector2i( slot_inner_width,
+				slot_inner_height ) ) );
+			
+			selected_block_sprite.setPosition( i * slot_outer_width + 1,
+				j * slot_outer_height + 1 );
+			
+			// Highlight the SELECTED blocks with a border, drawing the
+			// LEFT mouse button selected block one on top of the right
+			// mouse button selected block.
+			if ( left_current_block_index == j * num_blocks_per_row + i )
+			{
+				slot_outer_left_selected_sprite.setPosition
+					( selected_block_sprite.getPosition().x - 1,
+					selected_block_sprite.getPosition().y - 1 );
+				
+				block_palette_render_texture.draw
+					(slot_outer_left_selected_sprite);
+			}
+			else if ( right_current_block_index 
+				== j * num_blocks_per_row + i )
+			{
+				slot_outer_right_selected_sprite.setPosition
+					( selected_block_sprite.getPosition().x - 1,
+					selected_block_sprite.getPosition().y - 1 );
+				
+				block_palette_render_texture.draw
+					(slot_outer_right_selected_sprite);
+			}
+			else
+			{
+				slot_outer_usual_sprite.setPosition
+					( selected_block_sprite.getPosition().x - 1,
+					selected_block_sprite.getPosition().y - 1 );
+				
+				block_palette_render_texture.draw(slot_outer_usual_sprite);
+			}
+			
+			block_palette_render_texture.draw(selected_block_sprite);
+		}
+	}
+	
+	block_palette_render_texture.display();
+	block_palette_texture = block_palette_render_texture.getTexture();
+}
+
 void block_selector_core_widget::on_update()
 {
 	if (block_palette_modified_recently)
@@ -52,18 +162,20 @@ void block_selector_core_widget::on_update()
 		block_palette_modified_recently = false;
 		
 		//generate_palette_render_texture();
-		//block_palette_texture = block_palette_render_texture.getTexture();
+		
+		generate_block_palette_render_texture();
+		block_palette_texture = block_palette_render_texture.getTexture();
 		
 		
 	}
 	
 	
-	//clear(sf::Color::White);
-	clear(sf::Color::Green);
-	//draw(block_palette_sprite);
+	clear(sf::Color::Cyan);
 	
-	sf::Sprite test_sprite(test_texture);
-	draw(test_sprite);
+	draw(block_palette_sprite);
+	
+	//sf::Sprite test_sprite(block_gfx_raw_texture);
+	//draw(test_sprite);
 }
 
 

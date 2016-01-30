@@ -21,7 +21,7 @@
 #include "level_editor_widget_class.hpp"
 
 const QString level_editor_widget::default_parent_title 
-	= QString("GBA Paint Thing");
+	= QString("Sherwin's Adventure Level Editor");
 
 level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 	QWidget* s_parent ) : QWidget(s_parent), argv_copy(s_argv_copy),

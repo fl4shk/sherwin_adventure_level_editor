@@ -7,22 +7,35 @@
 apparent_view	sfml_canvas_widget_classes.hpp	/^	sf::View apparent_view;$/;"	kind:m	class:sfml_canvas_widget	access:protected
 argv_copy	level_editor_widget_class.hpp	/^	vector<string>* argv_copy;$/;"	kind:m	class:level_editor_widget	access:public
 argv_copy	primary_widget_class.hpp	/^	vector<string> argv_copy;$/;"	kind:m	class:primary_widget	access:protected
+block_gfx_file_name	block_selector_core_widget_class.cpp	/^const string block_selector_core_widget::block_gfx_file_name$/;"	kind:m	class:block_selector_core_widget	file:
+block_gfx_file_name	block_selector_core_widget_class.hpp	/^	static const string block_gfx_file_name;$/;"	kind:m	class:block_selector_core_widget	access:public
+block_gfx_raw_texture	block_selector_core_widget_class.hpp	/^	sf::Texture block_gfx_raw_texture;$/;"	kind:m	class:block_selector_core_widget	access:protected
 block_grid_enabled	sfml_canvas_widget_classes.hpp	/^	bool block_grid_enabled_recently, block_grid_enabled;$/;"	kind:m	class:sfml_canvas_widget	access:protected
 block_grid_enabled_recently	sfml_canvas_widget_classes.hpp	/^	bool block_grid_enabled_recently, block_grid_enabled;$/;"	kind:m	class:sfml_canvas_widget	access:protected
 block_palette_modified_recently	block_selector_core_widget_class.hpp	/^	bool block_palette_modified_recently;$/;"	kind:m	class:block_selector_core_widget	access:protected
 block_palette_render_texture	block_selector_core_widget_class.hpp	/^	sf::RenderTexture block_palette_render_texture;$/;"	kind:m	class:block_selector_core_widget	access:protected
 block_palette_sprite	block_selector_core_widget_class.hpp	/^	sf::Sprite block_palette_sprite;$/;"	kind:m	class:block_selector_core_widget	access:protected
 block_palette_texture	block_selector_core_widget_class.hpp	/^	sf::Texture block_palette_texture;$/;"	kind:m	class:block_selector_core_widget	access:protected
+block_selection_coords_to_current_block_index	block_selector_core_widget_class.hpp	/^	inline u32 block_selection_coords_to_current_block_index$/;"	kind:f	class:block_selector_core_widget	access:public	signature:( const sf::Vector2i& pos_in_block_selection_coords )
 block_selector_core_widget	block_selector_core_widget_class.cpp	/^block_selector_core_widget::block_selector_core_widget$/;"	kind:f	class:block_selector_core_widget	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size )
 block_selector_core_widget	block_selector_core_widget_class.hpp	/^	block_selector_core_widget( QWidget* s_parent, $/;"	kind:p	class:block_selector_core_widget	access:public	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size )
 block_selector_core_widget	block_selector_core_widget_class.hpp	/^class block_selector_core_widget : public sfml_canvas_widget_base$/;"	kind:c	inherits:sfml_canvas_widget_base
+block_selector_core_widget::block_gfx_file_name	block_selector_core_widget_class.cpp	/^const string block_selector_core_widget::block_gfx_file_name$/;"	kind:m	class:block_selector_core_widget	file:
+block_selector_core_widget::block_gfx_file_name	block_selector_core_widget_class.hpp	/^	static const string block_gfx_file_name;$/;"	kind:m	class:block_selector_core_widget	access:public
+block_selector_core_widget::block_gfx_raw_texture	block_selector_core_widget_class.hpp	/^	sf::Texture block_gfx_raw_texture;$/;"	kind:m	class:block_selector_core_widget	access:protected
 block_selector_core_widget::block_palette_modified_recently	block_selector_core_widget_class.hpp	/^	bool block_palette_modified_recently;$/;"	kind:m	class:block_selector_core_widget	access:protected
 block_selector_core_widget::block_palette_render_texture	block_selector_core_widget_class.hpp	/^	sf::RenderTexture block_palette_render_texture;$/;"	kind:m	class:block_selector_core_widget	access:protected
 block_selector_core_widget::block_palette_sprite	block_selector_core_widget_class.hpp	/^	sf::Sprite block_palette_sprite;$/;"	kind:m	class:block_selector_core_widget	access:protected
 block_selector_core_widget::block_palette_texture	block_selector_core_widget_class.hpp	/^	sf::Texture block_palette_texture;$/;"	kind:m	class:block_selector_core_widget	access:protected
+block_selector_core_widget::block_selection_coords_to_current_block_index	block_selector_core_widget_class.hpp	/^	inline u32 block_selection_coords_to_current_block_index$/;"	kind:f	class:block_selector_core_widget	access:public	signature:( const sf::Vector2i& pos_in_block_selection_coords )
 block_selector_core_widget::block_selector_core_widget	block_selector_core_widget_class.cpp	/^block_selector_core_widget::block_selector_core_widget$/;"	kind:f	class:block_selector_core_widget	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size )
 block_selector_core_widget::block_selector_core_widget	block_selector_core_widget_class.hpp	/^	block_selector_core_widget( QWidget* s_parent, $/;"	kind:p	class:block_selector_core_widget	access:public	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size )
+block_selector_core_widget::generate_block_palette_render_texture	block_selector_core_widget_class.cpp	/^void block_selector_core_widget::generate_block_palette_render_texture()$/;"	kind:f	class:block_selector_core_widget	signature:()
+block_selector_core_widget::generate_block_palette_render_texture	block_selector_core_widget_class.hpp	/^	void generate_block_palette_render_texture();$/;"	kind:p	class:block_selector_core_widget	access:protected	signature:()
 block_selector_core_widget::get_left_current_block_index	block_selector_core_widget_class.hpp	/^	inline u32 get_left_current_block_index() const$/;"	kind:f	class:block_selector_core_widget	access:public	signature:() const
+block_selector_core_widget::get_num_blocks_per_column	block_selector_core_widget_class.hpp	/^	inline u32 get_num_blocks_per_column() const$/;"	kind:f	class:block_selector_core_widget	access:public	signature:() const
+block_selector_core_widget::get_num_blocks_per_palette	block_selector_core_widget_class.hpp	/^	inline u32 get_num_blocks_per_palette() const$/;"	kind:f	class:block_selector_core_widget	access:public	signature:() const
+block_selector_core_widget::get_num_blocks_per_row	block_selector_core_widget_class.hpp	/^	inline u32 get_num_blocks_per_row() const$/;"	kind:f	class:block_selector_core_widget	access:public	signature:() const
 block_selector_core_widget::get_right_current_block_index	block_selector_core_widget_class.hpp	/^	inline u32 get_right_current_block_index() const$/;"	kind:f	class:block_selector_core_widget	access:public	signature:() const
 block_selector_core_widget::left_current_block_index	block_selector_core_widget_class.hpp	/^	u32 left_current_block_index, right_current_block_index;$/;"	kind:m	class:block_selector_core_widget	access:protected
 block_selector_core_widget::mousePressEvent	block_selector_core_widget_class.cpp	/^void block_selector_core_widget::mousePressEvent( QMouseEvent* event )$/;"	kind:f	class:block_selector_core_widget	signature:( QMouseEvent* event )
@@ -31,25 +44,24 @@ block_selector_core_widget::on_init	block_selector_core_widget_class.hpp	/^	inli
 block_selector_core_widget::on_update	block_selector_core_widget_class.cpp	/^void block_selector_core_widget::on_update()$/;"	kind:f	class:block_selector_core_widget	signature:()
 block_selector_core_widget::on_update	block_selector_core_widget_class.hpp	/^	void on_update();$/;"	kind:p	class:block_selector_core_widget	access:protected	signature:()
 block_selector_core_widget::right_current_block_index	block_selector_core_widget_class.hpp	/^	u32 left_current_block_index, right_current_block_index;$/;"	kind:m	class:block_selector_core_widget	access:protected
+block_selector_core_widget::selected_block_sprite	block_selector_core_widget_class.hpp	/^	sf::Sprite selected_block_sprite;$/;"	kind:m	class:block_selector_core_widget	access:protected
+block_selector_core_widget::set_left_current_block_index	block_selector_core_widget_class.hpp	/^	inline void set_left_current_block_index$/;"	kind:f	class:block_selector_core_widget	access:public	signature:( u32 n_left_current_block_index )
+block_selector_core_widget::set_right_current_block_index	block_selector_core_widget_class.hpp	/^	inline void set_right_current_block_index$/;"	kind:f	class:block_selector_core_widget	access:public	signature:( u32 n_right_current_block_index )
 block_selector_core_widget::set_the_level_editor_core_widget	block_selector_core_widget_class.hpp	/^	inline void set_the_level_editor_core_widget$/;"	kind:p	class:block_selector_core_widget	access:public	signature:( level_editor_core_widget* n_the_level_editor_core_widget )
 block_selector_core_widget::set_the_level_editor_core_widget	block_selector_core_widget_class.hpp	/^inline void block_selector_core_widget::set_the_level_editor_core_widget$/;"	kind:f	class:block_selector_core_widget	signature:( level_editor_core_widget* n_the_level_editor_core_widget )
 block_selector_core_widget::slot_inner_height	block_selector_core_widget_class.hpp	/^	static constexpr u32 slot_inner_width = 16, slot_inner_height = 16, $/;"	kind:m	class:block_selector_core_widget	access:public
-block_selector_core_widget::slot_inner_image	block_selector_core_widget_class.hpp	/^	sf::Image slot_inner_image, slot_outer_usual_image,$/;"	kind:m	class:block_selector_core_widget	access:protected
-block_selector_core_widget::slot_inner_sprite	block_selector_core_widget_class.hpp	/^	sf::Sprite slot_inner_sprite, $/;"	kind:m	class:block_selector_core_widget	access:protected
-block_selector_core_widget::slot_inner_texture	block_selector_core_widget_class.hpp	/^	sf::Texture slot_inner_texture, $/;"	kind:m	class:block_selector_core_widget	access:protected
 block_selector_core_widget::slot_inner_width	block_selector_core_widget_class.hpp	/^	static constexpr u32 slot_inner_width = 16, slot_inner_height = 16, $/;"	kind:m	class:block_selector_core_widget	access:public
 block_selector_core_widget::slot_outer_height	block_selector_core_widget_class.hpp	/^		slot_outer_height = slot_inner_height + 2;$/;"	kind:m	class:block_selector_core_widget	access:public
-block_selector_core_widget::slot_outer_left_selected_image	block_selector_core_widget_class.hpp	/^		slot_outer_left_selected_image,$/;"	kind:m	class:block_selector_core_widget	access:protected
-block_selector_core_widget::slot_outer_left_selected_sprite	block_selector_core_widget_class.hpp	/^		slot_outer_left_selected_sprite,$/;"	kind:m	class:block_selector_core_widget	access:protected
-block_selector_core_widget::slot_outer_left_selected_texture	block_selector_core_widget_class.hpp	/^		slot_outer_left_selected_texture,$/;"	kind:m	class:block_selector_core_widget	access:protected
+block_selector_core_widget::slot_outer_left_selected_image	block_selector_core_widget_class.hpp	/^	sf::Image slot_outer_usual_image, slot_outer_left_selected_image,$/;"	kind:m	class:block_selector_core_widget	access:protected
+block_selector_core_widget::slot_outer_left_selected_sprite	block_selector_core_widget_class.hpp	/^	sf::Sprite slot_outer_usual_sprite, slot_outer_left_selected_sprite,$/;"	kind:m	class:block_selector_core_widget	access:protected
+block_selector_core_widget::slot_outer_left_selected_texture	block_selector_core_widget_class.hpp	/^	sf::Texture slot_outer_usual_texture, slot_outer_left_selected_texture,$/;"	kind:m	class:block_selector_core_widget	access:protected
 block_selector_core_widget::slot_outer_right_selected_image	block_selector_core_widget_class.hpp	/^		slot_outer_right_selected_image;$/;"	kind:m	class:block_selector_core_widget	access:protected
 block_selector_core_widget::slot_outer_right_selected_sprite	block_selector_core_widget_class.hpp	/^		slot_outer_right_selected_sprite;$/;"	kind:m	class:block_selector_core_widget	access:protected
 block_selector_core_widget::slot_outer_right_selected_texture	block_selector_core_widget_class.hpp	/^		slot_outer_right_selected_texture;$/;"	kind:m	class:block_selector_core_widget	access:protected
-block_selector_core_widget::slot_outer_usual_image	block_selector_core_widget_class.hpp	/^	sf::Image slot_inner_image, slot_outer_usual_image,$/;"	kind:m	class:block_selector_core_widget	access:protected
-block_selector_core_widget::slot_outer_usual_sprite	block_selector_core_widget_class.hpp	/^		slot_outer_usual_sprite,$/;"	kind:m	class:block_selector_core_widget	access:protected
-block_selector_core_widget::slot_outer_usual_texture	block_selector_core_widget_class.hpp	/^		slot_outer_usual_texture,$/;"	kind:m	class:block_selector_core_widget	access:protected
+block_selector_core_widget::slot_outer_usual_image	block_selector_core_widget_class.hpp	/^	sf::Image slot_outer_usual_image, slot_outer_left_selected_image,$/;"	kind:m	class:block_selector_core_widget	access:protected
+block_selector_core_widget::slot_outer_usual_sprite	block_selector_core_widget_class.hpp	/^	sf::Sprite slot_outer_usual_sprite, slot_outer_left_selected_sprite,$/;"	kind:m	class:block_selector_core_widget	access:protected
+block_selector_core_widget::slot_outer_usual_texture	block_selector_core_widget_class.hpp	/^	sf::Texture slot_outer_usual_texture, slot_outer_left_selected_texture,$/;"	kind:m	class:block_selector_core_widget	access:protected
 block_selector_core_widget::slot_outer_width	block_selector_core_widget_class.hpp	/^		slot_outer_width = slot_inner_width + 2, $/;"	kind:m	class:block_selector_core_widget	access:public
-block_selector_core_widget::test_texture	block_selector_core_widget_class.hpp	/^	sf::Texture test_texture;$/;"	kind:m	class:block_selector_core_widget	access:protected
 block_selector_core_widget::the_level_editor_core_widget	block_selector_core_widget_class.hpp	/^	level_editor_core_widget* the_level_editor_core_widget;$/;"	kind:m	class:block_selector_core_widget	access:protected
 block_selector_core_widget_class_hpp	block_selector_core_widget_class.hpp	22;"	kind:d
 block_selector_widget	block_selector_widget_class.cpp	/^block_selector_widget::block_selector_widget( QWidget* s_parent,$/;"	kind:f	class:block_selector_widget	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size )
@@ -118,6 +130,8 @@ export_file_as	level_editor_widget_class.cpp	/^void level_editor_widget::export_
 export_file_as	level_editor_widget_class.hpp	/^	void export_file_as( const string& output_file_name );$/;"	kind:p	class:level_editor_widget	access:protected	signature:( const string& output_file_name )
 file_menu	primary_widget_class.hpp	/^	QMenu* file_menu, * second_menu;$/;"	kind:m	class:primary_widget	access:protected
 full_resize	sfml_canvas_widget_classes.hpp	/^	inline void full_resize( const QSize& n_size )$/;"	kind:f	class:sfml_canvas_widget_base	access:protected	signature:( const QSize& n_size )
+generate_block_palette_render_texture	block_selector_core_widget_class.cpp	/^void block_selector_core_widget::generate_block_palette_render_texture()$/;"	kind:f	class:block_selector_core_widget	signature:()
+generate_block_palette_render_texture	block_selector_core_widget_class.hpp	/^	void generate_block_palette_render_texture();$/;"	kind:p	class:block_selector_core_widget	access:protected	signature:()
 generate_canvas_block_grid	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget::generate_canvas_block_grid()$/;"	kind:f	class:sfml_canvas_widget	signature:()
 generate_canvas_block_grid	sfml_canvas_widget_classes.hpp	/^	void generate_canvas_block_grid();$/;"	kind:p	class:sfml_canvas_widget	access:protected	signature:()
 generate_central_widget	primary_widget_class.cpp	/^void primary_widget::generate_central_widget()$/;"	kind:f	class:primary_widget	signature:()
@@ -130,6 +144,9 @@ get_apparent_view	sfml_canvas_widget_classes.cpp	/^const sf::View& sfml_canvas_w
 get_apparent_view	sfml_canvas_widget_classes.hpp	/^	const sf::View& get_apparent_view();$/;"	kind:p	class:sfml_canvas_widget	access:public	signature:()
 get_block_grid_enabled	sfml_canvas_widget_classes.hpp	/^	inline bool get_block_grid_enabled() const$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:() const
 get_left_current_block_index	block_selector_core_widget_class.hpp	/^	inline u32 get_left_current_block_index() const$/;"	kind:f	class:block_selector_core_widget	access:public	signature:() const
+get_num_blocks_per_column	block_selector_core_widget_class.hpp	/^	inline u32 get_num_blocks_per_column() const$/;"	kind:f	class:block_selector_core_widget	access:public	signature:() const
+get_num_blocks_per_palette	block_selector_core_widget_class.hpp	/^	inline u32 get_num_blocks_per_palette() const$/;"	kind:f	class:block_selector_core_widget	access:public	signature:() const
+get_num_blocks_per_row	block_selector_core_widget_class.hpp	/^	inline u32 get_num_blocks_per_row() const$/;"	kind:f	class:block_selector_core_widget	access:public	signature:() const
 get_right_current_block_index	block_selector_core_widget_class.hpp	/^	inline u32 get_right_current_block_index() const$/;"	kind:f	class:block_selector_core_widget	access:public	signature:() const
 grid_layout	block_selector_widget_class.hpp	/^	QGridLayout* grid_layout;$/;"	kind:m	class:block_selector_widget	access:public
 grid_widget	layout_widget_classes.hpp	/^	inline grid_widget( QWidget* parent = 0 ) : QWidget(parent)$/;"	kind:f	class:grid_widget	access:public	signature:( QWidget* parent = 0 )
@@ -296,7 +313,10 @@ save_file_as	level_editor_widget_class.hpp	/^	void save_file_as();$/;"	kind:p	cl
 scale_factor	sfml_canvas_widget_classes.hpp	/^	u32 scale_factor;$/;"	kind:m	class:sfml_canvas_widget	access:public
 scroll_area	level_editor_widget_class.hpp	/^	QScrollArea* scroll_area;$/;"	kind:m	class:level_editor_widget	access:public
 second_menu	primary_widget_class.hpp	/^	QMenu* file_menu, * second_menu;$/;"	kind:m	class:primary_widget	access:protected
+selected_block_sprite	block_selector_core_widget_class.hpp	/^	sf::Sprite selected_block_sprite;$/;"	kind:m	class:block_selector_core_widget	access:protected
+set_left_current_block_index	block_selector_core_widget_class.hpp	/^	inline void set_left_current_block_index$/;"	kind:f	class:block_selector_core_widget	access:public	signature:( u32 n_left_current_block_index )
 set_min_max_sizes	sfml_canvas_widget_classes.hpp	/^	inline void set_min_max_sizes( const QSize& n_size )$/;"	kind:f	class:sfml_canvas_widget_base	access:protected	signature:( const QSize& n_size )
+set_right_current_block_index	block_selector_core_widget_class.hpp	/^	inline void set_right_current_block_index$/;"	kind:f	class:block_selector_core_widget	access:public	signature:( u32 n_right_current_block_index )
 set_the_block_selector_core_widget	level_editor_core_widget_class.hpp	/^	inline void set_the_block_selector_core_widget$/;"	kind:p	class:level_editor_core_widget	access:public	signature:( block_selector_core_widget* n_the_block_selector_core_widget )
 set_the_block_selector_core_widget	level_editor_core_widget_class.hpp	/^inline void level_editor_core_widget::set_the_block_selector_core_widget$/;"	kind:f	class:level_editor_core_widget	signature:( block_selector_core_widget* n_the_block_selector_core_widget )
 set_the_level_editor_core_widget	block_selector_core_widget_class.hpp	/^	inline void set_the_level_editor_core_widget$/;"	kind:p	class:block_selector_core_widget	access:public	signature:( level_editor_core_widget* n_the_level_editor_core_widget )
@@ -371,22 +391,18 @@ show_quit_message	misc_funcs.hpp	/^inline void show_quit_message()$/;"	kind:f	si
 show_vertical_scroll_bar_stuff	level_editor_widget_class.cpp	/^void level_editor_widget::show_vertical_scroll_bar_stuff()$/;"	kind:f	class:level_editor_widget	signature:()
 show_vertical_scroll_bar_stuff	level_editor_widget_class.hpp	/^	void show_vertical_scroll_bar_stuff();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
 slot_inner_height	block_selector_core_widget_class.hpp	/^	static constexpr u32 slot_inner_width = 16, slot_inner_height = 16, $/;"	kind:m	class:block_selector_core_widget	access:public
-slot_inner_image	block_selector_core_widget_class.hpp	/^	sf::Image slot_inner_image, slot_outer_usual_image,$/;"	kind:m	class:block_selector_core_widget	access:protected
-slot_inner_sprite	block_selector_core_widget_class.hpp	/^	sf::Sprite slot_inner_sprite, $/;"	kind:m	class:block_selector_core_widget	access:protected
-slot_inner_texture	block_selector_core_widget_class.hpp	/^	sf::Texture slot_inner_texture, $/;"	kind:m	class:block_selector_core_widget	access:protected
 slot_inner_width	block_selector_core_widget_class.hpp	/^	static constexpr u32 slot_inner_width = 16, slot_inner_height = 16, $/;"	kind:m	class:block_selector_core_widget	access:public
 slot_outer_height	block_selector_core_widget_class.hpp	/^		slot_outer_height = slot_inner_height + 2;$/;"	kind:m	class:block_selector_core_widget	access:public
-slot_outer_left_selected_image	block_selector_core_widget_class.hpp	/^		slot_outer_left_selected_image,$/;"	kind:m	class:block_selector_core_widget	access:protected
-slot_outer_left_selected_sprite	block_selector_core_widget_class.hpp	/^		slot_outer_left_selected_sprite,$/;"	kind:m	class:block_selector_core_widget	access:protected
-slot_outer_left_selected_texture	block_selector_core_widget_class.hpp	/^		slot_outer_left_selected_texture,$/;"	kind:m	class:block_selector_core_widget	access:protected
+slot_outer_left_selected_image	block_selector_core_widget_class.hpp	/^	sf::Image slot_outer_usual_image, slot_outer_left_selected_image,$/;"	kind:m	class:block_selector_core_widget	access:protected
+slot_outer_left_selected_sprite	block_selector_core_widget_class.hpp	/^	sf::Sprite slot_outer_usual_sprite, slot_outer_left_selected_sprite,$/;"	kind:m	class:block_selector_core_widget	access:protected
+slot_outer_left_selected_texture	block_selector_core_widget_class.hpp	/^	sf::Texture slot_outer_usual_texture, slot_outer_left_selected_texture,$/;"	kind:m	class:block_selector_core_widget	access:protected
 slot_outer_right_selected_image	block_selector_core_widget_class.hpp	/^		slot_outer_right_selected_image;$/;"	kind:m	class:block_selector_core_widget	access:protected
 slot_outer_right_selected_sprite	block_selector_core_widget_class.hpp	/^		slot_outer_right_selected_sprite;$/;"	kind:m	class:block_selector_core_widget	access:protected
 slot_outer_right_selected_texture	block_selector_core_widget_class.hpp	/^		slot_outer_right_selected_texture;$/;"	kind:m	class:block_selector_core_widget	access:protected
-slot_outer_usual_image	block_selector_core_widget_class.hpp	/^	sf::Image slot_inner_image, slot_outer_usual_image,$/;"	kind:m	class:block_selector_core_widget	access:protected
-slot_outer_usual_sprite	block_selector_core_widget_class.hpp	/^		slot_outer_usual_sprite,$/;"	kind:m	class:block_selector_core_widget	access:protected
-slot_outer_usual_texture	block_selector_core_widget_class.hpp	/^		slot_outer_usual_texture,$/;"	kind:m	class:block_selector_core_widget	access:protected
+slot_outer_usual_image	block_selector_core_widget_class.hpp	/^	sf::Image slot_outer_usual_image, slot_outer_left_selected_image,$/;"	kind:m	class:block_selector_core_widget	access:protected
+slot_outer_usual_sprite	block_selector_core_widget_class.hpp	/^	sf::Sprite slot_outer_usual_sprite, slot_outer_left_selected_sprite,$/;"	kind:m	class:block_selector_core_widget	access:protected
+slot_outer_usual_texture	block_selector_core_widget_class.hpp	/^	sf::Texture slot_outer_usual_texture, slot_outer_left_selected_texture,$/;"	kind:m	class:block_selector_core_widget	access:protected
 slot_outer_width	block_selector_core_widget_class.hpp	/^		slot_outer_width = slot_inner_width + 2, $/;"	kind:m	class:block_selector_core_widget	access:public
-test_texture	block_selector_core_widget_class.hpp	/^	sf::Texture test_texture;$/;"	kind:m	class:block_selector_core_widget	access:protected
 the_block_selector_core_widget	level_editor_core_widget_class.hpp	/^	block_selector_core_widget* the_block_selector_core_widget;$/;"	kind:m	class:level_editor_core_widget	access:public
 the_block_selector_widget	level_editor_widget_class.hpp	/^	block_selector_widget* the_block_selector_widget;$/;"	kind:m	class:level_editor_widget	access:public
 the_central_widget	primary_widget_class.hpp	/^	level_editor_widget* the_central_widget;$/;"	kind:m	class:primary_widget	access:protected

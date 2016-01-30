@@ -22,9 +22,9 @@ else
 endif
 
 
-CXX_FLAGS=-std=c++14 -I/usr/include $(BASE_FLAGS) `pkg-config --cflags Qt5Core Qt5Gui Qt5Widgets sfml-graphics libpng` -fPIC
+CXX_FLAGS=-std=c++14 -I/usr/include $(BASE_FLAGS) `pkg-config --cflags Qt5Core Qt5Gui Qt5Widgets sfml-graphics` -fPIC
 S_FLAGS=
-LD_FLAGS=-lm `pkg-config --libs Qt5Core Qt5Gui Qt5Widgets sfml-graphics libpng` $(DEBUG_FLAGS)
+LD_FLAGS=-lm `pkg-config --libs Qt5Core Qt5Gui Qt5Widgets sfml-graphics` $(DEBUG_FLAGS)
 
 OBJDIR=objs
 DEPDIR=deps
