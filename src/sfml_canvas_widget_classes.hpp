@@ -181,8 +181,6 @@ protected:		// functions
 	friend class block_selector_core_widget;
 };
 
-#include "block_selector_core_widget_class.hpp"
-
 //inline void sfml_canvas_widget::set_the_block_selector_core_widget
 //	( block_selector_core_widget* 
 //	n_the_block_selector_core_widget )

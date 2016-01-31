@@ -43,6 +43,9 @@ public:		// variables
 	//QVBoxLayout* vbox_layout;
 	
 	
+	QTabWidget* tab_widget;
+	
+	
 	QScrollArea* scroll_area;
 	
 	level_editor_core_widget* the_core_widget;

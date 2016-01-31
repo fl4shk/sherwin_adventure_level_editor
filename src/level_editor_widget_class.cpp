@@ -67,10 +67,32 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 	scroll_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 	scroll_area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 	
+	
+	// Test button
+	//QPushButton* show_horiz_sb_stuff_button 
+	//	= new QPushButton( "Show Horiz", this );
+	QPushButton* show_horiz_sb_stuff_button 
+		= new QPushButton( "Show Horiz", NULL );
+	connect( show_horiz_sb_stuff_button, &QPushButton::clicked, this,
+		&level_editor_widget::show_horizontal_scroll_bar_stuff );
+	show_horiz_sb_stuff_button->setMaximumSize( 128, 32 );
+	
+	
+	// tab widget stuff
+	tab_widget = new QTabWidget(this);
+	tab_widget->setMovable(true);
+	tab_widget->addTab( the_block_selector_widget, "Blocks" );
+	tab_widget->addTab( show_horiz_sb_stuff_button, 
+		"Horiz ScrollBar Stuff" );
+	
+	
 	// hbox_layout stuff
 	hbox_layout = new QHBoxLayout(this);
 	hbox_layout->addWidget(scroll_area);
-	hbox_layout->addWidget(the_block_selector_widget);
+	
+	
+	//hbox_layout->addWidget(the_block_selector_widget);
+	hbox_layout->addWidget(tab_widget);
 	
 	
 	
