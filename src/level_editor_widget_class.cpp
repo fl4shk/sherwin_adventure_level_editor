@@ -41,7 +41,11 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 	the_core_widget = new level_editor_core_widget( this, QPoint( 0, 0 ),
 		QSize( 200, 200 ), argv_copy->at(1) );
 	the_block_selector_widget = new block_selector_widget( this, 
-		QPoint( 0, 0 ), QSize( 300, 300 ) );
+		QPoint( 0, 0 ), QSize( 64, 64 ) );
+	the_sprite_16x16_selector_widget = new sprite_16x16_selector_widget
+		( this, QPoint( 0, 0 ), QSize( 64, 64 ) );
+	the_sprite_16x32_selector_widget = new sprite_16x32_selector_widget
+		( this, QPoint( 0, 0 ), QSize( 64, 64 ) );
 	
 	//the_sfml_canvas_widget->set_the_block_selector_core_widget
 	//	(the_block_selector_widget->the_core_widget);
@@ -52,7 +56,10 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 		(the_block_selector_widget->the_core_widget);
 	the_block_selector_widget->the_core_widget
 		->set_the_level_editor_core_widget(the_core_widget);
-	
+	the_sprite_16x16_selector_widget->the_core_widget
+		->set_the_level_editor_core_widget(the_core_widget);
+	the_sprite_16x32_selector_widget->the_core_widget
+		->set_the_level_editor_core_widget(the_core_widget);
 	
 	
 	//if ( !the_sfml_canvas_widget->open_image() )
@@ -68,22 +75,27 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 	scroll_area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 	
 	
-	// Test button
+	//// Test button
+	////QPushButton* show_horiz_sb_stuff_button 
+	////	= new QPushButton( "Show Horiz", this );
+	//
 	//QPushButton* show_horiz_sb_stuff_button 
-	//	= new QPushButton( "Show Horiz", this );
-	QPushButton* show_horiz_sb_stuff_button 
-		= new QPushButton( "Show Horiz", NULL );
-	connect( show_horiz_sb_stuff_button, &QPushButton::clicked, this,
-		&level_editor_widget::show_horizontal_scroll_bar_stuff );
-	show_horiz_sb_stuff_button->setMaximumSize( 128, 32 );
+	//	= new QPushButton( "Show Horiz", NULL );
+	//connect( show_horiz_sb_stuff_button, &QPushButton::clicked, this,
+	//	&level_editor_widget::show_horizontal_scroll_bar_stuff );
+	//show_horiz_sb_stuff_button->setMaximumSize( 128, 32 );
 	
 	
 	// tab widget stuff
 	tab_widget = new QTabWidget(this);
 	tab_widget->setMovable(true);
 	tab_widget->addTab( the_block_selector_widget, "Blocks" );
-	tab_widget->addTab( show_horiz_sb_stuff_button, 
-		"Horiz ScrollBar Stuff" );
+	//tab_widget->addTab( show_horiz_sb_stuff_button, 
+	//	"Horiz ScrollBar Stuff" );
+	tab_widget->addTab( the_sprite_16x16_selector_widget, 
+		"16x16 Sprites" );
+	tab_widget->addTab( the_sprite_16x32_selector_widget, 
+		"16x32 Sprites" );
 	
 	
 	// hbox_layout stuff

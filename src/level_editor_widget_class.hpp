@@ -23,8 +23,10 @@
 
 #include "misc_includes.hpp"
 #include "sfml_canvas_widget_classes.hpp"
-#include "block_selector_widget_class.hpp"
 #include "level_editor_core_widget_class.hpp"
+#include "block_selector_widget_class.hpp"
+#include "sprite_16x16_selector_widget_class.hpp"
+#include "sprite_16x32_selector_widget_class.hpp"
 
 
 class level_editor_widget : public QWidget
@@ -50,9 +52,18 @@ public:		// variables
 	
 	level_editor_core_widget* the_core_widget;
 	
-	// Another QScrollArea should be created for use with
+	// Another QScrollArea could be created for use with
 	// the_block_selector_widget in the future.
 	block_selector_widget* the_block_selector_widget;
+	
+	// Another QScrollArea could be created for use with
+	// the_sprite_16x16_selector_widget in the future.
+	sprite_16x16_selector_widget* the_sprite_16x16_selector_widget;
+	
+	// Another QScrollArea could be created for use with
+	// the_sprite_16x32_selector_widget in the future.
+	sprite_16x32_selector_widget* the_sprite_16x32_selector_widget;
+	
 	
 	
 	

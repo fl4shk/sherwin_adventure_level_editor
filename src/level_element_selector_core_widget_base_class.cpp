@@ -29,27 +29,57 @@ level_element_selector_core_widget_base
 	right_current_level_element_index(0),
 	level_element_palette_modified_recently(false)
 {
+	shared_constructor_code( get_level_element_gfx_file_name(), 
+		get_slot_inner_width(), get_slot_inner_height(), 
+		get_slot_outer_width(), get_slot_outer_height() );
+}
+
+level_element_selector_core_widget_base
+	::level_element_selector_core_widget_base
+	( QWidget* s_parent, const QPoint& s_position, const QSize& s_size,
+	const string& other_level_element_gfx_file_name, 
+	u32 other_slot_inner_width, u32 other_slot_inner_height,
+	u32 other_slot_outer_width, u32 other_slot_outer_height ) 
+	: sfml_canvas_widget_base( s_parent, s_position, s_size ),
+	left_current_level_element_index(0), 
+	right_current_level_element_index(0),
+	level_element_palette_modified_recently(false)
+{
+	shared_constructor_code( other_level_element_gfx_file_name,
+		other_slot_inner_width, other_slot_inner_height,
+		other_slot_outer_width, other_slot_outer_height );
+}
+
+void level_element_selector_core_widget_base::shared_constructor_code
+	( const string& other_level_element_gfx_file_name,
+	u32 other_slot_inner_width, u32 other_slot_inner_height,
+	u32 other_slot_outer_width, u32 other_slot_outer_height )
+{
 	level_element_gfx_raw_texture.loadFromFile
-		(get_level_element_gfx_file_name());
+		(other_level_element_gfx_file_name);
 	selected_level_element_sprite.setTexture
 		(level_element_gfx_raw_texture);
 	
+	u32 other_num_level_elements_per_column 
+		= get_num_level_elements_per_column(other_slot_inner_width);
+	u32 other_num_level_elements_per_row 
+		= get_num_level_elements_per_row(other_slot_inner_height);
 	
 	level_element_palette_render_texture.create
-		( get_num_level_elements_per_column() * get_slot_outer_width(), 
-		get_num_level_elements_per_row() * get_slot_outer_height() );
+		( other_num_level_elements_per_column * other_slot_outer_width, 
+		other_num_level_elements_per_row * other_slot_outer_height );
 	level_element_palette_render_texture.clear(sf::Color::White);
 	level_element_palette_texture 
 		= level_element_palette_render_texture.getTexture();
 	level_element_palette_sprite.setTexture(level_element_palette_texture);
 	
 	// These are needed to make it so that this widget actually shows up.
-	full_resize( QSize( get_num_level_elements_per_column() 
-		* get_slot_outer_width(),
-		get_num_level_elements_per_row() * get_slot_outer_height() ) );
-	set_min_max_sizes( QSize( get_num_level_elements_per_column() 
-		* get_slot_outer_width(), get_num_level_elements_per_row() 
-		* get_slot_outer_height() ) );
+	full_resize( QSize( other_num_level_elements_per_column 
+		* other_slot_outer_width,
+		other_num_level_elements_per_row * other_slot_outer_height ) );
+	set_min_max_sizes( QSize( other_num_level_elements_per_column 
+		* other_slot_outer_width, other_num_level_elements_per_row 
+		* other_slot_outer_height ) );
 	
 	
 	//slot_outer_usual_image.create( slot_outer_width, slot_outer_height, 
@@ -59,12 +89,12 @@ level_element_selector_core_widget_base
 	//slot_outer_right_selected_image.create( slot_outer_width, 
 	//	slot_outer_height, sf::Color::Cyan );
 	
-	slot_outer_usual_image.create( get_slot_outer_width(), 
-		get_slot_outer_height(), sf::Color::Cyan );
-	slot_outer_left_selected_image.create( get_slot_outer_width(), 
-		get_slot_outer_height(), sf::Color::Black );
-	slot_outer_right_selected_image.create( get_slot_outer_width(), 
-		get_slot_outer_height(), sf::Color::Red );
+	slot_outer_usual_image.create( other_slot_outer_width, 
+		other_slot_outer_height, sf::Color::Cyan );
+	slot_outer_left_selected_image.create( other_slot_outer_width, 
+		other_slot_outer_height, sf::Color::Black );
+	slot_outer_right_selected_image.create( other_slot_outer_width, 
+		other_slot_outer_height, sf::Color::Red );
 	
 	//slot_inner_texture.loadFromImage(slot_inner_image);
 	
@@ -88,8 +118,8 @@ void level_element_selector_core_widget_base::mousePressEvent
 	( QMouseEvent* event )
 {
 	sf::Vector2i event_pos_in_level_element_selection_coords
-		( event->x() / slot_outer_width, 
-		event->y() / slot_outer_height );
+		( event->x() / get_slot_outer_width(), 
+		event->y() / get_slot_outer_height() );
 	
 	if ( event->button() == Qt::LeftButton )
 	{

@@ -25,6 +25,8 @@
 #include "sfml_canvas_widget_classes.hpp"
 
 class block_selector_core_widget;
+class sprite_16x16_selector_core_widget;
+class sprite_16x32_selector_core_widget;
 
 class level_editor_core_widget : public QWidget
 {
@@ -39,12 +41,24 @@ public:		// variables
 	//
 	block_selector_core_widget* the_block_selector_core_widget;
 	
+	sprite_16x16_selector_core_widget* 
+		the_sprite_16x16_selector_core_widget;
+	
+	sprite_16x32_selector_core_widget* 
+		the_sprite_16x32_selector_core_widget;
+	
 public:		// functions
 	level_editor_core_widget( QWidget* s_parent, const QPoint& s_position,
 		const QSize& s_size, const string& s_level_file_name );
 	
 	inline void set_the_block_selector_core_widget
 		( block_selector_core_widget* n_the_block_selector_core_widget );
+	inline void set_the_sprite_16x16_selector_core_widget
+		( sprite_16x16_selector_core_widget* 
+		n_the_sprite_16x16_selector_core_widget );
+	inline void set_the_sprite_16x32_selector_core_widget
+		( sprite_16x32_selector_core_widget* 
+		n_the_sprite_16x32_selector_core_widget );
 	
 	
 protected:		// functions
@@ -59,5 +73,24 @@ inline void level_editor_core_widget::set_the_block_selector_core_widget
 {
 	the_block_selector_core_widget = n_the_block_selector_core_widget;
 }
+
+inline void level_editor_core_widget
+	::set_the_sprite_16x16_selector_core_widget
+	( sprite_16x16_selector_core_widget* 
+	n_the_sprite_16x16_selector_core_widget )
+{
+	the_sprite_16x16_selector_core_widget 
+		= n_the_sprite_16x16_selector_core_widget;
+}
+
+inline void level_editor_core_widget
+	::set_the_sprite_16x32_selector_core_widget
+	( sprite_16x32_selector_core_widget* 
+	n_the_sprite_16x32_selector_core_widget )
+{
+	the_sprite_16x32_selector_core_widget 
+		= n_the_sprite_16x32_selector_core_widget;
+}
+
 
 #endif // level_editor_core_widget_class_hpp

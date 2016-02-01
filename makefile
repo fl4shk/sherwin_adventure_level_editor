@@ -11,7 +11,7 @@ LD=g++
 
 DEFINES=-DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_SHARED
 
-#DEBUG=yeah do debug
+DEBUG=yeah do debug
 
 ifdef DEBUG
 	DEBUG_FLAGS=-gdwarf-3 -g
@@ -52,9 +52,6 @@ OFILES_TEMP=$(CXX_OFILES_TEMP)
 
 all : all_pre $(OFILES)
 	$(LD) $(OFILES) -o $(PROJ) $(LD_FLAGS)
-
-debug : all_pre $(OFILES)
-	$(LD) $(OFILES) -o $(PROJ) $(LD_FLAGS) -g
 
 all_objs : all_pre $(OFILES)
 	@#

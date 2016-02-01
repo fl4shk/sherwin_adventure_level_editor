@@ -66,9 +66,22 @@ public:		// functions
 	level_element_selector_core_widget_base( QWidget* s_parent, 
 		const QPoint& s_position, const QSize& s_size );
 	
+	// Some derived classes use this constructor
+	level_element_selector_core_widget_base( QWidget* s_parent, 
+		const QPoint& s_position, const QSize& s_size, 
+		const string& other_level_element_gfx_file_name,
+		u32 other_slot_inner_width, u32 other_slot_inner_height,
+		u32 other_slot_outer_width, u32 other_slot_outer_height );
+	
+	void shared_constructor_code
+		( const string& other_level_element_gfx_file_name,
+		u32 other_slot_inner_width, u32 other_slot_inner_height,
+		u32 other_slot_outer_width, u32 other_slot_outer_height );
+	
+	
 	//bool grab_palette_from_canvas_widget_image();
 	
-	inline const string& get_level_element_gfx_file_name() const
+	virtual inline const string& get_level_element_gfx_file_name() const
 	{
 		return level_element_gfx_file_name;
 	}
@@ -110,7 +123,8 @@ public:		// functions
 			: ( num_level_elements_per_palette - 1 );
 	}
 	
-	inline u32 level_element_selection_coords_to_current_level_element_index
+	inline u32 
+		level_element_selection_coords_to_current_level_element_index
 		( const sf::Vector2i& pos_in_level_element_selection_coords )
 	{
 		//return (u32)( ( pos_in_level_element_selection_coords.y 
@@ -127,11 +141,23 @@ public:		// functions
 		return level_element_gfx_raw_texture.getSize().y 
 			/ get_slot_inner_height();
 	}
-	
 	inline u32 get_num_level_elements_per_column() const
 	{
 		return level_element_gfx_raw_texture.getSize().x 
 			/ get_slot_inner_width();
+	}
+	
+	inline u32 get_num_level_elements_per_row
+		( u32 other_slot_inner_height ) const
+	{
+		return level_element_gfx_raw_texture.getSize().y 
+			/ other_slot_inner_height;
+	}
+	inline u32 get_num_level_elements_per_column
+		( u32 other_slot_inner_width ) const
+	{
+		return level_element_gfx_raw_texture.getSize().x 
+			/ other_slot_inner_width;
 	}
 	
 	inline u32 get_num_level_elements_per_palette() const
