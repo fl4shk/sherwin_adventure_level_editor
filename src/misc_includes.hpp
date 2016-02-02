@@ -21,6 +21,7 @@
 #ifndef misc_includes_hpp
 #define misc_includes_hpp
 
+
 #include <iostream>
 #include <vector>
 #include <array>
@@ -41,8 +42,8 @@ using namespace std;
 #include <string.h>
 #include <libgen.h>
 
-#include <rapidxml.hpp>
-using namespace rapidxml;
+#include <pugixml.hpp>
+using namespace pugi;
 
 
 

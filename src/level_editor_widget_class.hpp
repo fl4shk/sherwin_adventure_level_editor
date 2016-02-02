@@ -54,19 +54,12 @@ public:		// variables
 	
 	
 	
-	// Level element selector widgets are placed into tab_widget.
-	QTabWidget* tab_widget;
+	// Level element selector widgets are placed into
+	// level_element_selectors_tab_widget.
+	QTabWidget* level_element_selectors_tab_widget;
 	
-	// Another QScrollArea could be created for use with
-	// the_block_selector_widget in the future.
 	block_selector_widget* the_block_selector_widget;
-	
-	// Another QScrollArea could be created for use with
-	// the_sprite_16x16_selector_widget in the future.
 	sprite_16x16_selector_widget* the_sprite_16x16_selector_widget;
-	
-	// Another QScrollArea could be created for use with
-	// the_sprite_16x32_selector_widget in the future.
 	sprite_16x32_selector_widget* the_sprite_16x32_selector_widget;
 	
 	

@@ -30,8 +30,14 @@ block_selector_widget::block_selector_widget( QWidget* s_parent,
 	the_core_widget = new block_selector_core_widget( this, QPoint(), 
 		QSize() );
 	
-	grid_layout = new QGridLayout(this);
-	grid_layout->addWidget( the_core_widget, 0, 0 );
+	scroll_area = new QScrollArea(this);
+	scroll_area->setWidget(the_core_widget);
+	//scroll_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+	//scroll_area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+	
+	
+	//grid_layout = new QGridLayout(this);
+	//grid_layout->addWidget( the_core_widget, 0, 0 );
 	
 }
 

@@ -29,8 +29,10 @@ class block_selector_widget : public QWidget
 public:		// variables
 	QWidget* parent;
 	
+	QScrollArea* scroll_area;
+	
 	block_selector_core_widget* the_core_widget;
-	QGridLayout* grid_layout;
+	//QGridLayout* grid_layout;
 	
 	
 public:		// functions

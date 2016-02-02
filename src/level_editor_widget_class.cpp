@@ -46,11 +46,12 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 	the_##name##_selector_widget = new name##_selector_widget( this, \
 		QPoint( 0, 0 ), QSize( 64, 64 ) );
 	
-	list_of_widget_name_prefixes_in_tab_widget(X);
+	list_of_level_element_widget_name_prefixes(X);
 	#undef X
 	
-	the_core_widget->initialize_tab_stuff( tab_widget,
-		the_block_selector_widget, the_sprite_16x16_selector_widget,
+	the_core_widget->initialize_tab_stuff
+		( level_element_selectors_tab_widget, the_block_selector_widget, 
+		the_sprite_16x16_selector_widget,
 		the_sprite_16x32_selector_widget );
 	
 	
@@ -80,20 +81,21 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 	
 	
 	// tab widget stuff
-	tab_widget = new QTabWidget(this);
-	tab_widget->setMovable(true);
-	tab_widget->addTab( the_block_selector_widget, "Blocks" );
-	tab_widget->addTab( the_sprite_16x16_selector_widget, 
-		"16x16 Sprites" );
-	tab_widget->addTab( the_sprite_16x32_selector_widget, 
-		"16x32 Sprites" );
+	level_element_selectors_tab_widget = new QTabWidget(this);
+	level_element_selectors_tab_widget->setMovable(true);
+	level_element_selectors_tab_widget->addTab
+		( the_block_selector_widget, "Blocks" );
+	level_element_selectors_tab_widget->addTab
+		( the_sprite_16x16_selector_widget, "16x16 Sprites" );
+	level_element_selectors_tab_widget->addTab
+		( the_sprite_16x32_selector_widget, "16x32 Sprites" );
 	
 	
 	// hbox_layout stuff
 	hbox_layout = new QHBoxLayout(this);
 	hbox_layout->addWidget(scroll_area);
 	
-	hbox_layout->addWidget(tab_widget);
+	hbox_layout->addWidget(level_element_selectors_tab_widget);
 	
 }
 
