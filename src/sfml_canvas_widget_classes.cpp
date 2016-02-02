@@ -110,15 +110,22 @@ sfml_canvas_widget::sfml_canvas_widget( QWidget* s_parent,
 {
 	apparent_view = getDefaultView();
 	
-	canvas_image.reset(new sf::Image);
-	canvas_image->create( s_size.width(), s_size.height(), 
-		sf::Color::Cyan );
+	//canvas_image.reset(new sf::Image);
+	//canvas_image->create( s_size.width(), s_size.height(), 
+	//	sf::Color::Cyan );
+	//
+	//canvas_texture.reset(new sf::Texture);
+	//canvas_texture->loadFromImage(*canvas_image);
+	//
+	//canvas_sprite.reset(new sf::Sprite);
+	//canvas_sprite->setTexture(*canvas_texture);
 	
-	canvas_texture.reset(new sf::Texture);
-	canvas_texture->loadFromImage(*canvas_image);
+	//canvas_render_texture.create( s_size.width(), s_size.height(),
+	//	sf::Color::Cyan );
 	
-	canvas_sprite.reset(new sf::Sprite);
-	canvas_sprite->setTexture(*canvas_texture);
+	canvas_render_texture.create( s_size.width(), s_size.height() );
+	canvas_render_texture.clear(sf::Color::Cyan);
+	
 }
 
 
@@ -129,10 +136,13 @@ const sf::View& sfml_canvas_widget::get_apparent_view()
 	
 	apparent_view.setCenter( view_center_x, view_center_y );
 	
-	apparent_view.move( (double)( canvas_image->getSize().x ) 
-		/ (double)2.0f, (double)( canvas_image->getSize().y )
+	//apparent_view.move( (double)( canvas_image->getSize().x ) 
+	//	/ (double)2.0f, (double)( canvas_image->getSize().y )
+	//	/ (double)2.0f );
+	apparent_view.move( (double)( canvas_render_texture.getSize().x ) 
+		/ (double)2.0f, (double)( canvas_render_texture.getSize().y )
 		/ (double)2.0f );
-		
+	
 	apparent_view.zoom( 1.0f / (double)scale_factor );
 	
 	return apparent_view;
@@ -393,11 +403,13 @@ void sfml_canvas_widget::generate_canvas_block_grid()
 			(*canvas_block_grid_slot_texture);
 		
 		for ( u32 j=0; 
-			j<canvas_image->getSize().y / num_pixels_per_block_column;
+			j<canvas_render_texture.getSize().y 
+				/ num_pixels_per_block_column;
 			++j )
 		{
 			for ( u32 i=0; 
-				i<canvas_image->getSize().x / num_pixels_per_block_row; 
+				i<canvas_render_texture.getSize().x 
+					/ num_pixels_per_block_row; 
 				++i )
 			{
 				canvas_block_grid_slot_sprite->setPosition
@@ -420,8 +432,9 @@ void sfml_canvas_widget::on_update()
 	{
 		zoomed_recently = false;
 		
-		full_resize(QSize( canvas_image->getSize().x * scale_factor, 
-			canvas_image->getSize().y * scale_factor ));
+		full_resize(QSize( canvas_render_texture.getSize().x 
+			* scale_factor, canvas_render_texture.getSize().y 
+			* scale_factor ));
 		
 		//full_resize(QSize( canvas_sprite->getSize().x * scale_factor, 
 		//	canvas_sprite->getSize().y * scale_factor ));
@@ -434,12 +447,12 @@ void sfml_canvas_widget::on_update()
 			generate_canvas_block_grid();
 		}
 		
-		canvas_sprite->setScale( scale_factor, scale_factor );
+		//canvas_sprite->setScale( scale_factor, scale_factor );
 	}
 	if (modified_recently)
 	{
 		modified_recently = false;
-		canvas_texture->loadFromImage(*canvas_image);
+		//canvas_texture->loadFromImage(*canvas_image);
 	}
 	
 	// Instead of generating the block grid every frame, only do it if it
@@ -455,6 +468,12 @@ void sfml_canvas_widget::on_update()
 	
 	// This clear() call is probably not necessary.
 	clear(sf::Color::Cyan);
+	
+	//draw(*canvas_sprite);
+	
+	canvas_sprite.reset(new sf::Sprite);
+	canvas_sprite->setTexture(canvas_render_texture.getTexture());
+	canvas_sprite->setScale( scale_factor, scale_factor );
 	draw(*canvas_sprite);
 	
 	

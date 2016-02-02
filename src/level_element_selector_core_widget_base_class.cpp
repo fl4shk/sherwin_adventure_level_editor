@@ -68,21 +68,26 @@ void level_element_selector_core_widget_base::shared_constructor_code
 	u32 other_num_level_elements_per_row 
 		= get_num_level_elements_per_row(other_slot_inner_height);
 	
+	//level_element_palette_render_texture.create
+	//	( other_num_level_elements_per_row * other_slot_outer_width, 
+	//	other_num_level_elements_per_column * other_slot_outer_height );
 	level_element_palette_render_texture.create
-		( other_num_level_elements_per_column * other_slot_outer_width, 
-		other_num_level_elements_per_row * other_slot_outer_height );
+		( other_num_level_elements_per_row * other_slot_outer_width, 
+		other_num_level_elements_per_column * other_slot_outer_height );
+	
+	
 	level_element_palette_render_texture.clear(sf::Color::White);
 	level_element_palette_texture 
 		= level_element_palette_render_texture.getTexture();
 	level_element_palette_sprite.setTexture(level_element_palette_texture);
 	
+	
 	// These are needed to make it so that this widget actually shows up.
-	full_resize( QSize( other_num_level_elements_per_column 
-		* other_slot_outer_width,
-		other_num_level_elements_per_row * other_slot_outer_height ) );
-	set_min_max_sizes( QSize( other_num_level_elements_per_column 
-		* other_slot_outer_width, other_num_level_elements_per_row 
-		* other_slot_outer_height ) );
+	full_resize( QSize( level_element_palette_render_texture.getSize().x,
+		level_element_palette_render_texture.getSize().y ) );
+	set_min_max_sizes( QSize
+		( level_element_palette_render_texture.getSize().x, 
+		level_element_palette_render_texture.getSize().y ) );
 	
 	
 	//slot_outer_usual_image.create( slot_outer_width, slot_outer_height, 
@@ -124,11 +129,16 @@ void level_element_selector_core_widget_base::mousePressEvent
 		( event->x() / get_slot_outer_width(), 
 		event->y() / get_slot_outer_height() );
 	
+	//cout << event_pos_in_level_element_selection_coords.x
+	//	<< ", " << event_pos_in_level_element_selection_coords.y << "\n";
+	
 	if ( event->button() == Qt::LeftButton )
 	{
 		u32 n_left_current_level_element_index 
 			= level_element_selection_coords_to_current_level_element_index
 			(event_pos_in_level_element_selection_coords);
+		
+		//cout << n_left_current_level_element_index << "\n\n";
 		
 		if ( n_left_current_level_element_index 
 			< get_num_level_elements_per_palette() )
@@ -142,6 +152,8 @@ void level_element_selector_core_widget_base::mousePressEvent
 		u32 n_right_current_level_element_index 
 			= level_element_selection_coords_to_current_level_element_index
 			(event_pos_in_level_element_selection_coords);
+		
+		//cout << n_right_current_level_element_index << "\n\n";
 		
 		if ( n_right_current_level_element_index 
 			< get_num_level_elements_per_palette() )
@@ -165,9 +177,9 @@ void level_element_selector_core_widget_base
 		= get_num_level_elements_per_column(),
 		num_level_elements_per_row = get_num_level_elements_per_row();
 	
-	for ( u32 j=0; j<num_level_elements_per_row; ++j )
+	for ( u32 j=0; j<num_level_elements_per_column; ++j )
 	{
-		for ( u32 i=0; i<num_level_elements_per_column; ++i )
+		for ( u32 i=0; i<num_level_elements_per_row; ++i )
 		{
 			//slot_inner_image.setPixel( 0, 0, palette.at
 			//	( j * num_colors_per_row + i ) );
@@ -183,8 +195,8 @@ void level_element_selector_core_widget_base
 				sf::Vector2i( get_slot_inner_width(),
 				get_slot_inner_height() ) ) );
 			
-			selected_level_element_sprite.setPosition( i 
-				* get_slot_outer_width() + 1,
+			selected_level_element_sprite.setPosition
+				( i * get_slot_outer_width() + 1,
 				j * get_slot_outer_height() + 1 );
 			
 			//cout << "xpos == " << i * get_slot_outer_width() + 1 << endl;
@@ -194,7 +206,7 @@ void level_element_selector_core_widget_base
 			// the LEFT mouse button selected level_element one on top of
 			// the right mouse button selected level_element.
 			if ( left_current_level_element_index 
-				== j * num_level_elements_per_column + i )
+				== j * num_level_elements_per_row + i )
 			{
 				slot_outer_left_selected_sprite.setPosition
 					( selected_level_element_sprite.getPosition().x - 1,
@@ -204,7 +216,7 @@ void level_element_selector_core_widget_base
 					(slot_outer_left_selected_sprite);
 			}
 			else if ( right_current_level_element_index 
-				== j * num_level_elements_per_column + i )
+				== j * num_level_elements_per_row + i )
 			{
 				slot_outer_right_selected_sprite.setPosition
 					( selected_level_element_sprite.getPosition().x - 1,

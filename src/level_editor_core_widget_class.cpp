@@ -23,6 +23,10 @@
 #include "sprite_16x16_selector_widget_class.hpp"
 #include "sprite_16x32_selector_widget_class.hpp"
 
+#include "block_selector_core_widget_class.hpp"
+#include "sprite_16x16_selector_core_widget_class.hpp"
+#include "sprite_16x32_selector_core_widget_class.hpp"
+
 level_editor_core_widget::level_editor_core_widget( QWidget* s_parent,
 	const QPoint& s_position, const QSize& s_size, 
 	const string& s_level_file_name )
@@ -59,12 +63,121 @@ void level_editor_core_widget::initialize_tab_stuff
 	#undef X
 }
 
+block_selector_core_widget* 
+	level_editor_core_widget::get_the_block_selector_core_widget()
+{
+	return the_block_selector_widget->the_core_widget;
+}
+sprite_16x16_selector_core_widget* 
+	level_editor_core_widget::get_the_sprite_16x16_selector_core_widget()
+{
+	return the_sprite_16x16_selector_widget->the_core_widget;
+}
+sprite_16x32_selector_core_widget* 
+	level_editor_core_widget::get_the_sprite_16x32_selector_core_widget()
+{
+	return the_sprite_16x32_selector_widget->the_core_widget;
+}
 
 void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 {
-	cout << "level_editor_core_widget's mouse position:  "
-		<< event->x() << ", " << event->y() << endl;
+	//cout << "level_editor_core_widget's mouse position:  "
+	//	<< event->x() << ", " << event->y() << endl;
 	
+	// This converts the clicked coordinate to pixel coordinates.
+	sf::Vector2f event_pos_in_canvas_coords 
+		= the_sfml_canvas_widget->mapPixelToCoords
+		( sf::Vector2i( event->x(), event->y() ), 
+		the_sfml_canvas_widget->get_apparent_view() );
+	
+	sf::Vector2i event_pos_in_canvas_pixel_coords
+		= sf::Vector2i( (int)event_pos_in_canvas_coords.x,
+		(int)event_pos_in_canvas_coords.y );
+	
+	prev_mouse_pos = event->pos();
+	
+	// Check whether the mouse was clicked somewhere inside the image.
+	if ( !the_sfml_canvas_widget->point_is_in_render_texture
+		(event_pos_in_canvas_pixel_coords) )
+	{
+		return;
+	}
+	
+	the_sfml_canvas_widget->modified_recently = true;
+	
+	if ( event->button() == Qt::LeftButton )
+	{
+		if ( level_element_selectors_tab_widget->currentWidget() 
+			== the_block_selector_widget )
+		{
+			//cout << "the_block_selector_widget is enabled!\n";
+			
+			sf::Sprite test_sprite;
+			
+			test_sprite.setTexture( get_the_block_selector_core_widget()
+				->get_level_element_gfx_raw_texture() );
+			
+			//cout << get_the_block_selector_core_widget()
+			//	->get_left_current_level_element_index_x_coord() << ", " 
+			//	<< get_the_block_selector_core_widget()
+			//	->get_left_current_level_element_index_y_coord() << endl;
+			//
+			//cout << get_the_block_selector_core_widget()
+			//	->get_left_current_level_element_index_x_coord() << ", "
+			//	<< get_the_block_selector_core_widget()
+			//	->get_left_current_level_element_index_y_coord() << "\n";
+			
+			test_sprite.setTextureRect
+				( get_the_block_selector_core_widget()
+				->get_left_current_texture_rect() );
+			
+			cout << event_pos_in_canvas_coords.x << ", "
+				<< the_sfml_canvas_widget->getSize().y
+				- event_pos_in_canvas_coords.y << "\n";
+			
+			//cout << ( event_pos_in_canvas_coords.x / 16 ) << ", "
+			//	<< ( the_sfml_canvas_widget->getSize().y / 16 )
+			//	- ( event_pos_in_canvas_coords.y / 16 ) << "\n\n";
+			
+			//test_sprite.setPosition( event_pos_in_canvas_coords.x,
+			//	the_sfml_canvas_widget->getSize().y 
+			//	- event_pos_in_canvas_coords.y );
+			test_sprite.setPosition
+				( (u32)( event_pos_in_canvas_coords.x / 16 ) * 16,
+				(u32)( ( ( ( the_sfml_canvas_widget->getSize().y 
+				/ the_sfml_canvas_widget->scale_factor )
+				-  event_pos_in_canvas_coords.y ) / 16 ) + 1 ) * 16 );
+			
+			cout << the_sfml_canvas_widget->getSize().y << endl;
+			
+			cout << test_sprite.getPosition().x << ", "
+				<< test_sprite.getPosition().y << "\n\n";
+			
+			test_sprite.setScale( 1.0f, -1.0f );
+			
+			the_sfml_canvas_widget->canvas_render_texture.draw
+				(test_sprite);
+		}
+		if ( level_element_selectors_tab_widget->currentWidget() 
+			== the_sprite_16x16_selector_widget )
+		{
+			//cout << "the_sprite_16x16_selector_widget is enabled!\n";
+		}
+		if ( level_element_selectors_tab_widget->currentWidget() 
+			== the_sprite_16x32_selector_widget )
+		{
+			//cout << "the_sprite_16x32_selector_widget is enabled!\n";
+		}
+	}
+	else if ( event->button() == Qt::RightButton )
+	{
+		//canvas_image->setPixel( (u32)event_pos_in_image_pixel_coords.x,
+		//	(u32)event_pos_in_image_pixel_coords.y, 
+		//	the_block_selector_core_widget->palette.at
+		//	(the_block_selector_core_widget
+		//	->right_current_color_index) );
+		
+	}
 	
 }
 

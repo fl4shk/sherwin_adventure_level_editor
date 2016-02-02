@@ -30,6 +30,10 @@ class block_selector_widget;
 class sprite_16x16_selector_widget;
 class sprite_16x32_selector_widget;
 
+class block_selector_core_widget;
+class sprite_16x16_selector_core_widget;
+class sprite_16x32_selector_core_widget;
+
 class level_editor_core_widget : public QWidget
 {
 public:		// variables
@@ -41,7 +45,7 @@ public:		// variables
 	sfml_canvas_widget* the_sfml_canvas_widget;
 	
 	
-	//
+	// Level element selectors
 	QTabWidget* level_element_selectors_tab_widget;
 	
 	block_selector_widget* the_block_selector_widget;
@@ -58,6 +62,10 @@ public:		// variables
 	// interest to have, in case tabbed level editing is desired.
 	sublevel the_sublevel;
 	
+	
+	// This is for block line drawing.
+	QPoint prev_mouse_pos;
+	
 public:		// functions
 	level_editor_core_widget( QWidget* s_parent, const QPoint& s_position,
 		const QSize& s_size, const string& s_level_file_name );
@@ -69,6 +77,13 @@ public:		// functions
 		block_selector_widget* n_the_block_selector_widget,
 		sprite_16x16_selector_widget* n_the_sprite_16x16_selector_widget,
 		sprite_16x32_selector_widget* n_the_sprite_16x32_selector_widget );
+	
+	
+	block_selector_core_widget* get_the_block_selector_core_widget();
+	sprite_16x16_selector_core_widget* 
+		get_the_sprite_16x16_selector_core_widget();
+	sprite_16x32_selector_core_widget* 
+		get_the_sprite_16x32_selector_core_widget();
 	
 	
 protected:		// functions

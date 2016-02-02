@@ -67,8 +67,6 @@ protected:		// variables
 	// to coordinates relative to the image.
 	sf::View apparent_view;
 	
-	//block_selector_core_widget* the_block_selector_core_widget;
-	
 	sf::RenderTexture canvas_block_grid_render_texture;
 	
 	unique_ptr<sf::Image> canvas_block_grid_slot_image;
@@ -78,21 +76,10 @@ protected:		// variables
 	bool block_grid_enabled_recently, block_grid_enabled;
 	
 	
-	// Using "global" instances of canvas_image, canvas_texture,
-	// and canvas_sprite appears to cause weirdness, so perhaps using
-	// pointers for canvas_image, canvas_texture, and canvas_sprite would
-	// be a good idea.  In such a case, the new and delete operators would
-	// be used.
-	// This weirdness was discovered while the tile grid display was being
-	// implemented.
-	// The create() method appears to be the easiest way to implement
-	// image resizing functionality.
-	unique_ptr<sf::Image> canvas_image;
-	unique_ptr<sf::Texture> canvas_texture;
+	
 	unique_ptr<sf::Sprite> canvas_sprite;
 	
-	// This is for line drawing.
-	QPoint prev_mouse_pos;
+	
 	
 	
 public:		// variables and constants
@@ -107,20 +94,12 @@ public:		// variables and constants
 	float view_center_x, view_center_y;
 	
 	
+	sf::RenderTexture canvas_render_texture;
+	
 	
 public:		// functions
 	sfml_canvas_widget( QWidget* s_parent, const QPoint& s_position,
 		const QSize& s_size );
-	
-	//inline void set_the_block_selector_core_widget
-	//	( block_selector_core_widget* 
-	//	n_the_block_selector_core_widget );
-	
-	//inline void full_resize( const QSize& n_size )
-	//{
-	//	resize(n_size);
-	//	sf::RenderWindow::create(winId());
-	//}
 	
 	
 	
@@ -128,11 +107,13 @@ public:		// functions
 	// to coordinates relative to the image.
 	const sf::View& get_apparent_view();
 	
-	inline bool point_is_in_image( const sf::Vector2i& pos )
+	
+	inline bool point_is_in_render_texture( const sf::Vector2i& pos )
 	{
 		return ( ( pos.x >= 0 ) 
-			&& ( pos.x < (int)canvas_image->getSize().x ) && ( pos.y >= 0 ) 
-			&& ( pos.y < (int)canvas_image->getSize().y ) );
+			&& ( pos.x < (int)canvas_render_texture.getSize().x ) 
+			&& ( pos.y >= 0 ) 
+			&& ( pos.y < (int)canvas_render_texture.getSize().y ) );
 	}
 	
 	//// This is a purely integer-based line drawing algorithm.
@@ -183,13 +164,6 @@ protected:		// functions
 	friend class block_selector_core_widget;
 };
 
-//inline void sfml_canvas_widget::set_the_block_selector_core_widget
-//	( block_selector_core_widget* 
-//	n_the_block_selector_core_widget )
-//{
-//	the_block_selector_core_widget 
-//		= n_the_block_selector_core_widget;
-//}
 
 
 #endif		// sfml_canvas_widget_classes_hpp

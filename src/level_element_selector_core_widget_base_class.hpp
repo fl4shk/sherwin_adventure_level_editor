@@ -86,6 +86,10 @@ public:		// functions
 		return level_element_gfx_file_name;
 	}
 	
+	inline sf::Texture& get_level_element_gfx_raw_texture()
+	{
+		return level_element_gfx_raw_texture;
+	}
 	
 	inline u32 get_left_current_level_element_index() const
 	{
@@ -108,6 +112,31 @@ public:		// functions
 	{
 		return right_current_level_element_index;
 	}
+	
+	inline u32 get_left_current_level_element_index_x_coord() const
+	{
+		return left_current_level_element_index 
+			% get_num_level_elements_per_row();
+	}
+	inline u32 get_left_current_level_element_index_y_coord() const
+	{
+		return left_current_level_element_index 
+			/ get_num_level_elements_per_row();
+	}
+	
+	inline u32 get_right_current_level_element_index_x_coord() const
+	{
+		return right_current_level_element_index 
+			% get_num_level_elements_per_row();
+	}
+	inline u32 get_right_current_level_element_index_y_coord() const
+	{
+		//return right_current_level_element_index 
+		//	/ get_num_level_elements_per_column();
+		return right_current_level_element_index 
+			/ get_num_level_elements_per_row();
+	}
+	
 	
 	inline void set_right_current_level_element_index
 		( u32 n_right_current_level_element_index )
@@ -132,32 +161,32 @@ public:		// functions
 		//	+ pos_in_level_element_selection_coords.x );
 		
 		return (u32)( ( pos_in_level_element_selection_coords.y
-			* get_num_level_elements_per_column() ) 
+			* get_num_level_elements_per_row() ) 
 			+ pos_in_level_element_selection_coords.x );
 	}
 	
 	inline u32 get_num_level_elements_per_row() const
 	{
-		return level_element_gfx_raw_texture.getSize().y 
-			/ get_slot_inner_height();
-	}
-	inline u32 get_num_level_elements_per_column() const
-	{
 		return level_element_gfx_raw_texture.getSize().x 
 			/ get_slot_inner_width();
 	}
-	
-	inline u32 get_num_level_elements_per_row
-		( u32 other_slot_inner_height ) const
+	inline u32 get_num_level_elements_per_column() const
 	{
 		return level_element_gfx_raw_texture.getSize().y 
-			/ other_slot_inner_height;
+			/ get_slot_inner_height();
 	}
-	inline u32 get_num_level_elements_per_column
+	
+	inline u32 get_num_level_elements_per_row
 		( u32 other_slot_inner_width ) const
 	{
 		return level_element_gfx_raw_texture.getSize().x 
 			/ other_slot_inner_width;
+	}
+	inline u32 get_num_level_elements_per_column
+		( u32 other_slot_inner_height ) const
+	{
+		return level_element_gfx_raw_texture.getSize().y 
+			/ other_slot_inner_height;
 	}
 	
 	inline u32 get_num_level_elements_per_palette() const
@@ -183,6 +212,29 @@ public:		// functions
 	{
 		return slot_outer_height;
 	}
+	
+	inline sf::IntRect get_left_current_texture_rect() const
+	{
+		return sf::IntRect( sf::Vector2i
+			( get_left_current_level_element_index_x_coord()
+			* get_slot_inner_width(),
+			get_left_current_level_element_index_y_coord()
+			* get_slot_inner_width() ),
+			sf::Vector2i( get_slot_inner_width(), 
+			get_slot_inner_height() ) );
+	}
+	
+	inline sf::IntRect get_right_current_texture_rect() const
+	{
+		return sf::IntRect( sf::Vector2i
+			( get_right_current_level_element_index_x_coord()
+			* get_slot_inner_width(),
+			get_right_current_level_element_index_y_coord()
+			* get_slot_inner_width() ),
+			sf::Vector2i( get_slot_inner_width(), 
+			get_slot_inner_height() ) );
+	}
+	
 	
 	
 	inline void set_the_level_editor_core_widget
