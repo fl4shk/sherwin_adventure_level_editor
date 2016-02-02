@@ -39,6 +39,7 @@ public:		// functions
 protected:		// functions
 	inline void full_resize( const QSize& n_size )
 	{
+		parent->resize(n_size);
 		resize(n_size);
 		sf::RenderWindow::create(winId());
 		//setVerticalSyncEnabled(true);
@@ -95,7 +96,8 @@ protected:		// variables
 	
 	
 public:		// variables and constants
-	static constexpr u32 minimum_scale_factor_for_block_grid = 2;
+	//static constexpr u32 minimum_scale_factor_for_block_grid = 2;
+	static constexpr u32 minimum_scale_factor_for_block_grid = 1;
 	static constexpr u32 num_pixels_per_block_row = 16,
 		num_pixels_per_block_column = 16;
 	

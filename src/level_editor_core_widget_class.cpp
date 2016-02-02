@@ -19,6 +19,9 @@
 
 #include "level_editor_core_widget_class.hpp"
 
+#include "block_selector_widget_class.hpp"
+#include "sprite_16x16_selector_widget_class.hpp"
+#include "sprite_16x32_selector_widget_class.hpp"
 
 level_editor_core_widget::level_editor_core_widget( QWidget* s_parent,
 	const QPoint& s_position, const QSize& s_size, 
@@ -38,10 +41,29 @@ level_editor_core_widget::level_editor_core_widget( QWidget* s_parent,
 }
 
 
+void level_editor_core_widget::initialize_tab_stuff
+	( QTabWidget* n_tab_widget, 
+	block_selector_widget* n_the_block_selector_widget,
+	sprite_16x16_selector_widget* n_the_sprite_16x16_selector_widget,
+	sprite_16x32_selector_widget* n_the_sprite_16x32_selector_widget )
+{
+	tab_widget = n_tab_widget;
+	
+	#define X(name) \
+	the_##name##_selector_widget = n_the_##name##_selector_widget; \
+	the_##name##_selector_widget->the_core_widget \
+		->set_the_level_editor_core_widget(this);
+	
+	list_of_widget_name_prefixes_in_tab_widget(X)
+	#undef X
+}
+
+
 void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 {
 	cout << "level_editor_core_widget's mouse position:  "
 		<< event->x() << ", " << event->y() << endl;
+	
 	
 }
 

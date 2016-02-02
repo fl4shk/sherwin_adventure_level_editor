@@ -24,9 +24,9 @@
 #include "misc_includes.hpp"
 #include "sfml_canvas_widget_classes.hpp"
 
-class block_selector_core_widget;
-class sprite_16x16_selector_core_widget;
-class sprite_16x32_selector_core_widget;
+class block_selector_widget;
+class sprite_16x16_selector_widget;
+class sprite_16x32_selector_widget;
 
 class level_editor_core_widget : public QWidget
 {
@@ -38,27 +38,32 @@ public:		// variables
 	
 	sfml_canvas_widget* the_sfml_canvas_widget;
 	
+	
+	QTabWidget* tab_widget;
+	
 	//
-	block_selector_core_widget* the_block_selector_core_widget;
+	block_selector_widget* the_block_selector_widget;
 	
-	sprite_16x16_selector_core_widget* 
-		the_sprite_16x16_selector_core_widget;
+	sprite_16x16_selector_widget* the_sprite_16x16_selector_widget;
 	
-	sprite_16x32_selector_core_widget* 
-		the_sprite_16x32_selector_core_widget;
+	sprite_16x32_selector_widget* the_sprite_16x32_selector_widget;
+	
+	#ifndef list_of_widget_name_prefixes_in_tab_widget
+	#define list_of_widget_name_prefixes_in_tab_widget(macro) \
+		macro(block) macro(sprite_16x16) macro(sprite_16x32)
+	
+	#endif		// list_of_widget_name_prefixes_in_tab_widget
 	
 public:		// functions
 	level_editor_core_widget( QWidget* s_parent, const QPoint& s_position,
 		const QSize& s_size, const string& s_level_file_name );
 	
-	inline void set_the_block_selector_core_widget
-		( block_selector_core_widget* n_the_block_selector_core_widget );
-	inline void set_the_sprite_16x16_selector_core_widget
-		( sprite_16x16_selector_core_widget* 
-		n_the_sprite_16x16_selector_core_widget );
-	inline void set_the_sprite_16x32_selector_core_widget
-		( sprite_16x32_selector_core_widget* 
-		n_the_sprite_16x32_selector_core_widget );
+	
+	// 
+	void initialize_tab_stuff( QTabWidget* n_tab_widget,
+		block_selector_widget* n_the_block_selector_widget,
+		sprite_16x16_selector_widget* n_the_sprite_16x16_selector_widget,
+		sprite_16x32_selector_widget* n_the_sprite_16x32_selector_widget );
 	
 	
 protected:		// functions
@@ -66,31 +71,6 @@ protected:		// functions
 	
 };
 
-#include "block_selector_core_widget_class.hpp"
-
-inline void level_editor_core_widget::set_the_block_selector_core_widget
-	( block_selector_core_widget* n_the_block_selector_core_widget )
-{
-	the_block_selector_core_widget = n_the_block_selector_core_widget;
-}
-
-inline void level_editor_core_widget
-	::set_the_sprite_16x16_selector_core_widget
-	( sprite_16x16_selector_core_widget* 
-	n_the_sprite_16x16_selector_core_widget )
-{
-	the_sprite_16x16_selector_core_widget 
-		= n_the_sprite_16x16_selector_core_widget;
-}
-
-inline void level_editor_core_widget
-	::set_the_sprite_16x32_selector_core_widget
-	( sprite_16x32_selector_core_widget* 
-	n_the_sprite_16x32_selector_core_widget )
-{
-	the_sprite_16x32_selector_core_widget 
-		= n_the_sprite_16x32_selector_core_widget;
-}
 
 
 #endif // level_editor_core_widget_class_hpp

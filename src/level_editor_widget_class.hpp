@@ -45,12 +45,17 @@ public:		// variables
 	//QVBoxLayout* vbox_layout;
 	
 	
-	QTabWidget* tab_widget;
 	
 	
+	// This QScrollArea is used for the_core_widget
 	QScrollArea* scroll_area;
 	
 	level_editor_core_widget* the_core_widget;
+	
+	
+	
+	// Level element selector widgets are placed into tab_widget.
+	QTabWidget* tab_widget;
 	
 	// Another QScrollArea could be created for use with
 	// the_block_selector_widget in the future.
@@ -63,7 +68,6 @@ public:		// variables
 	// Another QScrollArea could be created for use with
 	// the_sprite_16x32_selector_widget in the future.
 	sprite_16x32_selector_widget* the_sprite_16x32_selector_widget;
-	
 	
 	
 	
@@ -93,6 +97,7 @@ protected:		// functions
 	//		widget_y - scroll_area->geometry().y()
 	//		+ scroll_area->verticalScrollBar()->value() );
 	//}
+	
 	
 	inline bool open_level( const string& n_level_file_name )
 	{

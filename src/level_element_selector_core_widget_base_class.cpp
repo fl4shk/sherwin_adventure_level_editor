@@ -18,8 +18,11 @@
 
 #include "level_element_selector_core_widget_base_class.hpp"
 
+
+// block_selector_core_widget's use this 
 const string level_element_selector_core_widget_base
 	::level_element_gfx_file_name = "gfx/the_block_gfx.png";
+
 
 level_element_selector_core_widget_base
 	::level_element_selector_core_widget_base

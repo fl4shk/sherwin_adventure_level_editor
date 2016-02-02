@@ -25,6 +25,10 @@
 #include <vector>
 #include <array>
 #include <fstream>
+#include <sstream>
+#include <string>
+#include <list>
+#include <utility>
 #include <set>
 #include <map>
 #include <algorithm>
@@ -32,6 +36,15 @@
 using namespace std;
 
 #include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <libgen.h>
+
+#include <rapidxml.hpp>
+using namespace rapidxml;
+
+
 
 // Qt Stuff
 #include <QApplication>

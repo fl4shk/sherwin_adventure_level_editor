@@ -196,7 +196,7 @@ protected:		// functions
 	
 	inline virtual void on_init()
 	{
-		cout << "level_element_selector_widget initalized!\n";
+		cout << "level_element_selector_widget initialized!\n";
 		
 		generate_level_element_palette_render_texture();
 	}
