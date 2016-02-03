@@ -158,12 +158,12 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 			the_sfml_canvas_widget->canvas_render_texture.draw
 				(test_sprite);
 		}
-		if ( level_element_selectors_tab_widget->currentWidget() 
+		else if ( level_element_selectors_tab_widget->currentWidget() 
 			== the_sprite_16x16_selector_widget )
 		{
 			//cout << "the_sprite_16x16_selector_widget is enabled!\n";
 		}
-		if ( level_element_selectors_tab_widget->currentWidget() 
+		else if ( level_element_selectors_tab_widget->currentWidget() 
 			== the_sprite_16x32_selector_widget )
 		{
 			//cout << "the_sprite_16x32_selector_widget is enabled!\n";

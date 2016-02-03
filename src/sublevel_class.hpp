@@ -57,7 +57,7 @@ public:		// variables
 	// size_2d is generally set to max_size_2d
 	vec2_u32 size_2d;
 	
-	// real_size_2d is set to the size_2d of the primary Tiled layer.
+	//// real_size_2d is set to the size_2d of the primary Tiled layer.
 	vec2_u32 real_size_2d;
 	
 	
@@ -68,11 +68,16 @@ public:		// variables
 	// is so that, IN THE GBA-SIDE CODE, the COMPRESSED array of block data
 	// can be DECOMPRESSED DIRECTLY to the statically allocated 2D array of
 	// block data.
-	vector< vector<block> > uncompressed_block_data_vec;
+	vector< vector<block> > uncompressed_block_data_vec_2d;
 	
 	// On the other hand, compressed_block_data_vec can have a variable
 	// size.
 	vector<u32> compressed_block_data_vec;
+	
+	
+	// The size of sprite_ipg_vec_2d is set to the maximum size of a level
+	// just in case, though it isn't really necessary.
+	vector< vector<sprite_init_param_group> > sprite_ipg_vec_2d;
 	
 	// sprite_ipg_vec can also have a variable size.
 	vector<sprite_init_param_group> sprite_ipg_vec;
@@ -89,7 +94,16 @@ public:		// functions
 	
 	void init( const vec2_u32& s_size_2d );
 	
+	void generate_compressed_block_data_vec( const string& output_dirname,
+		const string& output_basename );
 	
+	
+protected:		// functions
+	void write_uncompressed_block_data_to_file
+		( const string& output_dirname, const string& output_basename );
+	
+	void read_compressed_block_data_from_file
+		( const string& output_dirname, const string& output_basename );
 };
 
 

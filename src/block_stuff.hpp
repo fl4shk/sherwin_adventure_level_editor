@@ -137,6 +137,8 @@ namespace block_stuff
 	
 	extern const string bt_unknown_str;
 	
+	// This REALLY needs to match whatever the chosen size is for the
+	// array of persistent block data in the GBA-side code.
 	constexpr u32 persistent_block_data_array_size = 2048;
 	
 	inline const string& get_bt_name( block_type the_block_type )
@@ -167,6 +169,22 @@ namespace block_stuff
 		return bt_name_and_has_persistent_data_vec.at(the_block_type)
 			.second;
 	}
+	
+	inline const string get_uncompressed_block_data_file_name
+		( const string& output_dirname, const string& output_basename )
+	{
+		return output_dirname + "/" + output_basename 
+			+ "_uncompressed_block_data.bin";
+	}
+	
+	inline const string get_compressed_block_data_file_name
+		( const string& output_dirname, const string& output_basename )
+	{
+		return output_dirname + "/" + output_basename 
+			+ "_compressed_block_data.bin";
+	}
+	
+	
 }
 
 

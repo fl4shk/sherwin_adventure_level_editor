@@ -57,6 +57,8 @@ block_stuff::bt_name_and_has_persistent_data_vec	block_stuff.cpp	/^	vector< pair
 block_stuff::bt_unknown_str	block_stuff.cpp	/^	const string bt_unknown_str = string("bt_unknown");$/;"	kind:m	namespace:block_stuff	file:
 block_stuff::get_bt_name	block_stuff.hpp	/^	inline const string& get_bt_name( block_type the_block_type )$/;"	kind:f	namespace:block_stuff	signature:( block_type the_block_type )
 block_stuff::get_bt_name_debug	block_stuff.hpp	/^	inline const string& get_bt_name_debug( block_type the_block_type )$/;"	kind:f	namespace:block_stuff	signature:( block_type the_block_type )
+block_stuff::get_compressed_block_data_file_name	block_stuff.hpp	/^	inline const string get_compressed_block_data_file_name$/;"	kind:f	namespace:block_stuff	signature:( const string& output_dirname, const string& output_basename )
+block_stuff::get_uncompressed_block_data_file_name	block_stuff.hpp	/^	inline const string get_uncompressed_block_data_file_name$/;"	kind:f	namespace:block_stuff	signature:( const string& output_dirname, const string& output_basename )
 block_stuff::persistent_block_data_array_size	block_stuff.hpp	/^	constexpr u32 persistent_block_data_array_size = 2048;$/;"	kind:m	namespace:block_stuff
 block_stuff_hpp	block_stuff.hpp	22;"	kind:d
 block_type	block_stuff.hpp	/^enum block_type$/;"	kind:g
@@ -148,6 +150,8 @@ generate_canvas_block_grid	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_wid
 generate_canvas_block_grid	sfml_canvas_widget_classes.hpp	/^	void generate_canvas_block_grid();$/;"	kind:p	class:sfml_canvas_widget	access:protected	signature:()
 generate_central_widget	primary_widget_class.cpp	/^void primary_widget::generate_central_widget()$/;"	kind:f	class:primary_widget	signature:()
 generate_central_widget	primary_widget_class.hpp	/^	void generate_central_widget();$/;"	kind:p	class:primary_widget	access:protected	signature:()
+generate_compressed_block_data_vec	sublevel_class.cpp	/^void sublevel::generate_compressed_block_data_vec$/;"	kind:f	class:sublevel	signature:( const string& output_dirname, const string& output_basename )
+generate_compressed_block_data_vec	sublevel_class.hpp	/^	void generate_compressed_block_data_vec( const string& output_dirname,$/;"	kind:p	class:sublevel	access:public	signature:( const string& output_dirname, const string& output_basename )
 generate_level_element_palette_render_texture	level_element_selector_core_widget_base_class.cpp	/^	::generate_level_element_palette_render_texture()$/;"	kind:f	class:level_element_selector_core_widget_base	signature:()
 generate_level_element_palette_render_texture	level_element_selector_core_widget_base_class.hpp	/^	virtual void generate_level_element_palette_render_texture();$/;"	kind:p	class:level_element_selector_core_widget_base	access:protected	signature:()
 generate_menus	primary_widget_class.cpp	/^void primary_widget::generate_menus()$/;"	kind:f	class:primary_widget	signature:()
@@ -160,6 +164,7 @@ get_block_grid_enabled	sfml_canvas_widget_classes.hpp	/^	inline bool get_block_g
 get_block_type	block_stuff.hpp	/^	inline block_type get_block_type() const$/;"	kind:f	class:block	access:public	signature:() const
 get_bt_name	block_stuff.hpp	/^	inline const string& get_bt_name( block_type the_block_type )$/;"	kind:f	namespace:block_stuff	signature:( block_type the_block_type )
 get_bt_name_debug	block_stuff.hpp	/^	inline const string& get_bt_name_debug( block_type the_block_type )$/;"	kind:f	namespace:block_stuff	signature:( block_type the_block_type )
+get_compressed_block_data_file_name	block_stuff.hpp	/^	inline const string get_compressed_block_data_file_name$/;"	kind:f	namespace:block_stuff	signature:( const string& output_dirname, const string& output_basename )
 get_frac_bits	fixed24p8_class.hpp	/^	inline u8 get_frac_bits() const;$/;"	kind:p	class:fixed24p8	access:public	signature:() const
 get_frac_bits	fixed24p8_class.hpp	/^inline u8 fixed24p8::get_frac_bits() const$/;"	kind:f	class:fixed24p8	signature:() const
 get_left_current_level_element_index	level_element_selector_core_widget_base_class.hpp	/^	inline u32 get_left_current_level_element_index() const$/;"	kind:f	class:level_element_selector_core_widget_base	access:public	signature:() const
@@ -204,6 +209,7 @@ get_the_sprite_16x16_selector_core_widget	level_editor_core_widget_class.cpp	/^	
 get_the_sprite_16x16_selector_core_widget	level_editor_core_widget_class.hpp	/^		get_the_sprite_16x16_selector_core_widget();$/;"	kind:p	class:level_editor_core_widget	access:public	signature:()
 get_the_sprite_16x32_selector_core_widget	level_editor_core_widget_class.cpp	/^	level_editor_core_widget::get_the_sprite_16x32_selector_core_widget()$/;"	kind:f	class:level_editor_core_widget	signature:()
 get_the_sprite_16x32_selector_core_widget	level_editor_core_widget_class.hpp	/^		get_the_sprite_16x32_selector_core_widget();$/;"	kind:p	class:level_editor_core_widget	access:public	signature:()
+get_uncompressed_block_data_file_name	block_stuff.hpp	/^	inline const string get_uncompressed_block_data_file_name$/;"	kind:f	namespace:block_stuff	signature:( const string& output_dirname, const string& output_basename )
 grid_widget	layout_widget_classes.hpp	/^	inline grid_widget( QWidget* parent = 0 ) : QWidget(parent)$/;"	kind:f	class:grid_widget	access:public	signature:( QWidget* parent = 0 )
 grid_widget	layout_widget_classes.hpp	/^class grid_widget : public QWidget$/;"	kind:c	inherits:QWidget
 grid_widget::grid_widget	layout_widget_classes.hpp	/^	inline grid_widget( QWidget* parent = 0 ) : QWidget(parent)$/;"	kind:f	class:grid_widget	access:public	signature:( QWidget* parent = 0 )
@@ -481,6 +487,8 @@ quit	primary_widget_class.hpp	/^	void quit();$/;"	kind:p	class:primary_widget	ac
 quit_icon_file_name	primary_widget_class.cpp	/^	primary_widget::quit_icon_file_name$/;"	kind:m	class:primary_widget	file:
 quit_icon_file_name	primary_widget_class.hpp	/^	static const QString laugh_icon_file_name, quit_icon_file_name;$/;"	kind:m	class:primary_widget	access:protected
 quit_non_slot	misc_funcs.hpp	/^inline void quit_non_slot( int return_val = 0 )$/;"	kind:f	signature:( int return_val = 0 )
+read_compressed_block_data_from_file	sublevel_class.cpp	/^void sublevel::read_compressed_block_data_from_file$/;"	kind:f	class:sublevel	signature:( const string& output_dirname, const string& output_basename )
+read_compressed_block_data_from_file	sublevel_class.hpp	/^	void read_compressed_block_data_from_file$/;"	kind:p	class:sublevel	access:protected	signature:( const string& output_dirname, const string& output_basename )
 real_size_2d	sublevel_class.hpp	/^	vec2_u32 real_size_2d;$/;"	kind:m	class:sublevel	access:public
 right_current_level_element_index	level_element_selector_core_widget_base_class.hpp	/^	u32 left_current_level_element_index, right_current_level_element_index;$/;"	kind:m	class:level_element_selector_core_widget_base	access:protected
 round_to_int	fixed24p8_class.hpp	/^	inline s32 round_to_int() const;$/;"	kind:p	class:fixed24p8	access:public	signature:() const
@@ -670,6 +678,7 @@ sprite_init_param_group::operator <	sprite_level_data_stuff.hpp	/^	inline bool o
 sprite_init_param_group::spawn_state	sprite_level_data_stuff.hpp	/^	sprite_spawn_state spawn_state;$/;"	kind:m	class:sprite_init_param_group	access:public
 sprite_init_param_group::type	sprite_level_data_stuff.hpp	/^	sprite_type type;$/;"	kind:m	class:sprite_init_param_group	access:public
 sprite_ipg_vec	sublevel_class.hpp	/^	vector<sprite_init_param_group> sprite_ipg_vec;$/;"	kind:m	class:sublevel	access:public
+sprite_ipg_vec_2d	sublevel_class.hpp	/^	vector< vector<sprite_init_param_group> > sprite_ipg_vec_2d;$/;"	kind:m	class:sublevel	access:public
 sprite_level_data_stuff_hpp	sprite_level_data_stuff.hpp	22;"	kind:d
 sprite_spawn_state	sprite_level_data_stuff.hpp	/^enum sprite_spawn_state$/;"	kind:g
 sprite_type	sprite_type_stuff.hpp	/^enum sprite_type$/;"	kind:g
@@ -703,20 +712,27 @@ sublevel	sublevel_class.hpp	/^	inline sublevel() : sublevel(max_size_2d)$/;"	kin
 sublevel	sublevel_class.hpp	/^	sublevel( const vec2_u32& s_size_2d );$/;"	kind:p	class:sublevel	access:public	signature:( const vec2_u32& s_size_2d )
 sublevel	sublevel_class.hpp	/^class sublevel$/;"	kind:c
 sublevel::compressed_block_data_vec	sublevel_class.hpp	/^	vector<u32> compressed_block_data_vec;$/;"	kind:m	class:sublevel	access:public
+sublevel::generate_compressed_block_data_vec	sublevel_class.cpp	/^void sublevel::generate_compressed_block_data_vec$/;"	kind:f	class:sublevel	signature:( const string& output_dirname, const string& output_basename )
+sublevel::generate_compressed_block_data_vec	sublevel_class.hpp	/^	void generate_compressed_block_data_vec( const string& output_dirname,$/;"	kind:p	class:sublevel	access:public	signature:( const string& output_dirname, const string& output_basename )
 sublevel::init	sublevel_class.cpp	/^void sublevel::init( const vec2_u32& s_size_2d )$/;"	kind:f	class:sublevel	signature:( const vec2_u32& s_size_2d )
 sublevel::init	sublevel_class.hpp	/^	void init( const vec2_u32& s_size_2d );$/;"	kind:p	class:sublevel	access:public	signature:( const vec2_u32& s_size_2d )
 sublevel::max_num_blocks	sublevel_class.cpp	/^const u32 sublevel::max_num_blocks = max_size_2d.x * max_size_2d.y;$/;"	kind:m	class:sublevel	file:
 sublevel::max_num_blocks	sublevel_class.hpp	/^	static const u32 max_num_blocks;$/;"	kind:m	class:sublevel	access:public
 sublevel::max_size_2d	sublevel_class.cpp	/^const vec2_u32 sublevel::max_size_2d = { 512, 32 };$/;"	kind:m	class:sublevel	file:
 sublevel::max_size_2d	sublevel_class.hpp	/^	static const vec2_u32 max_size_2d;$/;"	kind:m	class:sublevel	access:public
+sublevel::read_compressed_block_data_from_file	sublevel_class.cpp	/^void sublevel::read_compressed_block_data_from_file$/;"	kind:f	class:sublevel	signature:( const string& output_dirname, const string& output_basename )
+sublevel::read_compressed_block_data_from_file	sublevel_class.hpp	/^	void read_compressed_block_data_from_file$/;"	kind:p	class:sublevel	access:protected	signature:( const string& output_dirname, const string& output_basename )
 sublevel::real_size_2d	sublevel_class.hpp	/^	vec2_u32 real_size_2d;$/;"	kind:m	class:sublevel	access:public
 sublevel::size_2d	sublevel_class.hpp	/^	vec2_u32 size_2d;$/;"	kind:m	class:sublevel	access:public
 sublevel::sprite_ipg_vec	sublevel_class.hpp	/^	vector<sprite_init_param_group> sprite_ipg_vec;$/;"	kind:m	class:sublevel	access:public
+sublevel::sprite_ipg_vec_2d	sublevel_class.hpp	/^	vector< vector<sprite_init_param_group> > sprite_ipg_vec_2d;$/;"	kind:m	class:sublevel	access:public
 sublevel::sublevel	sublevel_class.cpp	/^sublevel::sublevel( const vec2_u32& s_size_2d )$/;"	kind:f	class:sublevel	signature:( const vec2_u32& s_size_2d )
 sublevel::sublevel	sublevel_class.hpp	/^	inline sublevel() : sublevel(max_size_2d)$/;"	kind:f	class:sublevel	access:public	signature:()
 sublevel::sublevel	sublevel_class.hpp	/^	sublevel( const vec2_u32& s_size_2d );$/;"	kind:p	class:sublevel	access:public	signature:( const vec2_u32& s_size_2d )
 sublevel::sublevel_entrance_vec	sublevel_class.hpp	/^	vector<sublevel_entrance> sublevel_entrance_vec;$/;"	kind:m	class:sublevel	access:public
-sublevel::uncompressed_block_data_vec	sublevel_class.hpp	/^	vector< vector<block> > uncompressed_block_data_vec;$/;"	kind:m	class:sublevel	access:public
+sublevel::uncompressed_block_data_vec_2d	sublevel_class.hpp	/^	vector< vector<block> > uncompressed_block_data_vec_2d;$/;"	kind:m	class:sublevel	access:public
+sublevel::write_uncompressed_block_data_to_file	sublevel_class.cpp	/^void sublevel::write_uncompressed_block_data_to_file$/;"	kind:f	class:sublevel	signature:( const string& output_dirname, const string& output_basename )
+sublevel::write_uncompressed_block_data_to_file	sublevel_class.hpp	/^	void write_uncompressed_block_data_to_file$/;"	kind:p	class:sublevel	access:protected	signature:( const string& output_dirname, const string& output_basename )
 sublevel_class_hpp	sublevel_class.hpp	22;"	kind:d
 sublevel_entrance	sublevel_entrance_class.hpp	/^class sublevel_entrance$/;"	kind:c
 sublevel_entrance::in_sublevel_pos	sublevel_entrance_class.hpp	/^	vec2_f24p8 in_sublevel_pos;$/;"	kind:m	class:sublevel_entrance	access:public
@@ -753,7 +769,7 @@ u32	misc_types.hpp	/^typedef uint32_t u32; typedef int32_t s32;$/;"	kind:t
 u64	misc_types.hpp	/^typedef uint64_t u64; typedef int64_t s64;$/;"	kind:t
 u8	misc_types.hpp	/^typedef uint8_t u8; typedef int8_t s8;$/;"	kind:t
 uint	misc_types.hpp	/^typedef unsigned int uint;$/;"	kind:t
-uncompressed_block_data_vec	sublevel_class.hpp	/^	vector< vector<block> > uncompressed_block_data_vec;$/;"	kind:m	class:sublevel	access:public
+uncompressed_block_data_vec_2d	sublevel_class.hpp	/^	vector< vector<block> > uncompressed_block_data_vec_2d;$/;"	kind:m	class:sublevel	access:public
 vbox_widget	layout_widget_classes.hpp	/^	inline vbox_widget( QWidget* parent = 0 ) : QWidget(parent)$/;"	kind:f	class:vbox_widget	access:public	signature:( QWidget* parent = 0 )
 vbox_widget	layout_widget_classes.hpp	/^class vbox_widget : public QWidget$/;"	kind:c	inherits:QWidget
 vbox_widget::layout	layout_widget_classes.hpp	/^	QVBoxLayout* layout;$/;"	kind:m	class:vbox_widget	access:public
@@ -802,6 +818,8 @@ vec2_u64	vec2_class.hpp	/^typedef vec2<u64> vec2_u64; typedef vec2<s64> vec2_s64
 view_center_x	sfml_canvas_widget_classes.hpp	/^	float view_center_x, view_center_y;$/;"	kind:m	class:sfml_canvas_widget	access:public
 view_center_y	sfml_canvas_widget_classes.hpp	/^	float view_center_x, view_center_y;$/;"	kind:m	class:sfml_canvas_widget	access:public
 width	array_2d_helper_class.hpp	/^	u32 width() const$/;"	kind:f	class:array_2d_helper	access:public	signature:() const
+write_uncompressed_block_data_to_file	sublevel_class.cpp	/^void sublevel::write_uncompressed_block_data_to_file$/;"	kind:f	class:sublevel	signature:( const string& output_dirname, const string& output_basename )
+write_uncompressed_block_data_to_file	sublevel_class.hpp	/^	void write_uncompressed_block_data_to_file$/;"	kind:p	class:sublevel	access:protected	signature:( const string& output_dirname, const string& output_basename )
 x	vec2_class.hpp	/^	fixed24p8 x, y;$/;"	kind:m	class:vec2	access:public
 x	vec2_class.hpp	/^	type x, y;$/;"	kind:m	class:vec2	access:public
 y	vec2_class.hpp	/^	fixed24p8 x, y;$/;"	kind:m	class:vec2	access:public
