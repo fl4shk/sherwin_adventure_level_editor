@@ -64,9 +64,9 @@ void level_element_selector_core_widget_base::shared_constructor_code
 		(level_element_gfx_raw_texture);
 	
 	u32 other_num_level_elements_per_column 
-		= get_num_level_elements_per_column(other_slot_inner_width);
+		= get_num_level_elements_per_column(other_slot_inner_height);
 	u32 other_num_level_elements_per_row 
-		= get_num_level_elements_per_row(other_slot_inner_height);
+		= get_num_level_elements_per_row(other_slot_inner_width);
 	
 	//level_element_palette_render_texture.create
 	//	( other_num_level_elements_per_row * other_slot_outer_width, 

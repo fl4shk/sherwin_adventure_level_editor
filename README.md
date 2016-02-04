@@ -11,4 +11,4 @@ Dependencies
 3.  Qt5
 4.  SFML (Only 2.x versions supported)
 5.  pugixml
-
+6.  gbalzss (included in devkitARM)

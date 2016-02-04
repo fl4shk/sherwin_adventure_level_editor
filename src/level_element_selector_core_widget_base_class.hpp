@@ -120,6 +120,8 @@ public:		// functions
 	}
 	inline u32 get_left_current_level_element_index_y_coord() const
 	{
+		//return left_current_level_element_index 
+		//	/ get_num_level_elements_per_column();
 		return left_current_level_element_index 
 			/ get_num_level_elements_per_row();
 	}
@@ -215,22 +217,24 @@ public:		// functions
 	
 	inline sf::IntRect get_left_current_texture_rect() const
 	{
-		return sf::IntRect( sf::Vector2i
-			( get_left_current_level_element_index_x_coord()
+		return sf::IntRect
+			( sf::Vector2i( get_left_current_level_element_index_x_coord()
 			* get_slot_inner_width(),
 			get_left_current_level_element_index_y_coord()
-			* get_slot_inner_width() ),
+			* get_slot_inner_height() ),
+			
 			sf::Vector2i( get_slot_inner_width(), 
 			get_slot_inner_height() ) );
 	}
 	
 	inline sf::IntRect get_right_current_texture_rect() const
 	{
-		return sf::IntRect( sf::Vector2i
-			( get_right_current_level_element_index_x_coord()
+		return sf::IntRect
+			( sf::Vector2i( get_right_current_level_element_index_x_coord()
 			* get_slot_inner_width(),
 			get_right_current_level_element_index_y_coord()
-			* get_slot_inner_width() ),
+			* get_slot_inner_height() ),
+			
 			sf::Vector2i( get_slot_inner_width(), 
 			get_slot_inner_height() ) );
 	}

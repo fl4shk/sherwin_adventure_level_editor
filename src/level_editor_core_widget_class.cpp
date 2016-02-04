@@ -121,41 +121,22 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 			test_sprite.setTexture( get_the_block_selector_core_widget()
 				->get_level_element_gfx_raw_texture() );
 			
-			//cout << get_the_block_selector_core_widget()
-			//	->get_left_current_level_element_index_x_coord() << ", " 
-			//	<< get_the_block_selector_core_widget()
-			//	->get_left_current_level_element_index_y_coord() << endl;
-			//
-			//cout << get_the_block_selector_core_widget()
-			//	->get_left_current_level_element_index_x_coord() << ", "
-			//	<< get_the_block_selector_core_widget()
-			//	->get_left_current_level_element_index_y_coord() << "\n";
-			
 			test_sprite.setTextureRect
 				( get_the_block_selector_core_widget()
 				->get_left_current_texture_rect() );
 			
-			//cout << event_pos_in_canvas_coords.x << ", "
-			//	<< the_sfml_canvas_widget->getSize().y
-			//	- event_pos_in_canvas_coords.y << "\n";
+			sf::IntRect test_sprite_texture_rect 
+				= test_sprite.getTextureRect();
+			cout << test_sprite_texture_rect.left << ", "
+				<< test_sprite_texture_rect.top << ", "
+				<< test_sprite_texture_rect.width << ", "
+				<< test_sprite_texture_rect.height << endl;
 			
-			//cout << ( event_pos_in_canvas_coords.x / 16 ) << ", "
-			//	<< ( the_sfml_canvas_widget->getSize().y / 16 )
-			//	- ( event_pos_in_canvas_coords.y / 16 ) << "\n\n";
-			
-			//test_sprite.setPosition( event_pos_in_canvas_coords.x,
-			//	the_sfml_canvas_widget->getSize().y 
-			//	- event_pos_in_canvas_coords.y );
 			test_sprite.setPosition
 				( (u32)( event_pos_in_canvas_coords.x / 16 ) * 16,
 				(u32)( ( ( ( the_sfml_canvas_widget->getSize().y 
 				/ the_sfml_canvas_widget->scale_factor )
 				-  event_pos_in_canvas_coords.y ) / 16 ) + 1 ) * 16 );
-			
-			//cout << the_sfml_canvas_widget->getSize().y << endl;
-			//
-			//cout << test_sprite.getPosition().x << ", "
-			//	<< test_sprite.getPosition().y << "\n\n";
 			
 			test_sprite.setScale( 1.0f, -1.0f );
 			
@@ -166,11 +147,67 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 			== the_sprite_16x16_selector_widget )
 		{
 			//cout << "the_sprite_16x16_selector_widget is enabled!\n";
+			
+			sf::Sprite test_sprite;
+			
+			test_sprite.setTexture
+				( get_the_sprite_16x16_selector_core_widget()
+				->get_level_element_gfx_raw_texture() );
+			
+			test_sprite.setTextureRect
+				( get_the_sprite_16x16_selector_core_widget()
+				->get_left_current_texture_rect() );
+			
+			sf::IntRect test_sprite_texture_rect 
+				= test_sprite.getTextureRect();
+			cout << test_sprite_texture_rect.left << ", "
+				<< test_sprite_texture_rect.top << ", "
+				<< test_sprite_texture_rect.width << ", "
+				<< test_sprite_texture_rect.height << endl;
+			
+			test_sprite.setPosition
+				( (u32)( event_pos_in_canvas_coords.x / 16 ) * 16,
+				(u32)( ( ( ( the_sfml_canvas_widget->getSize().y 
+				/ the_sfml_canvas_widget->scale_factor )
+				-  event_pos_in_canvas_coords.y ) / 16 ) + 1 ) * 16 );
+			
+			test_sprite.setScale( 1.0f, -1.0f );
+			
+			the_sfml_canvas_widget->canvas_render_texture.draw
+				(test_sprite);
 		}
 		else if ( level_element_selectors_tab_widget->currentWidget() 
 			== the_sprite_16x32_selector_widget )
 		{
 			//cout << "the_sprite_16x32_selector_widget is enabled!\n";
+			
+			sf::Sprite test_sprite;
+			
+			test_sprite.setTexture
+				( get_the_sprite_16x32_selector_core_widget()
+				->get_level_element_gfx_raw_texture() );
+			
+			test_sprite.setTextureRect
+				( get_the_sprite_16x32_selector_core_widget()
+				->get_left_current_texture_rect() );
+			
+			sf::IntRect test_sprite_texture_rect 
+				= test_sprite.getTextureRect();
+			cout << test_sprite_texture_rect.left << ", "
+				<< test_sprite_texture_rect.top << ", "
+				<< test_sprite_texture_rect.width << ", "
+				<< test_sprite_texture_rect.height << endl;
+			
+			test_sprite.setPosition
+				( (u32)( event_pos_in_canvas_coords.x / 16 ) * 16,
+				(u32)( ( ( ( the_sfml_canvas_widget->getSize().y 
+				/ the_sfml_canvas_widget->scale_factor )
+				-  event_pos_in_canvas_coords.y ) / 16 ) + 1 ) * 16 );
+			
+			test_sprite.setScale( 1.0f, -1.0f );
+			
+			the_sfml_canvas_widget->canvas_render_texture.draw
+				(test_sprite);
 		}
 	}
 	else if ( event->button() == Qt::RightButton )

@@ -532,15 +532,12 @@ void sfml_canvas_widget::on_update()
 			
 			
 			
-			//if ( mouse_pos.x < 0 )
 			if ( mouse_pos_scaled.x < 0 )
 			{
 				//cout << "x < 0\n";
 				scroll_area->horizontalScrollBar()->setValue
 					(horiz_sb_min_after);
 			}
-			//else if ( mouse_pos.x
-			//	> (int)canvas_render_texture.getSize().x )
 			else if ( mouse_pos_scaled.x
 				> (int)canvas_render_texture.getSize().x )
 			{
@@ -585,15 +582,12 @@ void sfml_canvas_widget::on_update()
 					((int)horiz_sb_val_after);
 			}
 			
-			//if ( mouse_pos.y < 0 )
 			if ( mouse_pos_scaled.y < 0 )
 			{
 				//cout << "y < 0\n";
 				scroll_area->verticalScrollBar()->setValue
 					(vert_sb_min_after);
 			}
-			//else if ( mouse_pos.y
-			//	> (int)canvas_render_texture.getSize().y )
 			else if ( mouse_pos_scaled.y
 				> (int)canvas_render_texture.getSize().y )
 			{
@@ -641,6 +635,16 @@ void sfml_canvas_widget::on_update()
 			cout << endl;
 		};
 		
+		if ( zoomed_in_recently && scroll_area != NULL )
+		{
+			zoom_func(zoomed_in_recently);
+		}
+		
+		if ( zoomed_out_recently && scroll_area != NULL )
+		{
+			zoom_func(zoomed_out_recently);
+		}
+		
 		if ( scroll_area == NULL )
 		{
 			full_resize(QSize( canvas_render_texture.getSize().x 
@@ -671,18 +675,6 @@ void sfml_canvas_widget::on_update()
 		}
 		
 		
-		else if (zoomed_in_recently)
-		{
-			zoom_func(zoomed_in_recently);
-		}
-		
-		else if (zoomed_out_recently)
-		{
-			zoom_func(zoomed_out_recently);
-		}
-		
-		
-		
 	}
 	if (modified_recently)
 	{
@@ -692,7 +684,7 @@ void sfml_canvas_widget::on_update()
 	
 	// Instead of generating the block grid every frame, only do it if it
 	// has been recently enabled (or if it's enabled and zooming happened
-	// recently).
+	// recently; see the zooming stuff for that).
 	if (block_grid_enabled_recently)
 	{
 		generate_canvas_block_grid();
@@ -706,10 +698,15 @@ void sfml_canvas_widget::on_update()
 	
 	//draw(*canvas_sprite);
 	
-	canvas_sprite.reset(new sf::Sprite);
-	canvas_sprite->setTexture(canvas_render_texture.getTexture());
-	canvas_sprite->setScale( scale_factor, scale_factor );
-	draw(*canvas_sprite);
+	//canvas_sprite.reset(new sf::Sprite);
+	//canvas_sprite->setTexture(canvas_render_texture.getTexture());
+	//canvas_sprite->setScale( scale_factor, scale_factor );
+	//draw(*canvas_sprite);
+	
+	sf::Sprite canvas_sprite;
+	canvas_sprite.setTexture(canvas_render_texture.getTexture());
+	canvas_sprite.setScale( scale_factor, scale_factor );
+	draw(canvas_sprite);
 	
 	
 	//if ( get_block_grid_enabled() 

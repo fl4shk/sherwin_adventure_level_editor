@@ -106,7 +106,6 @@ canvas_block_grid_slot_image	sfml_canvas_widget_classes.hpp	/^	unique_ptr<sf::Im
 canvas_block_grid_slot_sprite	sfml_canvas_widget_classes.hpp	/^	unique_ptr<sf::Sprite> canvas_block_grid_slot_sprite;$/;"	kind:m	class:sfml_canvas_widget	access:protected
 canvas_block_grid_slot_texture	sfml_canvas_widget_classes.hpp	/^	unique_ptr<sf::Texture> canvas_block_grid_slot_texture;$/;"	kind:m	class:sfml_canvas_widget	access:protected
 canvas_render_texture	sfml_canvas_widget_classes.hpp	/^	sf::RenderTexture canvas_render_texture;$/;"	kind:m	class:sfml_canvas_widget	access:public
-canvas_sprite	sfml_canvas_widget_classes.hpp	/^	unique_ptr<sf::Sprite> canvas_sprite;$/;"	kind:m	class:sfml_canvas_widget	access:protected
 closeEvent	primary_widget_class.hpp	/^	inline void closeEvent( QCloseEvent* event )$/;"	kind:f	class:primary_widget	access:protected	signature:( QCloseEvent* event )
 compressed_block_data_vec	sublevel_class.hpp	/^	vector<u32> compressed_block_data_vec;$/;"	kind:m	class:sublevel	access:public
 convert_range	misc_funcs.hpp	/^inline type convert_range( type val_old, type min_old, type max_old, $/;"	kind:f	signature:( type val_old, type min_old, type max_old, type min_new, type max_new )
@@ -529,7 +528,6 @@ sfml_canvas_widget::canvas_block_grid_slot_image	sfml_canvas_widget_classes.hpp	
 sfml_canvas_widget::canvas_block_grid_slot_sprite	sfml_canvas_widget_classes.hpp	/^	unique_ptr<sf::Sprite> canvas_block_grid_slot_sprite;$/;"	kind:m	class:sfml_canvas_widget	access:protected
 sfml_canvas_widget::canvas_block_grid_slot_texture	sfml_canvas_widget_classes.hpp	/^	unique_ptr<sf::Texture> canvas_block_grid_slot_texture;$/;"	kind:m	class:sfml_canvas_widget	access:protected
 sfml_canvas_widget::canvas_render_texture	sfml_canvas_widget_classes.hpp	/^	sf::RenderTexture canvas_render_texture;$/;"	kind:m	class:sfml_canvas_widget	access:public
-sfml_canvas_widget::canvas_sprite	sfml_canvas_widget_classes.hpp	/^	unique_ptr<sf::Sprite> canvas_sprite;$/;"	kind:m	class:sfml_canvas_widget	access:protected
 sfml_canvas_widget::disable_block_grid	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget::disable_block_grid()$/;"	kind:f	class:sfml_canvas_widget	signature:()
 sfml_canvas_widget::disable_block_grid	sfml_canvas_widget_classes.hpp	/^	void disable_block_grid();$/;"	kind:p	class:sfml_canvas_widget	access:public	signature:()
 sfml_canvas_widget::enable_block_grid	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget::enable_block_grid()$/;"	kind:f	class:sfml_canvas_widget	signature:()

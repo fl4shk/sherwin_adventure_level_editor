@@ -77,7 +77,7 @@ protected:		// variables
 	
 	
 	
-	unique_ptr<sf::Sprite> canvas_sprite;
+	//unique_ptr<sf::Sprite> canvas_sprite;
 	
 	
 	// This is mainly used to help with changing the scroll bars after
