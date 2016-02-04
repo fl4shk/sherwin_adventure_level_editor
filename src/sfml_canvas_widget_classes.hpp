@@ -80,6 +80,10 @@ protected:		// variables
 	unique_ptr<sf::Sprite> canvas_sprite;
 	
 	
+	// This is mainly used to help with changing the scroll bars after
+	// zooming.
+	QScrollArea* scroll_area;
+	
 	
 	
 public:		// variables and constants
@@ -88,8 +92,11 @@ public:		// variables and constants
 	static constexpr u32 num_pixels_per_block_row = 16,
 		num_pixels_per_block_column = 16;
 	
-	//bool zoomed_in_recently, zoomed_out_recently;
-	bool modified_recently, zoomed_recently;
+	////bool zoomed_in_recently, zoomed_out_recently;
+	//bool modified_recently, zoomed_recently;
+	bool modified_recently;
+	bool zoomed_in_recently, zoomed_out_recently;
+	
 	u32 scale_factor;
 	float view_center_x, view_center_y;
 	
@@ -97,9 +104,12 @@ public:		// variables and constants
 	sf::RenderTexture canvas_render_texture;
 	
 	
+	
 public:		// functions
 	sfml_canvas_widget( QWidget* s_parent, const QPoint& s_position,
 		const QSize& s_size );
+	sfml_canvas_widget( QWidget* s_parent, const QPoint& s_position,
+		const QSize& s_size, QScrollArea* s_scroll_area );
 	
 	
 	
@@ -142,6 +152,11 @@ public:		// functions
 	//}
 	//// This is just a PNG exporter.
 	//void export_file_as( const string& output_file_name );
+	
+	inline void set_scroll_area( QScrollArea* n_scroll_area )
+	{
+		scroll_area = n_scroll_area;
+	}
 	
 	
 protected:		// functions

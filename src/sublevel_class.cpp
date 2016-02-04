@@ -117,9 +117,9 @@ void sublevel::write_uncompressed_block_data_to_file
 		exit(1);
 	}
 	
-	for ( u32 j=0; j<uncompressed_block_data_vec.size(); ++j )
+	for ( u32 j=0; j<uncompressed_block_data_vec_2d.size(); ++j )
 	{
-		vector<block>& bd_col = uncompressed_block_data_vec[j];
+		vector<block>& bd_col = uncompressed_block_data_vec_2d[j];
 		
 		for ( u32 i=0; i<bd_col.size(); ++i )
 		{

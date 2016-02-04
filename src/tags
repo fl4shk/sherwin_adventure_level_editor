@@ -109,6 +109,7 @@ canvas_render_texture	sfml_canvas_widget_classes.hpp	/^	sf::RenderTexture canvas
 canvas_sprite	sfml_canvas_widget_classes.hpp	/^	unique_ptr<sf::Sprite> canvas_sprite;$/;"	kind:m	class:sfml_canvas_widget	access:protected
 closeEvent	primary_widget_class.hpp	/^	inline void closeEvent( QCloseEvent* event )$/;"	kind:f	class:primary_widget	access:protected	signature:( QCloseEvent* event )
 compressed_block_data_vec	sublevel_class.hpp	/^	vector<u32> compressed_block_data_vec;$/;"	kind:m	class:sublevel	access:public
+convert_range	misc_funcs.hpp	/^inline type convert_range( type val_old, type min_old, type max_old, $/;"	kind:f	signature:( type val_old, type min_old, type max_old, type min_new, type max_new )
 data	fixed24p8_class.hpp	/^	s32 data;$/;"	kind:m	class:fixed24p8	access:public
 data_at	array_2d_helper_class.hpp	/^	type& data_at( const vec2_u32& offset_2d )$/;"	kind:f	class:array_2d_helper	access:public	signature:( const vec2_u32& offset_2d )
 data_at	array_2d_helper_class.hpp	/^	type& data_at( u32 x, u32 y )$/;"	kind:f	class:array_2d_helper	access:public	signature:( u32 x, u32 y )
@@ -404,7 +405,7 @@ minimum_scale_factor_for_block_grid	sfml_canvas_widget_classes.hpp	/^	static con
 misc_funcs_hpp	misc_funcs.hpp	21;"	kind:d
 misc_includes_hpp	misc_includes.hpp	22;"	kind:d
 misc_types_hpp	misc_types.hpp	22;"	kind:d
-modified_recently	sfml_canvas_widget_classes.hpp	/^	bool modified_recently, zoomed_recently;$/;"	kind:m	class:sfml_canvas_widget	access:public
+modified_recently	sfml_canvas_widget_classes.hpp	/^	bool modified_recently;$/;"	kind:m	class:sfml_canvas_widget	access:public
 mousePressEvent	level_editor_core_widget_class.cpp	/^void level_editor_core_widget::mousePressEvent( QMouseEvent* event )$/;"	kind:f	class:level_editor_core_widget	signature:( QMouseEvent* event )
 mousePressEvent	level_editor_core_widget_class.hpp	/^	void mousePressEvent( QMouseEvent* event );$/;"	kind:p	class:level_editor_core_widget	access:protected	signature:( QMouseEvent* event )
 mousePressEvent	level_element_selector_core_widget_base_class.cpp	/^void level_element_selector_core_widget_base::mousePressEvent$/;"	kind:f	class:level_element_selector_core_widget_base	signature:( QMouseEvent* event )
@@ -504,6 +505,7 @@ save_file_as	level_editor_widget_class.hpp	/^	void save_file_as();$/;"	kind:p	cl
 scale_factor	sfml_canvas_widget_classes.hpp	/^	u32 scale_factor;$/;"	kind:m	class:sfml_canvas_widget	access:public
 scroll_area	block_selector_widget_class.hpp	/^	QScrollArea* scroll_area;$/;"	kind:m	class:block_selector_widget	access:public
 scroll_area	level_editor_widget_class.hpp	/^	QScrollArea* scroll_area;$/;"	kind:m	class:level_editor_widget	access:public
+scroll_area	sfml_canvas_widget_classes.hpp	/^	QScrollArea* scroll_area;$/;"	kind:m	class:sfml_canvas_widget	access:protected
 scroll_area	sprite_16x16_selector_widget_class.hpp	/^	QScrollArea* scroll_area;$/;"	kind:m	class:sprite_16x16_selector_widget	access:public
 scroll_area	sprite_16x32_selector_widget_class.hpp	/^	QScrollArea* scroll_area;$/;"	kind:m	class:sprite_16x32_selector_widget	access:public
 second_menu	primary_widget_class.hpp	/^	QMenu* file_menu, * second_menu;$/;"	kind:m	class:primary_widget	access:protected
@@ -511,10 +513,13 @@ selected_level_element_sprite	level_element_selector_core_widget_base_class.hpp	
 set_left_current_level_element_index	level_element_selector_core_widget_base_class.hpp	/^	inline void set_left_current_level_element_index$/;"	kind:f	class:level_element_selector_core_widget_base	access:public	signature:( u32 n_left_current_level_element_index )
 set_min_max_sizes	sfml_canvas_widget_classes.hpp	/^	inline void set_min_max_sizes( const QSize& n_size )$/;"	kind:f	class:sfml_canvas_widget_base	access:protected	signature:( const QSize& n_size )
 set_right_current_level_element_index	level_element_selector_core_widget_base_class.hpp	/^	inline void set_right_current_level_element_index$/;"	kind:f	class:level_element_selector_core_widget_base	access:public	signature:( u32 n_right_current_level_element_index )
+set_scroll_area	sfml_canvas_widget_classes.hpp	/^	inline void set_scroll_area( QScrollArea* n_scroll_area )$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:( QScrollArea* n_scroll_area )
 set_the_level_editor_core_widget	level_element_selector_core_widget_base_class.hpp	/^	::set_the_level_editor_core_widget$/;"	kind:f	class:level_element_selector_core_widget_base	signature:( level_editor_core_widget* n_the_level_editor_core_widget )
 set_the_level_editor_core_widget	level_element_selector_core_widget_base_class.hpp	/^	inline void set_the_level_editor_core_widget$/;"	kind:p	class:level_element_selector_core_widget_base	access:public	signature:( level_editor_core_widget* n_the_level_editor_core_widget )
 sfml_canvas_widget	sfml_canvas_widget_classes.cpp	/^sfml_canvas_widget::sfml_canvas_widget( QWidget* s_parent, $/;"	kind:f	class:sfml_canvas_widget	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size )
+sfml_canvas_widget	sfml_canvas_widget_classes.cpp	/^sfml_canvas_widget::sfml_canvas_widget( QWidget* s_parent, $/;"	kind:f	class:sfml_canvas_widget	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size, QScrollArea* s_scroll_area )
 sfml_canvas_widget	sfml_canvas_widget_classes.hpp	/^	sfml_canvas_widget( QWidget* s_parent, const QPoint& s_position,$/;"	kind:p	class:sfml_canvas_widget	access:public	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size )
+sfml_canvas_widget	sfml_canvas_widget_classes.hpp	/^	sfml_canvas_widget( QWidget* s_parent, const QPoint& s_position,$/;"	kind:p	class:sfml_canvas_widget	access:public	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size, QScrollArea* s_scroll_area )
 sfml_canvas_widget	sfml_canvas_widget_classes.hpp	/^class sfml_canvas_widget : public sfml_canvas_widget_base$/;"	kind:c	inherits:sfml_canvas_widget_base
 sfml_canvas_widget::apparent_view	sfml_canvas_widget_classes.hpp	/^	sf::View apparent_view;$/;"	kind:m	class:sfml_canvas_widget	access:protected
 sfml_canvas_widget::block_grid_enabled	sfml_canvas_widget_classes.hpp	/^	bool block_grid_enabled_recently, block_grid_enabled;$/;"	kind:m	class:sfml_canvas_widget	access:protected
@@ -535,7 +540,7 @@ sfml_canvas_widget::get_apparent_view	sfml_canvas_widget_classes.cpp	/^const sf:
 sfml_canvas_widget::get_apparent_view	sfml_canvas_widget_classes.hpp	/^	const sf::View& get_apparent_view();$/;"	kind:p	class:sfml_canvas_widget	access:public	signature:()
 sfml_canvas_widget::get_block_grid_enabled	sfml_canvas_widget_classes.hpp	/^	inline bool get_block_grid_enabled() const$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:() const
 sfml_canvas_widget::minimum_scale_factor_for_block_grid	sfml_canvas_widget_classes.hpp	/^	static constexpr u32 minimum_scale_factor_for_block_grid = 1;$/;"	kind:m	class:sfml_canvas_widget	access:public
-sfml_canvas_widget::modified_recently	sfml_canvas_widget_classes.hpp	/^	bool modified_recently, zoomed_recently;$/;"	kind:m	class:sfml_canvas_widget	access:public
+sfml_canvas_widget::modified_recently	sfml_canvas_widget_classes.hpp	/^	bool modified_recently;$/;"	kind:m	class:sfml_canvas_widget	access:public
 sfml_canvas_widget::num_pixels_per_block_column	sfml_canvas_widget_classes.hpp	/^		num_pixels_per_block_column = 16;$/;"	kind:m	class:sfml_canvas_widget	access:public
 sfml_canvas_widget::num_pixels_per_block_row	sfml_canvas_widget_classes.hpp	/^	static constexpr u32 num_pixels_per_block_row = 16,$/;"	kind:m	class:sfml_canvas_widget	access:public
 sfml_canvas_widget::on_init	sfml_canvas_widget_classes.hpp	/^	inline void on_init()$/;"	kind:f	class:sfml_canvas_widget	access:protected	signature:()
@@ -543,11 +548,16 @@ sfml_canvas_widget::on_update	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_
 sfml_canvas_widget::on_update	sfml_canvas_widget_classes.hpp	/^	void on_update();$/;"	kind:p	class:sfml_canvas_widget	access:protected	signature:()
 sfml_canvas_widget::point_is_in_render_texture	sfml_canvas_widget_classes.hpp	/^	inline bool point_is_in_render_texture( const sf::Vector2i& pos )$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:( const sf::Vector2i& pos )
 sfml_canvas_widget::scale_factor	sfml_canvas_widget_classes.hpp	/^	u32 scale_factor;$/;"	kind:m	class:sfml_canvas_widget	access:public
+sfml_canvas_widget::scroll_area	sfml_canvas_widget_classes.hpp	/^	QScrollArea* scroll_area;$/;"	kind:m	class:sfml_canvas_widget	access:protected
+sfml_canvas_widget::set_scroll_area	sfml_canvas_widget_classes.hpp	/^	inline void set_scroll_area( QScrollArea* n_scroll_area )$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:( QScrollArea* n_scroll_area )
 sfml_canvas_widget::sfml_canvas_widget	sfml_canvas_widget_classes.cpp	/^sfml_canvas_widget::sfml_canvas_widget( QWidget* s_parent, $/;"	kind:f	class:sfml_canvas_widget	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size )
+sfml_canvas_widget::sfml_canvas_widget	sfml_canvas_widget_classes.cpp	/^sfml_canvas_widget::sfml_canvas_widget( QWidget* s_parent, $/;"	kind:f	class:sfml_canvas_widget	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size, QScrollArea* s_scroll_area )
 sfml_canvas_widget::sfml_canvas_widget	sfml_canvas_widget_classes.hpp	/^	sfml_canvas_widget( QWidget* s_parent, const QPoint& s_position,$/;"	kind:p	class:sfml_canvas_widget	access:public	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size )
+sfml_canvas_widget::sfml_canvas_widget	sfml_canvas_widget_classes.hpp	/^	sfml_canvas_widget( QWidget* s_parent, const QPoint& s_position,$/;"	kind:p	class:sfml_canvas_widget	access:public	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size, QScrollArea* s_scroll_area )
 sfml_canvas_widget::view_center_x	sfml_canvas_widget_classes.hpp	/^	float view_center_x, view_center_y;$/;"	kind:m	class:sfml_canvas_widget	access:public
 sfml_canvas_widget::view_center_y	sfml_canvas_widget_classes.hpp	/^	float view_center_x, view_center_y;$/;"	kind:m	class:sfml_canvas_widget	access:public
-sfml_canvas_widget::zoomed_recently	sfml_canvas_widget_classes.hpp	/^	bool modified_recently, zoomed_recently;$/;"	kind:m	class:sfml_canvas_widget	access:public
+sfml_canvas_widget::zoomed_in_recently	sfml_canvas_widget_classes.hpp	/^	bool zoomed_in_recently, zoomed_out_recently;$/;"	kind:m	class:sfml_canvas_widget	access:public
+sfml_canvas_widget::zoomed_out_recently	sfml_canvas_widget_classes.hpp	/^	bool zoomed_in_recently, zoomed_out_recently;$/;"	kind:m	class:sfml_canvas_widget	access:public
 sfml_canvas_widget_base	sfml_canvas_widget_classes.cpp	/^sfml_canvas_widget_base::sfml_canvas_widget_base( QWidget* s_parent, $/;"	kind:f	class:sfml_canvas_widget_base	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size, u32 frame_time )
 sfml_canvas_widget_base	sfml_canvas_widget_classes.hpp	/^	sfml_canvas_widget_base( QWidget* s_parent, const QPoint& s_position,$/;"	kind:p	class:sfml_canvas_widget_base	access:public	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size, u32 frame_time = 1 )
 sfml_canvas_widget_base	sfml_canvas_widget_classes.hpp	/^class sfml_canvas_widget_base : public QWidget, public sf::RenderWindow$/;"	kind:c	inherits:QWidget,sf::RenderWindow
@@ -828,6 +838,7 @@ zoom_in	level_editor_widget_class.cpp	/^bool level_editor_widget::zoom_in()$/;"	
 zoom_in	level_editor_widget_class.hpp	/^	bool zoom_in();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
 zoom_out	level_editor_widget_class.cpp	/^bool level_editor_widget::zoom_out()$/;"	kind:f	class:level_editor_widget	signature:()
 zoom_out	level_editor_widget_class.hpp	/^	bool zoom_out();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
-zoomed_recently	sfml_canvas_widget_classes.hpp	/^	bool modified_recently, zoomed_recently;$/;"	kind:m	class:sfml_canvas_widget	access:public
+zoomed_in_recently	sfml_canvas_widget_classes.hpp	/^	bool zoomed_in_recently, zoomed_out_recently;$/;"	kind:m	class:sfml_canvas_widget	access:public
+zoomed_out_recently	sfml_canvas_widget_classes.hpp	/^	bool zoomed_in_recently, zoomed_out_recently;$/;"	kind:m	class:sfml_canvas_widget	access:public
 ~sfml_canvas_widget_base	sfml_canvas_widget_classes.cpp	/^sfml_canvas_widget_base::~sfml_canvas_widget_base()$/;"	kind:f	class:sfml_canvas_widget_base	signature:()
 ~sfml_canvas_widget_base	sfml_canvas_widget_classes.hpp	/^	virtual ~sfml_canvas_widget_base();$/;"	kind:p	class:sfml_canvas_widget_base	access:public	signature:()

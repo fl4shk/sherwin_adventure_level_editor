@@ -79,6 +79,8 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 	scroll_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 	scroll_area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 	
+	the_core_widget->the_sfml_canvas_widget->set_scroll_area(scroll_area);
+	
 	
 	//// Test button
 	////QPushButton* show_horiz_sb_stuff_button 
@@ -116,12 +118,12 @@ bool level_editor_widget::zoom_in()
 	}
 	
 	the_core_widget->the_sfml_canvas_widget->scale_factor <<= 1;
-	the_core_widget->the_sfml_canvas_widget->zoomed_recently = true;
+	the_core_widget->the_sfml_canvas_widget->zoomed_in_recently = true;
 	
-	scroll_area->horizontalScrollBar()->setValue
-		( scroll_area->horizontalScrollBar()->value() << 1 );
-	scroll_area->verticalScrollBar()->setValue
-		( scroll_area->verticalScrollBar()->value() << 1 );
+	//scroll_area->horizontalScrollBar()->setValue
+	//	( scroll_area->horizontalScrollBar()->value() << 1 );
+	//scroll_area->verticalScrollBar()->setValue
+	//	( scroll_area->verticalScrollBar()->value() << 1 );
 	
 	return true;
 }
@@ -135,12 +137,13 @@ bool level_editor_widget::zoom_out()
 	}
 	
 	the_core_widget->the_sfml_canvas_widget->scale_factor >>= 1;
-	the_core_widget->the_sfml_canvas_widget->zoomed_recently = true;
+	the_core_widget->the_sfml_canvas_widget->zoomed_out_recently = true;
 	
-	scroll_area->horizontalScrollBar()->setValue
-		( scroll_area->horizontalScrollBar()->value() >> 1 );
-	scroll_area->verticalScrollBar()->setValue
-		( scroll_area->verticalScrollBar()->value() >> 1 );
+	//scroll_area->horizontalScrollBar()->setValue
+	//	( scroll_area->horizontalScrollBar()->value() >> 1 );
+	//scroll_area->verticalScrollBar()->setValue
+	//	( scroll_area->verticalScrollBar()->value() >> 1 );
+	
 	
 	return true;
 }

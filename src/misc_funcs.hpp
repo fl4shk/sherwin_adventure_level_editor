@@ -34,4 +34,24 @@ inline void quit_non_slot( int return_val = 0 )
 	exit(return_val);
 }
 
+template< typename type >
+inline type convert_range( type val_old, type min_old, type max_old, 
+	type min_new, type max_new )
+{
+	type ret;
+	
+	type range_old = max_old - min_old;
+	type range_new = max_new - min_new;
+	
+	if ( range_old == 0 )
+	{
+		return min_new;
+	}
+	
+	ret = ( ( ( val_old - min_old ) * range_new ) / range_old ) + min_new;
+	
+	return ret;
+}
+
+
 #endif		// misc_funcs_hpp

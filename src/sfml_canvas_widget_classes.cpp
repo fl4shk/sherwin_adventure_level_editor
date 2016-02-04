@@ -104,7 +104,49 @@ sfml_canvas_widget::sfml_canvas_widget( QWidget* s_parent,
 	
 	block_grid_enabled_recently(false), block_grid_enabled(false), 
 	
-	modified_recently(false), zoomed_recently(false), scale_factor(1), 
+	scroll_area(NULL),
+	
+	modified_recently(false), 
+	
+	zoomed_in_recently(false), zoomed_out_recently(false),
+	
+	scale_factor(1), 
+	
+	view_center_x(0.0f), view_center_y(0.0f)
+{
+	apparent_view = getDefaultView();
+	
+	//canvas_image.reset(new sf::Image);
+	//canvas_image->create( s_size.width(), s_size.height(), 
+	//	sf::Color::Cyan );
+	//
+	//canvas_texture.reset(new sf::Texture);
+	//canvas_texture->loadFromImage(*canvas_image);
+	//
+	//canvas_sprite.reset(new sf::Sprite);
+	//canvas_sprite->setTexture(*canvas_texture);
+	
+	//canvas_render_texture.create( s_size.width(), s_size.height(),
+	//	sf::Color::Cyan );
+	
+	canvas_render_texture.create( s_size.width(), s_size.height() );
+	canvas_render_texture.clear(sf::Color::Cyan);
+	
+}
+
+sfml_canvas_widget::sfml_canvas_widget( QWidget* s_parent, 
+	const QPoint& s_position, const QSize& s_size, 
+	QScrollArea* s_scroll_area ) 
+	: sfml_canvas_widget_base( s_parent, s_position, s_size ),
+	
+	block_grid_enabled_recently(false), block_grid_enabled(false), 
+	
+	scroll_area(s_scroll_area),
+	
+	modified_recently(false), 
+	zoomed_in_recently(false), zoomed_out_recently(false), 
+	
+	scale_factor(1), 
 	
 	view_center_x(0.0f), view_center_y(0.0f)
 {
@@ -428,26 +470,219 @@ void sfml_canvas_widget::generate_canvas_block_grid()
 
 void sfml_canvas_widget::on_update()
 {
-	if (zoomed_recently)
+	if ( zoomed_in_recently || zoomed_out_recently )
 	{
-		zoomed_recently = false;
-		
-		full_resize(QSize( canvas_render_texture.getSize().x 
-			* scale_factor, canvas_render_texture.getSize().y 
-			* scale_factor ));
-		
-		//full_resize(QSize( canvas_sprite->getSize().x * scale_factor, 
-		//	canvas_sprite->getSize().y * scale_factor ));
-		
-		//full_resize(QSize( canvas_texture->getSize().x * scale_factor, 
-		//	canvas_texture->getSize().y * scale_factor ));
-		
-		if ( get_block_grid_enabled() )
+		auto zoom_func = [&]( bool& zoomed_recently ) -> void
 		{
-			generate_canvas_block_grid();
+			zoomed_recently = false;
+			
+			sf::Vector2i mouse_pos = sf::Mouse::getPosition(*this);
+			cout << "mouse_pos:  " << mouse_pos.x << ", " << mouse_pos.y 
+				<< endl;
+			
+			sf::Vector2f mouse_pos_scaled( (double)mouse_pos.x 
+				/ (double)scale_factor, (double)mouse_pos.y 
+				/ (double)scale_factor );
+			cout << "mouse_pos_scaled:  " << mouse_pos_scaled.x << ", " 
+				<< mouse_pos_scaled.y << endl;
+			
+			int horiz_sb_val_before 
+				= scroll_area->horizontalScrollBar()->value();
+			int horiz_sb_min_before
+				= scroll_area->horizontalScrollBar()->minimum();
+			int horiz_sb_max_before
+				= scroll_area->horizontalScrollBar()->maximum();
+			
+			int vert_sb_val_before 
+				= scroll_area->verticalScrollBar()->value();
+			int vert_sb_min_before
+				= scroll_area->verticalScrollBar()->minimum();
+			int vert_sb_max_before
+				= scroll_area->verticalScrollBar()->maximum();
+			
+			full_resize(QSize( canvas_render_texture.getSize().x 
+				* scale_factor, canvas_render_texture.getSize().y 
+				* scale_factor ));
+			
+			if ( get_block_grid_enabled() )
+			{
+				generate_canvas_block_grid();
+			}
+			
+			//canvas_sprite->setScale( scale_factor, scale_factor );
+			
+			int horiz_sb_min_after
+				= scroll_area->horizontalScrollBar()->minimum();
+			int horiz_sb_max_after
+				= scroll_area->horizontalScrollBar()->maximum();
+			
+			int vert_sb_min_after
+				= scroll_area->verticalScrollBar()->minimum();
+			int vert_sb_max_after
+				= scroll_area->verticalScrollBar()->maximum();
+			
+			
+			
+			//cout << horiz_sb_min_after<< " " << horiz_sb_max_after<< ", "
+			//	<< vert_sb_min_after<< " " << vert_sb_max_after<< endl;
+			cout << "old max scrollbar values:  " << horiz_sb_max_before 
+				<< ", " << vert_sb_max_before << endl;
+			cout << "new max scrollbar values:  " << horiz_sb_max_after
+				<< ", " << vert_sb_max_after << endl;
+			
+			
+			
+			//if ( mouse_pos.x < 0 )
+			if ( mouse_pos_scaled.x < 0 )
+			{
+				//cout << "x < 0\n";
+				scroll_area->horizontalScrollBar()->setValue
+					(horiz_sb_min_after);
+			}
+			//else if ( mouse_pos.x
+			//	> (int)canvas_render_texture.getSize().x )
+			else if ( mouse_pos_scaled.x
+				> (int)canvas_render_texture.getSize().x )
+			{
+				//cout << "x > getSize().x\n";
+				scroll_area->horizontalScrollBar()->setValue
+					(horiz_sb_max_after);
+			}
+			else
+			{
+				//cout << "x in range\n";
+				
+				//double horiz_sb_val_after = convert_range<double>
+				//	( (double)mouse_pos.x, (double)0.0f, 
+				//	(double)canvas_render_texture.getSize().x,
+				//	(double)horiz_sb_min, (double)horiz_sb_max );
+				//double horiz_sb_val_after = convert_range<double>
+				//	( (double)mouse_pos_scaled.x, (double)0.0f, 
+				//	(double)canvas_render_texture.getSize().x,
+				//	(double)horiz_sb_min, (double)horiz_sb_max );
+				
+				
+				//double horiz_sb_val_after = convert_range<double>
+				//	( (double)horiz_sb_val_before,
+				//	(double)horiz_sb_min_before,
+				//	(double)horiz_sb_max_before,
+				//	(double)horiz_sb_min_after, 
+				//	(double)horiz_sb_max_after )
+				//	- ( (double)mouse_pos.x / 2.0f );
+				double horiz_sb_val_after = convert_range<double>
+					( (double)horiz_sb_val_before,
+					(double)horiz_sb_min_before,
+					(double)horiz_sb_max_before,
+					(double)horiz_sb_min_after, 
+					(double)horiz_sb_max_after );
+				
+				cout << "horiz scrollbar old value:  " 
+					<< horiz_sb_val_before << endl;
+				cout << "horiz scrollbar new value:  " 
+					<< horiz_sb_val_after << endl;
+				
+				scroll_area->horizontalScrollBar()->setValue
+					((int)horiz_sb_val_after);
+			}
+			
+			//if ( mouse_pos.y < 0 )
+			if ( mouse_pos_scaled.y < 0 )
+			{
+				//cout << "y < 0\n";
+				scroll_area->verticalScrollBar()->setValue
+					(vert_sb_min_after);
+			}
+			//else if ( mouse_pos.y
+			//	> (int)canvas_render_texture.getSize().y )
+			else if ( mouse_pos_scaled.y
+				> (int)canvas_render_texture.getSize().y )
+			{
+				//cout << "y > getSize().y\n";
+				scroll_area->verticalScrollBar()->setValue
+					(vert_sb_max_after);
+			}
+			else
+			{
+				//cout << "y in range\n";
+				
+				//double vert_sb_val_after = convert_range<double>
+				//	( (double)mouse_pos.y, (double)0.0f, 
+				//	(double)canvas_render_texture.getSize().y,
+				//	(double)vert_sb_min, (double)vert_sb_max );
+				//double vert_sb_val_after = convert_range<double>
+				//	( (double)mouse_pos_scaled.y, (double)0.0f, 
+				//	(double)canvas_render_texture.getSize().y,
+				//	(double)vert_sb_min, (double)vert_sb_max );
+				
+				
+				//double vert_sb_val_after = convert_range<double>
+				//	( (double)vert_sb_val_before,
+				//	(double)vert_sb_min_before,
+				//	(double)vert_sb_max_before,
+				//	(double)vert_sb_min_after, 
+				//	(double)vert_sb_max_after )
+				//	- ( (double)mouse_pos.y / 2.0f );
+				double vert_sb_val_after = convert_range<double>
+					( (double)vert_sb_val_before,
+					(double)vert_sb_min_before,
+					(double)vert_sb_max_before,
+					(double)vert_sb_min_after, 
+					(double)vert_sb_max_after );
+				
+				cout << "vert scrollbar old value:  " 
+					<< vert_sb_val_before << endl;
+				cout << "vert scrollbar new value:  " 
+					<< vert_sb_val_after << endl;
+				
+				scroll_area->verticalScrollBar()->setValue
+					((int)vert_sb_val_after);
+			}
+			
+			cout << endl;
+		};
+		
+		if ( scroll_area == NULL )
+		{
+			full_resize(QSize( canvas_render_texture.getSize().x 
+				* scale_factor, canvas_render_texture.getSize().y 
+				* scale_factor ));
+			
+			//full_resize(QSize( canvas_sprite->getSize().x * scale_factor, 
+			//	canvas_sprite->getSize().y * scale_factor ));
+			
+			//full_resize(QSize( canvas_texture->getSize().x * scale_factor, 
+			//	canvas_texture->getSize().y * scale_factor ));
+			
+			if ( get_block_grid_enabled() )
+			{
+				generate_canvas_block_grid();
+			}
+			
+			//canvas_sprite->setScale( scale_factor, scale_factor );
+			
+			if (zoomed_in_recently)
+			{
+				zoomed_in_recently = false;
+			}
+			if (zoomed_out_recently)
+			{
+				zoomed_out_recently = false;
+			}
 		}
 		
-		//canvas_sprite->setScale( scale_factor, scale_factor );
+		
+		else if (zoomed_in_recently)
+		{
+			zoom_func(zoomed_in_recently);
+		}
+		
+		else if (zoomed_out_recently)
+		{
+			zoom_func(zoomed_out_recently);
+		}
+		
+		
+		
 	}
 	if (modified_recently)
 	{

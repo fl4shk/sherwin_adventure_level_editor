@@ -101,6 +101,7 @@ using namespace pugi;
 
 // SFML Stuff
 #include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 
 // Custom Stuff
 #include "misc_types.hpp"

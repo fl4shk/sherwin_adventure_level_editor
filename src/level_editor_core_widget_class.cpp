@@ -81,8 +81,8 @@ sprite_16x32_selector_core_widget*
 
 void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 {
-	//cout << "level_editor_core_widget's mouse position:  "
-	//	<< event->x() << ", " << event->y() << endl;
+	cout << "level_editor_core_widget's mouse position:  "
+		<< event->x() << ", " << event->y() << endl;
 	
 	// This converts the clicked coordinate to pixel coordinates.
 	sf::Vector2f event_pos_in_canvas_coords 
@@ -93,6 +93,10 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 	sf::Vector2i event_pos_in_canvas_pixel_coords
 		= sf::Vector2i( (int)event_pos_in_canvas_coords.x,
 		(int)event_pos_in_canvas_coords.y );
+	
+	cout << "mouse position in canvas coordinates:  "
+		<< event_pos_in_canvas_pixel_coords.x << ", "
+		<< event_pos_in_canvas_pixel_coords.y << endl;
 	
 	prev_mouse_pos = event->pos();
 	
@@ -131,9 +135,9 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 				( get_the_block_selector_core_widget()
 				->get_left_current_texture_rect() );
 			
-			cout << event_pos_in_canvas_coords.x << ", "
-				<< the_sfml_canvas_widget->getSize().y
-				- event_pos_in_canvas_coords.y << "\n";
+			//cout << event_pos_in_canvas_coords.x << ", "
+			//	<< the_sfml_canvas_widget->getSize().y
+			//	- event_pos_in_canvas_coords.y << "\n";
 			
 			//cout << ( event_pos_in_canvas_coords.x / 16 ) << ", "
 			//	<< ( the_sfml_canvas_widget->getSize().y / 16 )
@@ -148,10 +152,10 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 				/ the_sfml_canvas_widget->scale_factor )
 				-  event_pos_in_canvas_coords.y ) / 16 ) + 1 ) * 16 );
 			
-			cout << the_sfml_canvas_widget->getSize().y << endl;
-			
-			cout << test_sprite.getPosition().x << ", "
-				<< test_sprite.getPosition().y << "\n\n";
+			//cout << the_sfml_canvas_widget->getSize().y << endl;
+			//
+			//cout << test_sprite.getPosition().x << ", "
+			//	<< test_sprite.getPosition().y << "\n\n";
 			
 			test_sprite.setScale( 1.0f, -1.0f );
 			
