@@ -162,6 +162,18 @@ public:		// functions
 		scroll_area = n_scroll_area;
 	}
 	
+	inline sf::FloatRect get_visible_rect() const
+	{
+		QRect bounding_rect = visibleRegion().boundingRect();
+		
+		return sf::FloatRect( sf::Vector2f
+			( (double)bounding_rect.x() / (double)scale_factor, 
+			(double)bounding_rect.y() / (double)scale_factor ), 
+			sf::Vector2f
+			( (double)bounding_rect.width() / (double)scale_factor, 
+			(double)bounding_rect.height() / (double)scale_factor ) );
+	}
+	
 	
 protected:		// functions
 	//void mousePressEvent( QMouseEvent* event );

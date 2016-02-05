@@ -21,9 +21,8 @@
 #include "primary_widget_class.hpp"
 
 const QString primary_widget::laugh_icon_file_name
-	= QString("icons/laugh_icon_32x32.png"),
-	primary_widget::quit_icon_file_name
-	= QString("icons/quit_32x32.png");
+	("icons/laugh_icon_32x32.png"),
+	primary_widget::quit_icon_file_name("icons/quit_32x32.png");
 
 
 primary_widget::primary_widget( vector<string>& s_argv_copy, 
@@ -120,7 +119,36 @@ void primary_widget::generate_central_widget()
 
 void primary_widget::laugh()
 {
-	cout << "AHAHAHAHA\n";
+	cout << "AHAHAHAHA\n\n";
+	
+	
+	//sublevel& the_sublevel = the_central_widget->the_core_widget
+	//	->the_sublevel;
+	//for ( u32 j=0; j<the_sublevel.real_size_2d.y; ++j )
+	//{
+	//	for ( u32 i=0; i<the_sublevel.real_size_2d.x; ++i )
+	//	{
+	//		cout << block_stuff::get_bt_name
+	//			((block_type)the_sublevel.uncompressed_block_data_vec_2d
+	//			.at(j).at(i).type) << ",";
+	//	}
+	//	cout << endl;
+	//}
+	//cout << endl;
+	
+	//sfml_canvas_widget* the_sfml_canvas_widget = the_central_widget
+	//	->the_core_widget->the_sfml_canvas_widget;
+	//
+	//sf::FloatRect the_sfml_canvas_visible_rect = the_sfml_canvas_widget
+	//	->get_visible_rect();
+	//
+	//cout << the_sfml_canvas_visible_rect.left << ", "
+	//	<< the_sfml_canvas_visible_rect.top << ", "
+	//	<< the_sfml_canvas_visible_rect.width << ", "
+	//	<< the_sfml_canvas_visible_rect.height << endl;
+	//
+	//cout << endl;
+	
 }
 
 void primary_widget::quit()

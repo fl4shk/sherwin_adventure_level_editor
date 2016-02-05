@@ -4,8 +4,8 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
-X	level_editor_core_widget_class.cpp	121;"	kind:d	file:
-X	level_editor_core_widget_class.cpp	139;"	kind:d	file:
+X	level_editor_core_widget_class.cpp	124;"	kind:d	file:
+X	level_editor_core_widget_class.cpp	142;"	kind:d	file:
 X	level_editor_core_widget_class.cpp	61;"	kind:d	file:
 X	level_editor_core_widget_class.cpp	67;"	kind:d	file:
 X	level_editor_widget_class.cpp	45;"	kind:d	file:
@@ -244,6 +244,7 @@ get_the_sprite_16x16_selector_core_widget	level_editor_core_widget_class.hpp	/^	
 get_the_sprite_16x32_selector_core_widget	level_editor_core_widget_class.cpp	/^	level_editor_core_widget::get_the_sprite_16x32_selector_core_widget()$/;"	kind:f	class:level_editor_core_widget	signature:()
 get_the_sprite_16x32_selector_core_widget	level_editor_core_widget_class.hpp	/^		get_the_sprite_16x32_selector_core_widget();$/;"	kind:p	class:level_editor_core_widget	access:public	signature:()
 get_uncompressed_block_data_file_name	block_stuff.hpp	/^	inline const string get_uncompressed_block_data_file_name$/;"	kind:f	namespace:block_stuff	signature:( const string& output_dirname, const string& output_basename )
+get_visible_rect	sfml_canvas_widget_classes.hpp	/^	inline sf::FloatRect get_visible_rect() const$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:() const
 grid_widget	layout_widget_classes.hpp	/^	inline grid_widget( QWidget* parent = 0 ) : QWidget(parent)$/;"	kind:f	class:grid_widget	access:public	signature:( QWidget* parent = 0 )
 grid_widget	layout_widget_classes.hpp	/^class grid_widget : public QWidget$/;"	kind:c	inherits:QWidget
 grid_widget::grid_widget	layout_widget_classes.hpp	/^	inline grid_widget( QWidget* parent = 0 ) : QWidget(parent)$/;"	kind:f	class:grid_widget	access:public	signature:( QWidget* parent = 0 )
@@ -269,7 +270,6 @@ keyPressEvent	level_editor_widget_class.cpp	/^void level_editor_widget::keyPress
 keyPressEvent	level_editor_widget_class.hpp	/^	void keyPressEvent( QKeyEvent* event );$/;"	kind:p	class:level_editor_widget	access:protected	signature:( QKeyEvent* event )
 laugh	primary_widget_class.cpp	/^void primary_widget::laugh()$/;"	kind:f	class:primary_widget	signature:()
 laugh	primary_widget_class.hpp	/^	void laugh();$/;"	kind:p	class:primary_widget	access:protected	signature:()
-laugh_icon_file_name	primary_widget_class.cpp	/^const QString primary_widget::laugh_icon_file_name$/;"	kind:m	class:primary_widget	file:
 laugh_icon_file_name	primary_widget_class.hpp	/^	static const QString laugh_icon_file_name, quit_icon_file_name;$/;"	kind:m	class:primary_widget	access:protected
 layout	layout_widget_classes.hpp	/^	QGridLayout* layout;$/;"	kind:m	class:grid_widget	access:public
 layout	layout_widget_classes.hpp	/^	QHBoxLayout* layout;$/;"	kind:m	class:hbox_widget	access:public
@@ -509,7 +509,6 @@ primary_widget::generate_toolbar	primary_widget_class.cpp	/^bool primary_widget:
 primary_widget::generate_toolbar	primary_widget_class.hpp	/^	bool generate_toolbar();$/;"	kind:p	class:primary_widget	access:protected	signature:()
 primary_widget::laugh	primary_widget_class.cpp	/^void primary_widget::laugh()$/;"	kind:f	class:primary_widget	signature:()
 primary_widget::laugh	primary_widget_class.hpp	/^	void laugh();$/;"	kind:p	class:primary_widget	access:protected	signature:()
-primary_widget::laugh_icon_file_name	primary_widget_class.cpp	/^const QString primary_widget::laugh_icon_file_name$/;"	kind:m	class:primary_widget	file:
 primary_widget::laugh_icon_file_name	primary_widget_class.hpp	/^	static const QString laugh_icon_file_name, quit_icon_file_name;$/;"	kind:m	class:primary_widget	access:protected
 primary_widget::menu_laugh_action	primary_widget_class.hpp	/^	QAction* menu_laugh_action, * menu_save_action, * menu_save_as_action, $/;"	kind:m	class:primary_widget	access:protected
 primary_widget::menu_quit_action	primary_widget_class.hpp	/^		* menu_quit_action;$/;"	kind:m	class:primary_widget	access:protected
@@ -519,7 +518,6 @@ primary_widget::primary_widget	primary_widget_class.cpp	/^primary_widget::primar
 primary_widget::primary_widget	primary_widget_class.hpp	/^	primary_widget( vector<string>& s_argv_copy, QWidget* parent = 0 );$/;"	kind:p	class:primary_widget	access:public	signature:( vector<string>& s_argv_copy, QWidget* parent = 0 )
 primary_widget::quit	primary_widget_class.cpp	/^void primary_widget::quit()$/;"	kind:f	class:primary_widget	signature:()
 primary_widget::quit	primary_widget_class.hpp	/^	void quit();$/;"	kind:p	class:primary_widget	access:protected	signature:()
-primary_widget::quit_icon_file_name	primary_widget_class.cpp	/^	primary_widget::quit_icon_file_name$/;"	kind:m	class:primary_widget	file:
 primary_widget::quit_icon_file_name	primary_widget_class.hpp	/^	static const QString laugh_icon_file_name, quit_icon_file_name;$/;"	kind:m	class:primary_widget	access:protected
 primary_widget::second_menu	primary_widget_class.hpp	/^	QMenu* file_menu, * second_menu;$/;"	kind:m	class:primary_widget	access:protected
 primary_widget::the_central_widget	primary_widget_class.hpp	/^	level_editor_widget* the_central_widget;$/;"	kind:m	class:primary_widget	access:protected
@@ -529,7 +527,6 @@ primary_widget::toolbar_quit_action	primary_widget_class.hpp	/^	QAction* toolbar
 primary_widget_class_hpp	primary_widget_class.hpp	22;"	kind:d
 quit	primary_widget_class.cpp	/^void primary_widget::quit()$/;"	kind:f	class:primary_widget	signature:()
 quit	primary_widget_class.hpp	/^	void quit();$/;"	kind:p	class:primary_widget	access:protected	signature:()
-quit_icon_file_name	primary_widget_class.cpp	/^	primary_widget::quit_icon_file_name$/;"	kind:m	class:primary_widget	file:
 quit_icon_file_name	primary_widget_class.hpp	/^	static const QString laugh_icon_file_name, quit_icon_file_name;$/;"	kind:m	class:primary_widget	access:protected
 quit_non_slot	misc_funcs.hpp	/^inline void quit_non_slot( int return_val = 0 )$/;"	kind:f	signature:( int return_val = 0 )
 read_compressed_block_data_from_file	sublevel_class.cpp	/^void sublevel::read_compressed_block_data_from_file$/;"	kind:f	class:sublevel	signature:( const string& output_dirname, const string& output_basename )
@@ -584,6 +581,7 @@ sfml_canvas_widget::generate_canvas_block_grid	sfml_canvas_widget_classes.hpp	/^
 sfml_canvas_widget::get_apparent_view	sfml_canvas_widget_classes.cpp	/^const sf::View& sfml_canvas_widget::get_apparent_view()$/;"	kind:f	class:sfml_canvas_widget	signature:()
 sfml_canvas_widget::get_apparent_view	sfml_canvas_widget_classes.hpp	/^	const sf::View& get_apparent_view();$/;"	kind:p	class:sfml_canvas_widget	access:public	signature:()
 sfml_canvas_widget::get_block_grid_enabled	sfml_canvas_widget_classes.hpp	/^	inline bool get_block_grid_enabled() const$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:() const
+sfml_canvas_widget::get_visible_rect	sfml_canvas_widget_classes.hpp	/^	inline sf::FloatRect get_visible_rect() const$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:() const
 sfml_canvas_widget::minimum_scale_factor_for_block_grid	sfml_canvas_widget_classes.hpp	/^	static constexpr u32 minimum_scale_factor_for_block_grid = 1;$/;"	kind:m	class:sfml_canvas_widget	access:public
 sfml_canvas_widget::modified_recently	sfml_canvas_widget_classes.hpp	/^	bool modified_recently;$/;"	kind:m	class:sfml_canvas_widget	access:public
 sfml_canvas_widget::num_pixels_per_block_column	sfml_canvas_widget_classes.hpp	/^		num_pixels_per_block_column = 16;$/;"	kind:m	class:sfml_canvas_widget	access:public

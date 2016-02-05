@@ -500,14 +500,14 @@ void sfml_canvas_widget::on_update()
 			zoomed_recently = false;
 			
 			sf::Vector2i mouse_pos = sf::Mouse::getPosition(*this);
-			cout << "mouse_pos:  " << mouse_pos.x << ", " << mouse_pos.y 
-				<< endl;
+			//cout << "mouse_pos:  " << mouse_pos.x << ", " << mouse_pos.y 
+			//	<< endl;
 			
 			sf::Vector2f mouse_pos_scaled( (double)mouse_pos.x 
 				/ (double)scale_factor, (double)mouse_pos.y 
 				/ (double)scale_factor );
-			cout << "mouse_pos_scaled:  " << mouse_pos_scaled.x << ", " 
-				<< mouse_pos_scaled.y << endl;
+			//cout << "mouse_pos_scaled:  " << mouse_pos_scaled.x << ", " 
+			//	<< mouse_pos_scaled.y << endl;
 			
 			int horiz_sb_val_before 
 				= scroll_area->horizontalScrollBar()->value();
@@ -548,12 +548,12 @@ void sfml_canvas_widget::on_update()
 			
 			
 			
-			//cout << horiz_sb_min_after<< " " << horiz_sb_max_after<< ", "
-			//	<< vert_sb_min_after<< " " << vert_sb_max_after<< endl;
-			cout << "old max scrollbar values:  " << horiz_sb_max_before 
-				<< ", " << vert_sb_max_before << endl;
-			cout << "new max scrollbar values:  " << horiz_sb_max_after
-				<< ", " << vert_sb_max_after << endl;
+			////cout << horiz_sb_min_after<< " " << horiz_sb_max_after<< ", "
+			////	<< vert_sb_min_after<< " " << vert_sb_max_after<< endl;
+			//cout << "old max scrollbar values:  " << horiz_sb_max_before 
+			//	<< ", " << vert_sb_max_before << endl;
+			//cout << "new max scrollbar values:  " << horiz_sb_max_after
+			//	<< ", " << vert_sb_max_after << endl;
 			
 			
 			
@@ -598,10 +598,10 @@ void sfml_canvas_widget::on_update()
 					(double)horiz_sb_min_after, 
 					(double)horiz_sb_max_after );
 				
-				cout << "horiz scrollbar old value:  " 
-					<< horiz_sb_val_before << endl;
-				cout << "horiz scrollbar new value:  " 
-					<< horiz_sb_val_after << endl;
+				//cout << "horiz scrollbar old value:  " 
+				//	<< horiz_sb_val_before << endl;
+				//cout << "horiz scrollbar new value:  " 
+				//	<< horiz_sb_val_after << endl;
 				
 				scroll_area->horizontalScrollBar()->setValue
 					((int)horiz_sb_val_after);
@@ -648,16 +648,16 @@ void sfml_canvas_widget::on_update()
 					(double)vert_sb_min_after, 
 					(double)vert_sb_max_after );
 				
-				cout << "vert scrollbar old value:  " 
-					<< vert_sb_val_before << endl;
-				cout << "vert scrollbar new value:  " 
-					<< vert_sb_val_after << endl;
+				//cout << "vert scrollbar old value:  " 
+				//	<< vert_sb_val_before << endl;
+				//cout << "vert scrollbar new value:  " 
+				//	<< vert_sb_val_after << endl;
 				
 				scroll_area->verticalScrollBar()->setValue
 					((int)vert_sb_val_after);
 			}
 			
-			cout << endl;
+			//cout << endl;
 		};
 		
 		if ( zoomed_in_recently && scroll_area != NULL )

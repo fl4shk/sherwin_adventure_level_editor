@@ -115,6 +115,9 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 	
 	if ( event->button() == Qt::LeftButton )
 	{
+		sf::Image test_image_for_sprite_16x16;
+		sf::Texture test_texture_for_sprite_16x16;
+		
 		sf::Sprite test_sprite_for_block, test_sprite_for_sprite_16x16,
 			test_sprite_for_sprite_16x32;
 		
@@ -145,17 +148,12 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 			(u32)( test_sprite_for_block.getPosition().y
 			/ sfml_canvas_widget::num_pixels_per_block_column ) };
 		
+		block& the_block_at_event_pos 
+			= the_sublevel.uncompressed_block_data_vec_2d
+			[the_sublevel.real_size_2d.y 
+			- block_grid_coords_of_event_pos.y]
+			[block_grid_coords_of_event_pos.x];
 		
-		//sprite_init_param_group_with_size&
-		//	the_sprite_ipg_with_size_at_event_pos
-		//	= the_sublevel.sprite_ipg_with_size_vec_2d
-		//	[block_grid_coords_of_event_pos.x]
-		//	[block_grid_coords_of_event_pos.y];
-		//
-		//
-		//u32 old_sprite_type = the_sprite_ipg_with_size_at_event_pos.type;
-		//vec2_u32 old_sprite_size_2d 
-		//	= the_sprite_ipg_with_size_at_event_pos.size_2d;
 		
 		bool current_tabbed_widget_is_for_blocks 
 			= ( level_element_selectors_tab_widget->currentWidget()
@@ -171,14 +169,12 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 		{
 			//cout << "the_block_selector_widget_is_enabled!\n";
 			
-			block& the_block_at_event_pos 
-				= the_sublevel.uncompressed_block_data_vec_2d
-				[block_grid_coords_of_event_pos.y]
-				[block_grid_coords_of_event_pos.x];
-			
 			the_block_at_event_pos.type 
 				= get_the_block_selector_core_widget()
 				->get_left_current_level_element_index();
+			
+			cout << block_stuff::get_bt_name
+				((block_type)the_block_at_event_pos.type) << endl;
 			
 			test_sprite_for_block.setTextureRect
 				( get_the_block_selector_core_widget()
@@ -195,16 +191,35 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 			sprite_init_param_group_with_size&
 				the_sprite_ipgws_at_event_pos
 				= the_sublevel.sprite_ipgws_vec_2d
-				[block_grid_coords_of_event_pos.y]
+				[the_sublevel.real_size_2d.y 
+				- block_grid_coords_of_event_pos.y]
 				[block_grid_coords_of_event_pos.x];
+			
 			
 			the_sprite_ipgws_at_event_pos.type 
 				= (sprite_type)(get_the_sprite_16x16_selector_core_widget()
 				->get_left_current_level_element_index());
 			
-			test_sprite_for_sprite_16x16.setTextureRect
-				( get_the_sprite_16x16_selector_core_widget()
-				->get_left_current_texture_rect() );
+			if ( the_sprite_ipgws_at_event_pos.type != st_default )
+			{
+				test_sprite_for_sprite_16x16.setTextureRect
+					( get_the_sprite_16x16_selector_core_widget()
+					->get_left_current_texture_rect() );
+			}
+			else
+			{
+				test_image_for_sprite_16x16.create( 16, 16,
+					sf::Color::Cyan );
+				
+				test_texture_for_sprite_16x16.loadFromImage
+					(test_image_for_sprite_16x16);
+				
+				test_sprite_for_sprite_16x16.setTexture
+					(test_texture_for_sprite_16x16);
+				test_sprite_for_sprite_16x16.setTextureRect( sf::IntRect
+					( sf::Vector2i( 0, 0 ), sf::Vector2i( 16, 16 ) ) );
+			}
+			
 			
 			the_sfml_canvas_widget->canvas_render_texture_for_sprites.draw
 				(test_sprite_for_sprite_16x16);
