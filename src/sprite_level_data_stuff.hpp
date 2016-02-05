@@ -23,6 +23,10 @@
 
 
 #include "sprite_type_stuff.hpp"
+#include "sublevel_class.hpp"
+
+#include <array>
+using namespace std;
 
 enum sprite_spawn_state
 {
@@ -40,10 +44,10 @@ public:		// variables
 	// The type of sprite
 	sprite_type type;
 	
-	// The initial in-level x coordinate, multiplied by 16
+	// The initial in-level x coordinate, divided by 16
 	u32 initial_block_grid_x_coord;
 	
-	// The initial in-level y coordinate, multiplied by 16
+	// The initial in-level y coordinate, divided by 16
 	u32 initial_block_grid_y_coord;
 	
 	// Here is a s
@@ -93,8 +97,105 @@ public:		// functions
 	
 } __attribute__((aligned(4)));
 
+class sprite_init_param_group_with_size : public sprite_init_param_group
+{
+public:		// variables
+	vec2_u32 size_2d;
+	
+} __attribute__((aligned(4)));
 
 
+
+// These go from top left to bottom right, and they are generated using
+// block grid coordinates.  Only one sprite should be permitted per block
+// grid coordinate.  These classes are intended to be used to help
+// overwrite data in a sublevel's 2D vector of
+// sprite_init_param_group_with_size.
+
+// "adj" is short for "adjacent"
+
+// Also, it is not necessary for EVERY adjacent position to be checked,
+// only the ones occupied by the sprite and the ones to the top and left of
+// the sprite.
+
+// PLEASE set pointers to NULL if they represent a block grid coordinate
+// that is OUTSIDE THE SUBLEVEL.
+
+
+// This is used when it is necessary to determine whether a 16x16 sprite
+// can be placed, since only one sprite is allowed per block grid
+// coordinate.
+
+// Schematic, where X is the 16x16 sprite
+// [ ][ ]
+// [ ][X]
+
+class adj_sprite_ipgws_ptr_group_for_sprite_16x16
+{
+public:		// variables
+	// The TOP LEFT block grid coordinate INTERSECTED BY THE SPRITE is
+	// considered to be the origin.  In this particular case, there is only
+	// a single block grid coordinate occupied by the sprite.
+	sprite_init_param_group_with_size * up_left_ptr, * up_ptr, * left_ptr, 
+		* origin_ptr;
+};
+
+
+
+// This is used when it is necessary to determine whether a 16x32 sprite
+// can be placed, since only one sprite is allowed per block grid
+// coordinate.
+
+// Schematic, where X is the 16x32 sprite
+// [ ][ ]
+// [ ][X]
+// [ ][X]
+
+class adj_sprite_ipgws_ptr_group_for_sprite_16x32
+{
+public:		// variables
+	// The TOP LEFT block grid coordinate INTERSECTED BY THE SPRITE is
+	// considered to be the origin.
+	sprite_init_param_group_with_size * up_left_ptr, * up_ptr, * left_ptr, 
+		* origin_ptr, * down_left_ptr, * down_ptr;
+};
+
+
+// This is used when it is necessary to determine whether a 32x32 sprite
+// can be placed, since only one sprite is allowed per block grid
+// coordinate.
+
+// Schematic, where X is the 32x32 sprite
+// [ ][ ][ ]
+// [ ][X][X]
+// [ ][X][X]
+
+class adj_sprite_ipgws_ptr_group_for_sprite_32x32
+{
+public:		// variables
+	// The TOP LEFT block grid coordinate INTERSECTED BY THE SPRITE is
+	// considered to be the origin.  In this case, the origin is the in the
+	// CENTER of the checked block grid coordinates.
+	sprite_init_param_group_with_size * up_left_ptr, * up_ptr, * left_ptr, 
+		* origin_ptr, * right_ptr, * down_left_ptr, * down_ptr, 
+		* down_right_ptr;
+	
+public:		// functions
+	inline adj_sprite_ipgws_ptr_group_for_sprite_32x32() 
+		: up_left_ptr(NULL), up_ptr(NULL), left_ptr(NULL),
+		origin_ptr(NULL), right_ptr(NULL), down_left_ptr(NULL),
+		down_ptr(NULL), down_right_ptr(NULL)
+	{
+	}
+	
+	//inline adj_sprite_ipgws_ptr_group_for_sprite_32x32
+	//	( sublevel& the_sublevel, u32 origin_block_grid_x_coord, 
+	//	u32 origin_block_grid_y_coord )
+	//{
+	//	if ( origin_block_grid_x_coord 
+	//}
+	
+};
 
 
 

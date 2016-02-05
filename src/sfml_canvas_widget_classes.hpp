@@ -101,7 +101,9 @@ public:		// variables and constants
 	float view_center_x, view_center_y;
 	
 	
-	sf::RenderTexture canvas_render_texture;
+	// The two layers
+	sf::RenderTexture canvas_render_texture_for_blocks, 
+		canvas_render_texture_for_sprites;
 	
 	
 	
@@ -121,9 +123,11 @@ public:		// functions
 	inline bool point_is_in_render_texture( const sf::Vector2i& pos )
 	{
 		return ( ( pos.x >= 0 ) 
-			&& ( pos.x < (int)canvas_render_texture.getSize().x ) 
+			&& ( pos.x 
+			< (int)canvas_render_texture_for_blocks.getSize().x ) 
 			&& ( pos.y >= 0 ) 
-			&& ( pos.y < (int)canvas_render_texture.getSize().y ) );
+			&& ( pos.y 
+			< (int)canvas_render_texture_for_blocks.getSize().y ) );
 	}
 	
 	//// This is a purely integer-based line drawing algorithm.

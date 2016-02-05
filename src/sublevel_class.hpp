@@ -48,6 +48,8 @@ using namespace std;
 //} __attribute__((aligned(4)));
 
 
+
+
 class sublevel
 {
 public:		// constants
@@ -70,6 +72,8 @@ public:		// variables
 	// is so that, IN THE GBA-SIDE CODE, the COMPRESSED array of block data
 	// can be DECOMPRESSED DIRECTLY to the statically allocated 2D array of
 	// block data.
+	// Also note that ROWS are stored in the INNER VECTOR!  That means that
+	// this vector of vectors should be indexed as [y][x]!
 	vector< vector<block> > uncompressed_block_data_vec_2d;
 	
 	// On the other hand, compressed_block_data_vec can have a variable
@@ -77,9 +81,13 @@ public:		// variables
 	vector<u32> compressed_block_data_vec;
 	
 	
-	// The size of sprite_ipg_vec_2d is set to the maximum size of a level
-	// just in case, though it isn't really necessary.
-	vector< vector<sprite_init_param_group> > sprite_ipg_vec_2d;
+	// The size of sprite_ipg_with_size_vec_2d is set to the maximum size 
+	// of a level just in case, though it isn't really necessary in this
+	// case.
+	// Also note that ROWS are stored in the INNER VECTOR!  That means that
+	// this vector of vectors should be indexed as [y][x]!
+	vector< vector<sprite_init_param_group_with_size> > 
+		sprite_ipgws_vec_2d;
 	
 	// sprite_ipg_vec can also have a variable size.
 	vector<sprite_init_param_group> sprite_ipg_vec;

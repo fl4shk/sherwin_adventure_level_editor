@@ -29,20 +29,6 @@ const u32 sublevel::max_num_blocks = max_size_2d.x * max_size_2d.y;
 //}
 
 
-//sublevel::sublevel( const vec2_u32& s_size_2d )
-//	: size_2d(s_size_2d)
-//{
-//	for ( u32 j=0; j<size_2d.y; ++j )
-//	{
-//		uncompressed_block_data_vec.push_back( vector<block>() );
-//		
-//		for ( u32 i=0; i<size_2d.x; ++i )
-//		{
-//			uncompressed_block_data_vec[j].push_back( block() );
-//		}
-//	}
-//}
-
 sublevel::sublevel( const vec2_u32& s_size_2d )
 {
 	init(s_size_2d);
@@ -55,12 +41,14 @@ void sublevel::init( const vec2_u32& s_size_2d )
 	for ( u32 j=0; j<size_2d.y; ++j )
 	{
 		uncompressed_block_data_vec_2d.push_back( vector<block>() );
-		sprite_ipg_vec_2d.push_back( vector<sprite_init_param_group>() );
+		sprite_ipgws_vec_2d.push_back
+			( vector<sprite_init_param_group_with_size>() );
 		
 		for ( u32 i=0; i<size_2d.x; ++i )
 		{
 			uncompressed_block_data_vec_2d[j].push_back( block() );
-			sprite_ipg_vec_2d[j].push_back( sprite_init_param_group() );
+			sprite_ipgws_vec_2d[j].push_back
+				( sprite_init_param_group_with_size() );
 		}
 	}
 }

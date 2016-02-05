@@ -38,6 +38,7 @@ protected:		// constants
 protected:		// variables
 	level_editor_core_widget* the_level_editor_core_widget;
 	
+	sf::Image level_element_gfx_raw_image;
 	sf::Texture level_element_gfx_raw_texture;
 	sf::Sprite selected_level_element_sprite;
 	
@@ -120,8 +121,6 @@ public:		// functions
 	}
 	inline u32 get_left_current_level_element_index_y_coord() const
 	{
-		//return left_current_level_element_index 
-		//	/ get_num_level_elements_per_column();
 		return left_current_level_element_index 
 			/ get_num_level_elements_per_row();
 	}
@@ -133,10 +132,20 @@ public:		// functions
 	}
 	inline u32 get_right_current_level_element_index_y_coord() const
 	{
-		//return right_current_level_element_index 
-		//	/ get_num_level_elements_per_column();
 		return right_current_level_element_index 
 			/ get_num_level_elements_per_row();
+	}
+	
+	
+	inline u32 get_level_element_index_x_coord_of_other_index
+		( u32 other_index ) const
+	{
+		return other_index % get_num_level_elements_per_row();
+	}
+	inline u32 get_level_element_index_y_coord_of_other_index
+		( u32 other_index ) const
+	{
+		return other_index / get_num_level_elements_per_row();
 	}
 	
 	
@@ -191,6 +200,8 @@ public:		// functions
 			/ other_slot_inner_height;
 	}
 	
+	
+	
 	inline u32 get_num_level_elements_per_palette() const
 	{
 		return get_num_level_elements_per_row() 
@@ -233,6 +244,20 @@ public:		// functions
 			( sf::Vector2i( get_right_current_level_element_index_x_coord()
 			* get_slot_inner_width(),
 			get_right_current_level_element_index_y_coord()
+			* get_slot_inner_height() ),
+			
+			sf::Vector2i( get_slot_inner_width(), 
+			get_slot_inner_height() ) );
+	}
+	
+	inline sf::IntRect get_texture_rect_of_other_index( u32 other_index ) 
+		const
+	{
+		return sf::IntRect
+			( sf::Vector2i
+			( get_level_element_index_x_coord_of_other_index(other_index)
+			* get_slot_inner_width(),
+			get_level_element_index_y_coord_of_other_index(other_index)
 			* get_slot_inner_height() ),
 			
 			sf::Vector2i( get_slot_inner_width(), 

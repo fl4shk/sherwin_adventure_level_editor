@@ -129,9 +129,20 @@ sfml_canvas_widget::sfml_canvas_widget( QWidget* s_parent,
 	//canvas_render_texture.create( s_size.width(), s_size.height(),
 	//	sf::Color::Cyan );
 	
-	canvas_render_texture.create( s_size.width(), s_size.height() );
-	canvas_render_texture.clear(sf::Color::Cyan);
+	//canvas_render_texture.create( s_size.width(), s_size.height() );
+	//canvas_render_texture.clear(sf::Color::Cyan);
 	
+	canvas_render_texture_for_blocks.create( s_size.width(), 
+		s_size.height() );
+	//canvas_render_texture_for_blocks.clear(sf::Color::Cyan);
+	canvas_render_texture_for_blocks.clear
+		( sf::Color( 0, 255, 255, 0 ) );
+	
+	canvas_render_texture_for_sprites.create( s_size.width(), 
+		s_size.height() );
+	//canvas_render_texture_for_sprites.clear(sf::Color::Cyan);
+	canvas_render_texture_for_sprites.clear
+		( sf::Color( 0, 255, 255, 0 ) );
 }
 
 sfml_canvas_widget::sfml_canvas_widget( QWidget* s_parent, 
@@ -165,9 +176,16 @@ sfml_canvas_widget::sfml_canvas_widget( QWidget* s_parent,
 	//canvas_render_texture.create( s_size.width(), s_size.height(),
 	//	sf::Color::Cyan );
 	
-	canvas_render_texture.create( s_size.width(), s_size.height() );
-	canvas_render_texture.clear(sf::Color::Cyan);
+	//canvas_render_texture.create( s_size.width(), s_size.height() );
+	//canvas_render_texture.clear(sf::Color::Cyan);
 	
+	canvas_render_texture_for_blocks.create( s_size.width(), 
+		s_size.height() );
+	canvas_render_texture_for_blocks.clear(sf::Color::Cyan);
+	
+	canvas_render_texture_for_sprites.create( s_size.width(), 
+		s_size.height() );
+	canvas_render_texture_for_sprites.clear(sf::Color::Cyan);
 }
 
 
@@ -181,8 +199,13 @@ const sf::View& sfml_canvas_widget::get_apparent_view()
 	//apparent_view.move( (double)( canvas_image->getSize().x ) 
 	//	/ (double)2.0f, (double)( canvas_image->getSize().y )
 	//	/ (double)2.0f );
-	apparent_view.move( (double)( canvas_render_texture.getSize().x ) 
-		/ (double)2.0f, (double)( canvas_render_texture.getSize().y )
+	//apparent_view.move( (double)( canvas_render_texture.getSize().x ) 
+	//	/ (double)2.0f, (double)( canvas_render_texture.getSize().y )
+	//	/ (double)2.0f );
+	apparent_view.move
+		( (double)( canvas_render_texture_for_blocks.getSize().x ) 
+		/ (double)2.0f, 
+		(double)( canvas_render_texture_for_blocks.getSize().y )
 		/ (double)2.0f );
 	
 	apparent_view.zoom( 1.0f / (double)scale_factor );
@@ -445,12 +468,12 @@ void sfml_canvas_widget::generate_canvas_block_grid()
 			(*canvas_block_grid_slot_texture);
 		
 		for ( u32 j=0; 
-			j<canvas_render_texture.getSize().y 
+			j<canvas_render_texture_for_blocks.getSize().y 
 				/ num_pixels_per_block_column;
 			++j )
 		{
 			for ( u32 i=0; 
-				i<canvas_render_texture.getSize().x 
+				i<canvas_render_texture_for_blocks.getSize().x 
 					/ num_pixels_per_block_row; 
 				++i )
 			{
@@ -500,9 +523,11 @@ void sfml_canvas_widget::on_update()
 			int vert_sb_max_before
 				= scroll_area->verticalScrollBar()->maximum();
 			
-			full_resize(QSize( canvas_render_texture.getSize().x 
-				* scale_factor, canvas_render_texture.getSize().y 
-				* scale_factor ));
+			full_resize
+				( QSize( canvas_render_texture_for_blocks.getSize().x 
+				* scale_factor, 
+				canvas_render_texture_for_blocks.getSize().y 
+				* scale_factor ) );
 			
 			if ( get_block_grid_enabled() )
 			{
@@ -539,7 +564,7 @@ void sfml_canvas_widget::on_update()
 					(horiz_sb_min_after);
 			}
 			else if ( mouse_pos_scaled.x
-				> (int)canvas_render_texture.getSize().x )
+				> (int)canvas_render_texture_for_blocks.getSize().x )
 			{
 				//cout << "x > getSize().x\n";
 				scroll_area->horizontalScrollBar()->setValue
@@ -589,7 +614,7 @@ void sfml_canvas_widget::on_update()
 					(vert_sb_min_after);
 			}
 			else if ( mouse_pos_scaled.y
-				> (int)canvas_render_texture.getSize().y )
+				> (int)canvas_render_texture_for_blocks.getSize().y )
 			{
 				//cout << "y > getSize().y\n";
 				scroll_area->verticalScrollBar()->setValue
@@ -647,8 +672,9 @@ void sfml_canvas_widget::on_update()
 		
 		if ( scroll_area == NULL )
 		{
-			full_resize(QSize( canvas_render_texture.getSize().x 
-				* scale_factor, canvas_render_texture.getSize().y 
+			full_resize(QSize( canvas_render_texture_for_blocks.getSize().x 
+				* scale_factor, 
+				canvas_render_texture_for_blocks.getSize().y 
 				* scale_factor ));
 			
 			//full_resize(QSize( canvas_sprite->getSize().x * scale_factor, 
@@ -703,10 +729,19 @@ void sfml_canvas_widget::on_update()
 	//canvas_sprite->setScale( scale_factor, scale_factor );
 	//draw(*canvas_sprite);
 	
-	sf::Sprite canvas_sprite;
-	canvas_sprite.setTexture(canvas_render_texture.getTexture());
-	canvas_sprite.setScale( scale_factor, scale_factor );
-	draw(canvas_sprite);
+	
+	
+	// Draw sprites ON TOP OF blocks.
+	sf::Sprite canvas_sprite_for_blocks
+		( canvas_render_texture_for_blocks.getTexture() ),
+		canvas_sprite_for_sprites
+		( canvas_render_texture_for_sprites.getTexture() );
+	
+	canvas_sprite_for_blocks.setScale( scale_factor, scale_factor );
+	canvas_sprite_for_sprites.setScale( scale_factor, scale_factor );
+	
+	draw(canvas_sprite_for_blocks);
+	draw(canvas_sprite_for_sprites);
 	
 	
 	//if ( get_block_grid_enabled() 

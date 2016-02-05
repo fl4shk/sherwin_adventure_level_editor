@@ -58,8 +58,11 @@ void level_element_selector_core_widget_base::shared_constructor_code
 	u32 other_slot_inner_width, u32 other_slot_inner_height,
 	u32 other_slot_outer_width, u32 other_slot_outer_height )
 {
-	level_element_gfx_raw_texture.loadFromFile
+	level_element_gfx_raw_image.loadFromFile
 		(other_level_element_gfx_file_name);
+	level_element_gfx_raw_image.createMaskFromColor(sf::Color::Cyan);
+	level_element_gfx_raw_texture.loadFromImage
+		(level_element_gfx_raw_image);
 	selected_level_element_sprite.setTexture
 		(level_element_gfx_raw_texture);
 	
