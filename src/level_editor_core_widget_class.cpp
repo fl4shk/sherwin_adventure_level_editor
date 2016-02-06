@@ -122,7 +122,7 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 		->get_visible_rect();
 	
 	cout << visible_rect.left << ", " << visible_rect.top << ", "
-		<< visible_rect.width << ", " << visible_rect.height << "\n\n";
+		<< visible_rect.width << ", " << visible_rect.height << endl;
 	
 	if ( !the_sfml_canvas_widget->point_is_in_visible_rect
 		(event_pos_in_canvas_pixel_coords) )
@@ -145,6 +145,9 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 		- ( ( the_sfml_canvas_widget->getSize().y / scale_factor )
 		- event_pos_in_canvas_coords.y )
 		/ sfml_canvas_widget::num_pixels_per_block_column ) ) };
+		
+		cout << block_grid_coords_of_event_pos.x << ", "
+			<< block_grid_coords_of_event_pos.y << endl;
 		
 		
 		block& the_block_at_event_pos 
@@ -179,17 +182,11 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 			
 			//cout << block_stuff::get_bt_name
 			//	((block_type)the_block_at_event_pos.type) << endl;
-			
-			//test_sprite_for_block.setTextureRect
-			//	( get_the_block_selector_core_widget()
-			//	->get_left_current_texture_rect() );
-			
 		}
 		
 		else if (current_tabbed_widget_is_for_16x16_sprites)
 		{
 			//cout << "the_sprite_16x16_selector_widget_is_enabled!\n";
-			
 			
 			the_sprite_ipgws_at_event_pos.type 
 				= (sprite_type)(get_the_sprite_16x16_selector_core_widget()
@@ -203,31 +200,10 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 			the_sprite_ipgws_at_event_pos.size_2d = vec2_u32( 16, 16 );
 			
 			
-			//if ( the_sprite_ipgws_at_event_pos.type != st_default )
-			//{
-			//	test_sprite_for_sprite_16x16.setTextureRect
-			//		( get_the_sprite_16x16_selector_core_widget()
-			//		->get_left_current_texture_rect() );
-			//}
-			//else
-			//{
-			//	test_image_for_sprite_16x16.create( 16, 16,
-			//		sf::Color::Cyan );
-			//	
-			//	test_texture_for_sprite_16x16.loadFromImage
-			//		(test_image_for_sprite_16x16);
-			//	
-			//	test_sprite_for_sprite_16x16.setTexture
-			//		(test_texture_for_sprite_16x16);
-			//	test_sprite_for_sprite_16x16.setTextureRect( sf::IntRect
-			//		( sf::Vector2i( 0, 0 ), sf::Vector2i( 16, 16 ) ) );
-			//}
-			
-			
 		}
 		
 		
-		
+		cout << endl;
 		
 	}
 	else if ( event->button() == Qt::RightButton )

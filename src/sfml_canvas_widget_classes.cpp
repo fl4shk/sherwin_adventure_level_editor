@@ -43,6 +43,10 @@ sfml_canvas_widget_base::sfml_canvas_widget_base( QWidget* s_parent,
 	// to be received.
 	setFocusPolicy(Qt::StrongFocus);
 	
+	// (Maybe) Make it so that the widget's full contents can be scrolled
+	setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
+	
+	
 	// Set up the widget geometry.
 	move(s_position);
 	resize(s_size);
@@ -532,30 +536,46 @@ void sfml_canvas_widget::update_visible_area()
 	
 	
 	vec2<double> visible_block_grid_start_pos
-		( (double)visible_rect.left / (double)num_pixels_per_block_row, 
-		(double)visible_rect.top / (double)num_pixels_per_block_column );
+		( (double)visible_rect.left / (double)( num_pixels_per_block_row
+		* scale_factor), 
+		(double)visible_rect.top / (double)( num_pixels_per_block_column
+		* scale_factor) );
 	vec2<double> visible_block_grid_size_2d
-		( (double)visible_rect.width / (double)num_pixels_per_block_row, 
-		(double)visible_rect.height / (double)num_pixels_per_block_column );
+		( (double)visible_rect.width / (double)( num_pixels_per_block_row
+		* scale_factor ), 
+		(double)visible_rect.height / (double)( num_pixels_per_block_column
+		* scale_factor ) );
+	
+	//cout << visible_block_grid_start_pos.x << ", "
+	//	<< visible_block_grid_start_pos.y << ", "
+	//	<< visible_block_grid_size_2d.x << ", "
+	//	<< visible_block_grid_size_2d.y << endl;
 	
 	++visible_block_grid_size_2d.x;
 	++visible_block_grid_size_2d.y;
 	
 	if ( ( visible_block_grid_start_pos.x + visible_block_grid_size_2d.x ) 
-		> ( the_sublevel->real_size_2d.x / num_pixels_per_block_row ) )
+		> ( the_sublevel->real_size_2d.x ) )
 	{
-		-- visible_block_grid_size_2d.x;
+		//cout << "visible_block_grid_size_2d.x is too large\n";
+		--visible_block_grid_size_2d.x;
 	}
 	if ( ( visible_block_grid_start_pos.y + visible_block_grid_size_2d.y ) 
-		> ( the_sublevel->real_size_2d.y / num_pixels_per_block_row ) )
+		> ( the_sublevel->real_size_2d.y ) )
 	{
-		-- visible_block_grid_size_2d.y;
+		//cout << "visible_block_grid_size_2d.y is too large\n";
+		--visible_block_grid_size_2d.y;
 	}
+	
+	//cout << visible_block_grid_start_pos.x << ", "
+	//	<< visible_block_grid_start_pos.y << ", "
+	//	<< visible_block_grid_size_2d.x << ", "
+	//	<< visible_block_grid_size_2d.y << endl;
+	//cout << endl;
 	
 	sf::Sprite sprite_for_drawing_blocks;
 	sprite_for_drawing_blocks.setTexture(the_block_selector_core_widget
 		->get_level_element_gfx_raw_texture());
-	
 	
 	for ( double j=0; j<visible_block_grid_size_2d.y; ++j )
 	{
@@ -565,20 +585,35 @@ void sfml_canvas_widget::update_visible_area()
 				j + visible_block_grid_start_pos.y );
 			
 			sprite_for_drawing_blocks.setPosition
-				( i * num_pixels_per_block_row * scale_factor,
-				j * num_pixels_per_block_column * scale_factor );
+				( (u32)visible_rect.left 
+				+ ( i * (double)num_pixels_per_block_row 
+				* (double)scale_factor ), 
+				(u32)visible_rect.top 
+				+ ( j * (double)num_pixels_per_block_column 
+				* (double)scale_factor ) );
 			sprite_for_drawing_blocks.setScale( scale_factor, 
 				scale_factor );
 			
+			if ( block_grid_pos.x >= the_sublevel->real_size_2d.x
+				|| block_grid_pos.y >= the_sublevel->real_size_2d.y )
+			{
+				cout << "block_grid_pos out of bounds:  "
+					<< block_grid_pos.x << ", " << block_grid_pos.y
+					<< endl;
+				continue;
+			}
+			
 			block& the_block = the_sublevel->uncompressed_block_data_vec_2d
 				.at((u32)block_grid_pos.y).at((u32)block_grid_pos.x);
-			
 			
 			if ( the_block.type != bt_air )
 			{
 				sprite_for_drawing_blocks.setTextureRect
 					( the_block_selector_core_widget
 					->get_texture_rect_of_other_index(the_block.type) );
+				
+				//cout << sprite_for_drawing_blocks.getPosition().x << ", " 
+				//	<< sprite_for_drawing_blocks.getPosition().y << endl;
 				
 				draw(sprite_for_drawing_blocks);
 				

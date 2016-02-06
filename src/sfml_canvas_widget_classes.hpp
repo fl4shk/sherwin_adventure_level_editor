@@ -38,12 +38,11 @@ public:		// functions
 	
 	
 protected:		// functions
-	inline void full_resize( const QSize& n_size )
+	virtual inline void full_resize( const QSize& n_size )
 	{
 		parent->resize(n_size);
 		resize(n_size);
 		sf::RenderWindow::create(winId());
-		//setVerticalSyncEnabled(true);
 	}
 	inline void set_min_max_sizes( const QSize& n_size )
 	{
@@ -204,22 +203,40 @@ public:		// functions
 	
 	
 	
-	// This is used to determine which parts of the sf::RenderTexture's to
-	// draw.
+	// This is used to determine which parts of the tilemap.
 	inline sf::FloatRect get_visible_rect() const
 	{
 		QRect bounding_rect = visibleRegion().boundingRect();
 		
-		return sf::FloatRect( sf::Vector2f
-			( (double)bounding_rect.x() / (double)scale_factor, 
-			(double)bounding_rect.y() / (double)scale_factor ), 
-			sf::Vector2f
-			( (double)bounding_rect.width() / (double)scale_factor, 
-			(double)bounding_rect.height() / (double)scale_factor ) );
+		return sf::FloatRect( sf::Vector2f( (double)bounding_rect.x(), 
+			(double)bounding_rect.y() ), 
+			sf::Vector2f( (double)bounding_rect.width(), 
+			(double)bounding_rect.height() ) );
 	}
 	
 	
 protected:		// functions
+	virtual inline void full_resize( const QSize& n_size )
+	{
+		if ( scroll_area == NULL )
+		{
+			parent->resize(n_size);
+			resize(n_size);
+			sf::RenderWindow::create(winId());
+		}
+		else
+		{
+			QSize n_size_modded( n_size.width() + scroll_area
+				->verticalScrollBar()->width(), n_size.height() 
+				+ scroll_area->horizontalScrollBar()->height() );
+			parent->resize(n_size_modded);
+			resize(n_size_modded);
+			sf::RenderWindow::create(winId());
+		}
+		
+		
+	}
+	
 	//void mousePressEvent( QMouseEvent* event );
 	//void mouseMoveEvent( QMouseEvent* event );
 	//void mouseReleaseEvent( QMouseEvent* event );
