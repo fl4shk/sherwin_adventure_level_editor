@@ -136,6 +136,7 @@ void primary_widget::laugh()
 	//}
 	//cout << endl;
 	
+	
 	//sfml_canvas_widget* the_sfml_canvas_widget = the_central_widget
 	//	->the_core_widget->the_sfml_canvas_widget;
 	//

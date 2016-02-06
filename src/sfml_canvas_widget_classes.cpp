@@ -25,6 +25,11 @@
 	#include <X11/Xlib.h>
 #endif
 
+#include "block_selector_core_widget_class.hpp"
+#include "sprite_16x16_selector_core_widget_class.hpp"
+#include "sprite_16x32_selector_core_widget_class.hpp"
+
+
 sfml_canvas_widget_base::sfml_canvas_widget_base( QWidget* s_parent, 
 	const QPoint& s_position, const QSize& s_size, u32 frame_time )
 	: QWidget(s_parent), parent(s_parent), initialized(false)
@@ -132,17 +137,9 @@ sfml_canvas_widget::sfml_canvas_widget( QWidget* s_parent,
 	//canvas_render_texture.create( s_size.width(), s_size.height() );
 	//canvas_render_texture.clear(sf::Color::Cyan);
 	
-	canvas_render_texture_for_blocks.create( s_size.width(), 
-		s_size.height() );
-	//canvas_render_texture_for_blocks.clear(sf::Color::Cyan);
-	canvas_render_texture_for_blocks.clear
-		( sf::Color( 0, 255, 255, 0 ) );
+	canvas_render_texture.create( s_size.width(), s_size.height() );
+	canvas_render_texture.clear( sf::Color( 0, 255, 255, 0 ) );
 	
-	canvas_render_texture_for_sprites.create( s_size.width(), 
-		s_size.height() );
-	//canvas_render_texture_for_sprites.clear(sf::Color::Cyan);
-	canvas_render_texture_for_sprites.clear
-		( sf::Color( 0, 255, 255, 0 ) );
 }
 
 sfml_canvas_widget::sfml_canvas_widget( QWidget* s_parent, 
@@ -176,16 +173,10 @@ sfml_canvas_widget::sfml_canvas_widget( QWidget* s_parent,
 	//canvas_render_texture.create( s_size.width(), s_size.height(),
 	//	sf::Color::Cyan );
 	
-	//canvas_render_texture.create( s_size.width(), s_size.height() );
-	//canvas_render_texture.clear(sf::Color::Cyan);
+	canvas_render_texture.create( s_size.width(), s_size.height() );
+	canvas_render_texture.clear(sf::Color::Cyan);
 	
-	canvas_render_texture_for_blocks.create( s_size.width(), 
-		s_size.height() );
-	canvas_render_texture_for_blocks.clear(sf::Color::Cyan);
 	
-	canvas_render_texture_for_sprites.create( s_size.width(), 
-		s_size.height() );
-	canvas_render_texture_for_sprites.clear(sf::Color::Cyan);
 }
 
 
@@ -203,10 +194,8 @@ const sf::View& sfml_canvas_widget::get_apparent_view()
 	//	/ (double)2.0f, (double)( canvas_render_texture.getSize().y )
 	//	/ (double)2.0f );
 	apparent_view.move
-		( (double)( canvas_render_texture_for_blocks.getSize().x ) 
-		/ (double)2.0f, 
-		(double)( canvas_render_texture_for_blocks.getSize().y )
-		/ (double)2.0f );
+		( (double)( canvas_render_texture.getSize().x ) / (double)2.0f, 
+		(double)( canvas_render_texture.getSize().y ) / (double)2.0f );
 	
 	apparent_view.zoom( 1.0f / (double)scale_factor );
 	
@@ -415,6 +404,25 @@ void sfml_canvas_widget::disable_block_grid()
 //}
 
 
+void sfml_canvas_widget::set_the_block_selector_core_widget
+	( block_selector_core_widget* n_the_block_selector_core_widget )
+{
+	the_block_selector_core_widget = n_the_block_selector_core_widget;
+}
+void sfml_canvas_widget::set_the_sprite_16x16_selector_core_widget
+	( sprite_16x16_selector_core_widget* 
+	n_the_sprite_16x16_selector_core_widget )
+{
+	the_sprite_16x16_selector_core_widget 
+		= n_the_sprite_16x16_selector_core_widget;
+}
+void sfml_canvas_widget::set_the_sprite_16x32_selector_core_widget
+	( sprite_16x32_selector_core_widget* 
+	n_the_sprite_16x32_selector_core_widget )
+{
+	the_sprite_16x32_selector_core_widget 
+		= n_the_sprite_16x32_selector_core_widget;
+}
 
 void sfml_canvas_widget::generate_canvas_block_grid()
 {
@@ -468,12 +476,12 @@ void sfml_canvas_widget::generate_canvas_block_grid()
 			(*canvas_block_grid_slot_texture);
 		
 		for ( u32 j=0; 
-			j<canvas_render_texture_for_blocks.getSize().y 
+			j<canvas_render_texture.getSize().y 
 				/ num_pixels_per_block_column;
 			++j )
 		{
 			for ( u32 i=0; 
-				i<canvas_render_texture_for_blocks.getSize().x 
+				i<canvas_render_texture.getSize().x 
 					/ num_pixels_per_block_row; 
 				++i )
 			{
@@ -487,6 +495,103 @@ void sfml_canvas_widget::generate_canvas_block_grid()
 		
 	}
 	
+}
+
+void sfml_canvas_widget::update_canvas_render_texture()
+{
+	//canvas_render_texture.clear(sf::Color::Cyan);
+	
+	sf::FloatRect visible_rect = get_visible_rect();
+	
+	vec2_u32 visible_block_grid_start_pos( (u32)( (double)visible_rect.left
+		/ (double)num_pixels_per_block_row ), 
+		(u32)( (double)visible_rect.top 
+		/ (double)num_pixels_per_block_column ) );
+	vec2_u32 visible_block_grid_size_2d( (u32)( (double)visible_rect.width
+		/ (double)num_pixels_per_block_row ), 
+		(u32)( (double)visible_rect.height
+		/ (double)num_pixels_per_block_column ) );
+	
+	//cout << visible_block_grid_start_pos.x << ", " 
+	//	<< visible_block_grid_start_pos.y << ", "
+	//	<< visible_block_grid_size_2d.x << ", "
+	//	<< visible_block_grid_size_2d.y << endl;
+	
+	sf::Sprite sprite_for_drawing_blocks;
+	sprite_for_drawing_blocks.setTexture(the_block_selector_core_widget
+		->get_level_element_gfx_raw_texture());
+	
+	
+	//cout << sprite_for_drawing_blocks.getTexture()->getSize().x << ", " 
+	//	<< sprite_for_drawing_blocks.getTexture()->getSize().y << endl;
+	
+	//sprite_for_drawing_blocks.setScale( 1.0f, 1.0f );
+	//canvas_render_texture.draw(sprite_for_drawing_blocks);
+	//
+	//sprite_for_drawing_blocks.setScale( 0.5f, 0.5f );
+	//canvas_render_texture.draw(sprite_for_drawing_blocks);
+	
+	//cout << visible_block_grid_start_pos.y + visible_block_grid_size_2d.y
+	//	+ 1 << endl;
+	
+	vec2_u32 visible_block_grid_end_pos( visible_block_grid_start_pos.x
+		+ visible_block_grid_size_2d.x + 1, visible_block_grid_start_pos.y
+		+ visible_block_grid_size_2d.y + 1);
+	
+	if ( visible_block_grid_end_pos.x >= the_sublevel->max_size_2d.x )
+	{
+		visible_block_grid_end_pos.x = the_sublevel->max_size_2d.x - 1;
+	}
+	if ( visible_block_grid_end_pos.y >= the_sublevel->max_size_2d.y )
+	{
+		visible_block_grid_end_pos.y = the_sublevel->max_size_2d.y - 1;
+	}
+	
+	
+	for ( u32 j=visible_block_grid_start_pos.y;
+		j<visible_block_grid_end_pos.y;
+		++j )
+	{
+		for ( u32 i=visible_block_grid_start_pos.x;
+			i<visible_block_grid_end_pos.x;
+			++i )
+		{
+			//sprite_for_drawing_blocks.setPosition
+			//	( (u32)( i * num_pixels_per_block_row ),
+			//	(u32)( ( the_sublevel->real_size_2d.y - j ) 
+			//	* num_pixels_per_block_column ) );
+			sprite_for_drawing_blocks.setPosition
+				( i * num_pixels_per_block_row,
+				j * num_pixels_per_block_column );
+			
+			
+			//sprite_init_param_group_with_size& the_sprite_ipgws
+			//	= the_sublevel->sprite_ipgws_vec_2d.at(j).at(i);
+			block& the_block = the_sublevel->uncompressed_block_data_vec_2d
+				.at(j).at(i);
+			
+			//cout << the_sublevel->uncompressed_block_data_vec_2d.size()
+			//	<< endl;
+			//cout << the_sublevel->real_size_2d.x << ", "
+			//	<< the_sublevel->real_size_2d.y << endl;
+			
+			if ( the_block.type != bt_air )
+			{
+				cout << block_stuff::get_bt_name_debug
+					((block_type)the_block.type) << ", "
+					<< i << ", " << j << endl;
+				
+				sprite_for_drawing_blocks.setTextureRect
+					( the_block_selector_core_widget
+					->get_texture_rect_of_other_index(the_block.type) );
+				
+				canvas_render_texture.draw(sprite_for_drawing_blocks);
+			}
+			
+			//cout << i << " ";
+		}
+		//cout << "; " << j << endl;
+	}
 	
 }
 
@@ -506,8 +611,8 @@ void sfml_canvas_widget::on_update()
 			sf::Vector2f mouse_pos_scaled( (double)mouse_pos.x 
 				/ (double)scale_factor, (double)mouse_pos.y 
 				/ (double)scale_factor );
-			//cout << "mouse_pos_scaled:  " << mouse_pos_scaled.x << ", " 
-			//	<< mouse_pos_scaled.y << endl;
+			cout << "mouse_pos_scaled:  " << mouse_pos_scaled.x << ", " 
+				<< mouse_pos_scaled.y << endl;
 			
 			int horiz_sb_val_before 
 				= scroll_area->horizontalScrollBar()->value();
@@ -524,10 +629,8 @@ void sfml_canvas_widget::on_update()
 				= scroll_area->verticalScrollBar()->maximum();
 			
 			full_resize
-				( QSize( canvas_render_texture_for_blocks.getSize().x 
-				* scale_factor, 
-				canvas_render_texture_for_blocks.getSize().y 
-				* scale_factor ) );
+				( QSize( canvas_render_texture.getSize().x * scale_factor, 
+				canvas_render_texture.getSize().y * scale_factor ) );
 			
 			if ( get_block_grid_enabled() )
 			{
@@ -564,7 +667,7 @@ void sfml_canvas_widget::on_update()
 					(horiz_sb_min_after);
 			}
 			else if ( mouse_pos_scaled.x
-				> (int)canvas_render_texture_for_blocks.getSize().x )
+				> (int)canvas_render_texture.getSize().x )
 			{
 				//cout << "x > getSize().x\n";
 				scroll_area->horizontalScrollBar()->setValue
@@ -614,7 +717,7 @@ void sfml_canvas_widget::on_update()
 					(vert_sb_min_after);
 			}
 			else if ( mouse_pos_scaled.y
-				> (int)canvas_render_texture_for_blocks.getSize().y )
+				> (int)canvas_render_texture.getSize().y )
 			{
 				//cout << "y > getSize().y\n";
 				scroll_area->verticalScrollBar()->setValue
@@ -672,9 +775,9 @@ void sfml_canvas_widget::on_update()
 		
 		if ( scroll_area == NULL )
 		{
-			full_resize(QSize( canvas_render_texture_for_blocks.getSize().x 
+			full_resize(QSize( canvas_render_texture.getSize().x 
 				* scale_factor, 
-				canvas_render_texture_for_blocks.getSize().y 
+				canvas_render_texture.getSize().y 
 				* scale_factor ));
 			
 			//full_resize(QSize( canvas_sprite->getSize().x * scale_factor, 
@@ -708,6 +811,8 @@ void sfml_canvas_widget::on_update()
 		//canvas_texture->loadFromImage(*canvas_image);
 	}
 	
+	
+	
 	// Instead of generating the block grid every frame, only do it if it
 	// has been recently enabled (or if it's enabled and zooming happened
 	// recently; see the zooming stuff for that).
@@ -732,16 +837,22 @@ void sfml_canvas_widget::on_update()
 	
 	
 	// Draw sprites ON TOP OF blocks.
-	sf::Sprite canvas_sprite_for_blocks
-		( canvas_render_texture_for_blocks.getTexture() ),
-		canvas_sprite_for_sprites
-		( canvas_render_texture_for_sprites.getTexture() );
+	update_canvas_render_texture();
 	
-	canvas_sprite_for_blocks.setScale( scale_factor, scale_factor );
-	canvas_sprite_for_sprites.setScale( scale_factor, scale_factor );
+	sf::Sprite canvas_sprite( canvas_render_texture.getTexture() );
 	
-	draw(canvas_sprite_for_blocks);
-	draw(canvas_sprite_for_sprites);
+	//canvas_sprite.setScale( scale_factor, scale_factor );
+	
+	canvas_sprite.setScale( (double)scale_factor,
+		-1.0f * ((double)scale_factor) );
+	
+	//canvas_sprite.setPosition( canvas_sprite.getPosition().x,
+	//	canvas_render_texture.getSize().y 
+	//	- canvas_sprite.getPosition().y );
+	canvas_sprite.setPosition( 0, getSize().y 
+		- ( canvas_sprite.getPosition().y * scale_factor ) );
+	
+	draw(canvas_sprite);
 	
 	
 	//if ( get_block_grid_enabled() 

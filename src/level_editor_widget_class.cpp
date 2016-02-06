@@ -41,6 +41,8 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 	
 	the_core_widget = new level_editor_core_widget( this, QPoint( 0, 0 ),
 		QSize( 256, 256 ), argv_copy->at(1) );
+	//the_core_widget = new level_editor_core_widget( this, QPoint( 0, 0 ),
+	//	QSize( 8192, 512 ), argv_copy->at(1) );
 	
 	#define X(name) \
 	the_##name##_selector_widget = new name##_selector_widget( this, \

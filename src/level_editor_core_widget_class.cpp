@@ -46,6 +46,8 @@ level_editor_core_widget::level_editor_core_widget( QWidget* s_parent,
 	the_sublevel.real_size_2d = vec2_u32( s_size.width() 
 		/ sfml_canvas_widget::num_pixels_per_block_row, s_size.height() 
 		/ sfml_canvas_widget::num_pixels_per_block_column );
+	
+	the_sfml_canvas_widget->set_the_sublevel(&the_sublevel);
 }
 
 
@@ -61,7 +63,9 @@ void level_editor_core_widget::initialize_tab_stuff
 	#define X(name) \
 	the_##name##_selector_widget = n_the_##name##_selector_widget; \
 	the_##name##_selector_widget->the_core_widget \
-		->set_the_level_editor_core_widget(this);
+		->set_the_level_editor_core_widget(this); \
+	the_sfml_canvas_widget->set_the_##name##_selector_core_widget \
+		( get_the_##name##_selector_core_widget() );
 	
 	list_of_level_element_widget_name_prefixes(X)
 	#undef X
@@ -115,43 +119,52 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 	
 	if ( event->button() == Qt::LeftButton )
 	{
-		sf::Image test_image_for_sprite_16x16;
-		sf::Texture test_texture_for_sprite_16x16;
+		//sf::Image test_image_for_sprite_16x16;
+		//sf::Texture test_texture_for_sprite_16x16;
+		//
+		//sf::Sprite test_sprite_for_block, test_sprite_for_sprite_16x16,
+		//	test_sprite_for_sprite_16x32;
+		//
+		//#define X(name) \
+		//test_sprite_for_##name.setPosition \
+		//	( (u32)( event_pos_in_canvas_coords.x \
+		//	/ sfml_canvas_widget::num_pixels_per_block_row ) \
+		//	* sfml_canvas_widget::num_pixels_per_block_row, \
+		//	(u32)( ( ( ( the_sfml_canvas_widget->getSize().y \
+		//	/ the_sfml_canvas_widget->scale_factor ) \
+		//	- event_pos_in_canvas_coords.y ) \
+		//	/ sfml_canvas_widget::num_pixels_per_block_column ) + 1 ) \
+		//	* sfml_canvas_widget::num_pixels_per_block_column ); \
+		//\
+		//test_sprite_for_##name.setScale( 1.0f, -1.0f ); \
+		//\
+		//test_sprite_for_##name.setTexture \
+		//	( get_the_##name##_selector_core_widget() \
+		//	->get_level_element_gfx_raw_texture() );
+		//
+		//list_of_level_element_widget_name_prefixes(X)
+		//#undef X
 		
-		sf::Sprite test_sprite_for_block, test_sprite_for_sprite_16x16,
-			test_sprite_for_sprite_16x32;
-		
-		#define X(name) \
-		test_sprite_for_##name.setPosition \
-			( (u32)( event_pos_in_canvas_coords.x \
-			/ sfml_canvas_widget::num_pixels_per_block_row ) \
-			* sfml_canvas_widget::num_pixels_per_block_row, \
-			(u32)( ( ( ( the_sfml_canvas_widget->getSize().y \
-			/ the_sfml_canvas_widget->scale_factor ) \
-			- event_pos_in_canvas_coords.y ) \
-			/ sfml_canvas_widget::num_pixels_per_block_column ) + 1 ) \
-			* sfml_canvas_widget::num_pixels_per_block_column ); \
-		\
-		test_sprite_for_##name.setScale( 1.0f, -1.0f ); \
-		\
-		test_sprite_for_##name.setTexture \
-			( get_the_##name##_selector_core_widget() \
-			->get_level_element_gfx_raw_texture() );
-		
-		list_of_level_element_widget_name_prefixes(X)
-		#undef X
-		
+		u32 scale_factor = the_sfml_canvas_widget->scale_factor;
 		
 		vec2_u32 block_grid_coords_of_event_pos
-			= { (u32)( test_sprite_for_block.getPosition().x 
-			/ sfml_canvas_widget::num_pixels_per_block_row ),
-			(u32)( test_sprite_for_block.getPosition().y
-			/ sfml_canvas_widget::num_pixels_per_block_column ) };
+			= { (u32)( event_pos_in_canvas_coords.x
+		/ sfml_canvas_widget::num_pixels_per_block_row ),
+		
+		(u32)( ( the_sublevel.real_size_2d.y 
+		- ( ( the_sfml_canvas_widget->getSize().y / scale_factor )
+		- event_pos_in_canvas_coords.y )
+		/ sfml_canvas_widget::num_pixels_per_block_column ) ) };
 		
 		block& the_block_at_event_pos 
 			= the_sublevel.uncompressed_block_data_vec_2d
-			[the_sublevel.real_size_2d.y 
-			- block_grid_coords_of_event_pos.y]
+			[block_grid_coords_of_event_pos.y]
+			[block_grid_coords_of_event_pos.x];
+		
+		
+		sprite_init_param_group_with_size& the_sprite_ipgws_at_event_pos
+			= the_sublevel.sprite_ipgws_vec_2d
+			[block_grid_coords_of_event_pos.y]
 			[block_grid_coords_of_event_pos.x];
 		
 		
@@ -173,56 +186,53 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 				= get_the_block_selector_core_widget()
 				->get_left_current_level_element_index();
 			
-			cout << block_stuff::get_bt_name
-				((block_type)the_block_at_event_pos.type) << endl;
+			//cout << block_stuff::get_bt_name
+			//	((block_type)the_block_at_event_pos.type) << endl;
 			
-			test_sprite_for_block.setTextureRect
-				( get_the_block_selector_core_widget()
-				->get_left_current_texture_rect() );
+			//test_sprite_for_block.setTextureRect
+			//	( get_the_block_selector_core_widget()
+			//	->get_left_current_texture_rect() );
 			
-			the_sfml_canvas_widget->canvas_render_texture_for_blocks.draw
-				(test_sprite_for_block);
 		}
 		
 		else if (current_tabbed_widget_is_for_16x16_sprites)
 		{
 			//cout << "the_sprite_16x16_selector_widget_is_enabled!\n";
 			
-			sprite_init_param_group_with_size&
-				the_sprite_ipgws_at_event_pos
-				= the_sublevel.sprite_ipgws_vec_2d
-				[the_sublevel.real_size_2d.y 
-				- block_grid_coords_of_event_pos.y]
-				[block_grid_coords_of_event_pos.x];
-			
 			
 			the_sprite_ipgws_at_event_pos.type 
 				= (sprite_type)(get_the_sprite_16x16_selector_core_widget()
 				->get_left_current_level_element_index());
 			
-			if ( the_sprite_ipgws_at_event_pos.type != st_default )
-			{
-				test_sprite_for_sprite_16x16.setTextureRect
-					( get_the_sprite_16x16_selector_core_widget()
-					->get_left_current_texture_rect() );
-			}
-			else
-			{
-				test_image_for_sprite_16x16.create( 16, 16,
-					sf::Color::Cyan );
-				
-				test_texture_for_sprite_16x16.loadFromImage
-					(test_image_for_sprite_16x16);
-				
-				test_sprite_for_sprite_16x16.setTexture
-					(test_texture_for_sprite_16x16);
-				test_sprite_for_sprite_16x16.setTextureRect( sf::IntRect
-					( sf::Vector2i( 0, 0 ), sf::Vector2i( 16, 16 ) ) );
-			}
+			the_sprite_ipgws_at_event_pos.initial_block_grid_x_coord
+				= block_grid_coords_of_event_pos.x;
+			the_sprite_ipgws_at_event_pos.initial_block_grid_y_coord
+				= block_grid_coords_of_event_pos.y;
+			
+			the_sprite_ipgws_at_event_pos.size_2d = vec2_u32( 16, 16 );
 			
 			
-			the_sfml_canvas_widget->canvas_render_texture_for_sprites.draw
-				(test_sprite_for_sprite_16x16);
+			//if ( the_sprite_ipgws_at_event_pos.type != st_default )
+			//{
+			//	test_sprite_for_sprite_16x16.setTextureRect
+			//		( get_the_sprite_16x16_selector_core_widget()
+			//		->get_left_current_texture_rect() );
+			//}
+			//else
+			//{
+			//	test_image_for_sprite_16x16.create( 16, 16,
+			//		sf::Color::Cyan );
+			//	
+			//	test_texture_for_sprite_16x16.loadFromImage
+			//		(test_image_for_sprite_16x16);
+			//	
+			//	test_sprite_for_sprite_16x16.setTexture
+			//		(test_texture_for_sprite_16x16);
+			//	test_sprite_for_sprite_16x16.setTextureRect( sf::IntRect
+			//		( sf::Vector2i( 0, 0 ), sf::Vector2i( 16, 16 ) ) );
+			//}
+			
+			
 		}
 		
 		

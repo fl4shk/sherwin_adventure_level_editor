@@ -22,6 +22,7 @@
 #define sfml_canvas_widget_classes_hpp
 
 #include "misc_includes.hpp"
+#include "sublevel_class.hpp"
 
 class sfml_canvas_widget_base : public QWidget, public sf::RenderWindow
 {
@@ -58,7 +59,11 @@ protected:		// functions
 	virtual void paintEvent( QPaintEvent* event );
 };
 
+
+
 class block_selector_core_widget;
+class sprite_16x16_selector_core_widget;
+class sprite_16x32_selector_core_widget;
 
 class sfml_canvas_widget : public sfml_canvas_widget_base
 {
@@ -76,6 +81,8 @@ protected:		// variables
 	bool block_grid_enabled_recently, block_grid_enabled;
 	
 	
+	// The render texture
+	sf::RenderTexture canvas_render_texture;
 	
 	//unique_ptr<sf::Sprite> canvas_sprite;
 	
@@ -84,6 +91,19 @@ protected:		// variables
 	// zooming.
 	QScrollArea* scroll_area;
 	
+	
+	// This is used, in combination with get_visible_rect(), to allow this
+	// sfml_canvas_widget to draw only the parts of the sublevel that are
+	// visible.
+	sublevel* the_sublevel;
+	
+	// The raw textures of the level element selector widgets
+	block_selector_core_widget* 
+		the_block_selector_core_widget;
+	sprite_16x16_selector_core_widget* 
+		the_sprite_16x16_selector_core_widget;
+	sprite_16x32_selector_core_widget* 
+		the_sprite_16x32_selector_core_widget;
 	
 	
 public:		// variables and constants
@@ -101,9 +121,6 @@ public:		// variables and constants
 	float view_center_x, view_center_y;
 	
 	
-	// The two layers
-	sf::RenderTexture canvas_render_texture_for_blocks, 
-		canvas_render_texture_for_sprites;
 	
 	
 	
@@ -124,10 +141,10 @@ public:		// functions
 	{
 		return ( ( pos.x >= 0 ) 
 			&& ( pos.x 
-			< (int)canvas_render_texture_for_blocks.getSize().x ) 
+			< (int)canvas_render_texture.getSize().x ) 
 			&& ( pos.y >= 0 ) 
 			&& ( pos.y 
-			< (int)canvas_render_texture_for_blocks.getSize().y ) );
+			< (int)canvas_render_texture.getSize().y ) );
 	}
 	
 	//// This is a purely integer-based line drawing algorithm.
@@ -161,7 +178,23 @@ public:		// functions
 	{
 		scroll_area = n_scroll_area;
 	}
+	inline void set_the_sublevel( sublevel* n_the_sublevel )
+	{
+		the_sublevel = n_the_sublevel;
+	}
+	void set_the_block_selector_core_widget
+		( block_selector_core_widget* n_the_block_selector_core_widget );
+	void set_the_sprite_16x16_selector_core_widget
+		( sprite_16x16_selector_core_widget* 
+		n_the_sprite_16x16_selector_core_widget );
+	void set_the_sprite_16x32_selector_core_widget
+		( sprite_16x32_selector_core_widget* 
+		n_the_sprite_16x32_selector_core_widget );
 	
+	
+	
+	// This is used to determine which parts of the sf::RenderTexture's to
+	// draw.
 	inline sf::FloatRect get_visible_rect() const
 	{
 		QRect bounding_rect = visibleRegion().boundingRect();
@@ -182,6 +215,8 @@ protected:		// functions
 	
 	void generate_canvas_block_grid();
 	
+	void update_canvas_render_texture();
+	
 	inline void on_init()
 	{
 		cout << "sfml_canvas_widget initialized!\n";
@@ -192,7 +227,7 @@ protected:		// functions
 	void on_update();
 	
 	
-	friend class block_selector_core_widget;
+	
 };
 
 
