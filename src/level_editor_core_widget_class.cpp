@@ -92,6 +92,8 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 	//cout << "level_editor_core_widget's mouse position:  "
 	//	<< event->x() << ", " << event->y() << endl;
 	
+	cout << event->x() << ", " << event->y() << endl;
+	
 	// This converts the clicked coordinate to pixel coordinates.
 	sf::Vector2f event_pos_in_canvas_coords 
 		= the_sfml_canvas_widget->mapPixelToCoords
@@ -102,16 +104,30 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 		= sf::Vector2i( (int)event_pos_in_canvas_coords.x,
 		(int)event_pos_in_canvas_coords.y );
 	
-	//cout << "mouse position in canvas coordinates:  "
-	//	<< event_pos_in_canvas_pixel_coords.x << ", "
-	//	<< event_pos_in_canvas_pixel_coords.y << endl;
+	cout << event_pos_in_canvas_coords.x << ", "
+		<< event_pos_in_canvas_coords.y << endl;
+	
 	
 	prev_mouse_pos = event->pos();
 	
 	// Check whether the mouse was clicked somewhere inside the image.
-	if ( !the_sfml_canvas_widget->point_is_in_render_texture
+	//if ( !the_sfml_canvas_widget->point_is_in_render_texture
+	//	(event_pos_in_canvas_pixel_coords) )
+	//if ( !the_sfml_canvas_widget->point_is_in_render_texture(mouse_pos) )
+	//{
+	//	cout << "out of bounds\n";
+	//	return;
+	//}
+	sf::FloatRect visible_rect = the_sfml_canvas_widget
+		->get_visible_rect();
+	
+	cout << visible_rect.left << ", " << visible_rect.top << ", "
+		<< visible_rect.width << ", " << visible_rect.height << "\n\n";
+	
+	if ( !the_sfml_canvas_widget->point_is_in_visible_rect
 		(event_pos_in_canvas_pixel_coords) )
 	{
+		cout << "out of bounds\n";
 		return;
 	}
 	
@@ -119,32 +135,6 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 	
 	if ( event->button() == Qt::LeftButton )
 	{
-		//sf::Image test_image_for_sprite_16x16;
-		//sf::Texture test_texture_for_sprite_16x16;
-		//
-		//sf::Sprite test_sprite_for_block, test_sprite_for_sprite_16x16,
-		//	test_sprite_for_sprite_16x32;
-		//
-		//#define X(name) \
-		//test_sprite_for_##name.setPosition \
-		//	( (u32)( event_pos_in_canvas_coords.x \
-		//	/ sfml_canvas_widget::num_pixels_per_block_row ) \
-		//	* sfml_canvas_widget::num_pixels_per_block_row, \
-		//	(u32)( ( ( ( the_sfml_canvas_widget->getSize().y \
-		//	/ the_sfml_canvas_widget->scale_factor ) \
-		//	- event_pos_in_canvas_coords.y ) \
-		//	/ sfml_canvas_widget::num_pixels_per_block_column ) + 1 ) \
-		//	* sfml_canvas_widget::num_pixels_per_block_column ); \
-		//\
-		//test_sprite_for_##name.setScale( 1.0f, -1.0f ); \
-		//\
-		//test_sprite_for_##name.setTexture \
-		//	( get_the_##name##_selector_core_widget() \
-		//	->get_level_element_gfx_raw_texture() );
-		//
-		//list_of_level_element_widget_name_prefixes(X)
-		//#undef X
-		
 		u32 scale_factor = the_sfml_canvas_widget->scale_factor;
 		
 		vec2_u32 block_grid_coords_of_event_pos
@@ -155,6 +145,7 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 		- ( ( the_sfml_canvas_widget->getSize().y / scale_factor )
 		- event_pos_in_canvas_coords.y )
 		/ sfml_canvas_widget::num_pixels_per_block_column ) ) };
+		
 		
 		block& the_block_at_event_pos 
 			= the_sublevel.uncompressed_block_data_vec_2d

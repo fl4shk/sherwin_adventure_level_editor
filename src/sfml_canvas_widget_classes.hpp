@@ -81,8 +81,11 @@ protected:		// variables
 	bool block_grid_enabled_recently, block_grid_enabled;
 	
 	
-	// The render texture
-	sf::RenderTexture canvas_render_texture;
+	QSize unzoomed_size_2d;
+	
+	
+	//// The render texture
+	//sf::RenderTexture canvas_render_texture;
 	
 	//unique_ptr<sf::Sprite> canvas_sprite;
 	
@@ -137,14 +140,17 @@ public:		// functions
 	const sf::View& get_apparent_view();
 	
 	
-	inline bool point_is_in_render_texture( const sf::Vector2i& pos )
+	//inline bool point_is_in_render_texture( const sf::Vector2i& pos )
+	//{
+	//	return ( ( pos.x >= 0 ) 
+	//		&& ( pos.x < (int)canvas_render_texture.getSize().x ) 
+	//		&& ( pos.y >= 0 ) 
+	//		&& ( pos.y < (int)canvas_render_texture.getSize().y ) );
+	//}
+	
+	inline bool point_is_in_visible_rect( const sf::Vector2i& pos )
 	{
-		return ( ( pos.x >= 0 ) 
-			&& ( pos.x 
-			< (int)canvas_render_texture.getSize().x ) 
-			&& ( pos.y >= 0 ) 
-			&& ( pos.y 
-			< (int)canvas_render_texture.getSize().y ) );
+		return get_visible_rect().contains( pos.x, pos.y );
 	}
 	
 	//// This is a purely integer-based line drawing algorithm.
@@ -173,6 +179,11 @@ public:		// functions
 	//}
 	//// This is just a PNG exporter.
 	//void export_file_as( const string& output_file_name );
+	
+	inline void set_unzoomed_size_2d( QSize n_unzoomed_size_2d )
+	{
+		unzoomed_size_2d = n_unzoomed_size_2d;
+	}
 	
 	inline void set_scroll_area( QScrollArea* n_scroll_area )
 	{
@@ -215,7 +226,8 @@ protected:		// functions
 	
 	void generate_canvas_block_grid();
 	
-	void update_canvas_render_texture();
+	//void update_canvas_render_texture();
+	void update_visible_area();
 	
 	inline void on_init()
 	{

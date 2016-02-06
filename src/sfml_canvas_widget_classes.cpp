@@ -109,6 +109,8 @@ sfml_canvas_widget::sfml_canvas_widget( QWidget* s_parent,
 	
 	block_grid_enabled_recently(false), block_grid_enabled(false), 
 	
+	unzoomed_size_2d(s_size),
+	
 	scroll_area(NULL),
 	
 	modified_recently(false), 
@@ -137,8 +139,16 @@ sfml_canvas_widget::sfml_canvas_widget( QWidget* s_parent,
 	//canvas_render_texture.create( s_size.width(), s_size.height() );
 	//canvas_render_texture.clear(sf::Color::Cyan);
 	
-	canvas_render_texture.create( s_size.width(), s_size.height() );
-	canvas_render_texture.clear( sf::Color( 0, 255, 255, 0 ) );
+	//canvas_render_texture.create( s_size.width(), s_size.height() );
+	//canvas_render_texture.clear( sf::Color( 0, 255, 255, 0 ) );
+	
+	
+	//sf::FloatRect visible_rect = get_visible_rect();
+	//
+	//canvas_render_texture.create( visible_rect.width, 
+	//	visible_rect.height );
+	//
+	//canvas_render_texture.clear(sf::Color::Cyan);
 	
 }
 
@@ -148,6 +158,8 @@ sfml_canvas_widget::sfml_canvas_widget( QWidget* s_parent,
 	: sfml_canvas_widget_base( s_parent, s_position, s_size ),
 	
 	block_grid_enabled_recently(false), block_grid_enabled(false), 
+	
+	unzoomed_size_2d(s_size),
 	
 	scroll_area(s_scroll_area),
 	
@@ -173,8 +185,14 @@ sfml_canvas_widget::sfml_canvas_widget( QWidget* s_parent,
 	//canvas_render_texture.create( s_size.width(), s_size.height(),
 	//	sf::Color::Cyan );
 	
-	canvas_render_texture.create( s_size.width(), s_size.height() );
-	canvas_render_texture.clear(sf::Color::Cyan);
+	//canvas_render_texture.create( s_size.width(), s_size.height() );
+	
+	//sf::FloatRect visible_rect = get_visible_rect();
+	//
+	//canvas_render_texture.create( visible_rect.width, 
+	//	visible_rect.height );
+	//
+	//canvas_render_texture.clear(sf::Color::Cyan);
 	
 	
 }
@@ -186,16 +204,11 @@ const sf::View& sfml_canvas_widget::get_apparent_view()
 	apparent_view = getDefaultView();
 	
 	apparent_view.setCenter( view_center_x, view_center_y );
+	apparent_view.setSize( unzoomed_size_2d.width() * scale_factor,
+		unzoomed_size_2d.height() * scale_factor );
 	
-	//apparent_view.move( (double)( canvas_image->getSize().x ) 
-	//	/ (double)2.0f, (double)( canvas_image->getSize().y )
-	//	/ (double)2.0f );
-	//apparent_view.move( (double)( canvas_render_texture.getSize().x ) 
-	//	/ (double)2.0f, (double)( canvas_render_texture.getSize().y )
-	//	/ (double)2.0f );
-	apparent_view.move
-		( (double)( canvas_render_texture.getSize().x ) / (double)2.0f, 
-		(double)( canvas_render_texture.getSize().y ) / (double)2.0f );
+	apparent_view.move( unzoomed_size_2d.width() / (double)2.0f, 
+		unzoomed_size_2d.height() / (double)2.0f );
 	
 	apparent_view.zoom( 1.0f / (double)scale_factor );
 	
@@ -440,8 +453,20 @@ void sfml_canvas_widget::generate_canvas_block_grid()
 	
 	if ( get_block_grid_enabled() )
 	{
-		canvas_block_grid_render_texture.create( getSize().x, 
-			getSize().y );
+		//canvas_block_grid_render_texture.create( getSize().x, 
+		//	getSize().y );
+		
+		//canvas_block_grid_render_texture.create
+		//	( canvas_render_texture.getSize().x, 
+		//	canvas_render_texture.getSize().y );
+		
+		sf::FloatRect visible_rect = get_visible_rect();
+		
+		// Only render to the visible area
+		canvas_block_grid_render_texture.create
+			( visible_rect.width + num_pixels_per_block_row, 
+			visible_rect.height + num_pixels_per_block_column );
+		
 		
 		canvas_block_grid_slot_image.reset(new sf::Image);
 		canvas_block_grid_slot_image->create
@@ -475,124 +500,112 @@ void sfml_canvas_widget::generate_canvas_block_grid()
 		canvas_block_grid_slot_sprite->setTexture
 			(*canvas_block_grid_slot_texture);
 		
-		for ( u32 j=0; 
-			j<canvas_render_texture.getSize().y 
-				/ num_pixels_per_block_column;
-			++j )
-		{
-			for ( u32 i=0; 
-				i<canvas_render_texture.getSize().x 
-					/ num_pixels_per_block_row; 
-				++i )
-			{
-				canvas_block_grid_slot_sprite->setPosition
-					( i * canvas_block_grid_slot_image->getSize().x, 
-					j * canvas_block_grid_slot_image->getSize().y );
-				canvas_block_grid_render_texture.draw
-					(*canvas_block_grid_slot_sprite);
-			}
-		}
+		//for ( u32 j=0; 
+		//	j<canvas_render_texture.getSize().y 
+		//		/ num_pixels_per_block_column;
+		//	++j )
+		//{
+		//	for ( u32 i=0; 
+		//		i<canvas_render_texture.getSize().x 
+		//			/ num_pixels_per_block_row; 
+		//		++i )
+		//	{
+		//		canvas_block_grid_slot_sprite->setPosition
+		//			( i * canvas_block_grid_slot_image->getSize().x, 
+		//			j * canvas_block_grid_slot_image->getSize().y );
+		//		canvas_block_grid_render_texture.draw
+		//			(*canvas_block_grid_slot_sprite);
+		//	}
+		//}
 		
 	}
 	
 }
 
-void sfml_canvas_widget::update_canvas_render_texture()
+void sfml_canvas_widget::update_visible_area()
 {
-	//canvas_render_texture.clear(sf::Color::Cyan);
-	
 	sf::FloatRect visible_rect = get_visible_rect();
 	
-	vec2_u32 visible_block_grid_start_pos( (u32)( (double)visible_rect.left
-		/ (double)num_pixels_per_block_row ), 
-		(u32)( (double)visible_rect.top 
-		/ (double)num_pixels_per_block_column ) );
-	vec2_u32 visible_block_grid_size_2d( (u32)( (double)visible_rect.width
-		/ (double)num_pixels_per_block_row ), 
-		(u32)( (double)visible_rect.height
-		/ (double)num_pixels_per_block_column ) );
+	//canvas_render_texture.create ( visible_rect.width, 
+	//	visible_rect.height );
+	//canvas_render_texture.clear(sf::Color::Cyan);
 	
-	//cout << visible_block_grid_start_pos.x << ", " 
-	//	<< visible_block_grid_start_pos.y << ", "
-	//	<< visible_block_grid_size_2d.x << ", "
-	//	<< visible_block_grid_size_2d.y << endl;
+	
+	vec2<double> visible_block_grid_start_pos
+		( (double)visible_rect.left / (double)num_pixels_per_block_row, 
+		(double)visible_rect.top / (double)num_pixels_per_block_column );
+	vec2<double> visible_block_grid_size_2d
+		( (double)visible_rect.width / (double)num_pixels_per_block_row, 
+		(double)visible_rect.height / (double)num_pixels_per_block_column );
+	
+	++visible_block_grid_size_2d.x;
+	++visible_block_grid_size_2d.y;
+	
+	if ( ( visible_block_grid_start_pos.x + visible_block_grid_size_2d.x ) 
+		> ( the_sublevel->real_size_2d.x / num_pixels_per_block_row ) )
+	{
+		-- visible_block_grid_size_2d.x;
+	}
+	if ( ( visible_block_grid_start_pos.y + visible_block_grid_size_2d.y ) 
+		> ( the_sublevel->real_size_2d.y / num_pixels_per_block_row ) )
+	{
+		-- visible_block_grid_size_2d.y;
+	}
 	
 	sf::Sprite sprite_for_drawing_blocks;
 	sprite_for_drawing_blocks.setTexture(the_block_selector_core_widget
 		->get_level_element_gfx_raw_texture());
 	
 	
-	//cout << sprite_for_drawing_blocks.getTexture()->getSize().x << ", " 
-	//	<< sprite_for_drawing_blocks.getTexture()->getSize().y << endl;
-	
-	//sprite_for_drawing_blocks.setScale( 1.0f, 1.0f );
-	//canvas_render_texture.draw(sprite_for_drawing_blocks);
-	//
-	//sprite_for_drawing_blocks.setScale( 0.5f, 0.5f );
-	//canvas_render_texture.draw(sprite_for_drawing_blocks);
-	
-	//cout << visible_block_grid_start_pos.y + visible_block_grid_size_2d.y
-	//	+ 1 << endl;
-	
-	vec2_u32 visible_block_grid_end_pos( visible_block_grid_start_pos.x
-		+ visible_block_grid_size_2d.x + 1, visible_block_grid_start_pos.y
-		+ visible_block_grid_size_2d.y + 1);
-	
-	if ( visible_block_grid_end_pos.x >= the_sublevel->max_size_2d.x )
+	for ( double j=0; j<visible_block_grid_size_2d.y; ++j )
 	{
-		visible_block_grid_end_pos.x = the_sublevel->max_size_2d.x - 1;
-	}
-	if ( visible_block_grid_end_pos.y >= the_sublevel->max_size_2d.y )
-	{
-		visible_block_grid_end_pos.y = the_sublevel->max_size_2d.y - 1;
-	}
-	
-	
-	for ( u32 j=visible_block_grid_start_pos.y;
-		j<visible_block_grid_end_pos.y;
-		++j )
-	{
-		for ( u32 i=visible_block_grid_start_pos.x;
-			i<visible_block_grid_end_pos.x;
-			++i )
+		for ( double i=0; i<visible_block_grid_size_2d.x; ++i )
 		{
-			//sprite_for_drawing_blocks.setPosition
-			//	( (u32)( i * num_pixels_per_block_row ),
-			//	(u32)( ( the_sublevel->real_size_2d.y - j ) 
-			//	* num_pixels_per_block_column ) );
+			vec2<double> block_grid_pos( i + visible_block_grid_start_pos.x,
+				j + visible_block_grid_start_pos.y );
+			
 			sprite_for_drawing_blocks.setPosition
-				( i * num_pixels_per_block_row,
-				j * num_pixels_per_block_column );
+				( i * num_pixels_per_block_row * scale_factor,
+				j * num_pixels_per_block_column * scale_factor );
+			sprite_for_drawing_blocks.setScale( scale_factor, 
+				scale_factor );
 			
-			
-			//sprite_init_param_group_with_size& the_sprite_ipgws
-			//	= the_sublevel->sprite_ipgws_vec_2d.at(j).at(i);
 			block& the_block = the_sublevel->uncompressed_block_data_vec_2d
-				.at(j).at(i);
+				.at((u32)block_grid_pos.y).at((u32)block_grid_pos.x);
 			
-			//cout << the_sublevel->uncompressed_block_data_vec_2d.size()
-			//	<< endl;
-			//cout << the_sublevel->real_size_2d.x << ", "
-			//	<< the_sublevel->real_size_2d.y << endl;
 			
 			if ( the_block.type != bt_air )
 			{
-				cout << block_stuff::get_bt_name_debug
-					((block_type)the_block.type) << ", "
-					<< i << ", " << j << endl;
-				
 				sprite_for_drawing_blocks.setTextureRect
 					( the_block_selector_core_widget
 					->get_texture_rect_of_other_index(the_block.type) );
 				
-				canvas_render_texture.draw(sprite_for_drawing_blocks);
+				draw(sprite_for_drawing_blocks);
+				
+				//cout << endl;
 			}
 			
 			//cout << i << " ";
 		}
 		//cout << "; " << j << endl;
 	}
+	//cout << endl;
 	
+	//if ( get_block_grid_enabled() 
+	//	&& scale_factor >= minimum_scale_factor_for_block_grid )
+	if (false)
+	if ( get_block_grid_enabled() )
+	{
+		sf::Sprite canvas_block_grid_sprite
+			(canvas_block_grid_render_texture.getTexture());
+		////canvas_block_grid_sprite.setPosition( visible_rect.left, 
+		////	visible_rect.top );
+		//canvas_block_grid_sprite.setScale( 1.0f, -1.0f );
+		//canvas_block_grid_sprite.setPosition( visible_rect.left *
+		//scale_factor, 
+		//	getSize().y - visible_rect.top );
+		draw(canvas_block_grid_sprite);
+	}
 }
 
 
@@ -629,8 +642,8 @@ void sfml_canvas_widget::on_update()
 				= scroll_area->verticalScrollBar()->maximum();
 			
 			full_resize
-				( QSize( canvas_render_texture.getSize().x * scale_factor, 
-				canvas_render_texture.getSize().y * scale_factor ) );
+				( QSize( unzoomed_size_2d.width() * scale_factor, 
+				unzoomed_size_2d.height() * scale_factor ) );
 			
 			if ( get_block_grid_enabled() )
 			{
@@ -651,115 +664,26 @@ void sfml_canvas_widget::on_update()
 			
 			
 			
-			////cout << horiz_sb_min_after<< " " << horiz_sb_max_after<< ", "
-			////	<< vert_sb_min_after<< " " << vert_sb_max_after<< endl;
-			//cout << "old max scrollbar values:  " << horiz_sb_max_before 
-			//	<< ", " << vert_sb_max_before << endl;
-			//cout << "new max scrollbar values:  " << horiz_sb_max_after
-			//	<< ", " << vert_sb_max_after << endl;
+			double horiz_sb_val_after = convert_range<double>
+				( (double)horiz_sb_val_before,
+				(double)horiz_sb_min_before,
+				(double)horiz_sb_max_before,
+				(double)horiz_sb_min_after, 
+				(double)horiz_sb_max_after );
 			
+			scroll_area->horizontalScrollBar()->setValue
+				((int)horiz_sb_val_after);
 			
+			double vert_sb_val_after = convert_range<double>
+				( (double)vert_sb_val_before,
+				(double)vert_sb_min_before,
+				(double)vert_sb_max_before,
+				(double)vert_sb_min_after, 
+				(double)vert_sb_max_after );
 			
-			if ( mouse_pos_scaled.x < 0 )
-			{
-				//cout << "x < 0\n";
-				scroll_area->horizontalScrollBar()->setValue
-					(horiz_sb_min_after);
-			}
-			else if ( mouse_pos_scaled.x
-				> (int)canvas_render_texture.getSize().x )
-			{
-				//cout << "x > getSize().x\n";
-				scroll_area->horizontalScrollBar()->setValue
-					(horiz_sb_max_after);
-			}
-			else
-			{
-				//cout << "x in range\n";
-				
-				//double horiz_sb_val_after = convert_range<double>
-				//	( (double)mouse_pos.x, (double)0.0f, 
-				//	(double)canvas_render_texture.getSize().x,
-				//	(double)horiz_sb_min, (double)horiz_sb_max );
-				//double horiz_sb_val_after = convert_range<double>
-				//	( (double)mouse_pos_scaled.x, (double)0.0f, 
-				//	(double)canvas_render_texture.getSize().x,
-				//	(double)horiz_sb_min, (double)horiz_sb_max );
-				
-				
-				//double horiz_sb_val_after = convert_range<double>
-				//	( (double)horiz_sb_val_before,
-				//	(double)horiz_sb_min_before,
-				//	(double)horiz_sb_max_before,
-				//	(double)horiz_sb_min_after, 
-				//	(double)horiz_sb_max_after )
-				//	- ( (double)mouse_pos.x / 2.0f );
-				double horiz_sb_val_after = convert_range<double>
-					( (double)horiz_sb_val_before,
-					(double)horiz_sb_min_before,
-					(double)horiz_sb_max_before,
-					(double)horiz_sb_min_after, 
-					(double)horiz_sb_max_after );
-				
-				//cout << "horiz scrollbar old value:  " 
-				//	<< horiz_sb_val_before << endl;
-				//cout << "horiz scrollbar new value:  " 
-				//	<< horiz_sb_val_after << endl;
-				
-				scroll_area->horizontalScrollBar()->setValue
-					((int)horiz_sb_val_after);
-			}
-			
-			if ( mouse_pos_scaled.y < 0 )
-			{
-				//cout << "y < 0\n";
-				scroll_area->verticalScrollBar()->setValue
-					(vert_sb_min_after);
-			}
-			else if ( mouse_pos_scaled.y
-				> (int)canvas_render_texture.getSize().y )
-			{
-				//cout << "y > getSize().y\n";
-				scroll_area->verticalScrollBar()->setValue
-					(vert_sb_max_after);
-			}
-			else
-			{
-				//cout << "y in range\n";
-				
-				//double vert_sb_val_after = convert_range<double>
-				//	( (double)mouse_pos.y, (double)0.0f, 
-				//	(double)canvas_render_texture.getSize().y,
-				//	(double)vert_sb_min, (double)vert_sb_max );
-				//double vert_sb_val_after = convert_range<double>
-				//	( (double)mouse_pos_scaled.y, (double)0.0f, 
-				//	(double)canvas_render_texture.getSize().y,
-				//	(double)vert_sb_min, (double)vert_sb_max );
-				
-				
-				//double vert_sb_val_after = convert_range<double>
-				//	( (double)vert_sb_val_before,
-				//	(double)vert_sb_min_before,
-				//	(double)vert_sb_max_before,
-				//	(double)vert_sb_min_after, 
-				//	(double)vert_sb_max_after )
-				//	- ( (double)mouse_pos.y / 2.0f );
-				double vert_sb_val_after = convert_range<double>
-					( (double)vert_sb_val_before,
-					(double)vert_sb_min_before,
-					(double)vert_sb_max_before,
-					(double)vert_sb_min_after, 
-					(double)vert_sb_max_after );
-				
-				//cout << "vert scrollbar old value:  " 
-				//	<< vert_sb_val_before << endl;
-				//cout << "vert scrollbar new value:  " 
-				//	<< vert_sb_val_after << endl;
-				
-				scroll_area->verticalScrollBar()->setValue
-					((int)vert_sb_val_after);
-			}
-			
+			scroll_area->verticalScrollBar()->setValue
+				((int)vert_sb_val_after);
+		
 			//cout << endl;
 		};
 		
@@ -775,16 +699,13 @@ void sfml_canvas_widget::on_update()
 		
 		if ( scroll_area == NULL )
 		{
-			full_resize(QSize( canvas_render_texture.getSize().x 
-				* scale_factor, 
-				canvas_render_texture.getSize().y 
-				* scale_factor ));
+			//full_resize(QSize( canvas_render_texture.getSize().x 
+			//	* scale_factor, 
+			//	canvas_render_texture.getSize().y 
+			//	* scale_factor ));
+			full_resize(QSize( unzoomed_size_2d.width() * scale_factor, 
+				unzoomed_size_2d.height() * scale_factor ));
 			
-			//full_resize(QSize( canvas_sprite->getSize().x * scale_factor, 
-			//	canvas_sprite->getSize().y * scale_factor ));
-			
-			//full_resize(QSize( canvas_texture->getSize().x * scale_factor, 
-			//	canvas_texture->getSize().y * scale_factor ));
 			
 			if ( get_block_grid_enabled() )
 			{
@@ -824,45 +745,15 @@ void sfml_canvas_widget::on_update()
 	
 	//clear(sf::Color( 0, 128, 0 ));
 	
-	// This clear() call is probably not necessary.
+	//// This clear() call is probably not necessary.
+	//clear(sf::Color::Cyan);
 	clear(sf::Color::Cyan);
-	
-	//draw(*canvas_sprite);
-	
-	//canvas_sprite.reset(new sf::Sprite);
-	//canvas_sprite->setTexture(canvas_render_texture.getTexture());
-	//canvas_sprite->setScale( scale_factor, scale_factor );
-	//draw(*canvas_sprite);
-	
 	
 	
 	// Draw sprites ON TOP OF blocks.
-	update_canvas_render_texture();
-	
-	sf::Sprite canvas_sprite( canvas_render_texture.getTexture() );
-	
-	//canvas_sprite.setScale( scale_factor, scale_factor );
-	
-	canvas_sprite.setScale( (double)scale_factor,
-		-1.0f * ((double)scale_factor) );
-	
-	//canvas_sprite.setPosition( canvas_sprite.getPosition().x,
-	//	canvas_render_texture.getSize().y 
-	//	- canvas_sprite.getPosition().y );
-	canvas_sprite.setPosition( 0, getSize().y 
-		- ( canvas_sprite.getPosition().y * scale_factor ) );
-	
-	draw(canvas_sprite);
+	update_visible_area();
 	
 	
-	//if ( get_block_grid_enabled() 
-	//	&& scale_factor >= minimum_scale_factor_for_block_grid )
-	if ( get_block_grid_enabled() )
-	{
-		sf::Sprite canvas_block_grid_sprite
-			(canvas_block_grid_render_texture.getTexture());
-		draw(canvas_block_grid_sprite);
-	}
 }
 
 

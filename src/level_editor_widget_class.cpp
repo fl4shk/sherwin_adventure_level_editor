@@ -39,10 +39,14 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 	//the_sfml_canvas_widget = new sfml_canvas_widget( this, QPoint( 0, 0 ),
 	//	QSize( 200, 200 ), argv_copy->at(1) );
 	
-	the_core_widget = new level_editor_core_widget( this, QPoint( 0, 0 ),
-		QSize( 256, 256 ), argv_copy->at(1) );
+	//the_core_widget = new level_editor_core_widget( this, QPoint( 0, 0 ),
+	//	QSize( 256, 256 ), argv_copy->at(1) );
 	//the_core_widget = new level_editor_core_widget( this, QPoint( 0, 0 ),
 	//	QSize( 8192, 512 ), argv_copy->at(1) );
+	//the_core_widget = new level_editor_core_widget( this, QPoint( 0, 0 ),
+	//	QSize( 2048, 512 ), argv_copy->at(1) );
+	the_core_widget = new level_editor_core_widget( this, QPoint( 0, 0 ),
+		QSize( 512, 512 ), argv_copy->at(1) );
 	
 	#define X(name) \
 	the_##name##_selector_widget = new name##_selector_widget( this, \
@@ -114,7 +118,11 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 
 bool level_editor_widget::zoom_in()
 {
-	if ( the_core_widget->the_sfml_canvas_widget->scale_factor == 16 )
+	//if ( the_core_widget->the_sfml_canvas_widget->scale_factor == 16 )
+	//{
+	//	return false;
+	//}
+	if ( the_core_widget->the_sfml_canvas_widget->scale_factor == 4 )
 	{
 		return false;
 	}
