@@ -118,6 +118,7 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 	//	cout << "out of bounds\n";
 	//	return;
 	//}
+	
 	sf::FloatRect visible_rect = the_sfml_canvas_widget
 		->get_visible_rect();
 	
@@ -125,7 +126,7 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 		<< visible_rect.width << ", " << visible_rect.height << endl;
 	
 	if ( !the_sfml_canvas_widget->point_is_in_visible_rect
-		(event_pos_in_canvas_pixel_coords) )
+		( sf::Vector2i( event->x(), event->y() ) ) )
 	{
 		cout << "out of bounds\n";
 		return;
@@ -139,7 +140,7 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 		
 		vec2_u32 block_grid_coords_of_event_pos
 			= { (u32)( event_pos_in_canvas_coords.x
-		/ sfml_canvas_widget::num_pixels_per_block_row ),
+		/ ( sfml_canvas_widget::num_pixels_per_block_row ) ),
 		
 		(u32)( ( the_sublevel.real_size_2d.y 
 		- ( ( the_sfml_canvas_widget->getSize().y / scale_factor )

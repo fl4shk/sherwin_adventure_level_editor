@@ -537,9 +537,9 @@ void sfml_canvas_widget::update_visible_area()
 	
 	vec2<double> visible_block_grid_start_pos
 		( (double)visible_rect.left / (double)( num_pixels_per_block_row
-		* scale_factor), 
+		* scale_factor ), 
 		(double)visible_rect.top / (double)( num_pixels_per_block_column
-		* scale_factor) );
+		* scale_factor ) );
 	vec2<double> visible_block_grid_size_2d
 		( (double)visible_rect.width / (double)( num_pixels_per_block_row
 		* scale_factor ), 
@@ -577,6 +577,15 @@ void sfml_canvas_widget::update_visible_area()
 	sprite_for_drawing_blocks.setTexture(the_block_selector_core_widget
 		->get_level_element_gfx_raw_texture());
 	
+	//double offset_x = visible_block_grid_start_pos.x 
+	//	- (u32)visible_block_grid_start_pos.x, 
+	//	offset_y = visible_block_grid_start_pos.y
+	//	- (u32)visible_block_grid_start_pos.y;
+	//
+	//cout << offset_x << ", " << offset_y << endl;
+	
+	u32 num_drawn = 0;
+	
 	for ( double j=0; j<visible_block_grid_size_2d.y; ++j )
 	{
 		for ( double i=0; i<visible_block_grid_size_2d.x; ++i )
@@ -584,22 +593,12 @@ void sfml_canvas_widget::update_visible_area()
 			vec2<double> block_grid_pos( i + visible_block_grid_start_pos.x,
 				j + visible_block_grid_start_pos.y );
 			
-			sprite_for_drawing_blocks.setPosition
-				( (u32)visible_rect.left 
-				+ ( i * (double)num_pixels_per_block_row 
-				* (double)scale_factor ), 
-				(u32)visible_rect.top 
-				+ ( j * (double)num_pixels_per_block_column 
-				* (double)scale_factor ) );
-			sprite_for_drawing_blocks.setScale( scale_factor, 
-				scale_factor );
-			
 			if ( block_grid_pos.x >= the_sublevel->real_size_2d.x
 				|| block_grid_pos.y >= the_sublevel->real_size_2d.y )
 			{
-				cout << "block_grid_pos out of bounds:  "
-					<< block_grid_pos.x << ", " << block_grid_pos.y
-					<< endl;
+				//cout << "block_grid_pos out of bounds:  "
+				//	<< block_grid_pos.x << ", " << block_grid_pos.y
+				//	<< endl;
 				continue;
 			}
 			
@@ -612,10 +611,18 @@ void sfml_canvas_widget::update_visible_area()
 					( the_block_selector_core_widget
 					->get_texture_rect_of_other_index(the_block.type) );
 				
-				//cout << sprite_for_drawing_blocks.getPosition().x << ", " 
-				//	<< sprite_for_drawing_blocks.getPosition().y << endl;
+				sprite_for_drawing_blocks.setScale( scale_factor, 
+					scale_factor );
+				
+				sprite_for_drawing_blocks.setPosition
+					( (u32)block_grid_pos.x * num_pixels_per_block_row
+					* scale_factor, (u32)block_grid_pos.y 
+					* num_pixels_per_block_column * scale_factor );
 				
 				draw(sprite_for_drawing_blocks);
+				
+				++num_drawn;
+				
 				
 				//cout << endl;
 			}
@@ -624,7 +631,9 @@ void sfml_canvas_widget::update_visible_area()
 		}
 		//cout << "; " << j << endl;
 	}
-	//cout << endl;
+	
+	cout << num_drawn << endl;
+	cout << endl;
 	
 	//if ( get_block_grid_enabled() 
 	//	&& scale_factor >= minimum_scale_factor_for_block_grid )

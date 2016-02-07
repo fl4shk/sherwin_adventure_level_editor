@@ -229,6 +229,10 @@ protected:		// functions
 			QSize n_size_modded( n_size.width() + scroll_area
 				->verticalScrollBar()->width(), n_size.height() 
 				+ scroll_area->horizontalScrollBar()->height() );
+			
+			cout << n_size.width() << ", " << n_size.height() << ";  "
+				<< n_size_modded.width() << ", " << n_size_modded.height()
+				<< endl;
 			parent->resize(n_size_modded);
 			resize(n_size_modded);
 			sf::RenderWindow::create(winId());

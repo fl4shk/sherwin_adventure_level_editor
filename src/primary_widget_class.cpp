@@ -123,56 +123,56 @@ void primary_widget::laugh()
 	
 	
 	
-	//sublevel& the_sublevel = the_central_widget->the_core_widget
-	//	->the_sublevel;
-	//for ( u32 j=0; j<the_sublevel.real_size_2d.y; ++j )
-	//{
-	//	for ( u32 i=0; i<the_sublevel.real_size_2d.x; ++i )
-	//	{
-	//		cout << block_stuff::get_bt_name
-	//			((block_type)the_sublevel.uncompressed_block_data_vec_2d
-	//			.at(j).at(i).type) << ",";
-	//	}
-	//	cout << endl;
-	//}
+	sublevel& the_sublevel = the_central_widget->the_core_widget
+		->the_sublevel;
+	for ( u32 j=0; j<the_sublevel.real_size_2d.y; ++j )
+	{
+		for ( u32 i=0; i<the_sublevel.real_size_2d.x; ++i )
+		{
+			cout << block_stuff::get_bt_name
+				((block_type)the_sublevel.uncompressed_block_data_vec_2d
+				.at(j).at(i).type) << ",";
+		}
+		cout << endl;
+	}
 	
-	sfml_canvas_widget* the_sfml_canvas_widget = the_central_widget
-		->the_core_widget->the_sfml_canvas_widget;
-	
-	QScrollArea* scroll_area = the_central_widget->scroll_area;
-	
-	sf::Vector2u sfml_canvas_size_2d = the_sfml_canvas_widget->getSize();
-	
-	sf::FloatRect sfml_canvas_visible_rect = the_sfml_canvas_widget
-		->get_visible_rect();
-	
-	QRect scroll_area_bounding_rect = scroll_area->visibleRegion()
-		.boundingRect();
-	
-	sf::FloatRect scroll_area_visible_rect( sf::Vector2f
-		( (double)scroll_area_bounding_rect.x(), 
-		(double)scroll_area_bounding_rect.y() ),
-		sf::Vector2f( (double)scroll_area_bounding_rect.width(),
-		(double)scroll_area_bounding_rect.height() ) );
-	
-	
-	
-	cout << sfml_canvas_visible_rect.left << ", "
-		<< sfml_canvas_visible_rect.top << ", "
-		<< sfml_canvas_visible_rect.width << ", "
-		<< sfml_canvas_visible_rect.height << endl;
-	
-	//cout << sfml_canvas_size_2d.x << ", " << sfml_canvas_size_2d.y << endl;
-	cout << scroll_area_visible_rect.left << ", "
-		<< scroll_area_visible_rect.top << ", "
-		<< scroll_area_visible_rect.width << ", "
-		<< scroll_area_visible_rect.height << endl;
-	
-	
-	cout << scroll_area->horizontalScrollBar()->height() << ", "
-		<< scroll_area->verticalScrollBar()->width() << endl;
-	
-	cout << endl;
+	//sfml_canvas_widget* the_sfml_canvas_widget = the_central_widget
+	//	->the_core_widget->the_sfml_canvas_widget;
+	//
+	//QScrollArea* scroll_area = the_central_widget->scroll_area;
+	//
+	//sf::Vector2u sfml_canvas_size_2d = the_sfml_canvas_widget->getSize();
+	//
+	//sf::FloatRect sfml_canvas_visible_rect = the_sfml_canvas_widget
+	//	->get_visible_rect();
+	//
+	//QRect scroll_area_bounding_rect = scroll_area->visibleRegion()
+	//	.boundingRect();
+	//
+	//sf::FloatRect scroll_area_visible_rect( sf::Vector2f
+	//	( (double)scroll_area_bounding_rect.x(), 
+	//	(double)scroll_area_bounding_rect.y() ),
+	//	sf::Vector2f( (double)scroll_area_bounding_rect.width(),
+	//	(double)scroll_area_bounding_rect.height() ) );
+	//
+	//
+	//
+	//cout << sfml_canvas_visible_rect.left << ", "
+	//	<< sfml_canvas_visible_rect.top << ", "
+	//	<< sfml_canvas_visible_rect.width << ", "
+	//	<< sfml_canvas_visible_rect.height << endl;
+	//
+	////cout << sfml_canvas_size_2d.x << ", " << sfml_canvas_size_2d.y << endl;
+	//cout << scroll_area_visible_rect.left << ", "
+	//	<< scroll_area_visible_rect.top << ", "
+	//	<< scroll_area_visible_rect.width << ", "
+	//	<< scroll_area_visible_rect.height << endl;
+	//
+	//
+	//cout << scroll_area->horizontalScrollBar()->height() << ", "
+	//	<< scroll_area->verticalScrollBar()->width() << endl;
+	//
+	//cout << endl;
 	
 	//sfml_canvas_widget* the_sfml_canvas_widget = the_central_widget
 	//	->the_core_widget->the_sfml_canvas_widget;
