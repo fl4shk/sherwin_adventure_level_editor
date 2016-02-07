@@ -216,30 +216,30 @@ public:		// functions
 	
 	
 protected:		// functions
-	virtual inline void full_resize( const QSize& n_size )
-	{
-		if ( scroll_area == NULL )
-		{
-			parent->resize(n_size);
-			resize(n_size);
-			sf::RenderWindow::create(winId());
-		}
-		else
-		{
-			QSize n_size_modded( n_size.width() + scroll_area
-				->verticalScrollBar()->width(), n_size.height() 
-				+ scroll_area->horizontalScrollBar()->height() );
-			
-			cout << n_size.width() << ", " << n_size.height() << ";  "
-				<< n_size_modded.width() << ", " << n_size_modded.height()
-				<< endl;
-			parent->resize(n_size_modded);
-			resize(n_size_modded);
-			sf::RenderWindow::create(winId());
-		}
-		
-		
-	}
+	//virtual inline void full_resize( const QSize& n_size )
+	//{
+	//	if ( scroll_area == NULL )
+	//	{
+	//		parent->resize(n_size);
+	//		resize(n_size);
+	//		sf::RenderWindow::create(winId());
+	//	}
+	//	else
+	//	{
+	//		QSize n_size_modded( n_size.width() + scroll_area
+	//			->verticalScrollBar()->width(), n_size.height() 
+	//			+ scroll_area->horizontalScrollBar()->height() );
+	//		
+	//		cout << n_size.width() << ", " << n_size.height() << ";  "
+	//			<< n_size_modded.width() << ", " << n_size_modded.height()
+	//			<< endl;
+	//		parent->resize(n_size_modded);
+	//		resize(n_size_modded);
+	//		sf::RenderWindow::create(winId());
+	//	}
+	//	
+	//	
+	//}
 	
 	//void mousePressEvent( QMouseEvent* event );
 	//void mouseMoveEvent( QMouseEvent* event );

@@ -94,15 +94,26 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 	
 	cout << event->x() << ", " << event->y() << endl;
 	
-	// This converts the clicked coordinate to pixel coordinates.
-	sf::Vector2f event_pos_in_canvas_coords 
-		= the_sfml_canvas_widget->mapPixelToCoords
-		( sf::Vector2i( event->x(), event->y() ), 
-		the_sfml_canvas_widget->get_apparent_view() );
+	//// This converts the clicked coordinate to pixel coordinates.
+	//sf::Vector2f event_pos_in_canvas_coords 
+	//	= the_sfml_canvas_widget->mapPixelToCoords
+	//	( sf::Vector2i( event->x(), event->y() ), 
+	//	the_sfml_canvas_widget->get_apparent_view() );
 	
-	sf::Vector2i event_pos_in_canvas_pixel_coords
-		= sf::Vector2i( (int)event_pos_in_canvas_coords.x,
-		(int)event_pos_in_canvas_coords.y );
+	//sf::Vector2i event_pos_in_canvas_pixel_coords
+	//	= sf::Vector2i( (int)event_pos_in_canvas_coords.x,
+	//	(int)event_pos_in_canvas_coords.y );
+	
+	
+	sf::Vector2i event_pos_in_canvas_widget_coords 
+		= sf::Mouse::getPosition(*the_sfml_canvas_widget);
+	
+	// This converts the clicked coordinate to pixel coordinates.
+	sf::Vector2f event_pos_in_canvas_coords
+		( (double)event_pos_in_canvas_widget_coords.x 
+		/ (double)the_sfml_canvas_widget->scale_factor,
+		(double)event_pos_in_canvas_widget_coords.y
+		/ (double)the_sfml_canvas_widget->scale_factor );
 	
 	cout << event_pos_in_canvas_coords.x << ", "
 		<< event_pos_in_canvas_coords.y << endl;

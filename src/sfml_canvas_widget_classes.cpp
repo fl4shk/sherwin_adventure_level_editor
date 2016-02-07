@@ -631,9 +631,9 @@ void sfml_canvas_widget::update_visible_area()
 		}
 		//cout << "; " << j << endl;
 	}
+	//cout << num_drawn << endl;
+	//cout << endl;
 	
-	cout << num_drawn << endl;
-	cout << endl;
 	
 	//if ( get_block_grid_enabled() 
 	//	&& scale_factor >= minimum_scale_factor_for_block_grid )
