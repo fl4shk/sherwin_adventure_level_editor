@@ -28,6 +28,7 @@
 #include "block_selector_core_widget_class.hpp"
 #include "sprite_16x16_selector_core_widget_class.hpp"
 #include "sprite_16x32_selector_core_widget_class.hpp"
+#include "level_editor_core_widget_class.hpp"
 
 
 sfml_canvas_widget_base::sfml_canvas_widget_base( QWidget* s_parent, 
@@ -111,8 +112,6 @@ sfml_canvas_widget::sfml_canvas_widget( QWidget* s_parent,
 	const QPoint& s_position, const QSize& s_size ) 
 	: sfml_canvas_widget_base( s_parent, s_position, s_size ),
 	
-	block_grid_enabled_recently(false), block_grid_enabled(false), 
-	
 	unzoomed_size_2d(s_size),
 	
 	scroll_area(NULL),
@@ -127,41 +126,14 @@ sfml_canvas_widget::sfml_canvas_widget( QWidget* s_parent,
 {
 	apparent_view = getDefaultView();
 	
-	//canvas_image.reset(new sf::Image);
-	//canvas_image->create( s_size.width(), s_size.height(), 
-	//	sf::Color::Cyan );
-	//
-	//canvas_texture.reset(new sf::Texture);
-	//canvas_texture->loadFromImage(*canvas_image);
-	//
-	//canvas_sprite.reset(new sf::Sprite);
-	//canvas_sprite->setTexture(*canvas_texture);
-	
-	//canvas_render_texture.create( s_size.width(), s_size.height(),
-	//	sf::Color::Cyan );
-	
-	//canvas_render_texture.create( s_size.width(), s_size.height() );
-	//canvas_render_texture.clear(sf::Color::Cyan);
-	
-	//canvas_render_texture.create( s_size.width(), s_size.height() );
-	//canvas_render_texture.clear( sf::Color( 0, 255, 255, 0 ) );
-	
-	
-	//sf::FloatRect visible_rect = get_visible_rect();
-	//
-	//canvas_render_texture.create( visible_rect.width, 
-	//	visible_rect.height );
-	//
-	//canvas_render_texture.clear(sf::Color::Cyan);
-	
+	the_block_grid_stuff.enabled = false;
+	the_rect_selection_stuff.enabled = false;
 }
 
 sfml_canvas_widget::sfml_canvas_widget( QWidget* s_parent, 
 	const QPoint& s_position, const QSize& s_size, 
 	QScrollArea* s_scroll_area ) 
 	: sfml_canvas_widget_base( s_parent, s_position, s_size ),
-	
-	block_grid_enabled_recently(false), block_grid_enabled(false), 
 	
 	unzoomed_size_2d(s_size),
 	
@@ -176,29 +148,8 @@ sfml_canvas_widget::sfml_canvas_widget( QWidget* s_parent,
 {
 	apparent_view = getDefaultView();
 	
-	//canvas_image.reset(new sf::Image);
-	//canvas_image->create( s_size.width(), s_size.height(), 
-	//	sf::Color::Cyan );
-	//
-	//canvas_texture.reset(new sf::Texture);
-	//canvas_texture->loadFromImage(*canvas_image);
-	//
-	//canvas_sprite.reset(new sf::Sprite);
-	//canvas_sprite->setTexture(*canvas_texture);
-	
-	//canvas_render_texture.create( s_size.width(), s_size.height(),
-	//	sf::Color::Cyan );
-	
-	//canvas_render_texture.create( s_size.width(), s_size.height() );
-	
-	//sf::FloatRect visible_rect = get_visible_rect();
-	//
-	//canvas_render_texture.create( visible_rect.width, 
-	//	visible_rect.height );
-	//
-	//canvas_render_texture.clear(sf::Color::Cyan);
-	
-	
+	the_block_grid_stuff.enabled = false;
+	the_rect_selection_stuff.enabled = false;
 }
 
 
@@ -311,18 +262,6 @@ const sf::View& sfml_canvas_widget::get_apparent_view()
 //	}
 //	
 //}
-
-void sfml_canvas_widget::enable_block_grid()
-{
-	block_grid_enabled_recently = true;
-	block_grid_enabled = true;
-	
-}
-
-void sfml_canvas_widget::disable_block_grid()
-{
-	block_grid_enabled = false;
-}
 
 
 //void sfml_canvas_widget::mousePressEvent( QMouseEvent* event )
@@ -441,7 +380,13 @@ void sfml_canvas_widget::set_the_sprite_16x32_selector_core_widget
 		= n_the_sprite_16x32_selector_core_widget;
 }
 
-void sfml_canvas_widget::generate_canvas_block_grid()
+void sfml_canvas_widget::set_the_mouse_mode( mouse_mode* n_the_mouse_mode )
+{
+	the_mouse_mode = n_the_mouse_mode;
+}
+
+
+void sfml_canvas_widget::generate_block_grid()
 {
 	//if ( scale_factor < minimum_scale_factor_for_block_grid )
 	//{
@@ -450,22 +395,10 @@ void sfml_canvas_widget::generate_canvas_block_grid()
 	//	return;
 	//}
 	
-	if (block_grid_enabled_recently)
-	{
-		block_grid_enabled_recently = false;
-	}
-	
 	if ( !get_block_grid_enabled() )
 	{
 		return;
 	}
-	
-	//canvas_block_grid_render_texture.create( getSize().x, 
-	//	getSize().y );
-	
-	//canvas_block_grid_render_texture.create
-	//	( canvas_render_texture.getSize().x, 
-	//	canvas_render_texture.getSize().y );
 	
 	sf::FloatRect visible_rect = get_visible_rect();
 
@@ -477,8 +410,8 @@ void sfml_canvas_widget::generate_canvas_block_grid()
 	vec2<double> visible_block_grid_size_2d
 		( (double)visible_rect.width / (double)( num_pixels_per_block_row
 		* scale_factor ), 
-		(double)visible_rect.height / (double)( num_pixels_per_block_column
-		* scale_factor ) );
+		(double)visible_rect.height 
+		/ (double)( num_pixels_per_block_column * scale_factor ) );
 	
 	++visible_block_grid_size_2d.x;
 	++visible_block_grid_size_2d.y;
@@ -498,37 +431,36 @@ void sfml_canvas_widget::generate_canvas_block_grid()
 	
 	// Only render to the visible area
 	
-	canvas_block_grid_slot_image.reset(new sf::Image);
-	canvas_block_grid_slot_image->create
+	the_block_grid_stuff.slot_image.reset(new sf::Image);
+	the_block_grid_stuff.slot_image->create
 		( num_pixels_per_block_column * scale_factor, 
 		num_pixels_per_block_row * scale_factor, 
 		sf::Color( 0, 0, 0, 0 ) );
 	
 	// Vertical line
-	for ( u32 j=0; j<canvas_block_grid_slot_image->getSize().y; ++j )
+	for ( u32 j=0; j<the_block_grid_stuff.slot_image->getSize().y; ++j )
 	{
-		canvas_block_grid_slot_image->setPixel
-			( canvas_block_grid_slot_image->getSize().x - 1, j,
+		the_block_grid_stuff.slot_image->setPixel
+			( the_block_grid_stuff.slot_image->getSize().x - 1, j,
 			sf::Color::Blue );
 	}
 	
 	// Horizontal line
-	for ( u32 i=0; i<canvas_block_grid_slot_image->getSize().x; ++i )
+	for ( u32 i=0; i<the_block_grid_stuff.slot_image->getSize().x; ++i )
 	{
-		//canvas_block_grid_slot_image->setPixel( i, 
-		//	canvas_block_grid_slot_image->getSize().y - 1,
+		//the_block_grid_stuff.slot_image->setPixel( i, 
+		//	the_block_grid_stuff.slot_image->getSize().y - 1,
 		//	sf::Color::Blue );
-		canvas_block_grid_slot_image->setPixel( i, 0,
-			sf::Color::Blue );
+		the_block_grid_stuff.slot_image->setPixel( i, 0, sf::Color::Blue );
 	}
 	
-	canvas_block_grid_slot_texture.reset(new sf::Texture);
-	canvas_block_grid_slot_texture->loadFromImage
-		(*canvas_block_grid_slot_image);
+	the_block_grid_stuff.slot_texture.reset(new sf::Texture);
+	the_block_grid_stuff.slot_texture->loadFromImage
+		(*the_block_grid_stuff.slot_image);
 	
-	canvas_block_grid_slot_sprite.reset(new sf::Sprite);
-	canvas_block_grid_slot_sprite->setTexture
-		(*canvas_block_grid_slot_texture);
+	the_block_grid_stuff.slot_sprite.reset(new sf::Sprite);
+	the_block_grid_stuff.slot_sprite->setTexture
+		(*the_block_grid_stuff.slot_texture);
 	
 	for ( double j=0; j<visible_block_grid_size_2d.y; ++j )
 	{
@@ -547,13 +479,13 @@ void sfml_canvas_widget::generate_canvas_block_grid()
 				continue;
 			}
 			
-			canvas_block_grid_slot_sprite->setScale( 1.0f, -1.0f );
-			canvas_block_grid_slot_sprite->setPosition
-				( (u32)block_grid_pos.x * num_pixels_per_block_row
+			the_block_grid_stuff.slot_sprite->setScale( 1.0f, -1.0f );
+			the_block_grid_stuff.slot_sprite->setPosition
+				( (u32)block_grid_pos.x * num_pixels_per_block_row 
 				* scale_factor, (u32)block_grid_pos.y 
 				* num_pixels_per_block_column * scale_factor );
 			
-			draw(*canvas_block_grid_slot_sprite);
+			draw(*the_block_grid_stuff.slot_sprite);
 		}
 	}
 	
@@ -792,10 +724,15 @@ void sfml_canvas_widget::update_visible_area()
 	//cout << num_drawn_16x32_sprites << endl;
 	//cout << endl;
 	
-	
 	if ( get_block_grid_enabled() )
 	{
-		generate_canvas_block_grid();
+		generate_block_grid();
+	}
+	
+	// Draw a rectangle around the selected sprite
+	if ( *the_mouse_mode == mm_select_sprites )
+	{
+		
 	}
 }
 
@@ -869,7 +806,7 @@ void sfml_canvas_widget::on_update()
 			
 			if ( get_block_grid_enabled() )
 			{
-				generate_canvas_block_grid();
+				generate_block_grid();
 			}
 			
 			//canvas_sprite->setScale( scale_factor, scale_factor );
@@ -942,7 +879,7 @@ void sfml_canvas_widget::on_update()
 			
 			if ( get_block_grid_enabled() )
 			{
-				generate_canvas_block_grid();
+				generate_block_grid();
 			}
 			
 			//canvas_sprite->setScale( scale_factor, scale_factor );

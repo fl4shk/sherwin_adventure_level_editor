@@ -30,4 +30,15 @@ typedef uint64_t u64; typedef int64_t s64;
 typedef unsigned int uint;
 
 
+// This corresponds to a selected tool.
+enum mouse_mode { mm_place_level_elements, mm_select_sprites, 
+	mm_erase_sprites };
+
+
+// This is intended to be used for the purposes 
+enum rect_selection_layer { rsl_blocks, rsl_sprites };
+
+
+
+
 #endif		// misc_types_hpp

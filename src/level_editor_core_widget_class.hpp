@@ -36,6 +36,8 @@ class sprite_16x32_selector_core_widget;
 
 class level_editor_core_widget : public QWidget
 {
+public:		// enums
+	
 public:		// variables
 	
 	QWidget* parent;
@@ -65,6 +67,10 @@ public:		// variables
 	
 	// This is for block line drawing.
 	QPoint prev_mouse_pos;
+	
+	
+	mouse_mode the_mouse_mode;
+	
 	
 public:		// functions
 	level_editor_core_widget( QWidget* s_parent, const QPoint& s_position,
