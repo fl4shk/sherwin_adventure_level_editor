@@ -685,9 +685,40 @@ void sfml_canvas_widget::on_update()
 			int vert_sb_max_before
 				= scroll_area->verticalScrollBar()->maximum();
 			
+			//cout << "before:  " << getSize().x << ", " << getSize().y 
+			//	<< endl;
+			
 			full_resize
 				( QSize( unzoomed_size_2d.width() * scale_factor, 
 				unzoomed_size_2d.height() * scale_factor ) );
+			
+			
+			// Small hack that I'm not sure works for everyone or just me.
+			// I don't think it's a big deal if one column of pixels at the
+			// end of the level doesn't show up.  For your information, the
+			// max size an sf::RenderWindow can be seems to limit how much
+			// I can zoom in.  Perhaps I should come up with a way to not
+			// need such a large sf::RenderWindow.
+			if ( ( getSize().x + 1 ) < ( unzoomed_size_2d.width() 
+				* scale_factor )
+				|| getSize().y < ( unzoomed_size_2d.height() 
+				* scale_factor ) )
+			{
+				cout << "after:  " << getSize().x << ", " << getSize().y 
+					<< ";  " << ( unzoomed_size_2d.width() * scale_factor )
+					<< ", " << ( unzoomed_size_2d.height() * scale_factor )
+					<< endl;
+				scale_factor >>= 1;
+				
+				full_resize
+					( QSize( unzoomed_size_2d.width() * scale_factor, 
+					unzoomed_size_2d.height() * scale_factor ) );
+			}
+			
+			//cout << "after 2:  " << getSize().x << ", " << getSize().y 
+			//	<< endl;
+			
+			
 			
 			if ( get_block_grid_enabled() )
 			{
@@ -750,6 +781,17 @@ void sfml_canvas_widget::on_update()
 			full_resize(QSize( unzoomed_size_2d.width() * scale_factor, 
 				unzoomed_size_2d.height() * scale_factor ));
 			
+			if ( ( getSize().x + 1 ) < ( unzoomed_size_2d.width() 
+				* scale_factor )
+				|| getSize().y < ( unzoomed_size_2d.height() 
+				* scale_factor ) )
+			{
+				scale_factor >>= 1;
+				
+				full_resize
+					( QSize( unzoomed_size_2d.width() * scale_factor, 
+					unzoomed_size_2d.height() * scale_factor ) );
+			}
 			
 			if ( get_block_grid_enabled() )
 			{

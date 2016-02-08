@@ -6,3 +6,4 @@ asmouts/*
 moc_sources/*
 sherwin_adventure_level_editor
 pugixml_test/*
+adj_pointers_test/*

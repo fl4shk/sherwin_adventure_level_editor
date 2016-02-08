@@ -23,7 +23,6 @@
 
 
 #include "sprite_type_stuff.hpp"
-#include "sublevel_class.hpp"
 
 #include <array>
 using namespace std;
@@ -105,6 +104,8 @@ public:		// variables
 } __attribute__((aligned(4)));
 
 
+class sublevel;
+
 
 // These go from top left to bottom right, and they are generated using
 // block grid coordinates.  Only one sprite should be permitted per block
@@ -136,8 +137,18 @@ public:		// variables
 	// The TOP LEFT block grid coordinate INTERSECTED BY THE SPRITE is
 	// considered to be the origin.  In this particular case, there is only
 	// a single block grid coordinate occupied by the sprite.
-	sprite_init_param_group_with_size * up_left_ptr, * up_ptr, * left_ptr, 
-		* origin_ptr;
+	sprite_init_param_group_with_size * up_left_ptr, * up_ptr, 
+		* left_ptr, * origin_ptr;
+	
+public:		// functions
+	inline adj_sprite_ipgws_ptr_group_for_sprite_16x16()
+		: up_left_ptr(NULL), up_ptr(NULL),
+		left_ptr(NULL), origin_ptr(NULL)
+	{
+	}
+	adj_sprite_ipgws_ptr_group_for_sprite_16x16( sublevel& the_sublevel, 
+		u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord );
+	
 };
 
 
@@ -156,8 +167,21 @@ class adj_sprite_ipgws_ptr_group_for_sprite_16x32
 public:		// variables
 	// The TOP LEFT block grid coordinate INTERSECTED BY THE SPRITE is
 	// considered to be the origin.
-	sprite_init_param_group_with_size * up_left_ptr, * up_ptr, * left_ptr, 
-		* origin_ptr, * down_left_ptr, * down_ptr;
+	sprite_init_param_group_with_size * up_left_ptr, * up_ptr, 
+		* left_ptr, * origin_ptr, 
+		* down_left_ptr, * down_ptr;
+	
+public:		// functions
+	inline adj_sprite_ipgws_ptr_group_for_sprite_16x32()
+		: up_left_ptr(NULL), up_ptr(NULL), 
+		left_ptr(NULL), origin_ptr(NULL), 
+		down_left_ptr(NULL), down_ptr(NULL)
+	{
+	}
+	
+	adj_sprite_ipgws_ptr_group_for_sprite_16x32( sublevel& the_sublevel, 
+		u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord );
+	
 };
 
 
@@ -176,24 +200,21 @@ public:		// variables
 	// The TOP LEFT block grid coordinate INTERSECTED BY THE SPRITE is
 	// considered to be the origin.  In this case, the origin is the in the
 	// CENTER of the checked block grid coordinates.
-	sprite_init_param_group_with_size * up_left_ptr, * up_ptr, * left_ptr, 
-		* origin_ptr, * right_ptr, * down_left_ptr, * down_ptr, 
-		* down_right_ptr;
+	sprite_init_param_group_with_size 
+		* up_left_ptr, * up_ptr, * up_right_ptr,
+		* left_ptr, * origin_ptr, * right_ptr, 
+		* down_left_ptr, * down_ptr, * down_right_ptr;
 	
 public:		// functions
 	inline adj_sprite_ipgws_ptr_group_for_sprite_32x32() 
-		: up_left_ptr(NULL), up_ptr(NULL), left_ptr(NULL),
-		origin_ptr(NULL), right_ptr(NULL), down_left_ptr(NULL),
-		down_ptr(NULL), down_right_ptr(NULL)
+		: up_left_ptr(NULL), up_ptr(NULL), up_right_ptr(NULL),
+		left_ptr(NULL), origin_ptr(NULL), right_ptr(NULL), 
+		down_left_ptr(NULL), down_ptr(NULL), down_right_ptr(NULL)
 	{
 	}
 	
-	//inline adj_sprite_ipgws_ptr_group_for_sprite_32x32
-	//	( sublevel& the_sublevel, u32 origin_block_grid_x_coord, 
-	//	u32 origin_block_grid_y_coord )
-	//{
-	//	if ( origin_block_grid_x_coord 
-	//}
+	adj_sprite_ipgws_ptr_group_for_sprite_32x32( sublevel& the_sublevel, 
+		u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord );
 	
 };
 

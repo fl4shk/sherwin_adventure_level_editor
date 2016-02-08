@@ -40,7 +40,7 @@ public:		// functions
 protected:		// functions
 	virtual inline void full_resize( const QSize& n_size )
 	{
-		parent->resize(n_size);
+		//parent->resize(n_size);
 		resize(n_size);
 		sf::RenderWindow::create(winId());
 	}
