@@ -71,7 +71,7 @@ protected:		// variables
 	// to coordinates relative to the image.
 	sf::View apparent_view;
 	
-	sf::RenderTexture canvas_block_grid_render_texture;
+	//sf::RenderTexture canvas_block_grid_render_texture;
 	
 	unique_ptr<sf::Image> canvas_block_grid_slot_image;
 	unique_ptr<sf::Texture> canvas_block_grid_slot_texture;

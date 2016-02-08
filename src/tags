@@ -141,7 +141,6 @@ bt_wood_with_st_fire_muffin	block_stuff.hpp	/^	bt_wood_with_st_fire_muffin,$/;"	
 bt_wood_with_st_ice_muffin	block_stuff.hpp	/^	bt_wood_with_st_ice_muffin,$/;"	kind:e	enum:block_type
 bt_wood_with_st_muffin	block_stuff.hpp	/^	bt_wood_with_st_muffin,$/;"	kind:e	enum:block_type
 bt_wood_with_st_waffle	block_stuff.hpp	/^	bt_wood_with_st_waffle,$/;"	kind:e	enum:block_type
-canvas_block_grid_render_texture	sfml_canvas_widget_classes.hpp	/^	sf::RenderTexture canvas_block_grid_render_texture;$/;"	kind:m	class:sfml_canvas_widget	access:protected
 canvas_block_grid_slot_image	sfml_canvas_widget_classes.hpp	/^	unique_ptr<sf::Image> canvas_block_grid_slot_image;$/;"	kind:m	class:sfml_canvas_widget	access:protected
 canvas_block_grid_slot_sprite	sfml_canvas_widget_classes.hpp	/^	unique_ptr<sf::Sprite> canvas_block_grid_slot_sprite;$/;"	kind:m	class:sfml_canvas_widget	access:protected
 canvas_block_grid_slot_texture	sfml_canvas_widget_classes.hpp	/^	unique_ptr<sf::Texture> canvas_block_grid_slot_texture;$/;"	kind:m	class:sfml_canvas_widget	access:protected
@@ -593,7 +592,6 @@ sfml_canvas_widget	sfml_canvas_widget_classes.hpp	/^class sfml_canvas_widget : p
 sfml_canvas_widget::apparent_view	sfml_canvas_widget_classes.hpp	/^	sf::View apparent_view;$/;"	kind:m	class:sfml_canvas_widget	access:protected
 sfml_canvas_widget::block_grid_enabled	sfml_canvas_widget_classes.hpp	/^	bool block_grid_enabled_recently, block_grid_enabled;$/;"	kind:m	class:sfml_canvas_widget	access:protected
 sfml_canvas_widget::block_grid_enabled_recently	sfml_canvas_widget_classes.hpp	/^	bool block_grid_enabled_recently, block_grid_enabled;$/;"	kind:m	class:sfml_canvas_widget	access:protected
-sfml_canvas_widget::canvas_block_grid_render_texture	sfml_canvas_widget_classes.hpp	/^	sf::RenderTexture canvas_block_grid_render_texture;$/;"	kind:m	class:sfml_canvas_widget	access:protected
 sfml_canvas_widget::canvas_block_grid_slot_image	sfml_canvas_widget_classes.hpp	/^	unique_ptr<sf::Image> canvas_block_grid_slot_image;$/;"	kind:m	class:sfml_canvas_widget	access:protected
 sfml_canvas_widget::canvas_block_grid_slot_sprite	sfml_canvas_widget_classes.hpp	/^	unique_ptr<sf::Sprite> canvas_block_grid_slot_sprite;$/;"	kind:m	class:sfml_canvas_widget	access:protected
 sfml_canvas_widget::canvas_block_grid_slot_texture	sfml_canvas_widget_classes.hpp	/^	unique_ptr<sf::Texture> canvas_block_grid_slot_texture;$/;"	kind:m	class:sfml_canvas_widget	access:protected

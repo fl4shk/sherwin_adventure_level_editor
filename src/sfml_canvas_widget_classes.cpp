@@ -455,73 +455,106 @@ void sfml_canvas_widget::generate_canvas_block_grid()
 		block_grid_enabled_recently = false;
 	}
 	
-	if ( get_block_grid_enabled() )
+	if ( !get_block_grid_enabled() )
 	{
-		//canvas_block_grid_render_texture.create( getSize().x, 
-		//	getSize().y );
-		
-		//canvas_block_grid_render_texture.create
-		//	( canvas_render_texture.getSize().x, 
-		//	canvas_render_texture.getSize().y );
-		
-		sf::FloatRect visible_rect = get_visible_rect();
-		
-		// Only render to the visible area
-		canvas_block_grid_render_texture.create
-			( visible_rect.width + num_pixels_per_block_row, 
-			visible_rect.height + num_pixels_per_block_column );
-		
-		
-		canvas_block_grid_slot_image.reset(new sf::Image);
-		canvas_block_grid_slot_image->create
-			( num_pixels_per_block_column * scale_factor, 
-			num_pixels_per_block_row * scale_factor, 
-			sf::Color( 0, 0, 0, 0 ) );
-		
-		// Vertical line
-		for ( u32 j=0; j<canvas_block_grid_slot_image->getSize().y; ++j )
+		return;
+	}
+	
+	//canvas_block_grid_render_texture.create( getSize().x, 
+	//	getSize().y );
+	
+	//canvas_block_grid_render_texture.create
+	//	( canvas_render_texture.getSize().x, 
+	//	canvas_render_texture.getSize().y );
+	
+	sf::FloatRect visible_rect = get_visible_rect();
+
+	vec2<double> visible_block_grid_start_pos
+		( (double)visible_rect.left / (double)( num_pixels_per_block_row
+		* scale_factor ), 
+		(double)visible_rect.top / (double)( num_pixels_per_block_column
+		* scale_factor ) );
+	vec2<double> visible_block_grid_size_2d
+		( (double)visible_rect.width / (double)( num_pixels_per_block_row
+		* scale_factor ), 
+		(double)visible_rect.height / (double)( num_pixels_per_block_column
+		* scale_factor ) );
+	
+	++visible_block_grid_size_2d.x;
+	++visible_block_grid_size_2d.y;
+	
+	if ( ( visible_block_grid_start_pos.x + visible_block_grid_size_2d.x ) 
+		> ( the_sublevel->real_size_2d.x ) )
+	{
+		--visible_block_grid_size_2d.x;
+	}
+	if ( ( visible_block_grid_start_pos.y + visible_block_grid_size_2d.y ) 
+		> ( the_sublevel->real_size_2d.y ) )
+	{
+		--visible_block_grid_size_2d.y;
+	}
+	
+	
+	
+	// Only render to the visible area
+	
+	canvas_block_grid_slot_image.reset(new sf::Image);
+	canvas_block_grid_slot_image->create
+		( num_pixels_per_block_column * scale_factor, 
+		num_pixels_per_block_row * scale_factor, 
+		sf::Color( 0, 0, 0, 0 ) );
+	
+	// Vertical line
+	for ( u32 j=0; j<canvas_block_grid_slot_image->getSize().y; ++j )
+	{
+		canvas_block_grid_slot_image->setPixel
+			( canvas_block_grid_slot_image->getSize().x - 1, j,
+			sf::Color::Blue );
+	}
+	
+	// Horizontal line
+	for ( u32 i=0; i<canvas_block_grid_slot_image->getSize().x; ++i )
+	{
+		//canvas_block_grid_slot_image->setPixel( i, 
+		//	canvas_block_grid_slot_image->getSize().y - 1,
+		//	sf::Color::Blue );
+		canvas_block_grid_slot_image->setPixel( i, 0,
+			sf::Color::Blue );
+	}
+	
+	canvas_block_grid_slot_texture.reset(new sf::Texture);
+	canvas_block_grid_slot_texture->loadFromImage
+		(*canvas_block_grid_slot_image);
+	
+	canvas_block_grid_slot_sprite.reset(new sf::Sprite);
+	canvas_block_grid_slot_sprite->setTexture
+		(*canvas_block_grid_slot_texture);
+	
+	for ( double j=0; j<visible_block_grid_size_2d.y; ++j )
+	{
+		for ( double i=0; i<visible_block_grid_size_2d.x; ++i )
 		{
-			canvas_block_grid_slot_image->setPixel
-				( canvas_block_grid_slot_image->getSize().x - 1, j,
-				sf::Color::Blue );
+			vec2<double> block_grid_pos
+				( i + visible_block_grid_start_pos.x,
+				j + visible_block_grid_start_pos.y );
+			
+			if ( block_grid_pos.x >= the_sublevel->real_size_2d.x
+				|| block_grid_pos.y >= the_sublevel->real_size_2d.y )
+			{
+				//cout << "block_grid_pos out of bounds:  "
+				//	<< block_grid_pos.x << ", " << block_grid_pos.y
+				//	<< endl;
+				continue;
+			}
+			
+			canvas_block_grid_slot_sprite->setScale( 1.0f, -1.0f );
+			canvas_block_grid_slot_sprite->setPosition
+				( (u32)block_grid_pos.x * num_pixels_per_block_row
+				* scale_factor, (u32)block_grid_pos.y 
+				* num_pixels_per_block_column * scale_factor );
+			
+			draw(*canvas_block_grid_slot_sprite);
 		}
-		
-		// Horizontal line
-		for ( u32 i=0; i<canvas_block_grid_slot_image->getSize().x; ++i )
-		{
-			//canvas_block_grid_slot_image->setPixel( i, 
-			//	canvas_block_grid_slot_image->getSize().y - 1,
-			//	sf::Color::Blue );
-			canvas_block_grid_slot_image->setPixel( i, 0,
-				sf::Color::Blue );
-		}
-		
-		canvas_block_grid_slot_texture.reset(new sf::Texture);
-		canvas_block_grid_slot_texture->loadFromImage
-			(*canvas_block_grid_slot_image);
-		
-		canvas_block_grid_slot_sprite.reset(new sf::Sprite);
-		canvas_block_grid_slot_sprite->setTexture
-			(*canvas_block_grid_slot_texture);
-		
-		//for ( u32 j=0; 
-		//	j<canvas_render_texture.getSize().y 
-		//		/ num_pixels_per_block_column;
-		//	++j )
-		//{
-		//	for ( u32 i=0; 
-		//		i<canvas_render_texture.getSize().x 
-		//			/ num_pixels_per_block_row; 
-		//		++i )
-		//	{
-		//		canvas_block_grid_slot_sprite->setPosition
-		//			( i * canvas_block_grid_slot_image->getSize().x, 
-		//			j * canvas_block_grid_slot_image->getSize().y );
-		//		canvas_block_grid_render_texture.draw
-		//			(*canvas_block_grid_slot_sprite);
-		//	}
-		//}
-		
 	}
 	
 }
@@ -760,20 +793,9 @@ void sfml_canvas_widget::update_visible_area()
 	//cout << endl;
 	
 	
-	//if ( get_block_grid_enabled() 
-	//	&& scale_factor >= minimum_scale_factor_for_block_grid )
-	if (false)
 	if ( get_block_grid_enabled() )
 	{
-		sf::Sprite canvas_block_grid_sprite
-			(canvas_block_grid_render_texture.getTexture());
-		////canvas_block_grid_sprite.setPosition( visible_rect.left, 
-		////	visible_rect.top );
-		//canvas_block_grid_sprite.setScale( 1.0f, -1.0f );
-		//canvas_block_grid_sprite.setPosition( visible_rect.left *
-		//scale_factor, 
-		//	getSize().y - visible_rect.top );
-		draw(canvas_block_grid_sprite);
+		generate_canvas_block_grid();
 	}
 }
 
@@ -945,14 +967,6 @@ void sfml_canvas_widget::on_update()
 	
 	
 	
-	// Instead of generating the block grid every frame, only do it if it
-	// has been recently enabled (or if it's enabled and zooming happened
-	// recently; see the zooming stuff for that).
-	if (block_grid_enabled_recently)
-	{
-		generate_canvas_block_grid();
-	}
-	//generate_canvas_grid();
 	
 	//clear(sf::Color( 0, 128, 0 ));
 	
