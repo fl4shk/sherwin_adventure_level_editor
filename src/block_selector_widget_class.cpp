@@ -39,6 +39,11 @@ block_selector_widget::block_selector_widget( QWidget* s_parent,
 	//grid_layout = new QGridLayout(this);
 	//grid_layout->addWidget( the_core_widget, 0, 0 );
 	
+	setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
+	setMinimumSize( QSize( the_core_widget
+		->get_level_element_palette_render_texture().getSize().x,
+		the_core_widget->get_level_element_palette_render_texture()
+		.getSize().y ) );
 }
 
 

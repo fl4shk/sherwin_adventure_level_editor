@@ -58,6 +58,7 @@ void level_element_selector_core_widget_base::shared_constructor_code
 	u32 other_slot_inner_width, u32 other_slot_inner_height,
 	u32 other_slot_outer_width, u32 other_slot_outer_height )
 {
+	
 	level_element_gfx_raw_image.loadFromFile
 		(other_level_element_gfx_file_name);
 	level_element_gfx_raw_image.createMaskFromColor(sf::Color::Cyan);
@@ -88,9 +89,9 @@ void level_element_selector_core_widget_base::shared_constructor_code
 	// These are needed to make it so that this widget actually shows up.
 	full_resize( QSize( level_element_palette_render_texture.getSize().x,
 		level_element_palette_render_texture.getSize().y ) );
-	set_min_max_sizes( QSize
-		( level_element_palette_render_texture.getSize().x, 
-		level_element_palette_render_texture.getSize().y ) );
+	//set_min_max_sizes( QSize
+	//	( level_element_palette_render_texture.getSize().x, 
+	//	level_element_palette_render_texture.getSize().y ) );
 	
 	
 	//slot_outer_usual_image.create( slot_outer_width, slot_outer_height, 

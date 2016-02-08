@@ -133,8 +133,8 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 	sf::FloatRect visible_rect = the_sfml_canvas_widget
 		->get_visible_rect();
 	
-	cout << visible_rect.left << ", " << visible_rect.top << ", "
-		<< visible_rect.width << ", " << visible_rect.height << endl;
+	//cout << visible_rect.left << ", " << visible_rect.top << ", "
+	//	<< visible_rect.width << ", " << visible_rect.height << endl;
 	
 	if ( !the_sfml_canvas_widget->point_is_in_visible_rect
 		( sf::Vector2i( event->x(), event->y() ) ) )

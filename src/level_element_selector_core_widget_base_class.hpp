@@ -91,6 +91,10 @@ public:		// functions
 	{
 		return level_element_gfx_raw_texture;
 	}
+	inline sf::RenderTexture& get_level_element_palette_render_texture()
+	{
+		return level_element_palette_render_texture;
+	}
 	
 	inline u32 get_left_current_level_element_index() const
 	{
