@@ -308,6 +308,8 @@ level_editor_core_widget::level_editor_core_widget	level_editor_core_widget_clas
 level_editor_core_widget::level_editor_core_widget	level_editor_core_widget_class.hpp	/^	level_editor_core_widget( QWidget* s_parent, const QPoint& s_position,$/;"	kind:p	class:level_editor_core_widget	access:public	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size, const string& s_level_file_name )
 level_editor_core_widget::level_element_selectors_tab_widget	level_editor_core_widget_class.hpp	/^	QTabWidget* level_element_selectors_tab_widget;$/;"	kind:m	class:level_editor_core_widget	access:public
 level_editor_core_widget::level_file_name	level_editor_core_widget_class.hpp	/^	string level_file_name;$/;"	kind:m	class:level_editor_core_widget	access:public
+level_editor_core_widget::mouseMoveEvent	level_editor_core_widget_class.cpp	/^void level_editor_core_widget::mouseMoveEvent( QMouseEvent* event )$/;"	kind:f	class:level_editor_core_widget	signature:( QMouseEvent* event )
+level_editor_core_widget::mouseMoveEvent	level_editor_core_widget_class.hpp	/^	void mouseMoveEvent( QMouseEvent* event );$/;"	kind:p	class:level_editor_core_widget	access:protected	signature:( QMouseEvent* event )
 level_editor_core_widget::mousePressEvent	level_editor_core_widget_class.cpp	/^void level_editor_core_widget::mousePressEvent( QMouseEvent* event )$/;"	kind:f	class:level_editor_core_widget	signature:( QMouseEvent* event )
 level_editor_core_widget::mousePressEvent	level_editor_core_widget_class.hpp	/^	void mousePressEvent( QMouseEvent* event );$/;"	kind:p	class:level_editor_core_widget	access:protected	signature:( QMouseEvent* event )
 level_editor_core_widget::parent	level_editor_core_widget_class.hpp	/^	QWidget* parent;$/;"	kind:m	class:level_editor_core_widget	access:public
@@ -462,6 +464,8 @@ misc_funcs_hpp	misc_funcs.hpp	21;"	kind:d
 misc_includes_hpp	misc_includes.hpp	22;"	kind:d
 misc_types_hpp	misc_types.hpp	22;"	kind:d
 modified_recently	sfml_canvas_widget_classes.hpp	/^	bool modified_recently;$/;"	kind:m	class:sfml_canvas_widget	access:public
+mouseMoveEvent	level_editor_core_widget_class.cpp	/^void level_editor_core_widget::mouseMoveEvent( QMouseEvent* event )$/;"	kind:f	class:level_editor_core_widget	signature:( QMouseEvent* event )
+mouseMoveEvent	level_editor_core_widget_class.hpp	/^	void mouseMoveEvent( QMouseEvent* event );$/;"	kind:p	class:level_editor_core_widget	access:protected	signature:( QMouseEvent* event )
 mousePressEvent	level_editor_core_widget_class.cpp	/^void level_editor_core_widget::mousePressEvent( QMouseEvent* event )$/;"	kind:f	class:level_editor_core_widget	signature:( QMouseEvent* event )
 mousePressEvent	level_editor_core_widget_class.hpp	/^	void mousePressEvent( QMouseEvent* event );$/;"	kind:p	class:level_editor_core_widget	access:protected	signature:( QMouseEvent* event )
 mousePressEvent	level_element_selector_core_widget_base_class.cpp	/^void level_element_selector_core_widget_base::mousePressEvent$/;"	kind:f	class:level_element_selector_core_widget_base	signature:( QMouseEvent* event )

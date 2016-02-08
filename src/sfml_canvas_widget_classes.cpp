@@ -573,8 +573,11 @@ void sfml_canvas_widget::update_visible_area()
 	//	<< visible_block_grid_size_2d.y << endl;
 	//cout << endl;
 	
-	sf::Sprite sprite_for_drawing_blocks;
-	sprite_for_drawing_blocks.setTexture(the_block_selector_core_widget
+	
+	// Draw the visible blocks
+	sf::Sprite sprite_for_drawing_level_elements;
+	sprite_for_drawing_level_elements.setTexture
+		(the_block_selector_core_widget
 		->get_level_element_gfx_raw_texture());
 	
 	//double offset_x = visible_block_grid_start_pos.x 
@@ -584,13 +587,14 @@ void sfml_canvas_widget::update_visible_area()
 	//
 	//cout << offset_x << ", " << offset_y << endl;
 	
-	u32 num_drawn = 0;
+	u32 num_drawn_blocks = 0;
 	
 	for ( double j=0; j<visible_block_grid_size_2d.y; ++j )
 	{
 		for ( double i=0; i<visible_block_grid_size_2d.x; ++i )
 		{
-			vec2<double> block_grid_pos( i + visible_block_grid_start_pos.x,
+			vec2<double> block_grid_pos
+				( i + visible_block_grid_start_pos.x,
 				j + visible_block_grid_start_pos.y );
 			
 			if ( block_grid_pos.x >= the_sublevel->real_size_2d.x
@@ -607,21 +611,21 @@ void sfml_canvas_widget::update_visible_area()
 			
 			if ( the_block.type != bt_air )
 			{
-				sprite_for_drawing_blocks.setTextureRect
+				sprite_for_drawing_level_elements.setTextureRect
 					( the_block_selector_core_widget
 					->get_texture_rect_of_other_index(the_block.type) );
 				
-				sprite_for_drawing_blocks.setScale( scale_factor, 
+				sprite_for_drawing_level_elements.setScale( scale_factor, 
 					scale_factor );
 				
-				sprite_for_drawing_blocks.setPosition
+				sprite_for_drawing_level_elements.setPosition
 					( (u32)block_grid_pos.x * num_pixels_per_block_row
 					* scale_factor, (u32)block_grid_pos.y 
 					* num_pixels_per_block_column * scale_factor );
 				
-				draw(sprite_for_drawing_blocks);
+				draw(sprite_for_drawing_level_elements);
 				
-				++num_drawn;
+				++num_drawn_blocks;
 				
 				
 				//cout << endl;
@@ -631,7 +635,128 @@ void sfml_canvas_widget::update_visible_area()
 		}
 		//cout << "; " << j << endl;
 	}
-	//cout << num_drawn << endl;
+	//cout << num_drawn_blocks << endl;
+	
+	
+	// Draw 16x16 sprites
+	sprite_for_drawing_level_elements.setTexture
+		(the_sprite_16x16_selector_core_widget
+		->get_level_element_gfx_raw_texture());
+	
+	u32 num_drawn_16x16_sprites = 0;
+	
+	for ( double j=0; j<visible_block_grid_size_2d.y; ++j )
+	{
+		for ( double i=0; i<visible_block_grid_size_2d.x; ++i )
+		{
+			vec2<double> block_grid_pos
+				( i + visible_block_grid_start_pos.x,
+				j + visible_block_grid_start_pos.y );
+			
+			if ( block_grid_pos.x >= the_sublevel->real_size_2d.x
+				|| block_grid_pos.y >= the_sublevel->real_size_2d.y )
+			{
+				//cout << "block_grid_pos out of bounds:  "
+				//	<< block_grid_pos.x << ", " << block_grid_pos.y
+				//	<< endl;
+				continue;
+			}
+			
+			sprite_init_param_group_with_size& the_sprite_ipgws
+				= the_sublevel->sprite_ipgws_vec_2d
+				.at((u32)block_grid_pos.y).at((u32)block_grid_pos.x);
+			
+			if ( the_sprite_ipgws.type != st_default 
+				&& the_sprite_ipgws.size_2d.x == 16
+				&& the_sprite_ipgws.size_2d.y == 16 )
+			{
+				sprite_for_drawing_level_elements.setTextureRect
+					( the_sprite_16x16_selector_core_widget
+					->get_texture_rect_of_other_index
+					(the_sprite_ipgws.type) );
+				
+				sprite_for_drawing_level_elements.setScale( scale_factor, 
+					scale_factor );
+				
+				sprite_for_drawing_level_elements.setPosition
+					( (u32)block_grid_pos.x * num_pixels_per_block_row
+					* scale_factor, (u32)block_grid_pos.y 
+					* num_pixels_per_block_column * scale_factor );
+				
+				draw(sprite_for_drawing_level_elements);
+				
+				++num_drawn_16x16_sprites;
+				
+				
+				//cout << endl;
+			}
+			
+			//cout << i << " ";
+		}
+		//cout << "; " << j << endl;
+	}
+	//cout << num_drawn_16x16_sprites << endl;
+	//cout << endl;
+	
+	
+	// Draw 16x32 sprites
+	sprite_for_drawing_level_elements.setTexture
+		(the_sprite_16x32_selector_core_widget
+		->get_level_element_gfx_raw_texture());
+	
+	u32 num_drawn_16x32_sprites = 0;
+	
+	for ( double j=0; j<visible_block_grid_size_2d.y; ++j )
+	{
+		for ( double i=0; i<visible_block_grid_size_2d.x; ++i )
+		{
+			vec2<double> block_grid_pos
+				( i + visible_block_grid_start_pos.x,
+				j + visible_block_grid_start_pos.y );
+			
+			if ( block_grid_pos.x >= the_sublevel->real_size_2d.x
+				|| block_grid_pos.y >= the_sublevel->real_size_2d.y )
+			{
+				//cout << "block_grid_pos out of bounds:  "
+				//	<< block_grid_pos.x << ", " << block_grid_pos.y
+				//	<< endl;
+				continue;
+			}
+			
+			sprite_init_param_group_with_size& the_sprite_ipgws
+				= the_sublevel->sprite_ipgws_vec_2d
+				.at((u32)block_grid_pos.y).at((u32)block_grid_pos.x);
+			
+			if ( the_sprite_ipgws.type != st_default 
+				&& the_sprite_ipgws.size_2d.x == 16
+				&& the_sprite_ipgws.size_2d.y == 32 )
+			{
+				sprite_for_drawing_level_elements.setTextureRect
+					( the_sprite_16x32_selector_core_widget
+					->get_texture_rect_of_other_index
+					(the_sprite_ipgws.type) );
+				
+				sprite_for_drawing_level_elements.setScale( scale_factor, 
+					scale_factor );
+				
+				sprite_for_drawing_level_elements.setPosition
+					( (u32)block_grid_pos.x * num_pixels_per_block_row
+					* scale_factor, (u32)block_grid_pos.y 
+					* num_pixels_per_block_column * scale_factor );
+				
+				draw(sprite_for_drawing_level_elements);
+				
+				++num_drawn_16x32_sprites;
+				
+				
+				//cout << endl;
+			}
+			
+			//cout << i << " ";
+		}
+		//cout << "; " << j << endl;
+	}
+	//cout << num_drawn_16x32_sprites << endl;
 	//cout << endl;
 	
 	

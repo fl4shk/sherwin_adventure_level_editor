@@ -200,17 +200,154 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 		{
 			//cout << "the_sprite_16x16_selector_widget_is_enabled!\n";
 			
-			the_sprite_ipgws_at_event_pos.type 
-				= (sprite_type)(get_the_sprite_16x16_selector_core_widget()
-				->get_left_current_level_element_index());
+			auto add_sprite = [&]() -> void
+			{
+				//// Delete the data (if any)
+				//the_sprite_ipgws_at_event_pos 
+				//	= sprite_init_param_group_with_size();
+				
+				the_sprite_ipgws_at_event_pos.type 
+					= (sprite_type)
+					(get_the_sprite_16x16_selector_core_widget()
+					->get_left_current_level_element_index());
+				
+				the_sprite_ipgws_at_event_pos.initial_block_grid_x_coord
+					= block_grid_coords_of_event_pos.x;
+				the_sprite_ipgws_at_event_pos.initial_block_grid_y_coord
+					= block_grid_coords_of_event_pos.y;
+				
+				the_sprite_ipgws_at_event_pos.size_2d = vec2_u32( 16, 16 );
+			};
 			
-			the_sprite_ipgws_at_event_pos.initial_block_grid_x_coord
-				= block_grid_coords_of_event_pos.x;
-			the_sprite_ipgws_at_event_pos.initial_block_grid_y_coord
-				= block_grid_coords_of_event_pos.y;
+			adj_sprite_ipgws_ptr_group_for_sprite_16x16 the_ptr_group
+				( the_sublevel, block_grid_coords_of_event_pos.x,
+				block_grid_coords_of_event_pos.y );
 			
-			the_sprite_ipgws_at_event_pos.size_2d = vec2_u32( 16, 16 );
+			bool can_add_sprite = true;
 			
+			// Don't let existing sprites be overwritten.
+			if ( the_ptr_group.up_left_ptr != NULL )
+			{
+				if ( the_ptr_group.up_left_ptr->size_2d.x > 16 
+					&& the_ptr_group.up_left_ptr->size_2d.y > 16 )
+				{
+					can_add_sprite = false;
+				}
+			}
+			
+			if ( the_ptr_group.up_ptr != NULL )
+			{
+				if ( the_ptr_group.up_ptr->size_2d.y > 16 )
+				{
+					can_add_sprite = false;
+				}
+			}
+			
+			
+			if ( the_ptr_group.left_ptr != NULL )
+			{
+				if ( the_ptr_group.left_ptr->size_2d.x > 16 )
+				{
+					can_add_sprite = false;
+				}
+			}
+			
+			if ( the_ptr_group.origin_ptr != NULL )
+			{
+				if ( the_ptr_group.origin_ptr->type != st_default )
+				{
+					can_add_sprite = false;
+				}
+			}
+			
+			if (can_add_sprite)
+			{
+				add_sprite();
+			}
+		}
+		
+		else if (current_tabbed_widget_is_for_16x32_sprites)
+		{
+			//cout << "the_sprite_16x32_selector_widget_is_enabled!\n";
+			
+			auto add_sprite = [&]() -> void
+			{
+				the_sprite_ipgws_at_event_pos.type 
+					= (sprite_type)
+					(get_the_sprite_16x32_selector_core_widget()
+					->get_left_current_level_element_index());
+				
+				the_sprite_ipgws_at_event_pos.initial_block_grid_x_coord
+					= block_grid_coords_of_event_pos.x;
+				the_sprite_ipgws_at_event_pos.initial_block_grid_y_coord
+					= block_grid_coords_of_event_pos.y;
+				
+				the_sprite_ipgws_at_event_pos.size_2d = vec2_u32( 16, 32 );
+			};
+			
+			adj_sprite_ipgws_ptr_group_for_sprite_16x32 the_ptr_group
+				( the_sublevel, block_grid_coords_of_event_pos.x,
+				block_grid_coords_of_event_pos.y );
+			
+			
+			bool can_add_sprite = true;
+			
+			// Don't let existing sprites be overwritten.
+			if ( the_ptr_group.up_left_ptr != NULL )
+			{
+				if ( the_ptr_group.up_left_ptr->size_2d.x > 16
+					&& the_ptr_group.up_left_ptr->size_2d.y > 16 )
+				{
+					can_add_sprite = false;
+				}
+			}
+			
+			if ( the_ptr_group.up_ptr != NULL )
+			{
+				if ( the_ptr_group.up_ptr->size_2d.y > 16 )
+				{
+					can_add_sprite = false;
+				}
+			}
+			
+			
+			if ( the_ptr_group.left_ptr != NULL )
+			{
+				if ( the_ptr_group.left_ptr->size_2d.x > 16 )
+				{
+					can_add_sprite = false;
+				}
+			}
+			
+			if ( the_ptr_group.origin_ptr != NULL )
+			{
+				if ( the_ptr_group.origin_ptr->type != st_default )
+				{
+					can_add_sprite = false;
+				}
+			}
+			
+			
+			if ( the_ptr_group.down_left_ptr != NULL )
+			{
+				if ( the_ptr_group.down_left_ptr->size_2d.x > 16 )
+				{
+					can_add_sprite = false;
+				}
+			}
+			
+			if ( the_ptr_group.down_ptr != NULL )
+			{
+				if ( the_ptr_group.down_ptr->type != st_default )
+				{
+					can_add_sprite = false;
+				}
+			}
+			
+			if (can_add_sprite)
+			{
+				add_sprite();
+			}
 			
 		}
 		
@@ -227,6 +364,11 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 		//	->right_current_color_index) );
 		
 	}
+	
+}
+
+void level_editor_core_widget::mouseMoveEvent( QMouseEvent* event )
+{
 	
 }
 

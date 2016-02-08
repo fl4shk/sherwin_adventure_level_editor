@@ -88,7 +88,7 @@ public:		// functions
 	
 protected:		// functions
 	void mousePressEvent( QMouseEvent* event );
-	
+	void mouseMoveEvent( QMouseEvent* event );
 };
 
 
