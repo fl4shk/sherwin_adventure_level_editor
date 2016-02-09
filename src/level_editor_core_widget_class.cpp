@@ -49,7 +49,6 @@ level_editor_core_widget::level_editor_core_widget( QWidget* s_parent,
 		/ sfml_canvas_widget::num_pixels_per_block_column );
 	
 	the_sfml_canvas_widget->set_the_sublevel(&the_sublevel);
-	the_sfml_canvas_widget->set_the_mouse_mode(&the_mouse_mode);
 	
 	setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Minimum );
 	setMinimumSize( QSize( 512, 512 ) );
@@ -97,7 +96,9 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 	//cout << "level_editor_core_widget's mouse position:  "
 	//	<< event->x() << ", " << event->y() << endl;
 	
-	cout << event->x() << ", " << event->y() << endl;
+	//cout << event->x() << ", " << event->y() << endl;
+	
+	
 	
 	//// This converts the clicked coordinate to pixel coordinates.
 	//sf::Vector2f event_pos_in_canvas_coords 
@@ -110,36 +111,19 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 	//	(int)event_pos_in_canvas_coords.y );
 	
 	
-	sf::Vector2i event_pos_in_canvas_widget_coords 
+	sf::Vector2i mouse_pos_in_canvas_widget_coords 
 		= sf::Mouse::getPosition(*the_sfml_canvas_widget);
 	
 	// This converts the clicked coordinate to pixel coordinates.
-	sf::Vector2f event_pos_in_canvas_coords
-		( (double)event_pos_in_canvas_widget_coords.x 
+	sf::Vector2f mouse_pos_in_canvas_coords
+		( (double)mouse_pos_in_canvas_widget_coords.x 
 		/ (double)the_sfml_canvas_widget->scale_factor,
-		(double)event_pos_in_canvas_widget_coords.y
+		(double)mouse_pos_in_canvas_widget_coords.y
 		/ (double)the_sfml_canvas_widget->scale_factor );
 	
-	cout << event_pos_in_canvas_coords.x << ", "
-		<< event_pos_in_canvas_coords.y << endl;
+	//cout << mouse_pos_in_canvas_coords.x << ", "
+	//	<< mouse_pos_in_canvas_coords.y << endl;
 	
-	
-	prev_mouse_pos = event->pos();
-	
-	// Check whether the mouse was clicked somewhere inside the image.
-	//if ( !the_sfml_canvas_widget->point_is_in_render_texture
-	//	(event_pos_in_canvas_pixel_coords) )
-	//if ( !the_sfml_canvas_widget->point_is_in_render_texture(mouse_pos) )
-	//{
-	//	cout << "out of bounds\n";
-	//	return;
-	//}
-	
-	//sf::FloatRect visible_rect = the_sfml_canvas_widget
-	//	->get_visible_rect();
-	
-	//cout << visible_rect.left << ", " << visible_rect.top << ", "
-	//	<< visible_rect.width << ", " << visible_rect.height << endl;
 	
 	if ( !the_sfml_canvas_widget->point_is_in_visible_rect
 		( sf::Vector2i( event->x(), event->y() ) ) )
@@ -148,231 +132,156 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 		return;
 	}
 	
-	the_sfml_canvas_widget->modified_recently = true;
+	u32 scale_factor = the_sfml_canvas_widget->scale_factor;
+	
+	vec2_u32 block_grid_coords_of_mouse_pos
+		= { (u32)( mouse_pos_in_canvas_coords.x
+	/ ( sfml_canvas_widget::num_pixels_per_block_row ) ),
+	
+	(u32)( ( the_sublevel.real_size_2d.y 
+	- ( ( the_sfml_canvas_widget->getSize().y / scale_factor )
+	- mouse_pos_in_canvas_coords.y )
+	/ sfml_canvas_widget::num_pixels_per_block_column ) ) };
+	
+	
+	block& the_block_at_mouse_pos 
+		= the_sublevel.uncompressed_block_data_vec_2d
+		[block_grid_coords_of_mouse_pos.y]
+		[block_grid_coords_of_mouse_pos.x];
+	
+	sprite_init_param_group_with_size& the_sprite_ipgws_at_mouse_pos
+		= the_sublevel.sprite_ipgws_vec_2d
+		[block_grid_coords_of_mouse_pos.y]
+		[block_grid_coords_of_mouse_pos.x];
+	
+	
+	bool current_tabbed_widget_is_for_blocks 
+		= ( level_element_selectors_tab_widget->currentWidget()
+		== the_block_selector_widget );
+	bool current_tabbed_widget_is_for_16x16_sprites
+		= ( level_element_selectors_tab_widget->currentWidget()
+		== the_sprite_16x16_selector_widget );
+	bool current_tabbed_widget_is_for_16x32_sprites
+		= ( level_element_selectors_tab_widget->currentWidget()
+		== the_sprite_16x32_selector_widget );
+	
+	
+	auto func_for_placing_level_elements = [&]() -> void
+	{
+		the_sfml_canvas_widget->modified_recently = true;
+		
+		if (current_tabbed_widget_is_for_blocks)
+		{
+			//cout << "the_block_selector_widget_is_enabled!\n";
+			
+			the_block_at_mouse_pos.type 
+				= get_the_block_selector_core_widget()
+				->get_left_current_level_element_index();
+			
+			//cout << block_stuff::get_bt_name
+			//	((block_type)the_block_at_mouse_pos.type) << endl;
+		}
+		
+		else if (current_tabbed_widget_is_for_16x16_sprites)
+		{
+			//cout << "the_sprite_16x16_selector_widget_is_enabled!\n";
+			
+			auto add_sprite = [&]() -> void
+			{
+				//// Delete the data (if any)
+				//the_sprite_ipgws_at_mouse_pos 
+				//	= sprite_init_param_group_with_size();
+				
+				the_sprite_ipgws_at_mouse_pos.type 
+					= (sprite_type)
+					(get_the_sprite_16x16_selector_core_widget()
+					->get_left_current_level_element_index());
+				
+				the_sprite_ipgws_at_mouse_pos
+					.initial_block_grid_x_coord
+					= block_grid_coords_of_mouse_pos.x;
+				the_sprite_ipgws_at_mouse_pos
+					.initial_block_grid_y_coord
+					= block_grid_coords_of_mouse_pos.y;
+				
+				the_sprite_ipgws_at_mouse_pos.size_2d 
+					= vec2_u32( 16, 16 );
+			};
+			
+			adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16 
+				the_ptr_group( the_sublevel, 
+				block_grid_coords_of_mouse_pos.x,
+				block_grid_coords_of_mouse_pos.y );
+			
+			if ( the_ptr_group.can_add_sprite() )
+			{
+				add_sprite();
+			}
+		}
+		
+		else if (current_tabbed_widget_is_for_16x32_sprites)
+		{
+			//cout << "the_sprite_16x32_selector_widget_is_enabled!\n";
+			
+			auto add_sprite = [&]() -> void
+			{
+				the_sprite_ipgws_at_mouse_pos.type 
+					= (sprite_type)
+					(get_the_sprite_16x32_selector_core_widget()
+					->get_left_current_level_element_index());
+				
+				the_sprite_ipgws_at_mouse_pos.initial_block_grid_x_coord
+					= block_grid_coords_of_mouse_pos.x;
+				the_sprite_ipgws_at_mouse_pos.initial_block_grid_y_coord
+					= block_grid_coords_of_mouse_pos.y;
+				
+				the_sprite_ipgws_at_mouse_pos.size_2d = vec2_u32( 16, 32 );
+			};
+			
+			adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32 
+				the_ptr_group( the_sublevel, 
+				block_grid_coords_of_mouse_pos.x,
+				block_grid_coords_of_mouse_pos.y );
+			
+			
+			if ( the_ptr_group.can_add_sprite() )
+			{
+				add_sprite();
+			}
+			
+		}
+		
+		cout << endl;
+	};
+	
+	auto func_for_selecting_sprites = [&]() -> void
+	{
+		//adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16 the_ptr_group
+		//	( the_sublevel, block_grid_coords_of_mouse_pos.x,
+		//	block_grid_coords_of_mouse_pos.y );
+		
+		adj_sprite_ipgws_ptr_group_for_selecting_sprite the_ptr_group
+			( the_sublevel, block_grid_coords_of_mouse_pos.x,
+			block_grid_coords_of_mouse_pos.y );
+		
+		cout << ( the_ptr_group.origin_ptr == NULL ) << endl;
+		cout << "This sprite was clicked:  " 
+			<< the_ptr_group.origin_ptr->type << ";  "
+			<< the_ptr_group.origin_ptr->initial_block_grid_x_coord << ", "
+			<< the_ptr_group.origin_ptr->initial_block_grid_y_coord
+			<< endl;
+	};
+	
+	auto func_for_erasing_sprites = [&]() -> void
+	{
+		
+	};
 	
 	if ( event->button() == Qt::LeftButton )
 	{
-		auto func_for_placing_level_elements = [&]() -> void
-		{
-			u32 scale_factor = the_sfml_canvas_widget->scale_factor;
-			
-			vec2_u32 block_grid_coords_of_event_pos
-				= { (u32)( event_pos_in_canvas_coords.x
-			/ ( sfml_canvas_widget::num_pixels_per_block_row ) ),
-			
-			(u32)( ( the_sublevel.real_size_2d.y 
-			- ( ( the_sfml_canvas_widget->getSize().y / scale_factor )
-			- event_pos_in_canvas_coords.y )
-			/ sfml_canvas_widget::num_pixels_per_block_column ) ) };
-			
-			cout << block_grid_coords_of_event_pos.x << ", "
-				<< block_grid_coords_of_event_pos.y << endl;
-			
-			
-			block& the_block_at_event_pos 
-				= the_sublevel.uncompressed_block_data_vec_2d
-				[block_grid_coords_of_event_pos.y]
-				[block_grid_coords_of_event_pos.x];
-			
-			
-			sprite_init_param_group_with_size& 
-				the_sprite_ipgws_at_event_pos
-				= the_sublevel.sprite_ipgws_vec_2d
-				[block_grid_coords_of_event_pos.y]
-				[block_grid_coords_of_event_pos.x];
-			
-			
-			bool current_tabbed_widget_is_for_blocks 
-				= ( level_element_selectors_tab_widget->currentWidget()
-				== the_block_selector_widget );
-			bool current_tabbed_widget_is_for_16x16_sprites
-				= ( level_element_selectors_tab_widget->currentWidget()
-				== the_sprite_16x16_selector_widget );
-			bool current_tabbed_widget_is_for_16x32_sprites
-				= ( level_element_selectors_tab_widget->currentWidget()
-				== the_sprite_16x32_selector_widget );
-			
-			if (current_tabbed_widget_is_for_blocks)
-			{
-				//cout << "the_block_selector_widget_is_enabled!\n";
-				
-				the_block_at_event_pos.type 
-					= get_the_block_selector_core_widget()
-					->get_left_current_level_element_index();
-				
-				//cout << block_stuff::get_bt_name
-				//	((block_type)the_block_at_event_pos.type) << endl;
-			}
-			
-			else if (current_tabbed_widget_is_for_16x16_sprites)
-			{
-				//cout << "the_sprite_16x16_selector_widget_is_enabled!\n";
-				
-				auto add_sprite = [&]() -> void
-				{
-					//// Delete the data (if any)
-					//the_sprite_ipgws_at_event_pos 
-					//	= sprite_init_param_group_with_size();
-					
-					the_sprite_ipgws_at_event_pos.type 
-						= (sprite_type)
-						(get_the_sprite_16x16_selector_core_widget()
-						->get_left_current_level_element_index());
-					
-					the_sprite_ipgws_at_event_pos
-						.initial_block_grid_x_coord
-						= block_grid_coords_of_event_pos.x;
-					the_sprite_ipgws_at_event_pos
-						.initial_block_grid_y_coord
-						= block_grid_coords_of_event_pos.y;
-					
-					the_sprite_ipgws_at_event_pos.size_2d 
-						= vec2_u32( 16, 16 );
-				};
-				
-				adj_sprite_ipgws_ptr_group_for_sprite_16x16 the_ptr_group
-					( the_sublevel, block_grid_coords_of_event_pos.x,
-					block_grid_coords_of_event_pos.y );
-				
-				bool can_add_sprite = true;
-				
-				// Don't let existing sprites be overwritten.
-				if ( the_ptr_group.up_left_ptr != NULL )
-				{
-					if ( the_ptr_group.up_left_ptr->size_2d.x > 16 
-						&& the_ptr_group.up_left_ptr->size_2d.y > 16 )
-					{
-						can_add_sprite = false;
-					}
-				}
-				
-				if ( the_ptr_group.up_ptr != NULL )
-				{
-					if ( the_ptr_group.up_ptr->size_2d.y > 16 )
-					{
-						can_add_sprite = false;
-					}
-				}
-				
-				
-				if ( the_ptr_group.left_ptr != NULL )
-				{
-					if ( the_ptr_group.left_ptr->size_2d.x > 16 )
-					{
-						can_add_sprite = false;
-					}
-				}
-				
-				if ( the_ptr_group.origin_ptr != NULL )
-				{
-					if ( the_ptr_group.origin_ptr->type != st_default )
-					{
-						can_add_sprite = false;
-					}
-				}
-				
-				if (can_add_sprite)
-				{
-					add_sprite();
-				}
-			}
-			
-			else if (current_tabbed_widget_is_for_16x32_sprites)
-			{
-				//cout << "the_sprite_16x32_selector_widget_is_enabled!\n";
-				
-				auto add_sprite = [&]() -> void
-				{
-					the_sprite_ipgws_at_event_pos.type 
-						= (sprite_type)
-						(get_the_sprite_16x32_selector_core_widget()
-						->get_left_current_level_element_index());
-					
-					the_sprite_ipgws_at_event_pos
-						.initial_block_grid_x_coord
-						= block_grid_coords_of_event_pos.x;
-					the_sprite_ipgws_at_event_pos
-						.initial_block_grid_y_coord
-						= block_grid_coords_of_event_pos.y;
-					
-					the_sprite_ipgws_at_event_pos.size_2d 
-						= vec2_u32( 16, 32 );
-				};
-				
-				adj_sprite_ipgws_ptr_group_for_sprite_16x32 the_ptr_group
-					( the_sublevel, block_grid_coords_of_event_pos.x,
-					block_grid_coords_of_event_pos.y );
-				
-				
-				bool can_add_sprite = true;
-				
-				// Don't let existing sprites be overwritten.
-				if ( the_ptr_group.up_left_ptr != NULL )
-				{
-					if ( the_ptr_group.up_left_ptr->size_2d.x > 16
-						&& the_ptr_group.up_left_ptr->size_2d.y > 16 )
-					{
-						can_add_sprite = false;
-					}
-				}
-				
-				if ( the_ptr_group.up_ptr != NULL )
-				{
-					if ( the_ptr_group.up_ptr->size_2d.y > 16 )
-					{
-						can_add_sprite = false;
-					}
-				}
-				
-				
-				if ( the_ptr_group.left_ptr != NULL )
-				{
-					if ( the_ptr_group.left_ptr->size_2d.x > 16 )
-					{
-						can_add_sprite = false;
-					}
-				}
-				
-				if ( the_ptr_group.origin_ptr != NULL )
-				{
-					if ( the_ptr_group.origin_ptr->type != st_default )
-					{
-						can_add_sprite = false;
-					}
-				}
-				
-				
-				if ( the_ptr_group.down_left_ptr != NULL )
-				{
-					if ( the_ptr_group.down_left_ptr->size_2d.x > 16 )
-					{
-						can_add_sprite = false;
-					}
-				}
-				
-				if ( the_ptr_group.down_ptr != NULL )
-				{
-					if ( the_ptr_group.down_ptr->type != st_default )
-					{
-						can_add_sprite = false;
-					}
-				}
-				
-				if (can_add_sprite)
-				{
-					add_sprite();
-				}
-				
-			}
-			
-			cout << endl;
-			
-		};
+		//cout << block_grid_coords_of_mouse_pos.x << ", "
+		//	<< block_grid_coords_of_mouse_pos.y << endl;
 		
-		auto func_for_selecting_sprites = [&]() -> void
-		{
-			
-		};
 		
 		switch (the_mouse_mode)
 		{
@@ -385,6 +294,10 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 				break;
 			
 			case mm_erase_sprites:
+				func_for_erasing_sprites();
+				break;
+			
+			case mm_rect_select:
 				
 				break;
 			
@@ -399,14 +312,17 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 	}
 	else if ( event->button() == Qt::RightButton )
 	{
-		//canvas_image->setPixel( (u32)event_pos_in_image_pixel_coords.x,
-		//	(u32)event_pos_in_image_pixel_coords.y, 
+		//canvas_image->setPixel( (u32)mouse_pos_in_image_pixel_coords.x,
+		//	(u32)mouse_pos_in_image_pixel_coords.y, 
 		//	the_block_selector_core_widget->palette.at
 		//	(the_block_selector_core_widget
 		//	->right_current_color_index) );
 		
 	}
 	
+	
+	//prev_mouse_pos = event->pos();
+	block_grid_coords_of_prev_mouse_pos = block_grid_coords_of_mouse_pos;
 }
 
 void level_editor_core_widget::mouseMoveEvent( QMouseEvent* event )

@@ -65,8 +65,10 @@ public:		// variables
 	sublevel the_sublevel;
 	
 	
-	// This is for block line drawing.
-	QPoint prev_mouse_pos;
+	// This is for block line drawing and multiple level element
+	// rectangular selections.
+	//QPoint prev_mouse_pos;
+	vec2_u32 block_grid_coords_of_prev_mouse_pos;
 	
 	
 	mouse_mode the_mouse_mode;

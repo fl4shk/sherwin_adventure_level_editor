@@ -97,8 +97,8 @@ protected:		// variables
 		bool enabled;
 		
 		// The actual rectangle representing the selected area.  It is
-		// intended to have a position and size that is aligned to the
-		// block grid.
+		// intended to have a position and size that are in block grid
+		// coordinates.
 		sf::IntRect selection_rect;
 	} the_rect_selection_stuff;
 	
@@ -131,7 +131,7 @@ protected:		// variables
 	sprite_16x32_selector_core_widget* 
 		the_sprite_16x32_selector_core_widget;
 	
-	mouse_mode* the_mouse_mode;
+	//mouse_mode* the_mouse_mode;
 	
 	
 public:		// variables and constants
@@ -307,6 +307,7 @@ protected:		// functions
 	//void mouseReleaseEvent( QMouseEvent* event );
 	
 	void generate_block_grid();
+	void generate_rect_selection_rect();
 	
 	//void update_canvas_render_texture();
 	void update_visible_area();

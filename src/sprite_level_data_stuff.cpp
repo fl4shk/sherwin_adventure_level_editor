@@ -20,9 +20,10 @@
 #include "sprite_level_data_stuff.hpp"
 #include "sublevel_class.hpp"
 
-adj_sprite_ipgws_ptr_group_for_sprite_16x16
-	::adj_sprite_ipgws_ptr_group_for_sprite_16x16( sublevel& the_sublevel, 
-	u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
+adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16
+	::adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16
+	( sublevel& the_sublevel, u32 origin_block_grid_x_coord, 
+	u32 origin_block_grid_y_coord )
 {
 	// Do some sanity checks.
 	if ( origin_block_grid_x_coord >= the_sublevel.real_size_2d.x
@@ -82,8 +83,47 @@ adj_sprite_ipgws_ptr_group_for_sprite_16x16
 	
 }
 
-adj_sprite_ipgws_ptr_group_for_sprite_16x32
-	::adj_sprite_ipgws_ptr_group_for_sprite_16x32( sublevel& the_sublevel, 
+bool adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16::can_add_sprite()
+{
+	// Don't let existing sprites be overwritten.
+	if ( up_left_ptr != NULL )
+	{
+		if ( up_left_ptr->size_2d.x > 16 && up_left_ptr->size_2d.y > 16 )
+		{
+			return false;
+		}
+	}
+	
+	if ( up_ptr != NULL )
+	{
+		if ( up_ptr->size_2d.y > 16 )
+		{
+			return false;
+		}
+	}
+	
+	
+	if ( left_ptr != NULL )
+	{
+		if ( left_ptr->size_2d.x > 16 )
+		{
+			return false;
+		}
+	}
+	
+	if ( origin_ptr != NULL )
+	{
+		if ( origin_ptr->type != st_default )
+		{
+			return false;
+		}
+	}
+	
+	return true;
+}
+
+adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32
+	::adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32( sublevel& the_sublevel, 
 	u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
 {
 	// Do some sanity checks.
@@ -174,10 +214,67 @@ adj_sprite_ipgws_ptr_group_for_sprite_16x32
 	
 }
 
+bool adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32::can_add_sprite()
+{
+	// Don't let existing sprites be overwritten.
+	if ( up_left_ptr != NULL )
+	{
+		if ( up_left_ptr->size_2d.x > 16 && up_left_ptr->size_2d.y > 16 )
+		{
+			return false;
+		}
+	}
+	
+	if ( up_ptr != NULL )
+	{
+		if ( up_ptr->size_2d.y > 16 )
+		{
+			return false;
+		}
+	}
+	
+	
+	if ( left_ptr != NULL )
+	{
+		if ( left_ptr->size_2d.x > 16 )
+		{
+			return false;
+		}
+	}
+	
+	if ( origin_ptr != NULL )
+	{
+		if ( origin_ptr->type != st_default )
+		{
+			return false;
+		}
+	}
+	
+	
+	if ( down_left_ptr != NULL )
+	{
+		if ( down_left_ptr->size_2d.x > 16 )
+		{
+			return false;
+		}
+	}
+	
+	if ( down_ptr != NULL )
+	{
+		if ( down_ptr->type != st_default )
+		{
+			return false;
+		}
+	}
+	
+	return true;
+}
 
-adj_sprite_ipgws_ptr_group_for_sprite_32x32
-	::adj_sprite_ipgws_ptr_group_for_sprite_32x32( sublevel& the_sublevel, 
-	u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
+
+adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32
+	::adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32
+	( sublevel& the_sublevel, u32 origin_block_grid_x_coord, 
+	u32 origin_block_grid_y_coord )
 {
 	// Do some sanity checks.
 	if ( origin_block_grid_x_coord >= the_sublevel.real_size_2d.x
@@ -308,5 +405,92 @@ adj_sprite_ipgws_ptr_group_for_sprite_32x32
 	}
 	
 }
+
+
+
+adj_sprite_ipgws_ptr_group_for_selecting_sprite
+	::adj_sprite_ipgws_ptr_group_for_selecting_sprite
+	( sublevel& the_sublevel, u32 mouse_pos_block_grid_x_coord, 
+	u32 mouse_pos_block_grid_y_coord )
+{
+	// Do some sanity checks.
+	if ( mouse_pos_block_grid_x_coord >= the_sublevel.real_size_2d.x
+		|| mouse_pos_block_grid_y_coord >= the_sublevel.real_size_2d.y )
+	{
+		up_left_ptr = up_right_ptr
+			= down_left_ptr = down_right_ptr 
+			= origin_ptr = NULL;
+		return;
+	}
+	down_right_ptr = &the_sublevel.sprite_ipgws_vec_2d
+		.at(mouse_pos_block_grid_y_coord).at(mouse_pos_block_grid_x_coord);
+	
+	vec2_s32 up_left_block_grid_pos( (s32)mouse_pos_block_grid_x_coord - 1,
+			(s32)mouse_pos_block_grid_y_coord - 1 ),
+		up_right_block_grid_pos( (s32)mouse_pos_block_grid_x_coord, 
+			(s32)mouse_pos_block_grid_y_coord - 1 ),
+		
+		down_left_block_grid_pos( (s32)mouse_pos_block_grid_x_coord - 1, 
+			(s32)mouse_pos_block_grid_y_coord ),
+		down_right_block_grid_pos( (s32)mouse_pos_block_grid_x_coord, 
+			(s32)mouse_pos_block_grid_y_coord );
+	
+	if ( up_left_block_grid_pos.x < 0 || up_left_block_grid_pos.y < 0 )
+	{
+		//up_left_block_grid_pos = { -1, -1 };
+		up_left_ptr = NULL;
+	}
+	else
+	{
+		up_left_ptr = &the_sublevel.sprite_ipgws_vec_2d
+			.at(up_left_block_grid_pos.y).at(up_left_block_grid_pos.x);
+		
+		if ( up_left_ptr->size_2d.x > 16 && up_left_ptr->size_2d.y > 16 )
+		{
+			origin_ptr = up_left_ptr;
+		}
+	}
+	
+	if ( up_right_block_grid_pos.y < 0 )
+	{
+		//up_right_block_grid_pos = { -1, -1 };
+		up_right_ptr = NULL;
+	}
+	else
+	{
+		up_right_ptr = &the_sublevel.sprite_ipgws_vec_2d
+			.at(up_right_block_grid_pos.y).at(up_right_block_grid_pos.x);
+		
+		if ( up_right_ptr->size_2d.y > 16 && origin_ptr == NULL )
+		{
+			origin_ptr = up_right_ptr;
+		}
+	}
+	
+	
+	if ( down_left_block_grid_pos.x < 0 )
+	{
+		//down_left_block_grid_pos = { -1, -1 };
+		down_left_ptr = NULL;
+	}
+	else
+	{
+		down_left_ptr = &the_sublevel.sprite_ipgws_vec_2d
+			.at(down_left_block_grid_pos.y).at(down_left_block_grid_pos.x);
+		
+		if ( down_left_ptr->size_2d.x > 16 && origin_ptr == NULL )
+		{
+			origin_ptr = down_left_ptr;
+		}
+	}
+	
+	if ( origin_ptr == NULL )
+	{
+		origin_ptr = down_right_ptr;
+	}
+}
+
+
+
 
 

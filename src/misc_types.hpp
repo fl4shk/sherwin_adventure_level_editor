@@ -32,7 +32,7 @@ typedef unsigned int uint;
 
 // This corresponds to a selected tool.
 enum mouse_mode { mm_place_level_elements, mm_select_sprites, 
-	mm_erase_sprites };
+	mm_erase_sprites, mm_rect_select };
 
 
 // This is intended to be used for the purposes 

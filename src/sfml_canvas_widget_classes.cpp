@@ -386,10 +386,10 @@ void sfml_canvas_widget::set_the_sprite_16x32_selector_core_widget
 		= n_the_sprite_16x32_selector_core_widget;
 }
 
-void sfml_canvas_widget::set_the_mouse_mode( mouse_mode* n_the_mouse_mode )
-{
-	the_mouse_mode = n_the_mouse_mode;
-}
+//void sfml_canvas_widget::set_the_mouse_mode( mouse_mode* n_the_mouse_mode )
+//{
+//	the_mouse_mode = n_the_mouse_mode;
+//}
 
 
 void sfml_canvas_widget::generate_block_grid()
@@ -443,7 +443,8 @@ void sfml_canvas_widget::generate_block_grid()
 	
 	
 	
-	// Only render to the visible area
+	// Only render to the visible area and a little bit more (for good
+	// measure).
 	
 	the_block_grid_stuff.slot_image.reset(new sf::Image);
 	the_block_grid_stuff.slot_image->create
@@ -516,6 +517,16 @@ void sfml_canvas_widget::generate_block_grid()
 			draw(*the_block_grid_stuff.slot_sprite);
 		}
 	}
+	
+}
+
+void sfml_canvas_widget::generate_rect_selection_rect()
+{
+	if ( !get_rect_selection_enabled() )
+	{
+		return;
+	}
+	
 	
 }
 
@@ -752,16 +763,14 @@ void sfml_canvas_widget::update_visible_area()
 	//cout << num_drawn_16x32_sprites << endl;
 	//cout << endl;
 	
-	if ( get_block_grid_enabled() )
-	{
-		generate_block_grid();
-	}
+	generate_block_grid();
+	generate_rect_selection_rect();
 	
-	// Draw a rectangle around the selected sprite
-	if ( *the_mouse_mode == mm_select_sprites )
-	{
-		
-	}
+	//// Draw a rectangle around the selected sprite
+	//if ( *the_mouse_mode == mm_select_sprites )
+	//{
+	//	
+	//}
 }
 
 
@@ -831,11 +840,7 @@ void sfml_canvas_widget::on_update()
 			//	<< endl;
 			
 			
-			
-			if ( get_block_grid_enabled() )
-			{
-				generate_block_grid();
-			}
+			generate_block_grid();
 			
 			//canvas_sprite->setScale( scale_factor, scale_factor );
 			
@@ -905,10 +910,7 @@ void sfml_canvas_widget::on_update()
 					unzoomed_size_2d.height() * scale_factor ) );
 			}
 			
-			if ( get_block_grid_enabled() )
-			{
-				generate_block_grid();
-			}
+			generate_block_grid();
 			
 			//canvas_sprite->setScale( scale_factor, scale_factor );
 			

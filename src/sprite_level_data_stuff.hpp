@@ -131,7 +131,7 @@ class sublevel;
 // [ ][ ]
 // [ ][X]
 
-class adj_sprite_ipgws_ptr_group_for_sprite_16x16
+class adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16
 {
 public:		// variables
 	// The TOP LEFT block grid coordinate INTERSECTED BY THE SPRITE is
@@ -141,13 +141,17 @@ public:		// variables
 		* left_ptr, * origin_ptr;
 	
 public:		// functions
-	inline adj_sprite_ipgws_ptr_group_for_sprite_16x16()
+	inline adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16()
 		: up_left_ptr(NULL), up_ptr(NULL),
 		left_ptr(NULL), origin_ptr(NULL)
 	{
 	}
-	adj_sprite_ipgws_ptr_group_for_sprite_16x16( sublevel& the_sublevel, 
-		u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord );
+	
+	adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16
+		( sublevel& the_sublevel, u32 origin_block_grid_x_coord, 
+		u32 origin_block_grid_y_coord );
+	
+	bool can_add_sprite();
 	
 };
 
@@ -162,7 +166,7 @@ public:		// functions
 // [ ][X]
 // [ ][X]
 
-class adj_sprite_ipgws_ptr_group_for_sprite_16x32
+class adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32
 {
 public:		// variables
 	// The TOP LEFT block grid coordinate INTERSECTED BY THE SPRITE is
@@ -172,16 +176,19 @@ public:		// variables
 		* down_left_ptr, * down_ptr;
 	
 public:		// functions
-	inline adj_sprite_ipgws_ptr_group_for_sprite_16x32()
+	inline adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32()
 		: up_left_ptr(NULL), up_ptr(NULL), 
 		left_ptr(NULL), origin_ptr(NULL), 
 		down_left_ptr(NULL), down_ptr(NULL)
 	{
 	}
 	
-	adj_sprite_ipgws_ptr_group_for_sprite_16x32( sublevel& the_sublevel, 
-		u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord );
+	adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32
+		( sublevel& the_sublevel, u32 origin_block_grid_x_coord, 
+		u32 origin_block_grid_y_coord );
 	
+	
+	bool can_add_sprite();
 };
 
 
@@ -194,7 +201,7 @@ public:		// functions
 // [ ][X][X]
 // [ ][X][X]
 
-class adj_sprite_ipgws_ptr_group_for_sprite_32x32
+class adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32
 {
 public:		// variables
 	// The TOP LEFT block grid coordinate INTERSECTED BY THE SPRITE is
@@ -206,19 +213,52 @@ public:		// variables
 		* down_left_ptr, * down_ptr, * down_right_ptr;
 	
 public:		// functions
-	inline adj_sprite_ipgws_ptr_group_for_sprite_32x32() 
+	inline adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32() 
 		: up_left_ptr(NULL), up_ptr(NULL), up_right_ptr(NULL),
 		left_ptr(NULL), origin_ptr(NULL), right_ptr(NULL), 
 		down_left_ptr(NULL), down_ptr(NULL), down_right_ptr(NULL)
 	{
 	}
 	
-	adj_sprite_ipgws_ptr_group_for_sprite_32x32( sublevel& the_sublevel, 
-		u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord );
+	adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32
+		( sublevel& the_sublevel, u32 origin_block_grid_x_coord, 
+		u32 origin_block_grid_y_coord );
 	
 };
 
 
+
+
+
+// This is used when it is necessary to determine the block grid position
+// of a sprite that was clicked.
+
+// Schematic.  Any of these could have been the postion of the sprite that
+// was pressed.  X is the block grid position that was actually clicked.
+// [ ][ ]
+// [ ][X]
+
+class adj_sprite_ipgws_ptr_group_for_selecting_sprite
+{
+public:		// variables
+	// origin_ptr is a pointer to whichever sprite was actually clicked
+	sprite_init_param_group_with_size * up_left_ptr, * up_right_ptr, 
+		* down_left_ptr, * down_right_ptr, * origin_ptr;
+	
+	
+public:		// functions
+	inline adj_sprite_ipgws_ptr_group_for_selecting_sprite()
+		: up_left_ptr(NULL), up_right_ptr(NULL),
+		down_left_ptr(NULL), down_right_ptr(NULL),
+		origin_ptr(NULL)
+	{
+	}
+	
+	adj_sprite_ipgws_ptr_group_for_selecting_sprite
+		( sublevel& the_sublevel, u32 mouse_pos_block_grid_x_coord, 
+		u32 mouse_pos_block_grid_y_coord );
+	
+};
 
 
 #endif		// sprite_level_data_stuff_hpp
