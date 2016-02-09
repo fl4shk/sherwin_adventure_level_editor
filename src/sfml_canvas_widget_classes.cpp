@@ -396,8 +396,8 @@ void sfml_canvas_widget::generate_block_grid()
 {
 	//if ( scale_factor < minimum_scale_factor_for_block_grid )
 	//{
-	//	canvas_block_grid_render_texture.create( 1, 1 );
-	//	canvas_block_grid_render_texture.clear(sf::Color::Black);
+	//	//canvas_block_grid_render_texture.create( 1, 1 );
+	//	//canvas_block_grid_render_texture.clear(sf::Color::Black);
 	//	return;
 	//}
 	
@@ -419,19 +419,27 @@ void sfml_canvas_widget::generate_block_grid()
 		(double)visible_rect.height 
 		/ (double)( num_pixels_per_block_column * scale_factor ) );
 	
+	cout << visible_block_grid_size_2d.x << ", "
+		<< visible_block_grid_size_2d.y << endl;
+	
 	++visible_block_grid_size_2d.x;
 	++visible_block_grid_size_2d.y;
 	
-	if ( ( visible_block_grid_start_pos.x + visible_block_grid_size_2d.x ) 
-		> ( the_sublevel->real_size_2d.x ) )
-	{
-		--visible_block_grid_size_2d.x;
-	}
-	if ( ( visible_block_grid_start_pos.y + visible_block_grid_size_2d.y ) 
-		> ( the_sublevel->real_size_2d.y ) )
-	{
-		--visible_block_grid_size_2d.y;
-	}
+	++visible_block_grid_size_2d.x;
+	++visible_block_grid_size_2d.y;
+	
+	//if ( ( visible_block_grid_start_pos.x + visible_block_grid_size_2d.x ) 
+	//	> ( the_sublevel->real_size_2d.x ) )
+	//{
+	//	cout << "visible_block_grid_size_2d.y too large\n";
+	//	--visible_block_grid_size_2d.x;
+	//}
+	//if ( ( visible_block_grid_start_pos.y + visible_block_grid_size_2d.y ) 
+	//	> ( the_sublevel->real_size_2d.y ) )
+	//{
+	//	cout << "visible_block_grid_size_2d.y too large\n";
+	//	--visible_block_grid_size_2d.y;
+	//}
 	
 	
 	
@@ -449,15 +457,16 @@ void sfml_canvas_widget::generate_block_grid()
 		the_block_grid_stuff.slot_image->setPixel
 			( the_block_grid_stuff.slot_image->getSize().x - 1, j,
 			sf::Color::Blue );
+		//the_block_grid_stuff.slot_image->setPixel( 0, j, sf::Color::Blue );
 	}
 	
 	// Horizontal line
 	for ( u32 i=0; i<the_block_grid_stuff.slot_image->getSize().x; ++i )
 	{
-		//the_block_grid_stuff.slot_image->setPixel( i, 
-		//	the_block_grid_stuff.slot_image->getSize().y - 1,
-		//	sf::Color::Blue );
-		the_block_grid_stuff.slot_image->setPixel( i, 0, sf::Color::Blue );
+		the_block_grid_stuff.slot_image->setPixel( i, 
+			the_block_grid_stuff.slot_image->getSize().y - 1,
+			sf::Color::Blue );
+		//the_block_grid_stuff.slot_image->setPixel( i, 0, sf::Color::Blue );
 	}
 	
 	the_block_grid_stuff.slot_texture.reset(new sf::Texture);
@@ -468,28 +477,33 @@ void sfml_canvas_widget::generate_block_grid()
 	the_block_grid_stuff.slot_sprite->setTexture
 		(*the_block_grid_stuff.slot_texture);
 	
-	for ( double j=0; j<visible_block_grid_size_2d.y; ++j )
+	for ( u32 j=0; j<(u32)visible_block_grid_size_2d.y; ++j )
 	{
-		for ( double i=0; i<visible_block_grid_size_2d.x; ++i )
+		for ( u32 i=0; i<(u32)visible_block_grid_size_2d.x; ++i )
 		{
-			vec2<double> block_grid_pos
-				( i + visible_block_grid_start_pos.x,
-				j + visible_block_grid_start_pos.y );
+			vec2_u32 block_grid_pos
+				( i + (u32)visible_block_grid_start_pos.x,
+				j + (u32)visible_block_grid_start_pos.y );
 			
-			if ( block_grid_pos.x >= the_sublevel->real_size_2d.x
-				|| block_grid_pos.y >= the_sublevel->real_size_2d.y )
-			{
-				//cout << "block_grid_pos out of bounds:  "
-				//	<< block_grid_pos.x << ", " << block_grid_pos.y
-				//	<< endl;
-				continue;
-			}
+			//if ( block_grid_pos.x >= the_sublevel->real_size_2d.x
+			//	|| block_grid_pos.y >= the_sublevel->real_size_2d.y )
+			//{
+			//	cout << "block_grid_pos out of bounds:  "
+			//		<< block_grid_pos.x << ", " << block_grid_pos.y
+			//		<< endl;
+			//	continue;
+			//}
 			
-			the_block_grid_stuff.slot_sprite->setScale( 1.0f, -1.0f );
+			//the_block_grid_stuff.slot_sprite->setScale( 1.0f, -1.0f );
 			the_block_grid_stuff.slot_sprite->setPosition
-				( (u32)block_grid_pos.x * num_pixels_per_block_row 
-				* scale_factor, (u32)block_grid_pos.y 
+				( block_grid_pos.x * num_pixels_per_block_row 
+				* scale_factor, block_grid_pos.y 
 				* num_pixels_per_block_column * scale_factor );
+			
+			cout << the_block_grid_stuff.slot_sprite->getPosition().x
+				<< ", " 
+				<< the_block_grid_stuff.slot_sprite->getPosition().y
+				<< endl;
 			
 			draw(*the_block_grid_stuff.slot_sprite);
 		}
@@ -525,18 +539,18 @@ void sfml_canvas_widget::update_visible_area()
 	++visible_block_grid_size_2d.x;
 	++visible_block_grid_size_2d.y;
 	
-	if ( ( visible_block_grid_start_pos.x + visible_block_grid_size_2d.x ) 
-		> ( the_sublevel->real_size_2d.x ) )
-	{
-		//cout << "visible_block_grid_size_2d.x is too large\n";
-		--visible_block_grid_size_2d.x;
-	}
-	if ( ( visible_block_grid_start_pos.y + visible_block_grid_size_2d.y ) 
-		> ( the_sublevel->real_size_2d.y ) )
-	{
-		//cout << "visible_block_grid_size_2d.y is too large\n";
-		--visible_block_grid_size_2d.y;
-	}
+	//if ( ( visible_block_grid_start_pos.x + visible_block_grid_size_2d.x ) 
+	//	> ( the_sublevel->real_size_2d.x ) )
+	//{
+	//	//cout << "visible_block_grid_size_2d.x is too large\n";
+	//	--visible_block_grid_size_2d.x;
+	//}
+	//if ( ( visible_block_grid_start_pos.y + visible_block_grid_size_2d.y ) 
+	//	> ( the_sublevel->real_size_2d.y ) )
+	//{
+	//	//cout << "visible_block_grid_size_2d.y is too large\n";
+	//	--visible_block_grid_size_2d.y;
+	//}
 	
 	//cout << visible_block_grid_start_pos.x << ", "
 	//	<< visible_block_grid_start_pos.y << ", "
