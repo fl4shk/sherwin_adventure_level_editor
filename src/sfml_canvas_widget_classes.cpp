@@ -419,8 +419,8 @@ void sfml_canvas_widget::generate_block_grid()
 		(double)visible_rect.height 
 		/ (double)( num_pixels_per_block_column * scale_factor ) );
 	
-	cout << visible_block_grid_size_2d.x << ", "
-		<< visible_block_grid_size_2d.y << endl;
+	//cout << visible_block_grid_size_2d.x << ", "
+	//	<< visible_block_grid_size_2d.y << endl;
 	
 	++visible_block_grid_size_2d.x;
 	++visible_block_grid_size_2d.y;
@@ -451,21 +451,29 @@ void sfml_canvas_widget::generate_block_grid()
 		num_pixels_per_block_row * scale_factor, 
 		sf::Color( 0, 0, 0, 0 ) );
 	
-	// Vertical line
-	for ( u32 j=0; j<the_block_grid_stuff.slot_image->getSize().y; ++j )
+	// Vertical dotted line
+	//for ( u32 j=0; j<the_block_grid_stuff.slot_image->getSize().y; ++j )
+	for ( u32 j=0; j<the_block_grid_stuff.slot_image->getSize().y; j+=2 )
 	{
+		//the_block_grid_stuff.slot_image->setPixel
+		//	( the_block_grid_stuff.slot_image->getSize().x - 1, j,
+		//	sf::Color::Blue );
 		the_block_grid_stuff.slot_image->setPixel
 			( the_block_grid_stuff.slot_image->getSize().x - 1, j,
-			sf::Color::Blue );
+			sf::Color( 0, 0, 64 ) );
 		//the_block_grid_stuff.slot_image->setPixel( 0, j, sf::Color::Blue );
 	}
 	
-	// Horizontal line
-	for ( u32 i=0; i<the_block_grid_stuff.slot_image->getSize().x; ++i )
+	// Horizontal dotted line
+	//for ( u32 i=0; i<the_block_grid_stuff.slot_image->getSize().x; ++i )
+	for ( u32 i=0; i<the_block_grid_stuff.slot_image->getSize().x; i+=2 )
 	{
+		//the_block_grid_stuff.slot_image->setPixel( i, 
+		//	the_block_grid_stuff.slot_image->getSize().y - 1,
+		//	sf::Color::Blue );
 		the_block_grid_stuff.slot_image->setPixel( i, 
 			the_block_grid_stuff.slot_image->getSize().y - 1,
-			sf::Color::Blue );
+			sf::Color( 0, 0, 64 ) );
 		//the_block_grid_stuff.slot_image->setPixel( i, 0, sf::Color::Blue );
 	}
 	
@@ -500,10 +508,10 @@ void sfml_canvas_widget::generate_block_grid()
 				* scale_factor, block_grid_pos.y 
 				* num_pixels_per_block_column * scale_factor );
 			
-			cout << the_block_grid_stuff.slot_sprite->getPosition().x
-				<< ", " 
-				<< the_block_grid_stuff.slot_sprite->getPosition().y
-				<< endl;
+			//cout << the_block_grid_stuff.slot_sprite->getPosition().x
+			//	<< ", " 
+			//	<< the_block_grid_stuff.slot_sprite->getPosition().y
+			//	<< endl;
 			
 			draw(*the_block_grid_stuff.slot_sprite);
 		}
