@@ -85,25 +85,44 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 	scroll_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 	scroll_area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 	
+	//scroll_area->setSizePolicy( QSizePolicy::Minimum, 
+	//	QSizePolicy::Minimum );
+	//scroll_area->setMinimumSize( QSize( 512, 512 ) );
+	
+	//the_core_widget->setSizePolicy( QSizePolicy::Minimum, 
+	//	QSizePolicy::Minimum );
+	//the_core_widget->setMinimumSize( QSize( 256, 256 ) );
+	
 	the_core_widget->the_sfml_canvas_widget->set_scroll_area(scroll_area);
 	
 	
-	//// Test button
-	////QPushButton* show_horiz_sb_stuff_button 
-	////	= new QPushButton( "Show Horiz", this );
-	//
+	
+	// Test button
 	//QPushButton* show_horiz_sb_stuff_button 
-	//	= new QPushButton( "Show Horiz", NULL );
-	//connect( show_horiz_sb_stuff_button, &QPushButton::clicked, this,
-	//	&level_editor_widget::show_horizontal_scroll_bar_stuff );
+	//	= new QPushButton( "Show Horiz", this );
+	
+	QPushButton* show_horiz_sb_stuff_button 
+		= new QPushButton( "Show Horiz", NULL );
+	connect( show_horiz_sb_stuff_button, &QPushButton::clicked, this,
+		&level_editor_widget::show_horizontal_scroll_bar_stuff );
 	//show_horiz_sb_stuff_button->setMaximumSize( 128, 32 );
+	//show_horiz_sb_stuff_button->setSizePolicy( QSizePolicy::Fixed,
+	//	QSizePolicy::Fixed );
+	
+	//vbox_layout = new QVBoxLayout(this);
+	vbox_layout = new QVBoxLayout;
+	vbox_layout->addWidget(level_element_selectors_tab_widget);
+	vbox_layout->addWidget(show_horiz_sb_stuff_button);
 	
 	
 	// hbox_layout stuff
 	hbox_layout = new QHBoxLayout(this);
 	hbox_layout->addWidget(scroll_area);
 	
-	hbox_layout->addWidget(level_element_selectors_tab_widget);
+	//hbox_layout->addSpacing(3000);
+	
+	//hbox_layout->addWidget(level_element_selectors_tab_widget);
+	hbox_layout->addLayout(vbox_layout);
 	
 }
 

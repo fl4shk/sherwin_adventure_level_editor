@@ -40,7 +40,7 @@ public:		// functions
 protected:		// functions
 	virtual inline void full_resize( const QSize& n_size )
 	{
-		//parent->resize(n_size);
+		parent->resize(n_size);
 		resize(n_size);
 		sf::RenderWindow::create(winId());
 	}
@@ -238,6 +238,8 @@ public:		// functions
 	inline void set_unzoomed_size_2d( QSize n_unzoomed_size_2d )
 	{
 		unzoomed_size_2d = n_unzoomed_size_2d;
+		full_resize( QSize( unzoomed_size_2d.width() * scale_factor, 
+			unzoomed_size_2d.height() * scale_factor ) );
 	}
 	
 	inline void set_scroll_area( QScrollArea* n_scroll_area )

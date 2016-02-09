@@ -34,12 +34,17 @@ block_selector_widget::block_selector_widget( QWidget* s_parent,
 	scroll_area->setWidget(the_core_widget);
 	//scroll_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 	//scroll_area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+	scroll_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+	scroll_area->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 	
 	
 	//grid_layout = new QGridLayout(this);
 	//grid_layout->addWidget( the_core_widget, 0, 0 );
 	
-	setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
+	//setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
+	//setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Minimum );
+	//setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
+	setSizePolicy( QSizePolicy::Maximum, QSizePolicy::Maximum );
 	setMinimumSize( QSize( the_core_widget
 		->get_level_element_palette_render_texture().getSize().x,
 		the_core_widget->get_level_element_palette_render_texture()

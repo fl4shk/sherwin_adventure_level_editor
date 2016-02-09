@@ -42,7 +42,7 @@ public:		// variables
 	QWidget* parent;
 	
 	QHBoxLayout* hbox_layout;
-	//QVBoxLayout* vbox_layout;
+	QVBoxLayout* vbox_layout;
 	
 	
 	

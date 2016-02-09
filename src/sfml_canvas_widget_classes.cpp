@@ -44,8 +44,6 @@ sfml_canvas_widget_base::sfml_canvas_widget_base( QWidget* s_parent,
 	// to be received.
 	setFocusPolicy(Qt::StrongFocus);
 	
-	// (Maybe) Make it so that the widget's full contents can be scrolled
-	setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 	
 	
 	// Set up the widget geometry.
@@ -128,6 +126,10 @@ sfml_canvas_widget::sfml_canvas_widget( QWidget* s_parent,
 	
 	the_block_grid_stuff.enabled = false;
 	the_rect_selection_stuff.enabled = false;
+	
+	// (Maybe) Make it so that the widget's full contents can be scrolled
+	//setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
+	setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Minimum );
 }
 
 sfml_canvas_widget::sfml_canvas_widget( QWidget* s_parent, 
@@ -150,6 +152,10 @@ sfml_canvas_widget::sfml_canvas_widget( QWidget* s_parent,
 	
 	the_block_grid_stuff.enabled = false;
 	the_rect_selection_stuff.enabled = false;
+	
+	// (Maybe) Make it so that the widget's full contents can be scrolled
+	//setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
+	setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Minimum );
 }
 
 

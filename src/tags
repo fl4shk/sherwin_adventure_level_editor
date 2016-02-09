@@ -4,8 +4,8 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
-X	level_editor_core_widget_class.cpp	65;"	kind:d	file:
-X	level_editor_core_widget_class.cpp	73;"	kind:d	file:
+X	level_editor_core_widget_class.cpp	68;"	kind:d	file:
+X	level_editor_core_widget_class.cpp	76;"	kind:d	file:
 X	level_editor_widget_class.cpp	51;"	kind:d	file:
 X	level_editor_widget_class.cpp	56;"	kind:d	file:
 adj_sprite_ipgws_ptr_group_for_sprite_16x16	sprite_level_data_stuff.cpp	/^	::adj_sprite_ipgws_ptr_group_for_sprite_16x16( sublevel& the_sublevel, $/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_sprite_16x16	signature:( sublevel& the_sublevel, u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
@@ -355,6 +355,7 @@ level_editor_widget::the_block_selector_widget	level_editor_widget_class.hpp	/^	
 level_editor_widget::the_core_widget	level_editor_widget_class.hpp	/^	level_editor_core_widget* the_core_widget;$/;"	kind:m	class:level_editor_widget	access:public
 level_editor_widget::the_sprite_16x16_selector_widget	level_editor_widget_class.hpp	/^	sprite_16x16_selector_widget* the_sprite_16x16_selector_widget;$/;"	kind:m	class:level_editor_widget	access:public
 level_editor_widget::the_sprite_16x32_selector_widget	level_editor_widget_class.hpp	/^	sprite_16x32_selector_widget* the_sprite_16x32_selector_widget;$/;"	kind:m	class:level_editor_widget	access:public
+level_editor_widget::vbox_layout	level_editor_widget_class.hpp	/^	QVBoxLayout* vbox_layout;$/;"	kind:m	class:level_editor_widget	access:public
 level_editor_widget::zoom_in	level_editor_widget_class.cpp	/^bool level_editor_widget::zoom_in()$/;"	kind:f	class:level_editor_widget	signature:()
 level_editor_widget::zoom_in	level_editor_widget_class.hpp	/^	bool zoom_in();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
 level_editor_widget::zoom_out	level_editor_widget_class.cpp	/^bool level_editor_widget::zoom_out()$/;"	kind:f	class:level_editor_widget	signature:()
@@ -909,6 +910,7 @@ up_ptr	sprite_level_data_stuff.hpp	/^	sprite_init_param_group_with_size * up_lef
 up_right_ptr	sprite_level_data_stuff.hpp	/^		* up_left_ptr, * up_ptr, * up_right_ptr,$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_sprite_32x32	access:public
 update_visible_area	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget::update_visible_area()$/;"	kind:f	class:sfml_canvas_widget	signature:()
 update_visible_area	sfml_canvas_widget_classes.hpp	/^	void update_visible_area();$/;"	kind:p	class:sfml_canvas_widget	access:protected	signature:()
+vbox_layout	level_editor_widget_class.hpp	/^	QVBoxLayout* vbox_layout;$/;"	kind:m	class:level_editor_widget	access:public
 vbox_widget	layout_widget_classes.hpp	/^	inline vbox_widget( QWidget* parent = 0 ) : QWidget(parent)$/;"	kind:f	class:vbox_widget	access:public	signature:( QWidget* parent = 0 )
 vbox_widget	layout_widget_classes.hpp	/^class vbox_widget : public QWidget$/;"	kind:c	inherits:QWidget
 vbox_widget::layout	layout_widget_classes.hpp	/^	QVBoxLayout* layout;$/;"	kind:m	class:vbox_widget	access:public

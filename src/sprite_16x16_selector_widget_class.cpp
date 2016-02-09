@@ -39,7 +39,8 @@ sprite_16x16_selector_widget::sprite_16x16_selector_widget
 	//grid_layout = new QGridLayout(this);
 	//grid_layout->addWidget( the_core_widget, 0, 0 );
 	
-	setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
+	//setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
+	setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Minimum );
 	setMinimumSize( QSize( the_core_widget
 		->get_level_element_palette_render_texture().getSize().x,
 		the_core_widget->get_level_element_palette_render_texture()

@@ -50,6 +50,9 @@ level_editor_core_widget::level_editor_core_widget( QWidget* s_parent,
 	
 	the_sfml_canvas_widget->set_the_sublevel(&the_sublevel);
 	the_sfml_canvas_widget->set_the_mouse_mode(&the_mouse_mode);
+	
+	setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Minimum );
+	setMinimumSize( QSize( 512, 512 ) );
 }
 
 
@@ -132,8 +135,8 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 	//	return;
 	//}
 	
-	sf::FloatRect visible_rect = the_sfml_canvas_widget
-		->get_visible_rect();
+	//sf::FloatRect visible_rect = the_sfml_canvas_widget
+	//	->get_visible_rect();
 	
 	//cout << visible_rect.left << ", " << visible_rect.top << ", "
 	//	<< visible_rect.width << ", " << visible_rect.height << endl;
