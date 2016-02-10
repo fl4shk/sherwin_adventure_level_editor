@@ -413,6 +413,8 @@ adj_sprite_ipgws_ptr_group_for_selecting_sprite
 	( sublevel& the_sublevel, u32 mouse_pos_block_grid_x_coord, 
 	u32 mouse_pos_block_grid_y_coord )
 {
+	origin_ptr = NULL;
+	
 	// Do some sanity checks.
 	if ( mouse_pos_block_grid_x_coord >= the_sublevel.real_size_2d.x
 		|| mouse_pos_block_grid_y_coord >= the_sublevel.real_size_2d.y )

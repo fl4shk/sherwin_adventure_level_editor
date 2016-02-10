@@ -527,6 +527,11 @@ void sfml_canvas_widget::generate_rect_selection_rect()
 		return;
 	}
 	
+	const sf::IntRect& selection_rect 
+		= the_rect_selection_stuff.selection_rect;
+	
+	cout << selection_rect.left << ", " << selection_rect.top << ", "
+		<< selection_rect.width << ", " << selection_rect.height << endl;
 	
 }
 

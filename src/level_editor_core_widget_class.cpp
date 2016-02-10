@@ -256,20 +256,51 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 	
 	auto func_for_selecting_sprites = [&]() -> void
 	{
-		//adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16 the_ptr_group
-		//	( the_sublevel, block_grid_coords_of_mouse_pos.x,
-		//	block_grid_coords_of_mouse_pos.y );
-		
 		adj_sprite_ipgws_ptr_group_for_selecting_sprite the_ptr_group
 			( the_sublevel, block_grid_coords_of_mouse_pos.x,
 			block_grid_coords_of_mouse_pos.y );
 		
-		cout << ( the_ptr_group.origin_ptr == NULL ) << endl;
-		cout << "This sprite was clicked:  " 
-			<< the_ptr_group.origin_ptr->type << ";  "
-			<< the_ptr_group.origin_ptr->initial_block_grid_x_coord << ", "
-			<< the_ptr_group.origin_ptr->initial_block_grid_y_coord
-			<< endl;
+		
+		if ( the_ptr_group.origin_ptr != NULL )
+		{
+			if ( the_ptr_group.origin_ptr->type == st_default )
+			{
+				the_sfml_canvas_widget->disable_rect_selection();
+				
+				//cout << "st_default\n";
+				
+				return;
+			}
+		}
+		// I am not sure this will ever be the case.
+		else 
+		{
+			the_sfml_canvas_widget->disable_rect_selection();
+			
+			//cout << "else\n";
+			
+			return;
+		}
+		
+		//cout << ( the_ptr_group.origin_ptr == NULL ) << endl;
+		//cout << "This sprite was clicked:  " 
+		//	<< the_ptr_group.origin_ptr->type << ";  "
+		//	<< the_ptr_group.origin_ptr->initial_block_grid_x_coord << ", "
+		//	<< the_ptr_group.origin_ptr->initial_block_grid_y_coord
+		//	<< endl;
+		
+		
+		sprite_init_param_group_with_size* clicked_sprite_ipgws 
+			= the_ptr_group.origin_ptr;
+		
+		the_sfml_canvas_widget->enable_rect_selection( sf::IntRect
+			( clicked_sprite_ipgws->initial_block_grid_x_coord,
+			clicked_sprite_ipgws->initial_block_grid_y_coord,
+			clicked_sprite_ipgws->size_2d.x 
+			/ sfml_canvas_widget::num_pixels_per_block_row, 
+			clicked_sprite_ipgws->size_2d.y 
+			/ sfml_canvas_widget::num_pixels_per_block_column ) );
+		
 	};
 	
 	auto func_for_erasing_sprites = [&]() -> void
