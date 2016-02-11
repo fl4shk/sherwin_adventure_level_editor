@@ -530,8 +530,54 @@ void sfml_canvas_widget::generate_rect_selection_rect()
 	const sf::IntRect& selection_rect 
 		= the_rect_selection_stuff.selection_rect;
 	
-	cout << selection_rect.left << ", " << selection_rect.top << ", "
-		<< selection_rect.width << ", " << selection_rect.height << endl;
+	//cout << selection_rect.left << ", " << selection_rect.top << ", "
+	//	<< selection_rect.width << ", " << selection_rect.height << endl;
+	
+	the_rect_selection_stuff.selection_image.reset(new sf::Image);
+	the_rect_selection_stuff.selection_image->create( selection_rect.width
+		* num_pixels_per_block_row * scale_factor, selection_rect.height 
+		* num_pixels_per_block_column * scale_factor, 
+		sf::Color( 0, 0, 0, 0 ) );
+	
+	// Vertical lines
+	for ( u32 j=0; 
+		j<the_rect_selection_stuff.selection_image->getSize().y;
+		++j )
+	{
+		the_rect_selection_stuff.selection_image->setPixel( 0, j,
+			sf::Color( 128, 0, 0 ) );
+		the_rect_selection_stuff.selection_image->setPixel
+			( the_rect_selection_stuff.selection_image->getSize().x - 1, 
+			j, sf::Color( 128, 0, 0 ) );
+	}
+	
+	// Horizontal lines
+	for ( u32 i=0; 
+		i<the_rect_selection_stuff.selection_image->getSize().x;
+		++i )
+	{
+		the_rect_selection_stuff.selection_image->setPixel( i, 0,
+			sf::Color( 128, 0, 0 ) );
+		the_rect_selection_stuff.selection_image->setPixel( i, 
+			the_rect_selection_stuff.selection_image->getSize().y - 1,
+			sf::Color( 128, 0, 0 ) );
+	}
+	
+	
+	the_rect_selection_stuff.selection_texture.reset(new sf::Texture);
+	the_rect_selection_stuff.selection_texture->loadFromImage
+		(*the_rect_selection_stuff.selection_image);
+	
+	the_rect_selection_stuff.selection_sprite.reset(new sf::Sprite);
+	the_rect_selection_stuff.selection_sprite->setTexture
+		(*the_rect_selection_stuff.selection_texture);
+	
+	the_rect_selection_stuff.selection_sprite->setPosition
+		( selection_rect.left * num_pixels_per_block_row * scale_factor,
+		selection_rect.top * num_pixels_per_block_column * scale_factor );
+	
+	draw(*the_rect_selection_stuff.selection_sprite);
+	
 	
 }
 
