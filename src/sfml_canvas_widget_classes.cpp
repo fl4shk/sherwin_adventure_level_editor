@@ -555,6 +555,15 @@ void sfml_canvas_widget::update_visible_area()
 		(double)visible_rect.height / (double)( num_pixels_per_block_column
 		* scale_factor ) );
 	
+	
+	
+	
+	// This is so that sprites larger than 16x16 pixels will be drawn if
+	// their starting position is offscreen but part of them still IS on
+	// screen.
+	--visible_block_grid_start_pos.x;
+	--visible_block_grid_start_pos.y;
+	
 	//cout << visible_block_grid_start_pos.x << ", "
 	//	<< visible_block_grid_start_pos.y << ", "
 	//	<< visible_block_grid_size_2d.x << ", "
@@ -563,24 +572,8 @@ void sfml_canvas_widget::update_visible_area()
 	++visible_block_grid_size_2d.x;
 	++visible_block_grid_size_2d.y;
 	
-	//if ( ( visible_block_grid_start_pos.x + visible_block_grid_size_2d.x ) 
-	//	> ( the_sublevel->real_size_2d.x ) )
-	//{
-	//	//cout << "visible_block_grid_size_2d.x is too large\n";
-	//	--visible_block_grid_size_2d.x;
-	//}
-	//if ( ( visible_block_grid_start_pos.y + visible_block_grid_size_2d.y ) 
-	//	> ( the_sublevel->real_size_2d.y ) )
-	//{
-	//	//cout << "visible_block_grid_size_2d.y is too large\n";
-	//	--visible_block_grid_size_2d.y;
-	//}
-	
-	//cout << visible_block_grid_start_pos.x << ", "
-	//	<< visible_block_grid_start_pos.y << ", "
-	//	<< visible_block_grid_size_2d.x << ", "
-	//	<< visible_block_grid_size_2d.y << endl;
-	//cout << endl;
+	++visible_block_grid_size_2d.x;
+	++visible_block_grid_size_2d.y;
 	
 	
 	// Draw the visible blocks
@@ -598,16 +591,19 @@ void sfml_canvas_widget::update_visible_area()
 	
 	u32 num_drawn_blocks = 0;
 	
-	for ( double j=0; j<visible_block_grid_size_2d.y; ++j )
+	for ( s32 j=0; j<visible_block_grid_size_2d.y; ++j )
 	{
-		for ( double i=0; i<visible_block_grid_size_2d.x; ++i )
+		vec2_s32 block_grid_pos( 0, 
+			j + visible_block_grid_start_pos.y );
+		
+		for ( s32 i=0; i<visible_block_grid_size_2d.x; ++i )
 		{
-			vec2<double> block_grid_pos
-				( i + visible_block_grid_start_pos.x,
-				j + visible_block_grid_start_pos.y );
+			block_grid_pos.x = i + visible_block_grid_start_pos.x;
 			
-			if ( block_grid_pos.x >= the_sublevel->real_size_2d.x
-				|| block_grid_pos.y >= the_sublevel->real_size_2d.y )
+			if ( block_grid_pos.x < 0 
+				|| block_grid_pos.x >= (s32)the_sublevel->real_size_2d.x
+				|| block_grid_pos.y < 0 
+				|| block_grid_pos.y >= (s32)the_sublevel->real_size_2d.y )
 			{
 				//cout << "block_grid_pos out of bounds:  "
 				//	<< block_grid_pos.x << ", " << block_grid_pos.y
@@ -615,8 +611,10 @@ void sfml_canvas_widget::update_visible_area()
 				continue;
 			}
 			
+			
 			block& the_block = the_sublevel->uncompressed_block_data_vec_2d
 				.at((u32)block_grid_pos.y).at((u32)block_grid_pos.x);
+			
 			
 			if ( the_block.type != bt_air )
 			{
@@ -642,6 +640,10 @@ void sfml_canvas_widget::update_visible_area()
 			
 			//cout << i << " ";
 		}
+		
+		
+		
+		
 		//cout << "; " << j << endl;
 	}
 	//cout << num_drawn_blocks << endl;
@@ -654,16 +656,20 @@ void sfml_canvas_widget::update_visible_area()
 	
 	u32 num_drawn_16x16_sprites = 0;
 	
-	for ( double j=0; j<visible_block_grid_size_2d.y; ++j )
+	for ( s32 j=0; j<visible_block_grid_size_2d.y; ++j )
 	{
-		for ( double i=0; i<visible_block_grid_size_2d.x; ++i )
+		vec2_s32 block_grid_pos( 0,
+			j + visible_block_grid_start_pos.y );
+		
+		for ( s32 i=0; i<visible_block_grid_size_2d.x; ++i )
 		{
-			vec2<double> block_grid_pos
-				( i + visible_block_grid_start_pos.x,
-				j + visible_block_grid_start_pos.y );
+			block_grid_pos.x = i + visible_block_grid_start_pos.x;
 			
-			if ( block_grid_pos.x >= the_sublevel->real_size_2d.x
-				|| block_grid_pos.y >= the_sublevel->real_size_2d.y )
+			
+			if ( block_grid_pos.x < 0 
+				|| block_grid_pos.x >= (s32)the_sublevel->real_size_2d.x
+				|| block_grid_pos.y < 0
+				|| block_grid_pos.y >= (s32)the_sublevel->real_size_2d.y )
 			{
 				//cout << "block_grid_pos out of bounds:  "
 				//	<< block_grid_pos.x << ", " << block_grid_pos.y
@@ -715,16 +721,19 @@ void sfml_canvas_widget::update_visible_area()
 	
 	u32 num_drawn_16x32_sprites = 0;
 	
-	for ( double j=0; j<visible_block_grid_size_2d.y; ++j )
+	for ( s32 j=0; j<visible_block_grid_size_2d.y; ++j )
 	{
-		for ( double i=0; i<visible_block_grid_size_2d.x; ++i )
+		vec2_s32 block_grid_pos( 0,
+			j + visible_block_grid_start_pos.y );
+		
+		for ( s32 i=0; i<visible_block_grid_size_2d.x; ++i )
 		{
-			vec2<double> block_grid_pos
-				( i + visible_block_grid_start_pos.x,
-				j + visible_block_grid_start_pos.y );
+			block_grid_pos.x = i + visible_block_grid_start_pos.x;
 			
-			if ( block_grid_pos.x >= the_sublevel->real_size_2d.x
-				|| block_grid_pos.y >= the_sublevel->real_size_2d.y )
+			if ( block_grid_pos.x < 0 
+				|| block_grid_pos.x >= (s32)the_sublevel->real_size_2d.x
+				|| block_grid_pos.y < 0
+				|| block_grid_pos.y >= (s32)the_sublevel->real_size_2d.y )
 			{
 				//cout << "block_grid_pos out of bounds:  "
 				//	<< block_grid_pos.x << ", " << block_grid_pos.y

@@ -267,7 +267,7 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 			{
 				the_sfml_canvas_widget->disable_rect_selection();
 				
-				//cout << "st_default\n";
+				cout << "st_default\n";
 				
 				return;
 			}
