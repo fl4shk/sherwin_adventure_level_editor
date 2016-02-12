@@ -36,6 +36,8 @@ class sprite_16x32_selector_core_widget;
 
 class level_editor_core_widget : public QWidget
 {
+	Q_OBJECT
+	
 public:		// enums
 	
 public:		// variables
@@ -71,7 +73,14 @@ public:		// variables
 	vec2_u32 block_grid_coords_of_prev_mouse_pos;
 	
 	
+	// The mouse mode
 	mouse_mode the_mouse_mode;
+	
+	
+	
+	adj_sprite_ipgws_ptr_group_for_selecting_sprite
+		the_sprite_selection_ptr_group;
+	
 	
 	
 public:		// functions
@@ -95,8 +104,25 @@ public:		// functions
 	
 	
 protected:		// functions
+	bool zoom_in();
+	bool zoom_out();
+	
+	// Events
+	void keyPressEvent( QKeyEvent* event );
 	void mousePressEvent( QMouseEvent* event );
 	void mouseMoveEvent( QMouseEvent* event );
+	
+	//void focusInEvent( QFocusEvent* event );
+	//void focusOutEvent( QFocusEvent* event );
+	
+signals:		// signals
+	void right_mouse_button_pressed();
+	
+	void sprite_was_selected();
+	void sprite_no_longer_selected();
+	
+	
+	
 };
 
 

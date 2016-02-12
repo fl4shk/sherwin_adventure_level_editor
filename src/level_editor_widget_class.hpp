@@ -47,9 +47,10 @@ public:		// variables
 	
 	
 	
-	// This QScrollArea is used for the_core_widget
-	QScrollArea* scroll_area;
+	// This QScrollArea is used for the_core_widget.
+	QScrollArea* core_widget_scroll_area;
 	
+	// Much of the "magic" happens within the_core_widget.
 	level_editor_core_widget* the_core_widget;
 	
 	
@@ -63,6 +64,9 @@ public:		// variables
 	sprite_16x32_selector_widget* the_sprite_16x32_selector_widget;
 	
 	
+	bool sprite_properties_widget_visible;
+	
+	QPushButton* show_horiz_sb_stuff_button;
 	
 public:		// functions
 	level_editor_widget( vector<string>* s_argv_copy, 
@@ -71,11 +75,11 @@ public:		// functions
 	
 protected:		// functions
 	//void adjust_scroll_bar( QScrollBar* scroll_bar );
-	bool zoom_in();
-	bool zoom_out();
+	//bool zoom_in();
+	//bool zoom_out();
 	
 	// Events
-	void keyPressEvent( QKeyEvent* event );
+	//void keyPressEvent( QKeyEvent* event );
 	//void mousePressEvent( QMouseEvent* event );
 	//void mouseMoveEvent( QMouseEvent* event );
 	////void mouseReleaseEvent( QMouseEvent* event );
@@ -111,10 +115,15 @@ protected:		// functions
 	
 	
 protected slots:		// slots.
+	void show_sprite_properties_widget();
+	void hide_sprite_properties_widget();
+	
+	
 	void hello();
 	void show_horizontal_scroll_bar_stuff();
 	void show_vertical_scroll_bar_stuff();
 	void show_geometry_stuff();
+	
 	
 	
 public slots:		// slots

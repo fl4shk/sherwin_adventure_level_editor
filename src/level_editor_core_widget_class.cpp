@@ -91,6 +91,83 @@ sprite_16x32_selector_core_widget*
 	return the_sprite_16x32_selector_widget->the_core_widget;
 }
 
+
+bool level_editor_core_widget::zoom_in()
+{
+	//if ( the_sfml_canvas_widget->scale_factor == 16 )
+	//{
+	//	return false;
+	//}
+	if ( the_sfml_canvas_widget->scale_factor == 4 )
+	{
+		return false;
+	}
+	
+	the_sfml_canvas_widget->scale_factor <<= 1;
+	the_sfml_canvas_widget->zoomed_in_recently = true;
+	
+	return true;
+}
+
+
+bool level_editor_core_widget::zoom_out()
+{
+	if ( the_sfml_canvas_widget->scale_factor == 1 )
+	{
+		return false;
+	}
+	
+	the_sfml_canvas_widget->scale_factor >>= 1;
+	the_sfml_canvas_widget->zoomed_out_recently = true;
+	
+	return true;
+}
+
+
+
+// Events
+void level_editor_core_widget::keyPressEvent( QKeyEvent* event )
+{
+	// These probably ought to be in a toolbar of some sort
+	
+	if ( event->key() == Qt::Key_A )
+	{
+		zoom_in();
+	}
+	else if ( event->key() == Qt::Key_Z )
+	{
+		zoom_out();
+	}
+	else if ( event->key() == Qt::Key_T )
+	{
+		// Temporary until a toggle button is created for this purpose.
+		if ( !the_sfml_canvas_widget->get_block_grid_enabled() )
+		{
+			the_sfml_canvas_widget->enable_block_grid();
+			//cout << "Tile grid now enabled.\n";
+		}
+		else
+		{
+			the_sfml_canvas_widget->disable_block_grid();
+			//cout << "Tile grid now disabled.\n";
+		}
+	}
+	else if ( event->key() == Qt::Key_Q )
+	{
+		the_mouse_mode = mm_place_level_elements;
+		
+		cout << "Current mouse mode:  place_level_elements\n";
+	}
+	else if ( event->key() == Qt::Key_W )
+	{
+		the_mouse_mode = mm_select_sprites;
+		
+		cout << "Current mouse mode:  select_sprites\n";
+	}
+	
+	
+}
+
 void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 {
 	//cout << "level_editor_core_widget's mouse position:  "
@@ -164,6 +241,38 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 	bool current_tabbed_widget_is_for_16x32_sprites
 		= ( level_element_selectors_tab_widget->currentWidget()
 		== the_sprite_16x32_selector_widget );
+	
+	
+	//adj_sprite_ipgws_ptr_group_for_selecting_sprite
+	//	the_sprite_selection_ptr_group( the_sublevel,
+	//	block_grid_coords_of_mouse_pos.x, 
+	//	block_grid_coords_of_mouse_pos.y );
+	
+	
+	the_sprite_selection_ptr_group 
+		= adj_sprite_ipgws_ptr_group_for_selecting_sprite( the_sublevel,
+		block_grid_coords_of_mouse_pos.x, 
+		block_grid_coords_of_mouse_pos.y );
+	
+	if ( the_sprite_selection_ptr_group.origin_ptr != NULL )
+	{
+		if ( the_sprite_selection_ptr_group.origin_ptr->type 
+			== st_default )
+		{
+			the_sfml_canvas_widget->disable_rect_selection();
+			
+			//cout << "st_default\n";
+			emit sprite_no_longer_selected();
+		}
+	}
+	// I am not sure this will ever be the case.
+	else 
+	{
+		the_sfml_canvas_widget->disable_rect_selection();
+		
+		//cout << "else\n";
+		emit sprite_no_longer_selected();
+	}
 	
 	
 	auto func_for_placing_level_elements = [&]() -> void
@@ -256,19 +365,16 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 	
 	auto func_for_selecting_sprites = [&]() -> void
 	{
-		adj_sprite_ipgws_ptr_group_for_selecting_sprite the_ptr_group
-			( the_sublevel, block_grid_coords_of_mouse_pos.x,
-			block_grid_coords_of_mouse_pos.y );
-		
-		
-		if ( the_ptr_group.origin_ptr != NULL )
+		if ( the_sprite_selection_ptr_group.origin_ptr != NULL )
 		{
-			if ( the_ptr_group.origin_ptr->type == st_default )
+			if ( the_sprite_selection_ptr_group.origin_ptr->type 
+				== st_default )
 			{
 				the_sfml_canvas_widget->disable_rect_selection();
 				
-				cout << "st_default\n";
+				//cout << "st_default\n";
 				
+				emit sprite_no_longer_selected();
 				return;
 			}
 		}
@@ -279,19 +385,24 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 			
 			//cout << "else\n";
 			
+			emit sprite_no_longer_selected();
 			return;
 		}
 		
-		//cout << ( the_ptr_group.origin_ptr == NULL ) << endl;
+		
+		//cout << ( the_sprite_selection_ptr_group.origin_ptr == NULL ) 
+		//	<< endl;
 		//cout << "This sprite was clicked:  " 
-		//	<< the_ptr_group.origin_ptr->type << ";  "
-		//	<< the_ptr_group.origin_ptr->initial_block_grid_x_coord << ", "
-		//	<< the_ptr_group.origin_ptr->initial_block_grid_y_coord
+		//	<< the_sprite_selection_ptr_group.origin_ptr->type << ";  "
+		//	<< the_sprite_selection_ptr_group.origin_ptr
+		//	->initial_block_grid_x_coord << ", "
+		//	<< the_sprite_selection_ptr_group.origin_ptr
+		//	->initial_block_grid_y_coord
 		//	<< endl;
 		
 		
 		sprite_init_param_group_with_size* clicked_sprite_ipgws 
-			= the_ptr_group.origin_ptr;
+			= the_sprite_selection_ptr_group.origin_ptr;
 		
 		the_sfml_canvas_widget->enable_rect_selection( sf::IntRect
 			( clicked_sprite_ipgws->initial_block_grid_x_coord,
@@ -300,6 +411,8 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 			/ sfml_canvas_widget::num_pixels_per_block_row, 
 			clicked_sprite_ipgws->size_2d.y 
 			/ sfml_canvas_widget::num_pixels_per_block_column ) );
+		
+		emit sprite_was_selected();
 		
 	};
 	
@@ -343,12 +456,8 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 	}
 	else if ( event->button() == Qt::RightButton )
 	{
-		//canvas_image->setPixel( (u32)mouse_pos_in_image_pixel_coords.x,
-		//	(u32)mouse_pos_in_image_pixel_coords.y, 
-		//	the_block_selector_core_widget->palette.at
-		//	(the_block_selector_core_widget
-		//	->right_current_color_index) );
 		
+		//emit right_mouse_button_pressed();
 	}
 	
 	

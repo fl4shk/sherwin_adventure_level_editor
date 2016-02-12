@@ -40,9 +40,9 @@ sfml_canvas_widget_base::sfml_canvas_widget_base( QWidget* s_parent,
 	setAttribute(Qt::WA_OpaquePaintEvent);
 	setAttribute(Qt::WA_NoSystemBackground);
 	
-	// Set strong focus to enable keyboard events (and maybe mouse events?)
-	// to be received.
-	setFocusPolicy(Qt::StrongFocus);
+	//// Set strong focus to enable keyboard events (and maybe mouse events?)
+	//// to be received.
+	//setFocusPolicy(Qt::StrongFocus);
 	
 	
 	
@@ -544,11 +544,22 @@ void sfml_canvas_widget::generate_rect_selection_rect()
 		j<the_rect_selection_stuff.selection_image->getSize().y;
 		++j )
 	{
+		//the_rect_selection_stuff.selection_image->setPixel( 0, j,
+		//	sf::Color( 128, 0, 0 ) );
+		//the_rect_selection_stuff.selection_image->setPixel
+		//	( the_rect_selection_stuff.selection_image->getSize().x - 1, 
+		//	j, sf::Color( 128, 0, 0 ) );
+		
 		the_rect_selection_stuff.selection_image->setPixel( 0, j,
-			sf::Color( 128, 0, 0 ) );
+			sf::Color::Blue );
+		the_rect_selection_stuff.selection_image->setPixel( 1, j,
+			sf::Color::Blue );
+		the_rect_selection_stuff.selection_image->setPixel
+			( the_rect_selection_stuff.selection_image->getSize().x - 2, 
+			j, sf::Color::Blue );
 		the_rect_selection_stuff.selection_image->setPixel
 			( the_rect_selection_stuff.selection_image->getSize().x - 1, 
-			j, sf::Color( 128, 0, 0 ) );
+			j, sf::Color::Blue );
 	}
 	
 	// Horizontal lines
@@ -556,11 +567,22 @@ void sfml_canvas_widget::generate_rect_selection_rect()
 		i<the_rect_selection_stuff.selection_image->getSize().x;
 		++i )
 	{
+		//the_rect_selection_stuff.selection_image->setPixel( i, 0,
+		//	sf::Color( 128, 0, 0 ) );
+		//the_rect_selection_stuff.selection_image->setPixel( i, 
+		//	the_rect_selection_stuff.selection_image->getSize().y - 1,
+		//	sf::Color( 128, 0, 0 ) );
+		
 		the_rect_selection_stuff.selection_image->setPixel( i, 0,
-			sf::Color( 128, 0, 0 ) );
+			sf::Color::Blue );
+		the_rect_selection_stuff.selection_image->setPixel( i, 1,
+			sf::Color::Blue );
+		the_rect_selection_stuff.selection_image->setPixel( i, 
+			the_rect_selection_stuff.selection_image->getSize().y - 2,
+			sf::Color::Blue );
 		the_rect_selection_stuff.selection_image->setPixel( i, 
 			the_rect_selection_stuff.selection_image->getSize().y - 1,
-			sf::Color( 128, 0, 0 ) );
+			sf::Color::Blue );
 	}
 	
 	

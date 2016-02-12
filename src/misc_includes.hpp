@@ -77,6 +77,7 @@ using namespace pugi;
 #include <QPaintEvent>
 #include <QResizeEvent>
 #include <QShowEvent>
+#include <QFocusEvent>
 
 #include <QCheckBox>
 #include <QFont>

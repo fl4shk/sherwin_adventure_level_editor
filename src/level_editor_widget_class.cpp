@@ -25,7 +25,7 @@ const QString level_editor_widget::default_parent_title
 
 level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 	QWidget* s_parent ) : QWidget(s_parent), argv_copy(s_argv_copy),
-	parent(s_parent)
+	parent(s_parent), show_horiz_sb_stuff_button(NULL)
 {
 	//setAttribute(Qt::WA_StaticContents);
 	//setMouseTracking(true);
@@ -71,6 +71,17 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 		the_sprite_16x16_selector_widget,
 		the_sprite_16x32_selector_widget );
 	
+	//connect( the_core_widget,
+	//	&level_editor_core_widget::right_mouse_button_pressed, this,
+	//	&level_editor_widget::hello );
+	
+	connect( the_core_widget,
+		&level_editor_core_widget::sprite_was_selected, this,
+		&level_editor_widget::show_sprite_properties_widget );
+	
+	connect( the_core_widget,
+		&level_editor_core_widget::sprite_no_longer_selected, this,
+		&level_editor_widget::hide_sprite_properties_widget );
 	
 	
 	//if ( !the_sfml_canvas_widget->open_image() )
@@ -79,45 +90,37 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 	//}
 	
 	
-	// scroll_area stuff
-	scroll_area = new QScrollArea(this);
-	scroll_area->setWidget(the_core_widget);
-	scroll_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-	scroll_area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+	// core_widget_scroll_area stuff
+	core_widget_scroll_area = new QScrollArea(this);
+	core_widget_scroll_area->setWidget(the_core_widget);
+	core_widget_scroll_area->setHorizontalScrollBarPolicy
+		(Qt::ScrollBarAlwaysOn);
+	core_widget_scroll_area->setVerticalScrollBarPolicy
+		(Qt::ScrollBarAlwaysOn);
 	
-	//scroll_area->setSizePolicy( QSizePolicy::Minimum, 
+	//core_widget_scroll_area->setSizePolicy( QSizePolicy::Minimum, 
 	//	QSizePolicy::Minimum );
-	//scroll_area->setMinimumSize( QSize( 512, 512 ) );
+	//core_widget_scroll_area->setMinimumSize( QSize( 512, 512 ) );
 	
 	//the_core_widget->setSizePolicy( QSizePolicy::Minimum, 
 	//	QSizePolicy::Minimum );
 	//the_core_widget->setMinimumSize( QSize( 256, 256 ) );
 	
-	the_core_widget->the_sfml_canvas_widget->set_scroll_area(scroll_area);
+	the_core_widget->the_sfml_canvas_widget->set_scroll_area
+		(core_widget_scroll_area);
 	
 	
 	
-	// Test button
-	//QPushButton* show_horiz_sb_stuff_button 
-	//	= new QPushButton( "Show Horiz", this );
 	
-	QPushButton* show_horiz_sb_stuff_button 
-		= new QPushButton( "Show Horiz", NULL );
-	connect( show_horiz_sb_stuff_button, &QPushButton::clicked, this,
-		&level_editor_widget::show_horizontal_scroll_bar_stuff );
-	//show_horiz_sb_stuff_button->setMaximumSize( 128, 32 );
-	//show_horiz_sb_stuff_button->setSizePolicy( QSizePolicy::Fixed,
-	//	QSizePolicy::Fixed );
 	
 	//vbox_layout = new QVBoxLayout(this);
 	vbox_layout = new QVBoxLayout;
 	vbox_layout->addWidget(level_element_selectors_tab_widget);
-	vbox_layout->addWidget(show_horiz_sb_stuff_button);
 	
 	
 	// hbox_layout stuff
 	hbox_layout = new QHBoxLayout(this);
-	hbox_layout->addWidget(scroll_area);
+	hbox_layout->addWidget(core_widget_scroll_area);
 	
 	//hbox_layout->addSpacing(3000);
 	
@@ -135,88 +138,7 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 //		* ( scroll_bar->pageStep() / 2 ) ));
 //}
 
-bool level_editor_widget::zoom_in()
-{
-	//if ( the_core_widget->the_sfml_canvas_widget->scale_factor == 16 )
-	//{
-	//	return false;
-	//}
-	if ( the_core_widget->the_sfml_canvas_widget->scale_factor == 4 )
-	{
-		return false;
-	}
-	
-	the_core_widget->the_sfml_canvas_widget->scale_factor <<= 1;
-	the_core_widget->the_sfml_canvas_widget->zoomed_in_recently = true;
-	
-	//scroll_area->horizontalScrollBar()->setValue
-	//	( scroll_area->horizontalScrollBar()->value() << 1 );
-	//scroll_area->verticalScrollBar()->setValue
-	//	( scroll_area->verticalScrollBar()->value() << 1 );
-	
-	return true;
-}
 
-
-bool level_editor_widget::zoom_out()
-{
-	if ( the_core_widget->the_sfml_canvas_widget->scale_factor == 1 )
-	{
-		return false;
-	}
-	
-	the_core_widget->the_sfml_canvas_widget->scale_factor >>= 1;
-	the_core_widget->the_sfml_canvas_widget->zoomed_out_recently = true;
-	
-	//scroll_area->horizontalScrollBar()->setValue
-	//	( scroll_area->horizontalScrollBar()->value() >> 1 );
-	//scroll_area->verticalScrollBar()->setValue
-	//	( scroll_area->verticalScrollBar()->value() >> 1 );
-	
-	
-	return true;
-}
-
-void level_editor_widget::keyPressEvent( QKeyEvent* event )
-{
-	// These probably ought to be in a toolbar of some sort
-	
-	if ( event->key() == Qt::Key_A )
-	{
-		zoom_in();
-	}
-	else if ( event->key() == Qt::Key_Z )
-	{
-		zoom_out();
-	}
-	else if ( event->key() == Qt::Key_T )
-	{
-		// Temporary until a toggle button is created for this purpose.
-		if ( !the_core_widget->the_sfml_canvas_widget
-			->get_block_grid_enabled() )
-		{
-			the_core_widget->the_sfml_canvas_widget->enable_block_grid();
-			//cout << "Tile grid now enabled.\n";
-		}
-		else
-		{
-			the_core_widget->the_sfml_canvas_widget->disable_block_grid();
-			//cout << "Tile grid now disabled.\n";
-		}
-	}
-	else if ( event->key() == Qt::Key_H )
-	{
-		the_core_widget->the_mouse_mode = mm_place_level_elements;
-		
-		cout << "Current mouse mode:  place_level_elements\n";
-	}
-	else if ( event->key() == Qt::Key_J )
-	{
-		the_core_widget->the_mouse_mode = mm_select_sprites;
-		
-		cout << "Current mouse mode:  select_sprites\n";
-	}
-}
 
 
 bool level_editor_widget::open_level()
@@ -239,6 +161,46 @@ void level_editor_widget::export_file_as( const string& output_file_name )
 	
 }
 
+void level_editor_widget::show_sprite_properties_widget()
+{
+	if (!sprite_properties_widget_visible)
+	{
+		sprite_properties_widget_visible = true;
+		
+		if ( show_horiz_sb_stuff_button == NULL )
+		{
+			// Test button
+			show_horiz_sb_stuff_button = new QPushButton( "Show Horiz", 
+				NULL );
+			connect( show_horiz_sb_stuff_button, &QPushButton::clicked, 
+				this,
+				&level_editor_widget::show_horizontal_scroll_bar_stuff );
+			
+			//show_horiz_sb_stuff_button->setMaximumSize( 128, 32 );
+			//show_horiz_sb_stuff_button->setSizePolicy( QSizePolicy::Fixed,
+			//	QSizePolicy::Fixed );
+			
+			vbox_layout->addWidget(show_horiz_sb_stuff_button);
+		}
+	}
+}
+
+void level_editor_widget::hide_sprite_properties_widget()
+{
+	if (sprite_properties_widget_visible)
+	{
+		sprite_properties_widget_visible = false;
+		
+		if ( show_horiz_sb_stuff_button != NULL )
+		{
+			vbox_layout->removeWidget(show_horiz_sb_stuff_button);
+			
+			delete show_horiz_sb_stuff_button;
+			
+			show_horiz_sb_stuff_button = NULL;
+		}
+	}
+}
 
 
 
@@ -250,25 +212,29 @@ void level_editor_widget::hello()
 
 void level_editor_widget::show_horizontal_scroll_bar_stuff()
 {
-	cout << scroll_area->horizontalScrollBar()->value() << " "
-		<< scroll_area->horizontalScrollBar()->minimum() << " "
-		<< scroll_area->horizontalScrollBar()->maximum() << endl;
+	cout << core_widget_scroll_area->horizontalScrollBar()->value() << " "
+		<< core_widget_scroll_area->horizontalScrollBar()->minimum() << " "
+		<< core_widget_scroll_area->horizontalScrollBar()->maximum() 
+		<< endl;
 }
 
 void level_editor_widget::show_vertical_scroll_bar_stuff()
 {
-	cout << scroll_area->verticalScrollBar()->value() << " "
-		<< scroll_area->verticalScrollBar()->minimum() << " "
-		<< scroll_area->verticalScrollBar()->maximum() << endl;
+	cout << core_widget_scroll_area->verticalScrollBar()->value() << " "
+		<< core_widget_scroll_area->verticalScrollBar()->minimum() << " "
+		<< core_widget_scroll_area->verticalScrollBar()->maximum() 
+		<< endl;
 }
 
 void level_editor_widget::show_geometry_stuff()
 {
-	cout << scroll_area->geometry().x() << " " 
-		<< scroll_area->geometry().y() << endl;
-	cout << scroll_area->frameGeometry().x() << " " 
-		<< scroll_area->frameGeometry().y() << endl;
+	cout << core_widget_scroll_area->geometry().x() << " " 
+		<< core_widget_scroll_area->geometry().y() << endl;
+	cout << core_widget_scroll_area->frameGeometry().x() << " " 
+		<< core_widget_scroll_area->frameGeometry().y() << endl;
 }
+
+
 
 void level_editor_widget::save_file()
 {
