@@ -906,6 +906,7 @@ sprite_properties_widget::group_box_grid_layout	sprite_properties_widget_class.h
 sprite_properties_widget::selected_sprite_ipgws	sprite_properties_widget_class.hpp	/^	sprite_init_param_group_with_size* selected_sprite_ipgws;$/;"	kind:m	class:sprite_properties_widget	access:public
 sprite_properties_widget::sprite_properties_widget	sprite_properties_widget_class.cpp	/^sprite_properties_widget::sprite_properties_widget( QWidget* s_parent,$/;"	kind:f	class:sprite_properties_widget	signature:( QWidget* s_parent, sprite_init_param_group_with_size* s_selected_sprite_ipgws )
 sprite_properties_widget::sprite_properties_widget	sprite_properties_widget_class.hpp	/^	sprite_properties_widget( QWidget* s_parent,$/;"	kind:p	class:sprite_properties_widget	access:public	signature:( QWidget* s_parent, sprite_init_param_group_with_size* s_selected_sprite_ipgws )
+sprite_properties_widget::test_label	sprite_properties_widget_class.hpp	/^	unique_ptr<QLabel> test_label;$/;"	kind:m	class:sprite_properties_widget	access:public
 sprite_properties_widget_class_hpp	sprite_properties_widget_class.hpp	21;"	kind:d
 sprite_properties_widget_enabled	level_editor_widget_class.hpp	/^	bool sprite_properties_widget_enabled;$/;"	kind:m	class:level_editor_widget	access:public
 sprite_spawn_state	sprite_level_data_stuff.hpp	/^enum sprite_spawn_state$/;"	kind:g
@@ -969,6 +970,7 @@ sublevel_entrance::type	sublevel_entrance_class.hpp	/^	sublevel_entrance_type ty
 sublevel_entrance_class_hpp	sublevel_entrance_class.hpp	22;"	kind:d
 sublevel_entrance_type	sublevel_entrance_class.hpp	/^enum sublevel_entrance_type$/;"	kind:g
 sublevel_entrance_vec	sublevel_class.hpp	/^	vector<sublevel_entrance> sublevel_entrance_vec;$/;"	kind:m	class:sublevel	access:public
+test_label	sprite_properties_widget_class.hpp	/^	unique_ptr<QLabel> test_label;$/;"	kind:m	class:sprite_properties_widget	access:public
 the_array	array_2d_helper_class.hpp	/^	type* the_array;$/;"	kind:m	class:array_2d_helper	access:public
 the_block_grid_stuff	sfml_canvas_widget_classes.hpp	/^	} the_block_grid_stuff;$/;"	kind:m	class:sfml_canvas_widget	typeref:struct:sfml_canvas_widget::__anon1	access:protected
 the_block_selector_core_widget	sfml_canvas_widget_classes.hpp	/^		the_block_selector_core_widget;$/;"	kind:m	class:sfml_canvas_widget	access:protected

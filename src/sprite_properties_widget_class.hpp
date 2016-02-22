@@ -36,6 +36,8 @@ public:		// variables
 	
 	sprite_init_param_group_with_size* selected_sprite_ipgws;
 	
+	unique_ptr<QLabel> test_label;
+	
 public:		// functions
 	sprite_properties_widget( QWidget* s_parent,
 		sprite_init_param_group_with_size* s_selected_sprite_ipgws );
