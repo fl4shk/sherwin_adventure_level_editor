@@ -21,11 +21,10 @@
 
 
 
-sprite_properties_widget::sprite_properties_widget( QWidget* s_parent )
-	: QWidget(s_parent)
+sprite_properties_widget::sprite_properties_widget( QWidget* s_parent,
+	sprite_init_param_group_with_size* s_selected_sprite_ipgws )
+	: QWidget(s_parent), selected_sprite_ipgws(s_selected_sprite_ipgws)
 {
-	//grid_layout = new QGridLayout(NULL);
-	//grid_layout = new QGridLayout;
 	grid_layout.reset(new QGridLayout);
 	
 	generate_group_box();
@@ -36,10 +35,126 @@ sprite_properties_widget::sprite_properties_widget( QWidget* s_parent )
 
 void sprite_properties_widget::generate_group_box()
 {
-	//group_box = new QGroupBox( tr("HOLY CRAP IT'S A QGroupBox!") );
-	group_box.reset(new QGroupBox( tr("HOLY CRAP IT'S A QGroupBox!") ));
+	//group_box.reset(new QGroupBox( tr("HOLY CRAP IT'S A QGroupBox!") ));
+	
+	group_box.reset(new QGroupBox( tr
+		( sprite_type_helper::get_st_name_debug
+		(selected_sprite_ipgws->type).c_str() ) ));
+	
+	switch (selected_sprite_ipgws->type)
+	{
+		// The Default Sprite (also used for when there is no sprite in the
+		// slot).
+		case st_default:
+			generate_group_box_for_st_default();
+			break;
+		
+		// The Player
+		case st_player:
+			generate_group_box_for_st_player();
+			break;
+		
+		// Powerup Sprites
+		case st_waffle:
+			generate_group_box_for_st_waffle();
+			break;
+		
+		case st_muffin:
+			generate_group_box_for_st_muffin();
+			break;
+		case st_fire_muffin:
+			generate_group_box_for_st_fire_muffin();
+			break;
+		case st_ice_muffin:
+			generate_group_box_for_st_ice_muffin();
+			break;
+		case st_chocolate_muffin:
+			generate_group_box_for_st_chocolate_muffin();
+			break;
+		
+		// Door sprites
+		
+		// st_door is used for warping around different parts of either
+		// a SINGLE sublevel or MULTIPLE sublevels.  These get connected to
+		// sublevel_entrance's during the whole level conversion process.
+		case st_door:
+			generate_group_box_for_st_door();
+			break;
+		
+		
+		// Enemy sprites
+		case st_snow_golem:
+			generate_group_box_for_st_snow_golem();
+			break;
+		
+		default:
+			cout << "Message from sprite_properties_widget:  unknown "
+				<< "sprite_type!\n";
+			break;
+	}
+	
+	group_box_grid_layout.reset(new QGridLayout);
+	
+	group_box->setLayout(&(*group_box_grid_layout));
 	
 	grid_layout->addWidget( &(*group_box), 0, 0 );
+	
+}
+
+
+
+// "subfunctions" for use by generate_group_box()
+
+// The Default Sprite (also used for when there is no sprite in the
+// slot).
+void sprite_properties_widget::generate_group_box_for_st_default()
+{
+	
+}
+
+// The Player
+void sprite_properties_widget::generate_group_box_for_st_player()
+{
+	
+}
+
+// Powerup Sprites
+void sprite_properties_widget::generate_group_box_for_st_waffle()
+{
+	
+}
+
+void sprite_properties_widget::generate_group_box_for_st_muffin()
+{
+	
+}
+void sprite_properties_widget::generate_group_box_for_st_fire_muffin()
+{
+	
+}
+void sprite_properties_widget::generate_group_box_for_st_ice_muffin()
+{
+	
+}
+void sprite_properties_widget::generate_group_box_for_st_chocolate_muffin()
+{
+	
+}
+
+// Door sprites
+
+// st_door is used for warping around different parts of either
+// a SINGLE sublevel or MULTIPLE sublevels.  These get connected to
+// sublevel_entrance's during the whole level conversion process.
+void sprite_properties_widget::generate_group_box_for_st_door()
+{
+	
+}
+
+
+// Enemy sprites
+void sprite_properties_widget::generate_group_box_for_st_snow_golem()
+{
 	
 }
 

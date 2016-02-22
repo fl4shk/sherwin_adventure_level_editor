@@ -404,13 +404,16 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 		sprite_init_param_group_with_size* clicked_sprite_ipgws 
 			= the_sprite_selection_ptr_group.origin_ptr;
 		
-		the_sfml_canvas_widget->enable_rect_selection( sf::IntRect
-			( clicked_sprite_ipgws->initial_block_grid_x_coord,
-			clicked_sprite_ipgws->initial_block_grid_y_coord,
-			clicked_sprite_ipgws->size_2d.x 
-			/ sfml_canvas_widget::num_pixels_per_block_row, 
-			clicked_sprite_ipgws->size_2d.y 
-			/ sfml_canvas_widget::num_pixels_per_block_column ) );
+		//the_sfml_canvas_widget->enable_rect_selection( sf::IntRect
+		//	( clicked_sprite_ipgws->initial_block_grid_x_coord,
+		//	clicked_sprite_ipgws->initial_block_grid_y_coord,
+		//	clicked_sprite_ipgws->size_2d.x 
+		//	/ sfml_canvas_widget::num_pixels_per_block_row, 
+		//	clicked_sprite_ipgws->size_2d.y 
+		//	/ sfml_canvas_widget::num_pixels_per_block_column ) );
+		
+		the_sfml_canvas_widget->enable_single_sprite_rect_selection
+			(clicked_sprite_ipgws);
 		
 		emit sprite_was_selected();
 		

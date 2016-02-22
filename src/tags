@@ -179,7 +179,8 @@ down_ptr	sprite_level_data_stuff.hpp	/^		* down_left_ptr, * down_ptr;$/;"	kind:m
 down_right_ptr	sprite_level_data_stuff.hpp	/^		* down_left_ptr, * down_ptr, * down_right_ptr;$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public
 down_right_ptr	sprite_level_data_stuff.hpp	/^		* down_left_ptr, * down_right_ptr, * origin_ptr;$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_selecting_sprite	access:public
 enable_block_grid	sfml_canvas_widget_classes.hpp	/^	inline void enable_block_grid()$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:()
-enable_rect_selection	sfml_canvas_widget_classes.hpp	/^	inline void enable_rect_selection$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:( const sf::IntRect& n_selection_rect )
+enable_generic_rect_selection	sfml_canvas_widget_classes.hpp	/^	inline void enable_generic_rect_selection$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:( const sf::IntRect& n_selection_rect )
+enable_single_sprite_rect_selection	sfml_canvas_widget_classes.hpp	/^	inline void enable_single_sprite_rect_selection$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:( sprite_init_param_group_with_size* n_selected_sprite_ipgws )
 enabled	sfml_canvas_widget_classes.hpp	/^		bool enabled;$/;"	kind:m	struct:sfml_canvas_widget::__anon1	access:public
 enabled	sfml_canvas_widget_classes.hpp	/^		bool enabled;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
 export_file	level_editor_widget_class.hpp	/^	inline void export_file()$/;"	kind:f	class:level_editor_widget	access:protected	signature:()
@@ -218,6 +219,24 @@ generate_compressed_block_data_vec	sublevel_class.cpp	/^void sublevel::generate_
 generate_compressed_block_data_vec	sublevel_class.hpp	/^	void generate_compressed_block_data_vec( const string& output_dirname,$/;"	kind:p	class:sublevel	access:public	signature:( const string& output_dirname, const string& output_basename )
 generate_group_box	sprite_properties_widget_class.cpp	/^void sprite_properties_widget::generate_group_box()$/;"	kind:f	class:sprite_properties_widget	signature:()
 generate_group_box	sprite_properties_widget_class.hpp	/^	void generate_group_box();$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:()
+generate_group_box_for_st_chocolate_muffin	sprite_properties_widget_class.cpp	/^void sprite_properties_widget::generate_group_box_for_st_chocolate_muffin()$/;"	kind:f	class:sprite_properties_widget	signature:()
+generate_group_box_for_st_chocolate_muffin	sprite_properties_widget_class.hpp	/^	void generate_group_box_for_st_chocolate_muffin();$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:()
+generate_group_box_for_st_default	sprite_properties_widget_class.cpp	/^void sprite_properties_widget::generate_group_box_for_st_default()$/;"	kind:f	class:sprite_properties_widget	signature:()
+generate_group_box_for_st_default	sprite_properties_widget_class.hpp	/^	void generate_group_box_for_st_default();$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:()
+generate_group_box_for_st_door	sprite_properties_widget_class.cpp	/^void sprite_properties_widget::generate_group_box_for_st_door()$/;"	kind:f	class:sprite_properties_widget	signature:()
+generate_group_box_for_st_door	sprite_properties_widget_class.hpp	/^	void generate_group_box_for_st_door();$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:()
+generate_group_box_for_st_fire_muffin	sprite_properties_widget_class.cpp	/^void sprite_properties_widget::generate_group_box_for_st_fire_muffin()$/;"	kind:f	class:sprite_properties_widget	signature:()
+generate_group_box_for_st_fire_muffin	sprite_properties_widget_class.hpp	/^	void generate_group_box_for_st_fire_muffin();$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:()
+generate_group_box_for_st_ice_muffin	sprite_properties_widget_class.cpp	/^void sprite_properties_widget::generate_group_box_for_st_ice_muffin()$/;"	kind:f	class:sprite_properties_widget	signature:()
+generate_group_box_for_st_ice_muffin	sprite_properties_widget_class.hpp	/^	void generate_group_box_for_st_ice_muffin();$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:()
+generate_group_box_for_st_muffin	sprite_properties_widget_class.cpp	/^void sprite_properties_widget::generate_group_box_for_st_muffin()$/;"	kind:f	class:sprite_properties_widget	signature:()
+generate_group_box_for_st_muffin	sprite_properties_widget_class.hpp	/^	void generate_group_box_for_st_muffin();$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:()
+generate_group_box_for_st_player	sprite_properties_widget_class.cpp	/^void sprite_properties_widget::generate_group_box_for_st_player()$/;"	kind:f	class:sprite_properties_widget	signature:()
+generate_group_box_for_st_player	sprite_properties_widget_class.hpp	/^	void generate_group_box_for_st_player();$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:()
+generate_group_box_for_st_snow_golem	sprite_properties_widget_class.cpp	/^void sprite_properties_widget::generate_group_box_for_st_snow_golem()$/;"	kind:f	class:sprite_properties_widget	signature:()
+generate_group_box_for_st_snow_golem	sprite_properties_widget_class.hpp	/^	void generate_group_box_for_st_snow_golem();$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:()
+generate_group_box_for_st_waffle	sprite_properties_widget_class.cpp	/^void sprite_properties_widget::generate_group_box_for_st_waffle()$/;"	kind:f	class:sprite_properties_widget	signature:()
+generate_group_box_for_st_waffle	sprite_properties_widget_class.hpp	/^	void generate_group_box_for_st_waffle();$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:()
 generate_level_element_palette_render_texture	level_element_selector_core_widget_base_class.cpp	/^	::generate_level_element_palette_render_texture()$/;"	kind:f	class:level_element_selector_core_widget_base	signature:()
 generate_level_element_palette_render_texture	level_element_selector_core_widget_base_class.hpp	/^	virtual void generate_level_element_palette_render_texture();$/;"	kind:p	class:level_element_selector_core_widget_base	access:protected	signature:()
 generate_menus	primary_widget_class.cpp	/^void primary_widget::generate_menus()$/;"	kind:f	class:primary_widget	signature:()
@@ -253,6 +272,8 @@ get_num_level_elements_per_row	level_element_selector_core_widget_base_class.hpp
 get_num_level_elements_per_row	level_element_selector_core_widget_base_class.hpp	/^	inline u32 get_num_level_elements_per_row() const$/;"	kind:f	class:level_element_selector_core_widget_base	access:public	signature:() const
 get_rect_selection_enabled	sfml_canvas_widget_classes.hpp	/^	inline bool get_rect_selection_enabled() const$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:() const
 get_rect_selection_rect	sfml_canvas_widget_classes.hpp	/^	inline const sf::IntRect& get_rect_selection_rect() const$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:() const
+get_rect_selection_selected_sprite_ipgws	sfml_canvas_widget_classes.hpp	/^		get_rect_selection_selected_sprite_ipgws()$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:()
+get_rect_selection_single_sprite_selected	sfml_canvas_widget_classes.hpp	/^	inline bool get_rect_selection_single_sprite_selected() const$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:() const
 get_right_current_level_element_index	level_element_selector_core_widget_base_class.hpp	/^	inline u32 get_right_current_level_element_index() const$/;"	kind:f	class:level_element_selector_core_widget_base	access:public	signature:() const
 get_right_current_level_element_index_x_coord	level_element_selector_core_widget_base_class.hpp	/^	inline u32 get_right_current_level_element_index_x_coord() const$/;"	kind:f	class:level_element_selector_core_widget_base	access:public	signature:() const
 get_right_current_level_element_index_y_coord	level_element_selector_core_widget_base_class.hpp	/^	inline u32 get_right_current_level_element_index_y_coord() const$/;"	kind:f	class:level_element_selector_core_widget_base	access:public	signature:() const
@@ -622,6 +643,8 @@ scroll_area	sprite_16x16_selector_widget_class.hpp	/^	QScrollArea* scroll_area;$
 scroll_area	sprite_16x32_selector_widget_class.hpp	/^	QScrollArea* scroll_area;$/;"	kind:m	class:sprite_16x32_selector_widget	access:public
 second_menu	primary_widget_class.hpp	/^	QMenu* file_menu, * second_menu;$/;"	kind:m	class:primary_widget	access:protected
 selected_level_element_sprite	level_element_selector_core_widget_base_class.hpp	/^	sf::Sprite selected_level_element_sprite;$/;"	kind:m	class:level_element_selector_core_widget_base	access:protected
+selected_sprite_ipgws	sfml_canvas_widget_classes.hpp	/^		sprite_init_param_group_with_size* selected_sprite_ipgws;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
+selected_sprite_ipgws	sprite_properties_widget_class.hpp	/^	sprite_init_param_group_with_size* selected_sprite_ipgws;$/;"	kind:m	class:sprite_properties_widget	access:public
 selection_image	sfml_canvas_widget_classes.hpp	/^		unique_ptr<sf::Image> selection_image;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
 selection_rect	sfml_canvas_widget_classes.hpp	/^		sf::IntRect selection_rect;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
 selection_sprite	sfml_canvas_widget_classes.hpp	/^		unique_ptr<sf::Sprite> selection_sprite;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
@@ -651,15 +674,18 @@ sfml_canvas_widget::__anon1::slot_image	sfml_canvas_widget_classes.hpp	/^		uniqu
 sfml_canvas_widget::__anon1::slot_sprite	sfml_canvas_widget_classes.hpp	/^		unique_ptr<sf::Sprite> slot_sprite;$/;"	kind:m	struct:sfml_canvas_widget::__anon1	access:public
 sfml_canvas_widget::__anon1::slot_texture	sfml_canvas_widget_classes.hpp	/^		unique_ptr<sf::Texture> slot_texture;$/;"	kind:m	struct:sfml_canvas_widget::__anon1	access:public
 sfml_canvas_widget::__anon2::enabled	sfml_canvas_widget_classes.hpp	/^		bool enabled;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
+sfml_canvas_widget::__anon2::selected_sprite_ipgws	sfml_canvas_widget_classes.hpp	/^		sprite_init_param_group_with_size* selected_sprite_ipgws;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
 sfml_canvas_widget::__anon2::selection_image	sfml_canvas_widget_classes.hpp	/^		unique_ptr<sf::Image> selection_image;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
 sfml_canvas_widget::__anon2::selection_rect	sfml_canvas_widget_classes.hpp	/^		sf::IntRect selection_rect;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
 sfml_canvas_widget::__anon2::selection_sprite	sfml_canvas_widget_classes.hpp	/^		unique_ptr<sf::Sprite> selection_sprite;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
 sfml_canvas_widget::__anon2::selection_texture	sfml_canvas_widget_classes.hpp	/^		unique_ptr<sf::Texture> selection_texture;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
+sfml_canvas_widget::__anon2::single_sprite_selected	sfml_canvas_widget_classes.hpp	/^		bool single_sprite_selected;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
 sfml_canvas_widget::apparent_view	sfml_canvas_widget_classes.hpp	/^	sf::View apparent_view;$/;"	kind:m	class:sfml_canvas_widget	access:protected
 sfml_canvas_widget::disable_block_grid	sfml_canvas_widget_classes.hpp	/^	inline void disable_block_grid()$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:()
 sfml_canvas_widget::disable_rect_selection	sfml_canvas_widget_classes.hpp	/^	inline void disable_rect_selection()$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:()
 sfml_canvas_widget::enable_block_grid	sfml_canvas_widget_classes.hpp	/^	inline void enable_block_grid()$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:()
-sfml_canvas_widget::enable_rect_selection	sfml_canvas_widget_classes.hpp	/^	inline void enable_rect_selection$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:( const sf::IntRect& n_selection_rect )
+sfml_canvas_widget::enable_generic_rect_selection	sfml_canvas_widget_classes.hpp	/^	inline void enable_generic_rect_selection$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:( const sf::IntRect& n_selection_rect )
+sfml_canvas_widget::enable_single_sprite_rect_selection	sfml_canvas_widget_classes.hpp	/^	inline void enable_single_sprite_rect_selection$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:( sprite_init_param_group_with_size* n_selected_sprite_ipgws )
 sfml_canvas_widget::generate_block_grid	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget::generate_block_grid()$/;"	kind:f	class:sfml_canvas_widget	signature:()
 sfml_canvas_widget::generate_block_grid	sfml_canvas_widget_classes.hpp	/^	void generate_block_grid();$/;"	kind:p	class:sfml_canvas_widget	access:protected	signature:()
 sfml_canvas_widget::generate_rect_selection_rect	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget::generate_rect_selection_rect()$/;"	kind:f	class:sfml_canvas_widget	signature:()
@@ -669,6 +695,8 @@ sfml_canvas_widget::get_apparent_view	sfml_canvas_widget_classes.hpp	/^	const sf
 sfml_canvas_widget::get_block_grid_enabled	sfml_canvas_widget_classes.hpp	/^	inline bool get_block_grid_enabled() const$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:() const
 sfml_canvas_widget::get_rect_selection_enabled	sfml_canvas_widget_classes.hpp	/^	inline bool get_rect_selection_enabled() const$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:() const
 sfml_canvas_widget::get_rect_selection_rect	sfml_canvas_widget_classes.hpp	/^	inline const sf::IntRect& get_rect_selection_rect() const$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:() const
+sfml_canvas_widget::get_rect_selection_selected_sprite_ipgws	sfml_canvas_widget_classes.hpp	/^		get_rect_selection_selected_sprite_ipgws()$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:()
+sfml_canvas_widget::get_rect_selection_single_sprite_selected	sfml_canvas_widget_classes.hpp	/^	inline bool get_rect_selection_single_sprite_selected() const$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:() const
 sfml_canvas_widget::get_visible_rect	sfml_canvas_widget_classes.hpp	/^	inline sf::FloatRect get_visible_rect() const$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:() const
 sfml_canvas_widget::minimum_scale_factor_for_block_grid	sfml_canvas_widget_classes.hpp	/^	static constexpr u32 minimum_scale_factor_for_block_grid = 1;$/;"	kind:m	class:sfml_canvas_widget	access:public
 sfml_canvas_widget::modified_recently	sfml_canvas_widget_classes.hpp	/^	bool modified_recently;$/;"	kind:m	class:sfml_canvas_widget	access:public
@@ -744,6 +772,7 @@ show_sprite_properties_widget	level_editor_widget_class.cpp	/^void level_editor_
 show_sprite_properties_widget	level_editor_widget_class.hpp	/^	void show_sprite_properties_widget();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
 show_vertical_scroll_bar_stuff	level_editor_widget_class.cpp	/^void level_editor_widget::show_vertical_scroll_bar_stuff()$/;"	kind:f	class:level_editor_widget	signature:()
 show_vertical_scroll_bar_stuff	level_editor_widget_class.hpp	/^	void show_vertical_scroll_bar_stuff();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
+single_sprite_selected	sfml_canvas_widget_classes.hpp	/^		bool single_sprite_selected;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
 size	array_2d_helper_class.hpp	/^	u32 size;$/;"	kind:m	class:array_2d_helper	access:protected
 size_2d	array_2d_helper_class.hpp	/^	vec2_u32 size_2d;$/;"	kind:m	class:array_2d_helper	access:protected
 size_2d	sprite_level_data_stuff.hpp	/^	vec2_u32 size_2d;$/;"	kind:m	class:sprite_init_param_group_with_size	access:public
@@ -848,16 +877,35 @@ sprite_ipg_vec	sublevel_class.hpp	/^	vector<sprite_init_param_group> sprite_ipg_
 sprite_ipgws_vec_2d	sublevel_class.hpp	/^		sprite_ipgws_vec_2d;$/;"	kind:m	class:sublevel	access:public
 sprite_level_data_stuff_hpp	sprite_level_data_stuff.hpp	22;"	kind:d
 sprite_no_longer_selected	level_editor_core_widget_class.hpp	/^	void sprite_no_longer_selected();$/;"	kind:p	class:level_editor_core_widget	access:protected	signature:()
-sprite_properties_widget	sprite_properties_widget_class.cpp	/^sprite_properties_widget::sprite_properties_widget( QWidget* s_parent )$/;"	kind:f	class:sprite_properties_widget	signature:( QWidget* s_parent )
-sprite_properties_widget	sprite_properties_widget_class.hpp	/^	sprite_properties_widget( QWidget* s_parent );$/;"	kind:p	class:sprite_properties_widget	access:public	signature:( QWidget* s_parent )
+sprite_properties_widget	sprite_properties_widget_class.cpp	/^sprite_properties_widget::sprite_properties_widget( QWidget* s_parent,$/;"	kind:f	class:sprite_properties_widget	signature:( QWidget* s_parent, sprite_init_param_group_with_size* s_selected_sprite_ipgws )
+sprite_properties_widget	sprite_properties_widget_class.hpp	/^	sprite_properties_widget( QWidget* s_parent,$/;"	kind:p	class:sprite_properties_widget	access:public	signature:( QWidget* s_parent, sprite_init_param_group_with_size* s_selected_sprite_ipgws )
 sprite_properties_widget	sprite_properties_widget_class.hpp	/^class sprite_properties_widget : public QWidget$/;"	kind:c	inherits:QWidget
 sprite_properties_widget::generate_group_box	sprite_properties_widget_class.cpp	/^void sprite_properties_widget::generate_group_box()$/;"	kind:f	class:sprite_properties_widget	signature:()
 sprite_properties_widget::generate_group_box	sprite_properties_widget_class.hpp	/^	void generate_group_box();$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:()
+sprite_properties_widget::generate_group_box_for_st_chocolate_muffin	sprite_properties_widget_class.cpp	/^void sprite_properties_widget::generate_group_box_for_st_chocolate_muffin()$/;"	kind:f	class:sprite_properties_widget	signature:()
+sprite_properties_widget::generate_group_box_for_st_chocolate_muffin	sprite_properties_widget_class.hpp	/^	void generate_group_box_for_st_chocolate_muffin();$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:()
+sprite_properties_widget::generate_group_box_for_st_default	sprite_properties_widget_class.cpp	/^void sprite_properties_widget::generate_group_box_for_st_default()$/;"	kind:f	class:sprite_properties_widget	signature:()
+sprite_properties_widget::generate_group_box_for_st_default	sprite_properties_widget_class.hpp	/^	void generate_group_box_for_st_default();$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:()
+sprite_properties_widget::generate_group_box_for_st_door	sprite_properties_widget_class.cpp	/^void sprite_properties_widget::generate_group_box_for_st_door()$/;"	kind:f	class:sprite_properties_widget	signature:()
+sprite_properties_widget::generate_group_box_for_st_door	sprite_properties_widget_class.hpp	/^	void generate_group_box_for_st_door();$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:()
+sprite_properties_widget::generate_group_box_for_st_fire_muffin	sprite_properties_widget_class.cpp	/^void sprite_properties_widget::generate_group_box_for_st_fire_muffin()$/;"	kind:f	class:sprite_properties_widget	signature:()
+sprite_properties_widget::generate_group_box_for_st_fire_muffin	sprite_properties_widget_class.hpp	/^	void generate_group_box_for_st_fire_muffin();$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:()
+sprite_properties_widget::generate_group_box_for_st_ice_muffin	sprite_properties_widget_class.cpp	/^void sprite_properties_widget::generate_group_box_for_st_ice_muffin()$/;"	kind:f	class:sprite_properties_widget	signature:()
+sprite_properties_widget::generate_group_box_for_st_ice_muffin	sprite_properties_widget_class.hpp	/^	void generate_group_box_for_st_ice_muffin();$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:()
+sprite_properties_widget::generate_group_box_for_st_muffin	sprite_properties_widget_class.cpp	/^void sprite_properties_widget::generate_group_box_for_st_muffin()$/;"	kind:f	class:sprite_properties_widget	signature:()
+sprite_properties_widget::generate_group_box_for_st_muffin	sprite_properties_widget_class.hpp	/^	void generate_group_box_for_st_muffin();$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:()
+sprite_properties_widget::generate_group_box_for_st_player	sprite_properties_widget_class.cpp	/^void sprite_properties_widget::generate_group_box_for_st_player()$/;"	kind:f	class:sprite_properties_widget	signature:()
+sprite_properties_widget::generate_group_box_for_st_player	sprite_properties_widget_class.hpp	/^	void generate_group_box_for_st_player();$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:()
+sprite_properties_widget::generate_group_box_for_st_snow_golem	sprite_properties_widget_class.cpp	/^void sprite_properties_widget::generate_group_box_for_st_snow_golem()$/;"	kind:f	class:sprite_properties_widget	signature:()
+sprite_properties_widget::generate_group_box_for_st_snow_golem	sprite_properties_widget_class.hpp	/^	void generate_group_box_for_st_snow_golem();$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:()
+sprite_properties_widget::generate_group_box_for_st_waffle	sprite_properties_widget_class.cpp	/^void sprite_properties_widget::generate_group_box_for_st_waffle()$/;"	kind:f	class:sprite_properties_widget	signature:()
+sprite_properties_widget::generate_group_box_for_st_waffle	sprite_properties_widget_class.hpp	/^	void generate_group_box_for_st_waffle();$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:()
 sprite_properties_widget::grid_layout	sprite_properties_widget_class.hpp	/^	unique_ptr<QGridLayout> grid_layout;$/;"	kind:m	class:sprite_properties_widget	access:public
 sprite_properties_widget::group_box	sprite_properties_widget_class.hpp	/^	unique_ptr<QGroupBox> group_box;$/;"	kind:m	class:sprite_properties_widget	access:public
 sprite_properties_widget::group_box_grid_layout	sprite_properties_widget_class.hpp	/^	unique_ptr<QGridLayout> group_box_grid_layout;$/;"	kind:m	class:sprite_properties_widget	access:public
-sprite_properties_widget::sprite_properties_widget	sprite_properties_widget_class.cpp	/^sprite_properties_widget::sprite_properties_widget( QWidget* s_parent )$/;"	kind:f	class:sprite_properties_widget	signature:( QWidget* s_parent )
-sprite_properties_widget::sprite_properties_widget	sprite_properties_widget_class.hpp	/^	sprite_properties_widget( QWidget* s_parent );$/;"	kind:p	class:sprite_properties_widget	access:public	signature:( QWidget* s_parent )
+sprite_properties_widget::selected_sprite_ipgws	sprite_properties_widget_class.hpp	/^	sprite_init_param_group_with_size* selected_sprite_ipgws;$/;"	kind:m	class:sprite_properties_widget	access:public
+sprite_properties_widget::sprite_properties_widget	sprite_properties_widget_class.cpp	/^sprite_properties_widget::sprite_properties_widget( QWidget* s_parent,$/;"	kind:f	class:sprite_properties_widget	signature:( QWidget* s_parent, sprite_init_param_group_with_size* s_selected_sprite_ipgws )
+sprite_properties_widget::sprite_properties_widget	sprite_properties_widget_class.hpp	/^	sprite_properties_widget( QWidget* s_parent,$/;"	kind:p	class:sprite_properties_widget	access:public	signature:( QWidget* s_parent, sprite_init_param_group_with_size* s_selected_sprite_ipgws )
 sprite_properties_widget_class_hpp	sprite_properties_widget_class.hpp	21;"	kind:d
 sprite_properties_widget_enabled	level_editor_widget_class.hpp	/^	bool sprite_properties_widget_enabled;$/;"	kind:m	class:level_editor_widget	access:public
 sprite_spawn_state	sprite_level_data_stuff.hpp	/^enum sprite_spawn_state$/;"	kind:g

@@ -186,7 +186,9 @@ void level_editor_widget::show_sprite_properties_widget()
 		if ( the_sprite_properties_widget == NULL )
 		{
 			the_sprite_properties_widget 
-				= new sprite_properties_widget(this);
+				= new sprite_properties_widget( this, 
+				the_core_widget->the_sfml_canvas_widget
+				->get_rect_selection_selected_sprite_ipgws() );
 			
 			vbox_layout->addWidget(the_sprite_properties_widget);
 			//cout << "added the_sprite_properties_widget\n";

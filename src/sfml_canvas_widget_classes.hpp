@@ -24,6 +24,8 @@
 #include "misc_includes.hpp"
 #include "sublevel_class.hpp"
 
+#include "sprite_level_data_stuff.hpp"
+
 class sfml_canvas_widget_base : public QWidget, public sf::RenderWindow
 {
 public:		// variables
@@ -96,10 +98,14 @@ protected:		// variables
 		
 		bool enabled;
 		
+		bool single_sprite_selected;
+		sprite_init_param_group_with_size* selected_sprite_ipgws;
+		
 		// The actual rectangle representing the selected area.  It is
 		// intended to have a position and size that are in block grid
 		// coordinates.
 		sf::IntRect selection_rect;
+		
 	} the_rect_selection_stuff;
 	
 	
@@ -208,18 +214,48 @@ public:		// functions
 	{
 		return the_rect_selection_stuff.enabled;
 	}
+	inline bool get_rect_selection_single_sprite_selected() const
+	{
+		return the_rect_selection_stuff.single_sprite_selected;
+	}
+	inline sprite_init_param_group_with_size* 
+		get_rect_selection_selected_sprite_ipgws()
+	{
+		return the_rect_selection_stuff.selected_sprite_ipgws;
+	}
 	inline const sf::IntRect& get_rect_selection_rect() const
 	{
 		return the_rect_selection_stuff.selection_rect;
 	}
 	
-	inline void enable_rect_selection
+	inline void enable_generic_rect_selection
 		( const sf::IntRect& n_selection_rect )
 	{
 		the_rect_selection_stuff.enabled = true;
 		
+		the_rect_selection_stuff.single_sprite_selected = false;
+		the_rect_selection_stuff.selected_sprite_ipgws = NULL;
+		
 		the_rect_selection_stuff.selection_rect = n_selection_rect;
 	}
+	inline void enable_single_sprite_rect_selection
+		( sprite_init_param_group_with_size* n_selected_sprite_ipgws )
+	{
+		the_rect_selection_stuff.enabled = true;
+		
+		the_rect_selection_stuff.single_sprite_selected = true;
+		the_rect_selection_stuff.selected_sprite_ipgws 
+			= n_selected_sprite_ipgws;
+		
+		the_rect_selection_stuff.selection_rect = sf::IntRect
+			( n_selected_sprite_ipgws->initial_block_grid_x_coord,
+			n_selected_sprite_ipgws->initial_block_grid_y_coord,
+			n_selected_sprite_ipgws->size_2d.x 
+			/ num_pixels_per_block_row, 
+			n_selected_sprite_ipgws->size_2d.y 
+			/ num_pixels_per_block_column );
+	}
+	
 	inline void disable_rect_selection()
 	{
 		the_rect_selection_stuff.enabled = false;
