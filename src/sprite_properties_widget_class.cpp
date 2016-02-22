@@ -29,7 +29,7 @@ sprite_properties_widget::sprite_properties_widget( QWidget* s_parent,
 	
 	generate_group_box();
 	
-	setLayout(&(*grid_layout));
+	setLayout(grid_layout.get());
 }
 
 
@@ -43,7 +43,7 @@ void sprite_properties_widget::generate_group_box()
 	
 	group_box_grid_layout.reset(new QGridLayout);
 	
-	group_box->setLayout(&(*group_box_grid_layout));
+	group_box->setLayout(group_box_grid_layout.get());
 	
 	switch (selected_sprite_ipgws->type)
 	{
@@ -98,7 +98,7 @@ void sprite_properties_widget::generate_group_box()
 	}
 	
 	
-	grid_layout->addWidget( &(*group_box), 0, 0 );
+	grid_layout->addWidget( group_box.get(), 0, 0 );
 	
 }
 
@@ -116,8 +116,8 @@ void sprite_properties_widget::generate_group_box_for_st_default()
 // The Player
 void sprite_properties_widget::generate_group_box_for_st_player()
 {
-	test_label.reset(new QLabel( "You selected a player sprite!", this ));
-	group_box_grid_layout->addWidget( &(*test_label), 1, 1 );
+	//test_label.reset(new QLabel( "You selected a player sprite!", this ));
+	//group_box_grid_layout->addWidget( test_label.get(), 1, 1 );
 	
 	
 }

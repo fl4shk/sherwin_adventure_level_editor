@@ -25,7 +25,7 @@ const QString level_editor_widget::default_parent_title
 
 level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 	QWidget* s_parent ) : QWidget(s_parent), argv_copy(s_argv_copy),
-	parent(s_parent), the_sprite_properties_widget(NULL)
+	parent(s_parent)
 {
 	//setAttribute(Qt::WA_StaticContents);
 	//setMouseTracking(true);
@@ -163,37 +163,15 @@ void level_editor_widget::export_file_as( const string& output_file_name )
 
 void level_editor_widget::show_sprite_properties_widget()
 {
-	if (!sprite_properties_widget_enabled)
-	{
-		sprite_properties_widget_enabled = true;
-		
-		//if ( show_horiz_sb_stuff_button == NULL )
-		//{
-		//	// Test button
-		//	show_horiz_sb_stuff_button = new QPushButton( "Show Horiz", 
-		//		NULL );
-		//	connect( show_horiz_sb_stuff_button, &QPushButton::clicked, 
-		//		this,
-		//		&level_editor_widget::show_horizontal_scroll_bar_stuff );
-		//	
-		//	//show_horiz_sb_stuff_button->setMaximumSize( 128, 32 );
-		//	//show_horiz_sb_stuff_button->setSizePolicy( QSizePolicy::Fixed,
-		//	//	QSizePolicy::Fixed );
-		//	
-		//	vbox_layout->addWidget(show_horiz_sb_stuff_button);
-		//}
-		
-		if ( the_sprite_properties_widget == NULL )
-		{
-			the_sprite_properties_widget 
-				= new sprite_properties_widget( this, 
-				the_core_widget->the_sfml_canvas_widget
-				->get_rect_selection_selected_sprite_ipgws() );
-			
-			vbox_layout->addWidget(the_sprite_properties_widget);
-			//cout << "added the_sprite_properties_widget\n";
-		}
-	}
+	sprite_properties_widget_enabled = true;
+	
+	the_sprite_properties_widget.reset
+		(new sprite_properties_widget( this, 
+		the_core_widget->the_sfml_canvas_widget
+		->get_rect_selection_selected_sprite_ipgws() ));
+	
+	vbox_layout->addWidget(the_sprite_properties_widget.get());
+	//cout << "added the_sprite_properties_widget\n";
 }
 
 void level_editor_widget::hide_sprite_properties_widget()
@@ -202,22 +180,12 @@ void level_editor_widget::hide_sprite_properties_widget()
 	{
 		sprite_properties_widget_enabled = false;
 		
-		//if ( show_horiz_sb_stuff_button != NULL )
-		//{
-		//	//vbox_layout->removeWidget(show_horiz_sb_stuff_button);
-		//	
-		//	delete show_horiz_sb_stuff_button;
-		//	
-		//	show_horiz_sb_stuff_button = NULL;
-		//}
-		
-		if ( the_sprite_properties_widget != NULL )
+		if ( the_sprite_properties_widget.get() != NULL )
 		{
-			vbox_layout->removeWidget(the_sprite_properties_widget);
+			cout << "the_sprite_properties_widget.get() != NULL\n";
+			vbox_layout->removeWidget(the_sprite_properties_widget.get());
 			
-			delete the_sprite_properties_widget;
-			
-			the_sprite_properties_widget = NULL;
+			the_sprite_properties_widget.reset(NULL);
 		}
 	}
 }

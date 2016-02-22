@@ -68,7 +68,8 @@ public:		// variables
 	
 	bool sprite_properties_widget_enabled;
 	
-	sprite_properties_widget* the_sprite_properties_widget;
+	//sprite_properties_widget* the_sprite_properties_widget;
+	unique_ptr<sprite_properties_widget> the_sprite_properties_widget;
 	
 	
 public:		// functions

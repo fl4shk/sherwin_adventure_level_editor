@@ -422,7 +422,7 @@ level_editor_widget::the_block_selector_widget	level_editor_widget_class.hpp	/^	
 level_editor_widget::the_core_widget	level_editor_widget_class.hpp	/^	level_editor_core_widget* the_core_widget;$/;"	kind:m	class:level_editor_widget	access:public
 level_editor_widget::the_sprite_16x16_selector_widget	level_editor_widget_class.hpp	/^	sprite_16x16_selector_widget* the_sprite_16x16_selector_widget;$/;"	kind:m	class:level_editor_widget	access:public
 level_editor_widget::the_sprite_16x32_selector_widget	level_editor_widget_class.hpp	/^	sprite_16x32_selector_widget* the_sprite_16x32_selector_widget;$/;"	kind:m	class:level_editor_widget	access:public
-level_editor_widget::the_sprite_properties_widget	level_editor_widget_class.hpp	/^	sprite_properties_widget* the_sprite_properties_widget;$/;"	kind:m	class:level_editor_widget	access:public
+level_editor_widget::the_sprite_properties_widget	level_editor_widget_class.hpp	/^	unique_ptr<sprite_properties_widget> the_sprite_properties_widget;$/;"	kind:m	class:level_editor_widget	access:public
 level_editor_widget::vbox_layout	level_editor_widget_class.hpp	/^	QVBoxLayout* vbox_layout;$/;"	kind:m	class:level_editor_widget	access:public
 level_editor_widget_class_hpp	level_editor_widget_class.hpp	22;"	kind:d
 level_element_gfx_file_name	level_element_selector_core_widget_base_class.cpp	/^	::level_element_gfx_file_name = "gfx\/the_block_gfx.png";$/;"	kind:m	class:level_element_selector_core_widget_base	file:
@@ -991,7 +991,7 @@ the_sprite_16x16_selector_widget	level_editor_widget_class.hpp	/^	sprite_16x16_s
 the_sprite_16x32_selector_core_widget	sfml_canvas_widget_classes.hpp	/^		the_sprite_16x32_selector_core_widget;$/;"	kind:m	class:sfml_canvas_widget	access:protected
 the_sprite_16x32_selector_widget	level_editor_core_widget_class.hpp	/^	sprite_16x32_selector_widget* the_sprite_16x32_selector_widget;$/;"	kind:m	class:level_editor_core_widget	access:public
 the_sprite_16x32_selector_widget	level_editor_widget_class.hpp	/^	sprite_16x32_selector_widget* the_sprite_16x32_selector_widget;$/;"	kind:m	class:level_editor_widget	access:public
-the_sprite_properties_widget	level_editor_widget_class.hpp	/^	sprite_properties_widget* the_sprite_properties_widget;$/;"	kind:m	class:level_editor_widget	access:public
+the_sprite_properties_widget	level_editor_widget_class.hpp	/^	unique_ptr<sprite_properties_widget> the_sprite_properties_widget;$/;"	kind:m	class:level_editor_widget	access:public
 the_sprite_selection_ptr_group	level_editor_core_widget_class.hpp	/^		the_sprite_selection_ptr_group;$/;"	kind:m	class:level_editor_core_widget	access:public
 the_sublevel	level_editor_core_widget_class.hpp	/^	sublevel the_sublevel;$/;"	kind:m	class:level_editor_core_widget	access:public
 the_sublevel	sfml_canvas_widget_classes.hpp	/^	sublevel* the_sublevel;$/;"	kind:m	class:sfml_canvas_widget	access:protected
