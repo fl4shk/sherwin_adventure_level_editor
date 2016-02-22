@@ -28,6 +28,8 @@
 #include "sprite_16x16_selector_widget_class.hpp"
 #include "sprite_16x32_selector_widget_class.hpp"
 
+#include "sprite_properties_widget_class.hpp"
+
 
 class level_editor_widget : public QWidget
 {
@@ -64,9 +66,10 @@ public:		// variables
 	sprite_16x32_selector_widget* the_sprite_16x32_selector_widget;
 	
 	
-	bool sprite_properties_widget_visible;
+	bool sprite_properties_widget_enabled;
 	
-	QPushButton* show_horiz_sb_stuff_button;
+	sprite_properties_widget* the_sprite_properties_widget;
+	
 	
 public:		// functions
 	level_editor_widget( vector<string>* s_argv_copy, 
@@ -114,7 +117,7 @@ protected:		// functions
 	
 	
 	
-protected slots:		// slots.
+protected slots:		// slots
 	void show_sprite_properties_widget();
 	void hide_sprite_properties_widget();
 	

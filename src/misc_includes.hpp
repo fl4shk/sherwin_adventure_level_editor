@@ -95,6 +95,9 @@ using namespace pugi;
 #include <QTimer>
 #include <QButtonGroup>
 
+#include <QGroupBox>
+#include <QRadioButton>
+
 #include <QFileDialog>
 
 #include <QTabWidget>
