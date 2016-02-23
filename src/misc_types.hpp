@@ -46,7 +46,7 @@ enum mouse_mode
 	mm_select_single_sprite, 
 	
 	// Rectangular selection 
-	mm_rect_select,
+	mm_rect_selection,
 };
 
 

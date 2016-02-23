@@ -196,6 +196,7 @@ void sprite_properties_widget::generate_stuff_for_st_door()
 	
 	
 	
+	
 	// Destination Sublevel Index (extra_param_1).  At some point, this
 	// should default to whatever the current sublevel is, once
 	// multi-sublevel editing is a thing.
@@ -218,6 +219,7 @@ void sprite_properties_widget::generate_stuff_for_st_door()
 		static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
 		this, &sprite_properties_widget
 		::door_sprite_destination_sublevel_index_changed );
+	
 	
 	
 	

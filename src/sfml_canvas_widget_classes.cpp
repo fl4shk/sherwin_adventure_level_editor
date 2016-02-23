@@ -186,194 +186,69 @@ const sf::View& sfml_canvas_widget::get_apparent_view()
 	return apparent_view;
 }
 
-//void sfml_canvas_widget::draw_line( const sf::Vector2i& pos_0, 
-//	const sf::Vector2i& pos_1, const sf::Color& color )
-//{
-//	modified_recently = true;
-//	
-//	sf::Vector2i delta, pixel_coord, offset;
-//	
-//	delta = sf::Vector2i( pos_1.x - pos_0.x, pos_1.y - pos_0.y );
-//	
-//	if ( delta.x < 0 )
-//	{
-//		delta.x = -delta.x;
-//	}
-//	if ( delta.y < 0 )
-//	{
-//		delta.y = -delta.y;
-//	}
-//	
-//	pixel_coord = pos_0;
-//	
-//	if ( pos_0.x > pos_1.x )
-//	{
-//		offset.x = -1;
-//	}
-//	else
-//	{
-//		offset.x = 1;
-//	}
-//	
-//	if ( pos_0.y > pos_1.y )
-//	{
-//		offset.y = -1;
-//	}
-//	else
-//	{
-//		offset.y = 1;
-//	}
-//	
-//	if ( point_is_in_image(pixel_coord) )
-//	{
-//		canvas_image->setPixel( (u32)pixel_coord.x, (u32)pixel_coord.y, 
-//			color );
-//	}
-//	
-//	if ( delta.x > delta.y )
-//	{
-//		s32 error = delta.x >> 1;
-//		
-//		while ( pixel_coord.x != pos_1.x )
-//		{
-//			error -= delta.y;
-//			
-//			if ( error < 0 )
-//			{
-//				pixel_coord.y += offset.y;
-//				error += delta.x;
-//			}
-//			
-//			pixel_coord.x += offset.x;
-//			
-//			if ( point_is_in_image(pixel_coord) )
-//			{
-//				canvas_image->setPixel( (u32)pixel_coord.x, 
-//					(u32)pixel_coord.y, color );
-//			}
-//		}
-//	}
-//	else
-//	{
-//		s32 error = delta.y >> 1;
-//		
-//		while ( pixel_coord.y != pos_1.y )
-//		{
-//			error -= delta.x;
-//			
-//			if ( error < 0 )
-//			{
-//				pixel_coord.x += offset.x;
-//				error += delta.y;
-//			}
-//			
-//			pixel_coord.y += offset.y;
-//			
-//			if ( point_is_in_image(pixel_coord) )
-//			{
-//				canvas_image->setPixel( (u32)pixel_coord.x, 
-//					(u32)pixel_coord.y, color );
-//			}
-//		}
-//	}
-//	
-//}
 
+void sfml_canvas_widget::start_rect_selection
+	( const vec2_s32& n_starting_block_grid_coords_of_mouse_pos, 
+	rect_selection_layer n_selection_layer )
+{
+	the_rect_selection_stuff.starting_block_grid_coords_of_mouse_pos
+		= n_starting_block_grid_coords_of_mouse_pos;
+	
+	the_rect_selection_stuff.selection_rect.left 
+		= n_starting_block_grid_coords_of_mouse_pos.x;
+	the_rect_selection_stuff.selection_rect.top
+		= n_starting_block_grid_coords_of_mouse_pos.y;
+	
+	the_rect_selection_stuff.single_sprite_selected = false;
+	
+	the_rect_selection_stuff.enabled = true;
+	the_rect_selection_stuff.mouse_released = false;
+	the_rect_selection_stuff.selection_layer = n_selection_layer;
+	
+	if ( the_rect_selection_stuff.selection_layer == rsl_blocks )
+	{
+		// Just one block
+		the_rect_selection_stuff.selection_rect = sf::IntRect
+			( n_starting_block_grid_coords_of_mouse_pos.x,
+			n_starting_block_grid_coords_of_mouse_pos.y, 1, 1 );
+	}
+	else if ( the_rect_selection_stuff.selection_layer == rsl_sprites )
+	{
+		sprite_init_param_group_with_size* single_selected_sprite_ipgws
+			= &( the_sublevel->sprite_ipgws_vec_2d
+			.at(n_starting_block_grid_coords_of_mouse_pos.y)
+			.at(n_starting_block_grid_coords_of_mouse_pos.x) );
+		
+		if ( single_selected_sprite_ipgws->size_2d.x == 0 
+			|| single_selected_sprite_ipgws->size_2d.y == 0 )
+		{
+			disable_rect_selection();
+		}
+		
+		// Make it so that the rectangular selection covers the whole
+		// sprite.  For "blank" sprites (using st_default), this would
+		// hopefully cause the size of the selection_rect to be 16x16.
+		the_rect_selection_stuff.selection_rect = sf::IntRect
+			( single_selected_sprite_ipgws->initial_block_grid_x_coord,
+			single_selected_sprite_ipgws->initial_block_grid_y_coord,
+			single_selected_sprite_ipgws->size_2d.x 
+			/ num_pixels_per_block_row, 
+			single_selected_sprite_ipgws->size_2d.y 
+			/ num_pixels_per_block_column );
+	}
+}
 
-//void sfml_canvas_widget::mousePressEvent( QMouseEvent* event )
-//{
-//	// This converts the clicked coordinate to pixel coordinates.
-//	sf::Vector2f event_pos_in_image_coords = mapPixelToCoords
-//		( sf::Vector2i( event->x(), event->y() ), get_apparent_view() );
-//	
-//	sf::Vector2i event_pos_in_image_pixel_coords
-//		= sf::Vector2i( (int)event_pos_in_image_coords.x,
-//		(int)event_pos_in_image_coords.y );
-//	
-//	prev_mouse_pos = event->pos();
-//	
-//	// Check whether the mouse was clicked somewhere inside the image.
-//	if ( !point_is_in_image(event_pos_in_image_pixel_coords) )
-//	{
-//		return;
-//	}
-//	
-//	modified_recently = true;
-//	
-//	if ( event->button() == Qt::LeftButton )
-//	{
-//		//canvas_image->setPixel( (u32)event_pos_in_image_pixel_coords.x,
-//		//	(u32)event_pos_in_image_pixel_coords.y, 
-//		//	the_block_selector_core_widget->palette.at
-//		//	(the_block_selector_core_widget
-//		//	->left_current_color_index) );
-//	}
-//	else if ( event->button() == Qt::RightButton )
-//	{
-//		//canvas_image->setPixel( (u32)event_pos_in_image_pixel_coords.x,
-//		//	(u32)event_pos_in_image_pixel_coords.y, 
-//		//	the_block_selector_core_widget->palette.at
-//		//	(the_block_selector_core_widget
-//		//	->right_current_color_index) );
-//	}
-//	
-//}
-//
-//void sfml_canvas_widget::mouseMoveEvent( QMouseEvent* event )
-//{
-//	// This converts the clicked coordinate to pixel coordinates.
-//	sf::Vector2f event_pos_in_image_coords = mapPixelToCoords
-//		( sf::Vector2i( event->x(), event->y() ), get_apparent_view() );
-//	
-//	sf::Vector2i event_pos_in_image_pixel_coords
-//		= sf::Vector2i( (int)event_pos_in_image_coords.x,
-//		(int)event_pos_in_image_coords.y );
-//	
-//	// Check whether the mouse was moved to somewhere inside the image.
-//	if ( !point_is_in_image(event_pos_in_image_pixel_coords) )
-//	{
-//		prev_mouse_pos = event->pos();
-//		return;
-//	}
-//	
-//	sf::Vector2f prev_mouse_pos_in_image_coords = mapPixelToCoords
-//		( sf::Vector2i( prev_mouse_pos.x(), prev_mouse_pos.y() ), 
-//		get_apparent_view() );
-//	
-//	sf::Vector2i prev_mouse_pos_in_image_pixel_coords
-//		= sf::Vector2i( (int)prev_mouse_pos_in_image_coords.x,
-//		(int)prev_mouse_pos_in_image_coords.y );
-//	
-//	prev_mouse_pos = event->pos();
-//	
-//	//modified_recently = true;
-//	//draw_line( prev_mouse_pos_in_image_pixel_coords,
-//	//	event_pos_in_image_pixel_coords, sf::Color::Black );
-//	
-//	if ( event->buttons() == Qt::LeftButton )
-//	{
-//		//draw_line( prev_mouse_pos_in_image_pixel_coords,
-//		//	event_pos_in_image_pixel_coords, 
-//		//	the_block_selector_core_widget->palette.at
-//		//	(the_block_selector_core_widget
-//		//	->left_current_color_index) );
-//	}
-//	else if ( event->buttons() == Qt::RightButton )
-//	{
-//		//draw_line( prev_mouse_pos_in_image_pixel_coords,
-//		//	event_pos_in_image_pixel_coords, 
-//		//	the_block_selector_core_widget->palette.at
-//		//	(the_block_selector_core_widget
-//		//	->right_current_color_index) );
-//	}
-//	
-//}
-//
-//// mouseReleaseEvent() will come in handy once a "line" tool exists.
-//void sfml_canvas_widget::mouseReleaseEvent( QMouseEvent* event )
-//{
-//	//cout << event->x() << ", " << event->y() << endl;
-//}
+void sfml_canvas_widget::continue_rect_selection
+	( const vec2_s32& n_curr_ending_block_grid_coords_of_mouse_pos )
+{
+	
+}
+
+void sfml_canvas_widget::finish_rect_selection()
+{
+	the_rect_selection_stuff.mouse_released = true;
+}
+
 
 
 void sfml_canvas_widget::set_the_block_selector_core_widget
@@ -560,16 +435,50 @@ void sfml_canvas_widget::generate_rect_selection_rect()
 		//	( the_rect_selection_stuff.selection_image->getSize().x - 1, 
 		//	j, sf::Color( 128, 0, 0 ) );
 		
-		the_rect_selection_stuff.selection_image->setPixel( 0, j,
-			sf::Color::Blue );
-		the_rect_selection_stuff.selection_image->setPixel( 1, j,
-			sf::Color::Blue );
-		the_rect_selection_stuff.selection_image->setPixel
-			( the_rect_selection_stuff.selection_image->getSize().x - 2, 
-			j, sf::Color::Blue );
-		the_rect_selection_stuff.selection_image->setPixel
-			( the_rect_selection_stuff.selection_image->getSize().x - 1, 
-			j, sf::Color::Blue );
+		
+		
+		if ( the_rect_selection_stuff.selection_layer == rsl_blocks )
+		{
+			the_rect_selection_stuff.selection_image->setPixel( 0, j,
+				sf::Color::Blue );
+			the_rect_selection_stuff.selection_image->setPixel( 1, j,
+				sf::Color::Blue );
+			the_rect_selection_stuff.selection_image->setPixel
+				( the_rect_selection_stuff.selection_image->getSize().x 
+				- 2, j, sf::Color::Blue );
+			the_rect_selection_stuff.selection_image->setPixel
+				( the_rect_selection_stuff.selection_image->getSize().x 
+				- 1, j, sf::Color::Blue );
+			
+		}
+		else if ( the_rect_selection_stuff.selection_layer == rsl_sprites 
+			&& the_rect_selection_stuff.single_sprite_selected )
+		{
+			the_rect_selection_stuff.selection_image->setPixel( 0, j,
+				sf::Color::Red );
+			the_rect_selection_stuff.selection_image->setPixel( 1, j,
+				sf::Color::Red );
+			the_rect_selection_stuff.selection_image->setPixel
+				( the_rect_selection_stuff.selection_image->getSize().x 
+				- 2, j, sf::Color::Red );
+			the_rect_selection_stuff.selection_image->setPixel
+				( the_rect_selection_stuff.selection_image->getSize().x 
+				- 1, j, sf::Color::Red );
+		}
+		else if ( the_rect_selection_stuff.selection_layer == rsl_sprites 
+			&& !the_rect_selection_stuff.single_sprite_selected )
+		{
+			the_rect_selection_stuff.selection_image->setPixel( 0, j,
+				sf::Color( 0, 188, 0 ) );
+			the_rect_selection_stuff.selection_image->setPixel( 1, j,
+				sf::Color( 0, 188, 0 ) );
+			the_rect_selection_stuff.selection_image->setPixel
+				( the_rect_selection_stuff.selection_image->getSize().x 
+				- 2, j, sf::Color( 0, 188, 0 ) );
+			the_rect_selection_stuff.selection_image->setPixel
+				( the_rect_selection_stuff.selection_image->getSize().x 
+				- 1, j, sf::Color( 0, 188, 0 ) );
+		}
 	}
 	
 	// Horizontal lines
@@ -583,16 +492,47 @@ void sfml_canvas_widget::generate_rect_selection_rect()
 		//	the_rect_selection_stuff.selection_image->getSize().y - 1,
 		//	sf::Color( 128, 0, 0 ) );
 		
-		the_rect_selection_stuff.selection_image->setPixel( i, 0,
-			sf::Color::Blue );
-		the_rect_selection_stuff.selection_image->setPixel( i, 1,
-			sf::Color::Blue );
-		the_rect_selection_stuff.selection_image->setPixel( i, 
-			the_rect_selection_stuff.selection_image->getSize().y - 2,
-			sf::Color::Blue );
-		the_rect_selection_stuff.selection_image->setPixel( i, 
-			the_rect_selection_stuff.selection_image->getSize().y - 1,
-			sf::Color::Blue );
+		if ( the_rect_selection_stuff.selection_layer == rsl_blocks )
+		{
+			the_rect_selection_stuff.selection_image->setPixel( i, 0,
+				sf::Color::Blue );
+			the_rect_selection_stuff.selection_image->setPixel( i, 1,
+				sf::Color::Blue );
+			the_rect_selection_stuff.selection_image->setPixel( i, 
+				the_rect_selection_stuff.selection_image->getSize().y - 2,
+				sf::Color::Blue );
+			the_rect_selection_stuff.selection_image->setPixel( i, 
+				the_rect_selection_stuff.selection_image->getSize().y - 1,
+				sf::Color::Blue );
+		}
+		else if ( the_rect_selection_stuff.selection_layer == rsl_sprites 
+			&& the_rect_selection_stuff.single_sprite_selected )
+		{
+			the_rect_selection_stuff.selection_image->setPixel( i, 0,
+				sf::Color::Red );
+			the_rect_selection_stuff.selection_image->setPixel( i, 1,
+				sf::Color::Red );
+			the_rect_selection_stuff.selection_image->setPixel( i, 
+				the_rect_selection_stuff.selection_image->getSize().y - 2,
+				sf::Color::Red );
+			the_rect_selection_stuff.selection_image->setPixel( i, 
+				the_rect_selection_stuff.selection_image->getSize().y - 1,
+				sf::Color::Red );
+		}
+		else if ( the_rect_selection_stuff.selection_layer == rsl_sprites 
+			&& !the_rect_selection_stuff.single_sprite_selected )
+		{
+			the_rect_selection_stuff.selection_image->setPixel( i, 0,
+				sf::Color( 0, 188, 0 ) );
+			the_rect_selection_stuff.selection_image->setPixel( i, 1,
+				sf::Color( 0, 188, 0 ) );
+			the_rect_selection_stuff.selection_image->setPixel( i, 
+				the_rect_selection_stuff.selection_image->getSize().y - 2,
+				sf::Color( 0, 188, 0 ) );
+			the_rect_selection_stuff.selection_image->setPixel( i, 
+				the_rect_selection_stuff.selection_image->getSize().y - 1,
+				sf::Color( 0, 188, 0 ) );
+		}
 	}
 	
 	
@@ -610,8 +550,8 @@ void sfml_canvas_widget::generate_rect_selection_rect()
 	
 	draw(*the_rect_selection_stuff.selection_sprite);
 	
-	
 }
+
 
 void sfml_canvas_widget::update_visible_area()
 {

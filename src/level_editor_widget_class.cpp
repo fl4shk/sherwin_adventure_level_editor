@@ -178,6 +178,12 @@ void level_editor_widget::keyPressEvent( QKeyEvent* event )
 		
 		cout << "Current mouse mode:  select_sprites\n";
 	}
+	else if ( event->key() == Qt::Key_E )
+	{
+		the_core_widget->the_mouse_mode = mm_rect_selection;
+		
+		cout << "Current mouse mode:  rect_selection\n";
+	}
 	
 	
 }
@@ -211,7 +217,7 @@ void level_editor_widget::show_sprite_properties_widget()
 	the_sprite_properties_widget.reset
 		(new sprite_properties_widget( this, 
 		the_core_widget->the_sfml_canvas_widget
-		->get_rect_selection_selected_sprite_ipgws() ));
+		->get_rect_selection_single_selected_sprite_ipgws() ));
 	
 	vbox_layout->addWidget(the_sprite_properties_widget.get());
 	//cout << "added the_sprite_properties_widget\n";

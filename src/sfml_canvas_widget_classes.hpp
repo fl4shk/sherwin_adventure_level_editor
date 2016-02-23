@@ -96,15 +96,30 @@ protected:		// variables
 		unique_ptr<sf::Texture> selection_texture;
 		unique_ptr<sf::Sprite> selection_sprite;
 		
-		bool enabled;
-		
-		bool single_sprite_selected;
-		sprite_init_param_group_with_size* selected_sprite_ipgws;
 		
 		// The actual rectangle representing the selected area.  It is
 		// intended to have a position and size that are in block grid
 		// coordinates.
 		sf::IntRect selection_rect;
+		
+		
+		// Where the mouse was first clicked at the start of the
+		// rectangular selection.  This is not intended to be used for
+		// the mouse_mode where sprite properties can be changed.
+		vec2_s32 starting_block_grid_coords_of_mouse_pos;
+		
+		
+		// mouse_released is set to true when the mouse is released and the
+		// selection mode is NOT for changing sprite properties.
+		bool enabled, mouse_released;
+		
+		// Whether the rectangular selection is in the block layer or the
+		// sprite layer.
+		rect_selection_layer selection_layer;
+		
+		// This corresponds to when the level_editor_widget's
+		// sprite_properties_widget should be generated.
+		bool single_sprite_selected;
 		
 	} the_rect_selection_stuff;
 	
@@ -230,34 +245,43 @@ public:		// functions
 	{
 		return the_rect_selection_stuff.single_sprite_selected;
 	}
-	inline sprite_init_param_group_with_size* 
-		get_rect_selection_selected_sprite_ipgws()
+	inline sprite_init_param_group_with_size*
+		get_rect_selection_single_selected_sprite_ipgws()
 	{
-		return the_rect_selection_stuff.selected_sprite_ipgws;
+		return &( the_sublevel->sprite_ipgws_vec_2d
+			.at(the_rect_selection_stuff.selection_rect.top)
+			.at(the_rect_selection_stuff.selection_rect.left) );
 	}
 	inline const sf::IntRect& get_rect_selection_rect() const
 	{
 		return the_rect_selection_stuff.selection_rect;
 	}
 	
-	inline void enable_generic_rect_selection
-		( const sf::IntRect& n_selection_rect )
-	{
-		the_rect_selection_stuff.enabled = true;
-		
-		the_rect_selection_stuff.single_sprite_selected = false;
-		the_rect_selection_stuff.selected_sprite_ipgws = NULL;
-		
-		the_rect_selection_stuff.selection_rect = n_selection_rect;
-	}
+	//inline void enable_generic_rect_selection
+	//	( const sf::IntRect& n_selection_rect )
+	//{
+	//	the_rect_selection_stuff.enabled = true;
+	//	
+	//	the_rect_selection_stuff.single_sprite_selected = false;
+	//	
+	//	the_rect_selection_stuff.selection_rect = n_selection_rect;
+	//}
+	
+	void start_rect_selection
+		( const vec2_s32& n_starting_block_grid_coords_of_mouse_pos, 
+		rect_selection_layer n_selection_layer );
+	void continue_rect_selection
+		( const vec2_s32& n_curr_ending_block_grid_coords_of_mouse_pos );
+	void finish_rect_selection();
+
+
 	inline void enable_single_sprite_rect_selection
 		( sprite_init_param_group_with_size* n_selected_sprite_ipgws )
 	{
 		the_rect_selection_stuff.enabled = true;
 		
 		the_rect_selection_stuff.single_sprite_selected = true;
-		the_rect_selection_stuff.selected_sprite_ipgws 
-			= n_selected_sprite_ipgws;
+		the_rect_selection_stuff.selection_layer = rsl_sprites;
 		
 		the_rect_selection_stuff.selection_rect = sf::IntRect
 			( n_selected_sprite_ipgws->initial_block_grid_x_coord,
@@ -266,7 +290,28 @@ public:		// functions
 			/ num_pixels_per_block_row, 
 			n_selected_sprite_ipgws->size_2d.y 
 			/ num_pixels_per_block_column );
+		
+		//vec2_s32 block_grid_start_pos
+		//	( (s32)n_selected_sprite_ipgws.initial_block_grid_x_coord,  
+		//	(s32)n_selected_sprite_ipgws.initial_block_grid_y_coord );
+		//
+		//vec2_s32 block_grid_end_pos = block_grid_start_pos
+		//	+ vec2_s32( (s32)n_selected_sprite_ipgws.real_size_2d.x 
+		//		* (s32)num_pixels_per_block_column,
+		//		(s32)n_selected_sprite_ipgws.real_size_2d.y
+		//		* (s32)num_pixels_per_block_row );
+		//
+		//if ( block_grid_end_pos.x >= (s32)the_sublevel->size_2d.x )
+		//{
+		//	block_grid_end_pos.x = (s32)( the_sublevel->size_2d.x - 1 );
+		//}
+		//
+		//if ( block_grid_end_pos.y >= the_sublevel->size_2d.y )
+		//{
+		//	block_grid_end_pos.y = (s32)( the_sublevel->size_2d.y - 1 );
+		//}
 	}
+	
 	
 	inline void disable_rect_selection()
 	{
@@ -349,10 +394,6 @@ protected:		// functions
 	//	
 	//	
 	//}
-	
-	//void mousePressEvent( QMouseEvent* event );
-	//void mouseMoveEvent( QMouseEvent* event );
-	//void mouseReleaseEvent( QMouseEvent* event );
 	
 	void generate_block_grid();
 	void generate_rect_selection_rect();

@@ -441,6 +441,11 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 		//cout << endl;
 	};
 	
+	auto func_for_erasing_sprites = [&]() -> void
+	{
+		
+	};
+	
 	auto func_for_selecting_single_sprite = [&]() -> void
 	{
 		if ( the_sprite_selection_ptr_group.origin_ptr != NULL )
@@ -466,7 +471,6 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 			return;
 		}
 		
-		
 		sprite_init_param_group_with_size* clicked_sprite_ipgws 
 			= the_sprite_selection_ptr_group.origin_ptr;
 		
@@ -476,16 +480,34 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 		emit sprite_was_selected();
 	};
 	
-	auto func_for_erasing_sprites = [&]() -> void
+	auto func_for_rect_selection = [&]() -> void
 	{
+		if ( current_tabbed_widget_is_for_blocks )
+		{
+			the_sfml_canvas_widget->start_rect_selection
+				( block_grid_coords_of_mouse_pos, rsl_blocks );
+		}
+		else if ( current_tabbed_widget_is_for_16x16_sprites 
+			|| current_tabbed_widget_is_for_16x32_sprites )
+		{
+			sprite_init_param_group_with_size* clicked_sprite_ipgws 
+				= the_sprite_selection_ptr_group.origin_ptr;
+			
+			//the_sfml_canvas_widget->start_rect_selection
+			//	( block_grid_coords_of_mouse_pos, rsl_sprites );
+			the_sfml_canvas_widget->start_rect_selection( vec2_s32
+				( (s32)clicked_sprite_ipgws->initial_block_grid_x_coord,
+				(s32)clicked_sprite_ipgws->initial_block_grid_y_coord ),
+				rsl_sprites );
+		}
 		
+		emit sprite_no_longer_selected();
 	};
 	
 	if ( event->button() == Qt::LeftButton )
 	{
 		//cout << block_grid_coords_of_mouse_pos.x << ", "
 		//	<< block_grid_coords_of_mouse_pos.y << endl;
-		
 		
 		switch (the_mouse_mode)
 		{
@@ -501,8 +523,8 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 				func_for_selecting_single_sprite();
 				break;
 			
-			case mm_rect_select:
-				
+			case mm_rect_selection:
+				func_for_rect_selection();
 				break;
 			
 			default:
@@ -652,6 +674,11 @@ void level_editor_core_widget::mouseMoveEvent( QMouseEvent* event )
 		//cout << endl;
 	};
 	
+	auto func_for_erasing_sprites = [&]() -> void
+	{
+		
+	};
+	
 	auto func_for_selecting_single_sprite = [&]() -> void
 	{
 		//if ( the_sprite_selection_ptr_group.origin_ptr != NULL )
@@ -687,7 +714,7 @@ void level_editor_core_widget::mouseMoveEvent( QMouseEvent* event )
 		//emit sprite_was_selected();
 	};
 	
-	auto func_for_erasing_sprites = [&]() -> void
+	auto func_for_rect_selection = [&]() -> void
 	{
 		
 	};
@@ -711,8 +738,8 @@ void level_editor_core_widget::mouseMoveEvent( QMouseEvent* event )
 				func_for_selecting_single_sprite();
 				break;
 			
-			case mm_rect_select:
-				
+			case mm_rect_selection:
+				func_for_rect_selection();
 				break;
 			
 			default:
@@ -734,5 +761,15 @@ void level_editor_core_widget::mouseMoveEvent( QMouseEvent* event )
 	//prev_mouse_pos = event->pos();
 	block_grid_coords_of_prev_mouse_pos = block_grid_coords_of_mouse_pos;
 }
+
+
+void level_editor_core_widget::mouseReleaseEvent( QMouseEvent* event )
+{
+	
+	
+}
+
+
+
 
 
