@@ -102,13 +102,14 @@ public:		// functions
 	sprite_16x32_selector_core_widget* 
 		get_the_sprite_16x32_selector_core_widget();
 	
-	
-protected:		// functions
 	bool zoom_in();
 	bool zoom_out();
 	
+	
+protected:		// functions
+	
 	// Events
-	void keyPressEvent( QKeyEvent* event );
+	//void keyPressEvent( QKeyEvent* event );
 	void mousePressEvent( QMouseEvent* event );
 	void mouseMoveEvent( QMouseEvent* event );
 	

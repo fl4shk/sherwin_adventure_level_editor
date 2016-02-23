@@ -324,6 +324,7 @@ hello	level_editor_widget_class.cpp	/^void level_editor_widget::hello()$/;"	kind
 hello	level_editor_widget_class.hpp	/^	void hello();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
 hide_sprite_properties_widget	level_editor_widget_class.cpp	/^void level_editor_widget::hide_sprite_properties_widget()$/;"	kind:f	class:level_editor_widget	signature:()
 hide_sprite_properties_widget	level_editor_widget_class.hpp	/^	void hide_sprite_properties_widget();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
+highest_warp_id	sprite_type_stuff.hpp	/^	static constexpr u32 lowest_warp_id = 0, highest_warp_id = 51;$/;"	kind:m	class:sprite_type_helper	access:public
 in_sublevel_pos	sublevel_entrance_class.hpp	/^	vec2_f24p8 in_sublevel_pos;$/;"	kind:m	class:sublevel_entrance	access:public
 init	array_2d_helper_class.hpp	/^	void init( type* s_the_array, const vec2_u32& s_size_2d )$/;"	kind:f	class:array_2d_helper	access:public	signature:( type* s_the_array, const vec2_u32& s_size_2d )
 init	sprite_properties_widget_class.cpp	/^void sprite_properties_widget::init()$/;"	kind:f	class:sprite_properties_widget	signature:()
@@ -335,8 +336,8 @@ initial_block_grid_y_coord	sprite_level_data_stuff.hpp	/^	u32 initial_block_grid
 initialize_tab_stuff	level_editor_core_widget_class.cpp	/^void level_editor_core_widget::initialize_tab_stuff$/;"	kind:f	class:level_editor_core_widget	signature:( QTabWidget* n_level_element_selectors_tab_widget, block_selector_widget* n_the_block_selector_widget, sprite_16x16_selector_widget* n_the_sprite_16x16_selector_widget, sprite_16x32_selector_widget* n_the_sprite_16x32_selector_widget )
 initialize_tab_stuff	level_editor_core_widget_class.hpp	/^	void initialize_tab_stuff$/;"	kind:p	class:level_editor_core_widget	access:public	signature:( QTabWidget* n_level_element_selectors_tab_widget, block_selector_widget* n_the_block_selector_widget, sprite_16x16_selector_widget* n_the_sprite_16x16_selector_widget, sprite_16x32_selector_widget* n_the_sprite_16x32_selector_widget )
 initialized	sfml_canvas_widget_classes.hpp	/^	bool initialized;$/;"	kind:m	class:sfml_canvas_widget_base	access:public
-keyPressEvent	level_editor_core_widget_class.cpp	/^void level_editor_core_widget::keyPressEvent( QKeyEvent* event )$/;"	kind:f	class:level_editor_core_widget	signature:( QKeyEvent* event )
-keyPressEvent	level_editor_core_widget_class.hpp	/^	void keyPressEvent( QKeyEvent* event );$/;"	kind:p	class:level_editor_core_widget	access:protected	signature:( QKeyEvent* event )
+keyPressEvent	level_editor_widget_class.cpp	/^void level_editor_widget::keyPressEvent( QKeyEvent* event )$/;"	kind:f	class:level_editor_widget	signature:( QKeyEvent* event )
+keyPressEvent	level_editor_widget_class.hpp	/^	void keyPressEvent( QKeyEvent* event );$/;"	kind:p	class:level_editor_widget	access:protected	signature:( QKeyEvent* event )
 laugh	primary_widget_class.cpp	/^void primary_widget::laugh()$/;"	kind:f	class:primary_widget	signature:()
 laugh	primary_widget_class.hpp	/^	void laugh();$/;"	kind:p	class:primary_widget	access:protected	signature:()
 laugh_icon_file_name	primary_widget_class.hpp	/^	static const QString laugh_icon_file_name, quit_icon_file_name;$/;"	kind:m	class:primary_widget	access:protected
@@ -360,8 +361,6 @@ level_editor_core_widget::get_the_sprite_16x32_selector_core_widget	level_editor
 level_editor_core_widget::get_the_sprite_16x32_selector_core_widget	level_editor_core_widget_class.hpp	/^		get_the_sprite_16x32_selector_core_widget();$/;"	kind:p	class:level_editor_core_widget	access:public	signature:()
 level_editor_core_widget::initialize_tab_stuff	level_editor_core_widget_class.cpp	/^void level_editor_core_widget::initialize_tab_stuff$/;"	kind:f	class:level_editor_core_widget	signature:( QTabWidget* n_level_element_selectors_tab_widget, block_selector_widget* n_the_block_selector_widget, sprite_16x16_selector_widget* n_the_sprite_16x16_selector_widget, sprite_16x32_selector_widget* n_the_sprite_16x32_selector_widget )
 level_editor_core_widget::initialize_tab_stuff	level_editor_core_widget_class.hpp	/^	void initialize_tab_stuff$/;"	kind:p	class:level_editor_core_widget	access:public	signature:( QTabWidget* n_level_element_selectors_tab_widget, block_selector_widget* n_the_block_selector_widget, sprite_16x16_selector_widget* n_the_sprite_16x16_selector_widget, sprite_16x32_selector_widget* n_the_sprite_16x32_selector_widget )
-level_editor_core_widget::keyPressEvent	level_editor_core_widget_class.cpp	/^void level_editor_core_widget::keyPressEvent( QKeyEvent* event )$/;"	kind:f	class:level_editor_core_widget	signature:( QKeyEvent* event )
-level_editor_core_widget::keyPressEvent	level_editor_core_widget_class.hpp	/^	void keyPressEvent( QKeyEvent* event );$/;"	kind:p	class:level_editor_core_widget	access:protected	signature:( QKeyEvent* event )
 level_editor_core_widget::level_editor_core_widget	level_editor_core_widget_class.cpp	/^level_editor_core_widget::level_editor_core_widget( QWidget* s_parent,$/;"	kind:f	class:level_editor_core_widget	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size, const string& s_level_file_name )
 level_editor_core_widget::level_editor_core_widget	level_editor_core_widget_class.hpp	/^	level_editor_core_widget( QWidget* s_parent, const QPoint& s_position,$/;"	kind:p	class:level_editor_core_widget	access:public	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size, const string& s_level_file_name )
 level_editor_core_widget::level_element_selectors_tab_widget	level_editor_core_widget_class.hpp	/^	QTabWidget* level_element_selectors_tab_widget;$/;"	kind:m	class:level_editor_core_widget	access:public
@@ -382,9 +381,9 @@ level_editor_core_widget::the_sprite_16x32_selector_widget	level_editor_core_wid
 level_editor_core_widget::the_sprite_selection_ptr_group	level_editor_core_widget_class.hpp	/^		the_sprite_selection_ptr_group;$/;"	kind:m	class:level_editor_core_widget	access:public
 level_editor_core_widget::the_sublevel	level_editor_core_widget_class.hpp	/^	sublevel the_sublevel;$/;"	kind:m	class:level_editor_core_widget	access:public
 level_editor_core_widget::zoom_in	level_editor_core_widget_class.cpp	/^bool level_editor_core_widget::zoom_in()$/;"	kind:f	class:level_editor_core_widget	signature:()
-level_editor_core_widget::zoom_in	level_editor_core_widget_class.hpp	/^	bool zoom_in();$/;"	kind:p	class:level_editor_core_widget	access:protected	signature:()
+level_editor_core_widget::zoom_in	level_editor_core_widget_class.hpp	/^	bool zoom_in();$/;"	kind:p	class:level_editor_core_widget	access:public	signature:()
 level_editor_core_widget::zoom_out	level_editor_core_widget_class.cpp	/^bool level_editor_core_widget::zoom_out()$/;"	kind:f	class:level_editor_core_widget	signature:()
-level_editor_core_widget::zoom_out	level_editor_core_widget_class.hpp	/^	bool zoom_out();$/;"	kind:p	class:level_editor_core_widget	access:protected	signature:()
+level_editor_core_widget::zoom_out	level_editor_core_widget_class.hpp	/^	bool zoom_out();$/;"	kind:p	class:level_editor_core_widget	access:public	signature:()
 level_editor_core_widget_class_hpp	level_editor_core_widget_class.hpp	21;"	kind:d
 level_editor_widget	level_editor_widget_class.cpp	/^level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,$/;"	kind:f	class:level_editor_widget	signature:( vector<string>* s_argv_copy, QWidget* s_parent )
 level_editor_widget	level_editor_widget_class.hpp	/^	level_editor_widget( vector<string>* s_argv_copy, $/;"	kind:p	class:level_editor_widget	access:public	signature:( vector<string>* s_argv_copy, QWidget* s_parent = 0 )
@@ -401,6 +400,8 @@ level_editor_widget::hello	level_editor_widget_class.cpp	/^void level_editor_wid
 level_editor_widget::hello	level_editor_widget_class.hpp	/^	void hello();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
 level_editor_widget::hide_sprite_properties_widget	level_editor_widget_class.cpp	/^void level_editor_widget::hide_sprite_properties_widget()$/;"	kind:f	class:level_editor_widget	signature:()
 level_editor_widget::hide_sprite_properties_widget	level_editor_widget_class.hpp	/^	void hide_sprite_properties_widget();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
+level_editor_widget::keyPressEvent	level_editor_widget_class.cpp	/^void level_editor_widget::keyPressEvent( QKeyEvent* event )$/;"	kind:f	class:level_editor_widget	signature:( QKeyEvent* event )
+level_editor_widget::keyPressEvent	level_editor_widget_class.hpp	/^	void keyPressEvent( QKeyEvent* event );$/;"	kind:p	class:level_editor_widget	access:protected	signature:( QKeyEvent* event )
 level_editor_widget::level_editor_widget	level_editor_widget_class.cpp	/^level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,$/;"	kind:f	class:level_editor_widget	signature:( vector<string>* s_argv_copy, QWidget* s_parent )
 level_editor_widget::level_editor_widget	level_editor_widget_class.hpp	/^	level_editor_widget( vector<string>* s_argv_copy, $/;"	kind:p	class:level_editor_widget	access:public	signature:( vector<string>* s_argv_copy, QWidget* s_parent = 0 )
 level_editor_widget::level_element_selectors_tab_widget	level_editor_widget_class.hpp	/^	QTabWidget* level_element_selectors_tab_widget;$/;"	kind:m	class:level_editor_widget	access:public
@@ -517,6 +518,7 @@ level_element_selectors_tab_widget	level_editor_core_widget_class.hpp	/^	QTabWid
 level_element_selectors_tab_widget	level_editor_widget_class.hpp	/^	QTabWidget* level_element_selectors_tab_widget;$/;"	kind:m	class:level_editor_widget	access:public
 level_file_name	level_editor_core_widget_class.hpp	/^	string level_file_name;$/;"	kind:m	class:level_editor_core_widget	access:public
 list_of_level_element_widget_name_prefixes	level_editor_core_widget_class.hpp	59;"	kind:d
+lowest_warp_id	sprite_type_stuff.hpp	/^	static constexpr u32 lowest_warp_id = 0, highest_warp_id = 51;$/;"	kind:m	class:sprite_type_helper	access:public
 main	main.cpp	/^int main( int argc, char** argv )$/;"	kind:f	signature:( int argc, char** argv )
 max_num_blocks	sublevel_class.cpp	/^const u32 sublevel::max_num_blocks = max_size_2d.x * max_size_2d.y;$/;"	kind:m	class:sublevel	file:
 max_num_blocks	sublevel_class.hpp	/^	static const u32 max_num_blocks;$/;"	kind:m	class:sublevel	access:public
@@ -920,6 +922,8 @@ sprite_type	sprite_type_stuff.hpp	/^enum sprite_type$/;"	kind:g
 sprite_type_helper	sprite_type_stuff.hpp	/^class sprite_type_helper$/;"	kind:c
 sprite_type_helper::get_st_name	sprite_type_stuff.hpp	/^	static inline const string& get_st_name( sprite_type the_sprite_type )$/;"	kind:f	class:sprite_type_helper	access:public	signature:( sprite_type the_sprite_type )
 sprite_type_helper::get_st_name_debug	sprite_type_stuff.hpp	/^	static inline const string& get_st_name_debug$/;"	kind:f	class:sprite_type_helper	access:public	signature:( sprite_type the_sprite_type )
+sprite_type_helper::highest_warp_id	sprite_type_stuff.hpp	/^	static constexpr u32 lowest_warp_id = 0, highest_warp_id = 51;$/;"	kind:m	class:sprite_type_helper	access:public
+sprite_type_helper::lowest_warp_id	sprite_type_stuff.hpp	/^	static constexpr u32 lowest_warp_id = 0, highest_warp_id = 51;$/;"	kind:m	class:sprite_type_helper	access:public
 sprite_type_helper::st_name_vec	sprite_type_stuff.cpp	/^vector<string> sprite_type_helper::st_name_vec $/;"	kind:m	class:sprite_type_helper	file:
 sprite_type_helper::st_name_vec	sprite_type_stuff.hpp	/^	static vector<string> st_name_vec;$/;"	kind:m	class:sprite_type_helper	access:public
 sprite_type_helper::st_unknown_str	sprite_type_stuff.cpp	/^const string sprite_type_helper::st_unknown_str = string("st_unknown");$/;"	kind:m	class:sprite_type_helper	file:
@@ -1084,9 +1088,9 @@ x	vec2_class.hpp	/^	type x, y;$/;"	kind:m	class:vec2	access:public
 y	vec2_class.hpp	/^	fixed24p8 x, y;$/;"	kind:m	class:vec2	access:public
 y	vec2_class.hpp	/^	type x, y;$/;"	kind:m	class:vec2	access:public
 zoom_in	level_editor_core_widget_class.cpp	/^bool level_editor_core_widget::zoom_in()$/;"	kind:f	class:level_editor_core_widget	signature:()
-zoom_in	level_editor_core_widget_class.hpp	/^	bool zoom_in();$/;"	kind:p	class:level_editor_core_widget	access:protected	signature:()
+zoom_in	level_editor_core_widget_class.hpp	/^	bool zoom_in();$/;"	kind:p	class:level_editor_core_widget	access:public	signature:()
 zoom_out	level_editor_core_widget_class.cpp	/^bool level_editor_core_widget::zoom_out()$/;"	kind:f	class:level_editor_core_widget	signature:()
-zoom_out	level_editor_core_widget_class.hpp	/^	bool zoom_out();$/;"	kind:p	class:level_editor_core_widget	access:protected	signature:()
+zoom_out	level_editor_core_widget_class.hpp	/^	bool zoom_out();$/;"	kind:p	class:level_editor_core_widget	access:public	signature:()
 zoomed_in_recently	sfml_canvas_widget_classes.hpp	/^	bool zoomed_in_recently, zoomed_out_recently;$/;"	kind:m	class:sfml_canvas_widget	access:public
 zoomed_out_recently	sfml_canvas_widget_classes.hpp	/^	bool zoomed_in_recently, zoomed_out_recently;$/;"	kind:m	class:sfml_canvas_widget	access:public
 ~sfml_canvas_widget_base	sfml_canvas_widget_classes.cpp	/^sfml_canvas_widget_base::~sfml_canvas_widget_base()$/;"	kind:f	class:sfml_canvas_widget_base	signature:()

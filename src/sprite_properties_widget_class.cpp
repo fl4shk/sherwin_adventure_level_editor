@@ -45,9 +45,16 @@ void sprite_properties_widget::init()
 	
 	facing_right_checkbox.reset(new QCheckBox( QString("Facing Right") ));
 	
+	if (selected_sprite_ipgws->facing_right)
+	{
+		facing_right_checkbox->setCheckState(Qt::Checked);
+	}
+	
 	connect( facing_right_checkbox.get(), &QCheckBox::stateChanged, this,
 		&sprite_properties_widget
 		::facing_right_checkbox_response_to_state_changed );
+	
+	
 	group_box_vbox_layout->addWidget(facing_right_checkbox.get());
 	
 	
@@ -122,7 +129,6 @@ void sprite_properties_widget::generate_stuff_for_st_default()
 // The Player
 void sprite_properties_widget::generate_stuff_for_st_player()
 {
-	//test_label.reset(new QLabel( "You selected a player sprite!", this ));
 	test_label.reset(new QLabel("You selected a player sprite!"));
 	group_box_vbox_layout->addWidget(test_label.get());
 	

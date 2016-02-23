@@ -138,6 +138,49 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 //		* ( scroll_bar->pageStep() / 2 ) ));
 //}
 
+void level_editor_widget::keyPressEvent( QKeyEvent* event )
+{
+	// These probably ought to be in a toolbar of some sort, as well.
+	
+	sfml_canvas_widget* the_sfml_canvas_widget 
+		= the_core_widget->the_sfml_canvas_widget;
+	if ( event->key() == Qt::Key_A )
+	{
+		the_core_widget->zoom_in();
+	}
+	else if ( event->key() == Qt::Key_Z )
+	{
+		the_core_widget->zoom_out();
+	}
+	else if ( event->key() == Qt::Key_T )
+	{
+		// Temporary until a toggle button is created for this purpose.
+		if ( !the_sfml_canvas_widget->get_block_grid_enabled() )
+		{
+			the_sfml_canvas_widget->enable_block_grid();
+			//cout << "Tile grid now enabled.\n";
+		}
+		else
+		{
+			the_sfml_canvas_widget->disable_block_grid();
+			//cout << "Tile grid now disabled.\n";
+		}
+	}
+	else if ( event->key() == Qt::Key_Q )
+	{
+		the_core_widget->the_mouse_mode = mm_place_level_elements;
+		
+		cout << "Current mouse mode:  place_level_elements\n";
+	}
+	else if ( event->key() == Qt::Key_W )
+	{
+		the_core_widget->the_mouse_mode = mm_select_sprites;
+		
+		cout << "Current mouse mode:  select_sprites\n";
+	}
+	
+	
+}
 
 
 
@@ -182,7 +225,7 @@ void level_editor_widget::hide_sprite_properties_widget()
 		
 		if ( the_sprite_properties_widget.get() != NULL )
 		{
-			cout << "the_sprite_properties_widget.get() != NULL\n";
+			//cout << "the_sprite_properties_widget.get() != NULL\n";
 			vbox_layout->removeWidget(the_sprite_properties_widget.get());
 			
 			the_sprite_properties_widget.reset(NULL);

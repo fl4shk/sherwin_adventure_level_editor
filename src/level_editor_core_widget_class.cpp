@@ -126,47 +126,6 @@ bool level_editor_core_widget::zoom_out()
 
 
 // Events
-void level_editor_core_widget::keyPressEvent( QKeyEvent* event )
-{
-	// These probably ought to be in a toolbar of some sort
-	
-	if ( event->key() == Qt::Key_A )
-	{
-		zoom_in();
-	}
-	else if ( event->key() == Qt::Key_Z )
-	{
-		zoom_out();
-	}
-	else if ( event->key() == Qt::Key_T )
-	{
-		// Temporary until a toggle button is created for this purpose.
-		if ( !the_sfml_canvas_widget->get_block_grid_enabled() )
-		{
-			the_sfml_canvas_widget->enable_block_grid();
-			//cout << "Tile grid now enabled.\n";
-		}
-		else
-		{
-			the_sfml_canvas_widget->disable_block_grid();
-			//cout << "Tile grid now disabled.\n";
-		}
-	}
-	else if ( event->key() == Qt::Key_Q )
-	{
-		the_mouse_mode = mm_place_level_elements;
-		
-		cout << "Current mouse mode:  place_level_elements\n";
-	}
-	else if ( event->key() == Qt::Key_W )
-	{
-		the_mouse_mode = mm_select_sprites;
-		
-		cout << "Current mouse mode:  select_sprites\n";
-	}
-	
-	
-}
 
 void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 {

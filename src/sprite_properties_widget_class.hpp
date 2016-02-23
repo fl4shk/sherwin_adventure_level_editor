@@ -40,7 +40,7 @@ public:		// variables
 	
 	unique_ptr<QCheckBox> facing_right_checkbox;
 	
-	// Stuff for the default sprite
+	// Stuff for st_door
 	
 public:		// functions
 	sprite_properties_widget( QWidget* s_parent,

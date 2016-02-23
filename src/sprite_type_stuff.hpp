@@ -69,8 +69,7 @@ enum sprite_type
 class sprite_type_helper
 {
 public:		// variables
-	//static constexpr sprite_type lowest_warp_id_st = st_door_0,
-	//	highest_warp_id_st = st_door_31;
+	static constexpr u32 lowest_warp_id = 0, highest_warp_id = 51;
 	
 	static vector<string> st_name_vec;
 	static const string st_unknown_str;

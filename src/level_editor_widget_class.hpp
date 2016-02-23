@@ -83,7 +83,7 @@ protected:		// functions
 	//bool zoom_out();
 	
 	// Events
-	//void keyPressEvent( QKeyEvent* event );
+	void keyPressEvent( QKeyEvent* event );
 	//void mousePressEvent( QMouseEvent* event );
 	//void mouseMoveEvent( QMouseEvent* event );
 	////void mouseReleaseEvent( QMouseEvent* event );
