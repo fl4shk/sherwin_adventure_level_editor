@@ -60,7 +60,8 @@ public:		// variables
 	u32 extra_param_3;
 	
 	// I figure that it's best to merge the despawned/spawned/dead
-	// information into the sprite_init_param_group class.
+	// information into the sprite_init_param_group class.  The default
+	// value is "sss_not_active", which is what is wanted.
 	sprite_spawn_state spawn_state;
 	
 public:		// functions
@@ -106,7 +107,9 @@ public:		// variables
 
 // Note:  for st_door, extra_param_0 is used to designate the destination
 // sublevel_entrance index, and extra_param_1 is used to designate the
-// destination sublevel.
+// destination sublevel index.  Also, while this is probably not necessary
+// to put into the game itself, extra_param_2 is used to designate to WHICH
+// NUMBER door a sprite_init_param_group corresponds.
 
 
 

@@ -30,17 +30,33 @@ class sprite_properties_widget : public QWidget
 	
 public:		// variables
 	unique_ptr<QGroupBox> group_box;
-	unique_ptr<QVBoxLayout> group_box_vbox_layout;
+	unique_ptr<QGridLayout> group_box_grid_layout;
 	
+	
+	// A QGridLayout for the sprite_properties_widget itself.
 	unique_ptr<QGridLayout> grid_layout;
 	
+	// A pointer to the sprite level data instance.
 	sprite_init_param_group_with_size* selected_sprite_ipgws;
 	
-	unique_ptr<QLabel> test_label;
 	
+	// This is used for picking the facing_right value of
+	// selected_sprite_ipgws.
 	unique_ptr<QCheckBox> facing_right_checkbox;
 	
-	// Stuff for st_door
+	
+	// These are used so that the QSpinBox'es can have names.
+	vector< unique_ptr<QLabel> > group_box_label_vec;
+	
+	// These are used for some sprite_type's for changing the values of
+	// extra_param_0 to extra_param_3.
+	// For st_door, the first type of sprite to need this, extra_param_0
+	// extra_param_1, and extra_param_2 are the only extra parameters that
+	// should be possible to change.
+	vector< unique_ptr<QSpinBox> > group_box_spinbox_vec;
+	
+	
+	
 	
 public:		// functions
 	sprite_properties_widget( QWidget* s_parent,
@@ -87,6 +103,18 @@ protected:		// functions
 protected slots:		// slots
 	void facing_right_checkbox_response_to_state_changed( int n_state );
 	
+	
+	// st_door stuff
+	// extra_param_0
+	void door_sprite_destination_sublevel_entrance_index_changed
+		( int n_sublevel_entrance_index );
+	
+	// extra_param_1
+	void door_sprite_destination_sublevel_index_changed
+		( int n_sublevel_index );
+	
+	// extra_param_2
+	void door_sprite_door_number_changed( int n_door_number );
 	
 };
 

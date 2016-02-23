@@ -94,6 +94,7 @@ using namespace pugi;
 #include <QColor>
 #include <QTimer>
 #include <QButtonGroup>
+#include <QSpinBox>
 
 #include <QGroupBox>
 #include <QRadioButton>

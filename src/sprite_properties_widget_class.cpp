@@ -19,6 +19,7 @@
 
 #include "sprite_properties_widget_class.hpp"
 
+#include "sublevel_class.hpp"
 
 
 sprite_properties_widget::sprite_properties_widget( QWidget* s_parent,
@@ -40,8 +41,8 @@ void sprite_properties_widget::init()
 		( sprite_type_helper::get_st_name_debug
 		(selected_sprite_ipgws->type).c_str() ) ));
 	
-	group_box_vbox_layout.reset(new QVBoxLayout);
-	group_box->setLayout(group_box_vbox_layout.get());
+	group_box_grid_layout.reset(new QGridLayout);
+	group_box->setLayout(group_box_grid_layout.get());
 	
 	facing_right_checkbox.reset(new QCheckBox( QString("Facing Right") ));
 	
@@ -55,7 +56,8 @@ void sprite_properties_widget::init()
 		::facing_right_checkbox_response_to_state_changed );
 	
 	
-	group_box_vbox_layout->addWidget(facing_right_checkbox.get());
+	group_box_grid_layout->addWidget( facing_right_checkbox.get(),
+		group_box_grid_layout->rowCount(), 0 );
 	
 	
 	switch (selected_sprite_ipgws->type)
@@ -129,10 +131,11 @@ void sprite_properties_widget::generate_stuff_for_st_default()
 // The Player
 void sprite_properties_widget::generate_stuff_for_st_player()
 {
-	test_label.reset(new QLabel("You selected a player sprite!"));
-	group_box_vbox_layout->addWidget(test_label.get());
-	
-	
+	// Testing stuff
+	group_box_label_vec.push_back
+		(unique_ptr<QLabel>(new QLabel("You selected a player sprite!")));
+	group_box_grid_layout->addWidget( group_box_label_vec.at(0).get(),
+		group_box_grid_layout->rowCount(), 0 );
 }
 
 // Powerup Sprites
@@ -165,7 +168,78 @@ void sprite_properties_widget::generate_stuff_for_st_chocolate_muffin()
 // sublevel_entrance's during the whole level conversion process.
 void sprite_properties_widget::generate_stuff_for_st_door()
 {
+	const int initial_row_count = group_box_grid_layout->rowCount();
 	
+	group_box_label_vec.clear();
+	group_box_spinbox_vec.clear();
+	
+	
+	// Destination Sublevel Entrance Index (extra_param_0)
+	group_box_label_vec.push_back(unique_ptr<QLabel>(new QLabel
+		("<small>Dest. <b>Sublevel Entrance</b> Index</small>:  ")));
+	group_box_label_vec.at(0)->setTextFormat(Qt::RichText);
+	group_box_grid_layout->addWidget( group_box_label_vec.at(0).get(),
+		initial_row_count, 0 );
+	
+	group_box_spinbox_vec.push_back(unique_ptr<QSpinBox>(new QSpinBox));
+	group_box_spinbox_vec.at(0)->setRange( 0, 7 );
+	group_box_spinbox_vec.at(0)->setValue
+		(selected_sprite_ipgws->extra_param_0);
+	
+	group_box_grid_layout->addWidget( group_box_spinbox_vec.at(0).get(),
+		initial_row_count, 1 );
+	
+	connect( group_box_spinbox_vec.at(0).get(),
+		static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+		this, &sprite_properties_widget
+		::door_sprite_destination_sublevel_entrance_index_changed );
+	
+	
+	
+	// Destination Sublevel Index (extra_param_1).  At some point, this
+	// should default to whatever the current sublevel is, once
+	// multi-sublevel editing is a thing.
+	group_box_label_vec.push_back(unique_ptr<QLabel>(new QLabel
+		("<small>Dest. <b>Sublevel</b> Index</small>:  ")));
+	group_box_label_vec.at(1)->setTextFormat(Qt::RichText);
+	group_box_grid_layout->addWidget( group_box_label_vec.at(1).get(),
+		initial_row_count + 1, 0 );
+	
+	group_box_spinbox_vec.push_back(unique_ptr<QSpinBox>(new QSpinBox));
+	group_box_spinbox_vec.at(1)->setRange( 0,
+		sublevel::max_num_door_sublevel_entrances - 1 );
+	group_box_spinbox_vec.at(1)->setValue
+		(selected_sprite_ipgws->extra_param_1);
+	
+	group_box_grid_layout->addWidget( group_box_spinbox_vec.at(1).get(),
+		initial_row_count + 1, 1 );
+	
+	connect( group_box_spinbox_vec.at(1).get(), 
+		static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+		this, &sprite_properties_widget
+		::door_sprite_destination_sublevel_index_changed );
+	
+	
+	
+	// Door Number (extra_param_2)
+	group_box_label_vec.push_back(unique_ptr<QLabel>(new QLabel
+		("<small>Door Number</small>:  ")));
+	group_box_label_vec.at(1)->setTextFormat(Qt::RichText);
+	group_box_grid_layout->addWidget( group_box_label_vec.at(2).get(),
+		initial_row_count + 2, 0 );
+	
+	group_box_spinbox_vec.push_back(unique_ptr<QSpinBox>(new QSpinBox));
+	group_box_spinbox_vec.at(2)->setRange( 0,
+		sublevel::max_num_door_sublevel_entrances - 1 );
+	group_box_spinbox_vec.at(2)->setValue
+		(selected_sprite_ipgws->extra_param_2);
+	
+	group_box_grid_layout->addWidget( group_box_spinbox_vec.at(2).get(),
+		initial_row_count + 2, 1 );
+	
+	connect( group_box_spinbox_vec.at(2).get(), 
+		static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+		this, &sprite_properties_widget::door_sprite_door_number_changed );
 }
 
 
@@ -190,5 +264,32 @@ void sprite_properties_widget
 		selected_sprite_ipgws->facing_right = false;
 	}
 }
+
+
+
+// st_door stuff
+// extra_param_0
+void sprite_properties_widget
+	::door_sprite_destination_sublevel_entrance_index_changed
+	( int n_sublevel_entrance_index )
+{
+	selected_sprite_ipgws->extra_param_0 = n_sublevel_entrance_index;
+}
+
+// extra_param_1
+void sprite_properties_widget
+	::door_sprite_destination_sublevel_index_changed
+	( int n_sublevel_index )
+{
+	selected_sprite_ipgws->extra_param_1 = n_sublevel_index;
+}
+
+// extra_param_2
+void sprite_properties_widget::door_sprite_door_number_changed
+	( int n_door_number )
+{
+	selected_sprite_ipgws->extra_param_2 = n_door_number;
+}
+
 
 

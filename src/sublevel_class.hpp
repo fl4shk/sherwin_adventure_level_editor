@@ -53,6 +53,13 @@ using namespace std;
 class sublevel
 {
 public:		// constants
+	//static constexpr u32 lowest_warp_id = 0, highest_warp_id = 51;
+	
+	// This is limited entirely by the number of graphics that have been
+	// created that can be displayed to show which entrance is attached to
+	// which game entity.
+	static constexpr u32 max_num_door_sublevel_entrances = 52;
+	
 	static const vec2_u32 max_size_2d;
 	static const u32 max_num_blocks;
 	

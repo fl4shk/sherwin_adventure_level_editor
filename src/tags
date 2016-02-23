@@ -171,6 +171,12 @@ default_parent_title	level_editor_widget_class.cpp	/^const QString level_editor_
 default_parent_title	level_editor_widget_class.hpp	/^	static const QString default_parent_title;$/;"	kind:m	class:level_editor_widget	access:public
 disable_block_grid	sfml_canvas_widget_classes.hpp	/^	inline void disable_block_grid()$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:()
 disable_rect_selection	sfml_canvas_widget_classes.hpp	/^	inline void disable_rect_selection()$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:()
+door_sprite_destination_sublevel_entrance_index_changed	sprite_properties_widget_class.cpp	/^	::door_sprite_destination_sublevel_entrance_index_changed$/;"	kind:f	class:sprite_properties_widget	signature:( int n_sublevel_entrance_index )
+door_sprite_destination_sublevel_entrance_index_changed	sprite_properties_widget_class.hpp	/^	void door_sprite_destination_sublevel_entrance_index_changed$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:( int n_sublevel_entrance_index )
+door_sprite_destination_sublevel_index_changed	sprite_properties_widget_class.cpp	/^	::door_sprite_destination_sublevel_index_changed$/;"	kind:f	class:sprite_properties_widget	signature:( int n_sublevel_index )
+door_sprite_destination_sublevel_index_changed	sprite_properties_widget_class.hpp	/^	void door_sprite_destination_sublevel_index_changed$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:( int n_sublevel_index )
+door_sprite_door_number_changed	sprite_properties_widget_class.cpp	/^void sprite_properties_widget::door_sprite_door_number_changed$/;"	kind:f	class:sprite_properties_widget	signature:( int n_door_number )
+door_sprite_door_number_changed	sprite_properties_widget_class.hpp	/^	void door_sprite_door_number_changed( int n_door_number );$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:( int n_door_number )
 down_left_ptr	sprite_level_data_stuff.hpp	/^		* down_left_ptr, * down_ptr, * down_right_ptr;$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public
 down_left_ptr	sprite_level_data_stuff.hpp	/^		* down_left_ptr, * down_ptr;$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	access:public
 down_left_ptr	sprite_level_data_stuff.hpp	/^		* down_left_ptr, * down_right_ptr, * origin_ptr;$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_selecting_sprite	access:public
@@ -313,7 +319,9 @@ grid_widget	layout_widget_classes.hpp	/^class grid_widget : public QWidget$/;"	k
 grid_widget::grid_widget	layout_widget_classes.hpp	/^	inline grid_widget( QWidget* parent = 0 ) : QWidget(parent)$/;"	kind:f	class:grid_widget	access:public	signature:( QWidget* parent = 0 )
 grid_widget::layout	layout_widget_classes.hpp	/^	QGridLayout* layout;$/;"	kind:m	class:grid_widget	access:public
 group_box	sprite_properties_widget_class.hpp	/^	unique_ptr<QGroupBox> group_box;$/;"	kind:m	class:sprite_properties_widget	access:public
-group_box_vbox_layout	sprite_properties_widget_class.hpp	/^	unique_ptr<QVBoxLayout> group_box_vbox_layout;$/;"	kind:m	class:sprite_properties_widget	access:public
+group_box_grid_layout	sprite_properties_widget_class.hpp	/^	unique_ptr<QGridLayout> group_box_grid_layout;$/;"	kind:m	class:sprite_properties_widget	access:public
+group_box_label_vec	sprite_properties_widget_class.hpp	/^	vector< unique_ptr<QLabel> > group_box_label_vec;$/;"	kind:m	class:sprite_properties_widget	access:public
+group_box_spinbox_vec	sprite_properties_widget_class.hpp	/^	vector< unique_ptr<QSpinBox> > group_box_spinbox_vec;$/;"	kind:m	class:sprite_properties_widget	access:public
 hbox_layout	level_editor_widget_class.hpp	/^	QHBoxLayout* hbox_layout;$/;"	kind:m	class:level_editor_widget	access:public
 hbox_widget	layout_widget_classes.hpp	/^	inline hbox_widget( QWidget* parent = 0 ) : QWidget(parent)$/;"	kind:f	class:hbox_widget	access:public	signature:( QWidget* parent = 0 )
 hbox_widget	layout_widget_classes.hpp	/^class hbox_widget : public QWidget$/;"	kind:c	inherits:QWidget
@@ -324,7 +332,6 @@ hello	level_editor_widget_class.cpp	/^void level_editor_widget::hello()$/;"	kind
 hello	level_editor_widget_class.hpp	/^	void hello();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
 hide_sprite_properties_widget	level_editor_widget_class.cpp	/^void level_editor_widget::hide_sprite_properties_widget()$/;"	kind:f	class:level_editor_widget	signature:()
 hide_sprite_properties_widget	level_editor_widget_class.hpp	/^	void hide_sprite_properties_widget();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
-highest_warp_id	sprite_type_stuff.hpp	/^	static constexpr u32 lowest_warp_id = 0, highest_warp_id = 51;$/;"	kind:m	class:sprite_type_helper	access:public
 in_sublevel_pos	sublevel_entrance_class.hpp	/^	vec2_f24p8 in_sublevel_pos;$/;"	kind:m	class:sublevel_entrance	access:public
 init	array_2d_helper_class.hpp	/^	void init( type* s_the_array, const vec2_u32& s_size_2d )$/;"	kind:f	class:array_2d_helper	access:public	signature:( type* s_the_array, const vec2_u32& s_size_2d )
 init	sprite_properties_widget_class.cpp	/^void sprite_properties_widget::init()$/;"	kind:f	class:sprite_properties_widget	signature:()
@@ -518,10 +525,10 @@ level_element_selectors_tab_widget	level_editor_core_widget_class.hpp	/^	QTabWid
 level_element_selectors_tab_widget	level_editor_widget_class.hpp	/^	QTabWidget* level_element_selectors_tab_widget;$/;"	kind:m	class:level_editor_widget	access:public
 level_file_name	level_editor_core_widget_class.hpp	/^	string level_file_name;$/;"	kind:m	class:level_editor_core_widget	access:public
 list_of_level_element_widget_name_prefixes	level_editor_core_widget_class.hpp	59;"	kind:d
-lowest_warp_id	sprite_type_stuff.hpp	/^	static constexpr u32 lowest_warp_id = 0, highest_warp_id = 51;$/;"	kind:m	class:sprite_type_helper	access:public
 main	main.cpp	/^int main( int argc, char** argv )$/;"	kind:f	signature:( int argc, char** argv )
 max_num_blocks	sublevel_class.cpp	/^const u32 sublevel::max_num_blocks = max_size_2d.x * max_size_2d.y;$/;"	kind:m	class:sublevel	file:
 max_num_blocks	sublevel_class.hpp	/^	static const u32 max_num_blocks;$/;"	kind:m	class:sublevel	access:public
+max_num_door_sublevel_entrances	sublevel_class.hpp	/^	static constexpr u32 max_num_door_sublevel_entrances = 52;$/;"	kind:m	class:sublevel	access:public
 max_size_2d	sublevel_class.cpp	/^const vec2_u32 sublevel::max_size_2d = { 512, 32 };$/;"	kind:m	class:sublevel	file:
 max_size_2d	sublevel_class.hpp	/^	static const vec2_u32 max_size_2d;$/;"	kind:m	class:sublevel	access:public
 menu_laugh_action	primary_widget_class.hpp	/^	QAction* menu_laugh_action, * menu_save_action, * menu_save_as_action, $/;"	kind:m	class:primary_widget	access:protected
@@ -885,6 +892,12 @@ sprite_no_longer_selected	level_editor_core_widget_class.hpp	/^	void sprite_no_l
 sprite_properties_widget	sprite_properties_widget_class.cpp	/^sprite_properties_widget::sprite_properties_widget( QWidget* s_parent,$/;"	kind:f	class:sprite_properties_widget	signature:( QWidget* s_parent, sprite_init_param_group_with_size* s_selected_sprite_ipgws )
 sprite_properties_widget	sprite_properties_widget_class.hpp	/^	sprite_properties_widget( QWidget* s_parent,$/;"	kind:p	class:sprite_properties_widget	access:public	signature:( QWidget* s_parent, sprite_init_param_group_with_size* s_selected_sprite_ipgws )
 sprite_properties_widget	sprite_properties_widget_class.hpp	/^class sprite_properties_widget : public QWidget$/;"	kind:c	inherits:QWidget
+sprite_properties_widget::door_sprite_destination_sublevel_entrance_index_changed	sprite_properties_widget_class.cpp	/^	::door_sprite_destination_sublevel_entrance_index_changed$/;"	kind:f	class:sprite_properties_widget	signature:( int n_sublevel_entrance_index )
+sprite_properties_widget::door_sprite_destination_sublevel_entrance_index_changed	sprite_properties_widget_class.hpp	/^	void door_sprite_destination_sublevel_entrance_index_changed$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:( int n_sublevel_entrance_index )
+sprite_properties_widget::door_sprite_destination_sublevel_index_changed	sprite_properties_widget_class.cpp	/^	::door_sprite_destination_sublevel_index_changed$/;"	kind:f	class:sprite_properties_widget	signature:( int n_sublevel_index )
+sprite_properties_widget::door_sprite_destination_sublevel_index_changed	sprite_properties_widget_class.hpp	/^	void door_sprite_destination_sublevel_index_changed$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:( int n_sublevel_index )
+sprite_properties_widget::door_sprite_door_number_changed	sprite_properties_widget_class.cpp	/^void sprite_properties_widget::door_sprite_door_number_changed$/;"	kind:f	class:sprite_properties_widget	signature:( int n_door_number )
+sprite_properties_widget::door_sprite_door_number_changed	sprite_properties_widget_class.hpp	/^	void door_sprite_door_number_changed( int n_door_number );$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:( int n_door_number )
 sprite_properties_widget::facing_right_checkbox	sprite_properties_widget_class.hpp	/^	unique_ptr<QCheckBox> facing_right_checkbox;$/;"	kind:m	class:sprite_properties_widget	access:public
 sprite_properties_widget::facing_right_checkbox_response_to_state_changed	sprite_properties_widget_class.cpp	/^	::facing_right_checkbox_response_to_state_changed( int n_state )$/;"	kind:f	class:sprite_properties_widget	signature:( int n_state )
 sprite_properties_widget::facing_right_checkbox_response_to_state_changed	sprite_properties_widget_class.hpp	/^	void facing_right_checkbox_response_to_state_changed( int n_state );$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:( int n_state )
@@ -908,13 +921,14 @@ sprite_properties_widget::generate_stuff_for_st_waffle	sprite_properties_widget_
 sprite_properties_widget::generate_stuff_for_st_waffle	sprite_properties_widget_class.hpp	/^	void generate_stuff_for_st_waffle();$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:()
 sprite_properties_widget::grid_layout	sprite_properties_widget_class.hpp	/^	unique_ptr<QGridLayout> grid_layout;$/;"	kind:m	class:sprite_properties_widget	access:public
 sprite_properties_widget::group_box	sprite_properties_widget_class.hpp	/^	unique_ptr<QGroupBox> group_box;$/;"	kind:m	class:sprite_properties_widget	access:public
-sprite_properties_widget::group_box_vbox_layout	sprite_properties_widget_class.hpp	/^	unique_ptr<QVBoxLayout> group_box_vbox_layout;$/;"	kind:m	class:sprite_properties_widget	access:public
+sprite_properties_widget::group_box_grid_layout	sprite_properties_widget_class.hpp	/^	unique_ptr<QGridLayout> group_box_grid_layout;$/;"	kind:m	class:sprite_properties_widget	access:public
+sprite_properties_widget::group_box_label_vec	sprite_properties_widget_class.hpp	/^	vector< unique_ptr<QLabel> > group_box_label_vec;$/;"	kind:m	class:sprite_properties_widget	access:public
+sprite_properties_widget::group_box_spinbox_vec	sprite_properties_widget_class.hpp	/^	vector< unique_ptr<QSpinBox> > group_box_spinbox_vec;$/;"	kind:m	class:sprite_properties_widget	access:public
 sprite_properties_widget::init	sprite_properties_widget_class.cpp	/^void sprite_properties_widget::init()$/;"	kind:f	class:sprite_properties_widget	signature:()
 sprite_properties_widget::init	sprite_properties_widget_class.hpp	/^	void init();$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:()
 sprite_properties_widget::selected_sprite_ipgws	sprite_properties_widget_class.hpp	/^	sprite_init_param_group_with_size* selected_sprite_ipgws;$/;"	kind:m	class:sprite_properties_widget	access:public
 sprite_properties_widget::sprite_properties_widget	sprite_properties_widget_class.cpp	/^sprite_properties_widget::sprite_properties_widget( QWidget* s_parent,$/;"	kind:f	class:sprite_properties_widget	signature:( QWidget* s_parent, sprite_init_param_group_with_size* s_selected_sprite_ipgws )
 sprite_properties_widget::sprite_properties_widget	sprite_properties_widget_class.hpp	/^	sprite_properties_widget( QWidget* s_parent,$/;"	kind:p	class:sprite_properties_widget	access:public	signature:( QWidget* s_parent, sprite_init_param_group_with_size* s_selected_sprite_ipgws )
-sprite_properties_widget::test_label	sprite_properties_widget_class.hpp	/^	unique_ptr<QLabel> test_label;$/;"	kind:m	class:sprite_properties_widget	access:public
 sprite_properties_widget_class_hpp	sprite_properties_widget_class.hpp	21;"	kind:d
 sprite_properties_widget_enabled	level_editor_widget_class.hpp	/^	bool sprite_properties_widget_enabled;$/;"	kind:m	class:level_editor_widget	access:public
 sprite_spawn_state	sprite_level_data_stuff.hpp	/^enum sprite_spawn_state$/;"	kind:g
@@ -922,8 +936,6 @@ sprite_type	sprite_type_stuff.hpp	/^enum sprite_type$/;"	kind:g
 sprite_type_helper	sprite_type_stuff.hpp	/^class sprite_type_helper$/;"	kind:c
 sprite_type_helper::get_st_name	sprite_type_stuff.hpp	/^	static inline const string& get_st_name( sprite_type the_sprite_type )$/;"	kind:f	class:sprite_type_helper	access:public	signature:( sprite_type the_sprite_type )
 sprite_type_helper::get_st_name_debug	sprite_type_stuff.hpp	/^	static inline const string& get_st_name_debug$/;"	kind:f	class:sprite_type_helper	access:public	signature:( sprite_type the_sprite_type )
-sprite_type_helper::highest_warp_id	sprite_type_stuff.hpp	/^	static constexpr u32 lowest_warp_id = 0, highest_warp_id = 51;$/;"	kind:m	class:sprite_type_helper	access:public
-sprite_type_helper::lowest_warp_id	sprite_type_stuff.hpp	/^	static constexpr u32 lowest_warp_id = 0, highest_warp_id = 51;$/;"	kind:m	class:sprite_type_helper	access:public
 sprite_type_helper::st_name_vec	sprite_type_stuff.cpp	/^vector<string> sprite_type_helper::st_name_vec $/;"	kind:m	class:sprite_type_helper	file:
 sprite_type_helper::st_name_vec	sprite_type_stuff.hpp	/^	static vector<string> st_name_vec;$/;"	kind:m	class:sprite_type_helper	access:public
 sprite_type_helper::st_unknown_str	sprite_type_stuff.cpp	/^const string sprite_type_helper::st_unknown_str = string("st_unknown");$/;"	kind:m	class:sprite_type_helper	file:
@@ -958,6 +970,7 @@ sublevel::init	sublevel_class.cpp	/^void sublevel::init( const vec2_u32& s_size_
 sublevel::init	sublevel_class.hpp	/^	void init( const vec2_u32& s_size_2d );$/;"	kind:p	class:sublevel	access:public	signature:( const vec2_u32& s_size_2d )
 sublevel::max_num_blocks	sublevel_class.cpp	/^const u32 sublevel::max_num_blocks = max_size_2d.x * max_size_2d.y;$/;"	kind:m	class:sublevel	file:
 sublevel::max_num_blocks	sublevel_class.hpp	/^	static const u32 max_num_blocks;$/;"	kind:m	class:sublevel	access:public
+sublevel::max_num_door_sublevel_entrances	sublevel_class.hpp	/^	static constexpr u32 max_num_door_sublevel_entrances = 52;$/;"	kind:m	class:sublevel	access:public
 sublevel::max_size_2d	sublevel_class.cpp	/^const vec2_u32 sublevel::max_size_2d = { 512, 32 };$/;"	kind:m	class:sublevel	file:
 sublevel::max_size_2d	sublevel_class.hpp	/^	static const vec2_u32 max_size_2d;$/;"	kind:m	class:sublevel	access:public
 sublevel::read_compressed_block_data_from_file	sublevel_class.cpp	/^void sublevel::read_compressed_block_data_from_file$/;"	kind:f	class:sublevel	signature:( const string& output_dirname, const string& output_basename )
@@ -980,7 +993,6 @@ sublevel_entrance::type	sublevel_entrance_class.hpp	/^	sublevel_entrance_type ty
 sublevel_entrance_class_hpp	sublevel_entrance_class.hpp	22;"	kind:d
 sublevel_entrance_type	sublevel_entrance_class.hpp	/^enum sublevel_entrance_type$/;"	kind:g
 sublevel_entrance_vec	sublevel_class.hpp	/^	vector<sublevel_entrance> sublevel_entrance_vec;$/;"	kind:m	class:sublevel	access:public
-test_label	sprite_properties_widget_class.hpp	/^	unique_ptr<QLabel> test_label;$/;"	kind:m	class:sprite_properties_widget	access:public
 the_array	array_2d_helper_class.hpp	/^	type* the_array;$/;"	kind:m	class:array_2d_helper	access:public
 the_block_grid_stuff	sfml_canvas_widget_classes.hpp	/^	} the_block_grid_stuff;$/;"	kind:m	class:sfml_canvas_widget	typeref:struct:sfml_canvas_widget::__anon1	access:protected
 the_block_selector_core_widget	sfml_canvas_widget_classes.hpp	/^		the_block_selector_core_widget;$/;"	kind:m	class:sfml_canvas_widget	access:protected
