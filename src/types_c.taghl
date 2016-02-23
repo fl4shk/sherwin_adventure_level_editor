@@ -1,9 +1,9 @@
-syn keyword CTagsMember slot_outer_usual_sprite slot_outer_width selection_image the_sublevel hbox_layout selection_sprite the_core_widget x the_sprite_properties_widget level_element_gfx_file_name y
-syn keyword CTagsMember selected_sprite_ipgws sprite_properties_widget_enabled the_sprite_selection_ptr_group data slot_outer_right_selected_sprite the_sprite_16x16_selector_widget slot_inner_width quit_icon_file_name uncompressed_block_data_vec_2d slot_outer_left_selected_texture selected_level_element_sprite modified_recently initial_block_grid_y_coord down_right_ptr level_element_palette_modified_recently slot_image initial_block_grid_x_coord in_sublevel_pos slot_outer_right_selected_image down_ptr
-syn keyword CTagsMember selection_rect laugh_icon_file_name layout slot_sprite shift slot_outer_usual_image extra_param_3 menu_quit_action slot_texture block_grid_coords_of_prev_mouse_pos apparent_view extra_param_2 facing_right the_block_grid_stuff zoomed_in_recently persistent_data_index level_element_selectors_tab_widget num_pixels_per_block_column second_menu st_name_vec slot_outer_left_selected_image enabled slot_outer_usual_texture right_ptr up_left_ptr minimum_scale_factor_for_block_grid
-syn keyword CTagsMember slot_outer_left_selected_sprite right_current_level_element_index max_num_door_sublevel_entrances sublevel_entrance_vec level_element_gfx_raw_image facing_right_checkbox selection_texture real_size_2d toolbar num_pixels_per_block_row timer the_rect_selection_stuff scale_factor size menu_save_as_action the_sfml_canvas_widget scroll_area up_right_ptr toolbar_laugh_action st_unknown_str the_sprite_16x32_selector_core_widget default_parent_title frac_mask zoomed_out_recently
-syn keyword CTagsMember argv_copy file_menu group_box_spinbox_vec compressed_block_data_vec group_box_label_vec left_current_level_element_index the_block_selector_core_widget spawn_state toolbar_quit_action core_widget_scroll_area the_block_selector_widget unzoomed_size_2d down_left_ptr extra_param_1 slot_inner_height level_element_gfx_raw_texture vbox_layout extra_param_0 view_center_y grid_layout sprite_ipgws_vec_2d persistent_block_data_array_size initialized the_mouse_mode
-syn keyword CTagsMember group_box group_box_grid_layout parent the_sprite_16x32_selector_widget slot_outer_height level_element_palette_render_texture single_sprite_selected view_center_x menu_laugh_action sprite_ipg_vec the_central_widget max_size_2d the_sprite_16x16_selector_core_widget the_array menu_save_action origin_ptr max_num_blocks level_element_palette_sprite slot_outer_right_selected_texture the_level_editor_core_widget level_file_name size_2d type up_ptr level_element_palette_texture left_ptr
+syn keyword CTagsMember initial_block_grid_y_coord down_right_ptr level_element_palette_modified_recently slot_image zoomed_in_recently initial_block_grid_x_coord in_sublevel_pos slot_outer_right_selected_image down_ptr slot_outer_usual_sprite slot_outer_width selection_image the_sublevel hbox_layout selection_sprite the_core_widget x the_sprite_properties_widget level_element_gfx_file_name y
+syn keyword CTagsMember num_pixels_per_block_column second_menu st_name_vec slot_outer_left_selected_image enabled slot_outer_usual_texture right_ptr up_left_ptr minimum_scale_factor_for_block_grid selected_sprite_ipgws sprite_properties_widget_enabled the_sprite_selection_ptr_group data slot_outer_right_selected_sprite the_sprite_16x16_selector_widget slot_inner_width quit_icon_file_name uncompressed_block_data_vec_2d slot_outer_left_selected_texture selected_level_element_sprite modified_recently
+syn keyword CTagsMember the_sprite_16x32_selector_core_widget door_number_gfx_file_name default_parent_title door_number_sprite frac_mask zoomed_out_recently selection_rect laugh_icon_file_name layout slot_sprite shift slot_outer_usual_image extra_param_3 menu_quit_action slot_texture block_grid_coords_of_prev_mouse_pos door_number_gfx_num_slots_per_row apparent_view extra_param_2 facing_right door_number_gfx_slot_height the_block_grid_stuff persistent_data_index level_element_selectors_tab_widget
+syn keyword CTagsMember persistent_block_data_array_size initialized the_mouse_mode slot_outer_left_selected_sprite right_current_level_element_index max_num_door_sublevel_entrances sublevel_entrance_vec level_element_gfx_raw_image facing_right_checkbox selection_texture real_size_2d toolbar num_pixels_per_block_row timer the_rect_selection_stuff scale_factor size menu_save_as_action the_sfml_canvas_widget scroll_area up_right_ptr door_number_gfx_raw_image toolbar_laugh_action st_unknown_str
+syn keyword CTagsMember argv_copy left_current_level_element_index file_menu group_box_spinbox_vec compressed_block_data_vec group_box_label_vec the_block_selector_core_widget spawn_state toolbar_quit_action core_widget_scroll_area the_block_selector_widget unzoomed_size_2d slot_outer_right_selected_texture down_left_ptr extra_param_1 slot_inner_height door_number_gfx_num_slots level_element_gfx_raw_texture vbox_layout extra_param_0 door_number_gfx_slot_width view_center_y grid_layout sprite_ipgws_vec_2d
+syn keyword CTagsMember group_box group_box_grid_layout parent the_sprite_16x32_selector_widget slot_outer_height level_element_palette_render_texture single_sprite_selected view_center_x menu_laugh_action sprite_ipg_vec the_central_widget max_size_2d the_sprite_16x16_selector_core_widget the_array menu_save_action origin_ptr max_num_blocks level_element_palette_sprite the_level_editor_core_widget level_file_name size_2d door_number_gfx_raw_texture type up_ptr level_element_palette_texture left_ptr
 syn keyword CTagsGlobalVariable sle_name_vec
 syn keyword CTagsConstant sle_unknown_str
 syn keyword CTagsEnumeratorName mouse_mode rect_selection_layer sprite_type block_type sprite_spawn_state sublevel_entrance_type
@@ -24,15 +24,14 @@ syn keyword CTagsClass fixed24p8 sprite_16x32_selector_core_widget hbox_widget l
 syn keyword CTagsClass sprite_properties_widget sublevel block adj_sprite_ipgws_ptr_group_for_selecting_sprite adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16 block_selector_widget block_selector_core_widget level_editor_core_widget sprite_type_helper primary_widget sprite_16x16_selector_widget sprite_16x16_selector_core_widget adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32 sfml_canvas_widget level_element_selector_core_widget_base sfml_canvas_widget_base sprite_init_param_group_with_size vec2
 syn keyword CTagsNamespace block_stuff
 
+" Matches for file sfml_canvas_widget_classes.cpp:
+if (has_key(b:TagHighlightPrivate, "NormalisedPath") && b:TagHighlightPrivate["NormalisedPath"] == "sfml_canvas_widget_classes.cpp") || TagHighlight#Option#GetOption("IgnoreFileScope")
+	syn keyword CTagsMember door_number_gfx_file_name
+	
+endif
 " Matches for file level_editor_core_widget_class.cpp:
 if (has_key(b:TagHighlightPrivate, "NormalisedPath") && b:TagHighlightPrivate["NormalisedPath"] == "level_editor_core_widget_class.cpp") || TagHighlight#Option#GetOption("IgnoreFileScope")
 	syn keyword CTagsDefinedName X
-	
-endif
-" Matches for file block_stuff.cpp:
-if (has_key(b:TagHighlightPrivate, "NormalisedPath") && b:TagHighlightPrivate["NormalisedPath"] == "block_stuff.cpp") || TagHighlight#Option#GetOption("IgnoreFileScope")
-	syn keyword CTagsMember bt_unknown_str bt_name_and_has_persistent_data_vec
-	syn keyword CTagsNamespace block_stuff
 	
 endif
 " Matches for file level_editor_widget_class.cpp:
@@ -51,9 +50,15 @@ if (has_key(b:TagHighlightPrivate, "NormalisedPath") && b:TagHighlightPrivate["N
 	syn keyword CTagsMember st_name_vec st_unknown_str
 	
 endif
-" Matches for file sublevel_class.cpp:
-if (has_key(b:TagHighlightPrivate, "NormalisedPath") && b:TagHighlightPrivate["NormalisedPath"] == "sublevel_class.cpp") || TagHighlight#Option#GetOption("IgnoreFileScope")
-	syn keyword CTagsMember max_size_2d max_num_blocks
+" Matches for file level_element_selector_core_widget_base_class.cpp:
+if (has_key(b:TagHighlightPrivate, "NormalisedPath") && b:TagHighlightPrivate["NormalisedPath"] == "level_element_selector_core_widget_base_class.cpp") || TagHighlight#Option#GetOption("IgnoreFileScope")
+	syn keyword CTagsMember level_element_gfx_file_name
+	
+endif
+" Matches for file block_stuff.cpp:
+if (has_key(b:TagHighlightPrivate, "NormalisedPath") && b:TagHighlightPrivate["NormalisedPath"] == "block_stuff.cpp") || TagHighlight#Option#GetOption("IgnoreFileScope")
+	syn keyword CTagsMember bt_unknown_str bt_name_and_has_persistent_data_vec
+	syn keyword CTagsNamespace block_stuff
 	
 endif
 " Matches for file sprite_16x16_selector_core_widget_class.cpp:
@@ -61,8 +66,8 @@ if (has_key(b:TagHighlightPrivate, "NormalisedPath") && b:TagHighlightPrivate["N
 	syn keyword CTagsMember level_element_gfx_file_name
 	
 endif
-" Matches for file level_element_selector_core_widget_base_class.cpp:
-if (has_key(b:TagHighlightPrivate, "NormalisedPath") && b:TagHighlightPrivate["NormalisedPath"] == "level_element_selector_core_widget_base_class.cpp") || TagHighlight#Option#GetOption("IgnoreFileScope")
-	syn keyword CTagsMember level_element_gfx_file_name
+" Matches for file sublevel_class.cpp:
+if (has_key(b:TagHighlightPrivate, "NormalisedPath") && b:TagHighlightPrivate["NormalisedPath"] == "sublevel_class.cpp") || TagHighlight#Option#GetOption("IgnoreFileScope")
+	syn keyword CTagsMember max_size_2d max_num_blocks
 	
 endif

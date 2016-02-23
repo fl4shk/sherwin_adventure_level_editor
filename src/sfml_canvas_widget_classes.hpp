@@ -109,6 +109,19 @@ protected:		// variables
 	} the_rect_selection_stuff;
 	
 	
+	// Door sprite number stuff
+	static constexpr u32 door_number_gfx_slot_width = 16,
+		door_number_gfx_slot_height = 16,
+		door_number_gfx_num_slots_per_row = 13,
+		door_number_gfx_num_slots = 52;
+	static const string door_number_gfx_file_name;
+	
+	sf::Image door_number_gfx_raw_image;
+	sf::Texture door_number_gfx_raw_texture;
+	sf::Sprite door_number_sprite;
+	
+	
+	
 	
 	QSize unzoomed_size_2d;
 	
@@ -138,7 +151,6 @@ protected:		// variables
 		the_sprite_16x32_selector_core_widget;
 	
 	//mouse_mode* the_mouse_mode;
-	
 	
 public:		// variables and constants
 	//static constexpr u32 minimum_scale_factor_for_block_grid = 2;

@@ -171,6 +171,15 @@ default_parent_title	level_editor_widget_class.cpp	/^const QString level_editor_
 default_parent_title	level_editor_widget_class.hpp	/^	static const QString default_parent_title;$/;"	kind:m	class:level_editor_widget	access:public
 disable_block_grid	sfml_canvas_widget_classes.hpp	/^	inline void disable_block_grid()$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:()
 disable_rect_selection	sfml_canvas_widget_classes.hpp	/^	inline void disable_rect_selection()$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:()
+door_number_gfx_file_name	sfml_canvas_widget_classes.cpp	/^const string sfml_canvas_widget::door_number_gfx_file_name$/;"	kind:m	class:sfml_canvas_widget	file:
+door_number_gfx_file_name	sfml_canvas_widget_classes.hpp	/^	static const string door_number_gfx_file_name;$/;"	kind:m	class:sfml_canvas_widget	access:protected
+door_number_gfx_num_slots	sfml_canvas_widget_classes.hpp	/^		door_number_gfx_num_slots = 52;$/;"	kind:m	class:sfml_canvas_widget	access:protected
+door_number_gfx_num_slots_per_row	sfml_canvas_widget_classes.hpp	/^		door_number_gfx_num_slots_per_row = 13,$/;"	kind:m	class:sfml_canvas_widget	access:protected
+door_number_gfx_raw_image	sfml_canvas_widget_classes.hpp	/^	sf::Image door_number_gfx_raw_image;$/;"	kind:m	class:sfml_canvas_widget	access:protected
+door_number_gfx_raw_texture	sfml_canvas_widget_classes.hpp	/^	sf::Texture door_number_gfx_raw_texture;$/;"	kind:m	class:sfml_canvas_widget	access:protected
+door_number_gfx_slot_height	sfml_canvas_widget_classes.hpp	/^		door_number_gfx_slot_height = 16,$/;"	kind:m	class:sfml_canvas_widget	access:protected
+door_number_gfx_slot_width	sfml_canvas_widget_classes.hpp	/^	static constexpr u32 door_number_gfx_slot_width = 16,$/;"	kind:m	class:sfml_canvas_widget	access:protected
+door_number_sprite	sfml_canvas_widget_classes.hpp	/^	sf::Sprite door_number_sprite;$/;"	kind:m	class:sfml_canvas_widget	access:protected
 door_sprite_destination_sublevel_entrance_index_changed	sprite_properties_widget_class.cpp	/^	::door_sprite_destination_sublevel_entrance_index_changed$/;"	kind:f	class:sprite_properties_widget	signature:( int n_sublevel_entrance_index )
 door_sprite_destination_sublevel_entrance_index_changed	sprite_properties_widget_class.hpp	/^	void door_sprite_destination_sublevel_entrance_index_changed$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:( int n_sublevel_entrance_index )
 door_sprite_destination_sublevel_index_changed	sprite_properties_widget_class.cpp	/^	::door_sprite_destination_sublevel_index_changed$/;"	kind:f	class:sprite_properties_widget	signature:( int n_sublevel_index )
@@ -695,6 +704,15 @@ sfml_canvas_widget::__anon2::single_sprite_selected	sfml_canvas_widget_classes.h
 sfml_canvas_widget::apparent_view	sfml_canvas_widget_classes.hpp	/^	sf::View apparent_view;$/;"	kind:m	class:sfml_canvas_widget	access:protected
 sfml_canvas_widget::disable_block_grid	sfml_canvas_widget_classes.hpp	/^	inline void disable_block_grid()$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:()
 sfml_canvas_widget::disable_rect_selection	sfml_canvas_widget_classes.hpp	/^	inline void disable_rect_selection()$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:()
+sfml_canvas_widget::door_number_gfx_file_name	sfml_canvas_widget_classes.cpp	/^const string sfml_canvas_widget::door_number_gfx_file_name$/;"	kind:m	class:sfml_canvas_widget	file:
+sfml_canvas_widget::door_number_gfx_file_name	sfml_canvas_widget_classes.hpp	/^	static const string door_number_gfx_file_name;$/;"	kind:m	class:sfml_canvas_widget	access:protected
+sfml_canvas_widget::door_number_gfx_num_slots	sfml_canvas_widget_classes.hpp	/^		door_number_gfx_num_slots = 52;$/;"	kind:m	class:sfml_canvas_widget	access:protected
+sfml_canvas_widget::door_number_gfx_num_slots_per_row	sfml_canvas_widget_classes.hpp	/^		door_number_gfx_num_slots_per_row = 13,$/;"	kind:m	class:sfml_canvas_widget	access:protected
+sfml_canvas_widget::door_number_gfx_raw_image	sfml_canvas_widget_classes.hpp	/^	sf::Image door_number_gfx_raw_image;$/;"	kind:m	class:sfml_canvas_widget	access:protected
+sfml_canvas_widget::door_number_gfx_raw_texture	sfml_canvas_widget_classes.hpp	/^	sf::Texture door_number_gfx_raw_texture;$/;"	kind:m	class:sfml_canvas_widget	access:protected
+sfml_canvas_widget::door_number_gfx_slot_height	sfml_canvas_widget_classes.hpp	/^		door_number_gfx_slot_height = 16,$/;"	kind:m	class:sfml_canvas_widget	access:protected
+sfml_canvas_widget::door_number_gfx_slot_width	sfml_canvas_widget_classes.hpp	/^	static constexpr u32 door_number_gfx_slot_width = 16,$/;"	kind:m	class:sfml_canvas_widget	access:protected
+sfml_canvas_widget::door_number_sprite	sfml_canvas_widget_classes.hpp	/^	sf::Sprite door_number_sprite;$/;"	kind:m	class:sfml_canvas_widget	access:protected
 sfml_canvas_widget::enable_block_grid	sfml_canvas_widget_classes.hpp	/^	inline void enable_block_grid()$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:()
 sfml_canvas_widget::enable_generic_rect_selection	sfml_canvas_widget_classes.hpp	/^	inline void enable_generic_rect_selection$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:( const sf::IntRect& n_selection_rect )
 sfml_canvas_widget::enable_single_sprite_rect_selection	sfml_canvas_widget_classes.hpp	/^	inline void enable_single_sprite_rect_selection$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:( sprite_init_param_group_with_size* n_selected_sprite_ipgws )
