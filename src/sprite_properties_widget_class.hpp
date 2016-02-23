@@ -30,13 +30,17 @@ class sprite_properties_widget : public QWidget
 	
 public:		// variables
 	unique_ptr<QGroupBox> group_box;
-	unique_ptr<QGridLayout> group_box_grid_layout;
+	unique_ptr<QVBoxLayout> group_box_vbox_layout;
 	
 	unique_ptr<QGridLayout> grid_layout;
 	
 	sprite_init_param_group_with_size* selected_sprite_ipgws;
 	
 	unique_ptr<QLabel> test_label;
+	
+	unique_ptr<QCheckBox> facing_right_checkbox;
+	
+	// Stuff for the default sprite
 	
 public:		// functions
 	sprite_properties_widget( QWidget* s_parent,
@@ -45,35 +49,43 @@ public:		// functions
 	
 protected:		// functions
 	
-	void generate_group_box();
+	// A copy constructor... maybe.
+	void init();
 	
-	// "subfunctions" for use by generate_group_box()
+	
+	
+	
+	// "subfunctions" for use by init()
 	
 	// The Default Sprite (also used for when there is no sprite in the
 	// slot).
-	void generate_group_box_for_st_default();
+	void generate_stuff_for_st_default();
 	
 	// The Player
-	void generate_group_box_for_st_player();
+	void generate_stuff_for_st_player();
 	
 	// Powerup Sprites
-	void generate_group_box_for_st_waffle();
+	void generate_stuff_for_st_waffle();
 	
-	void generate_group_box_for_st_muffin();
-	void generate_group_box_for_st_fire_muffin();
-	void generate_group_box_for_st_ice_muffin();
-	void generate_group_box_for_st_chocolate_muffin();
+	void generate_stuff_for_st_muffin();
+	void generate_stuff_for_st_fire_muffin();
+	void generate_stuff_for_st_ice_muffin();
+	void generate_stuff_for_st_chocolate_muffin();
 	
 	// Door sprites
 	
 	// st_door is used for warping around different parts of either
 	// a SINGLE sublevel or MULTIPLE sublevels.  These get connected to
 	// sublevel_entrance's during the whole level conversion process.
-	void generate_group_box_for_st_door();
+	void generate_stuff_for_st_door();
 	
 	
 	// Enemy sprites
-	void generate_group_box_for_st_snow_golem();
+	void generate_stuff_for_st_snow_golem();
+	
+	
+protected slots:		// slots
+	void facing_right_checkbox_response_to_state_changed( int n_state );
 	
 	
 };

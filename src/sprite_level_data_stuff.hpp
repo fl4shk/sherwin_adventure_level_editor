@@ -104,6 +104,12 @@ public:		// variables
 } __attribute__((aligned(4)));
 
 
+// Note:  for st_door, extra_param_0 is used to designate the destination
+// sublevel_entrance index, and extra_param_1 is used to designate the
+// destination sublevel.
+
+
+
 class sublevel;
 
 

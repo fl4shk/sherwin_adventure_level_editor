@@ -360,7 +360,7 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 			
 		}
 		
-		cout << endl;
+		//cout << endl;
 	};
 	
 	auto func_for_selecting_sprites = [&]() -> void

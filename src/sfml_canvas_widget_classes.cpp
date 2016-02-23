@@ -758,13 +758,30 @@ void sfml_canvas_widget::update_visible_area()
 					->get_texture_rect_of_other_index
 					(the_sprite_ipgws.type) );
 				
-				sprite_for_drawing_level_elements.setScale( scale_factor, 
-					scale_factor );
+				if (!the_sprite_ipgws.facing_right)
+				{
+					sprite_for_drawing_level_elements.setScale
+						( scale_factor, scale_factor );
+					
+					sprite_for_drawing_level_elements.setPosition
+						( (u32)block_grid_pos.x
+						* num_pixels_per_block_row * scale_factor, 
+						(u32)block_grid_pos.y 
+						* num_pixels_per_block_column * scale_factor );
+				}
+				else //if (the_sprite_ipgws.facing_right)
+				{
+					sprite_for_drawing_level_elements.setScale
+						( -1 * (s32)scale_factor, scale_factor );
+					
+					sprite_for_drawing_level_elements.setPosition
+						( ( (u32)block_grid_pos.x + 1 )
+						* num_pixels_per_block_row * scale_factor, 
+						(u32)block_grid_pos.y 
+						* num_pixels_per_block_column * scale_factor );
+					
+				}
 				
-				sprite_for_drawing_level_elements.setPosition
-					( (u32)block_grid_pos.x * num_pixels_per_block_row
-					* scale_factor, (u32)block_grid_pos.y 
-					* num_pixels_per_block_column * scale_factor );
 				
 				draw(sprite_for_drawing_level_elements);
 				
@@ -822,13 +839,29 @@ void sfml_canvas_widget::update_visible_area()
 					->get_texture_rect_of_other_index
 					(the_sprite_ipgws.type) );
 				
-				sprite_for_drawing_level_elements.setScale( scale_factor, 
-					scale_factor );
+				if (!the_sprite_ipgws.facing_right)
+				{
+					sprite_for_drawing_level_elements.setScale
+						( scale_factor, scale_factor );
+					
+					sprite_for_drawing_level_elements.setPosition
+						( (u32)block_grid_pos.x 
+						* num_pixels_per_block_row * scale_factor, 
+						(u32)block_grid_pos.y 
+						* num_pixels_per_block_column * scale_factor );
+				}
+				else //if (the_sprite_ipgws.facing_right)
+				{
+					sprite_for_drawing_level_elements.setScale
+						( -1 * (s32)scale_factor, scale_factor );
+					
+					sprite_for_drawing_level_elements.setPosition
+						( ( (u32)block_grid_pos.x + 1 )
+						* num_pixels_per_block_row * scale_factor, 
+						(u32)block_grid_pos.y 
+						* num_pixels_per_block_column * scale_factor );
+				}
 				
-				sprite_for_drawing_level_elements.setPosition
-					( (u32)block_grid_pos.x * num_pixels_per_block_row
-					* scale_factor, (u32)block_grid_pos.y 
-					* num_pixels_per_block_column * scale_factor );
 				
 				draw(sprite_for_drawing_level_elements);
 				
