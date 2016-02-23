@@ -718,8 +718,6 @@ void sfml_canvas_widget::update_visible_area()
 		}
 		
 		
-		
-		
 		//cout << "; " << j << endl;
 	}
 	//cout << num_drawn_blocks << endl;

@@ -70,7 +70,8 @@ public:		// variables
 	// This is for block line drawing and multiple level element
 	// rectangular selections.
 	//QPoint prev_mouse_pos;
-	vec2_u32 block_grid_coords_of_prev_mouse_pos;
+	//vec2_u32 block_grid_coords_of_prev_mouse_pos;
+	vec2_s32 block_grid_coords_of_prev_mouse_pos;
 	
 	
 	// The mouse mode
@@ -107,6 +108,25 @@ public:		// functions
 	
 	
 protected:		// functions
+	// Utility functions
+	
+	
+	// This uses a purely integer-based line drawing algorithm.  The
+	// algorithm was originally used for drawing lines of pixels for a very
+	// basic 3D software rasterizer I wrote for the GBA.  That code was
+	// never published anywhere, since the software rasterizer kind of
+	// sucked.
+	void draw_block_line( const sf::Vector2i& pos_0, 
+		const sf::Vector2i& pos_1, block_type the_block_type );
+	
+	// A wrapper
+	inline void draw_block_line( const vec2_s32& pos_0, 
+		const vec2_s32& pos_1, block_type the_block_type )
+	{
+		draw_block_line( sf::Vector2i( pos_0.x, pos_0.y ),
+			sf::Vector2i( pos_1.x, pos_1.y ), the_block_type );
+	}
+	
 	
 	// Events
 	//void keyPressEvent( QKeyEvent* event );

@@ -30,9 +30,24 @@ typedef uint64_t u64; typedef int64_t s64;
 typedef unsigned int uint;
 
 
-// This corresponds to a selected tool.
-enum mouse_mode { mm_place_level_elements, mm_select_sprites, 
-	mm_erase_sprites, mm_rect_select };
+// This corresponds to an active tool.
+enum mouse_mode 
+{
+	// Place level elements.  Blocks can be erased by placing bt_air.  For
+	// this reason, there isn't a tool for erasing blocks.  At some point,
+	// perhaps the block graphics file should have "dummy" graphics instead
+	// of just looking like bt_air.
+	mm_place_level_elements,
+	
+	// Erase sprites in particular
+	mm_erase_sprites, 
+	
+	// Select a single sprite to allow changing its properties
+	mm_select_single_sprite, 
+	
+	// Rectangular selection 
+	mm_rect_select,
+};
 
 
 // This is intended to be used for the purposes 

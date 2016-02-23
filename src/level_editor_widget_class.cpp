@@ -174,7 +174,7 @@ void level_editor_widget::keyPressEvent( QKeyEvent* event )
 	}
 	else if ( event->key() == Qt::Key_W )
 	{
-		the_core_widget->the_mouse_mode = mm_select_sprites;
+		the_core_widget->the_mouse_mode = mm_select_single_sprite;
 		
 		cout << "Current mouse mode:  select_sprites\n";
 	}
