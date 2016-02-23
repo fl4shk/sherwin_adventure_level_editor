@@ -795,6 +795,9 @@ void sfml_canvas_widget::update_visible_area()
 				
 				if ( the_sprite_ipgws.type == st_door )
 				{
+					door_number_sprite.setScale( scale_factor, 
+						scale_factor );
+					
 					sf::IntRect n_door_number_sprite_texture_rect;
 					
 					const u32 the_door_number 
@@ -822,16 +825,21 @@ void sfml_canvas_widget::update_visible_area()
 							( sprite_for_drawing_level_elements
 							.getPosition().x, 
 							sprite_for_drawing_level_elements
-							.getPosition().y + num_pixels_per_block_row );
+							.getPosition().y 
+							+ ( num_pixels_per_block_row 
+							* scale_factor ) );
 					}
 					else //if (the_sprite_ipgws.facing_right)
 					{
 						door_number_sprite.setPosition
 							( sprite_for_drawing_level_elements
 							.getPosition().x 
-							- num_pixels_per_block_column, 
+							- ( num_pixels_per_block_column 
+							* scale_factor ), 
 							sprite_for_drawing_level_elements
-							.getPosition().y + num_pixels_per_block_row );
+							.getPosition().y 
+							+ ( num_pixels_per_block_row 
+							* scale_factor ) );
 					}
 					
 					draw(door_number_sprite);
@@ -919,6 +927,9 @@ void sfml_canvas_widget::update_visible_area()
 				
 				if ( the_sprite_ipgws.type == st_door )
 				{
+					door_number_sprite.setScale( scale_factor, 
+						scale_factor );
+					
 					sf::IntRect n_door_number_sprite_texture_rect;
 					
 					const u32 the_door_number 
@@ -946,16 +957,21 @@ void sfml_canvas_widget::update_visible_area()
 							( sprite_for_drawing_level_elements
 							.getPosition().x, 
 							sprite_for_drawing_level_elements
-							.getPosition().y + num_pixels_per_block_row );
+							.getPosition().y 
+							+ ( num_pixels_per_block_row 
+							* scale_factor ) );
 					}
 					else //if (the_sprite_ipgws.facing_right)
 					{
 						door_number_sprite.setPosition
 							( sprite_for_drawing_level_elements
 							.getPosition().x 
-							- num_pixels_per_block_column, 
+							- ( num_pixels_per_block_column 
+							* scale_factor ), 
 							sprite_for_drawing_level_elements
-							.getPosition().y + num_pixels_per_block_row );
+							.getPosition().y 
+							+ ( num_pixels_per_block_row 
+							* scale_factor ) );
 					}
 					
 					draw(door_number_sprite);
