@@ -219,14 +219,14 @@ void sfml_canvas_widget::start_rect_selection
 	}
 	else if ( the_rect_selection_stuff.selection_layer == rsl_sprites )
 	{
-		sprite_init_param_group_with_size* single_selected_sprite_ipgws
-			= &( the_sublevel->sprite_ipgws_vec_2d
-			.at(n_starting_block_grid_coords_of_mouse.y)
-			.at(n_starting_block_grid_coords_of_mouse.x) );
-		
+		//sprite_init_param_group_with_size* single_selected_sprite_ipgws
+		//	= &( the_sublevel->sprite_ipgws_vec_2d
+		//	.at(n_starting_block_grid_coords_of_mouse.y)
+		//	.at(n_starting_block_grid_coords_of_mouse.x) );
+		//
 		//if ( single_selected_sprite_ipgws->size_2d.x == 0 
 		//	|| single_selected_sprite_ipgws->size_2d.y == 0 )
-		if ( single_selected_sprite_ipgws->type == st_default )
+		//if ( single_selected_sprite_ipgws->type == st_default )
 		{
 			//disable_rect_selection();
 			
@@ -238,28 +238,28 @@ void sfml_canvas_widget::start_rect_selection
 			the_rect_selection_stuff.ending_block_grid_coords
 				= n_starting_block_grid_coords_of_mouse;
 		}
-		else
-		{
-			
-			// Make it so that the rectangular selection covers the whole
-			// sprite.  For "blank" sprites (using st_default), this would
-			// hopefully cause the size of the selection_rect to be 16x16.
-			the_rect_selection_stuff.selection_rect = sf::IntRect
-				( single_selected_sprite_ipgws->initial_block_grid_x_coord,
-				single_selected_sprite_ipgws->initial_block_grid_y_coord,
-				single_selected_sprite_ipgws->size_2d.x 
-				/ num_pixels_per_block_row, 
-				single_selected_sprite_ipgws->size_2d.y 
-				/ num_pixels_per_block_column );
-			
-			the_rect_selection_stuff.ending_block_grid_coords.x
-				= the_rect_selection_stuff.starting_block_grid_coords.x 
-				+ single_selected_sprite_ipgws->size_2d.x;
-			
-			the_rect_selection_stuff.ending_block_grid_coords.y
-				= the_rect_selection_stuff.starting_block_grid_coords.y 
-				+ single_selected_sprite_ipgws->size_2d.y;
-		}
+		//else
+		//{
+		//	
+		//	// Make it so that the rectangular selection covers the whole
+		//	// sprite.  For "blank" sprites (using st_default), this would
+		//	// hopefully cause the size of the selection_rect to be 16x16.
+		//	the_rect_selection_stuff.selection_rect = sf::IntRect
+		//		( single_selected_sprite_ipgws->initial_block_grid_x_coord,
+		//		single_selected_sprite_ipgws->initial_block_grid_y_coord,
+		//		single_selected_sprite_ipgws->size_2d.x 
+		//		/ num_pixels_per_block_row, 
+		//		single_selected_sprite_ipgws->size_2d.y 
+		//		/ num_pixels_per_block_column );
+		//	
+		//	the_rect_selection_stuff.ending_block_grid_coords.x
+		//		= the_rect_selection_stuff.starting_block_grid_coords.x 
+		//		+ single_selected_sprite_ipgws->size_2d.x;
+		//	
+		//	the_rect_selection_stuff.ending_block_grid_coords.y
+		//		= the_rect_selection_stuff.starting_block_grid_coords.y 
+		//		+ single_selected_sprite_ipgws->size_2d.y;
+		//}
 	}
 }
 
