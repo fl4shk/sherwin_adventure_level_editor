@@ -608,12 +608,12 @@ void level_editor_core_widget::mouseMoveEvent( QMouseEvent* event )
 	bool current_tabbed_widget_is_for_blocks 
 		= ( level_element_selectors_tab_widget->currentWidget()
 		== the_block_selector_widget );
-	//bool current_tabbed_widget_is_for_16x16_sprites
-	//	= ( level_element_selectors_tab_widget->currentWidget()
-	//	== the_sprite_16x16_selector_widget );
-	//bool current_tabbed_widget_is_for_16x32_sprites
-	//	= ( level_element_selectors_tab_widget->currentWidget()
-	//	== the_sprite_16x32_selector_widget );
+	bool current_tabbed_widget_is_for_16x16_sprites
+		= ( level_element_selectors_tab_widget->currentWidget()
+		== the_sprite_16x16_selector_widget );
+	bool current_tabbed_widget_is_for_16x32_sprites
+		= ( level_element_selectors_tab_widget->currentWidget()
+		== the_sprite_16x32_selector_widget );
 	
 	
 	
@@ -623,11 +623,10 @@ void level_editor_core_widget::mouseMoveEvent( QMouseEvent* event )
 	//	block_grid_coords_of_mouse_pos.x, 
 	//	block_grid_coords_of_mouse_pos.y );
 	
-	
-	//the_sprite_selection_ptr_group 
-	//	= adj_sprite_ipgws_ptr_group_for_selecting_sprite( the_sublevel,
-	//	block_grid_coords_of_mouse_pos.x, 
-	//	block_grid_coords_of_mouse_pos.y );
+	the_sprite_selection_ptr_group 
+		= adj_sprite_ipgws_ptr_group_for_selecting_sprite( the_sublevel,
+		block_grid_coords_of_mouse_pos.x, 
+		block_grid_coords_of_mouse_pos.y );
 	
 	//if ( the_sprite_selection_ptr_group.origin_ptr != NULL )
 	//{
@@ -716,7 +715,25 @@ void level_editor_core_widget::mouseMoveEvent( QMouseEvent* event )
 	
 	auto func_for_rect_selection = [&]() -> void
 	{
+		if ( current_tabbed_widget_is_for_blocks )
+		{
+			the_sfml_canvas_widget->continue_rect_selection
+				(block_grid_coords_of_mouse_pos);
+		}
+		else if ( current_tabbed_widget_is_for_16x16_sprites 
+			|| current_tabbed_widget_is_for_16x32_sprites )
+		{
+			sprite_init_param_group_with_size* clicked_sprite_ipgws 
+				= the_sprite_selection_ptr_group.origin_ptr;
+			
+			//the_sfml_canvas_widget->start_rect_selection
+			//	( block_grid_coords_of_mouse_pos, rsl_sprites );
+			the_sfml_canvas_widget->continue_rect_selection( vec2_s32
+				( (s32)clicked_sprite_ipgws->initial_block_grid_x_coord,
+				(s32)clicked_sprite_ipgws->initial_block_grid_y_coord ) );
+		}
 		
+		emit sprite_no_longer_selected();
 	};
 	
 	if ( event->buttons() & Qt::LeftButton )

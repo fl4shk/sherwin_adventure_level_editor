@@ -103,10 +103,20 @@ protected:		// variables
 		sf::IntRect selection_rect;
 		
 		
-		// Where the mouse was first clicked at the start of the
-		// rectangular selection.  This is not intended to be used for
-		// the mouse_mode where sprite properties can be changed.
-		vec2_s32 starting_block_grid_coords_of_mouse_pos;
+		
+		// These are not intended to be used for the mouse_mode where
+		// sprite properties can be changed.
+		
+		// This is the initially clicked block grid coordinate.
+		vec2_s32 starting_block_grid_coords_of_mouse;
+		
+		// This represents the left and top values of selection_rect.
+		vec2_s32 starting_block_grid_coords;
+		
+		// This represents the right and bottom values of selection_rect.
+		vec2_s32 ending_block_grid_coords;
+		
+		
 		
 		
 		// mouse_released is set to true when the mouse is released and the
@@ -268,10 +278,10 @@ public:		// functions
 	//}
 	
 	void start_rect_selection
-		( const vec2_s32& n_starting_block_grid_coords_of_mouse_pos, 
+		( const vec2_s32& n_starting_block_grid_coords_of_mouse, 
 		rect_selection_layer n_selection_layer );
 	void continue_rect_selection
-		( const vec2_s32& n_curr_ending_block_grid_coords_of_mouse_pos );
+		( const vec2_s32& curr_block_grid_coords_of_mouse );
 	void finish_rect_selection();
 
 

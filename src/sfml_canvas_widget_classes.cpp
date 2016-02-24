@@ -188,16 +188,18 @@ const sf::View& sfml_canvas_widget::get_apparent_view()
 
 
 void sfml_canvas_widget::start_rect_selection
-	( const vec2_s32& n_starting_block_grid_coords_of_mouse_pos, 
+	( const vec2_s32& n_starting_block_grid_coords_of_mouse, 
 	rect_selection_layer n_selection_layer )
 {
-	the_rect_selection_stuff.starting_block_grid_coords_of_mouse_pos
-		= n_starting_block_grid_coords_of_mouse_pos;
+	the_rect_selection_stuff.starting_block_grid_coords_of_mouse
+		= n_starting_block_grid_coords_of_mouse;
+	the_rect_selection_stuff.starting_block_grid_coords
+		= n_starting_block_grid_coords_of_mouse;
 	
 	the_rect_selection_stuff.selection_rect.left 
-		= n_starting_block_grid_coords_of_mouse_pos.x;
+		= n_starting_block_grid_coords_of_mouse.x;
 	the_rect_selection_stuff.selection_rect.top
-		= n_starting_block_grid_coords_of_mouse_pos.y;
+		= n_starting_block_grid_coords_of_mouse.y;
 	
 	the_rect_selection_stuff.single_sprite_selected = false;
 	
@@ -209,15 +211,18 @@ void sfml_canvas_widget::start_rect_selection
 	{
 		// Just one block
 		the_rect_selection_stuff.selection_rect = sf::IntRect
-			( n_starting_block_grid_coords_of_mouse_pos.x,
-			n_starting_block_grid_coords_of_mouse_pos.y, 1, 1 );
+			( n_starting_block_grid_coords_of_mouse.x,
+			n_starting_block_grid_coords_of_mouse.y, 1, 1 );
+		
+		the_rect_selection_stuff.ending_block_grid_coords
+			= n_starting_block_grid_coords_of_mouse;
 	}
 	else if ( the_rect_selection_stuff.selection_layer == rsl_sprites )
 	{
 		sprite_init_param_group_with_size* single_selected_sprite_ipgws
 			= &( the_sublevel->sprite_ipgws_vec_2d
-			.at(n_starting_block_grid_coords_of_mouse_pos.y)
-			.at(n_starting_block_grid_coords_of_mouse_pos.x) );
+			.at(n_starting_block_grid_coords_of_mouse.y)
+			.at(n_starting_block_grid_coords_of_mouse.x) );
 		
 		if ( single_selected_sprite_ipgws->size_2d.x == 0 
 			|| single_selected_sprite_ipgws->size_2d.y == 0 )
@@ -235,13 +240,111 @@ void sfml_canvas_widget::start_rect_selection
 			/ num_pixels_per_block_row, 
 			single_selected_sprite_ipgws->size_2d.y 
 			/ num_pixels_per_block_column );
+		
+		the_rect_selection_stuff.ending_block_grid_coords.x
+			= the_rect_selection_stuff.starting_block_grid_coords.x 
+			+ single_selected_sprite_ipgws->size_2d.x;
+		
+		the_rect_selection_stuff.ending_block_grid_coords.y
+			= the_rect_selection_stuff.starting_block_grid_coords.y 
+			+ single_selected_sprite_ipgws->size_2d.y;
 	}
 }
 
 void sfml_canvas_widget::continue_rect_selection
-	( const vec2_s32& n_curr_ending_block_grid_coords_of_mouse_pos )
+	( const vec2_s32& curr_block_grid_coords_of_mouse )
 {
+	vec2_s32& starting_block_grid_coords_of_mouse 
+		= the_rect_selection_stuff.starting_block_grid_coords_of_mouse;
+	vec2_s32& starting_block_grid_coords 
+		= the_rect_selection_stuff.starting_block_grid_coords;
+	vec2_s32& ending_block_grid_coords 
+		= the_rect_selection_stuff.ending_block_grid_coords;
 	
+	bool starting_mouse_x_lt_curr_mouse_x 
+		= ( starting_block_grid_coords_of_mouse.x
+		< curr_block_grid_coords_of_mouse.x );
+	bool starting_mouse_y_lt_curr_mouse_y 
+		= ( starting_block_grid_coords_of_mouse.y
+		< curr_block_grid_coords_of_mouse.y );
+	
+	
+	if (starting_mouse_x_lt_curr_mouse_x)
+	{
+		starting_block_grid_coords.x
+			= starting_block_grid_coords_of_mouse.x;
+		ending_block_grid_coords.x
+			= curr_block_grid_coords_of_mouse.x;
+	}
+	else
+	{
+		starting_block_grid_coords.x
+			= curr_block_grid_coords_of_mouse.x;
+		ending_block_grid_coords.x
+			= starting_block_grid_coords_of_mouse.x;
+	}
+	
+	if (starting_mouse_y_lt_curr_mouse_y)
+	{
+		starting_block_grid_coords.y
+			= starting_block_grid_coords_of_mouse.y;
+		ending_block_grid_coords.y
+			= curr_block_grid_coords_of_mouse.y;
+	}
+	else
+	{
+		starting_block_grid_coords.y
+			= curr_block_grid_coords_of_mouse.y;
+		ending_block_grid_coords.y
+			= starting_block_grid_coords_of_mouse.y;
+	}
+	
+	
+	// Correction things.
+	if ( starting_block_grid_coords.x < 0 )
+	{
+		starting_block_grid_coords.x = 0;
+	}
+	if ( starting_block_grid_coords.y < 0 )
+	{
+		starting_block_grid_coords.y = 0;
+	}
+	if ( starting_block_grid_coords.x >= the_sublevel->size_2d.x )
+	{
+		starting_block_grid_coords.x = the_sublevel->size_2d.x - 1;
+	}
+	if ( starting_block_grid_coords.y >= the_sublevel->size_2d.y )
+	{
+		starting_block_grid_coords.y = the_sublevel->size_2d.y - 1;
+	}
+	
+	
+	if ( ending_block_grid_coords.x < 0 )
+	{
+		ending_block_grid_coords.x = 0;
+	}
+	if ( ending_block_grid_coords.y < 0 )
+	{
+		ending_block_grid_coords.y = 0;
+	}
+	if ( ending_block_grid_coords.x >= the_sublevel->size_2d.x )
+	{
+		ending_block_grid_coords.x = the_sublevel->size_2d.x - 1;
+	}
+	if ( ending_block_grid_coords.y >= the_sublevel->size_2d.y )
+	{
+		ending_block_grid_coords.y = the_sublevel->size_2d.y - 1;
+	}
+	
+	the_rect_selection_stuff.selection_rect.left 
+		= starting_block_grid_coords.x;
+	the_rect_selection_stuff.selection_rect.top 
+		= starting_block_grid_coords.y;
+	
+	the_rect_selection_stuff.selection_rect.width 
+		= ending_block_grid_coords.x - starting_block_grid_coords.x + 1;
+	the_rect_selection_stuff.selection_rect.height 
+		= ending_block_grid_coords.y - starting_block_grid_coords.y + 1;
 }
 
 void sfml_canvas_widget::finish_rect_selection()
