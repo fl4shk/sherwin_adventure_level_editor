@@ -224,30 +224,42 @@ void sfml_canvas_widget::start_rect_selection
 			.at(n_starting_block_grid_coords_of_mouse.y)
 			.at(n_starting_block_grid_coords_of_mouse.x) );
 		
-		if ( single_selected_sprite_ipgws->size_2d.x == 0 
-			|| single_selected_sprite_ipgws->size_2d.y == 0 )
+		//if ( single_selected_sprite_ipgws->size_2d.x == 0 
+		//	|| single_selected_sprite_ipgws->size_2d.y == 0 )
+		if ( single_selected_sprite_ipgws->type == st_default )
 		{
-			disable_rect_selection();
+			//disable_rect_selection();
+			
+			// Just one "block"
+			the_rect_selection_stuff.selection_rect = sf::IntRect
+				( n_starting_block_grid_coords_of_mouse.x,
+				n_starting_block_grid_coords_of_mouse.y, 1, 1 );
+			
+			the_rect_selection_stuff.ending_block_grid_coords
+				= n_starting_block_grid_coords_of_mouse;
 		}
-		
-		// Make it so that the rectangular selection covers the whole
-		// sprite.  For "blank" sprites (using st_default), this would
-		// hopefully cause the size of the selection_rect to be 16x16.
-		the_rect_selection_stuff.selection_rect = sf::IntRect
-			( single_selected_sprite_ipgws->initial_block_grid_x_coord,
-			single_selected_sprite_ipgws->initial_block_grid_y_coord,
-			single_selected_sprite_ipgws->size_2d.x 
-			/ num_pixels_per_block_row, 
-			single_selected_sprite_ipgws->size_2d.y 
-			/ num_pixels_per_block_column );
-		
-		the_rect_selection_stuff.ending_block_grid_coords.x
-			= the_rect_selection_stuff.starting_block_grid_coords.x 
-			+ single_selected_sprite_ipgws->size_2d.x;
-		
-		the_rect_selection_stuff.ending_block_grid_coords.y
-			= the_rect_selection_stuff.starting_block_grid_coords.y 
-			+ single_selected_sprite_ipgws->size_2d.y;
+		else
+		{
+			
+			// Make it so that the rectangular selection covers the whole
+			// sprite.  For "blank" sprites (using st_default), this would
+			// hopefully cause the size of the selection_rect to be 16x16.
+			the_rect_selection_stuff.selection_rect = sf::IntRect
+				( single_selected_sprite_ipgws->initial_block_grid_x_coord,
+				single_selected_sprite_ipgws->initial_block_grid_y_coord,
+				single_selected_sprite_ipgws->size_2d.x 
+				/ num_pixels_per_block_row, 
+				single_selected_sprite_ipgws->size_2d.y 
+				/ num_pixels_per_block_column );
+			
+			the_rect_selection_stuff.ending_block_grid_coords.x
+				= the_rect_selection_stuff.starting_block_grid_coords.x 
+				+ single_selected_sprite_ipgws->size_2d.x;
+			
+			the_rect_selection_stuff.ending_block_grid_coords.y
+				= the_rect_selection_stuff.starting_block_grid_coords.y 
+				+ single_selected_sprite_ipgws->size_2d.y;
+		}
 	}
 }
 
@@ -261,15 +273,9 @@ void sfml_canvas_widget::continue_rect_selection
 	vec2_s32& ending_block_grid_coords 
 		= the_rect_selection_stuff.ending_block_grid_coords;
 	
-	bool starting_mouse_x_lt_curr_mouse_x 
-		= ( starting_block_grid_coords_of_mouse.x
-		< curr_block_grid_coords_of_mouse.x );
-	bool starting_mouse_y_lt_curr_mouse_y 
-		= ( starting_block_grid_coords_of_mouse.y
-		< curr_block_grid_coords_of_mouse.y );
 	
-	
-	if (starting_mouse_x_lt_curr_mouse_x)
+	if ( starting_block_grid_coords_of_mouse.x
+		< curr_block_grid_coords_of_mouse.x )
 	{
 		starting_block_grid_coords.x
 			= starting_block_grid_coords_of_mouse.x;
@@ -284,7 +290,8 @@ void sfml_canvas_widget::continue_rect_selection
 			= starting_block_grid_coords_of_mouse.x;
 	}
 	
-	if (starting_mouse_y_lt_curr_mouse_y)
+	if ( starting_block_grid_coords_of_mouse.y
+		< curr_block_grid_coords_of_mouse.y )
 	{
 		starting_block_grid_coords.y
 			= starting_block_grid_coords_of_mouse.y;
@@ -309,11 +316,11 @@ void sfml_canvas_widget::continue_rect_selection
 	{
 		starting_block_grid_coords.y = 0;
 	}
-	if ( starting_block_grid_coords.x >= the_sublevel->size_2d.x )
+	if ( starting_block_grid_coords.x >= (s32)the_sublevel->size_2d.x )
 	{
 		starting_block_grid_coords.x = the_sublevel->size_2d.x - 1;
 	}
-	if ( starting_block_grid_coords.y >= the_sublevel->size_2d.y )
+	if ( starting_block_grid_coords.y >= (s32)the_sublevel->size_2d.y )
 	{
 		starting_block_grid_coords.y = the_sublevel->size_2d.y - 1;
 	}
@@ -327,11 +334,11 @@ void sfml_canvas_widget::continue_rect_selection
 	{
 		ending_block_grid_coords.y = 0;
 	}
-	if ( ending_block_grid_coords.x >= the_sublevel->size_2d.x )
+	if ( ending_block_grid_coords.x >= (s32)the_sublevel->size_2d.x )
 	{
 		ending_block_grid_coords.x = the_sublevel->size_2d.x - 1;
 	}
-	if ( ending_block_grid_coords.y >= the_sublevel->size_2d.y )
+	if ( ending_block_grid_coords.y >= (s32)the_sublevel->size_2d.y )
 	{
 		ending_block_grid_coords.y = the_sublevel->size_2d.y - 1;
 	}
