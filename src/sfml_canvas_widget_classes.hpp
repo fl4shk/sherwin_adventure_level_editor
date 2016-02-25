@@ -131,6 +131,12 @@ protected:		// variables
 		// sprite_properties_widget should be generated.
 		bool single_sprite_selected;
 		
+		
+		
+		// Stuff for moving around the selection's contents.
+		bool moving;
+		vec2_s32 clicked_location_in_rect;
+		
 	} the_rect_selection_stuff;
 	
 	
@@ -267,6 +273,17 @@ public:		// functions
 		return the_rect_selection_stuff.selection_rect;
 	}
 	
+	inline const vec2_s32& get_rect_selection_starting_block_grid_coords()
+		const
+	{
+		return the_rect_selection_stuff.starting_block_grid_coords;
+	}
+	
+	inline bool get_rect_selection_moving() const
+	{
+		return the_rect_selection_stuff.moving;
+	}
+	
 	//inline void enable_generic_rect_selection
 	//	( const sf::IntRect& n_selection_rect )
 	//{
@@ -283,8 +300,16 @@ public:		// functions
 	void continue_rect_selection
 		( const vec2_s32& curr_block_grid_coords_of_mouse );
 	void finish_rect_selection();
-
-
+	
+	// Stuff for moving the rectangular selection's contents.
+	void start_moving_rect_selection_contents
+		( const vec2_s32 n_clicked_location_in_rect );
+	void continue_moving_rect_selection_contents
+		( const vec2_s32 curr_block_grid_coords_of_mouse );
+	void finish_moving_rect_selection_contents();
+	
+	
+	
 	inline void enable_single_sprite_rect_selection
 		( sprite_init_param_group_with_size* n_selected_sprite_ipgws )
 	{

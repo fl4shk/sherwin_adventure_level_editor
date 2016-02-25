@@ -337,7 +337,11 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 		if ( the_sprite_selection_ptr_group.origin_ptr->type 
 			== st_default )
 		{
-			the_sfml_canvas_widget->disable_rect_selection();
+			if ( the_sfml_canvas_widget
+				->get_rect_selection_single_sprite_selected() )
+			{
+				the_sfml_canvas_widget->disable_rect_selection();
+			}
 			
 			//cout << "st_default\n";
 			emit sprite_no_longer_selected();
@@ -346,7 +350,11 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 	// I am not sure this will ever be the case.
 	else 
 	{
-		the_sfml_canvas_widget->disable_rect_selection();
+		if ( the_sfml_canvas_widget
+			->get_rect_selection_single_sprite_selected() )
+		{
+			the_sfml_canvas_widget->disable_rect_selection();
+		}
 		
 		//cout << "else\n";
 		emit sprite_no_longer_selected();
@@ -482,32 +490,60 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 	
 	auto func_for_rect_selection = [&]() -> void
 	{
-		if ( current_tabbed_widget_is_for_blocks )
+		bool clicked_location_intersects_rect = the_sfml_canvas_widget
+			->get_rect_selection_rect().contains
+			( block_grid_coords_of_mouse_pos.x, 
+			block_grid_coords_of_mouse_pos.y );
+		
+		//cout << "clicked_location_intersects_rect:  "
+		//	<< clicked_location_intersects_rect << endl;
+		//
+		//cout << "rect selection enabled:  " 
+		//	<< the_sfml_canvas_widget->get_rect_selection_enabled()
+		//	<< endl;
+		
+		
+		if ( !the_sfml_canvas_widget->get_rect_selection_enabled() 
+			|| ( the_sfml_canvas_widget->get_rect_selection_enabled() 
+			&& !clicked_location_intersects_rect ) )
 		{
-			the_sfml_canvas_widget->start_rect_selection
-				( block_grid_coords_of_mouse_pos, rsl_blocks );
-		}
-		else if ( current_tabbed_widget_is_for_16x16_sprites 
-			|| current_tabbed_widget_is_for_16x32_sprites )
-		{
-			//sprite_init_param_group_with_size* clicked_sprite_ipgws 
-			//	= the_sprite_selection_ptr_group.origin_ptr;
-			//
-			//if ( clicked_sprite_ipgws->type != st_default )
-			//{
-			//	//the_sfml_canvas_widget->start_rect_selection
-			//	//	( block_grid_coords_of_mouse_pos, rsl_sprites );
-			//	the_sfml_canvas_widget->start_rect_selection( vec2_s32
-			//		( (s32)clicked_sprite_ipgws
-			//		->initial_block_grid_x_coord,
-			//		(s32)clicked_sprite_ipgws
-			//		->initial_block_grid_y_coord ), rsl_sprites );
-			//}
-			//else //if ( clicked_sprite_ipgws->type == st_default )
+			if (current_tabbed_widget_is_for_blocks)
 			{
 				the_sfml_canvas_widget->start_rect_selection
-					( block_grid_coords_of_mouse_pos, rsl_sprites );
+					( block_grid_coords_of_mouse_pos, rsl_blocks );
 			}
+			else if ( current_tabbed_widget_is_for_16x16_sprites 
+				|| current_tabbed_widget_is_for_16x32_sprites )
+			{
+				//sprite_init_param_group_with_size* clicked_sprite_ipgws 
+				//	= the_sprite_selection_ptr_group.origin_ptr;
+				//
+				//if ( clicked_sprite_ipgws->type != st_default )
+				//{
+				//	//the_sfml_canvas_widget->start_rect_selection
+				//	//	( block_grid_coords_of_mouse_pos, rsl_sprites );
+				//	the_sfml_canvas_widget->start_rect_selection( vec2_s32
+				//		( (s32)clicked_sprite_ipgws
+				//		->initial_block_grid_x_coord,
+				//		(s32)clicked_sprite_ipgws
+				//		->initial_block_grid_y_coord ), rsl_sprites );
+				//}
+				//else //if ( clicked_sprite_ipgws->type == st_default )
+				{
+					the_sfml_canvas_widget->start_rect_selection
+						( block_grid_coords_of_mouse_pos, rsl_sprites );
+				}
+			}
+		}
+		else if ( the_sfml_canvas_widget->get_rect_selection_enabled()
+			&& clicked_location_intersects_rect )
+		{
+			vec2_s32 clicked_location_in_rect
+				= block_grid_coords_of_mouse_pos - the_sfml_canvas_widget
+				->get_rect_selection_starting_block_grid_coords();
+			
+			the_sfml_canvas_widget->start_moving_rect_selection_contents
+				(clicked_location_in_rect);
 		}
 		
 		emit sprite_no_longer_selected();
@@ -724,8 +760,16 @@ void level_editor_core_widget::mouseMoveEvent( QMouseEvent* event )
 	
 	auto func_for_rect_selection = [&]() -> void
 	{
-		the_sfml_canvas_widget->continue_rect_selection
-			(block_grid_coords_of_mouse_pos);
+		if ( !the_sfml_canvas_widget->get_rect_selection_moving() )
+		{
+			the_sfml_canvas_widget->continue_rect_selection
+				(block_grid_coords_of_mouse_pos);
+		}
+		else //if ( the_sfml_canvas_widget->get_rect_selection_moving() )
+		{
+			the_sfml_canvas_widget->continue_moving_rect_selection_contents
+				(block_grid_coords_of_mouse_pos);
+		}
 		
 		emit sprite_no_longer_selected();
 	};
@@ -776,7 +820,217 @@ void level_editor_core_widget::mouseMoveEvent( QMouseEvent* event )
 
 void level_editor_core_widget::mouseReleaseEvent( QMouseEvent* event )
 {
+	//cout << "mouseReleaseEvent()\n";
 	
+	sf::Vector2i mouse_pos_in_canvas_widget_coords 
+		= sf::Mouse::getPosition(*the_sfml_canvas_widget);
+	
+	// This converts the clicked coordinate to pixel coordinates.
+	sf::Vector2f mouse_pos_in_canvas_coords
+		( (double)mouse_pos_in_canvas_widget_coords.x 
+		/ (double)the_sfml_canvas_widget->scale_factor,
+		(double)mouse_pos_in_canvas_widget_coords.y
+		/ (double)the_sfml_canvas_widget->scale_factor );
+	
+	u32 scale_factor = the_sfml_canvas_widget->scale_factor;
+	
+	vec2_s32 block_grid_coords_of_mouse_pos
+		= { (s32)( mouse_pos_in_canvas_coords.x
+		/ ( sfml_canvas_widget::num_pixels_per_block_row ) ),
+		
+		(s32)( ( the_sublevel.real_size_2d.y 
+		- ( ( the_sfml_canvas_widget->getSize().y / scale_factor )
+		- mouse_pos_in_canvas_coords.y )
+		/ sfml_canvas_widget::num_pixels_per_block_column ) ) };
+	
+	//cout << mouse_pos_in_canvas_coords.x << ", "
+	//	<< mouse_pos_in_canvas_coords.y << endl;
+	
+	//if ( block_grid_coords_of_mouse_pos.x < (s32)0
+	//	|| block_grid_coords_of_mouse_pos.x 
+	//		>= (s32)the_sublevel.size_2d.x
+	//	|| block_grid_coords_of_mouse_pos.y < (s32)0
+	//	|| block_grid_coords_of_mouse_pos.y 
+	//		>= (s32)the_sublevel.size_2d.y )
+	//{
+	//	return;
+	//}
+	//
+	//if ( !the_sfml_canvas_widget->point_is_in_visible_rect
+	//	( sf::Vector2i( event->x(), event->y() ) ) )
+	//{
+	//	//cout << "out of bounds\n";
+	//	return;
+	//}
+	
+	
+	
+	block& the_block_at_mouse_pos 
+		= the_sublevel.uncompressed_block_data_vec_2d
+		.at((u32)block_grid_coords_of_mouse_pos.y)
+		.at((u32)block_grid_coords_of_mouse_pos.x);
+	
+	sprite_init_param_group_with_size& the_sprite_ipgws_at_mouse_pos
+		= the_sublevel.sprite_ipgws_vec_2d
+		[block_grid_coords_of_mouse_pos.y]
+		[block_grid_coords_of_mouse_pos.x];
+	
+	
+	bool current_tabbed_widget_is_for_blocks 
+		= ( level_element_selectors_tab_widget->currentWidget()
+		== the_block_selector_widget );
+	bool current_tabbed_widget_is_for_16x16_sprites
+		= ( level_element_selectors_tab_widget->currentWidget()
+		== the_sprite_16x16_selector_widget );
+	bool current_tabbed_widget_is_for_16x32_sprites
+		= ( level_element_selectors_tab_widget->currentWidget()
+		== the_sprite_16x32_selector_widget );
+	
+	
+	
+	
+	//adj_sprite_ipgws_ptr_group_for_selecting_sprite
+	//	the_sprite_selection_ptr_group( the_sublevel,
+	//	block_grid_coords_of_mouse_pos.x, 
+	//	block_grid_coords_of_mouse_pos.y );
+	
+	the_sprite_selection_ptr_group 
+		= adj_sprite_ipgws_ptr_group_for_selecting_sprite( the_sublevel,
+		block_grid_coords_of_mouse_pos.x, 
+		block_grid_coords_of_mouse_pos.y );
+	
+	//if ( the_sprite_selection_ptr_group.origin_ptr != NULL )
+	//{
+	//	if ( the_sprite_selection_ptr_group.origin_ptr->type 
+	//		== st_default )
+	//	{
+	//		the_sfml_canvas_widget->disable_rect_selection();
+	//		
+	//		//cout << "st_default\n";
+	//		emit sprite_no_longer_selected();
+	//	}
+	//}
+	//// I am not sure this will ever be the case.
+	//else 
+	//{
+	//	the_sfml_canvas_widget->disable_rect_selection();
+	//	
+	//	//cout << "else\n";
+	//	emit sprite_no_longer_selected();
+	//}
+	
+	
+	auto func_for_placing_level_elements = [&]() -> void
+	{
+		//the_sfml_canvas_widget->modified_recently = true;
+		////cout << "placing level elements\n";
+		//
+		//if (current_tabbed_widget_is_for_blocks)
+		//{
+		//	//cout << "the_block_selector_widget_is_enabled!\n";
+		//	
+		//	the_block_at_mouse_pos.type 
+		//		= get_the_block_selector_core_widget()
+		//		->get_left_current_level_element_index();
+		//	
+		//	//cout << block_stuff::get_bt_name
+		//	//	((block_type)the_block_at_mouse_pos.type) << endl;
+		//	
+		//	draw_block_line( block_grid_coords_of_prev_mouse_pos,
+		//		block_grid_coords_of_mouse_pos, 
+		//		(block_type)the_block_at_mouse_pos.type );
+		//}
+		//
+		////cout << endl;
+	};
+	
+	auto func_for_erasing_sprites = [&]() -> void
+	{
+		
+	};
+	
+	auto func_for_selecting_single_sprite = [&]() -> void
+	{
+		//if ( the_sprite_selection_ptr_group.origin_ptr != NULL )
+		//{
+		//	if ( the_sprite_selection_ptr_group.origin_ptr->type 
+		//		== st_default )
+		//	{
+		//		the_sfml_canvas_widget->disable_rect_selection();
+		//		
+		//		//cout << "st_default\n";
+		//		
+		//		return;
+		//	}
+		//}
+		//// I am not sure this will ever be the case.
+		//else 
+		//{
+		//	the_sfml_canvas_widget->disable_rect_selection();
+		//	
+		//	//cout << "else\n";
+		//	
+		//	emit sprite_no_longer_selected();
+		//	return;
+		//}
+		//
+		//
+		//sprite_init_param_group_with_size* clicked_sprite_ipgws 
+		//	= the_sprite_selection_ptr_group.origin_ptr;
+		//
+		//the_sfml_canvas_widget->enable_single_sprite_rect_selection
+		//	(clicked_sprite_ipgws);
+		//
+		//emit sprite_was_selected();
+	};
+	
+	auto func_for_rect_selection = [&]() -> void
+	{
+		if ( !the_sfml_canvas_widget->get_rect_selection_moving() )
+		{
+			the_sfml_canvas_widget->finish_rect_selection();
+		}
+		else //if ( the_sfml_canvas_widget->get_rect_selection_moving() )
+		{
+			the_sfml_canvas_widget
+				->finish_moving_rect_selection_contents();
+		}
+		
+		emit sprite_no_longer_selected();
+	};
+	
+	//cout << block_grid_coords_of_mouse_pos.x << ", "
+	//	<< block_grid_coords_of_mouse_pos.y << endl;
+	
+	switch (the_mouse_mode)
+	{
+		case mm_place_level_elements:
+			func_for_placing_level_elements();
+			break;
+		
+		case mm_erase_sprites:
+			func_for_erasing_sprites();
+			break;
+		
+		case mm_select_single_sprite:
+			func_for_selecting_single_sprite();
+			break;
+		
+		case mm_rect_selection:
+			func_for_rect_selection();
+			break;
+		
+		default:
+			cout << "Darn it.  I don't know what enum value "
+				<< "the_mouse_mode is supposed to represent right "
+				<< "now.  Note to the programmer:  there is a bug of "
+				<< "some sort!\n";
+			break;
+	}
+	
+	
+	//prev_mouse_pos = event->pos();
+	block_grid_coords_of_prev_mouse_pos = block_grid_coords_of_mouse_pos;
 	
 }
 
