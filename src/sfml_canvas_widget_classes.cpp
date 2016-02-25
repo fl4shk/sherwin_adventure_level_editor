@@ -402,8 +402,12 @@ void sfml_canvas_widget::continue_moving_rect_selection_contents
 {
 	//cout << "continue_moving_rect_selection_contents()\n";
 	
-	//vec2_s32& starting_block_grid_coords_of_mouse 
-	//	= the_rect_selection_stuff.starting_block_grid_coords_of_mouse;
+	
+	// Right now, this just moves the selection_rect itself, but not the
+	// contents (yet).
+	
+	vec2_s32& starting_block_grid_coords_of_mouse 
+		= the_rect_selection_stuff.starting_block_grid_coords_of_mouse;
 	vec2_s32& starting_block_grid_coords 
 		= the_rect_selection_stuff.starting_block_grid_coords;
 	vec2_s32& ending_block_grid_coords 
@@ -417,7 +421,72 @@ void sfml_canvas_widget::continue_moving_rect_selection_contents
 	//	<< clicked_location_in_rect.x << ", " << clicked_location_in_rect.y
 	//	<< "\n";
 	
+	vec2_s32 ending_block_grid_coords_offset
+		= ending_block_grid_coords - starting_block_grid_coords;
 	
+	//cout << "ending_block_grid_coords_offset:  " 
+	//	<< ending_block_grid_coords_offset.x << ", "
+	//	<< ending_block_grid_coords_offset.y << endl;
+	
+	//starting_block_grid_coords = starting_block_grid_coords_of_mouse
+	//	+ ( curr_block_grid_coords_of_mouse 
+	//	- starting_block_grid_coords_of_mouse ) + clicked_location_in_rect;
+	
+	starting_block_grid_coords = curr_block_grid_coords_of_mouse
+		- clicked_location_in_rect;
+	
+	// Correction things.
+	if ( starting_block_grid_coords.x < 0 )
+	{
+		starting_block_grid_coords.x = 0;
+	}
+	if ( starting_block_grid_coords.y < 0 )
+	{
+		starting_block_grid_coords.y = 0;
+	}
+	if ( starting_block_grid_coords.x >= ( (s32)the_sublevel->size_2d.x 
+		- ending_block_grid_coords_offset.x ) )
+	{
+		starting_block_grid_coords.x = ( the_sublevel->size_2d.x - 1 )
+			- ending_block_grid_coords_offset.x;
+	}
+	if ( starting_block_grid_coords.y >= ( (s32)the_sublevel->size_2d.y 
+		- ending_block_grid_coords_offset.y ) )
+	{
+		starting_block_grid_coords.y = ( the_sublevel->size_2d.y - 1 )
+			- ending_block_grid_coords_offset.y;
+		
+	}
+	
+	ending_block_grid_coords = starting_block_grid_coords
+		+ ending_block_grid_coords_offset;
+	
+	if ( ending_block_grid_coords.x < ending_block_grid_coords_offset.x )
+	{
+		ending_block_grid_coords.x = ending_block_grid_coords_offset.x;
+	}
+	if ( ending_block_grid_coords.y < ending_block_grid_coords_offset.y )
+	{
+		ending_block_grid_coords.y = ending_block_grid_coords_offset.y;
+	}
+	if ( ending_block_grid_coords.x >= (s32)the_sublevel->size_2d.x )
+	{
+		ending_block_grid_coords.x = the_sublevel->size_2d.x - 1;
+	}
+	if ( ending_block_grid_coords.y >= (s32)the_sublevel->size_2d.y )
+	{
+		ending_block_grid_coords.y = the_sublevel->size_2d.y - 1;
+	}
+	
+	the_rect_selection_stuff.selection_rect.left 
+		= starting_block_grid_coords.x;
+	the_rect_selection_stuff.selection_rect.top 
+		= starting_block_grid_coords.y;
+	
+	the_rect_selection_stuff.selection_rect.width 
+		= ending_block_grid_coords.x - starting_block_grid_coords.x + 1;
+	the_rect_selection_stuff.selection_rect.height 
+		= ending_block_grid_coords.y - starting_block_grid_coords.y + 1;
 	
 }
 
