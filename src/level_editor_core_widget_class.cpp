@@ -301,13 +301,13 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 	
 	block& the_block_at_mouse_pos 
 		= the_sublevel.uncompressed_block_data_vec_2d
-		[block_grid_coords_of_mouse_pos.y]
-		[block_grid_coords_of_mouse_pos.x];
+		.at((u32)block_grid_coords_of_mouse_pos.y)
+		.at((u32)block_grid_coords_of_mouse_pos.x);
 	
 	sprite_init_param_group_with_size& the_sprite_ipgws_at_mouse_pos
 		= the_sublevel.sprite_ipgws_vec_2d
-		[block_grid_coords_of_mouse_pos.y]
-		[block_grid_coords_of_mouse_pos.x];
+		.at((u32)block_grid_coords_of_mouse_pos.y)
+		.at((u32)block_grid_coords_of_mouse_pos.x);
 	
 	
 	bool current_tabbed_widget_is_for_blocks 
@@ -699,8 +699,8 @@ void level_editor_core_widget::mouseMoveEvent( QMouseEvent* event )
 	
 	block& the_block_at_mouse_pos 
 		= the_sublevel.uncompressed_block_data_vec_2d
-		[(u32)block_grid_coords_of_mouse_pos.y]
-		[(u32)block_grid_coords_of_mouse_pos.x];
+		.at((u32)block_grid_coords_of_mouse_pos.y)
+		.at((u32)block_grid_coords_of_mouse_pos.x);
 	
 	//sprite_init_param_group_with_size& the_sprite_ipgws_at_mouse_pos
 	//	= the_sublevel.sprite_ipgws_vec_2d
@@ -904,22 +904,22 @@ void level_editor_core_widget::mouseReleaseEvent( QMouseEvent* event )
 	//cout << mouse_pos_in_canvas_coords.x << ", "
 	//	<< mouse_pos_in_canvas_coords.y << endl;
 	
-	//if ( block_grid_coords_of_mouse_pos.x < (s32)0
-	//	|| block_grid_coords_of_mouse_pos.x 
-	//		>= (s32)the_sublevel.size_2d.x
-	//	|| block_grid_coords_of_mouse_pos.y < (s32)0
-	//	|| block_grid_coords_of_mouse_pos.y 
-	//		>= (s32)the_sublevel.size_2d.y )
-	//{
-	//	return;
-	//}
-	//
-	//if ( !the_sfml_canvas_widget->point_is_in_visible_rect
-	//	( sf::Vector2i( event->x(), event->y() ) ) )
-	//{
-	//	//cout << "out of bounds\n";
-	//	return;
-	//}
+	if ( block_grid_coords_of_mouse_pos.x < (s32)0
+		|| block_grid_coords_of_mouse_pos.x 
+			>= (s32)the_sublevel.size_2d.x
+		|| block_grid_coords_of_mouse_pos.y < (s32)0
+		|| block_grid_coords_of_mouse_pos.y 
+			>= (s32)the_sublevel.size_2d.y )
+	{
+		return;
+	}
+	
+	if ( !the_sfml_canvas_widget->point_is_in_visible_rect
+		( sf::Vector2i( event->x(), event->y() ) ) )
+	{
+		//cout << "out of bounds\n";
+		return;
+	}
 	
 	
 	
