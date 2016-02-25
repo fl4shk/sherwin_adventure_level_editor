@@ -931,7 +931,10 @@ void sfml_canvas_widget::update_visible_area()
 			//block& the_block = the_sublevel->uncompressed_block_data_vec_2d
 			//	.at((u32)block_grid_pos.y).at((u32)block_grid_pos.x);
 			
-			block* the_block;
+			block* the_block = &( the_sublevel
+				->uncompressed_block_data_vec_2d.at((u32)block_grid_pos.y)
+				.at((u32)block_grid_pos.x) );
+			
 			block default_block;
 			
 			if ( the_rect_selection_stuff.selection_layer == rsl_blocks )
@@ -940,10 +943,6 @@ void sfml_canvas_widget::update_visible_area()
 					|| ( get_rect_selection_enabled() 
 					&& selection_rect == selection_rect_before_moving ) )
 				{
-					the_block = &( the_sublevel
-						->uncompressed_block_data_vec_2d
-						.at((u32)block_grid_pos.y)
-						.at((u32)block_grid_pos.x) );
 				}
 				
 				else if ( !selection_rect.contains( block_grid_pos.x,
@@ -955,13 +954,6 @@ void sfml_canvas_widget::update_visible_area()
 						( block_grid_pos.x, block_grid_pos.y ) )
 					{
 						the_block = &default_block;
-					}
-					else
-					{
-						the_block = &( the_sublevel
-							->uncompressed_block_data_vec_2d
-							.at((u32)block_grid_pos.y)
-							.at((u32)block_grid_pos.x) );
 					}
 				}
 				
@@ -977,46 +969,16 @@ void sfml_canvas_widget::update_visible_area()
 						selection_rect_before_moving.top
 						+ original_block_grid_pos_offset.y );
 					
-					
-					//cout << "original_block_grid_pos:  "
-					//	<< original_block_grid_pos.x << ", "
-					//	<< original_block_grid_pos.y << endl;
-					
-					//cout << "selection_rect_before_moving_start_pos:  "
-					//	<< selection_rect_before_moving.left << ", "
-					//	<< selection_rect_before_moving.top << endl;
-					//
-					//cout << "i, j:  " << i << ", " << j << endl;
-					
-					
-					//if ( original_block_grid_pos.x < 0 
-					//	|| original_block_grid_pos.x 
-					//	>= (s32)the_sublevel->real_size_2d.x
-					//	|| original_block_grid_pos.y < 0 
-					//	|| original_block_grid_pos.y 
-					//	>= (s32)the_sublevel->real_size_2d.y )
-					//{
-					//	//cout << "block_grid_pos out of bounds:  "
-					//	//	<< block_grid_pos.x << ", " << block_grid_pos.y
-					//	//	<< endl;
-					//	//continue;
-					//	the_block = &default_block;
-					//}
-					//else
-					{
-						the_block = &( the_sublevel
-							->uncompressed_block_data_vec_2d
-							.at((u32)original_block_grid_pos.y)
-							.at((u32)original_block_grid_pos.x) );
-					}
+					the_block = &( the_sublevel
+						->uncompressed_block_data_vec_2d
+						.at((u32)original_block_grid_pos.y)
+						.at((u32)original_block_grid_pos.x) );
 				}
 				
 			}
 			else if ( the_rect_selection_stuff.selection_layer 
 				== rsl_sprites )
 			{
-				the_block = &( the_sublevel->uncompressed_block_data_vec_2d
-					.at((u32)block_grid_pos.y).at((u32)block_grid_pos.x) );
 			}
 			
 			if ( the_block->type != bt_air )
@@ -1077,20 +1039,70 @@ void sfml_canvas_widget::update_visible_area()
 				continue;
 			}
 			
-			sprite_init_param_group_with_size& the_sprite_ipgws
-				= the_sublevel->sprite_ipgws_vec_2d
-				.at((u32)block_grid_pos.y).at((u32)block_grid_pos.x);
+			//sprite_init_param_group_with_size& the_sprite_ipgws
+			//	= the_sublevel->sprite_ipgws_vec_2d
+			//	.at((u32)block_grid_pos.y).at((u32)block_grid_pos.x);
 			
-			if ( the_sprite_ipgws.type != st_default 
-				&& the_sprite_ipgws.size_2d.x == 16
-				&& the_sprite_ipgws.size_2d.y == 16 )
+			sprite_init_param_group_with_size* the_sprite_ipgws
+				= &( the_sublevel->sprite_ipgws_vec_2d
+				.at((u32)block_grid_pos.y).at((u32)block_grid_pos.x) );
+			
+			sprite_init_param_group_with_size default_sprite_ipgws;
+			
+			if ( the_rect_selection_stuff.selection_layer == rsl_blocks )
+			{
+			}
+			else if ( the_rect_selection_stuff.selection_layer 
+				== rsl_sprites )
+			{
+				if ( !get_rect_selection_enabled()
+					|| ( get_rect_selection_enabled() 
+					&& selection_rect == selection_rect_before_moving ) )
+				{
+				}
+				
+				else if ( !selection_rect.contains( block_grid_pos.x,
+					block_grid_pos.y ) )
+				{
+					// Don't draw anything if there is no longer a sprite
+					// at the spot due to the moved selection rect
+					// contents.
+					if ( selection_rect_before_moving.contains
+						( block_grid_pos.x, block_grid_pos.y ) )
+					{
+						the_sprite_ipgws = &default_sprite_ipgws;
+					}
+				}
+				
+				else
+				{
+					vec2_s32 original_block_grid_pos_offset
+						( block_grid_pos.x - selection_rect.left,
+						block_grid_pos.y - selection_rect.top );
+					
+					vec2_s32 original_block_grid_pos
+						( selection_rect_before_moving.left
+						+ original_block_grid_pos_offset.x,
+						selection_rect_before_moving.top
+						+ original_block_grid_pos_offset.y );
+					
+					the_sprite_ipgws = &( the_sublevel
+						->sprite_ipgws_vec_2d
+						.at((u32)original_block_grid_pos.y)
+						.at((u32)original_block_grid_pos.x) );
+				}
+			}
+			
+			if ( the_sprite_ipgws->type != st_default 
+				&& the_sprite_ipgws->size_2d.x == 16
+				&& the_sprite_ipgws->size_2d.y == 16 )
 			{
 				sprite_for_drawing_level_elements.setTextureRect
 					( the_sprite_16x16_selector_core_widget
 					->get_texture_rect_of_other_index
-					(the_sprite_ipgws.type) );
+					(the_sprite_ipgws->type) );
 				
-				if (!the_sprite_ipgws.facing_right)
+				if (!the_sprite_ipgws->facing_right)
 				{
 					sprite_for_drawing_level_elements.setScale
 						( scale_factor, scale_factor );
@@ -1101,7 +1113,7 @@ void sfml_canvas_widget::update_visible_area()
 						(u32)block_grid_pos.y 
 						* num_pixels_per_block_row * scale_factor );
 				}
-				else //if (the_sprite_ipgws.facing_right)
+				else //if (the_sprite_ipgws->facing_right)
 				{
 					sprite_for_drawing_level_elements.setScale
 						( -1 * (s32)scale_factor, scale_factor );
@@ -1117,7 +1129,7 @@ void sfml_canvas_widget::update_visible_area()
 				
 				draw(sprite_for_drawing_level_elements);
 				
-				if ( the_sprite_ipgws.type == st_door )
+				if ( the_sprite_ipgws->type == st_door )
 				{
 					door_number_sprite.setScale( scale_factor, 
 						scale_factor );
@@ -1125,7 +1137,7 @@ void sfml_canvas_widget::update_visible_area()
 					sf::IntRect n_door_number_sprite_texture_rect;
 					
 					const u32 the_door_number 
-						= the_sprite_ipgws.extra_param_2;
+						= the_sprite_ipgws->extra_param_2;
 					
 					n_door_number_sprite_texture_rect.left
 						= ( the_door_number 
@@ -1143,7 +1155,7 @@ void sfml_canvas_widget::update_visible_area()
 					door_number_sprite.setTextureRect
 						(n_door_number_sprite_texture_rect);
 					
-					if (!the_sprite_ipgws.facing_right)
+					if (!the_sprite_ipgws->facing_right)
 					{
 						door_number_sprite.setPosition
 							( sprite_for_drawing_level_elements
@@ -1153,7 +1165,7 @@ void sfml_canvas_widget::update_visible_area()
 							+ ( num_pixels_per_block_row 
 							* scale_factor ) );
 					}
-					else //if (the_sprite_ipgws.facing_right)
+					else //if (the_sprite_ipgws->facing_right)
 					{
 						door_number_sprite.setPosition
 							( sprite_for_drawing_level_elements
@@ -1170,7 +1182,6 @@ void sfml_canvas_widget::update_visible_area()
 				}
 				
 				++num_drawn_16x16_sprites;
-				
 				
 				//cout << endl;
 			}
@@ -1210,20 +1221,70 @@ void sfml_canvas_widget::update_visible_area()
 				continue;
 			}
 			
-			sprite_init_param_group_with_size& the_sprite_ipgws
-				= the_sublevel->sprite_ipgws_vec_2d
-				.at((u32)block_grid_pos.y).at((u32)block_grid_pos.x);
+			//sprite_init_param_group_with_size& the_sprite_ipgws
+			//	= the_sublevel->sprite_ipgws_vec_2d
+			//	.at((u32)block_grid_pos.y).at((u32)block_grid_pos.x);
 			
-			if ( the_sprite_ipgws.type != st_default 
-				&& the_sprite_ipgws.size_2d.x == 16
-				&& the_sprite_ipgws.size_2d.y == 32 )
+			sprite_init_param_group_with_size* the_sprite_ipgws
+				= &( the_sublevel->sprite_ipgws_vec_2d
+				.at((u32)block_grid_pos.y).at((u32)block_grid_pos.x) );
+			
+			sprite_init_param_group_with_size default_sprite_ipgws;
+			
+			if ( the_rect_selection_stuff.selection_layer == rsl_blocks )
+			{
+			}
+			else if ( the_rect_selection_stuff.selection_layer 
+				== rsl_sprites )
+			{
+				if ( !get_rect_selection_enabled()
+					|| ( get_rect_selection_enabled() 
+					&& selection_rect == selection_rect_before_moving ) )
+				{
+				}
+				
+				else if ( !selection_rect.contains( block_grid_pos.x,
+					block_grid_pos.y ) )
+				{
+					// Don't draw anything if there is no longer a sprite
+					// at the spot due to the moved selection rect
+					// contents.
+					if ( selection_rect_before_moving.contains
+						( block_grid_pos.x, block_grid_pos.y ) )
+					{
+						the_sprite_ipgws = &default_sprite_ipgws;
+					}
+				}
+				
+				else
+				{
+					vec2_s32 original_block_grid_pos_offset
+						( block_grid_pos.x - selection_rect.left,
+						block_grid_pos.y - selection_rect.top );
+					
+					vec2_s32 original_block_grid_pos
+						( selection_rect_before_moving.left
+						+ original_block_grid_pos_offset.x,
+						selection_rect_before_moving.top
+						+ original_block_grid_pos_offset.y );
+					
+					the_sprite_ipgws = &( the_sublevel
+						->sprite_ipgws_vec_2d
+						.at((u32)original_block_grid_pos.y)
+						.at((u32)original_block_grid_pos.x) );
+				}
+			}
+			
+			if ( the_sprite_ipgws->type != st_default 
+				&& the_sprite_ipgws->size_2d.x == 16
+				&& the_sprite_ipgws->size_2d.y == 32 )
 			{
 				sprite_for_drawing_level_elements.setTextureRect
 					( the_sprite_16x32_selector_core_widget
 					->get_texture_rect_of_other_index
-					(the_sprite_ipgws.type) );
+					(the_sprite_ipgws->type) );
 				
-				if (!the_sprite_ipgws.facing_right)
+				if (!the_sprite_ipgws->facing_right)
 				{
 					sprite_for_drawing_level_elements.setScale
 						( scale_factor, scale_factor );
@@ -1234,7 +1295,7 @@ void sfml_canvas_widget::update_visible_area()
 						(u32)block_grid_pos.y 
 						* num_pixels_per_block_row * scale_factor );
 				}
-				else //if (the_sprite_ipgws.facing_right)
+				else //if (the_sprite_ipgws->facing_right)
 				{
 					sprite_for_drawing_level_elements.setScale
 						( -1 * (s32)scale_factor, scale_factor );
@@ -1249,7 +1310,7 @@ void sfml_canvas_widget::update_visible_area()
 				
 				draw(sprite_for_drawing_level_elements);
 				
-				if ( the_sprite_ipgws.type == st_door )
+				if ( the_sprite_ipgws->type == st_door )
 				{
 					door_number_sprite.setScale( scale_factor, 
 						scale_factor );
@@ -1257,7 +1318,7 @@ void sfml_canvas_widget::update_visible_area()
 					sf::IntRect n_door_number_sprite_texture_rect;
 					
 					const u32 the_door_number 
-						= the_sprite_ipgws.extra_param_2;
+						= the_sprite_ipgws->extra_param_2;
 					
 					n_door_number_sprite_texture_rect.left
 						= ( the_door_number 
@@ -1275,7 +1336,7 @@ void sfml_canvas_widget::update_visible_area()
 					door_number_sprite.setTextureRect
 						(n_door_number_sprite_texture_rect);
 					
-					if (!the_sprite_ipgws.facing_right)
+					if (!the_sprite_ipgws->facing_right)
 					{
 						door_number_sprite.setPosition
 							( sprite_for_drawing_level_elements
@@ -1285,7 +1346,7 @@ void sfml_canvas_widget::update_visible_area()
 							+ ( num_pixels_per_block_row 
 							* scale_factor ) );
 					}
-					else //if (the_sprite_ipgws.facing_right)
+					else //if (the_sprite_ipgws->facing_right)
 					{
 						door_number_sprite.setPosition
 							( sprite_for_drawing_level_elements
