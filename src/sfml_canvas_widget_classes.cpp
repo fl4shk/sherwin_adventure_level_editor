@@ -521,7 +521,7 @@ void sfml_canvas_widget::finalize_movement_of_rect_selection_contents()
 	
 	cout << "finalize_movement_of_rect_selection_contents()\n";
 	
-	if ( get_rect_selection_single_sprite_selected() )
+	//if ( get_rect_selection_single_sprite_selected() )
 	{
 		disable_rect_selection();
 		return;
@@ -928,22 +928,17 @@ void sfml_canvas_widget::update_visible_area()
 				continue;
 			}
 			
-			//if ( selection_rect_before_moving.contains( block_grid_pos.x,
-			//	block_grid_pos.y ) )
-			//{
-			//	
-			//}
-			
 			//block& the_block = the_sublevel->uncompressed_block_data_vec_2d
 			//	.at((u32)block_grid_pos.y).at((u32)block_grid_pos.x);
 			
 			block* the_block;
-			
 			block default_block;
 			
 			if ( the_rect_selection_stuff.selection_layer == rsl_blocks )
 			{
-				if ( selection_rect == selection_rect_before_moving )
+				if ( !get_rect_selection_enabled()
+					|| ( get_rect_selection_enabled() 
+					&& selection_rect == selection_rect_before_moving ) )
 				{
 					the_block = &( the_sublevel
 						->uncompressed_block_data_vec_2d
@@ -972,7 +967,48 @@ void sfml_canvas_widget::update_visible_area()
 				
 				else
 				{
-					the_block = &default_block;
+					vec2_s32 original_block_grid_pos_offset
+						( block_grid_pos.x - selection_rect.left,
+						block_grid_pos.y - selection_rect.top );
+					
+					vec2_s32 original_block_grid_pos
+						( selection_rect_before_moving.left
+						+ original_block_grid_pos_offset.x,
+						selection_rect_before_moving.top
+						+ original_block_grid_pos_offset.y );
+					
+					
+					//cout << "original_block_grid_pos:  "
+					//	<< original_block_grid_pos.x << ", "
+					//	<< original_block_grid_pos.y << endl;
+					
+					//cout << "selection_rect_before_moving_start_pos:  "
+					//	<< selection_rect_before_moving.left << ", "
+					//	<< selection_rect_before_moving.top << endl;
+					//
+					//cout << "i, j:  " << i << ", " << j << endl;
+					
+					
+					//if ( original_block_grid_pos.x < 0 
+					//	|| original_block_grid_pos.x 
+					//	>= (s32)the_sublevel->real_size_2d.x
+					//	|| original_block_grid_pos.y < 0 
+					//	|| original_block_grid_pos.y 
+					//	>= (s32)the_sublevel->real_size_2d.y )
+					//{
+					//	//cout << "block_grid_pos out of bounds:  "
+					//	//	<< block_grid_pos.x << ", " << block_grid_pos.y
+					//	//	<< endl;
+					//	//continue;
+					//	the_block = &default_block;
+					//}
+					//else
+					{
+						the_block = &( the_sublevel
+							->uncompressed_block_data_vec_2d
+							.at((u32)original_block_grid_pos.y)
+							.at((u32)original_block_grid_pos.x) );
+					}
 				}
 				
 			}
