@@ -187,7 +187,7 @@ const sf::View& sfml_canvas_widget::get_apparent_view()
 }
 
 
-void sfml_canvas_widget::start_rect_selection
+void sfml_canvas_widget::start_creating_rect_selection
 	( const vec2_s32& n_starting_block_grid_coords_of_mouse, 
 	rect_selection_layer n_selection_layer )
 {
@@ -266,7 +266,7 @@ void sfml_canvas_widget::start_rect_selection
 	}
 }
 
-void sfml_canvas_widget::continue_rect_selection
+void sfml_canvas_widget::continue_creating_rect_selection
 	( const vec2_s32& curr_block_grid_coords_of_mouse )
 {
 	//cout << "continue_rect_selection()\n";
@@ -359,9 +359,9 @@ void sfml_canvas_widget::continue_rect_selection
 		= ending_block_grid_coords.y - starting_block_grid_coords.y + 1;
 }
 
-void sfml_canvas_widget::finish_rect_selection()
+void sfml_canvas_widget::stop_creating_rect_selection()
 {
-	//cout << "finish_rect_selection()\n";
+	//cout << "stop_rect_selection()\n";
 	the_rect_selection_stuff.mouse_released = true;
 }
 
@@ -490,17 +490,23 @@ void sfml_canvas_widget::continue_moving_rect_selection_contents
 	
 }
 
-void sfml_canvas_widget::finish_moving_rect_selection_contents()
+void sfml_canvas_widget::stop_moving_rect_selection_contents()
 {
-	//cout << "finish_moving_rect_selection_contents()\n"; 
+	//cout << "stop_moving_rect_selection_contents()\n"; 
 	the_rect_selection_stuff.mouse_released = true;
 	the_rect_selection_stuff.moving = false;
 	
-	// Need to do a bunch more things.
 }
 
 
-
+void sfml_canvas_widget::finalize_movement_of_rect_selection_contents()
+{
+	// Need to do a bunch more things.
+	
+	cout << "finalize_movement_of_rect_selection_contents()\n";
+	
+	disable_rect_selection();
+}
 
 
 void sfml_canvas_widget::set_the_block_selector_core_widget

@@ -119,6 +119,7 @@ protected:		// variables
 		
 		
 		
+		
 		// mouse_released is set to true when the mouse is released and the
 		// selection mode is NOT for changing sprite properties.
 		bool enabled, mouse_released;
@@ -136,6 +137,14 @@ protected:		// variables
 		// Stuff for moving around the selection's contents.
 		bool moving;
 		vec2_s32 clicked_location_in_rect;
+		
+		
+		// This represents the left and top values of selection_rect.
+		vec2_s32 initial_starting_block_grid_coords;
+		
+		// This represents the right and bottom values of selection_rect.
+		vec2_s32 initial_ending_block_grid_coords;
+		
 		
 	} the_rect_selection_stuff;
 	
@@ -257,6 +266,10 @@ public:		// functions
 	{
 		return the_rect_selection_stuff.enabled;
 	}
+	inline bool get_rect_selection_mouse_released() const
+	{
+		return the_rect_selection_stuff.mouse_released;
+	}
 	inline bool get_rect_selection_single_sprite_selected() const
 	{
 		return the_rect_selection_stuff.single_sprite_selected;
@@ -294,19 +307,22 @@ public:		// functions
 	//	the_rect_selection_stuff.selection_rect = n_selection_rect;
 	//}
 	
-	void start_rect_selection
+	void start_creating_rect_selection
 		( const vec2_s32& n_starting_block_grid_coords_of_mouse, 
 		rect_selection_layer n_selection_layer );
-	void continue_rect_selection
+	void continue_creating_rect_selection
 		( const vec2_s32& curr_block_grid_coords_of_mouse );
-	void finish_rect_selection();
+	void stop_creating_rect_selection();
 	
 	// Stuff for moving the rectangular selection's contents.
 	void start_moving_rect_selection_contents
 		( const vec2_s32 n_clicked_location_in_rect );
 	void continue_moving_rect_selection_contents
 		( const vec2_s32 curr_block_grid_coords_of_mouse );
-	void finish_moving_rect_selection_contents();
+	void stop_moving_rect_selection_contents();
+	
+	// 
+	void finalize_movement_of_rect_selection_contents();
 	
 	
 	
@@ -346,7 +362,6 @@ public:		// functions
 		//	block_grid_end_pos.y = (s32)( the_sublevel->size_2d.y - 1 );
 		//}
 	}
-	
 	
 	inline void disable_rect_selection()
 	{
