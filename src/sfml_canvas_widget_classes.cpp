@@ -264,6 +264,11 @@ void sfml_canvas_widget::start_creating_rect_selection
 		//		+ single_selected_sprite_ipgws->size_2d.y;
 		//}
 	}
+	
+	the_rect_selection_stuff.starting_block_grid_coords_before_moving
+		= the_rect_selection_stuff.starting_block_grid_coords;
+	the_rect_selection_stuff.ending_block_grid_coords_before_moving
+		= the_rect_selection_stuff.ending_block_grid_coords;
 }
 
 void sfml_canvas_widget::continue_creating_rect_selection
@@ -357,12 +362,22 @@ void sfml_canvas_widget::continue_creating_rect_selection
 		= ending_block_grid_coords.x - starting_block_grid_coords.x + 1;
 	the_rect_selection_stuff.selection_rect.height 
 		= ending_block_grid_coords.y - starting_block_grid_coords.y + 1;
+	
+	the_rect_selection_stuff.starting_block_grid_coords_before_moving
+		= the_rect_selection_stuff.starting_block_grid_coords;
+	the_rect_selection_stuff.ending_block_grid_coords_before_moving
+		= the_rect_selection_stuff.ending_block_grid_coords;
 }
 
 void sfml_canvas_widget::stop_creating_rect_selection()
 {
 	//cout << "stop_rect_selection()\n";
 	the_rect_selection_stuff.mouse_released = true;
+	
+	the_rect_selection_stuff.starting_block_grid_coords_before_moving
+		= the_rect_selection_stuff.starting_block_grid_coords;
+	the_rect_selection_stuff.ending_block_grid_coords_before_moving
+		= the_rect_selection_stuff.ending_block_grid_coords;
 }
 
 
@@ -395,6 +410,7 @@ void sfml_canvas_widget::start_moving_rect_selection_contents
 	the_rect_selection_stuff.starting_block_grid_coords_of_mouse
 		= the_rect_selection_stuff.starting_block_grid_coords
 		+ n_clicked_location_in_rect;
+	
 }
 
 void sfml_canvas_widget::continue_moving_rect_selection_contents
@@ -406,8 +422,8 @@ void sfml_canvas_widget::continue_moving_rect_selection_contents
 	// Right now, this just moves the selection_rect itself, but not the
 	// contents (yet).
 	
-	vec2_s32& starting_block_grid_coords_of_mouse 
-		= the_rect_selection_stuff.starting_block_grid_coords_of_mouse;
+	//vec2_s32& starting_block_grid_coords_of_mouse 
+	//	= the_rect_selection_stuff.starting_block_grid_coords_of_mouse;
 	vec2_s32& starting_block_grid_coords 
 		= the_rect_selection_stuff.starting_block_grid_coords;
 	vec2_s32& ending_block_grid_coords 
@@ -505,7 +521,13 @@ void sfml_canvas_widget::finalize_movement_of_rect_selection_contents()
 	
 	cout << "finalize_movement_of_rect_selection_contents()\n";
 	
-	disable_rect_selection();
+	if ( get_rect_selection_single_sprite_selected() )
+	{
+		disable_rect_selection();
+		return;
+	}
+	
+	
 }
 
 
@@ -831,6 +853,27 @@ void sfml_canvas_widget::update_visible_area()
 	
 	
 	
+	const sf::IntRect& selection_rect 
+		= the_rect_selection_stuff.selection_rect;
+	
+	const vec2_s32& rs_starting_block_grid_coords_before_moving
+		= the_rect_selection_stuff
+		.starting_block_grid_coords_before_moving;
+	const vec2_s32& rs_ending_block_grid_coords_before_moving
+		= the_rect_selection_stuff
+		.ending_block_grid_coords_before_moving;
+	
+	const sf::IntRect selection_rect_before_moving
+		( rs_starting_block_grid_coords_before_moving.x,
+		
+		rs_starting_block_grid_coords_before_moving.y,
+		
+		( rs_ending_block_grid_coords_before_moving.x 
+		- rs_starting_block_grid_coords_before_moving.x + 1 ),
+		
+		( rs_ending_block_grid_coords_before_moving.y
+		- rs_starting_block_grid_coords_before_moving.y + 1 ) );
+	
 	
 	// This is so that sprites larger than 16x16 pixels will be drawn if
 	// their starting position is offscreen but part of them still IS on
@@ -885,16 +928,66 @@ void sfml_canvas_widget::update_visible_area()
 				continue;
 			}
 			
+			//if ( selection_rect_before_moving.contains( block_grid_pos.x,
+			//	block_grid_pos.y ) )
+			//{
+			//	
+			//}
 			
-			block& the_block = the_sublevel->uncompressed_block_data_vec_2d
-				.at((u32)block_grid_pos.y).at((u32)block_grid_pos.x);
+			//block& the_block = the_sublevel->uncompressed_block_data_vec_2d
+			//	.at((u32)block_grid_pos.y).at((u32)block_grid_pos.x);
 			
+			block* the_block;
 			
-			if ( the_block.type != bt_air )
+			block default_block;
+			
+			if ( the_rect_selection_stuff.selection_layer == rsl_blocks )
+			{
+				if ( selection_rect == selection_rect_before_moving )
+				{
+					the_block = &( the_sublevel
+						->uncompressed_block_data_vec_2d
+						.at((u32)block_grid_pos.y)
+						.at((u32)block_grid_pos.x) );
+				}
+				
+				else if ( !selection_rect.contains( block_grid_pos.x,
+					block_grid_pos.y ) )
+				{
+					// Don't draw anything if there is no longer a block at
+					// the spot due to the moved selection rect contents.
+					if ( selection_rect_before_moving.contains
+						( block_grid_pos.x, block_grid_pos.y ) )
+					{
+						the_block = &default_block;
+					}
+					else
+					{
+						the_block = &( the_sublevel
+							->uncompressed_block_data_vec_2d
+							.at((u32)block_grid_pos.y)
+							.at((u32)block_grid_pos.x) );
+					}
+				}
+				
+				else
+				{
+					the_block = &default_block;
+				}
+				
+			}
+			else if ( the_rect_selection_stuff.selection_layer 
+				== rsl_sprites )
+			{
+				the_block = &( the_sublevel->uncompressed_block_data_vec_2d
+					.at((u32)block_grid_pos.y).at((u32)block_grid_pos.x) );
+			}
+			
+			if ( the_block->type != bt_air )
 			{
 				sprite_for_drawing_level_elements.setTextureRect
 					( the_block_selector_core_widget
-					->get_texture_rect_of_other_index(the_block.type) );
+					->get_texture_rect_of_other_index(the_block->type) );
 				
 				sprite_for_drawing_level_elements.setScale( scale_factor, 
 					scale_factor );
@@ -907,7 +1000,6 @@ void sfml_canvas_widget::update_visible_area()
 				draw(sprite_for_drawing_level_elements);
 				
 				++num_drawn_blocks;
-				
 				
 				//cout << endl;
 			}

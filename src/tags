@@ -206,6 +206,7 @@ enable_single_sprite_rect_selection	sfml_canvas_widget_classes.hpp	/^	inline voi
 enabled	sfml_canvas_widget_classes.hpp	/^		bool enabled, mouse_released;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
 enabled	sfml_canvas_widget_classes.hpp	/^		bool enabled;$/;"	kind:m	struct:sfml_canvas_widget::__anon1	access:public
 ending_block_grid_coords	sfml_canvas_widget_classes.hpp	/^		vec2_s32 ending_block_grid_coords;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
+ending_block_grid_coords_before_moving	sfml_canvas_widget_classes.hpp	/^		vec2_s32 ending_block_grid_coords_before_moving;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
 export_file	level_editor_widget_class.hpp	/^	inline void export_file()$/;"	kind:f	class:level_editor_widget	access:protected	signature:()
 export_file_as	level_editor_widget_class.cpp	/^void level_editor_widget::export_file_as( const string& output_file_name )$/;"	kind:f	class:level_editor_widget	signature:( const string& output_file_name )
 export_file_as	level_editor_widget_class.hpp	/^	void export_file_as( const string& output_file_name );$/;"	kind:p	class:level_editor_widget	access:protected	signature:( const string& output_file_name )
@@ -297,6 +298,7 @@ get_num_level_elements_per_palette	level_element_selector_core_widget_base_class
 get_num_level_elements_per_row	level_element_selector_core_widget_base_class.hpp	/^	inline u32 get_num_level_elements_per_row$/;"	kind:f	class:level_element_selector_core_widget_base	access:public	signature:( u32 other_slot_inner_width ) const
 get_num_level_elements_per_row	level_element_selector_core_widget_base_class.hpp	/^	inline u32 get_num_level_elements_per_row() const$/;"	kind:f	class:level_element_selector_core_widget_base	access:public	signature:() const
 get_rect_selection_enabled	sfml_canvas_widget_classes.hpp	/^	inline bool get_rect_selection_enabled() const$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:() const
+get_rect_selection_layer	sfml_canvas_widget_classes.hpp	/^	inline rect_selection_layer get_rect_selection_layer() const$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:() const
 get_rect_selection_mouse_released	sfml_canvas_widget_classes.hpp	/^	inline bool get_rect_selection_mouse_released() const$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:() const
 get_rect_selection_moving	sfml_canvas_widget_classes.hpp	/^	inline bool get_rect_selection_moving() const$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:() const
 get_rect_selection_rect	sfml_canvas_widget_classes.hpp	/^	inline const sf::IntRect& get_rect_selection_rect() const$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:() const
@@ -362,8 +364,6 @@ init	sublevel_class.cpp	/^void sublevel::init( const vec2_u32& s_size_2d )$/;"	k
 init	sublevel_class.hpp	/^	void init( const vec2_u32& s_size_2d );$/;"	kind:p	class:sublevel	access:public	signature:( const vec2_u32& s_size_2d )
 initial_block_grid_x_coord	sprite_level_data_stuff.hpp	/^	u32 initial_block_grid_x_coord;$/;"	kind:m	class:sprite_init_param_group	access:public
 initial_block_grid_y_coord	sprite_level_data_stuff.hpp	/^	u32 initial_block_grid_y_coord;$/;"	kind:m	class:sprite_init_param_group	access:public
-initial_ending_block_grid_coords	sfml_canvas_widget_classes.hpp	/^		vec2_s32 initial_ending_block_grid_coords;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
-initial_starting_block_grid_coords	sfml_canvas_widget_classes.hpp	/^		vec2_s32 initial_starting_block_grid_coords;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
 initialize_tab_stuff	level_editor_core_widget_class.cpp	/^void level_editor_core_widget::initialize_tab_stuff$/;"	kind:f	class:level_editor_core_widget	signature:( QTabWidget* n_level_element_selectors_tab_widget, block_selector_widget* n_the_block_selector_widget, sprite_16x16_selector_widget* n_the_sprite_16x16_selector_widget, sprite_16x32_selector_widget* n_the_sprite_16x32_selector_widget )
 initialize_tab_stuff	level_editor_core_widget_class.hpp	/^	void initialize_tab_stuff$/;"	kind:p	class:level_editor_core_widget	access:public	signature:( QTabWidget* n_level_element_selectors_tab_widget, block_selector_widget* n_the_block_selector_widget, sprite_16x16_selector_widget* n_the_sprite_16x16_selector_widget, sprite_16x32_selector_widget* n_the_sprite_16x32_selector_widget )
 initialized	sfml_canvas_widget_classes.hpp	/^	bool initialized;$/;"	kind:m	class:sfml_canvas_widget_base	access:public
@@ -721,8 +721,7 @@ sfml_canvas_widget::__anon1::slot_texture	sfml_canvas_widget_classes.hpp	/^		uni
 sfml_canvas_widget::__anon2::clicked_location_in_rect	sfml_canvas_widget_classes.hpp	/^		vec2_s32 clicked_location_in_rect;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
 sfml_canvas_widget::__anon2::enabled	sfml_canvas_widget_classes.hpp	/^		bool enabled, mouse_released;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
 sfml_canvas_widget::__anon2::ending_block_grid_coords	sfml_canvas_widget_classes.hpp	/^		vec2_s32 ending_block_grid_coords;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
-sfml_canvas_widget::__anon2::initial_ending_block_grid_coords	sfml_canvas_widget_classes.hpp	/^		vec2_s32 initial_ending_block_grid_coords;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
-sfml_canvas_widget::__anon2::initial_starting_block_grid_coords	sfml_canvas_widget_classes.hpp	/^		vec2_s32 initial_starting_block_grid_coords;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
+sfml_canvas_widget::__anon2::ending_block_grid_coords_before_moving	sfml_canvas_widget_classes.hpp	/^		vec2_s32 ending_block_grid_coords_before_moving;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
 sfml_canvas_widget::__anon2::mouse_released	sfml_canvas_widget_classes.hpp	/^		bool enabled, mouse_released;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
 sfml_canvas_widget::__anon2::moving	sfml_canvas_widget_classes.hpp	/^		bool moving;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
 sfml_canvas_widget::__anon2::selection_image	sfml_canvas_widget_classes.hpp	/^		unique_ptr<sf::Image> selection_image;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
@@ -732,6 +731,7 @@ sfml_canvas_widget::__anon2::selection_sprite	sfml_canvas_widget_classes.hpp	/^	
 sfml_canvas_widget::__anon2::selection_texture	sfml_canvas_widget_classes.hpp	/^		unique_ptr<sf::Texture> selection_texture;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
 sfml_canvas_widget::__anon2::single_sprite_selected	sfml_canvas_widget_classes.hpp	/^		bool single_sprite_selected;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
 sfml_canvas_widget::__anon2::starting_block_grid_coords	sfml_canvas_widget_classes.hpp	/^		vec2_s32 starting_block_grid_coords;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
+sfml_canvas_widget::__anon2::starting_block_grid_coords_before_moving	sfml_canvas_widget_classes.hpp	/^		vec2_s32 starting_block_grid_coords_before_moving;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
 sfml_canvas_widget::__anon2::starting_block_grid_coords_of_mouse	sfml_canvas_widget_classes.hpp	/^		vec2_s32 starting_block_grid_coords_of_mouse;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
 sfml_canvas_widget::apparent_view	sfml_canvas_widget_classes.hpp	/^	sf::View apparent_view;$/;"	kind:m	class:sfml_canvas_widget	access:protected
 sfml_canvas_widget::continue_creating_rect_selection	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget::continue_creating_rect_selection$/;"	kind:f	class:sfml_canvas_widget	signature:( const vec2_s32& curr_block_grid_coords_of_mouse )
@@ -761,6 +761,7 @@ sfml_canvas_widget::get_apparent_view	sfml_canvas_widget_classes.cpp	/^const sf:
 sfml_canvas_widget::get_apparent_view	sfml_canvas_widget_classes.hpp	/^	const sf::View& get_apparent_view();$/;"	kind:p	class:sfml_canvas_widget	access:public	signature:()
 sfml_canvas_widget::get_block_grid_enabled	sfml_canvas_widget_classes.hpp	/^	inline bool get_block_grid_enabled() const$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:() const
 sfml_canvas_widget::get_rect_selection_enabled	sfml_canvas_widget_classes.hpp	/^	inline bool get_rect_selection_enabled() const$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:() const
+sfml_canvas_widget::get_rect_selection_layer	sfml_canvas_widget_classes.hpp	/^	inline rect_selection_layer get_rect_selection_layer() const$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:() const
 sfml_canvas_widget::get_rect_selection_mouse_released	sfml_canvas_widget_classes.hpp	/^	inline bool get_rect_selection_mouse_released() const$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:() const
 sfml_canvas_widget::get_rect_selection_moving	sfml_canvas_widget_classes.hpp	/^	inline bool get_rect_selection_moving() const$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:() const
 sfml_canvas_widget::get_rect_selection_rect	sfml_canvas_widget_classes.hpp	/^	inline const sf::IntRect& get_rect_selection_rect() const$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:() const
@@ -1030,6 +1031,7 @@ start_creating_rect_selection	sfml_canvas_widget_classes.hpp	/^	void start_creat
 start_moving_rect_selection_contents	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget::start_moving_rect_selection_contents$/;"	kind:f	class:sfml_canvas_widget	signature:( const vec2_s32 n_clicked_location_in_rect )
 start_moving_rect_selection_contents	sfml_canvas_widget_classes.hpp	/^	void start_moving_rect_selection_contents$/;"	kind:p	class:sfml_canvas_widget	access:public	signature:( const vec2_s32 n_clicked_location_in_rect )
 starting_block_grid_coords	sfml_canvas_widget_classes.hpp	/^		vec2_s32 starting_block_grid_coords;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
+starting_block_grid_coords_before_moving	sfml_canvas_widget_classes.hpp	/^		vec2_s32 starting_block_grid_coords_before_moving;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
 starting_block_grid_coords_of_mouse	sfml_canvas_widget_classes.hpp	/^		vec2_s32 starting_block_grid_coords_of_mouse;$/;"	kind:m	struct:sfml_canvas_widget::__anon2	access:public
 stop_creating_rect_selection	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget::stop_creating_rect_selection()$/;"	kind:f	class:sfml_canvas_widget	signature:()
 stop_creating_rect_selection	sfml_canvas_widget_classes.hpp	/^	void stop_creating_rect_selection();$/;"	kind:p	class:sfml_canvas_widget	access:public	signature:()

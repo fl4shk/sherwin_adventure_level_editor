@@ -140,10 +140,10 @@ protected:		// variables
 		
 		
 		// This represents the left and top values of selection_rect.
-		vec2_s32 initial_starting_block_grid_coords;
+		vec2_s32 starting_block_grid_coords_before_moving;
 		
 		// This represents the right and bottom values of selection_rect.
-		vec2_s32 initial_ending_block_grid_coords;
+		vec2_s32 ending_block_grid_coords_before_moving;
 		
 		
 	} the_rect_selection_stuff;
@@ -269,6 +269,10 @@ public:		// functions
 	inline bool get_rect_selection_mouse_released() const
 	{
 		return the_rect_selection_stuff.mouse_released;
+	}
+	inline rect_selection_layer get_rect_selection_layer() const
+	{
+		return the_rect_selection_stuff.selection_layer;
 	}
 	inline bool get_rect_selection_single_sprite_selected() const
 	{
