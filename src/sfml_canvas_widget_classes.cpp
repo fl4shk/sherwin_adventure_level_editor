@@ -517,14 +517,127 @@ void sfml_canvas_widget::stop_moving_rect_selection_contents()
 
 void sfml_canvas_widget::finalize_movement_of_rect_selection_contents()
 {
-	// Need to do a bunch more things.
+	//cout << "finalize_movement_of_rect_selection_contents()\n";
 	
-	cout << "finalize_movement_of_rect_selection_contents()\n";
+	disable_rect_selection();
 	
-	//if ( get_rect_selection_single_sprite_selected() )
+	if ( get_rect_selection_single_sprite_selected() )
 	{
-		disable_rect_selection();
 		return;
+	}
+	
+	const sf::IntRect& selection_rect 
+		= the_rect_selection_stuff.selection_rect;
+	
+	const vec2_s32& rs_starting_block_grid_coords_before_moving
+		= the_rect_selection_stuff
+		.starting_block_grid_coords_before_moving;
+	const vec2_s32& rs_ending_block_grid_coords_before_moving
+		= the_rect_selection_stuff
+		.ending_block_grid_coords_before_moving;
+	
+	const sf::IntRect selection_rect_before_moving
+		( rs_starting_block_grid_coords_before_moving.x,
+		
+		rs_starting_block_grid_coords_before_moving.y,
+		
+		( rs_ending_block_grid_coords_before_moving.x 
+		- rs_starting_block_grid_coords_before_moving.x + 1 ),
+		
+		( rs_ending_block_grid_coords_before_moving.y
+		- rs_starting_block_grid_coords_before_moving.y + 1 ) );
+	
+	if ( selection_rect == selection_rect_before_moving )
+	{
+		return;
+	}
+	
+	if ( the_rect_selection_stuff.selection_layer == rsl_blocks )
+	{
+		vector< vector<block> > copied_blocks_in_selection_vec_2d;
+		
+		for ( s32 j=0; j<selection_rect_before_moving.height; ++j )
+		{
+			copied_blocks_in_selection_vec_2d.push_back(vector<block>());
+			for ( s32 i=0; i<selection_rect_before_moving.width; ++i )
+			{
+				vec2_s32 original_block_grid_pos
+					( selection_rect_before_moving.left + i,
+					selection_rect_before_moving.top + j );
+				
+				block& the_block = the_sublevel
+					->uncompressed_block_data_vec_2d
+					.at((u32)original_block_grid_pos.y)
+					.at((u32)original_block_grid_pos.x);
+				
+				copied_blocks_in_selection_vec_2d.at(j).push_back
+					(the_block);
+				
+				// Delete the data of the_block.
+				the_block = block();
+			}
+		}
+		
+		for ( s32 j=0; j<selection_rect_before_moving.height; ++j )
+		{
+			for ( s32 i=0; i<selection_rect_before_moving.width; ++i )
+			{
+				vec2_s32 block_grid_pos( selection_rect.left + i,
+					selection_rect.top + j );
+				
+				the_sublevel->uncompressed_block_data_vec_2d
+					.at(block_grid_pos.y).at(block_grid_pos.x)
+					= copied_blocks_in_selection_vec_2d.at(j).at(i);
+			}
+		}
+		
+	}
+	else if ( the_rect_selection_stuff.selection_layer == rsl_sprites )
+	{
+		vector< vector<sprite_init_param_group_with_size> > 
+			copied_sprite_ipgwss_in_selection_vec_2d;
+		
+		for ( s32 j=0; j<selection_rect_before_moving.height; ++j )
+		{
+			copied_sprite_ipgwss_in_selection_vec_2d.push_back
+				(vector<sprite_init_param_group_with_size>());
+			
+			for ( s32 i=0; i<selection_rect_before_moving.width; ++i )
+			{
+				vec2_s32 original_block_grid_pos
+					( selection_rect_before_moving.left + i,
+					selection_rect_before_moving.top + j );
+				
+				sprite_init_param_group_with_size& the_sprite_ipgws 
+					= the_sublevel->sprite_ipgws_vec_2d
+					.at((u32)original_block_grid_pos.y)
+					.at((u32)original_block_grid_pos.x);
+				
+				copied_sprite_ipgwss_in_selection_vec_2d.at(j).push_back
+					(the_sprite_ipgws);
+				
+				// Delete the data of the_sprite_ipgws.
+				the_sprite_ipgws = sprite_init_param_group_with_size();
+			}
+		}
+		
+		for ( s32 j=0; j<selection_rect_before_moving.height; ++j )
+		{
+			for ( s32 i=0; i<selection_rect_before_moving.width; ++i )
+			{
+				vec2_s32 block_grid_pos( selection_rect.left + i,
+					selection_rect.top + j );
+				
+				sprite_init_param_group_with_size& the_sprite_ipgws
+					= copied_sprite_ipgwss_in_selection_vec_2d.at(j).at(i);
+				
+				if ( the_sprite_ipgws.type != st_default )
+				{
+					the_sublevel->sprite_ipgws_vec_2d.at(block_grid_pos.y)
+						.at(block_grid_pos.x) = the_sprite_ipgws;
+				}
+			}
+		}
 	}
 	
 	
@@ -1027,7 +1140,6 @@ void sfml_canvas_widget::update_visible_area()
 		{
 			block_grid_pos.x = i + visible_block_grid_start_pos.x;
 			
-			
 			if ( block_grid_pos.x < 0 
 				|| block_grid_pos.x >= (s32)the_sublevel->real_size_2d.x
 				|| block_grid_pos.y < 0
@@ -1086,11 +1198,37 @@ void sfml_canvas_widget::update_visible_area()
 						selection_rect_before_moving.top
 						+ original_block_grid_pos_offset.y );
 					
-					the_sprite_ipgws = &( the_sublevel
-						->sprite_ipgws_vec_2d
+					
+					sprite_init_param_group_with_size* other_sprite_ipgws
+						= &( the_sublevel->sprite_ipgws_vec_2d
 						.at((u32)original_block_grid_pos.y)
 						.at((u32)original_block_grid_pos.x) );
+					
+					//bool sr_contains_original_block_grid_pos
+					//	= selection_rect.contains
+					//	( original_block_grid_pos.x,
+					//	original_block_grid_pos.y )
+					bool sr_before_moving_contains_block_grid_pos
+						= selection_rect_before_moving.contains
+						( block_grid_pos.x, block_grid_pos.y );
+					
+					if ( sr_before_moving_contains_block_grid_pos 
+						&& other_sprite_ipgws->type != st_default )
+					{
+						the_sprite_ipgws = &default_sprite_ipgws;
+					}
+					
+					// Show the sprite in the new location if it isn't an
+					// st_default.
+					else if ( other_sprite_ipgws->type != st_default )
+					{
+						the_sprite_ipgws = other_sprite_ipgws;
+					}
+					
+					// Need to not show a duplicate sprite
+					
 				}
+				
 			}
 			
 			if ( the_sprite_ipgws->type != st_default 
