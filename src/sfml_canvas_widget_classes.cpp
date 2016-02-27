@@ -1054,9 +1054,6 @@ void sfml_canvas_widget::update_visible_area()
 				continue;
 			}
 			
-			//block& the_block = the_sublevel->uncompressed_block_data_vec_2d
-			//	.at((u32)block_grid_pos.y).at((u32)block_grid_pos.x);
-			
 			block* the_block = &( the_sublevel
 				->uncompressed_block_data_vec_2d.at((u32)block_grid_pos.y)
 				.at((u32)block_grid_pos.x) );
@@ -1137,66 +1134,6 @@ void sfml_canvas_widget::update_visible_area()
 	//cout << num_drawn_blocks << endl;
 	
 	
-	//map< sprite_init_param_group_with_size*,
-	//	sprite_init_param_group_with_size* >
-	//	curr_to_original_sprite_ipgws_map;
-	////map< sprite_init_param_group_with_size*,
-	////	sprite_init_param_group_with_size* >
-	////	original_to_curr_sprite_ipgws_map;
-	//
-	//for ( s32 j=0; j<selection_rect.height; ++j )
-	//{
-	//	for ( s32 i=0; i<selection_rect.width; ++i )
-	//	{
-	//		sprite_init_param_group_with_size* the_sprite_ipgws_in_sr
-	//			= &( the_sublevel->sprite_ipgws_vec_2d
-	//			.at((u32)(selection_rect.left + i))
-	//			.at((u32)(selection_rect.top + j)) );
-	//		sprite_init_param_group_with_size*
-	//			the_sprite_ipgws_in_sr_before_moving
-	//			= &( the_sublevel->sprite_ipgws_vec_2d
-	//			.at((u32)(selection_rect_before_moving.left + i))
-	//			.at((u32)(selection_rect_before_moving.top + j)));
-	//		
-	//		
-	//		curr_to_original_sprite_ipgws_map.at(the_sprite_ipgws_in_sr)
-	//			= the_sprite_ipgws_in_sr_before_moving;
-	//		//original_to_curr_sprite_ipgws_map
-	//		//	.at(the_sprite_ipgws_in_sr_before_moving)
-	//		//	= the_sprite_ipgws_in_sr;
-	//	}
-	//}
-	
-	
-	// A vector containing pointers to the
-	// sprite_init_param_group_with_size's in the selection at its current
-	// location, 
-	// and a vector containing pointers to the
-	// sprite_init_param_group_with_size's in the selection at its original
-	// location.
-	vector< vector<sprite_init_param_group_with_size*> >
-		sprite_ipgws_in_sr_vec_2d,
-		sprite_ipgws_in_sr_before_moving_vec_2d;
-	
-	for ( s32 j=0; j<selection_rect.height; ++j )
-	{
-		sprite_ipgws_in_sr_vec_2d.push_back
-			(vector<sprite_init_param_group_with_size*>());
-		sprite_ipgws_in_sr_before_moving_vec_2d.push_back
-			(vector<sprite_init_param_group_with_size*>());
-		
-		for ( s32 i=0; i<selection_rect.width; ++i )
-		{
-			sprite_ipgws_in_sr_vec_2d.back().push_back
-				( &(the_sublevel->sprite_ipgws_vec_2d
-				.at((u32)(selection_rect.top + j))
-				.at((u32)(selection_rect.left + i))) );
-			sprite_ipgws_in_sr_before_moving_vec_2d.back().push_back
-				( &(the_sublevel->sprite_ipgws_vec_2d
-				.at((u32)(selection_rect_before_moving.top + j))
-				.at((u32)(selection_rect_before_moving.left + i))) );
-		}
-	}
 	
 	
 	// Draw 16x16 sprites
@@ -1330,8 +1267,8 @@ void sfml_canvas_widget::update_visible_area()
 			//	- selection_rect.left, block_grid_pos.y 
 			//	- selection_rect.top );
 			
-			bool sr_contains_block_grid_pos = selection_rect.contains
-				( block_grid_pos.x, block_grid_pos.y );
+			//bool sr_contains_block_grid_pos = selection_rect.contains
+			//	( block_grid_pos.x, block_grid_pos.y );
 			bool sr_before_moving_contains_block_grid_pos 
 				= selection_rect_before_moving.contains
 				( block_grid_pos.x, block_grid_pos.y );
@@ -1341,11 +1278,7 @@ void sfml_canvas_widget::update_visible_area()
 				= &( the_sublevel->sprite_ipgws_vec_2d
 				.at((u32)block_grid_pos.y).at((u32)block_grid_pos.x) );
 			
-			sprite_init_param_group_with_size* the_sprite_ipgws_at_first
-				= the_sprite_ipgws;
-			
 			sprite_init_param_group_with_size default_sprite_ipgws;
-			
 			
 			if ( the_rect_selection_stuff.selection_layer == rsl_blocks )
 			{
@@ -1353,39 +1286,15 @@ void sfml_canvas_widget::update_visible_area()
 			else if ( the_rect_selection_stuff.selection_layer 
 				== rsl_sprites )
 			{
-				//vec2_s32 original_block_grid_pos_offset( block_grid_pos.x 
-				//	- selection_rect.left, block_grid_pos.y 
-				//	- selection_rect.top );
-				//
-				//vec2_s32 original_block_grid_pos
-				//	( selection_rect_before_moving.left
-				//	+ original_block_grid_pos_offset.x,
-				//	selection_rect_before_moving.top
-				//	+ original_block_grid_pos_offset.y );
-				//
-				//bool sr_contains_original_block_grid_pos = selection_rect
-				//	.contains( original_block_grid_pos.x, 
-				//	original_block_grid_pos.y );
-				//
-				//bool sr_before_moving_contains_original_block_grid_pos 
-				//	= selection_rect_before_moving.contains
-				//	( original_block_grid_pos.x, 
-				//	original_block_grid_pos.y );
-				
-				
 				if ( !get_rect_selection_enabled()
 					|| ( get_rect_selection_enabled() 
-					&& selection_rect == selection_rect_before_moving ) )
+					&& selection_rect == selection_rect_before_moving ) 
+					|| the_rect_selection_stuff.single_sprite_selected )
 				{
 				}
 				
-				//// Don't show any sprites if they are part of either
-				//// selection_rect or selection_rect_before_moving.
-				//else if ( sr_contains_block_grid_pos 
-				//	|| sr_before_moving_contains_block_grid_pos )
-				//{
-				//	the_sprite_ipgws = &default_sprite_ipgws;
-				//}
+				// Don't show any sprites if they are part of
+				// selection_rect_before_moving
 				else if ( sr_before_moving_contains_block_grid_pos )
 				{
 					the_sprite_ipgws = &default_sprite_ipgws;
@@ -1442,10 +1351,30 @@ void sfml_canvas_widget::update_visible_area()
 	//cout << num_drawn_16x16_sprites << endl;
 	//cout << endl;
 	
-	for ( s32 j=0; j<selection_rect.height; ++j )
+	if ( !the_rect_selection_stuff.single_sprite_selected )
 	{
-		
+		if ( the_rect_selection_stuff.selection_layer == rsl_blocks )
+		{
+		}
+		else if ( the_rect_selection_stuff.selection_layer == rsl_sprites )
+		{
+			for ( s32 j=0; j<selection_rect_before_moving.height; ++j )
+			{
+				for ( s32 i=0; i<selection_rect_before_moving.width; ++i )
+				{
+					vec2_s32 block_grid_pos( selection_rect.left + i,
+						selection_rect.top + j );
+					
+					draw_16x16_sprite( &(the_sublevel->sprite_ipgws_vec_2d
+						.at((u32)(selection_rect_before_moving.top + j))
+						.at((u32)(selection_rect_before_moving.left + i))),
+						block_grid_pos );
+				}
+			}
+		}
 	}
+	
+	
 	
 	
 	// Draw 16x32 sprites
@@ -1555,8 +1484,7 @@ void sfml_canvas_widget::update_visible_area()
 	
 	for ( s32 j=0; j<visible_block_grid_size_2d.y; ++j )
 	{
-		vec2_s32 block_grid_pos( 0,
-			j + visible_block_grid_start_pos.y );
+		vec2_s32 block_grid_pos( 0, j + visible_block_grid_start_pos.y );
 		
 		for ( s32 i=0; i<visible_block_grid_size_2d.x; ++i )
 		{
@@ -1573,9 +1501,17 @@ void sfml_canvas_widget::update_visible_area()
 				continue;
 			}
 			
-			//sprite_init_param_group_with_size& the_sprite_ipgws
-			//	= the_sublevel->sprite_ipgws_vec_2d
-			//	.at((u32)block_grid_pos.y).at((u32)block_grid_pos.x);
+			
+			//vec2_s32 block_grid_pos_relative_to_sr( block_grid_pos.x 
+			//	- selection_rect.left, block_grid_pos.y 
+			//	- selection_rect.top );
+			
+			//bool sr_contains_block_grid_pos = selection_rect.contains
+			//	( block_grid_pos.x, block_grid_pos.y );
+			bool sr_before_moving_contains_block_grid_pos 
+				= selection_rect_before_moving.contains
+				( block_grid_pos.x, block_grid_pos.y );
+			
 			
 			sprite_init_param_group_with_size* the_sprite_ipgws
 				= &( the_sublevel->sprite_ipgws_vec_2d
@@ -1591,40 +1527,18 @@ void sfml_canvas_widget::update_visible_area()
 			{
 				if ( !get_rect_selection_enabled()
 					|| ( get_rect_selection_enabled() 
-					&& selection_rect == selection_rect_before_moving ) )
+					&& selection_rect == selection_rect_before_moving )
+					|| the_rect_selection_stuff.single_sprite_selected )
 				{
 				}
 				
-				else if ( !selection_rect.contains( block_grid_pos.x,
-					block_grid_pos.y ) )
+				// Don't show any sprites if they are part of
+				// selection_rect_before_moving
+				else if ( sr_before_moving_contains_block_grid_pos )
 				{
-					// Don't draw anything if there is no longer a sprite
-					// at the spot due to the moved selection rect
-					// contents.
-					if ( selection_rect_before_moving.contains
-						( block_grid_pos.x, block_grid_pos.y ) )
-					{
-						the_sprite_ipgws = &default_sprite_ipgws;
-					}
+					the_sprite_ipgws = &default_sprite_ipgws;
 				}
 				
-				else
-				{
-					vec2_s32 original_block_grid_pos_offset
-						( block_grid_pos.x - selection_rect.left,
-						block_grid_pos.y - selection_rect.top );
-					
-					vec2_s32 original_block_grid_pos
-						( selection_rect_before_moving.left
-						+ original_block_grid_pos_offset.x,
-						selection_rect_before_moving.top
-						+ original_block_grid_pos_offset.y );
-					
-					the_sprite_ipgws = &( the_sublevel
-						->sprite_ipgws_vec_2d
-						.at((u32)original_block_grid_pos.y)
-						.at((u32)original_block_grid_pos.x) );
-				}
 			}
 			
 			draw_16x32_sprite( the_sprite_ipgws, block_grid_pos );
@@ -1636,8 +1550,33 @@ void sfml_canvas_widget::update_visible_area()
 	//cout << num_drawn_16x32_sprites << endl;
 	//cout << endl;
 	
+	if ( !the_rect_selection_stuff.single_sprite_selected )
+	{
+		if ( the_rect_selection_stuff.selection_layer == rsl_blocks )
+		{
+		}
+		else if ( the_rect_selection_stuff.selection_layer == rsl_sprites )
+		{
+			for ( s32 j=0; j<selection_rect_before_moving.height; ++j )
+			{
+				for ( s32 i=0; i<selection_rect_before_moving.width; ++i )
+				{
+					vec2_s32 block_grid_pos( selection_rect.left + i,
+						selection_rect.top + j );
+					
+					draw_16x32_sprite( &(the_sublevel->sprite_ipgws_vec_2d
+						.at((u32)(selection_rect_before_moving.top + j))
+						.at((u32)(selection_rect_before_moving.left + i))),
+						block_grid_pos );
+				}
+			}
+		}
+	}
+	
+	
 	generate_block_grid();
 	generate_rect_selection_rect();
+	
 	
 	//// Draw a rectangle around the selected sprite
 	//if ( *the_mouse_mode == mm_select_sprites )
