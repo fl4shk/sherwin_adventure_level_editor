@@ -25,6 +25,8 @@
 #include "sublevel_class.hpp"
 
 #include "sprite_level_data_stuff.hpp"
+#include "rect_selection_stuff_class.hpp"
+
 
 class sfml_canvas_widget_base : public QWidget, public sf::RenderWindow
 {
@@ -66,6 +68,9 @@ class block_selector_core_widget;
 class sprite_16x16_selector_core_widget;
 class sprite_16x32_selector_core_widget;
 
+class level_editor_core_widget;
+
+
 class sfml_canvas_widget : public sfml_canvas_widget_base
 {
 protected:		// variables
@@ -85,68 +90,8 @@ protected:		// variables
 	} the_block_grid_stuff;
 	
 	
+	rect_selection_stuff the_rect_selection_stuff;
 	
-	// Rectangular selection drawing stuffs.  This is intended to be used
-	// for both individual level elements (like when a sprite is selected
-	// so that its properties can be modified) and groups of level
-	// elements.
-	struct
-	{
-		unique_ptr<sf::Image> selection_image;
-		unique_ptr<sf::Texture> selection_texture;
-		unique_ptr<sf::Sprite> selection_sprite;
-		
-		
-		// The actual rectangle representing the selected area.  It is
-		// intended to have a position and size that are in block grid
-		// coordinates.
-		sf::IntRect selection_rect;
-		
-		
-		
-		// These are not intended to be used for the mouse_mode where
-		// sprite properties can be changed.
-		
-		// This is the initially clicked block grid coordinate.
-		vec2_s32 starting_block_grid_coords_of_mouse;
-		
-		// This represents the left and top values of selection_rect.
-		vec2_s32 starting_block_grid_coords;
-		
-		// This represents the right and bottom values of selection_rect.
-		vec2_s32 ending_block_grid_coords;
-		
-		
-		
-		
-		
-		// mouse_released is set to true when the mouse is released and the
-		// selection mode is NOT for changing sprite properties.
-		bool enabled, mouse_released;
-		
-		// Whether the rectangular selection is in the block layer or the
-		// sprite layer.
-		rect_selection_layer selection_layer;
-		
-		// This corresponds to when the level_editor_widget's
-		// sprite_properties_widget should be generated.
-		bool single_sprite_selected;
-		
-		
-		
-		// Stuff for moving around the selection's contents.
-		bool moving;
-		vec2_s32 clicked_location_in_rect;
-		
-		
-		// This represents the left and top values of selection_rect.
-		vec2_s32 starting_block_grid_coords_before_moving;
-		
-		// This represents the right and bottom values of selection_rect.
-		vec2_s32 ending_block_grid_coords_before_moving;
-		
-		
-	} the_rect_selection_stuff;
 	
 	
 	// Door sprite number stuff
@@ -262,115 +207,8 @@ public:		// functions
 	
 	
 	
-	inline bool get_rect_selection_enabled() const
-	{
-		return the_rect_selection_stuff.enabled;
-	}
-	inline bool get_rect_selection_mouse_released() const
-	{
-		return the_rect_selection_stuff.mouse_released;
-	}
-	inline rect_selection_layer get_rect_selection_layer() const
-	{
-		return the_rect_selection_stuff.selection_layer;
-	}
-	inline bool get_rect_selection_single_sprite_selected() const
-	{
-		return the_rect_selection_stuff.single_sprite_selected;
-	}
-	inline sprite_init_param_group_with_size*
-		get_rect_selection_single_selected_sprite_ipgws()
-	{
-		return &( the_sublevel->sprite_ipgws_vec_2d
-			.at(the_rect_selection_stuff.selection_rect.top)
-			.at(the_rect_selection_stuff.selection_rect.left) );
-	}
-	inline const sf::IntRect& get_rect_selection_rect() const
-	{
-		return the_rect_selection_stuff.selection_rect;
-	}
-	
-	inline const vec2_s32& get_rect_selection_starting_block_grid_coords()
-		const
-	{
-		return the_rect_selection_stuff.starting_block_grid_coords;
-	}
-	
-	inline bool get_rect_selection_moving() const
-	{
-		return the_rect_selection_stuff.moving;
-	}
-	
-	//inline void enable_generic_rect_selection
-	//	( const sf::IntRect& n_selection_rect )
-	//{
-	//	the_rect_selection_stuff.enabled = true;
-	//	
-	//	the_rect_selection_stuff.single_sprite_selected = false;
-	//	
-	//	the_rect_selection_stuff.selection_rect = n_selection_rect;
-	//}
-	
-	void start_creating_rect_selection
-		( const vec2_s32& n_starting_block_grid_coords_of_mouse, 
-		rect_selection_layer n_selection_layer );
-	void continue_creating_rect_selection
-		( const vec2_s32& curr_block_grid_coords_of_mouse );
-	void stop_creating_rect_selection();
-	
-	// Stuff for moving the rectangular selection's contents.
-	void start_moving_rect_selection_contents
-		( const vec2_s32 n_clicked_location_in_rect );
-	void continue_moving_rect_selection_contents
-		( const vec2_s32 curr_block_grid_coords_of_mouse );
-	void stop_moving_rect_selection_contents();
-	
-	// 
-	void finalize_movement_of_rect_selection_contents();
 	
 	
-	
-	inline void enable_single_sprite_rect_selection
-		( sprite_init_param_group_with_size* n_selected_sprite_ipgws )
-	{
-		the_rect_selection_stuff.enabled = true;
-		
-		the_rect_selection_stuff.single_sprite_selected = true;
-		the_rect_selection_stuff.selection_layer = rsl_sprites;
-		
-		the_rect_selection_stuff.selection_rect = sf::IntRect
-			( n_selected_sprite_ipgws->initial_block_grid_x_coord,
-			n_selected_sprite_ipgws->initial_block_grid_y_coord,
-			n_selected_sprite_ipgws->size_2d.x 
-			/ num_pixels_per_block_row, 
-			n_selected_sprite_ipgws->size_2d.y 
-			/ num_pixels_per_block_column );
-		
-		//vec2_s32 block_grid_start_pos
-		//	( (s32)n_selected_sprite_ipgws.initial_block_grid_x_coord,  
-		//	(s32)n_selected_sprite_ipgws.initial_block_grid_y_coord );
-		//
-		//vec2_s32 block_grid_end_pos = block_grid_start_pos
-		//	+ vec2_s32( (s32)n_selected_sprite_ipgws.real_size_2d.x 
-		//		* (s32)num_pixels_per_block_column,
-		//		(s32)n_selected_sprite_ipgws.real_size_2d.y
-		//		* (s32)num_pixels_per_block_row );
-		//
-		//if ( block_grid_end_pos.x >= (s32)the_sublevel->size_2d.x )
-		//{
-		//	block_grid_end_pos.x = (s32)( the_sublevel->size_2d.x - 1 );
-		//}
-		//
-		//if ( block_grid_end_pos.y >= the_sublevel->size_2d.y )
-		//{
-		//	block_grid_end_pos.y = (s32)( the_sublevel->size_2d.y - 1 );
-		//}
-	}
-	
-	inline void disable_rect_selection()
-	{
-		the_rect_selection_stuff.enabled = false;
-	}
 	
 	
 	
@@ -396,6 +234,7 @@ public:		// functions
 	inline void set_the_sublevel( sublevel* n_the_sublevel )
 	{
 		the_sublevel = n_the_sublevel;
+		the_rect_selection_stuff.the_sublevel = n_the_sublevel;
 	}
 	void set_the_block_selector_core_widget
 		( block_selector_core_widget* n_the_block_selector_core_widget );
@@ -465,6 +304,8 @@ protected:		// functions
 	void on_update();
 	
 	
+	friend class level_editor_core_widget;
+	friend class level_editor_widget;
 	
 };
 

@@ -343,14 +343,23 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 			//{
 			//	the_sfml_canvas_widget->disable_rect_selection();
 			//}
-			if ( the_sfml_canvas_widget
-				->get_rect_selection_single_sprite_selected()
-				&& the_sfml_canvas_widget->get_rect_selection_enabled()
-				&& the_sfml_canvas_widget
-				->get_rect_selection_mouse_released() )
+			
+			//if ( the_sfml_canvas_widget
+			//	->get_rect_selection_single_sprite_selected()
+			//	&& the_sfml_canvas_widget->get_rect_selection_enabled()
+			//	&& the_sfml_canvas_widget
+			//	->get_rect_selection_mouse_released() )
+			if ( the_sfml_canvas_widget->the_rect_selection_stuff
+				.get_single_sprite_selected()
+				&& the_sfml_canvas_widget->the_rect_selection_stuff
+				.get_enabled()
+				&& the_sfml_canvas_widget->the_rect_selection_stuff
+				.get_mouse_released() )
 			{
-				the_sfml_canvas_widget
-					->finalize_movement_of_rect_selection_contents();
+				//the_sfml_canvas_widget
+				//	->finalize_movement_of_rect_selection_contents();
+				the_sfml_canvas_widget->the_rect_selection_stuff
+					.finalize_movement_of_selection_contents();
 			}
 			
 			//cout << "st_default\n";
@@ -373,14 +382,22 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 		//		->finalize_movement_of_rect_selection_contents();
 		//}
 		
-		if ( the_sfml_canvas_widget
-			->get_rect_selection_single_sprite_selected()
-			&& the_sfml_canvas_widget->get_rect_selection_enabled()
-			&& the_sfml_canvas_widget
-			->get_rect_selection_mouse_released() )
+		//if ( the_sfml_canvas_widget
+		//	->get_rect_selection_single_sprite_selected()
+		//	&& the_sfml_canvas_widget->get_rect_selection_enabled()
+		//	&& the_sfml_canvas_widget
+		//	->get_rect_selection_mouse_released() )
+		if ( the_sfml_canvas_widget->the_rect_selection_stuff
+			.get_single_sprite_selected()
+			&& the_sfml_canvas_widget->the_rect_selection_stuff
+			.get_enabled()
+			&& the_sfml_canvas_widget->the_rect_selection_stuff
+			.get_mouse_released() )
 		{
-			the_sfml_canvas_widget
-				->finalize_movement_of_rect_selection_contents();
+			//the_sfml_canvas_widget
+			//	->finalize_movement_of_rect_selection_contents();
+			the_sfml_canvas_widget->the_rect_selection_stuff
+				.finalize_movement_of_selection_contents();
 		}
 		//cout << "else\n";
 		emit sprite_no_longer_selected();
@@ -389,12 +406,18 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 	
 	auto func_for_placing_level_elements = [&]() -> void
 	{
-		if ( the_sfml_canvas_widget->get_rect_selection_enabled()
-			&& the_sfml_canvas_widget
-			->get_rect_selection_mouse_released() )
+		//if ( the_sfml_canvas_widget->get_rect_selection_enabled()
+		//	&& the_sfml_canvas_widget
+		//	->get_rect_selection_mouse_released() )
+		if ( the_sfml_canvas_widget->the_rect_selection_stuff
+			.get_enabled() 
+			&& the_sfml_canvas_widget->the_rect_selection_stuff
+			.get_mouse_released() )
 		{
-			the_sfml_canvas_widget
-				->finalize_movement_of_rect_selection_contents();
+			//the_sfml_canvas_widget
+			//	->finalize_movement_of_rect_selection_contents();
+			the_sfml_canvas_widget->the_rect_selection_stuff
+				.finalize_movement_of_selection_contents();
 		}
 		
 		the_sfml_canvas_widget->modified_recently = true;
@@ -496,12 +519,18 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 				== st_default )
 			{
 				//the_sfml_canvas_widget->disable_rect_selection();
-				if ( the_sfml_canvas_widget->get_rect_selection_enabled()
-					&& the_sfml_canvas_widget
-					->get_rect_selection_mouse_released() )
+				//if ( the_sfml_canvas_widget->get_rect_selection_enabled()
+				//	&& the_sfml_canvas_widget
+				//	->get_rect_selection_mouse_released() )
+				if ( the_sfml_canvas_widget->the_rect_selection_stuff
+					.get_enabled()
+					&& the_sfml_canvas_widget->the_rect_selection_stuff
+					.get_mouse_released() )
 				{
-					the_sfml_canvas_widget
-						->finalize_movement_of_rect_selection_contents();
+					//the_sfml_canvas_widget
+					//	->finalize_movement_of_rect_selection_contents();
+					the_sfml_canvas_widget->the_rect_selection_stuff
+						.finalize_movement_of_selection_contents();
 				}
 				
 				//cout << "st_default\n";
@@ -514,12 +543,18 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 		{
 			//the_sfml_canvas_widget->disable_rect_selection();
 			
-			if ( the_sfml_canvas_widget->get_rect_selection_enabled()
-				&& the_sfml_canvas_widget
-				->get_rect_selection_mouse_released() )
+			//if ( the_sfml_canvas_widget->get_rect_selection_enabled()
+			//	&& the_sfml_canvas_widget
+			//	->get_rect_selection_mouse_released() )
+			if ( the_sfml_canvas_widget->the_rect_selection_stuff
+				.get_enabled()
+				&& the_sfml_canvas_widget->the_rect_selection_stuff
+				.get_mouse_released() )
 			{
-				the_sfml_canvas_widget
-					->finalize_movement_of_rect_selection_contents();
+				//the_sfml_canvas_widget
+				//	->finalize_movement_of_rect_selection_contents();
+				the_sfml_canvas_widget->the_rect_selection_stuff
+					.finalize_movement_of_selection_contents();
 			}
 			
 			
@@ -532,16 +567,22 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 		sprite_init_param_group_with_size* clicked_sprite_ipgws 
 			= the_sprite_selection_ptr_group.origin_ptr;
 		
-		the_sfml_canvas_widget->enable_single_sprite_rect_selection
-			(clicked_sprite_ipgws);
+		//the_sfml_canvas_widget->enable_single_sprite_rect_selection
+		//	(clicked_sprite_ipgws);
+		the_sfml_canvas_widget->the_rect_selection_stuff
+			.enable_single_sprite_selection(clicked_sprite_ipgws);
 		
 		emit sprite_was_selected();
 	};
 	
 	auto func_for_rect_selection = [&]() -> void
 	{
+		//bool clicked_location_intersects_rect = the_sfml_canvas_widget
+		//	->get_rect_selection_rect().contains
+		//	( block_grid_coords_of_mouse_pos.x, 
+		//	block_grid_coords_of_mouse_pos.y );
 		bool clicked_location_intersects_rect = the_sfml_canvas_widget
-			->get_rect_selection_rect().contains
+			->the_rect_selection_stuff.get_selection_rect().contains
 			( block_grid_coords_of_mouse_pos.x, 
 			block_grid_coords_of_mouse_pos.y );
 		
@@ -553,28 +594,42 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 		//	<< endl;
 		
 		
-		if ( !the_sfml_canvas_widget->get_rect_selection_enabled() 
-			|| ( the_sfml_canvas_widget->get_rect_selection_enabled() 
+		//if ( !the_sfml_canvas_widget->get_rect_selection_enabled() 
+		//	|| ( the_sfml_canvas_widget->get_rect_selection_enabled() 
+		//	&& !clicked_location_intersects_rect ) )
+		if ( !the_sfml_canvas_widget->the_rect_selection_stuff
+			.get_enabled() 
+			|| ( the_sfml_canvas_widget->the_rect_selection_stuff
+			.get_enabled() 
 			&& !clicked_location_intersects_rect ) )
 		{
-			if ( the_sfml_canvas_widget->get_rect_selection_enabled()
-				&& the_sfml_canvas_widget
-				->get_rect_selection_mouse_released() )
+			//if ( the_sfml_canvas_widget->get_rect_selection_enabled()
+			//	&& the_sfml_canvas_widget
+			//	->get_rect_selection_mouse_released() )
+			if ( the_sfml_canvas_widget->the_rect_selection_stuff
+				.get_enabled()
+				&& the_sfml_canvas_widget->the_rect_selection_stuff
+				.get_mouse_released() )
 			{
-				the_sfml_canvas_widget
-					->finalize_movement_of_rect_selection_contents();
+				//the_sfml_canvas_widget
+				//	->finalize_movement_of_rect_selection_contents();
+				the_sfml_canvas_widget->the_rect_selection_stuff
+					.finalize_movement_of_selection_contents();
 			}
 			
 			if (current_tabbed_widget_is_for_blocks)
 			{
-				the_sfml_canvas_widget->start_creating_rect_selection
+				//the_sfml_canvas_widget->start_creating_rect_selection
+				//	( block_grid_coords_of_mouse_pos, rsl_blocks );
+				the_sfml_canvas_widget->the_rect_selection_stuff
+					.start_creating_selection
 					( block_grid_coords_of_mouse_pos, rsl_blocks );
 			}
 			else if ( current_tabbed_widget_is_for_16x16_sprites 
 				|| current_tabbed_widget_is_for_16x32_sprites )
 			{
-				sprite_init_param_group_with_size* clicked_sprite_ipgws 
-					= the_sprite_selection_ptr_group.origin_ptr;
+				//sprite_init_param_group_with_size* clicked_sprite_ipgws 
+				//	= the_sprite_selection_ptr_group.origin_ptr;
 				
 				//if ( clicked_sprite_ipgws->type != st_default )
 				//{
@@ -588,20 +643,31 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 				//}
 				//else //if ( clicked_sprite_ipgws->type == st_default )
 				{
-					the_sfml_canvas_widget->start_creating_rect_selection
+					//the_sfml_canvas_widget->start_creating_rect_selection
+					//	( block_grid_coords_of_mouse_pos, rsl_sprites );
+					the_sfml_canvas_widget->the_rect_selection_stuff
+						.start_creating_selection
 						( block_grid_coords_of_mouse_pos, rsl_sprites );
 				}
 			}
 		}
-		else if ( the_sfml_canvas_widget->get_rect_selection_enabled()
-			&& clicked_location_intersects_rect )
+		//else if ( the_sfml_canvas_widget->get_rect_selection_enabled()
+		//	&& clicked_location_intersects_rect )
+		else if ( the_sfml_canvas_widget->the_rect_selection_stuff
+			.get_enabled() && clicked_location_intersects_rect )
 		{
+			//vec2_s32 clicked_location_in_rect
+			//	= block_grid_coords_of_mouse_pos - the_sfml_canvas_widget
+			//	->get_rect_selection_starting_block_grid_coords();
 			vec2_s32 clicked_location_in_rect
 				= block_grid_coords_of_mouse_pos - the_sfml_canvas_widget
-				->get_rect_selection_starting_block_grid_coords();
+				->the_rect_selection_stuff
+				.get_starting_block_grid_coords();
 			
-			the_sfml_canvas_widget->start_moving_rect_selection_contents
-				(clicked_location_in_rect);
+			//the_sfml_canvas_widget->start_moving_rect_selection_contents
+			//	(clicked_location_in_rect);
+			the_sfml_canvas_widget->the_rect_selection_stuff
+				.start_moving_selection_contents(clicked_location_in_rect);
 		}
 		
 		emit sprite_no_longer_selected();
@@ -818,14 +884,24 @@ void level_editor_core_widget::mouseMoveEvent( QMouseEvent* event )
 	
 	auto func_for_rect_selection = [&]() -> void
 	{
-		if ( !the_sfml_canvas_widget->get_rect_selection_moving() )
+		//if ( !the_sfml_canvas_widget->get_rect_selection_moving() )
+		if ( !the_sfml_canvas_widget->the_rect_selection_stuff
+			.get_moving() )
 		{
-			the_sfml_canvas_widget->continue_creating_rect_selection
+			//the_sfml_canvas_widget->continue_creating_rect_selection
+			//	(block_grid_coords_of_mouse_pos);
+			the_sfml_canvas_widget->the_rect_selection_stuff
+				.continue_creating_selection
 				(block_grid_coords_of_mouse_pos);
 		}
-		else //if ( the_sfml_canvas_widget->get_rect_selection_moving() )
+		//else //if ( the_sfml_canvas_widget->get_rect_selection_moving() )
+		else //if ( the_sfml_canvas_widget->the_rect_selection_stuff
+			// .get_moving() )
 		{
-			the_sfml_canvas_widget->continue_moving_rect_selection_contents
+			//the_sfml_canvas_widget->continue_moving_rect_selection_contents
+			//	(block_grid_coords_of_mouse_pos);
+			the_sfml_canvas_widget->the_rect_selection_stuff
+				.continue_moving_selection_contents
 				(block_grid_coords_of_mouse_pos);
 		}
 		
@@ -1044,13 +1120,21 @@ void level_editor_core_widget::mouseReleaseEvent( QMouseEvent* event )
 	
 	auto func_for_rect_selection = [&]() -> void
 	{
-		if ( !the_sfml_canvas_widget->get_rect_selection_moving() )
+		//if ( !the_sfml_canvas_widget->get_rect_selection_moving() )
+		if ( !the_sfml_canvas_widget->the_rect_selection_stuff
+			.get_moving() )
 		{
-			the_sfml_canvas_widget->stop_creating_rect_selection();
+			//the_sfml_canvas_widget->stop_creating_rect_selection();
+			the_sfml_canvas_widget->the_rect_selection_stuff
+				.stop_creating_selection();
 		}
-		else //if ( the_sfml_canvas_widget->get_rect_selection_moving() )
+		//else //if ( the_sfml_canvas_widget->get_rect_selection_moving() )
+		else //if ( the_sfml_canvas_widget->the_rect_selection_stuff
+			//.get_moving() )
 		{
-			the_sfml_canvas_widget->stop_moving_rect_selection_contents();
+			//the_sfml_canvas_widget->stop_moving_rect_selection_contents();
+			the_sfml_canvas_widget->the_rect_selection_stuff
+				.stop_moving_selection_contents();
 		}
 		
 		emit sprite_no_longer_selected();
