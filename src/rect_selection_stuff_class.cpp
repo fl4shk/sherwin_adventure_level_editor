@@ -180,9 +180,6 @@ void rect_selection_stuff::continue_moving_selection_contents
 	starting_block_grid_coords = curr_block_grid_coords_of_mouse
 		- clicked_location_in_rect;
 	
-	cout << "before, starting_block_grid_coords:  " 
-		<< starting_block_grid_coords.x << ", " 
-		<< starting_block_grid_coords.y << endl;
 	
 	// Correction things.
 	if ( starting_block_grid_coords.x < 0 )
@@ -207,16 +204,8 @@ void rect_selection_stuff::continue_moving_selection_contents
 		
 	}
 	
-	cout << "after, starting_block_grid_coords:  " 
-		<< starting_block_grid_coords.x << ", " 
-		<< starting_block_grid_coords.y << endl;
-	
 	ending_block_grid_coords = starting_block_grid_coords
 		+ ending_block_grid_coords_offset;
-	
-	cout << "before, ending_block_grid_coords:  " 
-		<< ending_block_grid_coords.x << ", " 
-		<< ending_block_grid_coords.y << endl;
 	
 	if ( ending_block_grid_coords.x < ending_block_grid_coords_offset.x )
 	{
@@ -234,12 +223,6 @@ void rect_selection_stuff::continue_moving_selection_contents
 	{
 		ending_block_grid_coords.y = the_sublevel->size_2d.y - 1;
 	}
-	
-	cout << "after, ending_block_grid_coords:  " 
-		<< ending_block_grid_coords.x << ", " 
-		<< ending_block_grid_coords.y << endl;
-	
-	cout << endl;
 	
 	selection_rect.left = starting_block_grid_coords.x;
 	selection_rect.top = starting_block_grid_coords.y;
