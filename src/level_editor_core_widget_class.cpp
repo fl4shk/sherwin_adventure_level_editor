@@ -577,21 +577,17 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 	
 	auto func_for_rect_selection = [&]() -> void
 	{
-		//bool clicked_location_intersects_rect = the_sfml_canvas_widget
-		//	->get_rect_selection_rect().contains
-		//	( block_grid_coords_of_mouse_pos.x, 
-		//	block_grid_coords_of_mouse_pos.y );
 		bool clicked_location_intersects_rect = the_sfml_canvas_widget
 			->the_rect_selection_stuff.get_selection_rect().contains
 			( block_grid_coords_of_mouse_pos.x, 
 			block_grid_coords_of_mouse_pos.y );
 		
-		//cout << "clicked_location_intersects_rect:  "
-		//	<< clicked_location_intersects_rect << endl;
-		//
-		//cout << "rect selection enabled:  " 
-		//	<< the_sfml_canvas_widget->get_rect_selection_enabled()
-		//	<< endl;
+		cout << "clicked_location_intersects_rect:  "
+			<< clicked_location_intersects_rect << endl;
+		
+		cout << "rect selection enabled:  " 
+			<< the_sfml_canvas_widget->the_rect_selection_stuff
+			.get_enabled() << endl;
 		
 		
 		//if ( !the_sfml_canvas_widget->get_rect_selection_enabled() 
@@ -611,16 +607,12 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 				&& the_sfml_canvas_widget->the_rect_selection_stuff
 				.get_mouse_released() )
 			{
-				//the_sfml_canvas_widget
-				//	->finalize_movement_of_rect_selection_contents();
 				the_sfml_canvas_widget->the_rect_selection_stuff
 					.finalize_movement_of_selection_contents();
 			}
 			
 			if (current_tabbed_widget_is_for_blocks)
 			{
-				//the_sfml_canvas_widget->start_creating_rect_selection
-				//	( block_grid_coords_of_mouse_pos, rsl_blocks );
 				the_sfml_canvas_widget->the_rect_selection_stuff
 					.start_creating_selection
 					( block_grid_coords_of_mouse_pos, rsl_blocks );
@@ -628,27 +620,9 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 			else if ( current_tabbed_widget_is_for_16x16_sprites 
 				|| current_tabbed_widget_is_for_16x32_sprites )
 			{
-				//sprite_init_param_group_with_size* clicked_sprite_ipgws 
-				//	= the_sprite_selection_ptr_group.origin_ptr;
-				
-				//if ( clicked_sprite_ipgws->type != st_default )
-				//{
-				//	//the_sfml_canvas_widget->start_creating_rect_selection
-				//	//	( block_grid_coords_of_mouse_pos, rsl_sprites );
-				//	the_sfml_canvas_widget->start_creating_rect_selection
-				//		( vec2_s32( (s32)clicked_sprite_ipgws
-				//		->initial_block_grid_x_coord,
-				//		(s32)clicked_sprite_ipgws
-				//		->initial_block_grid_y_coord ), rsl_sprites );
-				//}
-				//else //if ( clicked_sprite_ipgws->type == st_default )
-				{
-					//the_sfml_canvas_widget->start_creating_rect_selection
-					//	( block_grid_coords_of_mouse_pos, rsl_sprites );
-					the_sfml_canvas_widget->the_rect_selection_stuff
-						.start_creating_selection
-						( block_grid_coords_of_mouse_pos, rsl_sprites );
-				}
+				the_sfml_canvas_widget->the_rect_selection_stuff
+					.start_creating_selection
+					( block_grid_coords_of_mouse_pos, rsl_sprites );
 			}
 		}
 		//else if ( the_sfml_canvas_widget->get_rect_selection_enabled()
@@ -744,29 +718,24 @@ void level_editor_core_widget::mouseMoveEvent( QMouseEvent* event )
 	//cout << mouse_pos_in_canvas_coords.x << ", "
 	//	<< mouse_pos_in_canvas_coords.y << endl;
 	
-	if ( block_grid_coords_of_mouse_pos.x < (s32)0
-		|| block_grid_coords_of_mouse_pos.x 
-			>= (s32)the_sublevel.size_2d.x
-		|| block_grid_coords_of_mouse_pos.y < (s32)0
-		|| block_grid_coords_of_mouse_pos.y 
-			>= (s32)the_sublevel.size_2d.y )
-	{
-		return;
-	}
+	//if ( block_grid_coords_of_mouse_pos.x < (s32)0
+	//	|| block_grid_coords_of_mouse_pos.x 
+	//		>= (s32)the_sublevel.size_2d.x
+	//	|| block_grid_coords_of_mouse_pos.y < (s32)0
+	//	|| block_grid_coords_of_mouse_pos.y 
+	//		>= (s32)the_sublevel.size_2d.y )
+	//{
+	//	return;
+	//}
+	//
+	//if ( !the_sfml_canvas_widget->point_is_in_visible_rect
+	//	( sf::Vector2i( event->x(), event->y() ) ) )
+	//{
+	//	//cout << "out of bounds\n";
+	//	return;
+	//}
 	
-	if ( !the_sfml_canvas_widget->point_is_in_visible_rect
-		( sf::Vector2i( event->x(), event->y() ) ) )
-	{
-		//cout << "out of bounds\n";
-		return;
-	}
 	
-	
-	
-	block& the_block_at_mouse_pos 
-		= the_sublevel.uncompressed_block_data_vec_2d
-		.at((u32)block_grid_coords_of_mouse_pos.y)
-		.at((u32)block_grid_coords_of_mouse_pos.x);
 	
 	//sprite_init_param_group_with_size& the_sprite_ipgws_at_mouse_pos
 	//	= the_sublevel.sprite_ipgws_vec_2d
@@ -827,16 +796,31 @@ void level_editor_core_widget::mouseMoveEvent( QMouseEvent* event )
 		{
 			//cout << "the_block_selector_widget_is_enabled!\n";
 			
-			the_block_at_mouse_pos.type 
-				= get_the_block_selector_core_widget()
-				->get_left_current_level_element_index();
-			
-			//cout << block_stuff::get_bt_name
-			//	((block_type)the_block_at_mouse_pos.type) << endl;
+			if ( block_grid_coords_of_mouse_pos.x < (s32)0
+				|| block_grid_coords_of_mouse_pos.x 
+					>= (s32)the_sublevel.size_2d.x
+				|| block_grid_coords_of_mouse_pos.y < (s32)0
+				|| block_grid_coords_of_mouse_pos.y 
+					>= (s32)the_sublevel.size_2d.y )
+			{
+				//return;
+			}
+			else
+			{
+				block& the_block_at_mouse_pos 
+					= the_sublevel.uncompressed_block_data_vec_2d
+					.at((u32)block_grid_coords_of_mouse_pos.y)
+					.at((u32)block_grid_coords_of_mouse_pos.x);
+				
+				the_block_at_mouse_pos.type 
+					= get_the_block_selector_core_widget()
+					->get_left_current_level_element_index();
+			}
 			
 			draw_block_line( block_grid_coords_of_prev_mouse_pos,
 				block_grid_coords_of_mouse_pos, 
-				(block_type)the_block_at_mouse_pos.type );
+				(block_type)get_the_block_selector_core_widget()
+				->get_left_current_level_element_index() );
 		}
 		
 		//cout << endl;
@@ -849,57 +833,20 @@ void level_editor_core_widget::mouseMoveEvent( QMouseEvent* event )
 	
 	auto func_for_selecting_single_sprite = [&]() -> void
 	{
-		//if ( the_sprite_selection_ptr_group.origin_ptr != NULL )
-		//{
-		//	if ( the_sprite_selection_ptr_group.origin_ptr->type 
-		//		== st_default )
-		//	{
-		//		the_sfml_canvas_widget->disable_rect_selection();
-		//		
-		//		//cout << "st_default\n";
-		//		
-		//		return;
-		//	}
-		//}
-		//// I am not sure this will ever be the case.
-		//else 
-		//{
-		//	the_sfml_canvas_widget->disable_rect_selection();
-		//	
-		//	//cout << "else\n";
-		//	
-		//	emit sprite_no_longer_selected();
-		//	return;
-		//}
-		//
-		//
-		//sprite_init_param_group_with_size* clicked_sprite_ipgws 
-		//	= the_sprite_selection_ptr_group.origin_ptr;
-		//
-		//the_sfml_canvas_widget->enable_single_sprite_rect_selection
-		//	(clicked_sprite_ipgws);
-		//
-		//emit sprite_was_selected();
 	};
 	
 	auto func_for_rect_selection = [&]() -> void
 	{
-		//if ( !the_sfml_canvas_widget->get_rect_selection_moving() )
 		if ( !the_sfml_canvas_widget->the_rect_selection_stuff
 			.get_moving() )
 		{
-			//the_sfml_canvas_widget->continue_creating_rect_selection
-			//	(block_grid_coords_of_mouse_pos);
 			the_sfml_canvas_widget->the_rect_selection_stuff
 				.continue_creating_selection
 				(block_grid_coords_of_mouse_pos);
 		}
-		//else //if ( the_sfml_canvas_widget->get_rect_selection_moving() )
 		else //if ( the_sfml_canvas_widget->the_rect_selection_stuff
 			// .get_moving() )
 		{
-			//the_sfml_canvas_widget->continue_moving_rect_selection_contents
-			//	(block_grid_coords_of_mouse_pos);
 			the_sfml_canvas_widget->the_rect_selection_stuff
 				.continue_moving_selection_contents
 				(block_grid_coords_of_mouse_pos);
@@ -980,34 +927,33 @@ void level_editor_core_widget::mouseReleaseEvent( QMouseEvent* event )
 	//cout << mouse_pos_in_canvas_coords.x << ", "
 	//	<< mouse_pos_in_canvas_coords.y << endl;
 	
-	if ( block_grid_coords_of_mouse_pos.x < (s32)0
-		|| block_grid_coords_of_mouse_pos.x 
-			>= (s32)the_sublevel.size_2d.x
-		|| block_grid_coords_of_mouse_pos.y < (s32)0
-		|| block_grid_coords_of_mouse_pos.y 
-			>= (s32)the_sublevel.size_2d.y )
-	{
-		return;
-	}
+	//if ( block_grid_coords_of_mouse_pos.x < (s32)0
+	//	|| block_grid_coords_of_mouse_pos.x 
+	//		>= (s32)the_sublevel.size_2d.x
+	//	|| block_grid_coords_of_mouse_pos.y < (s32)0
+	//	|| block_grid_coords_of_mouse_pos.y 
+	//		>= (s32)the_sublevel.size_2d.y )
+	//{
+	//	return;
+	//}
 	
-	if ( !the_sfml_canvas_widget->point_is_in_visible_rect
-		( sf::Vector2i( event->x(), event->y() ) ) )
-	{
-		//cout << "out of bounds\n";
-		return;
-	}
+	//if ( !the_sfml_canvas_widget->point_is_in_visible_rect
+	//	( sf::Vector2i( event->x(), event->y() ) ) )
+	//{
+	//	//cout << "out of bounds\n";
+	//	return;
+	//}
 	
 	
+	//block& the_block_at_mouse_pos 
+	//	= the_sublevel.uncompressed_block_data_vec_2d
+	//	.at((u32)block_grid_coords_of_mouse_pos.y)
+	//	.at((u32)block_grid_coords_of_mouse_pos.x);
 	
-	block& the_block_at_mouse_pos 
-		= the_sublevel.uncompressed_block_data_vec_2d
-		.at((u32)block_grid_coords_of_mouse_pos.y)
-		.at((u32)block_grid_coords_of_mouse_pos.x);
-	
-	sprite_init_param_group_with_size& the_sprite_ipgws_at_mouse_pos
-		= the_sublevel.sprite_ipgws_vec_2d
-		[block_grid_coords_of_mouse_pos.y]
-		[block_grid_coords_of_mouse_pos.x];
+	//sprite_init_param_group_with_size& the_sprite_ipgws_at_mouse_pos
+	//	= the_sublevel.sprite_ipgws_vec_2d
+	//	[block_grid_coords_of_mouse_pos.y]
+	//	[block_grid_coords_of_mouse_pos.x];
 	
 	
 	bool current_tabbed_widget_is_for_blocks 
@@ -1022,60 +968,15 @@ void level_editor_core_widget::mouseReleaseEvent( QMouseEvent* event )
 	
 	
 	
-	
-	//adj_sprite_ipgws_ptr_group_for_selecting_sprite
-	//	the_sprite_selection_ptr_group( the_sublevel,
+	//the_sprite_selection_ptr_group 
+	//	= adj_sprite_ipgws_ptr_group_for_selecting_sprite( the_sublevel,
 	//	block_grid_coords_of_mouse_pos.x, 
 	//	block_grid_coords_of_mouse_pos.y );
 	
-	the_sprite_selection_ptr_group 
-		= adj_sprite_ipgws_ptr_group_for_selecting_sprite( the_sublevel,
-		block_grid_coords_of_mouse_pos.x, 
-		block_grid_coords_of_mouse_pos.y );
-	
-	//if ( the_sprite_selection_ptr_group.origin_ptr != NULL )
-	//{
-	//	if ( the_sprite_selection_ptr_group.origin_ptr->type 
-	//		== st_default )
-	//	{
-	//		the_sfml_canvas_widget->disable_rect_selection();
-	//		
-	//		//cout << "st_default\n";
-	//		emit sprite_no_longer_selected();
-	//	}
-	//}
-	//// I am not sure this will ever be the case.
-	//else 
-	//{
-	//	the_sfml_canvas_widget->disable_rect_selection();
-	//	
-	//	//cout << "else\n";
-	//	emit sprite_no_longer_selected();
-	//}
 	
 	
 	auto func_for_placing_level_elements = [&]() -> void
 	{
-		//the_sfml_canvas_widget->modified_recently = true;
-		////cout << "placing level elements\n";
-		//
-		//if (current_tabbed_widget_is_for_blocks)
-		//{
-		//	//cout << "the_block_selector_widget_is_enabled!\n";
-		//	
-		//	the_block_at_mouse_pos.type 
-		//		= get_the_block_selector_core_widget()
-		//		->get_left_current_level_element_index();
-		//	
-		//	//cout << block_stuff::get_bt_name
-		//	//	((block_type)the_block_at_mouse_pos.type) << endl;
-		//	
-		//	draw_block_line( block_grid_coords_of_prev_mouse_pos,
-		//		block_grid_coords_of_mouse_pos, 
-		//		(block_type)the_block_at_mouse_pos.type );
-		//}
-		//
-		////cout << endl;
 	};
 	
 	auto func_for_erasing_sprites = [&]() -> void
@@ -1085,54 +986,19 @@ void level_editor_core_widget::mouseReleaseEvent( QMouseEvent* event )
 	
 	auto func_for_selecting_single_sprite = [&]() -> void
 	{
-		//if ( the_sprite_selection_ptr_group.origin_ptr != NULL )
-		//{
-		//	if ( the_sprite_selection_ptr_group.origin_ptr->type 
-		//		== st_default )
-		//	{
-		//		the_sfml_canvas_widget->disable_rect_selection();
-		//		
-		//		//cout << "st_default\n";
-		//		
-		//		return;
-		//	}
-		//}
-		//// I am not sure this will ever be the case.
-		//else 
-		//{
-		//	the_sfml_canvas_widget->disable_rect_selection();
-		//	
-		//	//cout << "else\n";
-		//	
-		//	emit sprite_no_longer_selected();
-		//	return;
-		//}
-		//
-		//
-		//sprite_init_param_group_with_size* clicked_sprite_ipgws 
-		//	= the_sprite_selection_ptr_group.origin_ptr;
-		//
-		//the_sfml_canvas_widget->enable_single_sprite_rect_selection
-		//	(clicked_sprite_ipgws);
-		//
-		//emit sprite_was_selected();
 	};
 	
 	auto func_for_rect_selection = [&]() -> void
 	{
-		//if ( !the_sfml_canvas_widget->get_rect_selection_moving() )
 		if ( !the_sfml_canvas_widget->the_rect_selection_stuff
 			.get_moving() )
 		{
-			//the_sfml_canvas_widget->stop_creating_rect_selection();
 			the_sfml_canvas_widget->the_rect_selection_stuff
 				.stop_creating_selection();
 		}
-		//else //if ( the_sfml_canvas_widget->get_rect_selection_moving() )
 		else //if ( the_sfml_canvas_widget->the_rect_selection_stuff
 			//.get_moving() )
 		{
-			//the_sfml_canvas_widget->stop_moving_rect_selection_contents();
 			the_sfml_canvas_widget->the_rect_selection_stuff
 				.stop_moving_selection_contents();
 		}

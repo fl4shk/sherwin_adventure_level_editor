@@ -93,6 +93,14 @@ public:		// variables
 	// A pointer to the current sublevel
 	sublevel* the_sublevel;
 	
+	
+	// Whether
+	bool selection_was_pasted;
+	vector< vector<block> > copied_blocks_vec_2d;
+	vector< vector<sprite_init_param_group_with_size> > 
+		copied_sprite_ipgws_vec_2d;
+	
+	
 public:		// functions
 	
 	inline bool get_enabled() const

@@ -131,6 +131,7 @@ sfml_canvas_widget::sfml_canvas_widget( QWidget* s_parent,
 	
 	the_block_grid_stuff.enabled = false;
 	the_rect_selection_stuff.enabled = false;
+	the_rect_selection_stuff.selection_was_pasted = false;
 	
 	// (Maybe) Make it so that the widget's full contents can be scrolled
 	//setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
@@ -837,8 +838,10 @@ void sfml_canvas_widget::update_visible_area()
 				}
 				
 				// Don't show any sprites if they are part of
-				// selection_rect_before_moving
-				else if ( sr_before_moving_contains_block_grid_pos )
+				// selection_rect_before_moving and the selection was not
+				// pasted.
+				else if ( sr_before_moving_contains_block_grid_pos 
+					&& !the_rect_selection_stuff.selection_was_pasted )
 				{
 					the_sprite_ipgws = &default_sprite_ipgws;
 				}
@@ -854,7 +857,7 @@ void sfml_canvas_widget::update_visible_area()
 	//cout << num_drawn_16x32_sprites << endl;
 	//cout << endl;
 	
-	if ( !the_rect_selection_stuff.single_sprite_selected )
+	if (!the_rect_selection_stuff.single_sprite_selected)
 	{
 		if ( the_rect_selection_stuff.selection_layer == rsl_blocks )
 		{
@@ -868,10 +871,28 @@ void sfml_canvas_widget::update_visible_area()
 					vec2_s32 block_grid_pos( selection_rect.left + i,
 						selection_rect.top + j );
 					
-					draw_16x32_sprite( &(the_sublevel->sprite_ipgws_vec_2d
-						.at((u32)(selection_rect_before_moving.top + j))
-						.at((u32)(selection_rect_before_moving.left + i))),
-						block_grid_pos );
+					vec2_u32 original_block_grid_pos
+						( selection_rect_before_moving.left + i,
+						selection_rect_before_moving.top + j );
+					
+					
+					if (!the_rect_selection_stuff.selection_was_pasted)
+					{
+						draw_16x32_sprite
+							( &(the_sublevel->sprite_ipgws_vec_2d
+							.at(original_block_grid_pos.y)
+							.at(original_block_grid_pos.x)),
+							block_grid_pos );
+					}
+					else
+					{
+						draw_16x32_sprite
+							( &( the_rect_selection_stuff
+							.copied_sprite_ipgws_vec_2d
+							.at(original_block_grid_pos.y)
+							.at(original_block_grid_pos.x)),
+							block_grid_pos );
+					}
 				}
 			}
 		}
@@ -1041,51 +1062,14 @@ void sfml_canvas_widget::update_visible_area()
 				}
 				
 				// Don't show any sprites if they are part of
-				// selection_rect_before_moving
-				else if ( sr_before_moving_contains_block_grid_pos )
+				// selection_rect_before_moving and the contents were not
+				// pasted.
+				else if ( sr_before_moving_contains_block_grid_pos 
+					&& !the_rect_selection_stuff.selection_was_pasted )
 				{
 					the_sprite_ipgws = &default_sprite_ipgws;
 				}
 				
-				// Old code from before the multi-layered thing.
-				//else if (!sr_contains_block_grid_pos)
-				//{
-				//	// Don't draw anything if there is no longer a sprite
-				//	// at the spot due to the moved selection rect
-				//	// contents.
-				//	if (sr_before_moving_contains_block_grid_pos)
-				//	{
-				//		the_sprite_ipgws = &default_sprite_ipgws;
-				//	}
-				//}
-				//
-				//else
-				//{
-				//	sprite_init_param_group_with_size* other_sprite_ipgws
-				//		= &( the_sublevel->sprite_ipgws_vec_2d
-				//		.at((u32)original_block_grid_pos.y)
-				//		.at((u32)original_block_grid_pos.x) );
-				//	
-				//	
-				//	// Draw other_sprite_ipgws if its original location is
-				//	// not inside the selection at its current location.
-				//	if ( !sr_contains_original_block_grid_pos 
-				//		&& other_sprite_ipgws->type != st_default)
-				//	{
-				//		the_sprite_ipgws = other_sprite_ipgws;
-				//	}
-				//	
-				//	
-				//	// Don't draw anything if the sprite at the current
-				//	// position was moved.
-				//	//else if ( sr_contains_original_block_grid_pos
-				//	//	&& other_sprite_ipgws->type != st_default )
-				//	else
-				//	{
-				//		the_sprite_ipgws = &default_sprite_ipgws;
-				//	}
-				//	
-				//}
 				
 			}
 			
@@ -1098,7 +1082,7 @@ void sfml_canvas_widget::update_visible_area()
 	//cout << num_drawn_16x16_sprites << endl;
 	//cout << endl;
 	
-	if ( !the_rect_selection_stuff.single_sprite_selected )
+	if (!the_rect_selection_stuff.single_sprite_selected)
 	{
 		if ( the_rect_selection_stuff.selection_layer == rsl_blocks )
 		{
@@ -1112,10 +1096,28 @@ void sfml_canvas_widget::update_visible_area()
 					vec2_s32 block_grid_pos( selection_rect.left + i,
 						selection_rect.top + j );
 					
-					draw_16x16_sprite( &(the_sublevel->sprite_ipgws_vec_2d
-						.at((u32)(selection_rect_before_moving.top + j))
-						.at((u32)(selection_rect_before_moving.left + i))),
-						block_grid_pos );
+					vec2_u32 original_block_grid_pos
+						( selection_rect_before_moving.left + i,
+						selection_rect_before_moving.top + j );
+					
+					
+					if (!the_rect_selection_stuff.selection_was_pasted)
+					{
+						draw_16x16_sprite
+							( &(the_sublevel->sprite_ipgws_vec_2d
+							.at(original_block_grid_pos.y)
+							.at(original_block_grid_pos.x)),
+							block_grid_pos );
+					}
+					else
+					{
+						draw_16x16_sprite
+							( &( the_rect_selection_stuff
+							.copied_sprite_ipgws_vec_2d
+							.at(original_block_grid_pos.y)
+							.at(original_block_grid_pos.x)),
+							block_grid_pos );
+					}
 				}
 			}
 		}

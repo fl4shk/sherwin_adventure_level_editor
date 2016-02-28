@@ -41,65 +41,18 @@ void rect_selection_stuff::start_creating_selection
 	selection_layer = n_selection_layer;
 	moving = false;
 	
-	if ( selection_layer == rsl_blocks )
-	{
-		// Just one block
-		selection_rect = sf::IntRect
-			( n_starting_block_grid_coords_of_mouse.x,
-			n_starting_block_grid_coords_of_mouse.y, 1, 1 );
-		
-		ending_block_grid_coords
-			= n_starting_block_grid_coords_of_mouse;
-	}
-	else if ( selection_layer == rsl_sprites )
-	{
-		//sprite_init_param_group_with_size* single_selected_sprite_ipgws
-		//	= &( the_sublevel->sprite_ipgws_vec_2d
-		//	.at(n_starting_block_grid_coords_of_mouse.y)
-		//	.at(n_starting_block_grid_coords_of_mouse.x) );
-		//
-		//if ( single_selected_sprite_ipgws->size_2d.x == 0 
-		//	|| single_selected_sprite_ipgws->size_2d.y == 0 )
-		//if ( single_selected_sprite_ipgws->type == st_default )
-		{
-			//disable_rect_selection();
-			
-			// Just one "block"
-			selection_rect = sf::IntRect
-				( n_starting_block_grid_coords_of_mouse.x,
-				n_starting_block_grid_coords_of_mouse.y, 1, 1 );
-			
-			ending_block_grid_coords
-				= n_starting_block_grid_coords_of_mouse;
-		}
-		//else
-		//{
-		//	
-		//	// Make it so that the rectangular selection covers the whole
-		//	// sprite.  For "blank" sprites (using st_default), this would
-		//	// hopefully cause the size of the selection_rect to be 16x16.
-		//	selection_rect = sf::IntRect
-		//		( single_selected_sprite_ipgws->initial_block_grid_x_coord,
-		//		single_selected_sprite_ipgws->initial_block_grid_y_coord,
-		//		single_selected_sprite_ipgws->size_2d.x 
-		//		/ num_pixels_per_block_row, 
-		//		single_selected_sprite_ipgws->size_2d.y 
-		//		/ num_pixels_per_block_column );
-		//	
-		//	ending_block_grid_coords.x
-		//		= starting_block_grid_coords.x 
-		//		+ single_selected_sprite_ipgws->size_2d.x;
-		//	
-		//	ending_block_grid_coords.y
-		//		= starting_block_grid_coords.y 
-		//		+ single_selected_sprite_ipgws->size_2d.y;
-		//}
-	}
+	selection_was_pasted = false;
 	
-	starting_block_grid_coords_before_moving
-		= starting_block_grid_coords;
-	ending_block_grid_coords_before_moving
-		= ending_block_grid_coords;
+	
+	// Just one block
+	selection_rect = sf::IntRect( n_starting_block_grid_coords_of_mouse.x,
+		n_starting_block_grid_coords_of_mouse.y, 1, 1 );
+	
+	ending_block_grid_coords = n_starting_block_grid_coords_of_mouse;
+	
+	
+	starting_block_grid_coords_before_moving = starting_block_grid_coords;
+	ending_block_grid_coords_before_moving = ending_block_grid_coords;
 }
 
 void rect_selection_stuff::continue_creating_selection
@@ -113,15 +66,12 @@ void rect_selection_stuff::continue_creating_selection
 	{
 		starting_block_grid_coords.x
 			= starting_block_grid_coords_of_mouse.x;
-		ending_block_grid_coords.x
-			= curr_block_grid_coords_of_mouse.x;
+		ending_block_grid_coords.x = curr_block_grid_coords_of_mouse.x;
 	}
 	else
 	{
-		starting_block_grid_coords.x
-			= curr_block_grid_coords_of_mouse.x;
-		ending_block_grid_coords.x
-			= starting_block_grid_coords_of_mouse.x;
+		starting_block_grid_coords.x = curr_block_grid_coords_of_mouse.x;
+		ending_block_grid_coords.x = starting_block_grid_coords_of_mouse.x;
 	}
 	
 	if ( starting_block_grid_coords_of_mouse.y
@@ -129,15 +79,12 @@ void rect_selection_stuff::continue_creating_selection
 	{
 		starting_block_grid_coords.y
 			= starting_block_grid_coords_of_mouse.y;
-		ending_block_grid_coords.y
-			= curr_block_grid_coords_of_mouse.y;
+		ending_block_grid_coords.y = curr_block_grid_coords_of_mouse.y;
 	}
 	else
 	{
-		starting_block_grid_coords.y
-			= curr_block_grid_coords_of_mouse.y;
-		ending_block_grid_coords.y
-			= starting_block_grid_coords_of_mouse.y;
+		starting_block_grid_coords.y = curr_block_grid_coords_of_mouse.y;
+		ending_block_grid_coords.y = starting_block_grid_coords_of_mouse.y;
 	}
 	
 	
@@ -177,20 +124,16 @@ void rect_selection_stuff::continue_creating_selection
 		ending_block_grid_coords.y = the_sublevel->size_2d.y - 1;
 	}
 	
-	selection_rect.left 
-		= starting_block_grid_coords.x;
-	selection_rect.top 
-		= starting_block_grid_coords.y;
+	selection_rect.left = starting_block_grid_coords.x;
+	selection_rect.top = starting_block_grid_coords.y;
 	
-	selection_rect.width 
-		= ending_block_grid_coords.x - starting_block_grid_coords.x + 1;
-	selection_rect.height 
-		= ending_block_grid_coords.y - starting_block_grid_coords.y + 1;
+	selection_rect.width = ending_block_grid_coords.x 
+		- starting_block_grid_coords.x + 1;
+	selection_rect.height = ending_block_grid_coords.y 
+		- starting_block_grid_coords.y + 1;
 	
-	starting_block_grid_coords_before_moving
-		= starting_block_grid_coords;
-	ending_block_grid_coords_before_moving
-		= ending_block_grid_coords;
+	starting_block_grid_coords_before_moving = starting_block_grid_coords;
+	ending_block_grid_coords_before_moving = ending_block_grid_coords;
 }
 
 void rect_selection_stuff::stop_creating_selection()
@@ -198,10 +141,8 @@ void rect_selection_stuff::stop_creating_selection()
 	//cout << "stop_rect_selection()\n";
 	mouse_released = true;
 	
-	starting_block_grid_coords_before_moving
-		= starting_block_grid_coords;
-	ending_block_grid_coords_before_moving
-		= ending_block_grid_coords;
+	starting_block_grid_coords_before_moving = starting_block_grid_coords;
+	ending_block_grid_coords_before_moving = ending_block_grid_coords;
 }
 
 
@@ -211,16 +152,6 @@ void rect_selection_stuff::start_moving_selection_contents
 {
 	//cout << "start_moving_rect_selection_contents()\n";
 	
-	//starting_block_grid_coords_of_mouse
-	//	= n_starting_block_grid_coords_of_mouse;
-	//starting_block_grid_coords
-	//	= n_starting_block_grid_coords_of_mouse;
-	//
-	//selection_rect.left 
-	//	= n_starting_block_grid_coords_of_mouse.x;
-	//selection_rect.top
-	//	= n_starting_block_grid_coords_of_mouse.y;
-	
 	single_sprite_selected = false;
 	
 	enabled = true;
@@ -228,11 +159,9 @@ void rect_selection_stuff::start_moving_selection_contents
 	//selection_layer = n_selection_layer;
 	moving = true;
 	
-	clicked_location_in_rect
-		= n_clicked_location_in_rect;
+	clicked_location_in_rect = n_clicked_location_in_rect;
 	
-	starting_block_grid_coords_of_mouse
-		= starting_block_grid_coords
+	starting_block_grid_coords_of_mouse = starting_block_grid_coords
 		+ n_clicked_location_in_rect;
 	
 }
@@ -243,37 +172,17 @@ void rect_selection_stuff::continue_moving_selection_contents
 	//cout << "continue_moving_rect_selection_contents()\n";
 	
 	
-	// Right now, this just moves the selection_rect itself, but not the
-	// contents (yet).
-	
-	//vec2_s32& starting_block_grid_coords_of_mouse 
-	//	= starting_block_grid_coords_of_mouse;
-	//vec2_s32& starting_block_grid_coords 
-	//	= starting_block_grid_coords;
-	//vec2_s32& ending_block_grid_coords 
-	//	= ending_block_grid_coords;
-	//
-	//vec2_s32& clicked_location_in_rect
-	//	= clicked_location_in_rect;
-	
-	
-	//cout << "clicked_location_in_rect:  "
-	//	<< clicked_location_in_rect.x << ", " << clicked_location_in_rect.y
-	//	<< "\n";
-	
 	vec2_s32 ending_block_grid_coords_offset
 		= ending_block_grid_coords - starting_block_grid_coords;
-	
-	//cout << "ending_block_grid_coords_offset:  " 
-	//	<< ending_block_grid_coords_offset.x << ", "
-	//	<< ending_block_grid_coords_offset.y << endl;
-	
-	//starting_block_grid_coords = starting_block_grid_coords_of_mouse
-	//	+ ( curr_block_grid_coords_of_mouse 
-	//	- starting_block_grid_coords_of_mouse ) + clicked_location_in_rect;
+	//vec2_s32 ending_block_grid_coords_offset( selection_rect.width,
+	//	selection_rect.height );
 	
 	starting_block_grid_coords = curr_block_grid_coords_of_mouse
 		- clicked_location_in_rect;
+	
+	cout << "before, starting_block_grid_coords:  " 
+		<< starting_block_grid_coords.x << ", " 
+		<< starting_block_grid_coords.y << endl;
 	
 	// Correction things.
 	if ( starting_block_grid_coords.x < 0 )
@@ -298,8 +207,16 @@ void rect_selection_stuff::continue_moving_selection_contents
 		
 	}
 	
+	cout << "after, starting_block_grid_coords:  " 
+		<< starting_block_grid_coords.x << ", " 
+		<< starting_block_grid_coords.y << endl;
+	
 	ending_block_grid_coords = starting_block_grid_coords
 		+ ending_block_grid_coords_offset;
+	
+	cout << "before, ending_block_grid_coords:  " 
+		<< ending_block_grid_coords.x << ", " 
+		<< ending_block_grid_coords.y << endl;
 	
 	if ( ending_block_grid_coords.x < ending_block_grid_coords_offset.x )
 	{
@@ -318,15 +235,19 @@ void rect_selection_stuff::continue_moving_selection_contents
 		ending_block_grid_coords.y = the_sublevel->size_2d.y - 1;
 	}
 	
-	selection_rect.left 
-		= starting_block_grid_coords.x;
-	selection_rect.top 
-		= starting_block_grid_coords.y;
+	cout << "after, ending_block_grid_coords:  " 
+		<< ending_block_grid_coords.x << ", " 
+		<< ending_block_grid_coords.y << endl;
 	
-	selection_rect.width 
-		= ending_block_grid_coords.x - starting_block_grid_coords.x + 1;
-	selection_rect.height 
-		= ending_block_grid_coords.y - starting_block_grid_coords.y + 1;
+	cout << endl;
+	
+	selection_rect.left = starting_block_grid_coords.x;
+	selection_rect.top = starting_block_grid_coords.y;
+	
+	//selection_rect.width = ending_block_grid_coords.x 
+	//	- starting_block_grid_coords.x + 1;
+	//selection_rect.height = ending_block_grid_coords.y 
+	//	- starting_block_grid_coords.y + 1;
 	
 }
 
@@ -378,11 +299,11 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 	
 	if ( selection_layer == rsl_blocks )
 	{
-		vector< vector<block> > copied_blocks_in_selection_vec_2d;
+		vector< vector<block> > moved_blocks_in_selection_vec_2d;
 		
 		for ( s32 j=0; j<selection_rect_before_moving.height; ++j )
 		{
-			copied_blocks_in_selection_vec_2d.push_back(vector<block>());
+			moved_blocks_in_selection_vec_2d.push_back(vector<block>());
 			for ( s32 i=0; i<selection_rect_before_moving.width; ++i )
 			{
 				vec2_s32 original_block_grid_pos
@@ -394,8 +315,7 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 					.at((u32)original_block_grid_pos.y)
 					.at((u32)original_block_grid_pos.x);
 				
-				copied_blocks_in_selection_vec_2d.at(j).push_back
-					(the_block);
+				moved_blocks_in_selection_vec_2d.at(j).push_back(the_block);
 				
 				// Delete the data of the_block.
 				the_block = block();
@@ -411,7 +331,7 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 				
 				the_sublevel->uncompressed_block_data_vec_2d
 					.at(block_grid_pos.y).at(block_grid_pos.x)
-					= copied_blocks_in_selection_vec_2d.at(j).at(i);
+					= moved_blocks_in_selection_vec_2d.at(j).at(i);
 			}
 		}
 		
@@ -419,11 +339,11 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 	else if ( selection_layer == rsl_sprites )
 	{
 		vector< vector<sprite_init_param_group_with_size> > 
-			copied_sprite_ipgwss_in_selection_vec_2d;
+			moved_sprite_ipgws_in_selection_vec_2d;
 		
 		for ( s32 j=0; j<selection_rect_before_moving.height; ++j )
 		{
-			copied_sprite_ipgwss_in_selection_vec_2d.push_back
+			moved_sprite_ipgws_in_selection_vec_2d.push_back
 				(vector<sprite_init_param_group_with_size>());
 			
 			for ( s32 i=0; i<selection_rect_before_moving.width; ++i )
@@ -437,7 +357,7 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 					.at((u32)original_block_grid_pos.y)
 					.at((u32)original_block_grid_pos.x);
 				
-				copied_sprite_ipgwss_in_selection_vec_2d.at(j).push_back
+				moved_sprite_ipgws_in_selection_vec_2d.at(j).push_back
 					(the_sprite_ipgws);
 				
 				// Delete the data of the_sprite_ipgws.
@@ -453,7 +373,7 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 					selection_rect.top + j );
 				
 				sprite_init_param_group_with_size& the_sprite_ipgws
-					= copied_sprite_ipgwss_in_selection_vec_2d.at(j).at(i);
+					= moved_sprite_ipgws_in_selection_vec_2d.at(j).at(i);
 				
 				if ( the_sprite_ipgws.type != st_default )
 				{
@@ -484,6 +404,7 @@ void rect_selection_stuff::enable_single_sprite_selection
 	
 	single_sprite_selected = true;
 	selection_layer = rsl_sprites;
+	selection_was_pasted = false;
 	
 	selection_rect = sf::IntRect
 		( n_selected_sprite_ipgws->initial_block_grid_x_coord,
