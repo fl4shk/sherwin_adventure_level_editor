@@ -582,12 +582,12 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 			( block_grid_coords_of_mouse_pos.x, 
 			block_grid_coords_of_mouse_pos.y );
 		
-		cout << "clicked_location_intersects_rect:  "
-			<< clicked_location_intersects_rect << endl;
-		
-		cout << "rect selection enabled:  " 
-			<< the_sfml_canvas_widget->the_rect_selection_stuff
-			.get_enabled() << endl;
+		//cout << "clicked_location_intersects_rect:  "
+		//	<< clicked_location_intersects_rect << endl;
+		//
+		//cout << "rect selection enabled:  " 
+		//	<< the_sfml_canvas_widget->the_rect_selection_stuff
+		//	.get_enabled() << endl;
 		
 		
 		//if ( !the_sfml_canvas_widget->get_rect_selection_enabled() 

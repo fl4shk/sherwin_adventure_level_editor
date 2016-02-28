@@ -90,12 +90,18 @@ public:		// variables
 	vec2_s32 ending_block_grid_coords_before_moving;
 	
 	
-	// A pointer to the current sublevel
+	// A pointer to the current sublevel.  At some point, a pointer to an
+	// instance of a class called "level" should be used instead.
 	sublevel* the_sublevel;
 	
 	
-	// Whether
+	
+	// Whether the selection was pasted.
 	bool selection_was_pasted;
+	// Which layer the pasted selection is from.
+	rect_selection_layer original_layer_of_pasted_selection;
+	
+	// Stuff to paste
 	vector< vector<block> > copied_blocks_vec_2d;
 	vector< vector<sprite_init_param_group_with_size> > 
 		copied_sprite_ipgws_vec_2d;
@@ -141,6 +147,17 @@ public:		// functions
 		return moving;
 	}
 	
+	inline bool get_selection_was_pasted() const
+	{
+		return selection_was_pasted;
+	}
+	inline rect_selection_layer get_original_layer_of_pasted_selection()
+		const
+	{
+		return original_layer_of_pasted_selection;
+	}
+	
+	
 	//inline void enable_generic_rect_selection
 	//	( const sf::IntRect& n_selection_rect )
 	//{
@@ -167,6 +184,8 @@ public:		// functions
 	
 	// 
 	void finalize_movement_of_selection_contents();
+	
+	
 	
 	
 	void enable_single_sprite_selection

@@ -259,6 +259,7 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 	//const sf::IntRect& selection_rect 
 	//	= selection_rect;
 	
+	
 	const vec2_s32& rs_starting_block_grid_coords_before_moving
 		= starting_block_grid_coords_before_moving;
 	const vec2_s32& rs_ending_block_grid_coords_before_moving
@@ -275,19 +276,22 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 		( rs_ending_block_grid_coords_before_moving.y
 		- rs_starting_block_grid_coords_before_moving.y + 1 ) );
 	
-	if ( selection_rect == selection_rect_before_moving )
+	if ( selection_rect == selection_rect_before_moving 
+		&& !get_selection_was_pasted() )
 	{
 		return;
 	}
 	
-	if ( selection_layer == rsl_blocks )
+	if ( selection_layer == rsl_blocks && !get_selection_was_pasted() )
 	{
 		vector< vector<block> > moved_blocks_in_selection_vec_2d;
 		
-		for ( s32 j=0; j<selection_rect_before_moving.height; ++j )
+		for ( s32 j=0; j<selection_rect.height; ++j )
 		{
-			moved_blocks_in_selection_vec_2d.push_back(vector<block>());
-			for ( s32 i=0; i<selection_rect_before_moving.width; ++i )
+			moved_blocks_in_selection_vec_2d.push_back
+				(vector<block>());
+			
+			for ( s32 i=0; i<selection_rect.width; ++i )
 			{
 				vec2_s32 original_block_grid_pos
 					( selection_rect_before_moving.left + i,
@@ -298,16 +302,17 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 					.at((u32)original_block_grid_pos.y)
 					.at((u32)original_block_grid_pos.x);
 				
-				moved_blocks_in_selection_vec_2d.at(j).push_back(the_block);
+				moved_blocks_in_selection_vec_2d.at(j).push_back
+					(the_block);
 				
 				// Delete the data of the_block.
 				the_block = block();
 			}
 		}
 		
-		for ( s32 j=0; j<selection_rect_before_moving.height; ++j )
+		for ( s32 j=0; j<selection_rect.height; ++j )
 		{
-			for ( s32 i=0; i<selection_rect_before_moving.width; ++i )
+			for ( s32 i=0; i<selection_rect.width; ++i )
 			{
 				vec2_s32 block_grid_pos( selection_rect.left + i,
 					selection_rect.top + j );
@@ -317,19 +322,34 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 					= moved_blocks_in_selection_vec_2d.at(j).at(i);
 			}
 		}
-		
 	}
-	else if ( selection_layer == rsl_sprites )
+	else if ( selection_layer == rsl_blocks && get_selection_was_pasted() )
+	{
+		for ( s32 j=0; j<selection_rect.height; ++j )
+		{
+			for ( s32 i=0; i<selection_rect.width; ++i )
+			{
+				vec2_s32 block_grid_pos( selection_rect.left + i,
+					selection_rect.top + j );
+				
+				the_sublevel->uncompressed_block_data_vec_2d
+					.at(block_grid_pos.y).at(block_grid_pos.x)
+					= copied_blocks_vec_2d.at(j).at(i);
+			}
+		}
+	}
+	else if ( selection_layer == rsl_sprites 
+		&& !get_selection_was_pasted() )
 	{
 		vector< vector<sprite_init_param_group_with_size> > 
 			moved_sprite_ipgws_in_selection_vec_2d;
 		
-		for ( s32 j=0; j<selection_rect_before_moving.height; ++j )
+		for ( s32 j=0; j<selection_rect.height; ++j )
 		{
 			moved_sprite_ipgws_in_selection_vec_2d.push_back
 				(vector<sprite_init_param_group_with_size>());
 			
-			for ( s32 i=0; i<selection_rect_before_moving.width; ++i )
+			for ( s32 i=0; i<selection_rect.width; ++i )
 			{
 				vec2_s32 original_block_grid_pos
 					( selection_rect_before_moving.left + i,
@@ -348,9 +368,9 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 			}
 		}
 		
-		for ( s32 j=0; j<selection_rect_before_moving.height; ++j )
+		for ( s32 j=0; j<selection_rect.height; ++j )
 		{
-			for ( s32 i=0; i<selection_rect_before_moving.width; ++i )
+			for ( s32 i=0; i<selection_rect.width; ++i )
 			{
 				vec2_s32 block_grid_pos( selection_rect.left + i,
 					selection_rect.top + j );
@@ -360,7 +380,36 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 				
 				if ( the_sprite_ipgws.type != st_default )
 				{
-					sprite_init_param_group_with_size& the_new_sprite_ipgws
+					sprite_init_param_group_with_size& the_new_sprite_ipgws 
+						= the_sublevel->sprite_ipgws_vec_2d
+						.at(block_grid_pos.y).at(block_grid_pos.x);
+					
+					the_new_sprite_ipgws = the_sprite_ipgws;
+					
+					the_new_sprite_ipgws.initial_block_grid_x_coord
+						= block_grid_pos.x;
+					the_new_sprite_ipgws.initial_block_grid_y_coord
+						= block_grid_pos.y;
+				}
+			}
+		}
+	}
+	else if ( selection_layer == rsl_sprites 
+		&& get_selection_was_pasted() )
+	{
+		for ( s32 j=0; j<selection_rect.height; ++j )
+		{
+			for ( s32 i=0; i<selection_rect.width; ++i )
+			{
+				vec2_s32 block_grid_pos( selection_rect.left + i,
+					selection_rect.top + j );
+				
+				sprite_init_param_group_with_size& the_sprite_ipgws
+					= copied_sprite_ipgws_vec_2d.at(j).at(i);
+				
+				if ( the_sprite_ipgws.type != st_default )
+				{
+					sprite_init_param_group_with_size& the_new_sprite_ipgws 
 						= the_sublevel->sprite_ipgws_vec_2d
 						.at(block_grid_pos.y).at(block_grid_pos.x);
 					
