@@ -106,26 +106,50 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 	//	QSizePolicy::Minimum );
 	//the_core_widget->setMinimumSize( QSize( 256, 256 ) );
 	
+	//core_widget_scroll_area->setSizePolicy( QSizePolicy::MinimumExpanding,
+	//	QSizePolicy::MinimumExpanding );
+	//core_widget_scroll_area->setSizePolicy( QSizePolicy::Ignored,
+	//	QSizePolicy::Ignored );
+	//core_widget_scroll_area->setWidgetResizable(true);
+	
 	the_core_widget->the_sfml_canvas_widget->set_scroll_area
 		(core_widget_scroll_area);
 	
 	
 	
+	////vbox_layout = new QVBoxLayout(this);
+	//vbox_layout = new QVBoxLayout;
+	//vbox_layout->addWidget(level_element_selectors_tab_widget);
+	//
+	//
+	//// hbox_layout stuff
+	//hbox_layout = new QHBoxLayout(this);
+	//hbox_layout->addWidget(core_widget_scroll_area);
+	//
+	////hbox_layout->addSpacing(3000);
+	//
+	////hbox_layout->addWidget(level_element_selectors_tab_widget);
+	//hbox_layout->addLayout(vbox_layout);
+	
+	// splitter stuff
+	horiz_splitter = new QSplitter(this);
+	
+	horiz_splitter->setSizePolicy( QSizePolicy::Ignored, 
+		QSizePolicy::Ignored );
 	
 	
-	//vbox_layout = new QVBoxLayout(this);
-	vbox_layout = new QVBoxLayout;
-	vbox_layout->addWidget(level_element_selectors_tab_widget);
+	vert_splitter = new QSplitter(this);
+	vert_splitter->addWidget(level_element_selectors_tab_widget);
+	vert_splitter->setOrientation(Qt::Vertical);
 	
 	
-	// hbox_layout stuff
+	horiz_splitter->addWidget(core_widget_scroll_area);
+	horiz_splitter->addWidget(vert_splitter);
+	
+	
 	hbox_layout = new QHBoxLayout(this);
-	hbox_layout->addWidget(core_widget_scroll_area);
+	hbox_layout->addWidget(horiz_splitter);
 	
-	//hbox_layout->addSpacing(3000);
-	
-	//hbox_layout->addWidget(level_element_selectors_tab_widget);
-	hbox_layout->addLayout(vbox_layout);
 	
 }
 
@@ -223,8 +247,10 @@ void level_editor_widget::show_sprite_properties_widget()
 		the_core_widget->the_sfml_canvas_widget->the_rect_selection_stuff
 		.get_single_selected_sprite_ipgws() ));
 	
-	vbox_layout->addWidget(the_sprite_properties_widget.get());
+	//vbox_layout->addWidget(the_sprite_properties_widget.get());
 	//cout << "added the_sprite_properties_widget\n";
+	
+	vert_splitter->addWidget(the_sprite_properties_widget.get());
 }
 
 void level_editor_widget::hide_sprite_properties_widget()
@@ -236,7 +262,9 @@ void level_editor_widget::hide_sprite_properties_widget()
 		if ( the_sprite_properties_widget.get() != NULL )
 		{
 			//cout << "the_sprite_properties_widget.get() != NULL\n";
-			vbox_layout->removeWidget(the_sprite_properties_widget.get());
+			//vbox_layout->removeWidget(the_sprite_properties_widget.get());
+			
+			the_sprite_properties_widget->hide();
 			
 			the_sprite_properties_widget.reset(NULL);
 		}
