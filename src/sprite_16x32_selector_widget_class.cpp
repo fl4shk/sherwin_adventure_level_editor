@@ -40,9 +40,14 @@ sprite_16x32_selector_widget::sprite_16x32_selector_widget
 	//grid_layout->addWidget( the_core_widget, 0, 0 );
 	
 	//setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
-	//setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Minimum );
-	setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
+	setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Minimum );
+	//setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
+	
 	setMinimumSize( QSize( the_core_widget
+		->get_level_element_palette_render_texture().getSize().x,
+		the_core_widget->get_level_element_palette_render_texture()
+		.getSize().y ) );
+	setMaximumSize( QSize( the_core_widget
 		->get_level_element_palette_render_texture().getSize().x,
 		the_core_widget->get_level_element_palette_render_texture()
 		.getSize().y ) );
