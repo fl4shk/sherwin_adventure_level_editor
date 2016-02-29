@@ -222,8 +222,70 @@ void level_editor_widget::keyPressEvent( QKeyEvent* event )
 	{
 		cout << "Pasting the copied selection contents\n";
 		
-		the_sfml_canvas_widget->the_rect_selection_stuff
-			.paste_copied_selection_contents( vec2_s32( 0, 0 ) );
+		//the_sfml_canvas_widget->the_rect_selection_stuff
+		//	.paste_copied_selection_contents( vec2_s32( 0, 0 ) );
+		
+		sf::FloatRect visible_rect 
+			= the_sfml_canvas_widget->get_visible_rect();
+		
+		u32 num_pixels_per_block_row 
+			= the_sfml_canvas_widget->num_pixels_per_block_row;
+		u32 num_pixels_per_block_column 
+			= the_sfml_canvas_widget->num_pixels_per_block_column;
+		u32 scale_factor = the_sfml_canvas_widget->scale_factor;
+		
+		vec2<double> visible_block_grid_start_pos
+			( (double)visible_rect.left 
+			/ (double)( num_pixels_per_block_column * scale_factor ), 
+			(double)visible_rect.top / (double)( num_pixels_per_block_row
+			* scale_factor ) );
+		vec2<double> visible_block_grid_size_2d( (double)visible_rect.width 
+			/ (double)( num_pixels_per_block_column * scale_factor ), 
+			(double)visible_rect.height 
+			/ (double)( num_pixels_per_block_row * scale_factor ) );
+		
+		//sf::FloatRect visible_block_grid_rect
+		//	( visible_block_grid_start_pos.x,
+		//	visible_block_grid_start_pos.y,
+		//	visible_block_grid_size_2d.x, visible_block_grid_size_2d.y );
+		//
+		//
+		//
+		//sf::Vector2i mouse_pos_in_canvas_widget_coords 
+		//	= sf::Mouse::getPosition(*the_sfml_canvas_widget);
+		//
+		//// This converts the clicked coordinate to pixel coordinates.
+		//sf::Vector2f mouse_pos_in_canvas_coords
+		//	( (double)mouse_pos_in_canvas_widget_coords.x 
+		//	/ (double)the_sfml_canvas_widget->scale_factor,
+		//	(double)mouse_pos_in_canvas_widget_coords.y
+		//	/ (double)the_sfml_canvas_widget->scale_factor );
+		//
+		//vec2_s32 block_grid_coords_of_mouse_pos
+		//	= { (s32)( mouse_pos_in_canvas_coords.x
+		//	/ ( sfml_canvas_widget::num_pixels_per_block_row ) ),
+		//	
+		//	(s32)( ( the_sfml_canvas_widget->the_sublevel->real_size_2d.y 
+		//	- ( ( the_sfml_canvas_widget->getSize().y / scale_factor )
+		//	- mouse_pos_in_canvas_coords.y )
+		//	/ sfml_canvas_widget::num_pixels_per_block_column ) ) };
+		
+		
+		//if ( visible_block_grid_rect.contains
+		//	( block_grid_coords_of_mouse_pos.x, 
+		//	block_grid_coords_of_mouse_pos.y ) )
+		//{
+		//	the_sfml_canvas_widget->the_rect_selection_stuff
+		//		.paste_copied_selection_contents
+		//		(block_grid_coords_of_mouse_pos);
+		//}
+		//else
+		{
+			the_sfml_canvas_widget->the_rect_selection_stuff
+				.paste_copied_selection_contents( vec2_s32
+				( visible_block_grid_start_pos.x, 
+				visible_block_grid_start_pos.y ) );
+		}
 	}
 	
 	
