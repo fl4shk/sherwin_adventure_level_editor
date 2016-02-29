@@ -121,6 +121,13 @@ public:		// variables
 	u16 persistent_data_index;
 	
 public:		// functions
+	inline block() : type(0), persistent_data_index(0)
+	{
+	}
+	inline block( block_type n_type, u16 n_persistent_data_index )
+		: type(n_type), persistent_data_index(n_persistent_data_index)
+	{
+	}
 	
 	inline block_type get_block_type() const
 	{

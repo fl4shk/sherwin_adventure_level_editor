@@ -186,6 +186,10 @@ public:		// functions
 	void finalize_movement_of_selection_contents();
 	
 	
+	// Copy/paste stuff
+	void copy_selection_contents();
+	void paste_copied_selection_contents
+		( const vec2_s32& n_starting_block_grid_coords_of_mouse );
 	
 	
 	void enable_single_sprite_selection

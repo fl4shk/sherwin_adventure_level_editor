@@ -172,10 +172,10 @@ void rect_selection_stuff::continue_moving_selection_contents
 	//cout << "continue_moving_rect_selection_contents()\n";
 	
 	
-	vec2_s32 ending_block_grid_coords_offset
-		= ending_block_grid_coords - starting_block_grid_coords;
-	//vec2_s32 ending_block_grid_coords_offset( selection_rect.width,
-	//	selection_rect.height );
+	//vec2_s32 ending_block_grid_coords_offset
+	//	= ending_block_grid_coords - starting_block_grid_coords;
+	vec2_s32 ending_block_grid_coords_offset( selection_rect.width,
+		selection_rect.height );
 	
 	starting_block_grid_coords = curr_block_grid_coords_of_mouse
 		- clicked_location_in_rect;
@@ -323,7 +323,8 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 			}
 		}
 	}
-	else if ( selection_layer == rsl_blocks && get_selection_was_pasted() )
+	else if ( original_layer_of_pasted_selection == rsl_blocks 
+		&& get_selection_was_pasted() )
 	{
 		for ( s32 j=0; j<selection_rect.height; ++j )
 		{
@@ -394,7 +395,7 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 			}
 		}
 	}
-	else if ( selection_layer == rsl_sprites 
+	else if ( original_layer_of_pasted_selection == rsl_sprites 
 		&& get_selection_was_pasted() )
 	{
 		for ( s32 j=0; j<selection_rect.height; ++j )
@@ -424,9 +425,32 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 		}
 	}
 	
-	
 }
 
+
+// Copy/paste stuff
+void rect_selection_stuff::copy_selection_contents()
+{
+	if ( !get_enabled() )
+	{
+		return;
+	}
+	
+	original_layer_of_pasted_selection = selection_layer;
+}
+
+void rect_selection_stuff::paste_copied_selection_contents
+	( const vec2_s32& n_starting_block_grid_coords_of_mouse )
+{
+	selection_was_pasted = true;
+	
+	starting_block_grid_coords_of_mouse 
+		= n_starting_block_grid_coords_of_mouse;
+	
+	starting_block_grid_coords = n_starting_block_grid_coords_of_mouse;
+	//ending_block_grid_coords
+	
+}
 
 
 void rect_selection_stuff::enable_single_sprite_selection
