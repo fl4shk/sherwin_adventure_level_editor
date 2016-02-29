@@ -189,7 +189,7 @@ public:		// functions
 	// Copy/paste stuff
 	void copy_selection_contents();
 	void paste_copied_selection_contents
-		( const vec2_s32& n_starting_block_grid_coords_of_mouse );
+		( const vec2_s32& n_starting_block_grid_coords );
 	
 	
 	void enable_single_sprite_selection

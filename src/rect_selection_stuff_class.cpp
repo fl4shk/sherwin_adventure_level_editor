@@ -431,24 +431,118 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 // Copy/paste stuff
 void rect_selection_stuff::copy_selection_contents()
 {
-	if ( !get_enabled() )
+	if ( !get_enabled() || get_single_sprite_selected() )
 	{
 		return;
 	}
 	
 	original_layer_of_pasted_selection = selection_layer;
+	
+	
+	const vec2_s32& rs_starting_block_grid_coords_before_moving
+		= starting_block_grid_coords_before_moving;
+	const vec2_s32& rs_ending_block_grid_coords_before_moving
+		= ending_block_grid_coords_before_moving;
+	
+	const sf::IntRect selection_rect_before_moving
+		( rs_starting_block_grid_coords_before_moving.x,
+		
+		rs_starting_block_grid_coords_before_moving.y,
+		
+		( rs_ending_block_grid_coords_before_moving.x 
+		- rs_starting_block_grid_coords_before_moving.x + 1 ),
+		
+		( rs_ending_block_grid_coords_before_moving.y
+		- rs_starting_block_grid_coords_before_moving.y + 1 ) );
+	
+	if ( original_layer_of_pasted_selection == rsl_blocks )
+	{
+		copied_blocks_vec_2d.clear();
+		
+		for ( s32 j=0; j<selection_rect.height; ++j )
+		{
+			copied_blocks_vec_2d.push_back(vector<block>());
+			
+			for ( s32 i=0; i<selection_rect.width; ++i )
+			{
+				vec2_s32 original_block_grid_pos
+					( selection_rect_before_moving.left + i,
+					selection_rect_before_moving.top + j );
+				
+				copied_blocks_vec_2d.at(j).push_back( the_sublevel
+					->uncompressed_block_data_vec_2d
+					.at((u32)original_block_grid_pos.y)
+					.at((u32)original_block_grid_pos.x) );
+			}
+		}
+	}
+	else if ( original_layer_of_pasted_selection == rsl_sprites )
+	{
+		copied_sprite_ipgws_vec_2d.clear();
+		
+		for ( s32 j=0; j<selection_rect.height; ++j )
+		{
+			copied_sprite_ipgws_vec_2d.push_back
+				(vector<sprite_init_param_group_with_size>());
+			
+			for ( s32 i=0; i<selection_rect.width; ++i )
+			{
+				vec2_s32 original_block_grid_pos
+					( selection_rect_before_moving.left + i,
+					selection_rect_before_moving.top + j );
+				
+				copied_sprite_ipgws_vec_2d.at(j).push_back( the_sublevel
+					->sprite_ipgws_vec_2d
+					.at((u32)original_block_grid_pos.y)
+					.at((u32)original_block_grid_pos.x) );
+			}
+		}
+	}
+	
+	
 }
 
 void rect_selection_stuff::paste_copied_selection_contents
-	( const vec2_s32& n_starting_block_grid_coords_of_mouse )
+	( const vec2_s32& n_starting_block_grid_coords )
 {
+	if ( original_layer_of_pasted_selection == rsl_blocks 
+		&& copied_blocks_vec_2d.size() == 0 )
+	{
+		return;
+	}
+	else if ( original_layer_of_pasted_selection == rsl_sprites 
+		&& copied_sprite_ipgws_vec_2d.size() == 0 )
+	{
+		return;
+	}
+	
+	enabled = true;
+	mouse_released = true;
+	moving = false;
+	single_sprite_selected = false;
+	
 	selection_was_pasted = true;
 	
-	starting_block_grid_coords_of_mouse 
-		= n_starting_block_grid_coords_of_mouse;
+	starting_block_grid_coords = n_starting_block_grid_coords;
 	
-	starting_block_grid_coords = n_starting_block_grid_coords_of_mouse;
-	//ending_block_grid_coords
+	selection_rect.left = starting_block_grid_coords.x;
+	selection_rect.top = starting_block_grid_coords.y;
+	
+	if ( original_layer_of_pasted_selection == rsl_blocks )
+	{
+		selection_rect.width = copied_blocks_vec_2d.at(0).size();
+		selection_rect.height = copied_blocks_vec_2d.size();
+	}
+	else if ( original_layer_of_pasted_selection == rsl_sprites )
+	{
+		selection_rect.width = copied_sprite_ipgws_vec_2d.at(0).size();
+		selection_rect.height = copied_sprite_ipgws_vec_2d.size();
+	}
+	
+	ending_block_grid_coords = starting_block_grid_coords
+		+ vec2_s32( selection_rect.width, selection_rect.height );
+	
+	
 	
 }
 

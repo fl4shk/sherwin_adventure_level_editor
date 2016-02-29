@@ -662,7 +662,8 @@ void sfml_canvas_widget::update_visible_area()
 				//	&& selection_rect == selection_rect_before_moving ) )
 				if ( !the_rect_selection_stuff.get_enabled()
 					|| ( the_rect_selection_stuff.get_enabled() 
-					&& selection_rect == selection_rect_before_moving ) )
+					&& ( selection_rect == selection_rect_before_moving 
+					|| the_rect_selection_stuff.selection_was_pasted ) ) )
 				{
 				}
 				
@@ -895,7 +896,8 @@ void sfml_canvas_widget::update_visible_area()
 				//	|| the_rect_selection_stuff.single_sprite_selected )
 				if ( !the_rect_selection_stuff.get_enabled()
 					|| ( the_rect_selection_stuff.get_enabled()
-					&& selection_rect == selection_rect_before_moving )
+					&& ( selection_rect == selection_rect_before_moving 
+					|| the_rect_selection_stuff.selection_was_pasted ) )
 					|| the_rect_selection_stuff.single_sprite_selected )
 				{
 				}
@@ -1126,7 +1128,8 @@ void sfml_canvas_widget::update_visible_area()
 				//	|| the_rect_selection_stuff.single_sprite_selected )
 				if ( !the_rect_selection_stuff.get_enabled()
 					|| ( the_rect_selection_stuff.get_enabled() 
-					&& selection_rect == selection_rect_before_moving ) 
+					&& ( selection_rect == selection_rect_before_moving 
+					|| the_rect_selection_stuff.selection_was_pasted ) ) 
 					|| the_rect_selection_stuff.single_sprite_selected )
 				{
 				}

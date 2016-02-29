@@ -208,6 +208,23 @@ void level_editor_widget::keyPressEvent( QKeyEvent* event )
 		
 		cout << "Current mouse mode:  rect_selection\n";
 	}
+	else if ( event->key() == Qt::Key_C 
+		&& the_core_widget->the_mouse_mode == mm_rect_selection 
+		&& the_sfml_canvas_widget->the_rect_selection_stuff.get_enabled() )
+	{
+		cout << "Copying selection contents\n";
+		
+		the_sfml_canvas_widget->the_rect_selection_stuff
+			.copy_selection_contents();
+	}
+	else if ( event->key() == Qt::Key_V 
+		&& the_core_widget->the_mouse_mode == mm_rect_selection )
+	{
+		cout << "Pasting the copied selection contents\n";
+		
+		the_sfml_canvas_widget->the_rect_selection_stuff
+			.paste_copied_selection_contents( vec2_s32( 0, 0 ) );
+	}
 	
 	
 }

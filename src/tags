@@ -639,8 +639,8 @@ parent	level_editor_widget_class.hpp	/^	QWidget* parent;$/;"	kind:m	class:level_
 parent	sfml_canvas_widget_classes.hpp	/^	QWidget* parent;$/;"	kind:m	class:sfml_canvas_widget_base	access:public
 parent	sprite_16x16_selector_widget_class.hpp	/^	QWidget* parent;$/;"	kind:m	class:sprite_16x16_selector_widget	access:public
 parent	sprite_16x32_selector_widget_class.hpp	/^	QWidget* parent;$/;"	kind:m	class:sprite_16x32_selector_widget	access:public
-paste_copied_selection_contents	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::paste_copied_selection_contents$/;"	kind:f	class:rect_selection_stuff	signature:( const vec2_s32& n_starting_block_grid_coords_of_mouse )
-paste_copied_selection_contents	rect_selection_stuff_class.hpp	/^	void paste_copied_selection_contents$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( const vec2_s32& n_starting_block_grid_coords_of_mouse )
+paste_copied_selection_contents	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::paste_copied_selection_contents$/;"	kind:f	class:rect_selection_stuff	signature:( const vec2_s32& n_starting_block_grid_coords )
+paste_copied_selection_contents	rect_selection_stuff_class.hpp	/^	void paste_copied_selection_contents$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( const vec2_s32& n_starting_block_grid_coords )
 persistent_block_data_array_size	block_stuff.hpp	/^	constexpr u32 persistent_block_data_array_size = 2048;$/;"	kind:m	namespace:block_stuff
 persistent_data_index	block_stuff.hpp	/^	u16 persistent_data_index;$/;"	kind:m	class:block	access:public
 point_is_in_visible_rect	sfml_canvas_widget_classes.hpp	/^	inline bool point_is_in_visible_rect( const sf::Vector2i& pos )$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:( const sf::Vector2i& pos )
@@ -713,8 +713,8 @@ rect_selection_stuff::get_starting_block_grid_coords	rect_selection_stuff_class.
 rect_selection_stuff::mouse_released	rect_selection_stuff_class.hpp	/^	bool enabled, mouse_released;$/;"	kind:m	class:rect_selection_stuff	access:public
 rect_selection_stuff::moving	rect_selection_stuff_class.hpp	/^	bool moving;$/;"	kind:m	class:rect_selection_stuff	access:public
 rect_selection_stuff::original_layer_of_pasted_selection	rect_selection_stuff_class.hpp	/^	rect_selection_layer original_layer_of_pasted_selection;$/;"	kind:m	class:rect_selection_stuff	access:public
-rect_selection_stuff::paste_copied_selection_contents	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::paste_copied_selection_contents$/;"	kind:f	class:rect_selection_stuff	signature:( const vec2_s32& n_starting_block_grid_coords_of_mouse )
-rect_selection_stuff::paste_copied_selection_contents	rect_selection_stuff_class.hpp	/^	void paste_copied_selection_contents$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( const vec2_s32& n_starting_block_grid_coords_of_mouse )
+rect_selection_stuff::paste_copied_selection_contents	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::paste_copied_selection_contents$/;"	kind:f	class:rect_selection_stuff	signature:( const vec2_s32& n_starting_block_grid_coords )
+rect_selection_stuff::paste_copied_selection_contents	rect_selection_stuff_class.hpp	/^	void paste_copied_selection_contents$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( const vec2_s32& n_starting_block_grid_coords )
 rect_selection_stuff::selection_image	rect_selection_stuff_class.hpp	/^	unique_ptr<sf::Image> selection_image;$/;"	kind:m	class:rect_selection_stuff	access:public
 rect_selection_stuff::selection_layer	rect_selection_stuff_class.hpp	/^	rect_selection_layer selection_layer;$/;"	kind:m	class:rect_selection_stuff	access:public
 rect_selection_stuff::selection_rect	rect_selection_stuff_class.hpp	/^	sf::IntRect selection_rect;$/;"	kind:m	class:rect_selection_stuff	access:public
