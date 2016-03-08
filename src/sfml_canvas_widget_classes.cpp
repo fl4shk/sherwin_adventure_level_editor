@@ -557,6 +557,28 @@ void sfml_canvas_widget::update_visible_area()
 	++visible_block_grid_size_2d.x;
 	++visible_block_grid_size_2d.y;
 	
+	if ( visible_block_grid_start_pos.x < 0 )
+	{
+		visible_block_grid_start_pos.x = 0;
+	}
+	if ( visible_block_grid_start_pos.y < 0 )
+	{
+		visible_block_grid_start_pos.y = 0;
+	}
+	
+	if ( ( visible_block_grid_start_pos.x + visible_block_grid_size_2d.x )
+		>= (s32)the_sublevel->size_2d.x )
+	{
+		visible_block_grid_size_2d.x = the_sublevel->size_2d.x
+			- visible_block_grid_start_pos.x;
+	}
+	if ( ( visible_block_grid_start_pos.y + visible_block_grid_size_2d.y )
+		>= (s32)the_sublevel->size_2d.y )
+	{
+		visible_block_grid_size_2d.y = the_sublevel->size_2d.y
+			- visible_block_grid_start_pos.y;
+	}
+	
 	
 	// Draw the visible blocks
 	sf::Sprite sprite_for_drawing_level_elements;
@@ -681,6 +703,11 @@ void sfml_canvas_widget::update_visible_area()
 						( block_grid_pos.x, block_grid_pos.y ) )
 					{
 						the_block = &default_block;
+						//cout << "default_block\n";
+					}
+					else
+					{
+						//cout << "other block\n";
 					}
 				}
 				

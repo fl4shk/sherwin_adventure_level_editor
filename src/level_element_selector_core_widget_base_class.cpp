@@ -103,12 +103,43 @@ void level_element_selector_core_widget_base::shared_constructor_code
 	
 	slot_outer_usual_image.create( other_slot_outer_width, 
 		other_slot_outer_height, sf::Color::Cyan );
-	slot_outer_left_selected_image.create( other_slot_outer_width, 
-		other_slot_outer_height, sf::Color::Black );
-	slot_outer_right_selected_image.create( other_slot_outer_width, 
-		other_slot_outer_height, sf::Color::Red );
+	//slot_outer_left_selected_image.create( other_slot_outer_width, 
+	//	other_slot_outer_height, sf::Color::Black );
+	//slot_outer_right_selected_image.create( other_slot_outer_width, 
+	//	other_slot_outer_height, sf::Color::Red );
 	
-	//slot_inner_texture.loadFromImage(slot_inner_image);
+	slot_outer_left_selected_image.create( other_slot_outer_width,
+		other_slot_outer_height, sf::Color::Cyan );
+	slot_outer_right_selected_image.create( other_slot_outer_width,
+		other_slot_outer_height, sf::Color::Cyan );
+	
+	// Vertical lines
+	for ( u32 j=0; j<other_slot_outer_height; ++j )
+	{
+		slot_outer_left_selected_image.setPixel( 0, j,
+			sf::Color::Black );
+		slot_outer_left_selected_image.setPixel( other_slot_outer_width 
+			- 1, j, sf::Color::Black );
+		
+		slot_outer_right_selected_image.setPixel( 0, j,
+			sf::Color::Red );
+		slot_outer_right_selected_image.setPixel( other_slot_outer_width 
+			- 1, j, sf::Color::Red );
+	}
+	
+	// Horizontal lines
+	for ( u32 i=0; i<other_slot_outer_width; ++i )
+	{
+		slot_outer_left_selected_image.setPixel( i, 0, sf::Color::Black );
+		slot_outer_left_selected_image.setPixel( i,
+			other_slot_outer_height - 1, sf::Color::Black );
+		
+		slot_outer_right_selected_image.setPixel( i, 0, sf::Color::Red );
+		slot_outer_right_selected_image.setPixel( i,
+			other_slot_outer_height - 1, sf::Color::Red );
+	}
+	
+	
 	
 	slot_outer_usual_texture.loadFromImage(slot_outer_usual_image);
 	slot_outer_left_selected_texture.loadFromImage
