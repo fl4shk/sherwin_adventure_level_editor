@@ -190,18 +190,17 @@ void rect_selection_stuff::continue_moving_selection_contents
 	{
 		starting_block_grid_coords.y = 0;
 	}
-	if ( starting_block_grid_coords.x >= ( (s32)the_sublevel->size_2d.x 
+	if ( starting_block_grid_coords.x > ( (s32)the_sublevel->size_2d.x 
 		- ending_block_grid_coords_offset.x ) )
 	{
-		starting_block_grid_coords.x = ( the_sublevel->size_2d.x - 1 )
+		starting_block_grid_coords.x = the_sublevel->size_2d.x 
 			- ending_block_grid_coords_offset.x;
 	}
-	if ( starting_block_grid_coords.y >= ( (s32)the_sublevel->size_2d.y 
+	if ( starting_block_grid_coords.y > ( (s32)the_sublevel->size_2d.y 
 		- ending_block_grid_coords_offset.y ) )
 	{
-		starting_block_grid_coords.y = ( the_sublevel->size_2d.y - 1 )
+		starting_block_grid_coords.y = the_sublevel->size_2d.y
 			- ending_block_grid_coords_offset.y;
-		
 	}
 	
 	ending_block_grid_coords = starting_block_grid_coords
