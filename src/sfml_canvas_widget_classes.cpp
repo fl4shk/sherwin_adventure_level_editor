@@ -682,33 +682,28 @@ void sfml_canvas_widget::update_visible_area()
 				//if ( !get_rect_selection_enabled()
 				//	|| ( get_rect_selection_enabled() 
 				//	&& selection_rect == selection_rect_before_moving ) )
+				//if ( !the_rect_selection_stuff.get_enabled()
+				//	|| ( the_rect_selection_stuff.get_enabled() 
+				//	&& ( selection_rect == selection_rect_before_moving 
+				//	|| the_rect_selection_stuff.selection_was_pasted ) ) )
+				//{
+				//}
 				if ( !the_rect_selection_stuff.get_enabled()
-					|| ( the_rect_selection_stuff.get_enabled() 
-					&& ( selection_rect == selection_rect_before_moving 
-					|| the_rect_selection_stuff.selection_was_pasted ) ) )
+					|| selection_rect == selection_rect_before_moving )
 				{
 				}
 				
 				// Don't draw a block if the current block_grid_pos is
-				// outside the selection_rect and inside the
+				// inside the selection_rect and inside the
 				// selection_rect_before_moving and the selection was not
 				// pasted.  
 				// There is no transparency because it it checked whether
 				// the block_grid_pos is inside the selection_rect.
-				else if ( !selection_rect.contains( block_grid_pos.x,
-					block_grid_pos.y ) 
-					&& !the_rect_selection_stuff.selection_was_pasted )
+				else if ( selection_rect.contains( block_grid_pos.x,
+					block_grid_pos.y ) || selection_rect_before_moving
+					.contains( block_grid_pos.x, block_grid_pos.y ) )
 				{
-					if ( selection_rect_before_moving.contains
-						( block_grid_pos.x, block_grid_pos.y ) )
-					{
-						the_block = &default_block;
-						//cout << "default_block\n";
-					}
-					else
-					{
-						//cout << "other block\n";
-					}
+					the_block = &default_block;
 				}
 				
 			}
@@ -718,7 +713,7 @@ void sfml_canvas_widget::update_visible_area()
 			}
 			
 			
-			draw_block( the_block, block_grid_pos );
+			draw_block_2( the_block, block_grid_pos );
 			
 			//cout << i << " ";
 		}
@@ -743,7 +738,7 @@ void sfml_canvas_widget::update_visible_area()
 					selection_rect_before_moving.top + j );
 				
 				
-				draw_block_2
+				draw_block
 					( &(the_sublevel->uncompressed_block_data_vec_2d
 					.at(original_block_grid_pos.y)
 					.at(original_block_grid_pos.x)), block_grid_pos );
@@ -760,9 +755,8 @@ void sfml_canvas_widget::update_visible_area()
 				vec2_s32 block_grid_pos( selection_rect.left + i,
 					selection_rect.top + j );
 				
-				draw_block_2
-					( &(the_rect_selection_stuff.copied_blocks_vec_2d.at(j)
-					.at(i)), block_grid_pos );
+				draw_block( &(the_rect_selection_stuff
+					.copied_blocks_vec_2d.at(j).at(i)), block_grid_pos );
 			}
 		}
 	}
