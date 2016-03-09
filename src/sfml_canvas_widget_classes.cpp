@@ -694,7 +694,7 @@ void sfml_canvas_widget::update_visible_area()
 				}
 				
 				// Don't draw a block from the level data if the current
-				// block_grid_pos is inside the selection_rect or (inside
+				// block_grid_pos is (inside the selection_rect) or (inside
 				// the selection_rect_before_moving and the selection was
 				// not pasted).  
 				// There is no visible transparency.

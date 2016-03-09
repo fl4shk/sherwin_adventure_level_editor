@@ -168,6 +168,9 @@ void level_editor_widget::keyPressEvent( QKeyEvent* event )
 	
 	sfml_canvas_widget* the_sfml_canvas_widget 
 		= the_core_widget->the_sfml_canvas_widget;
+	rect_selection_stuff& the_rect_selection_stuff
+		= the_sfml_canvas_widget->the_rect_selection_stuff;
+	
 	if ( event->key() == Qt::Key_A )
 	{
 		the_core_widget->zoom_in();
@@ -192,12 +195,24 @@ void level_editor_widget::keyPressEvent( QKeyEvent* event )
 	}
 	else if ( event->key() == Qt::Key_Q )
 	{
+		if ( the_rect_selection_stuff.get_enabled() )
+		{
+			the_rect_selection_stuff
+				.finalize_movement_of_selection_contents();
+		}
+		
 		the_core_widget->the_mouse_mode = mm_place_level_elements;
 		
 		cout << "Current mouse mode:  place_level_elements\n";
 	}
 	else if ( event->key() == Qt::Key_W )
 	{
+		if ( the_rect_selection_stuff.get_enabled() )
+		{
+			the_rect_selection_stuff
+				.finalize_movement_of_selection_contents();
+		}
+		
 		the_core_widget->the_mouse_mode = mm_select_single_sprite;
 		
 		cout << "Current mouse mode:  select_sprites\n";
@@ -210,16 +225,21 @@ void level_editor_widget::keyPressEvent( QKeyEvent* event )
 	}
 	else if ( event->key() == Qt::Key_C 
 		&& the_core_widget->the_mouse_mode == mm_rect_selection 
-		&& the_sfml_canvas_widget->the_rect_selection_stuff.get_enabled() )
+		&& the_rect_selection_stuff.get_enabled() )
 	{
 		cout << "Copying selection contents\n";
 		
-		the_sfml_canvas_widget->the_rect_selection_stuff
-			.copy_selection_contents();
+		the_rect_selection_stuff.copy_selection_contents();
 	}
 	else if ( event->key() == Qt::Key_V 
 		&& the_core_widget->the_mouse_mode == mm_rect_selection )
 	{
+		if ( the_rect_selection_stuff.get_enabled() )
+		{
+			the_rect_selection_stuff
+				.finalize_movement_of_selection_contents();
+		}
+		
 		cout << "Pasting the copied selection contents\n";
 		
 		//the_sfml_canvas_widget->the_rect_selection_stuff
@@ -244,42 +264,50 @@ void level_editor_widget::keyPressEvent( QKeyEvent* event )
 			(double)visible_rect.height 
 			/ (double)( num_pixels_per_block_row * scale_factor ) );
 		
-		//sf::FloatRect visible_block_grid_rect
-		//	( visible_block_grid_start_pos.x,
-		//	visible_block_grid_start_pos.y,
-		//	visible_block_grid_size_2d.x, visible_block_grid_size_2d.y );
-		//
-		//
-		//
-		//sf::Vector2i mouse_pos_in_canvas_widget_coords 
-		//	= sf::Mouse::getPosition(*the_sfml_canvas_widget);
-		//
-		//// This converts the clicked coordinate to pixel coordinates.
-		//sf::Vector2f mouse_pos_in_canvas_coords
-		//	( (double)mouse_pos_in_canvas_widget_coords.x 
-		//	/ (double)the_sfml_canvas_widget->scale_factor,
-		//	(double)mouse_pos_in_canvas_widget_coords.y
-		//	/ (double)the_sfml_canvas_widget->scale_factor );
-		//
-		//vec2_s32 block_grid_coords_of_mouse_pos
-		//	= { (s32)( mouse_pos_in_canvas_coords.x
-		//	/ ( sfml_canvas_widget::num_pixels_per_block_row ) ),
-		//	
-		//	(s32)( ( the_sfml_canvas_widget->the_sublevel->real_size_2d.y 
-		//	- ( ( the_sfml_canvas_widget->getSize().y / scale_factor )
-		//	- mouse_pos_in_canvas_coords.y )
-		//	/ sfml_canvas_widget::num_pixels_per_block_column ) ) };
 		
 		
-		//if ( visible_block_grid_rect.contains
-		//	( block_grid_coords_of_mouse_pos.x, 
-		//	block_grid_coords_of_mouse_pos.y ) )
-		//{
-		//	the_sfml_canvas_widget->the_rect_selection_stuff
-		//		.paste_copied_selection_contents
-		//		(block_grid_coords_of_mouse_pos);
-		//}
-		//else
+		
+		// The commented code is from when the pasted stuff was placed at
+		// the location of the mouse.  It had some bugs, which is why it's
+		// been disabled temporarily.
+		
+		
+		sf::FloatRect visible_block_grid_rect
+			( visible_block_grid_start_pos.x,
+			visible_block_grid_start_pos.y,
+			visible_block_grid_size_2d.x, visible_block_grid_size_2d.y );
+		
+		
+		
+		sf::Vector2i mouse_pos_in_canvas_widget_coords 
+			= sf::Mouse::getPosition(*the_sfml_canvas_widget);
+		
+		// This converts the clicked coordinate to pixel coordinates.
+		sf::Vector2f mouse_pos_in_canvas_coords
+			( (double)mouse_pos_in_canvas_widget_coords.x 
+			/ (double)the_sfml_canvas_widget->scale_factor,
+			(double)mouse_pos_in_canvas_widget_coords.y
+			/ (double)the_sfml_canvas_widget->scale_factor );
+		
+		vec2_s32 block_grid_coords_of_mouse_pos
+			= { (s32)( mouse_pos_in_canvas_coords.x
+			/ ( sfml_canvas_widget::num_pixels_per_block_row ) ),
+			
+			(s32)( ( the_sfml_canvas_widget->the_sublevel->real_size_2d.y 
+			- ( ( the_sfml_canvas_widget->getSize().y / scale_factor )
+			- mouse_pos_in_canvas_coords.y )
+			/ sfml_canvas_widget::num_pixels_per_block_column ) ) };
+		
+		
+		if ( visible_block_grid_rect.contains
+			( block_grid_coords_of_mouse_pos.x, 
+			block_grid_coords_of_mouse_pos.y ) )
+		{
+			the_sfml_canvas_widget->the_rect_selection_stuff
+				.paste_copied_selection_contents
+				(block_grid_coords_of_mouse_pos);
+		}
+		else
 		{
 			the_sfml_canvas_widget->the_rect_selection_stuff
 				.paste_copied_selection_contents( vec2_s32
@@ -394,7 +422,7 @@ void level_editor_widget::save_file()
 void level_editor_widget::save_file_as()
 {
 	QString output_file_name = QFileDialog::getSaveFileName( this, 
-		tr("Save File"), QString(), tr("PNG File (*.png)") );
+		tr("Save File"), QString(), tr("Level File (*.xml)") );
 	//cout << "This QString was obtained:  " 
 	//	<< output_file_name.toStdString() << endl;
 	
