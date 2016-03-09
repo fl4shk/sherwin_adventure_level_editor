@@ -227,7 +227,7 @@ void level_editor_widget::keyPressEvent( QKeyEvent* event )
 		&& the_core_widget->the_mouse_mode == mm_rect_selection 
 		&& the_rect_selection_stuff.get_enabled() )
 	{
-		cout << "Copying selection contents\n";
+		//cout << "Copying selection contents\n";
 		
 		the_rect_selection_stuff.copy_selection_contents();
 	}
@@ -240,7 +240,7 @@ void level_editor_widget::keyPressEvent( QKeyEvent* event )
 				.finalize_movement_of_selection_contents();
 		}
 		
-		cout << "Pasting the copied selection contents\n";
+		//cout << "Pasting the copied selection contents\n";
 		
 		//the_sfml_canvas_widget->the_rect_selection_stuff
 		//	.paste_copied_selection_contents( vec2_s32( 0, 0 ) );
@@ -264,14 +264,52 @@ void level_editor_widget::keyPressEvent( QKeyEvent* event )
 			(double)visible_rect.height 
 			/ (double)( num_pixels_per_block_row * scale_factor ) );
 		
+		// this is so that sprites larger than 16x16 pixels will be drawn if
+		// their starting position is offscreen but part of them still is on
+		// screen.
+		--visible_block_grid_start_pos.x;
+		--visible_block_grid_start_pos.y;
+		
+		//cout << visible_block_grid_start_pos.x << ", "
+		//	<< visible_block_grid_start_pos.y << ", "
+		//	<< visible_block_grid_size_2d.x << ", "
+		//	<< visible_block_grid_size_2d.y << endl;
+		
+		++visible_block_grid_size_2d.x;
+		++visible_block_grid_size_2d.y;
+		
+		++visible_block_grid_size_2d.x;
+		++visible_block_grid_size_2d.y;
+		
+		if ( visible_block_grid_start_pos.x < 0 )
+		{
+			visible_block_grid_start_pos.x = 0;
+		}
+		if ( visible_block_grid_start_pos.y < 0 )
+		{
+			visible_block_grid_start_pos.y = 0;
+		}
+		
+		if ( ( visible_block_grid_start_pos.x 
+			+ visible_block_grid_size_2d.x )
+			>= (s32)the_core_widget->the_sublevel.size_2d.x )
+		{
+			visible_block_grid_size_2d.x 
+				= the_core_widget->the_sublevel.size_2d.x
+				- visible_block_grid_start_pos.x;
+		}
+		if ( ( visible_block_grid_start_pos.y 
+			+ visible_block_grid_size_2d.y )
+			>= (s32)the_core_widget->the_sublevel.size_2d.y )
+		{
+			visible_block_grid_size_2d.y 
+				= the_core_widget->the_sublevel.size_2d.y
+				- visible_block_grid_start_pos.y;
+		}
 		
 		
 		
-		// The commented code is from when the pasted stuff was placed at
-		// the location of the mouse.  It had some bugs, which is why it's
-		// been disabled temporarily.
-		
-		
+		// Paste at the location of the mouse.
 		sf::FloatRect visible_block_grid_rect
 			( visible_block_grid_start_pos.x,
 			visible_block_grid_start_pos.y,
@@ -307,13 +345,13 @@ void level_editor_widget::keyPressEvent( QKeyEvent* event )
 				.paste_copied_selection_contents
 				(block_grid_coords_of_mouse_pos);
 		}
-		else
-		{
-			the_sfml_canvas_widget->the_rect_selection_stuff
-				.paste_copied_selection_contents( vec2_s32
-				( visible_block_grid_start_pos.x, 
-				visible_block_grid_start_pos.y ) );
-		}
+		//else
+		//{
+		//	the_sfml_canvas_widget->the_rect_selection_stuff
+		//		.paste_copied_selection_contents( vec2_s32
+		//		( visible_block_grid_start_pos.x, 
+		//		visible_block_grid_start_pos.y ) );
+		//}
 	}
 	
 	
