@@ -46,7 +46,11 @@ public:		// variables
 	
 	string level_file_name;
 	
-	sfml_canvas_widget* the_sfml_canvas_widget;
+	//sfml_canvas_widget* the_sfml_canvas_widget;
+	unique_ptr<sfml_canvas_widget> the_sfml_canvas_widget;
+	
+	QPoint current_position;
+	QSize current_size;
 	
 	
 	// Level element selectors
@@ -95,6 +99,9 @@ public:		// functions
 		block_selector_widget* n_the_block_selector_widget,
 		sprite_16x16_selector_widget* n_the_sprite_16x16_selector_widget,
 		sprite_16x32_selector_widget* n_the_sprite_16x32_selector_widget );
+	
+	void reinitialize_the_sfml_canvas_widget
+		( QScrollArea* n_scroll_area );
 	
 	
 	block_selector_core_widget* get_the_block_selector_core_widget();

@@ -31,8 +31,8 @@ level_editor_core_widget::level_editor_core_widget( QWidget* s_parent,
 	const QPoint& s_position, const QSize& s_size, 
 	const string& s_level_file_name )
 	: QWidget(s_parent), parent(s_parent),
-	level_file_name(s_level_file_name),
-	the_mouse_mode(mm_place_level_elements)
+	level_file_name(s_level_file_name), current_position(s_position), 
+	current_size(s_size), the_mouse_mode(mm_place_level_elements)
 {
 	// Set strong focus to enable keyboard events (and maybe mouse events?)
 	// to be received.
@@ -41,12 +41,14 @@ level_editor_core_widget::level_editor_core_widget( QWidget* s_parent,
 	move(s_position);
 	resize(s_size);
 	
-	the_sfml_canvas_widget = new sfml_canvas_widget( this, s_position, 
-		s_size );
+	//the_sfml_canvas_widget = new sfml_canvas_widget( this, s_position, 
+	//	s_size );
+	the_sfml_canvas_widget.reset(new sfml_canvas_widget( this, 
+		s_position, s_size ));
 	
 	the_sublevel.real_size_2d = vec2_u32( s_size.width() 
-		/ sfml_canvas_widget::num_pixels_per_block_row, s_size.height() 
-		/ sfml_canvas_widget::num_pixels_per_block_column );
+		/ sfml_canvas_widget::num_pixels_per_block_column, s_size.height() 
+		/ sfml_canvas_widget::num_pixels_per_block_row );
 	
 	the_sfml_canvas_widget->set_the_sublevel(&the_sublevel);
 	
@@ -74,6 +76,25 @@ void level_editor_core_widget::initialize_tab_stuff
 	list_of_level_element_widget_name_prefixes(X)
 	#undef X
 }
+
+void level_editor_core_widget::reinitialize_the_sfml_canvas_widget
+	( QScrollArea* n_scroll_area )
+{
+	the_sfml_canvas_widget.reset(new sfml_canvas_widget( this, 
+		current_position, current_size ));
+	the_sfml_canvas_widget->set_the_sublevel(&the_sublevel);
+	
+	#define X(name) \
+	the_sfml_canvas_widget->set_the_##name##_selector_core_widget \
+		(get_the_##name##_selector_core_widget());
+	
+	list_of_level_element_widget_name_prefixes(X)
+	#undef X
+	
+	the_sfml_canvas_widget->set_scroll_area(n_scroll_area);
+	
+}
+
 
 block_selector_core_widget* 
 	level_editor_core_widget::get_the_block_selector_core_widget()

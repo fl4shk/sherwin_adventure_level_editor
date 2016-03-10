@@ -39,25 +39,32 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 	//the_sfml_canvas_widget = new sfml_canvas_widget( this, QPoint( 0, 0 ),
 	//	QSize( 200, 200 ), argv_copy->at(1) );
 	
-	//the_core_widget = new level_editor_core_widget( this, QPoint( 0, 0 ),
-	//	QSize( 256, 256 ), argv_copy->at(1) );
 	
 	
 	if ( argv_copy->size() == 1 )
 	{
 		the_core_widget = new level_editor_core_widget( this, 
-			QPoint( 0, 0 ), QSize( 8192, 512 ), string("") );
+			QPoint( 0, 0 ), QSize( 256, 256 ), string("") );
+		//the_core_widget = new level_editor_core_widget( this, 
+		//	QPoint( 0, 0 ), QSize( 8192, 512 ), string("") );
+		//the_core_widget = new level_editor_core_widget( this, 
+		//	QPoint( 0, 0 ), QSize( 2048, 512 ), string("") );
+		//the_core_widget = new level_editor_core_widget( this, 
+		//	QPoint( 0, 0 ), QSize( 512, 512 ), string("") );
 	}
 	else //if ( argv_copy.size() == 3 )
 	{
+		//the_core_widget = new level_editor_core_widget( this, 
+		//	QPoint( 0, 0 ), QSize( 256, 256 ), argv_copy->at(1) );
 		the_core_widget = new level_editor_core_widget( this,
 			QPoint( 0, 0 ), QSize( 8192, 512 ), argv_copy->at(1) );
+		//the_core_widget = new level_editor_core_widget( this, 
+		//	QPoint( 0, 0 ), QSize( 2048, 512 ), argv_copy->at(1) );
+		//the_core_widget = new level_editor_core_widget( this, 
+		//	QPoint( 0, 0 ), QSize( 512, 512 ), argv_copy->at(1) );
+		
 	}
 	
-	//the_core_widget = new level_editor_core_widget( this, QPoint( 0, 0 ),
-	//	QSize( 2048, 512 ), argv_copy->at(1) );
-	//the_core_widget = new level_editor_core_widget( this, QPoint( 0, 0 ),
-	//	QSize( 512, 512 ), argv_copy->at(1) );
 	
 	#define X(name) \
 	the_##name##_selector_widget = new name##_selector_widget( this, \
@@ -177,7 +184,7 @@ void level_editor_widget::keyPressEvent( QKeyEvent* event )
 {
 	// These probably ought to be in a toolbar of some sort, as well.
 	
-	sfml_canvas_widget* the_sfml_canvas_widget 
+	unique_ptr<sfml_canvas_widget>& the_sfml_canvas_widget 
 		= the_core_widget->the_sfml_canvas_widget;
 	rect_selection_stuff& the_rect_selection_stuff
 		= the_sfml_canvas_widget->the_rect_selection_stuff;
@@ -303,18 +310,18 @@ void level_editor_widget::keyPressEvent( QKeyEvent* event )
 		
 		if ( ( visible_block_grid_start_pos.x 
 			+ visible_block_grid_size_2d.x )
-			>= (s32)the_core_widget->the_sublevel.size_2d.x )
+			>= (s32)the_core_widget->the_sublevel.real_size_2d.x )
 		{
 			visible_block_grid_size_2d.x 
-				= the_core_widget->the_sublevel.size_2d.x
+				= the_core_widget->the_sublevel.real_size_2d.x
 				- visible_block_grid_start_pos.x;
 		}
 		if ( ( visible_block_grid_start_pos.y 
 			+ visible_block_grid_size_2d.y )
-			>= (s32)the_core_widget->the_sublevel.size_2d.y )
+			>= (s32)the_core_widget->the_sublevel.real_size_2d.y )
 		{
 			visible_block_grid_size_2d.y 
-				= the_core_widget->the_sublevel.size_2d.y
+				= the_core_widget->the_sublevel.real_size_2d.y
 				- visible_block_grid_start_pos.y;
 		}
 		
@@ -372,8 +379,7 @@ void level_editor_widget::keyPressEvent( QKeyEvent* event )
 
 bool level_editor_widget::open_level_core_func()
 {
-	fstream level_file( the_core_widget->level_file_name, 
-		ios_base::in | ios_base::binary );
+	fstream level_file( the_core_widget->level_file_name, ios_base::in );
 	
 	if ( !level_file.is_open() )
 	{
@@ -382,6 +388,117 @@ bool level_editor_widget::open_level_core_func()
 		return false;
 	}
 	
+	level_file.close();
+	
+	sublevel& the_sublevel = the_core_widget->the_sublevel;
+	
+	xml_document doc;
+	
+	xml_parse_result result = doc.load_file
+		(the_core_widget->level_file_name.c_str());
+	
+	
+	auto parse_sublevel_header_node = [&]( xml_node& sublevel_header_node,
+		u32 sublevel_index ) -> void
+	{
+		for ( xml_attribute attr=sublevel_header_node.first_attribute();
+			attr;
+			attr=attr.next_attribute() )
+		{
+			//cout << attr.name() << " " << attr.value() << endl;
+			if ( attr.name() == string("width") )
+			{
+				the_sublevel.real_size_2d.x = attr.as_uint();
+			}
+			else if ( attr.name() == string("height") )
+			{
+				the_sublevel.real_size_2d.y = attr.as_uint();
+			}
+		}
+		
+		cout << "the_sublevel.real_size_2d:  " 
+			<< the_sublevel.real_size_2d.x << ", " 
+			<< the_sublevel.real_size_2d.y << endl;
+	};
+	
+	auto parse_sublevel_node = [&]( xml_node& sublevel_node, 
+		u32 sublevel_index ) -> void
+	{
+		for ( xml_node node=sublevel_node.first_child();
+			node;
+			node=node.next_sibling() )
+		{
+			if ( node.name() == string("header") )
+			{
+				parse_sublevel_header_node( node, sublevel_index );
+			}
+		}
+		
+	};
+	
+	
+	vec2_u32 real_size_2d_before_parse = the_sublevel.real_size_2d;
+	
+	// This loop will need to be updated if more sublevels per level are
+	// allowed in the future.  Alternatively, some kind of string to number
+	// conversion could be done in the future if it is desired that a
+	// variable maximum number of sublevels be allowed without changing the
+	// source code.
+	for ( xml_node node=doc.first_child();
+		node;
+		node=node.next_sibling() )
+	{
+		//cout << node.name() << " " << node.value() << endl;
+		if ( node.name() == string("sublevel_0") )
+		{
+			parse_sublevel_node( node, 0 );
+			
+		}
+		else if ( node.name() == string("sublevel_1") )
+		{
+			parse_sublevel_node( node, 1 );
+		}
+		else if ( node.name() == string("sublevel_2") )
+		{
+			parse_sublevel_node( node, 2 );
+		}
+		else if ( node.name() == string("sublevel_3") )
+		{
+			parse_sublevel_node( node, 3 );
+		}
+		else if ( node.name() == string("sublevel_4") )
+		{
+			parse_sublevel_node( node, 4 );
+		}
+		else if ( node.name() == string("sublevel_5") )
+		{
+			parse_sublevel_node( node, 5 );
+		}
+		else if ( node.name() == string("sublevel_6") )
+		{
+			parse_sublevel_node( node, 6 );
+		}
+		else if ( node.name() == string("sublevel_7") )
+		{
+			parse_sublevel_node( node, 7 );
+		}
+	}
+	
+	
+	if ( real_size_2d_before_parse != the_sublevel.real_size_2d )
+	{
+		cout << "hello\n";
+		the_core_widget->current_size = QSize( the_sublevel.real_size_2d.x 
+			* sfml_canvas_widget::num_pixels_per_block_column,
+			the_sublevel.real_size_2d.y * sfml_canvas_widget
+			::num_pixels_per_block_row );
+		
+		the_core_widget->move(the_core_widget->current_position);
+		the_core_widget->resize(the_core_widget->current_size);
+		
+		the_core_widget->reinitialize_the_sfml_canvas_widget
+			(core_widget_scroll_area);
+	}
 	
 	
 	return true;
@@ -389,7 +506,7 @@ bool level_editor_widget::open_level_core_func()
 
 // This is semi-temporary until there are multiple levels.  By the way,
 // eventually it should be made possible to change the width and height of
-// a level.
+// a sublevel.
 void level_editor_widget::save_level_as_core_func
 	( const string& output_file_name )
 {
@@ -400,21 +517,23 @@ void level_editor_widget::save_level_as_core_func
 	
 	xml_node sublevel_0_node = doc.append_child("sublevel_0");
 	
-	// The level header
+	// The sublevel header
 	xml_node header_node = sublevel_0_node.append_child("header");
 	
-	// Width of the level
-	xml_attribute width_attr = header_node.append_attribute("width");
-	width_attr.set_value(the_sublevel.size_2d.x);
+	// Width of the sublevel
+	xml_attribute sublevel_width_attr = header_node.append_attribute
+		("width");
+	sublevel_width_attr.set_value(the_sublevel.real_size_2d.x);
 	
-	// Height of the level
-	xml_attribute height_attr = header_node.append_attribute("height");
-	height_attr.set_value(the_sublevel.size_2d.y);
+	// Height of the sublevel
+	xml_attribute sublevel_height_attr = header_node.append_attribute
+		("height");
+	sublevel_height_attr.set_value(the_sublevel.real_size_2d.y);
 	
 	
 	// This only stores block_type's, not persistent_data_index's.  The
 	// export_source_core_func() and export_source_as_core_func() store
-	// copmressed block data.
+	// compressed block data, with persistent_data_index included.
 	xml_node uncompressed_block_data_node = sublevel_0_node.append_child
 		("block_data");
 	
@@ -618,8 +737,8 @@ void level_editor_widget::show_geometry_stuff()
 
 void level_editor_widget::open_level()
 {
-	QString output_file_name = QFileDialog::getSaveFileName( this, 
-		tr("Save File"), QString(), tr("Level File (*.xml)") );
+	QString output_file_name = QFileDialog::getOpenFileName( this, 
+		tr("Open Level"), QString(), tr("Level File (*.xml)") );
 	//cout << "This QString was obtained:  " 
 	//	<< output_file_name.toStdString() << endl;
 	
@@ -639,7 +758,7 @@ void level_editor_widget::save_level()
 	if ( the_core_widget->level_file_name == string("") )
 	{
 		QString output_file_name = QFileDialog::getSaveFileName( this, 
-			tr("Save File"), QString(), tr("Level File (*.xml)") );
+			tr("Save Level"), QString(), tr("Level File (*.xml)") );
 		//cout << "This QString was obtained:  " 
 		//	<< output_file_name.toStdString() << endl;
 		
@@ -661,7 +780,7 @@ void level_editor_widget::save_level()
 void level_editor_widget::save_level_as()
 {
 	QString output_file_name = QFileDialog::getSaveFileName( this, 
-		tr("Save File"), QString(), tr("Level File (*.xml)") );
+		tr("Save Level"), QString(), tr("Level File (*.xml)") );
 	//cout << "This QString was obtained:  " 
 	//	<< output_file_name.toStdString() << endl;
 	

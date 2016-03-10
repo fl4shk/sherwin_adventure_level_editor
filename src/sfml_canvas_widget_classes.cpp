@@ -45,14 +45,14 @@ sfml_canvas_widget_base::sfml_canvas_widget_base( QWidget* s_parent,
 	//// to be received.
 	//setFocusPolicy(Qt::StrongFocus);
 	
-	
-	
 	// Set up the widget geometry.
 	move(s_position);
 	resize(s_size);
 	
 	// Set up the timer.
 	timer.setInterval(frame_time);
+	
+	show();
 	
 }
 
