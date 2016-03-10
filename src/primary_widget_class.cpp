@@ -51,16 +51,19 @@ primary_widget::primary_widget( vector<string>& s_argv_copy,
 void primary_widget::generate_menus()
 {
 	menu_laugh_action = new QAction( "&Laugh", this );
+	menu_open_action = new QAction( "&Open", this );
 	menu_save_action = new QAction( "&Save", this );
 	menu_save_as_action = new QAction( "&Save As", this );
 	menu_quit_action = new QAction( "&Quit", this );
 	
 	connect( menu_laugh_action, &QAction::triggered, this, 
 		&primary_widget::laugh );
+	connect( menu_open_action, &QAction::triggered, the_central_widget,
+		&level_editor_widget::open_level );
 	connect( menu_save_action, &QAction::triggered, the_central_widget,
-		&level_editor_widget::save_file );
+		&level_editor_widget::save_level );
 	connect( menu_save_as_action, &QAction::triggered, the_central_widget,
-		&level_editor_widget::save_file_as );
+		&level_editor_widget::save_level_as );
 	
 	connect( menu_quit_action, &QAction::triggered, this, 
 		&primary_widget::quit );
@@ -69,6 +72,7 @@ void primary_widget::generate_menus()
 	second_menu = menuBar()->addMenu("&Second");
 	
 	file_menu->addAction(menu_laugh_action);
+	file_menu->addAction(menu_open_action);
 	file_menu->addAction(menu_save_action);
 	file_menu->addAction(menu_save_as_action);
 	file_menu->addSeparator();

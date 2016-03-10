@@ -41,8 +41,19 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 	
 	//the_core_widget = new level_editor_core_widget( this, QPoint( 0, 0 ),
 	//	QSize( 256, 256 ), argv_copy->at(1) );
-	the_core_widget = new level_editor_core_widget( this, QPoint( 0, 0 ),
-		QSize( 8192, 512 ), argv_copy->at(1) );
+	
+	
+	if ( argv_copy->size() == 1 )
+	{
+		the_core_widget = new level_editor_core_widget( this, 
+			QPoint( 0, 0 ), QSize( 8192, 512 ), string("") );
+	}
+	else //if ( argv_copy.size() == 3 )
+	{
+		the_core_widget = new level_editor_core_widget( this,
+			QPoint( 0, 0 ), QSize( 8192, 512 ), argv_copy->at(1) );
+	}
+	
 	//the_core_widget = new level_editor_core_widget( this, QPoint( 0, 0 ),
 	//	QSize( 2048, 512 ), argv_copy->at(1) );
 	//the_core_widget = new level_editor_core_widget( this, QPoint( 0, 0 ),
@@ -359,7 +370,7 @@ void level_editor_widget::keyPressEvent( QKeyEvent* event )
 
 
 
-bool level_editor_widget::open_level()
+bool level_editor_widget::open_level_core_func()
 {
 	fstream level_file( the_core_widget->level_file_name, 
 		ios_base::in | ios_base::binary );
@@ -371,13 +382,169 @@ bool level_editor_widget::open_level()
 		return false;
 	}
 	
+	
+	
 	return true;
 }
 
-void level_editor_widget::export_file_as( const string& output_file_name )
+// This is semi-temporary until there are multiple levels.  By the way,
+// eventually it should be made possible to change the width and height of
+// a level.
+void level_editor_widget::save_level_as_core_func
+	( const string& output_file_name )
+{
+	sublevel& the_sublevel = the_core_widget->the_sublevel;
+	
+	
+	xml_document doc;
+	
+	xml_node sublevel_0_node = doc.append_child("sublevel_0");
+	
+	// The level header
+	xml_node header_node = sublevel_0_node.append_child("header");
+	
+	// Width of the level
+	xml_attribute width_attr = header_node.append_attribute("width");
+	width_attr.set_value(the_sublevel.size_2d.x);
+	
+	// Height of the level
+	xml_attribute height_attr = header_node.append_attribute("height");
+	height_attr.set_value(the_sublevel.size_2d.y);
+	
+	
+	// This only stores block_type's, not persistent_data_index's.  The
+	// export_source_core_func() and export_source_as_core_func() store
+	// copmressed block data.
+	xml_node uncompressed_block_data_node = sublevel_0_node.append_child
+		("block_data");
+	
+	string uncompressed_block_data_str = "";
+	
+	the_sublevel.sprite_ipgws_vec_for_xml.clear();
+	
+	for ( u32 j=0; j<the_sublevel.real_size_2d.y; ++j )
+	{
+		uncompressed_block_data_str += "\n\t\t";
+		for ( u32 i=0; i<the_sublevel.real_size_2d.x; ++i )
+		{
+			block& the_block = the_sublevel.uncompressed_block_data_vec_2d
+				.at(j).at(i);
+			stringstream block_type_sstm;
+			string number_str;
+			
+			block_type_sstm << (u32)the_block.type;
+			block_type_sstm >> number_str;
+			
+			uncompressed_block_data_str += number_str;
+			uncompressed_block_data_str += ",";
+			
+			
+			// Also build sprite_ipg_vec.
+			sprite_init_param_group_with_size& the_sprite_ipgws
+				= the_sublevel.sprite_ipgws_vec_2d.at(j).at(i);
+			
+			if ( the_sprite_ipgws.type != st_default )
+			{
+				the_sublevel.sprite_ipgws_vec_for_xml.push_back
+					(the_sprite_ipgws);
+			}
+		}
+	}
+	uncompressed_block_data_str += "\n\t";
+	
+	uncompressed_block_data_node.text().set
+		(uncompressed_block_data_str.c_str());
+	
+	
+	xml_node parent_node = sublevel_0_node.append_child
+		("sprites");
+	
+	//for ( sprite_init_param_group_with_size& the_sprite_ipgws
+	//	: the_sublevel.sprite_ipgws_vec_for_xml )
+	for ( u32 i=0; i<the_sublevel.sprite_ipgws_vec_for_xml.size(); ++i )
+	{
+		sprite_init_param_group_with_size& the_sprite_ipgws
+			= the_sublevel.sprite_ipgws_vec_for_xml.at(i);
+		
+		
+		
+		stringstream number_sstm;
+		
+		// A string for interfacing with the_sstm.
+		string number_str;
+		
+		number_sstm << i;
+		number_sstm >> number_str;
+		
+		xml_node child_node = parent_node.append_child(( string("sprite_") 
+			+ number_str ).c_str());
+		
+		// The type of sprite
+		xml_attribute type_attr = child_node.append_attribute("type");
+		type_attr.set_value(the_sprite_ipgws.type);
+		
+		
+		// The initial in-level x coordinate, divided by 16
+		xml_attribute ibg_x_coord_attr = child_node.append_attribute
+			("ibg_x_coord");
+		ibg_x_coord_attr.set_value
+			(the_sprite_ipgws.initial_block_grid_x_coord);
+		
+		// The initial in-level y coordinate, divided by 16
+		xml_attribute ibg_y_coord_attr = child_node.append_attribute
+			("ibg_y_coord");
+		ibg_y_coord_attr.set_value
+			(the_sprite_ipgws.initial_block_grid_y_coord);
+		
+		// Here is a s
+		xml_attribute facing_right_attr = child_node.append_attribute
+			("facing_right");
+		facing_right_attr.set_value(the_sprite_ipgws.facing_right);
+		
+		// Here are extra parameters that are used in different ways
+		// depending on the type of sprite.
+		xml_attribute ep0_attr = child_node.append_attribute("ep0");
+		ep0_attr.set_value(the_sprite_ipgws.extra_param_0);
+		
+		xml_attribute ep1_attr = child_node.append_attribute("ep1");
+		ep1_attr.set_value(the_sprite_ipgws.extra_param_1);
+		
+		xml_attribute ep2_attr = child_node.append_attribute("ep2");
+		ep2_attr.set_value(the_sprite_ipgws.extra_param_2);
+		
+		xml_attribute ep3_attr = child_node.append_attribute("ep3");
+		ep3_attr.set_value(the_sprite_ipgws.extra_param_3);
+		
+		// There's no need to store the_sprite_ipgws.spawn_state within the
+		// XML file.
+		
+		
+		// The size of the sprite within the non-source code level data.
+		xml_attribute sprite_width_attr = child_node.append_attribute
+			("width");
+		sprite_width_attr.set_value(the_sprite_ipgws.size_2d.x);
+		
+		
+		xml_attribute sprite_height_attr = child_node.append_attribute
+			("height");
+		sprite_height_attr.set_value(the_sprite_ipgws.size_2d.y);
+	}
+	
+	
+	
+	//doc.save_file( (output_file_name + ".xml").c_str() );
+	doc.save_file(output_file_name.c_str());
+	
+	
+}
+
+void level_editor_widget::export_source_as_core_func
+	( const string& output_file_name )
 {
 	
 }
+
+
 
 void level_editor_widget::show_sprite_properties_widget()
 {
@@ -449,23 +616,75 @@ void level_editor_widget::show_geometry_stuff()
 }
 
 
-
-void level_editor_widget::save_file()
-{
-	cout << "Saving....\n";
-	
-	export_file();
-}
-
-void level_editor_widget::save_file_as()
+void level_editor_widget::open_level()
 {
 	QString output_file_name = QFileDialog::getSaveFileName( this, 
 		tr("Save File"), QString(), tr("Level File (*.xml)") );
 	//cout << "This QString was obtained:  " 
 	//	<< output_file_name.toStdString() << endl;
 	
+	//cout << ( output_file_name.toStdString().size() == 0 ) << endl;
+	if ( output_file_name.toStdString().size() == 0 )
+	{
+		return;
+	}
+	
+	the_core_widget->level_file_name = output_file_name.toStdString();
+	
+	open_level_core_func();
+}
+
+void level_editor_widget::save_level()
+{
+	if ( the_core_widget->level_file_name == string("") )
+	{
+		QString output_file_name = QFileDialog::getSaveFileName( this, 
+			tr("Save File"), QString(), tr("Level File (*.xml)") );
+		//cout << "This QString was obtained:  " 
+		//	<< output_file_name.toStdString() << endl;
+		
+		//cout << ( output_file_name.toStdString().size() == 0 ) << endl;
+		if ( output_file_name.toStdString().size() == 0 )
+		{
+			return;
+		}
+		
+		the_core_widget->level_file_name = output_file_name.toStdString();
+		
+	}
+	
 	cout << "Saving....\n";
 	
-	export_file_as(output_file_name.toStdString());
+	save_level_core_func();
 }
+
+void level_editor_widget::save_level_as()
+{
+	QString output_file_name = QFileDialog::getSaveFileName( this, 
+		tr("Save File"), QString(), tr("Level File (*.xml)") );
+	//cout << "This QString was obtained:  " 
+	//	<< output_file_name.toStdString() << endl;
+	
+	if ( output_file_name.toStdString().size() == 0 )
+	{
+		return;
+	}
+	
+	cout << "Saving....\n";
+	
+	save_level_as_core_func(output_file_name.toStdString());
+}
+
+
+void level_editor_widget::export_source()
+{
+	
+}
+
+void level_editor_widget::export_source_as()
+{
+	
+}
+
+
 

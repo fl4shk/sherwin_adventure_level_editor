@@ -101,21 +101,28 @@ protected:		// functions
 	//}
 	
 	
-	inline bool open_level( const string& n_level_file_name )
+	// Functions used by the slots
+	inline bool open_level_core_func( const string& n_level_file_name )
 	{
 		the_core_widget->level_file_name = n_level_file_name;
-		return open_level();
+		return open_level_core_func();
 	}
 	
-	bool open_level();
+	bool open_level_core_func();
 	
-	
-	inline void export_file()
+	inline void save_level_core_func()
 	{
-		export_file_as(the_core_widget->level_file_name);
+		save_level_as_core_func(the_core_widget->level_file_name);
 	}
 	
-	void export_file_as( const string& output_file_name );
+	void save_level_as_core_func( const string& output_file_name );
+	
+	//inline void export_source_core_func()
+	//{
+	//	export_source_as_core_func(the_core_widget->level_file_name);
+	//}
+	
+	void export_source_as_core_func( const string& output_file_name );
 	
 	
 	
@@ -132,8 +139,13 @@ protected slots:		// slots
 	
 	
 public slots:		// slots
-	void save_file();
-	void save_file_as();
+	void open_level();
+	
+	void save_level();
+	void save_level_as();
+	
+	void export_source();
+	void export_source_as();
 	
 };
 

@@ -17,34 +17,6 @@
 // <http://www.gnu.org/licenses/>.
 
 
+#include "level_class.hpp"
 
 
-#include "misc_includes.hpp"
-#include "primary_widget_class.hpp"
-
-
-
-int main( int argc, char** argv )
-{
-	vector<string> argv_copy;
-	
-	for ( int i=0; i<argc; ++i )
-	{
-		argv_copy.push_back(string(argv[i]));
-	}
-	
-	if ( argv_copy.size() != 1 && argv_copy.size() != 3 )
-	{
-		cout << "Usage 1:  " << argv_copy.at(0) << "\n";
-		cout << "Usage 2:  " << argv_copy.at(0) << " level_file_name "
-			<< "output_prefix\n";
-		return 1;
-	}
-	
-	QApplication app( argc, argv );
-	
-	primary_widget window(argv_copy);
-	window.show();
-	
-	return app.exec();
-}

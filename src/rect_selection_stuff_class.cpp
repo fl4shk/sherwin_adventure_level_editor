@@ -331,9 +331,9 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 				if ( block_grid_pos.x < 0 
 					|| block_grid_pos.y < 0
 					|| ( block_grid_pos.x 
-					>= the_sublevel->real_size_2d.x ) 
+					>= (s32)the_sublevel->real_size_2d.x ) 
 					|| ( block_grid_pos.y 
-					>= the_sublevel->real_size_2d.y ) )
+					>= (s32)the_sublevel->real_size_2d.y ) )
 				{
 					continue;
 				}
@@ -357,9 +357,9 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 				if ( block_grid_pos.x < 0 
 					|| block_grid_pos.y < 0
 					|| ( block_grid_pos.x 
-					>= the_sublevel->real_size_2d.x ) 
+					>= (s32)the_sublevel->real_size_2d.x ) 
 					|| ( block_grid_pos.y 
-					>= the_sublevel->real_size_2d.y ) )
+					>= (s32)the_sublevel->real_size_2d.y ) )
 				{
 					continue;
 				}
@@ -390,9 +390,9 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 				if ( original_block_grid_pos.x < 0 
 					|| original_block_grid_pos.y < 0
 					|| ( original_block_grid_pos.x 
-					>= the_sublevel->real_size_2d.x ) 
+					>= (s32)the_sublevel->real_size_2d.x ) 
 					|| ( original_block_grid_pos.y 
-					>= the_sublevel->real_size_2d.y ) )
+					>= (s32)the_sublevel->real_size_2d.y ) )
 				{
 					continue;
 				}
@@ -420,9 +420,9 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 				if ( block_grid_pos.x < 0 
 					|| block_grid_pos.y < 0
 					|| ( block_grid_pos.x 
-					>= the_sublevel->real_size_2d.x ) 
+					>= (s32)the_sublevel->real_size_2d.x ) 
 					|| ( block_grid_pos.y 
-					>= the_sublevel->real_size_2d.y ) )
+					>= (s32)the_sublevel->real_size_2d.y ) )
 				{
 					continue;
 				}
@@ -459,9 +459,9 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 				if ( block_grid_pos.x < 0 
 					|| block_grid_pos.y < 0
 					|| ( block_grid_pos.x 
-					>= the_sublevel->real_size_2d.x ) 
+					>= (s32)the_sublevel->real_size_2d.x ) 
 					|| ( block_grid_pos.y 
-					>= the_sublevel->real_size_2d.y ) )
+					>= (s32)the_sublevel->real_size_2d.y ) )
 				{
 					continue;
 				}

@@ -18,33 +18,24 @@
 
 
 
+#ifndef level_class_hpp
+#define level_class_hpp
 
-#include "misc_includes.hpp"
-#include "primary_widget_class.hpp"
+#include "sublevel_class.hpp"
 
 
-
-int main( int argc, char** argv )
+class level
 {
-	vector<string> argv_copy;
+public:		// constants
+	// This is 
+	static constexpr u32 max_num_sublevels = 8;
 	
-	for ( int i=0; i<argc; ++i )
-	{
-		argv_copy.push_back(string(argv[i]));
-	}
+public:		// variables
 	
-	if ( argv_copy.size() != 1 && argv_copy.size() != 3 )
-	{
-		cout << "Usage 1:  " << argv_copy.at(0) << "\n";
-		cout << "Usage 2:  " << argv_copy.at(0) << " level_file_name "
-			<< "output_prefix\n";
-		return 1;
-	}
+	vector<sublevel> sublevel_vec;
 	
-	QApplication app( argc, argv );
-	
-	primary_widget window(argv_copy);
-	window.show();
-	
-	return app.exec();
-}
+};
+
+
+
+#endif		// level_class_hpp
