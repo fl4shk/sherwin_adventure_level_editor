@@ -100,8 +100,7 @@ public:		// functions
 		sprite_16x16_selector_widget* n_the_sprite_16x16_selector_widget,
 		sprite_16x32_selector_widget* n_the_sprite_16x32_selector_widget );
 	
-	void reinitialize_the_sfml_canvas_widget
-		( QScrollArea* n_scroll_area );
+	void reinitialize( const QSize& n_size, QScrollArea* n_scroll_area );
 	
 	
 	block_selector_core_widget* get_the_block_selector_core_widget();

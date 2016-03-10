@@ -416,9 +416,164 @@ bool level_editor_widget::open_level_core_func()
 			}
 		}
 		
-		cout << "the_sublevel.real_size_2d:  " 
-			<< the_sublevel.real_size_2d.x << ", " 
-			<< the_sublevel.real_size_2d.y << endl;
+		//cout << "the_sublevel.real_size_2d:  " 
+		//	<< the_sublevel.real_size_2d.x << ", " 
+		//	<< the_sublevel.real_size_2d.y << endl;
+		
+		the_sublevel.uncompressed_block_data_vec_2d.clear();
+		
+		for ( u32 j=0; j<the_sublevel.real_size_2d.y; ++j )
+		{
+			the_sublevel.uncompressed_block_data_vec_2d.push_back
+				(vector<block>());
+			
+			for ( u32 i=0; i<the_sublevel.real_size_2d.x; ++i )
+			{
+				the_sublevel.uncompressed_block_data_vec_2d.at(j).push_back
+					(block());
+			}
+		}
+	};
+	
+	auto parse_sublevel_block_data_node 
+		= [&]( xml_node& sublevel_block_data_node, u32 sublevel_index )
+	{
+		string block_data_str = sublevel_block_data_node.text().get();
+		
+		//cout << ( block_data_str.at(0) == '\n' ) << endl;
+		
+		// Get rid of the initial "\n".
+		block_data_str = block_data_str.substr(1);
+		
+		stringstream block_data_sstm(block_data_str);
+		
+		string line;
+		
+		u32 j = 0; 
+		
+		while ( getline( block_data_sstm, line, '\n' ) )
+		{
+			if ( j >= the_sublevel.real_size_2d.y )
+			{
+				continue;
+			}
+			
+			u32 i = 0;
+			
+			stringstream line_sstm(line);
+			
+			string block_type_str;
+			
+			//// This is a vector for ONE ROW of block_type's.
+			//vector<block_type> block_type_row;
+			
+			while ( getline( line_sstm, block_type_str, ',' ) )
+			{
+				if ( i >= the_sublevel.real_size_2d.x )
+				{
+					continue;
+				}
+				
+				stringstream block_type_sstm;
+				
+				block_type_sstm << block_type_str;
+				block_type_sstm >> the_sublevel
+					.uncompressed_block_data_vec_2d.at(j).at(i).type;
+				
+				++i;
+			}
+			
+			++j;
+		}
+		
+		
+	};
+	
+	auto parse_sublevel_sprites_node 
+		= [&]( xml_node& sublevel_sprites_node, u32 sublevel_index )
+	{
+		the_sublevel.sprite_ipgws_vec_for_xml.clear();
+		
+		for ( xml_node sprite_node=sublevel_sprites_node.first_child();
+			sprite_node;
+			sprite_node=sprite_node.next_sibling() )
+		{
+			sprite_init_param_group_with_size to_push;
+			
+			for ( xml_attribute attr=sprite_node.first_attribute();
+				attr;
+				attr=attr.next_attribute() )
+			{
+				if ( attr.name() == string("type") )
+				{
+					to_push.type = static_cast<sprite_type>
+						(attr.as_uint());
+				}
+				else if ( attr.name() == string("ibg_x_coord") )
+				{
+					to_push.initial_block_grid_x_coord = attr.as_uint();
+				}
+				else if ( attr.name() == string("ibg_y_coord") )
+				{
+					to_push.initial_block_grid_y_coord = attr.as_uint();
+				}
+				else if ( attr.name() == string("facing_right") )
+				{
+					to_push.facing_right = attr.as_bool();
+				}
+				else if ( attr.name() == string("ep0") )
+				{
+					to_push.extra_param_0 = attr.as_uint();
+				}
+				else if ( attr.name() == string("ep1") )
+				{
+					to_push.extra_param_1 = attr.as_uint();
+				}
+				else if ( attr.name() == string("ep2") )
+				{
+					to_push.extra_param_2 = attr.as_uint();
+				}
+				else if ( attr.name() == string("ep3") )
+				{
+					to_push.extra_param_3 = attr.as_uint();
+				}
+				else if ( attr.name() == string("width") )
+				{
+					to_push.size_2d.x = attr.as_uint();
+				}
+				else if ( attr.name() == string("height") )
+				{
+					to_push.size_2d.y = attr.as_uint();
+				}
+			}
+			
+			the_sublevel.sprite_ipgws_vec_for_xml.push_back(to_push);
+		}
+		
+		the_sublevel.sprite_ipgws_vec_2d.clear();
+		
+		for ( u32 j=0; j<the_sublevel.real_size_2d.y; ++j )
+		{
+			the_sublevel.sprite_ipgws_vec_2d.push_back
+				(vector<sprite_init_param_group_with_size>());
+			for ( u32 i=0; i<the_sublevel.real_size_2d.x; ++i )
+			{
+				the_sublevel.sprite_ipgws_vec_2d.at(j).push_back
+					(sprite_init_param_group_with_size());
+			}
+		}
+		
+		
+		for ( sprite_init_param_group_with_size& the_sprite_ipgws
+			: the_sublevel.sprite_ipgws_vec_for_xml )
+		{
+			the_sublevel.sprite_ipgws_vec_2d
+				.at(the_sprite_ipgws.initial_block_grid_y_coord)
+				.at(the_sprite_ipgws.initial_block_grid_x_coord)
+				= the_sprite_ipgws;
+		}
+		
+		
 	};
 	
 	auto parse_sublevel_node = [&]( xml_node& sublevel_node, 
@@ -431,6 +586,14 @@ bool level_editor_widget::open_level_core_func()
 			if ( node.name() == string("header") )
 			{
 				parse_sublevel_header_node( node, sublevel_index );
+			}
+			else if ( node.name() == string("block_data") )
+			{
+				parse_sublevel_block_data_node( node, sublevel_index );
+			}
+			else if ( node.name() == string("sprites") )
+			{
+				parse_sublevel_sprites_node( node, sublevel_index );
 			}
 		}
 		
@@ -452,7 +615,6 @@ bool level_editor_widget::open_level_core_func()
 		if ( node.name() == string("sublevel_0") )
 		{
 			parse_sublevel_node( node, 0 );
-			
 		}
 		else if ( node.name() == string("sublevel_1") )
 		{
@@ -487,17 +649,12 @@ bool level_editor_widget::open_level_core_func()
 	
 	if ( real_size_2d_before_parse != the_sublevel.real_size_2d )
 	{
-		cout << "hello\n";
-		the_core_widget->current_size = QSize( the_sublevel.real_size_2d.x 
+		//cout << "hello\n";
+		
+		the_core_widget->reinitialize( QSize( the_sublevel.real_size_2d.x 
 			* sfml_canvas_widget::num_pixels_per_block_column,
 			the_sublevel.real_size_2d.y * sfml_canvas_widget
-			::num_pixels_per_block_row );
-		
-		the_core_widget->move(the_core_widget->current_position);
-		the_core_widget->resize(the_core_widget->current_size);
-		
-		the_core_widget->reinitialize_the_sfml_canvas_widget
-			(core_widget_scroll_area);
+			::num_pixels_per_block_row ), core_widget_scroll_area);
 	}
 	
 	

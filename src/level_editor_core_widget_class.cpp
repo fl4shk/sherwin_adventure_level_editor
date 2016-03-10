@@ -77,9 +77,14 @@ void level_editor_core_widget::initialize_tab_stuff
 	#undef X
 }
 
-void level_editor_core_widget::reinitialize_the_sfml_canvas_widget
-	( QScrollArea* n_scroll_area )
+void level_editor_core_widget::reinitialize( const QSize& n_size,
+	QScrollArea* n_scroll_area )
 {
+	current_size = n_size;
+	
+	move(current_position);
+	resize(current_size);
+	
 	the_sfml_canvas_widget.reset(new sfml_canvas_widget( this, 
 		current_position, current_size ));
 	the_sfml_canvas_widget->set_the_sublevel(&the_sublevel);
@@ -194,9 +199,9 @@ void level_editor_core_widget::draw_block_line( const sf::Vector2i& pos_0,
 	//}
 	
 	if ( block_coord.x >= (s32)0 
-		&& block_coord.x < (s32)the_sublevel.size_2d.x 
+		&& block_coord.x < (s32)the_sublevel.real_size_2d.x 
 		&& block_coord.y >= (s32)0 
-		&& block_coord.y < (s32)the_sublevel.size_2d.y )
+		&& block_coord.y < (s32)the_sublevel.real_size_2d.y )
 	{
 		the_sublevel.uncompressed_block_data_vec_2d[(u32)block_coord.y]
 			[(u32)block_coord.x].type = the_block_type;
@@ -225,9 +230,9 @@ void level_editor_core_widget::draw_block_line( const sf::Vector2i& pos_0,
 			//}
 			
 			if ( block_coord.x >= (s32)0 
-				&& block_coord.x < (s32)the_sublevel.size_2d.x 
+				&& block_coord.x < (s32)the_sublevel.real_size_2d.x 
 				&& block_coord.y >= (s32)0 
-				&& block_coord.y < (s32)the_sublevel.size_2d.y )
+				&& block_coord.y < (s32)the_sublevel.real_size_2d.y )
 			{
 				the_sublevel.uncompressed_block_data_vec_2d
 					[(u32)block_coord.y][(u32)block_coord.x].type 
@@ -258,9 +263,9 @@ void level_editor_core_widget::draw_block_line( const sf::Vector2i& pos_0,
 			//}
 			
 			if ( block_coord.x >= (s32)0 
-				&& block_coord.x < (s32)the_sublevel.size_2d.x 
+				&& block_coord.x < (s32)the_sublevel.real_size_2d.x 
 				&& block_coord.y >= (s32)0 
-				&& block_coord.y < (s32)the_sublevel.size_2d.y )
+				&& block_coord.y < (s32)the_sublevel.real_size_2d.y )
 			{
 				the_sublevel.uncompressed_block_data_vec_2d
 					[(u32)block_coord.y][(u32)block_coord.x].type 
@@ -303,10 +308,10 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 	
 	if ( block_grid_coords_of_mouse_pos.x < (s32)0
 		|| block_grid_coords_of_mouse_pos.x 
-			>= (s32)the_sublevel.size_2d.x
+			>= (s32)the_sublevel.real_size_2d.x
 		|| block_grid_coords_of_mouse_pos.y < (s32)0
 		|| block_grid_coords_of_mouse_pos.y 
-			>= (s32)the_sublevel.size_2d.y )
+			>= (s32)the_sublevel.real_size_2d.y )
 	{
 		return;
 	}
@@ -819,10 +824,10 @@ void level_editor_core_widget::mouseMoveEvent( QMouseEvent* event )
 			
 			if ( block_grid_coords_of_mouse_pos.x < (s32)0
 				|| block_grid_coords_of_mouse_pos.x 
-					>= (s32)the_sublevel.size_2d.x
+					>= (s32)the_sublevel.real_size_2d.x
 				|| block_grid_coords_of_mouse_pos.y < (s32)0
 				|| block_grid_coords_of_mouse_pos.y 
-					>= (s32)the_sublevel.size_2d.y )
+					>= (s32)the_sublevel.real_size_2d.y )
 			{
 				//return;
 			}
