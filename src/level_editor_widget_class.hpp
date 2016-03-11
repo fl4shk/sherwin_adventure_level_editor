@@ -56,6 +56,10 @@ public:		// variables
 	// Much of the "magic" happens within the_core_widget.
 	level_editor_core_widget* the_core_widget;
 	
+	// This variable has been moved from the level_editor_core_widget
+	// class, because more than one instance of the class will be made.
+	level the_level;
+	
 	
 	
 	// Level element selector widgets are placed into
@@ -102,13 +106,13 @@ protected:		// functions
 	
 	
 	// Functions used by the slots
-	inline bool open_level_core_func( const string& n_level_file_name )
+	inline bool open_level_core_func()
 	{
-		the_core_widget->level_file_name = n_level_file_name;
-		return open_level_core_func();
+		return open_level_core_func(the_core_widget->level_file_name);
 	}
 	
-	bool open_level_core_func();
+	bool open_level_core_func( const string& n_level_file_name );
+	
 	
 	inline void save_level_core_func()
 	{

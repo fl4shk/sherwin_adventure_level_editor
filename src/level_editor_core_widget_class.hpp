@@ -23,7 +23,8 @@
 
 #include "misc_includes.hpp"
 #include "sfml_canvas_widget_classes.hpp"
-#include "sublevel_class.hpp"
+//#include "sublevel_class.hpp"
+#include "level_class.hpp"
 
 
 class block_selector_widget;
@@ -64,11 +65,8 @@ public:		// variables
 		macro(block) macro(sprite_16x16) macro(sprite_16x32)
 	
 	
-	
-	// Temporary sublevel instance until a "level" class is created that
-	// contains multiple sublevels.  Perhaps a vector<level> would be of
-	// interest to have, in case tabbed level editing is desired.
-	sublevel the_sublevel;
+	//level* the_level;
+	sublevel* the_sublevel;
 	
 	
 	// This is for block line drawing and multiple level element
@@ -90,7 +88,13 @@ public:		// variables
 	
 public:		// functions
 	level_editor_core_widget( QWidget* s_parent, const QPoint& s_position,
-		const QSize& s_size, const string& s_level_file_name );
+		const string& s_level_file_name, sublevel* s_the_sublevel );
+	level_editor_core_widget( QWidget* s_parent, const QPoint& s_position,
+		const string& s_level_file_name, sublevel* s_the_sublevel,
+		const vec2_u32& s_sublevel_real_size_2d );
+	
+	void shared_constructor_code( const QPoint& s_position, 
+		 const vec2_u32& s_sublevel_real_size_2d );
 	
 	
 	// 
@@ -111,6 +115,12 @@ public:		// functions
 	
 	bool zoom_in();
 	bool zoom_out();
+	
+	//inline sublevel& get_curr_sublevel()
+	//{
+	//	return the_level->get_curr_sublevel();
+	//}
+	
 	
 	
 protected:		// functions
@@ -142,6 +152,7 @@ protected:		// functions
 	
 	//void focusInEvent( QFocusEvent* event );
 	//void focusOutEvent( QFocusEvent* event );
+	
 	
 signals:		// signals
 	void right_mouse_button_pressed();

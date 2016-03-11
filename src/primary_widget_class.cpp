@@ -127,8 +127,8 @@ void primary_widget::laugh()
 	
 	
 	
-	sublevel& the_sublevel = the_central_widget->the_core_widget
-		->the_sublevel;
+	sublevel& the_sublevel = the_central_widget->the_level
+		.get_curr_sublevel();
 	for ( u32 j=0; j<the_sublevel.real_size_2d.y; ++j )
 	{
 		for ( u32 i=0; i<the_sublevel.real_size_2d.x; ++i )

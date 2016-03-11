@@ -20,3 +20,49 @@
 #include "level_class.hpp"
 
 
+level::level( u32 s_num_sublevels, 
+	const vec2_u32& shared_sublevel_size_2d )
+	: curr_sublevel_index(0)
+{
+	if ( s_num_sublevels > max_num_sublevels )
+	{
+		cout << "Weird bug:  s_num_sublevels > max_num_sublevels.  "
+			<< "Specific value is " << s_num_sublevels << ".\n";
+		for ( u32 i=0; i<max_num_sublevels; ++i )
+		{
+			sublevel_vec.push_back(sublevel());
+		}
+	}
+	else
+	{
+		for ( u32 i=0; i<s_num_sublevels; ++i )
+		{
+			sublevel_vec.push_back(sublevel());
+		}
+	}
+}
+
+level::level( const vector<vec2_u32>& s_sublevel_size_2d_vec )
+	: curr_sublevel_index(0)
+{
+	if ( s_sublevel_size_2d_vec.size() > max_num_sublevels )
+	{
+		cout << "Weird bug:  s_sublevel_size_2d_vec.size() > "
+			<< "max_num_sublevels.  Specific value is " 
+			<< s_sublevel_size_2d_vec.size() << ".\n";
+		
+		for ( u32 i=0; i<max_num_sublevels; ++i )
+		{
+			sublevel_vec.push_back(sublevel(s_sublevel_size_2d_vec.at(i)));
+		}
+	}
+	else
+	{
+		for ( u32 i=0; i<s_sublevel_size_2d_vec.size(); ++i )
+		{
+			sublevel_vec.push_back(sublevel(s_sublevel_size_2d_vec.at(i)));
+		}
+	}
+}
+
+

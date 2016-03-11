@@ -723,7 +723,8 @@ void sfml_canvas_widget::update_visible_area()
 	}
 	//cout << num_drawn_blocks << endl;
 	
-	if ( the_rect_selection_stuff.selection_layer == rsl_blocks
+	if ( the_rect_selection_stuff.get_enabled()
+		&& the_rect_selection_stuff.selection_layer == rsl_blocks
 		&& !the_rect_selection_stuff.selection_was_pasted )
 	{
 		for ( s32 j=0; j<selection_rect_before_moving.height; ++j )
@@ -745,7 +746,8 @@ void sfml_canvas_widget::update_visible_area()
 			}
 		}
 	}
-	else if ( the_rect_selection_stuff.original_layer_of_pasted_selection
+	else if ( the_rect_selection_stuff.get_enabled()
+		&& the_rect_selection_stuff.original_layer_of_pasted_selection
 		== rsl_blocks && the_rect_selection_stuff.selection_was_pasted )
 	{
 		for ( s32 j=0; j<selection_rect.height; ++j )
@@ -943,7 +945,8 @@ void sfml_canvas_widget::update_visible_area()
 	//cout << num_drawn_16x32_sprites << endl;
 	//cout << endl;
 	
-	if (!the_rect_selection_stuff.single_sprite_selected)
+	if ( the_rect_selection_stuff.get_enabled()
+		&& !the_rect_selection_stuff.single_sprite_selected)
 	{
 		if ( the_rect_selection_stuff.selection_layer == rsl_blocks 
 			&& !the_rect_selection_stuff.selection_was_pasted )
@@ -1176,7 +1179,8 @@ void sfml_canvas_widget::update_visible_area()
 	//cout << num_drawn_16x16_sprites << endl;
 	//cout << endl;
 	
-	if (!the_rect_selection_stuff.single_sprite_selected)
+	if ( the_rect_selection_stuff.get_enabled()
+		&& !the_rect_selection_stuff.single_sprite_selected)
 	{
 		if ( the_rect_selection_stuff.selection_layer == rsl_blocks 
 			&& !the_rect_selection_stuff.selection_was_pasted )

@@ -23,7 +23,7 @@
 block_selector_core_widget::block_selector_core_widget
 	( QWidget* s_parent, const QPoint& s_position, const QSize& s_size ) 
 	: level_element_selector_core_widget_base( s_parent, s_position, 
-		s_size )
+	s_size )
 {
 }
 

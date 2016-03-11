@@ -27,33 +27,65 @@
 #include "sprite_16x16_selector_core_widget_class.hpp"
 #include "sprite_16x32_selector_core_widget_class.hpp"
 
+
+
 level_editor_core_widget::level_editor_core_widget( QWidget* s_parent,
-	const QPoint& s_position, const QSize& s_size, 
-	const string& s_level_file_name )
+	const QPoint& s_position, const string& s_level_file_name, 
+	sublevel* s_the_sublevel )
 	: QWidget(s_parent), parent(s_parent),
 	level_file_name(s_level_file_name), current_position(s_position), 
-	current_size(s_size), the_mouse_mode(mm_place_level_elements)
+	the_sublevel(s_the_sublevel), the_mouse_mode(mm_place_level_elements)
+{
+	shared_constructor_code( s_position, the_sublevel->real_size_2d );
+}
+
+
+level_editor_core_widget::level_editor_core_widget( QWidget* s_parent,
+	const QPoint& s_position, const string& s_level_file_name, 
+	sublevel* s_the_sublevel, const vec2_u32& s_sublevel_real_size_2d )
+	: QWidget(s_parent), parent(s_parent),
+	level_file_name(s_level_file_name), current_position(s_position), 
+	the_sublevel(s_the_sublevel), the_mouse_mode(mm_place_level_elements)
+{
+	shared_constructor_code( s_position, s_sublevel_real_size_2d );
+}
+
+void level_editor_core_widget::shared_constructor_code
+	( const QPoint& s_position, const vec2_u32& s_sublevel_real_size_2d )
 {
 	// Set strong focus to enable keyboard events (and maybe mouse events?)
 	// to be received.
 	setFocusPolicy(Qt::StrongFocus);
 	
-	move(s_position);
-	resize(s_size);
+	the_sublevel->real_size_2d = s_sublevel_real_size_2d;
+	
+	current_size = QSize( the_sublevel->real_size_2d.x
+		* sfml_canvas_widget::num_pixels_per_block_column,
+		the_sublevel->real_size_2d.y
+		* sfml_canvas_widget::num_pixels_per_block_row );
+	
+	move(current_position);
+	resize(current_size);
 	
 	//the_sfml_canvas_widget = new sfml_canvas_widget( this, s_position, 
 	//	s_size );
 	the_sfml_canvas_widget.reset(new sfml_canvas_widget( this, 
-		s_position, s_size ));
+		current_position, current_size ));
 	
-	the_sublevel.real_size_2d = vec2_u32( s_size.width() 
-		/ sfml_canvas_widget::num_pixels_per_block_column, s_size.height() 
-		/ sfml_canvas_widget::num_pixels_per_block_row );
+	//the_sublevel.real_size_2d = vec2_u32( s_size.width() 
+	//	/ sfml_canvas_widget::num_pixels_per_block_column, s_size.height() 
+	//	/ sfml_canvas_widget::num_pixels_per_block_row );
+	//
+	//the_sfml_canvas_widget->set_the_sublevel(&the_sublevel);
 	
-	the_sfml_canvas_widget->set_the_sublevel(&the_sublevel);
+	//*the_level = level(s_sublevel_size_2d_vec);
+	//curr_sublevel_index = 0;
 	
-	setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Minimum );
-	setMinimumSize( QSize( 512, 512 ) );
+	the_sfml_canvas_widget->set_the_sublevel(the_sublevel);
+	
+	
+	//setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Minimum );
+	//setMinimumSize( QSize( 512, 512 ) );
 }
 
 
@@ -87,7 +119,7 @@ void level_editor_core_widget::reinitialize( const QSize& n_size,
 	
 	the_sfml_canvas_widget.reset(new sfml_canvas_widget( this, 
 		current_position, current_size ));
-	the_sfml_canvas_widget->set_the_sublevel(&the_sublevel);
+	the_sfml_canvas_widget->set_the_sublevel(the_sublevel);
 	
 	#define X(name) \
 	the_sfml_canvas_widget->set_the_##name##_selector_core_widget \
@@ -199,12 +231,12 @@ void level_editor_core_widget::draw_block_line( const sf::Vector2i& pos_0,
 	//}
 	
 	if ( block_coord.x >= (s32)0 
-		&& block_coord.x < (s32)the_sublevel.real_size_2d.x 
+		&& block_coord.x < (s32)the_sublevel->real_size_2d.x 
 		&& block_coord.y >= (s32)0 
-		&& block_coord.y < (s32)the_sublevel.real_size_2d.y )
+		&& block_coord.y < (s32)the_sublevel->real_size_2d.y )
 	{
-		the_sublevel.uncompressed_block_data_vec_2d[(u32)block_coord.y]
-			[(u32)block_coord.x].type = the_block_type;
+		the_sublevel->uncompressed_block_data_vec_2d
+			[(u32)block_coord.y][(u32)block_coord.x].type = the_block_type;
 	}
 	
 	if ( delta.x > delta.y )
@@ -230,11 +262,13 @@ void level_editor_core_widget::draw_block_line( const sf::Vector2i& pos_0,
 			//}
 			
 			if ( block_coord.x >= (s32)0 
-				&& block_coord.x < (s32)the_sublevel.real_size_2d.x 
+				&& ( block_coord.x 
+				< (s32)the_sublevel->real_size_2d.x )
 				&& block_coord.y >= (s32)0 
-				&& block_coord.y < (s32)the_sublevel.real_size_2d.y )
+				&& ( block_coord.y 
+				< (s32)the_sublevel->real_size_2d.y ) )
 			{
-				the_sublevel.uncompressed_block_data_vec_2d
+				the_sublevel->uncompressed_block_data_vec_2d
 					[(u32)block_coord.y][(u32)block_coord.x].type 
 					= the_block_type;
 			}
@@ -263,11 +297,13 @@ void level_editor_core_widget::draw_block_line( const sf::Vector2i& pos_0,
 			//}
 			
 			if ( block_coord.x >= (s32)0 
-				&& block_coord.x < (s32)the_sublevel.real_size_2d.x 
+				&& ( block_coord.x 
+				< (s32)the_sublevel->real_size_2d.x )
 				&& block_coord.y >= (s32)0 
-				&& block_coord.y < (s32)the_sublevel.real_size_2d.y )
+				&& ( block_coord.y 
+				< (s32)the_sublevel->real_size_2d.y ) )
 			{
-				the_sublevel.uncompressed_block_data_vec_2d
+				the_sublevel->uncompressed_block_data_vec_2d
 					[(u32)block_coord.y][(u32)block_coord.x].type 
 					= the_block_type;
 			}
@@ -298,7 +334,7 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 		= { (s32)( mouse_pos_in_canvas_coords.x
 		/ ( sfml_canvas_widget::num_pixels_per_block_row ) ),
 		
-		(s32)( ( the_sublevel.real_size_2d.y 
+		(s32)( ( the_sublevel->real_size_2d.y 
 		- ( ( the_sfml_canvas_widget->getSize().y / scale_factor )
 		- mouse_pos_in_canvas_coords.y )
 		/ sfml_canvas_widget::num_pixels_per_block_column ) ) };
@@ -308,10 +344,10 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 	
 	if ( block_grid_coords_of_mouse_pos.x < (s32)0
 		|| block_grid_coords_of_mouse_pos.x 
-			>= (s32)the_sublevel.real_size_2d.x
+			>= (s32)the_sublevel->real_size_2d.x
 		|| block_grid_coords_of_mouse_pos.y < (s32)0
 		|| block_grid_coords_of_mouse_pos.y 
-			>= (s32)the_sublevel.real_size_2d.y )
+			>= (s32)the_sublevel->real_size_2d.y )
 	{
 		return;
 	}
@@ -326,12 +362,12 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 	
 	
 	block& the_block_at_mouse_pos 
-		= the_sublevel.uncompressed_block_data_vec_2d
+		= the_sublevel->uncompressed_block_data_vec_2d
 		.at((u32)block_grid_coords_of_mouse_pos.y)
 		.at((u32)block_grid_coords_of_mouse_pos.x);
 	
 	sprite_init_param_group_with_size& the_sprite_ipgws_at_mouse_pos
-		= the_sublevel.sprite_ipgws_vec_2d
+		= the_sublevel->sprite_ipgws_vec_2d
 		.at((u32)block_grid_coords_of_mouse_pos.y)
 		.at((u32)block_grid_coords_of_mouse_pos.x);
 	
@@ -348,14 +384,14 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 	
 	
 	//adj_sprite_ipgws_ptr_group_for_selecting_sprite
-	//	the_sprite_selection_ptr_group( the_sublevel,
+	//	the_sprite_selection_ptr_group( *the_sublevel,
 	//	block_grid_coords_of_mouse_pos.x, 
 	//	block_grid_coords_of_mouse_pos.y );
 	
 	
 	the_sprite_selection_ptr_group 
-		= adj_sprite_ipgws_ptr_group_for_selecting_sprite( the_sublevel,
-		block_grid_coords_of_mouse_pos.x, 
+		= adj_sprite_ipgws_ptr_group_for_selecting_sprite
+		( *the_sublevel, block_grid_coords_of_mouse_pos.x, 
 		block_grid_coords_of_mouse_pos.y );
 	
 	
@@ -487,7 +523,7 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 			};
 			
 			adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16 
-				the_ptr_group( the_sublevel, 
+				the_ptr_group( *the_sublevel, 
 				block_grid_coords_of_mouse_pos.x,
 				block_grid_coords_of_mouse_pos.y );
 			
@@ -517,7 +553,7 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 			};
 			
 			adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32 
-				the_ptr_group( the_sublevel, 
+				the_ptr_group( *the_sublevel, 
 				block_grid_coords_of_mouse_pos.x,
 				block_grid_coords_of_mouse_pos.y );
 			
@@ -736,7 +772,7 @@ void level_editor_core_widget::mouseMoveEvent( QMouseEvent* event )
 		= { (s32)( mouse_pos_in_canvas_coords.x
 		/ ( sfml_canvas_widget::num_pixels_per_block_row ) ),
 		
-		(s32)( ( the_sublevel.real_size_2d.y 
+		(s32)( ( the_sublevel->real_size_2d.y 
 		- ( ( the_sfml_canvas_widget->getSize().y / scale_factor )
 		- mouse_pos_in_canvas_coords.y )
 		/ sfml_canvas_widget::num_pixels_per_block_column ) ) };
@@ -746,10 +782,10 @@ void level_editor_core_widget::mouseMoveEvent( QMouseEvent* event )
 	
 	//if ( block_grid_coords_of_mouse_pos.x < (s32)0
 	//	|| block_grid_coords_of_mouse_pos.x 
-	//		>= (s32)the_sublevel.size_2d.x
+	//		>= (s32)the_sublevel->size_2d.x
 	//	|| block_grid_coords_of_mouse_pos.y < (s32)0
 	//	|| block_grid_coords_of_mouse_pos.y 
-	//		>= (s32)the_sublevel.size_2d.y )
+	//		>= (s32)the_sublevel->size_2d.y )
 	//{
 	//	return;
 	//}
@@ -764,7 +800,7 @@ void level_editor_core_widget::mouseMoveEvent( QMouseEvent* event )
 	
 	
 	//sprite_init_param_group_with_size& the_sprite_ipgws_at_mouse_pos
-	//	= the_sublevel.sprite_ipgws_vec_2d
+	//	= the_sublevel->sprite_ipgws_vec_2d
 	//	[block_grid_coords_of_mouse_pos.y]
 	//	[block_grid_coords_of_mouse_pos.x];
 	
@@ -783,13 +819,13 @@ void level_editor_core_widget::mouseMoveEvent( QMouseEvent* event )
 	
 	
 	//adj_sprite_ipgws_ptr_group_for_selecting_sprite
-	//	the_sprite_selection_ptr_group( the_sublevel,
+	//	the_sprite_selection_ptr_group( *the_sublevel,
 	//	block_grid_coords_of_mouse_pos.x, 
 	//	block_grid_coords_of_mouse_pos.y );
 	
 	the_sprite_selection_ptr_group 
-		= adj_sprite_ipgws_ptr_group_for_selecting_sprite( the_sublevel,
-		block_grid_coords_of_mouse_pos.x, 
+		= adj_sprite_ipgws_ptr_group_for_selecting_sprite
+		( *the_sublevel, block_grid_coords_of_mouse_pos.x, 
 		block_grid_coords_of_mouse_pos.y );
 	
 	//if ( the_sprite_selection_ptr_group.origin_ptr != NULL )
@@ -824,17 +860,17 @@ void level_editor_core_widget::mouseMoveEvent( QMouseEvent* event )
 			
 			if ( block_grid_coords_of_mouse_pos.x < (s32)0
 				|| block_grid_coords_of_mouse_pos.x 
-					>= (s32)the_sublevel.real_size_2d.x
+					>= (s32)the_sublevel->real_size_2d.x
 				|| block_grid_coords_of_mouse_pos.y < (s32)0
 				|| block_grid_coords_of_mouse_pos.y 
-					>= (s32)the_sublevel.real_size_2d.y )
+					>= (s32)the_sublevel->real_size_2d.y )
 			{
 				//return;
 			}
 			else
 			{
 				block& the_block_at_mouse_pos 
-					= the_sublevel.uncompressed_block_data_vec_2d
+					= the_sublevel->uncompressed_block_data_vec_2d
 					.at((u32)block_grid_coords_of_mouse_pos.y)
 					.at((u32)block_grid_coords_of_mouse_pos.x);
 				
@@ -945,7 +981,7 @@ void level_editor_core_widget::mouseReleaseEvent( QMouseEvent* event )
 		= { (s32)( mouse_pos_in_canvas_coords.x
 		/ ( sfml_canvas_widget::num_pixels_per_block_row ) ),
 		
-		(s32)( ( the_sublevel.real_size_2d.y 
+		(s32)( ( the_sublevel->real_size_2d.y 
 		- ( ( the_sfml_canvas_widget->getSize().y / scale_factor )
 		- mouse_pos_in_canvas_coords.y )
 		/ sfml_canvas_widget::num_pixels_per_block_column ) ) };
@@ -955,10 +991,10 @@ void level_editor_core_widget::mouseReleaseEvent( QMouseEvent* event )
 	
 	//if ( block_grid_coords_of_mouse_pos.x < (s32)0
 	//	|| block_grid_coords_of_mouse_pos.x 
-	//		>= (s32)the_sublevel.size_2d.x
+	//		>= (s32)the_sublevel->size_2d.x
 	//	|| block_grid_coords_of_mouse_pos.y < (s32)0
 	//	|| block_grid_coords_of_mouse_pos.y 
-	//		>= (s32)the_sublevel.size_2d.y )
+	//		>= (s32)the_sublevel->size_2d.y )
 	//{
 	//	return;
 	//}
@@ -972,12 +1008,12 @@ void level_editor_core_widget::mouseReleaseEvent( QMouseEvent* event )
 	
 	
 	//block& the_block_at_mouse_pos 
-	//	= the_sublevel.uncompressed_block_data_vec_2d
+	//	= the_sublevel->uncompressed_block_data_vec_2d
 	//	.at((u32)block_grid_coords_of_mouse_pos.y)
 	//	.at((u32)block_grid_coords_of_mouse_pos.x);
 	
 	//sprite_init_param_group_with_size& the_sprite_ipgws_at_mouse_pos
-	//	= the_sublevel.sprite_ipgws_vec_2d
+	//	= the_sublevel->sprite_ipgws_vec_2d
 	//	[block_grid_coords_of_mouse_pos.y]
 	//	[block_grid_coords_of_mouse_pos.x];
 	
@@ -995,8 +1031,8 @@ void level_editor_core_widget::mouseReleaseEvent( QMouseEvent* event )
 	
 	
 	//the_sprite_selection_ptr_group 
-	//	= adj_sprite_ipgws_ptr_group_for_selecting_sprite( the_sublevel,
-	//	block_grid_coords_of_mouse_pos.x, 
+	//	= adj_sprite_ipgws_ptr_group_for_selecting_sprite
+	//	( *the_sublevel, block_grid_coords_of_mouse_pos.x, 
 	//	block_grid_coords_of_mouse_pos.y );
 	
 	

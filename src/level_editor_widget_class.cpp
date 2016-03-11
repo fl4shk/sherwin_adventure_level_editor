@@ -41,28 +41,40 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 	
 	
 	
+	// If no file name was passed on the command line, create a level
 	if ( argv_copy->size() == 1 )
 	{
-		the_core_widget = new level_editor_core_widget( this, 
-			QPoint( 0, 0 ), QSize( 256, 256 ), string("") );
 		//the_core_widget = new level_editor_core_widget( this, 
-		//	QPoint( 0, 0 ), QSize( 8192, 512 ), string("") );
-		//the_core_widget = new level_editor_core_widget( this, 
-		//	QPoint( 0, 0 ), QSize( 2048, 512 ), string("") );
-		//the_core_widget = new level_editor_core_widget( this, 
-		//	QPoint( 0, 0 ), QSize( 512, 512 ), string("") );
-	}
-	else //if ( argv_copy.size() == 3 )
-	{
-		//the_core_widget = new level_editor_core_widget( this, 
-		//	QPoint( 0, 0 ), QSize( 256, 256 ), argv_copy->at(1) );
-		the_core_widget = new level_editor_core_widget( this,
-			QPoint( 0, 0 ), QSize( 8192, 512 ), argv_copy->at(1) );
-		//the_core_widget = new level_editor_core_widget( this, 
-		//	QPoint( 0, 0 ), QSize( 2048, 512 ), argv_copy->at(1) );
-		//the_core_widget = new level_editor_core_widget( this, 
-		//	QPoint( 0, 0 ), QSize( 512, 512 ), argv_copy->at(1) );
+		//	QPoint( 0, 0 ), QSize( 256, 256 ), string("") );
+		////the_core_widget = new level_editor_core_widget( this, 
+		////	QPoint( 0, 0 ), QSize( 8192, 512 ), string("") );
+		////the_core_widget = new level_editor_core_widget( this, 
+		////	QPoint( 0, 0 ), QSize( 2048, 512 ), string("") );
+		////the_core_widget = new level_editor_core_widget( this, 
+		////	QPoint( 0, 0 ), QSize( 512, 512 ), string("") );
 		
+		the_core_widget = new level_editor_core_widget( this,
+			QPoint( 0, 0 ), string(""), &the_level.get_curr_sublevel(),
+			vec2_u32( 16, 16 ) );
+	}
+	else //if ( argv_copy->size() == 3 )
+	{
+		////the_core_widget = new level_editor_core_widget( this, 
+		////	QPoint( 0, 0 ), QSize( 256, 256 ), argv_copy->at(1) );
+		//the_core_widget = new level_editor_core_widget( this,
+		//	QPoint( 0, 0 ), QSize( 8192, 512 ), argv_copy->at(1) );
+		////the_core_widget = new level_editor_core_widget( this, 
+		////	QPoint( 0, 0 ), QSize( 2048, 512 ), argv_copy->at(1) );
+		////the_core_widget = new level_editor_core_widget( this, 
+		////	QPoint( 0, 0 ), QSize( 512, 512 ), argv_copy->at(1) );
+		
+		the_core_widget = NULL;
+		
+		open_level_core_func(argv_copy->at(2));
+		
+		the_core_widget = new level_editor_core_widget( this,
+			QPoint( 0, 0 ), argv_copy->at(2),
+			&the_level.get_curr_sublevel() );
 	}
 	
 	
@@ -134,21 +146,6 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 		(core_widget_scroll_area);
 	
 	
-	
-	////vbox_layout = new QVBoxLayout(this);
-	//vbox_layout = new QVBoxLayout;
-	//vbox_layout->addWidget(level_element_selectors_tab_widget);
-	//
-	//
-	//// hbox_layout stuff
-	//hbox_layout = new QHBoxLayout(this);
-	//hbox_layout->addWidget(core_widget_scroll_area);
-	//
-	////hbox_layout->addSpacing(3000);
-	//
-	////hbox_layout->addWidget(level_element_selectors_tab_widget);
-	//hbox_layout->addLayout(vbox_layout);
-	
 	// splitter stuff
 	horiz_splitter = new QSplitter(this);
 	
@@ -162,6 +159,7 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 	
 	
 	horiz_splitter->addWidget(core_widget_scroll_area);
+	//horiz_splitter->addWidget(the_core_widget);
 	horiz_splitter->addWidget(vert_splitter);
 	
 	
@@ -310,18 +308,18 @@ void level_editor_widget::keyPressEvent( QKeyEvent* event )
 		
 		if ( ( visible_block_grid_start_pos.x 
 			+ visible_block_grid_size_2d.x )
-			>= (s32)the_core_widget->the_sublevel.real_size_2d.x )
+			>= (s32)the_level.get_curr_sublevel().real_size_2d.x )
 		{
 			visible_block_grid_size_2d.x 
-				= the_core_widget->the_sublevel.real_size_2d.x
+				= the_level.get_curr_sublevel().real_size_2d.x
 				- visible_block_grid_start_pos.x;
 		}
 		if ( ( visible_block_grid_start_pos.y 
 			+ visible_block_grid_size_2d.y )
-			>= (s32)the_core_widget->the_sublevel.real_size_2d.y )
+			>= (s32)the_level.get_curr_sublevel().real_size_2d.y )
 		{
 			visible_block_grid_size_2d.y 
-				= the_core_widget->the_sublevel.real_size_2d.y
+				= the_level.get_curr_sublevel().real_size_2d.y
 				- visible_block_grid_start_pos.y;
 		}
 		
@@ -376,26 +374,30 @@ void level_editor_widget::keyPressEvent( QKeyEvent* event )
 }
 
 
-
-bool level_editor_widget::open_level_core_func()
+bool level_editor_widget::open_level_core_func
+	( const string& n_level_file_name )
 {
-	fstream level_file( the_core_widget->level_file_name, ios_base::in );
+	fstream level_file( n_level_file_name, ios_base::in );
 	
 	if ( !level_file.is_open() )
 	{
-		cout << "Unable to open " << the_core_widget->level_file_name 
+		cout << "Unable to open " << n_level_file_name 
 			<< " for reading.\n";
 		return false;
 	}
 	
 	level_file.close();
 	
-	sublevel& the_sublevel = the_core_widget->the_sublevel;
+	if ( the_core_widget != NULL )
+	{
+		the_core_widget->level_file_name = n_level_file_name;
+	}
+	
+	sublevel& the_sublevel = the_level.get_curr_sublevel();
 	
 	xml_document doc;
 	
-	xml_parse_result result = doc.load_file
-		(the_core_widget->level_file_name.c_str());
+	xml_parse_result result = doc.load_file(n_level_file_name.c_str());
 	
 	
 	auto parse_sublevel_header_node = [&]( xml_node& sublevel_header_node,
@@ -647,7 +649,8 @@ bool level_editor_widget::open_level_core_func()
 	}
 	
 	
-	if ( real_size_2d_before_parse != the_sublevel.real_size_2d )
+	if ( real_size_2d_before_parse != the_sublevel.real_size_2d 
+		&& the_core_widget != NULL )
 	{
 		//cout << "hello\n";
 		
@@ -667,7 +670,7 @@ bool level_editor_widget::open_level_core_func()
 void level_editor_widget::save_level_as_core_func
 	( const string& output_file_name )
 {
-	sublevel& the_sublevel = the_core_widget->the_sublevel;
+	sublevel& the_sublevel = the_level.get_curr_sublevel();
 	
 	
 	xml_document doc;
@@ -869,7 +872,7 @@ void level_editor_widget::hello()
 
 void level_editor_widget::show_horizontal_scroll_bar_stuff()
 {
-	cout << core_widget_scroll_area->horizontalScrollBar()->value() << " "
+	cout << core_widget_scroll_area->horizontalScrollBar()->value() << " " 
 		<< core_widget_scroll_area->horizontalScrollBar()->minimum() << " "
 		<< core_widget_scroll_area->horizontalScrollBar()->maximum() 
 		<< endl;
@@ -879,8 +882,7 @@ void level_editor_widget::show_vertical_scroll_bar_stuff()
 {
 	cout << core_widget_scroll_area->verticalScrollBar()->value() << " "
 		<< core_widget_scroll_area->verticalScrollBar()->minimum() << " "
-		<< core_widget_scroll_area->verticalScrollBar()->maximum() 
-		<< endl;
+		<< core_widget_scroll_area->verticalScrollBar()->maximum() << endl;
 }
 
 void level_editor_widget::show_geometry_stuff()

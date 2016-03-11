@@ -29,14 +29,15 @@ const u32 sublevel::max_num_blocks = max_size_2d.x * max_size_2d.y;
 //}
 
 
-sublevel::sublevel( const vec2_u32& s_size_2d )
+sublevel::sublevel( const vec2_u32& s_real_size_2d )
 {
-	init(s_size_2d);
+	init(s_real_size_2d);
 }
 
-void sublevel::init( const vec2_u32& s_size_2d )
+void sublevel::init( const vec2_u32& s_real_size_2d )
 {
-	size_2d = s_size_2d;
+	size_2d = max_size_2d;
+	real_size_2d = s_real_size_2d;
 	
 	for ( u32 j=0; j<size_2d.y; ++j )
 	{

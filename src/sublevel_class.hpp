@@ -111,9 +111,9 @@ public:		// functions
 	{
 	}
 	
-	sublevel( const vec2_u32& s_size_2d );
+	sublevel( const vec2_u32& s_real_size_2d );
 	
-	void init( const vec2_u32& s_size_2d );
+	void init( const vec2_u32& s_real_size_2d );
 	
 	void generate_compressed_block_data_vec( const string& output_dirname,
 		const string& output_basename );
