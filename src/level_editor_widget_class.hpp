@@ -135,11 +135,11 @@ protected:		// functions
 	
 	
 	// Functions used by the slots
-	inline bool open_level_core_func()
-	{
-		return open_level_core_func(the_core_widget_vec.front()
-			->level_file_name);
-	}
+	//inline bool open_level_core_func()
+	//{
+	//	return open_level_core_func(the_core_widget_vec.front()
+	//		->level_file_name);
+	//}
 	
 	bool open_level_core_func( const string& n_level_file_name );
 	

@@ -39,9 +39,11 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 	// sublevel, with real_size_2d set to vec2_u32( 16, 16 )
 	if ( argv_copy->size() == 1 )
 	{
-		the_core_widget_vec.push_back(new level_editor_core_widget
+		level_editor_core_widget* to_push = new level_editor_core_widget
 			( this, QPoint( 0, 0 ), string(""), 
-			&the_level.sublevel_vec.front(), vec2_u32( 16, 16 ) ));
+			&the_level.sublevel_vec.front(), vec2_u32( 16, 16 ) );
+		
+		the_core_widget_vec.push_back(to_push);
 		
 		
 		connect( the_core_widget_vec.back(),
@@ -399,24 +401,41 @@ bool level_editor_widget::open_level_core_func
 	//	the_core_widget->level_file_name = n_level_file_name;
 	//}
 	
-	
-	for ( auto& scroll_area : core_widget_scroll_area_vec )
-	{
-		delete scroll_area;
-	}
-	core_widget_scroll_area_vec.clear();
-	
-	
-	for ( auto& core_widget : the_core_widget_vec )
-	{
-		delete core_widget;
-	}
-	the_core_widget_vec.clear();
-	
-	
 	core_widgets_tab_widget->clear();
-	
 	the_level.sublevel_vec.clear();
+	
+	
+	
+	if ( !the_core_widget_vec.empty() )
+	{
+		for ( auto& core_widget : the_core_widget_vec )
+		{
+			//disconnect( core_widget,
+			//	&level_editor_core_widget::sprite_was_selected, this,
+			//	&level_editor_widget::show_sprite_properties_widget );
+			//
+			//disconnect( core_widget,
+			//	&level_editor_core_widget::sprite_no_longer_selected, this,
+			//	&level_editor_widget::hide_sprite_properties_widget );
+			
+			
+			delete core_widget;
+		}
+		the_core_widget_vec.clear();
+	}
+	
+	
+	if ( !core_widget_scroll_area_vec.empty() )
+	{
+		for ( auto& scroll_area : core_widget_scroll_area_vec )
+		{
+			delete scroll_area;
+		}
+		core_widget_scroll_area_vec.clear();
+	}
+	
+	
+	
 	
 	level temp_level;
 	
@@ -934,9 +953,10 @@ void level_editor_widget::show_sprite_properties_widget()
 				( this, the_core_widget_vec.at(i)->the_sfml_canvas_widget
 				->the_rect_selection_stuff
 				.get_single_selected_sprite_ipgws() ));
+			
+			break;
 		}
 		
-		break;
 	}
 	
 	
@@ -1057,12 +1077,12 @@ void level_editor_widget::open_level()
 		return;
 	}
 	
-	for ( auto& core_widget : the_core_widget_vec )
-	{
-		core_widget->level_file_name = input_file_name.toStdString();
-	}
+	//for ( auto& core_widget : the_core_widget_vec )
+	//{
+	//	core_widget->level_file_name = input_file_name.toStdString();
+	//}
 	
-	open_level_core_func();
+	open_level_core_func(input_file_name.toStdString());
 }
 
 void level_editor_widget::save_level()

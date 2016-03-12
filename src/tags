@@ -6,8 +6,8 @@
 !_TAG_PROGRAM_VERSION	5.8	//
 X	level_editor_core_widget_class.cpp	101;"	kind:d	file:
 X	level_editor_core_widget_class.cpp	93;"	kind:d	file:
-X	level_editor_widget_class.cpp	94;"	kind:d	file:
-X	level_editor_widget_class.cpp	99;"	kind:d	file:
+X	level_editor_widget_class.cpp	101;"	kind:d	file:
+X	level_editor_widget_class.cpp	96;"	kind:d	file:
 adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	sprite_level_data_stuff.cpp	/^	::adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	signature:( sublevel& the_sublevel, u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
 adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	sprite_level_data_stuff.hpp	/^	adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	access:public	signature:( sublevel& the_sublevel, u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
 adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	sprite_level_data_stuff.hpp	/^	inline adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	access:public	signature:()
@@ -506,7 +506,6 @@ level_editor_widget::open_level	level_editor_widget_class.cpp	/^void level_edito
 level_editor_widget::open_level	level_editor_widget_class.hpp	/^	void open_level();$/;"	kind:p	class:level_editor_widget	access:public	signature:()
 level_editor_widget::open_level_core_func	level_editor_widget_class.cpp	/^bool level_editor_widget::open_level_core_func$/;"	kind:f	class:level_editor_widget	signature:( const string& n_level_file_name )
 level_editor_widget::open_level_core_func	level_editor_widget_class.hpp	/^	bool open_level_core_func( const string& n_level_file_name );$/;"	kind:p	class:level_editor_widget	access:protected	signature:( const string& n_level_file_name )
-level_editor_widget::open_level_core_func	level_editor_widget_class.hpp	/^	inline bool open_level_core_func()$/;"	kind:f	class:level_editor_widget	access:protected	signature:()
 level_editor_widget::parent	level_editor_widget_class.hpp	/^	QWidget* parent;$/;"	kind:m	class:level_editor_widget	access:public
 level_editor_widget::save_level	level_editor_widget_class.cpp	/^void level_editor_widget::save_level()$/;"	kind:f	class:level_editor_widget	signature:()
 level_editor_widget::save_level	level_editor_widget_class.hpp	/^	void save_level();$/;"	kind:p	class:level_editor_widget	access:public	signature:()
@@ -666,7 +665,6 @@ open_level	level_editor_widget_class.cpp	/^void level_editor_widget::open_level(
 open_level	level_editor_widget_class.hpp	/^	void open_level();$/;"	kind:p	class:level_editor_widget	access:public	signature:()
 open_level_core_func	level_editor_widget_class.cpp	/^bool level_editor_widget::open_level_core_func$/;"	kind:f	class:level_editor_widget	signature:( const string& n_level_file_name )
 open_level_core_func	level_editor_widget_class.hpp	/^	bool open_level_core_func( const string& n_level_file_name );$/;"	kind:p	class:level_editor_widget	access:protected	signature:( const string& n_level_file_name )
-open_level_core_func	level_editor_widget_class.hpp	/^	inline bool open_level_core_func()$/;"	kind:f	class:level_editor_widget	access:protected	signature:()
 operator !=	vec2_class.hpp	/^	inline bool operator != ( const vec2<type>& to_cmp ) const$/;"	kind:f	class:vec2	access:public	signature:( const vec2<type>& to_cmp ) const
 operator *	vec2_class.hpp	/^	inline vec2<type> operator * ( const type& scale ) const$/;"	kind:f	class:vec2	access:public	signature:( const type& scale ) const
 operator *	vec2_class.hpp	/^inline vec2<type> operator * ( const type& scale, $/;"	kind:f	signature:( const type& scale, const vec2<type>& vec2_to_mul )
