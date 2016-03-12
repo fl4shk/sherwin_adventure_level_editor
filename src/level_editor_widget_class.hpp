@@ -57,8 +57,8 @@ public:		// variables
 	//// Much of the "magic" happens within the_core_widget.
 	//level_editor_core_widget* the_core_widget;
 	
-	vector< unique_ptr<QScrollArea> > core_widget_scroll_area_vec;
-	vector< unique_ptr<level_editor_core_widget> > the_core_widget_vec;
+	vector<QScrollArea*> core_widget_scroll_area_vec;
+	vector<level_editor_core_widget*> the_core_widget_vec;
 	
 	
 	
@@ -89,9 +89,8 @@ public:		// functions
 	
 	
 protected:		// functions
-	//void init_core_widget();
-	void add_core_widget( u32 sublevel_index );
 	void init_level_element_selectors_tab_widget();
+	void init_tab_stuff_for_core_widgets();
 	void init_splitters_and_hbox_layout();
 	
 	
