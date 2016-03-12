@@ -87,11 +87,27 @@ public:		// functions
 	level_editor_widget( vector<string>* s_argv_copy, 
 		QWidget* s_parent = 0 );
 	
+	inline sublevel& get_curr_sublevel()
+	{
+		for ( u32 i=0; i<the_core_widget_vec.size(); ++i )
+		{
+			if ( core_widgets_tab_widget->currentWidget()
+				== the_core_widget_vec.at(i) )
+			{
+				return *the_core_widget_vec.at(i)->the_sublevel;
+			}
+		}
+		
+		return *the_core_widget_vec.front()->the_sublevel;
+	}
+	
 	
 protected:		// functions
 	void init_level_element_selectors_tab_widget();
 	void init_tab_stuff_for_core_widgets();
 	void init_splitters_and_hbox_layout();
+	
+	
 	
 	
 	//void adjust_scroll_bar( QScrollBar* scroll_bar );

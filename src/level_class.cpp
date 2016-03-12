@@ -22,7 +22,6 @@
 
 level::level( u32 s_num_sublevels, 
 	const vec2_u32& shared_sublevel_size_2d )
-	: curr_sublevel_index(0)
 {
 	if ( s_num_sublevels > max_num_sublevels )
 	{
@@ -43,7 +42,6 @@ level::level( u32 s_num_sublevels,
 }
 
 level::level( const vector<vec2_u32>& s_sublevel_size_2d_vec )
-	: curr_sublevel_index(0)
 {
 	if ( s_sublevel_size_2d_vec.size() > max_num_sublevels )
 	{

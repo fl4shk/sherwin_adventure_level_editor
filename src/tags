@@ -178,7 +178,6 @@ copy_selection_contents	rect_selection_stuff_class.cpp	/^void rect_selection_stu
 copy_selection_contents	rect_selection_stuff_class.hpp	/^	void copy_selection_contents();$/;"	kind:p	class:rect_selection_stuff	access:public	signature:()
 core_widget_scroll_area_vec	level_editor_widget_class.hpp	/^	vector<QScrollArea*> core_widget_scroll_area_vec;$/;"	kind:m	class:level_editor_widget	access:public
 core_widgets_tab_widget	level_editor_widget_class.hpp	/^	QTabWidget* core_widgets_tab_widget;$/;"	kind:m	class:level_editor_widget	access:public
-curr_sublevel_index	level_class.hpp	/^	u32 curr_sublevel_index;$/;"	kind:m	class:level	access:public
 current_position	level_editor_core_widget_class.hpp	/^	QPoint current_position;$/;"	kind:m	class:level_editor_core_widget	access:public
 current_size	level_editor_core_widget_class.hpp	/^	QSize current_size;$/;"	kind:m	class:level_editor_core_widget	access:public
 data	fixed24p8_class.hpp	/^	s32 data;$/;"	kind:m	class:fixed24p8	access:public
@@ -295,7 +294,7 @@ get_block_type	block_stuff.hpp	/^	inline block_type get_block_type() const$/;"	k
 get_bt_name	block_stuff.hpp	/^	inline const string& get_bt_name( block_type the_block_type )$/;"	kind:f	namespace:block_stuff	signature:( block_type the_block_type )
 get_bt_name_debug	block_stuff.hpp	/^	inline const string& get_bt_name_debug( block_type the_block_type )$/;"	kind:f	namespace:block_stuff	signature:( block_type the_block_type )
 get_compressed_block_data_file_name	block_stuff.hpp	/^	inline const string get_compressed_block_data_file_name$/;"	kind:f	namespace:block_stuff	signature:( const string& output_dirname, const string& output_basename )
-get_curr_sublevel	level_class.hpp	/^	inline sublevel& get_curr_sublevel()$/;"	kind:f	class:level	access:public	signature:()
+get_curr_sublevel	level_editor_widget_class.hpp	/^	inline sublevel& get_curr_sublevel()$/;"	kind:f	class:level_editor_widget	access:public	signature:()
 get_enabled	rect_selection_stuff_class.hpp	/^	inline bool get_enabled() const$/;"	kind:f	class:rect_selection_stuff	access:public	signature:() const
 get_frac_bits	fixed24p8_class.hpp	/^	inline u8 get_frac_bits() const;$/;"	kind:p	class:fixed24p8	access:public	signature:() const
 get_frac_bits	fixed24p8_class.hpp	/^inline u8 fixed24p8::get_frac_bits() const$/;"	kind:f	class:fixed24p8	signature:() const
@@ -413,8 +412,6 @@ level	level_class.hpp	/^	inline level() : level(max_num_sublevels)$/;"	kind:f	cl
 level	level_class.hpp	/^	level( const vector<vec2_u32>& s_sublevel_size_2d_vec );$/;"	kind:p	class:level	access:public	signature:( const vector<vec2_u32>& s_sublevel_size_2d_vec )
 level	level_class.hpp	/^	level( u32 s_num_sublevels, const vec2_u32& shared_sublevel_size_2d );$/;"	kind:p	class:level	access:public	signature:( u32 s_num_sublevels, const vec2_u32& shared_sublevel_size_2d )
 level	level_class.hpp	/^class level$/;"	kind:c
-level::curr_sublevel_index	level_class.hpp	/^	u32 curr_sublevel_index;$/;"	kind:m	class:level	access:public
-level::get_curr_sublevel	level_class.hpp	/^	inline sublevel& get_curr_sublevel()$/;"	kind:f	class:level	access:public	signature:()
 level::level	level_class.cpp	/^level::level( const vector<vec2_u32>& s_sublevel_size_2d_vec )$/;"	kind:f	class:level	signature:( const vector<vec2_u32>& s_sublevel_size_2d_vec )
 level::level	level_class.cpp	/^level::level( u32 s_num_sublevels, $/;"	kind:f	class:level	signature:( u32 s_num_sublevels, const vec2_u32& shared_sublevel_size_2d )
 level::level	level_class.hpp	/^	inline level( u32 s_num_sublevels ) $/;"	kind:f	class:level	access:public	signature:( u32 s_num_sublevels )
@@ -487,6 +484,7 @@ level_editor_widget::export_source_as	level_editor_widget_class.cpp	/^void level
 level_editor_widget::export_source_as	level_editor_widget_class.hpp	/^	void export_source_as();$/;"	kind:p	class:level_editor_widget	access:public	signature:()
 level_editor_widget::export_source_as_core_func	level_editor_widget_class.cpp	/^void level_editor_widget::export_source_as_core_func$/;"	kind:f	class:level_editor_widget	signature:( const string& output_file_name )
 level_editor_widget::export_source_as_core_func	level_editor_widget_class.hpp	/^	void export_source_as_core_func( const string& output_file_name );$/;"	kind:p	class:level_editor_widget	access:protected	signature:( const string& output_file_name )
+level_editor_widget::get_curr_sublevel	level_editor_widget_class.hpp	/^	inline sublevel& get_curr_sublevel()$/;"	kind:f	class:level_editor_widget	access:public	signature:()
 level_editor_widget::hbox_layout	level_editor_widget_class.hpp	/^	QHBoxLayout* hbox_layout;$/;"	kind:m	class:level_editor_widget	access:public
 level_editor_widget::hello	level_editor_widget_class.cpp	/^void level_editor_widget::hello()$/;"	kind:f	class:level_editor_widget	signature:()
 level_editor_widget::hello	level_editor_widget_class.hpp	/^	void hello();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()

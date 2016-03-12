@@ -41,7 +41,7 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 	{
 		the_core_widget_vec.push_back(new level_editor_core_widget
 			( this, QPoint( 0, 0 ), string(""), 
-			&the_level.get_curr_sublevel(), vec2_u32( 16, 16 ) ));
+			&the_level.sublevel_vec.front(), vec2_u32( 16, 16 ) ));
 		
 		
 		connect( the_core_widget_vec.back(),
@@ -314,18 +314,18 @@ void level_editor_widget::keyPressEvent( QKeyEvent* event )
 		
 		if ( ( visible_block_grid_start_pos.x 
 			+ visible_block_grid_size_2d.x )
-			>= (s32)the_level.get_curr_sublevel().real_size_2d.x )
+			>= (s32)the_core_widget->the_sublevel->real_size_2d.x )
 		{
 			visible_block_grid_size_2d.x 
-				= the_level.get_curr_sublevel().real_size_2d.x
+				= the_core_widget->the_sublevel->real_size_2d.x
 				- visible_block_grid_start_pos.x;
 		}
 		if ( ( visible_block_grid_start_pos.y 
 			+ visible_block_grid_size_2d.y )
-			>= (s32)the_level.get_curr_sublevel().real_size_2d.y )
+			>= (s32)the_core_widget->the_sublevel->real_size_2d.y )
 		{
 			visible_block_grid_size_2d.y 
-				= the_level.get_curr_sublevel().real_size_2d.y
+				= the_core_widget->the_sublevel->real_size_2d.y
 				- visible_block_grid_start_pos.y;
 		}
 		
