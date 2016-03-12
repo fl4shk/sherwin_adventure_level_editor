@@ -51,14 +51,14 @@ public:		// variables
 	
 	QTabWidget* core_widgets_tab_widget;
 	
-	// This QScrollArea is used for the_core_widget.
-	QScrollArea* core_widget_scroll_area;
+	//// This QScrollArea is used for the_core_widget.
+	//QScrollArea* core_widget_scroll_area;
+	//
+	//// Much of the "magic" happens within the_core_widget.
+	//level_editor_core_widget* the_core_widget;
 	
-	// Much of the "magic" happens within the_core_widget.
-	level_editor_core_widget* the_core_widget;
-	
-	//vector< unique_ptr<QScrollArea> > core_widget_scroll_area_vec;
-	//vector< unique_ptr<level_editor_core_widget> > the_core_widget_vec;
+	vector< unique_ptr<QScrollArea> > core_widget_scroll_area_vec;
+	vector< unique_ptr<level_editor_core_widget> > the_core_widget_vec;
 	
 	
 	
@@ -90,7 +90,7 @@ public:		// functions
 	
 protected:		// functions
 	//void init_core_widget();
-	//void add_core_widget(
+	void add_core_widget( u32 sublevel_index );
 	void init_level_element_selectors_tab_widget();
 	void init_splitters_and_hbox_layout();
 	
@@ -122,7 +122,8 @@ protected:		// functions
 	// Functions used by the slots
 	inline bool open_level_core_func()
 	{
-		return open_level_core_func(the_core_widget->level_file_name);
+		return open_level_core_func(the_core_widget_vec.front()
+			->level_file_name);
 	}
 	
 	bool open_level_core_func( const string& n_level_file_name );
@@ -130,14 +131,16 @@ protected:		// functions
 	
 	inline void save_level_core_func()
 	{
-		save_level_as_core_func(the_core_widget->level_file_name);
+		save_level_as_core_func(the_core_widget_vec.front()
+			->level_file_name);
 	}
 	
 	void save_level_as_core_func( const string& output_file_name );
 	
 	//inline void export_source_core_func()
 	//{
-	//	export_source_as_core_func(the_core_widget->level_file_name);
+	//	export_source_as_core_func(the_core_widget_vec.front()
+	//		->level_file_name);
 	//}
 	
 	void export_source_as_core_func( const string& output_file_name );

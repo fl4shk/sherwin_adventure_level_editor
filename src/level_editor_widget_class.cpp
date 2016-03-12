@@ -38,67 +38,55 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 	// sublevel, with real_size_2d set to vec2_u32( 16, 16 )
 	if ( argv_copy->size() == 1 )
 	{
-		the_core_widget = new level_editor_core_widget( this,
-			QPoint( 0, 0 ), string(""), &the_level.get_curr_sublevel(),
-			vec2_u32( 16, 16 ) );
+		the_core_widget_vec.push_back
+			(unique_ptr<level_editor_core_widget>());
+		
+		the_core_widget_vec.front().reset(new level_editor_core_widget
+			( this, QPoint( 0, 0 ), string(""), 
+			&the_level.get_curr_sublevel(), vec2_u32( 16, 16 ) ));
+		
+		
+		connect( the_core_widget_vec.front().get(),
+			&level_editor_core_widget::sprite_was_selected, this,
+			&level_editor_widget::show_sprite_properties_widget );
+		
+		connect( the_core_widget_vec.front().get(),
+			&level_editor_core_widget::sprite_no_longer_selected, this,
+			&level_editor_widget::hide_sprite_properties_widget );
+		
+		
+		// core_widget_scroll_area stuff
+		core_widget_scroll_area_vec.push_back(unique_ptr<QScrollArea>());
+		core_widget_scroll_area_vec.front().reset(new QScrollArea(this));
+		core_widget_scroll_area_vec.front()->setWidget
+			(the_core_widget_vec.front().get());
+		core_widget_scroll_area_vec.front()->setHorizontalScrollBarPolicy
+			(Qt::ScrollBarAlwaysOn);
+		core_widget_scroll_area_vec.front()->setVerticalScrollBarPolicy
+			(Qt::ScrollBarAlwaysOn);
+		
+		
+		the_core_widget_vec.front()->the_sfml_canvas_widget
+			->set_scroll_area(core_widget_scroll_area_vec.front().get());
+		
+		
+		core_widgets_tab_widget = new QTabWidget(this);
+		core_widgets_tab_widget->setMovable(true);
+		core_widgets_tab_widget->addTab
+			( core_widget_scroll_area_vec.front().get(), "Sublevel 0" );
 	}
 	else //if ( argv_copy->size() == 3 )
 	{
-		the_core_widget = NULL;
+		//the_core_widget = NULL;
 		
 		open_level_core_func(argv_copy->at(2));
 		
-		the_core_widget = new level_editor_core_widget( this,
-			QPoint( 0, 0 ), argv_copy->at(2),
-			&the_level.get_curr_sublevel() );
+		//the_core_widget = new level_editor_core_widget( this,
+		//	QPoint( 0, 0 ), argv_copy->at(2),
+		//	&the_level.get_curr_sublevel() );
 	}
 	
 	init_level_element_selectors_tab_widget();
-	
-	
-	//connect( the_core_widget,
-	//	&level_editor_core_widget::right_mouse_button_pressed, this,
-	//	&level_editor_widget::hello );
-	
-	connect( the_core_widget,
-		&level_editor_core_widget::sprite_was_selected, this,
-		&level_editor_widget::show_sprite_properties_widget );
-	
-	connect( the_core_widget,
-		&level_editor_core_widget::sprite_no_longer_selected, this,
-		&level_editor_widget::hide_sprite_properties_widget );
-	
-	
-	// core_widget_scroll_area stuff
-	core_widget_scroll_area = new QScrollArea(this);
-	core_widget_scroll_area->setWidget(the_core_widget);
-	core_widget_scroll_area->setHorizontalScrollBarPolicy
-		(Qt::ScrollBarAlwaysOn);
-	core_widget_scroll_area->setVerticalScrollBarPolicy
-		(Qt::ScrollBarAlwaysOn);
-	
-	//core_widget_scroll_area->setSizePolicy( QSizePolicy::Minimum, 
-	//	QSizePolicy::Minimum );
-	//core_widget_scroll_area->setMinimumSize( QSize( 512, 512 ) );
-	
-	//the_core_widget->setSizePolicy( QSizePolicy::Minimum, 
-	//	QSizePolicy::Minimum );
-	//the_core_widget->setMinimumSize( QSize( 256, 256 ) );
-	
-	//core_widget_scroll_area->setSizePolicy( QSizePolicy::MinimumExpanding,
-	//	QSizePolicy::MinimumExpanding );
-	//core_widget_scroll_area->setSizePolicy( QSizePolicy::Ignored,
-	//	QSizePolicy::Ignored );
-	//core_widget_scroll_area->setWidgetResizable(true);
-	
-	the_core_widget->the_sfml_canvas_widget->set_scroll_area
-		(core_widget_scroll_area);
-	
-	
-	core_widgets_tab_widget = new QTabWidget(this);
-	core_widgets_tab_widget->setMovable(true);
-	core_widgets_tab_widget->addTab( core_widget_scroll_area, 
-		"Sublevel 0" );
 	
 	
 	init_splitters_and_hbox_layout();
@@ -126,10 +114,19 @@ void level_editor_widget::init_level_element_selectors_tab_widget()
 		( the_sprite_16x32_selector_widget, "16x32 Sprites" );
 	
 	
-	the_core_widget->init_tab_stuff
-		( level_element_selectors_tab_widget, the_block_selector_widget, 
-		the_sprite_16x16_selector_widget,
-		the_sprite_16x32_selector_widget );
+	//the_core_widget->init_tab_stuff
+	//	( level_element_selectors_tab_widget, the_block_selector_widget, 
+	//	the_sprite_16x16_selector_widget,
+	//	the_sprite_16x32_selector_widget );
+	
+	for ( auto& core_widget : the_core_widget_vec )
+	{
+		core_widget->init_tab_stuff
+			( level_element_selectors_tab_widget, 
+			the_block_selector_widget, the_sprite_16x16_selector_widget,
+			the_sprite_16x32_selector_widget );
+	}
+	
 }
 
 void level_editor_widget::init_splitters_and_hbox_layout()
@@ -172,8 +169,28 @@ void level_editor_widget::keyPressEvent( QKeyEvent* event )
 {
 	// These probably ought to be in a toolbar of some sort, as well.
 	
-	unique_ptr<sfml_canvas_widget>& the_sfml_canvas_widget 
-		= the_core_widget->the_sfml_canvas_widget;
+	level_editor_core_widget* the_core_widget = NULL;
+	sfml_canvas_widget* the_sfml_canvas_widget = NULL;
+	
+	//for ( auto& core_widget : the_core_widget_vec )
+	for ( u32 i=0; i<the_core_widget_vec.size(); ++i )
+	{
+		if ( core_widgets_tab_widget->currentWidget()
+			== core_widget_scroll_area_vec.at(i).get() )
+		{
+			the_core_widget = the_core_widget_vec.at(i).get();
+			the_sfml_canvas_widget = the_core_widget
+				->the_sfml_canvas_widget.get();
+		}
+	}
+	
+	if ( the_core_widget == NULL )
+	{
+		cout << "Weird bug in keyPressEvent():  the_core_widget == "
+			<< "NULL.\nExpect a segfault....";
+	}
+	
+	
 	rect_selection_stuff& the_rect_selection_stuff
 		= the_sfml_canvas_widget->the_rect_selection_stuff;
 	
@@ -378,12 +395,20 @@ bool level_editor_widget::open_level_core_func
 	
 	level_file.close();
 	
-	if ( the_core_widget != NULL )
-	{
-		the_core_widget->level_file_name = n_level_file_name;
-	}
+	//if ( the_core_widget != NULL )
+	//{
+	//	the_core_widget->level_file_name = n_level_file_name;
+	//}
 	
-	sublevel& the_sublevel = the_level.get_curr_sublevel();
+	the_level.sublevel_vec.clear();
+	
+	//for ( u32 i=0; i<level::max_num_sublevels; ++i )
+	//{
+	//	the_level.sublevel_vec.push_back(sublevel());
+	//}
+	
+	level temp_level;
+	
 	
 	xml_document doc;
 	
@@ -393,6 +418,9 @@ bool level_editor_widget::open_level_core_func
 	auto parse_sublevel_header_node = [&]( xml_node& sublevel_header_node,
 		u32 sublevel_index ) -> void
 	{
+		sublevel& the_sublevel 
+			= temp_level.sublevel_vec.at(sublevel_index);
+		
 		for ( xml_attribute attr=sublevel_header_node.first_attribute();
 			attr;
 			attr=attr.next_attribute() )
@@ -414,12 +442,24 @@ bool level_editor_widget::open_level_core_func
 		
 		the_sublevel.uncompressed_block_data_vec_2d.clear();
 		
-		for ( u32 j=0; j<the_sublevel.real_size_2d.y; ++j )
+		//for ( u32 j=0; j<the_sublevel.real_size_2d.y; ++j )
+		//{
+		//	the_sublevel.uncompressed_block_data_vec_2d.push_back
+		//		(vector<block>());
+		//	
+		//	for ( u32 i=0; i<the_sublevel.real_size_2d.x; ++i )
+		//	{
+		//		the_sublevel.uncompressed_block_data_vec_2d.at(j).push_back
+		//			(block());
+		//	}
+		//}
+		
+		for ( u32 j=0; j<the_sublevel.max_size_2d.y; ++j )
 		{
 			the_sublevel.uncompressed_block_data_vec_2d.push_back
 				(vector<block>());
 			
-			for ( u32 i=0; i<the_sublevel.real_size_2d.x; ++i )
+			for ( u32 i=0; i<the_sublevel.max_size_2d.x; ++i )
 			{
 				the_sublevel.uncompressed_block_data_vec_2d.at(j).push_back
 					(block());
@@ -430,6 +470,9 @@ bool level_editor_widget::open_level_core_func
 	auto parse_sublevel_block_data_node 
 		= [&]( xml_node& sublevel_block_data_node, u32 sublevel_index )
 	{
+		sublevel& the_sublevel 
+			= temp_level.sublevel_vec.at(sublevel_index);
+		
 		string block_data_str = sublevel_block_data_node.text().get();
 		
 		//cout << ( block_data_str.at(0) == '\n' ) << endl;
@@ -484,6 +527,9 @@ bool level_editor_widget::open_level_core_func
 	auto parse_sublevel_sprites_node 
 		= [&]( xml_node& sublevel_sprites_node, u32 sublevel_index )
 	{
+		sublevel& the_sublevel 
+			= temp_level.sublevel_vec.at(sublevel_index);
+		
 		the_sublevel.sprite_ipgws_vec_for_xml.clear();
 		
 		for ( xml_node sprite_node=sublevel_sprites_node.first_child();
@@ -592,64 +638,49 @@ bool level_editor_widget::open_level_core_func
 	};
 	
 	
-	vec2_u32 real_size_2d_before_parse = the_sublevel.real_size_2d;
+	//vec2_u32 real_size_2d_before_parse = the_sublevel.real_size_2d;
 	
-	// This loop will need to be updated if more sublevels per level are
-	// allowed in the future.  Alternatively, some kind of string to number
-	// conversion could be done in the future if it is desired that a
-	// variable maximum number of sublevels be allowed without changing the
-	// source code.
+	u32 real_num_sublevels = 0;
+	
 	for ( xml_node node=doc.first_child();
 		node;
 		node=node.next_sibling() )
 	{
 		//cout << node.name() << " " << node.value() << endl;
-		if ( node.name() == string("sublevel_0") )
-		{
-			parse_sublevel_node( node, 0 );
-		}
-		else if ( node.name() == string("sublevel_1") )
-		{
-			parse_sublevel_node( node, 1 );
-		}
-		else if ( node.name() == string("sublevel_2") )
-		{
-			parse_sublevel_node( node, 2 );
-		}
-		else if ( node.name() == string("sublevel_3") )
-		{
-			parse_sublevel_node( node, 3 );
-		}
-		else if ( node.name() == string("sublevel_4") )
-		{
-			parse_sublevel_node( node, 4 );
-		}
-		else if ( node.name() == string("sublevel_5") )
-		{
-			parse_sublevel_node( node, 5 );
-		}
-		else if ( node.name() == string("sublevel_6") )
-		{
-			parse_sublevel_node( node, 6 );
-		}
-		else if ( node.name() == string("sublevel_7") )
-		{
-			parse_sublevel_node( node, 7 );
-		}
-	}
-	
-	
-	if ( real_size_2d_before_parse != the_sublevel.real_size_2d 
-		&& the_core_widget != NULL )
-	{
-		//cout << "hello\n";
+		string node_name_str(node.name());
 		
-		//the_core_widget->reinitialize( QSize( the_sublevel.real_size_2d.x 
-		//	* sfml_canvas_widget::num_pixels_per_block_column,
-		//	the_sublevel.real_size_2d.y * sfml_canvas_widget
-		//	::num_pixels_per_block_row ), core_widget_scroll_area);
-		the_core_widget->reinit(core_widget_scroll_area);
+		const string sublevel_word_str("sublevel");
+		
+		if ( node_name_str.substr( 0, sublevel_word_str.size() ) 
+			== sublevel_word_str )
+		{
+			parse_sublevel_node( node, real_num_sublevels++ );
+		}
+		
+		if ( real_num_sublevels > level::max_num_sublevels )
+		{
+			cout << "Note:  There are too many sublevels in the level.  "
+				<< "The maximum number allowed is " 
+				<< level::max_num_sublevels << ".\n";
+			break;
+		}
 	}
+	
+	
+	//if ( real_size_2d_before_parse != the_sublevel.real_size_2d 
+	//	&& the_core_widget != NULL )
+	//{
+	//	//cout << "hello\n";
+	//	
+	//	//the_core_widget->reinitialize( QSize( the_sublevel.real_size_2d.x 
+	//	//	* sfml_canvas_widget::num_pixels_per_block_column,
+	//	//	the_sublevel.real_size_2d.y * sfml_canvas_widget
+	//	//	::num_pixels_per_block_row ), core_widget_scroll_area);
+	//	the_core_widget->reinit(core_widget_scroll_area);
+	//}
+	
+	//for ( u32 i=0; i<the
+	
 	
 	
 	return true;
@@ -824,10 +855,22 @@ void level_editor_widget::show_sprite_properties_widget()
 	//	(new sprite_properties_widget( this, 
 	//	the_core_widget->the_sfml_canvas_widget
 	//	->get_rect_selection_single_selected_sprite_ipgws() ));
-	the_sprite_properties_widget.reset
-		(new sprite_properties_widget( this, 
-		the_core_widget->the_sfml_canvas_widget->the_rect_selection_stuff
-		.get_single_selected_sprite_ipgws() ));
+	
+	
+	for ( u32 i=0; i<the_core_widget_vec.size(); ++i )
+	{
+		if ( core_widgets_tab_widget->currentWidget() 
+			== core_widget_scroll_area_vec.at(i).get() )
+		{
+			the_sprite_properties_widget.reset(new sprite_properties_widget
+				( this, the_core_widget_vec.at(i)->the_sfml_canvas_widget
+				->the_rect_selection_stuff
+				.get_single_selected_sprite_ipgws() ));
+		}
+		
+		break;
+	}
+	
 	
 	//vbox_layout->addWidget(the_sprite_properties_widget.get());
 	//cout << "added the_sprite_properties_widget\n";
@@ -863,6 +906,22 @@ void level_editor_widget::hello()
 
 void level_editor_widget::show_horizontal_scroll_bar_stuff()
 {
+	QScrollArea* core_widget_scroll_area = NULL;
+	for ( u32 i=0; i<the_core_widget_vec.size(); ++i )
+	{
+		if ( core_widgets_tab_widget->currentWidget() 
+			== core_widget_scroll_area_vec.at(i).get() )
+		{
+			core_widget_scroll_area 
+				= core_widget_scroll_area_vec.at(i).get();
+		}
+	}
+	
+	if ( core_widget_scroll_area == NULL )
+	{
+		
+	}
+	
 	cout << core_widget_scroll_area->horizontalScrollBar()->value() << " " 
 		<< core_widget_scroll_area->horizontalScrollBar()->minimum() << " "
 		<< core_widget_scroll_area->horizontalScrollBar()->maximum() 
@@ -871,6 +930,22 @@ void level_editor_widget::show_horizontal_scroll_bar_stuff()
 
 void level_editor_widget::show_vertical_scroll_bar_stuff()
 {
+	QScrollArea* core_widget_scroll_area = NULL;
+	for ( u32 i=0; i<the_core_widget_vec.size(); ++i )
+	{
+		if ( core_widgets_tab_widget->currentWidget() 
+			== core_widget_scroll_area_vec.at(i).get() )
+		{
+			core_widget_scroll_area 
+				= core_widget_scroll_area_vec.at(i).get();
+		}
+	}
+	
+	if ( core_widget_scroll_area == NULL )
+	{
+		cout << "Weird bug in show_vertical_scroll_bar_stuff().\n";
+	}
+	
 	cout << core_widget_scroll_area->verticalScrollBar()->value() << " "
 		<< core_widget_scroll_area->verticalScrollBar()->minimum() << " "
 		<< core_widget_scroll_area->verticalScrollBar()->maximum() << endl;
@@ -878,6 +953,22 @@ void level_editor_widget::show_vertical_scroll_bar_stuff()
 
 void level_editor_widget::show_geometry_stuff()
 {
+	QScrollArea* core_widget_scroll_area = NULL;
+	for ( u32 i=0; i<the_core_widget_vec.size(); ++i )
+	{
+		if ( core_widgets_tab_widget->currentWidget() 
+			== core_widget_scroll_area_vec.at(i).get() )
+		{
+			core_widget_scroll_area 
+				= core_widget_scroll_area_vec.at(i).get();
+		}
+	}
+	
+	if ( core_widget_scroll_area == NULL )
+	{
+		cout << "Weird bug in show_geometry_stuff().\n";
+	}
+	
 	cout << core_widget_scroll_area->geometry().x() << " " 
 		<< core_widget_scroll_area->geometry().y() << endl;
 	cout << core_widget_scroll_area->frameGeometry().x() << " " 
@@ -887,25 +978,28 @@ void level_editor_widget::show_geometry_stuff()
 
 void level_editor_widget::open_level()
 {
-	QString output_file_name = QFileDialog::getOpenFileName( this, 
+	QString input_file_name = QFileDialog::getOpenFileName( this, 
 		tr("Open Level"), QString(), tr("Level File (*.xml)") );
 	//cout << "This QString was obtained:  " 
-	//	<< output_file_name.toStdString() << endl;
+	//	<< input_file_name.toStdString() << endl;
 	
-	//cout << ( output_file_name.toStdString().size() == 0 ) << endl;
-	if ( output_file_name.toStdString().size() == 0 )
+	//cout << ( input_file_name.toStdString().size() == 0 ) << endl;
+	if ( input_file_name.toStdString().size() == 0 )
 	{
 		return;
 	}
 	
-	the_core_widget->level_file_name = output_file_name.toStdString();
+	for ( auto& core_widget : the_core_widget_vec )
+	{
+		core_widget->level_file_name = input_file_name.toStdString();
+	}
 	
 	open_level_core_func();
 }
 
 void level_editor_widget::save_level()
 {
-	if ( the_core_widget->level_file_name == string("") )
+	if ( the_core_widget_vec.front()->level_file_name == string("") )
 	{
 		QString output_file_name = QFileDialog::getSaveFileName( this, 
 			tr("Save Level"), QString(), tr("Level File (*.xml)") );
@@ -918,7 +1012,10 @@ void level_editor_widget::save_level()
 			return;
 		}
 		
-		the_core_widget->level_file_name = output_file_name.toStdString();
+		for ( auto& core_widget : the_core_widget_vec )
+		{
+			core_widget->level_file_name = output_file_name.toStdString();
+		}
 		
 	}
 	

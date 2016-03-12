@@ -104,7 +104,7 @@ public:		// functions
 		sprite_16x16_selector_widget* n_the_sprite_16x16_selector_widget,
 		sprite_16x32_selector_widget* n_the_sprite_16x32_selector_widget );
 	
-	void reinit( QScrollArea* n_scroll_area );
+	//void reinit( QScrollArea* n_scroll_area );
 	
 	
 	block_selector_core_widget* get_the_block_selector_core_widget();

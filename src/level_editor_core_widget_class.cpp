@@ -101,30 +101,30 @@ void level_editor_core_widget::init_tab_stuff
 	#undef X
 }
 
-void level_editor_core_widget::reinit( QScrollArea* n_scroll_area )
-{
-	current_size = QSize( the_sublevel->real_size_2d.x
-		* sfml_canvas_widget::num_pixels_per_block_column,
-		the_sublevel->real_size_2d.y
-		* sfml_canvas_widget::num_pixels_per_block_row );
-	
-	move(current_position);
-	resize(current_size);
-	
-	the_sfml_canvas_widget.reset(new sfml_canvas_widget( this, 
-		current_position, current_size ));
-	the_sfml_canvas_widget->set_the_sublevel(the_sublevel);
-	
-	#define X(name) \
-	the_sfml_canvas_widget->set_the_##name##_selector_core_widget \
-		(get_the_##name##_selector_core_widget());
-	
-	list_of_level_element_widget_name_prefixes(X)
-	#undef X
-	
-	the_sfml_canvas_widget->set_scroll_area(n_scroll_area);
-	
-}
+//void level_editor_core_widget::reinit( QScrollArea* n_scroll_area )
+//{
+//	current_size = QSize( the_sublevel->real_size_2d.x
+//		* sfml_canvas_widget::num_pixels_per_block_column,
+//		the_sublevel->real_size_2d.y
+//		* sfml_canvas_widget::num_pixels_per_block_row );
+//	
+//	move(current_position);
+//	resize(current_size);
+//	
+//	the_sfml_canvas_widget.reset(new sfml_canvas_widget( this, 
+//		current_position, current_size ));
+//	the_sfml_canvas_widget->set_the_sublevel(the_sublevel);
+//	
+//	#define X(name) \
+//	the_sfml_canvas_widget->set_the_##name##_selector_core_widget \
+//		(get_the_##name##_selector_core_widget());
+//	
+//	list_of_level_element_widget_name_prefixes(X)
+//	#undef X
+//	
+//	the_sfml_canvas_widget->set_scroll_area(n_scroll_area);
+//	
+//}
 
 
 block_selector_core_widget* 
