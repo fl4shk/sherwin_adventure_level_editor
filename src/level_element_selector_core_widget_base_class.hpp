@@ -36,7 +36,7 @@ protected:		// constants
 	static const string level_element_gfx_file_name;
 	
 protected:		// variables
-	level_editor_core_widget* the_level_editor_core_widget;
+	//level_editor_core_widget* the_level_editor_core_widget;
 	
 	sf::Image level_element_gfx_raw_image;
 	sf::Texture level_element_gfx_raw_texture;
@@ -270,8 +270,8 @@ public:		// functions
 	
 	
 	
-	inline void set_the_level_editor_core_widget
-		( level_editor_core_widget* n_the_level_editor_core_widget );
+	//inline void set_the_level_editor_core_widget
+	//	( level_editor_core_widget* n_the_level_editor_core_widget );
 	
 	
 protected:		// functions
@@ -292,14 +292,14 @@ protected:		// functions
 	
 };
 
-#include "level_editor_core_widget_class.hpp"
-
-inline void level_element_selector_core_widget_base
-	::set_the_level_editor_core_widget
-	( level_editor_core_widget* n_the_level_editor_core_widget )
-{
-	the_level_editor_core_widget = n_the_level_editor_core_widget;
-}
+//#include "level_editor_core_widget_class.hpp"
+//
+//inline void level_element_selector_core_widget_base
+//	::set_the_level_editor_core_widget
+//	( level_editor_core_widget* n_the_level_editor_core_widget )
+//{
+//	the_level_editor_core_widget = n_the_level_editor_core_widget;
+//}
 
 
 

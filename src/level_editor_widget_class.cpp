@@ -34,40 +34,16 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 	parent->setWindowTitle(default_parent_title);
 	
 	
-	//the_sfml_canvas_widget = new sfml_canvas_widget( this, QPoint( 0, 0 ), 
-	//	QSize( 200, 200 ), string("the_powerup_gfx.png") );
-	//the_sfml_canvas_widget = new sfml_canvas_widget( this, QPoint( 0, 0 ),
-	//	QSize( 200, 200 ), argv_copy->at(1) );
-	
-	
-	
-	// If no file name was passed on the command line, create a level
+	// If no file name was passed on the command line, create a new
+	// sublevel, with real_size_2d set to vec2_u32( 16, 16 )
 	if ( argv_copy->size() == 1 )
 	{
-		//the_core_widget = new level_editor_core_widget( this, 
-		//	QPoint( 0, 0 ), QSize( 256, 256 ), string("") );
-		////the_core_widget = new level_editor_core_widget( this, 
-		////	QPoint( 0, 0 ), QSize( 8192, 512 ), string("") );
-		////the_core_widget = new level_editor_core_widget( this, 
-		////	QPoint( 0, 0 ), QSize( 2048, 512 ), string("") );
-		////the_core_widget = new level_editor_core_widget( this, 
-		////	QPoint( 0, 0 ), QSize( 512, 512 ), string("") );
-		
 		the_core_widget = new level_editor_core_widget( this,
 			QPoint( 0, 0 ), string(""), &the_level.get_curr_sublevel(),
 			vec2_u32( 16, 16 ) );
 	}
 	else //if ( argv_copy->size() == 3 )
 	{
-		////the_core_widget = new level_editor_core_widget( this, 
-		////	QPoint( 0, 0 ), QSize( 256, 256 ), argv_copy->at(1) );
-		//the_core_widget = new level_editor_core_widget( this,
-		//	QPoint( 0, 0 ), QSize( 8192, 512 ), argv_copy->at(1) );
-		////the_core_widget = new level_editor_core_widget( this, 
-		////	QPoint( 0, 0 ), QSize( 2048, 512 ), argv_copy->at(1) );
-		////the_core_widget = new level_editor_core_widget( this, 
-		////	QPoint( 0, 0 ), QSize( 512, 512 ), argv_copy->at(1) );
-		
 		the_core_widget = NULL;
 		
 		open_level_core_func(argv_copy->at(2));
@@ -77,29 +53,8 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 			&the_level.get_curr_sublevel() );
 	}
 	
+	init_level_element_selectors_tab_widget();
 	
-	#define X(name) \
-	the_##name##_selector_widget = new name##_selector_widget( this, \
-		QPoint( 0, 0 ), QSize( 64, 64 ) );
-	
-	list_of_level_element_widget_name_prefixes(X);
-	#undef X
-	
-	// tab widget stuff
-	level_element_selectors_tab_widget = new QTabWidget(this);
-	level_element_selectors_tab_widget->setMovable(true);
-	level_element_selectors_tab_widget->addTab
-		( the_block_selector_widget, "Blocks" );
-	level_element_selectors_tab_widget->addTab
-		( the_sprite_16x16_selector_widget, "16x16 Sprites" );
-	level_element_selectors_tab_widget->addTab
-		( the_sprite_16x32_selector_widget, "16x32 Sprites" );
-	
-	
-	the_core_widget->initialize_tab_stuff
-		( level_element_selectors_tab_widget, the_block_selector_widget, 
-		the_sprite_16x16_selector_widget,
-		the_sprite_16x32_selector_widget );
 	
 	//connect( the_core_widget,
 	//	&level_editor_core_widget::right_mouse_button_pressed, this,
@@ -112,12 +67,6 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 	connect( the_core_widget,
 		&level_editor_core_widget::sprite_no_longer_selected, this,
 		&level_editor_widget::hide_sprite_properties_widget );
-	
-	
-	//if ( !the_sfml_canvas_widget->open_image() )
-	//{
-	//	quit_non_slot();
-	//}
 	
 	
 	// core_widget_scroll_area stuff
@@ -146,6 +95,45 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 		(core_widget_scroll_area);
 	
 	
+	core_widgets_tab_widget = new QTabWidget(this);
+	core_widgets_tab_widget->setMovable(true);
+	core_widgets_tab_widget->addTab( core_widget_scroll_area, 
+		"Sublevel 0" );
+	
+	
+	init_splitters_and_hbox_layout();
+	
+}
+
+
+void level_editor_widget::init_level_element_selectors_tab_widget()
+{
+	#define X(name) \
+	the_##name##_selector_widget = new name##_selector_widget( this, \
+		QPoint( 0, 0 ), QSize( 64, 64 ) );
+	
+	list_of_level_element_widget_name_prefixes(X);
+	#undef X
+	
+	// level_element_selectors_tab_widget stuff
+	level_element_selectors_tab_widget = new QTabWidget(this);
+	level_element_selectors_tab_widget->setMovable(true);
+	level_element_selectors_tab_widget->addTab
+		( the_block_selector_widget, "Blocks" );
+	level_element_selectors_tab_widget->addTab
+		( the_sprite_16x16_selector_widget, "16x16 Sprites" );
+	level_element_selectors_tab_widget->addTab
+		( the_sprite_16x32_selector_widget, "16x32 Sprites" );
+	
+	
+	the_core_widget->init_tab_stuff
+		( level_element_selectors_tab_widget, the_block_selector_widget, 
+		the_sprite_16x16_selector_widget,
+		the_sprite_16x32_selector_widget );
+}
+
+void level_editor_widget::init_splitters_and_hbox_layout()
+{
 	// splitter stuff
 	horiz_splitter = new QSplitter(this);
 	
@@ -158,8 +146,8 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 	vert_splitter->setOrientation(Qt::Vertical);
 	
 	
-	horiz_splitter->addWidget(core_widget_scroll_area);
-	//horiz_splitter->addWidget(the_core_widget);
+	//horiz_splitter->addWidget(core_widget_scroll_area);
+	horiz_splitter->addWidget(core_widgets_tab_widget);
 	horiz_splitter->addWidget(vert_splitter);
 	
 	
@@ -177,6 +165,8 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 //		+ ( ( the_sfml_canvas_widget->scale_factor - 1 ) 
 //		* ( scroll_bar->pageStep() / 2 ) ));
 //}
+
+
 
 void level_editor_widget::keyPressEvent( QKeyEvent* event )
 {
@@ -654,10 +644,11 @@ bool level_editor_widget::open_level_core_func
 	{
 		//cout << "hello\n";
 		
-		the_core_widget->reinitialize( QSize( the_sublevel.real_size_2d.x 
-			* sfml_canvas_widget::num_pixels_per_block_column,
-			the_sublevel.real_size_2d.y * sfml_canvas_widget
-			::num_pixels_per_block_row ), core_widget_scroll_area);
+		//the_core_widget->reinitialize( QSize( the_sublevel.real_size_2d.x 
+		//	* sfml_canvas_widget::num_pixels_per_block_column,
+		//	the_sublevel.real_size_2d.y * sfml_canvas_widget
+		//	::num_pixels_per_block_row ), core_widget_scroll_area);
+		the_core_widget->reinit(core_widget_scroll_area);
 	}
 	
 	

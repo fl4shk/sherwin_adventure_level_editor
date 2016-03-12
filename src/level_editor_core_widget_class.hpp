@@ -98,13 +98,13 @@ public:		// functions
 	
 	
 	// 
-	void initialize_tab_stuff
+	void init_tab_stuff
 		( QTabWidget* n_level_element_selectors_tab_widget,
 		block_selector_widget* n_the_block_selector_widget,
 		sprite_16x16_selector_widget* n_the_sprite_16x16_selector_widget,
 		sprite_16x32_selector_widget* n_the_sprite_16x32_selector_widget );
 	
-	void reinitialize( const QSize& n_size, QScrollArea* n_scroll_area );
+	void reinit( QScrollArea* n_scroll_area );
 	
 	
 	block_selector_core_widget* get_the_block_selector_core_widget();

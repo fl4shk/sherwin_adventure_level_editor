@@ -1200,7 +1200,6 @@ void sfml_canvas_widget::update_visible_area()
 						( selection_rect_before_moving.left + i,
 						selection_rect_before_moving.top + j );
 					
-					
 					draw_16x16_sprite
 						( &(the_sublevel->sprite_ipgws_vec_2d
 						.at(original_block_grid_pos.y)

@@ -49,12 +49,18 @@ public:		// variables
 	QSplitter* horiz_splitter, * vert_splitter;
 	
 	
+	QTabWidget* core_widgets_tab_widget;
 	
 	// This QScrollArea is used for the_core_widget.
 	QScrollArea* core_widget_scroll_area;
 	
 	// Much of the "magic" happens within the_core_widget.
 	level_editor_core_widget* the_core_widget;
+	
+	//vector< unique_ptr<QScrollArea> > core_widget_scroll_area_vec;
+	//vector< unique_ptr<level_editor_core_widget> > the_core_widget_vec;
+	
+	
 	
 	// This variable has been moved from the level_editor_core_widget
 	// class, because more than one instance of the class will be made.
@@ -83,9 +89,16 @@ public:		// functions
 	
 	
 protected:		// functions
+	//void init_core_widget();
+	//void add_core_widget(
+	void init_level_element_selectors_tab_widget();
+	void init_splitters_and_hbox_layout();
+	
+	
 	//void adjust_scroll_bar( QScrollBar* scroll_bar );
 	//bool zoom_in();
 	//bool zoom_out();
+	
 	
 	// Events
 	void keyPressEvent( QKeyEvent* event );
@@ -103,6 +116,7 @@ protected:		// functions
 	//		widget_y - scroll_area->geometry().y()
 	//		+ scroll_area->verticalScrollBar()->value() );
 	//}
+	
 	
 	
 	// Functions used by the slots
