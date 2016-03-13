@@ -35,6 +35,14 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 	
 	init_level_element_selectors_tab_widget();
 	
+	
+	core_widgets_tab_widget = new QTabWidget(this);
+	core_widgets_tab_widget->setMovable(true);
+	
+	connect( core_widgets_tab_widget, &QTabWidget::currentChanged,
+		this, &level_editor_widget
+		::modify_sprite_properties_widget_at_tab_switch );
+	
 	// If no file name was passed on the command line, create a new
 	// sublevel, with real_size_2d set to vec2_u32( 16, 16 )
 	if ( argv_copy->size() == 1 )
@@ -69,16 +77,13 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 			->set_scroll_area(core_widget_scroll_area_vec.front());
 		
 		
-		core_widgets_tab_widget = new QTabWidget(this);
-		core_widgets_tab_widget->setMovable(true);
 		core_widgets_tab_widget->addTab
 			( core_widget_scroll_area_vec.front(), "Sublevel 0" );
+		
+		sprite_properties_widget_enabled_vec.push_back(false);
 	}
 	else //if ( argv_copy->size() == 3 )
 	{
-		core_widgets_tab_widget = new QTabWidget(this);
-		core_widgets_tab_widget->setMovable(true);
-		
 		open_level_core_func(argv_copy->at(1));
 	}
 	
@@ -174,15 +179,24 @@ void level_editor_widget::keyPressEvent( QKeyEvent* event )
 	sfml_canvas_widget* the_sfml_canvas_widget = NULL;
 	
 	//for ( auto& core_widget : the_core_widget_vec )
-	for ( u32 i=0; i<the_core_widget_vec.size(); ++i )
+	//for ( u32 i=0; i<the_core_widget_vec.size(); ++i )
+	//{
+	//	if ( core_widgets_tab_widget->currentWidget()
+	//		== core_widget_scroll_area_vec.at(i) )
+	//	{
+	//		the_core_widget = the_core_widget_vec.at(i);
+	//		the_sfml_canvas_widget = the_core_widget
+	//			->the_sfml_canvas_widget.get();
+	//	}
+	//}
+	
+	s32 curr_tab_index = get_curr_level_editor_core_widget_index();
+	
+	if ( curr_tab_index != -1 )
 	{
-		if ( core_widgets_tab_widget->currentWidget()
-			== core_widget_scroll_area_vec.at(i) )
-		{
-			the_core_widget = the_core_widget_vec.at(i);
-			the_sfml_canvas_widget = the_core_widget
-				->the_sfml_canvas_widget.get();
-		}
+		the_core_widget = the_core_widget_vec.at(curr_tab_index);
+		the_sfml_canvas_widget = the_core_widget
+			->the_sfml_canvas_widget.get();
 	}
 	
 	if ( the_core_widget == NULL )
@@ -404,21 +418,14 @@ bool level_editor_widget::open_level_core_func
 	core_widgets_tab_widget->clear();
 	the_level.sublevel_vec.clear();
 	
+	sprite_properties_widget_enabled_vec.clear();
+	
 	
 	
 	if ( !the_core_widget_vec.empty() )
 	{
 		for ( auto& core_widget : the_core_widget_vec )
 		{
-			//disconnect( core_widget,
-			//	&level_editor_core_widget::sprite_was_selected, this,
-			//	&level_editor_widget::show_sprite_properties_widget );
-			//
-			//disconnect( core_widget,
-			//	&level_editor_core_widget::sprite_no_longer_selected, this,
-			//	&level_editor_widget::hide_sprite_properties_widget );
-			
-			
 			delete core_widget;
 		}
 		the_core_widget_vec.clear();
@@ -434,6 +441,7 @@ bool level_editor_widget::open_level_core_func
 		core_widget_scroll_area_vec.clear();
 	}
 	
+	//the_core_widget_vec.clear();
 	
 	
 	
@@ -738,19 +746,10 @@ bool level_editor_widget::open_level_core_func
 	}
 	
 	
-	//if ( real_size_2d_before_parse != the_sublevel.real_size_2d 
-	//	&& the_core_widget != NULL )
-	//{
-	//	//cout << "hello\n";
-	//	
-	//	//the_core_widget->reinitialize( QSize( the_sublevel.real_size_2d.x 
-	//	//	* sfml_canvas_widget::num_pixels_per_block_column,
-	//	//	the_sublevel.real_size_2d.y * sfml_canvas_widget
-	//	//	::num_pixels_per_block_row ), core_widget_scroll_area);
-	//	the_core_widget->reinit(core_widget_scroll_area);
-	//}
-	
-	//for ( u32 i=0; i<the
+	for ( u32 i=0; i<real_num_sublevels; ++i )
+	{
+		sprite_properties_widget_enabled_vec.push_back(false);
+	}
 	
 	
 	init_tab_stuff_for_core_widgets();
@@ -936,38 +935,33 @@ void level_editor_widget::export_source_as_core_func
 
 void level_editor_widget::show_sprite_properties_widget()
 {
+	//sprite_properties_widget_enabled = true;
+	
+	s32 curr_tab_index = get_curr_level_editor_core_widget_index();
+	
+	u32& sprite_properties_widget_enabled 
+		= sprite_properties_widget_enabled_vec.at(curr_tab_index);
+	
 	sprite_properties_widget_enabled = true;
 	
-	//the_sprite_properties_widget.reset
-	//	(new sprite_properties_widget( this, 
-	//	the_core_widget->the_sfml_canvas_widget
-	//	->get_rect_selection_single_selected_sprite_ipgws() ));
+	rect_selection_stuff& the_rect_selection_stuff = the_core_widget_vec
+		.at(curr_tab_index)->the_sfml_canvas_widget
+		->the_rect_selection_stuff;
 	
+	the_sprite_properties_widget.reset(new sprite_properties_widget( this,
+		the_rect_selection_stuff.get_single_selected_sprite_ipgws() ));
 	
-	for ( u32 i=0; i<the_core_widget_vec.size(); ++i )
-	{
-		if ( core_widgets_tab_widget->currentWidget() 
-			== core_widget_scroll_area_vec.at(i) )
-		{
-			the_sprite_properties_widget.reset(new sprite_properties_widget
-				( this, the_core_widget_vec.at(i)->the_sfml_canvas_widget
-				->the_rect_selection_stuff
-				.get_single_selected_sprite_ipgws() ));
-			
-			break;
-		}
-		
-	}
-	
-	
-	//vbox_layout->addWidget(the_sprite_properties_widget.get());
-	//cout << "added the_sprite_properties_widget\n";
 	
 	vert_splitter->addWidget(the_sprite_properties_widget.get());
 }
 
 void level_editor_widget::hide_sprite_properties_widget()
 {
+	s32 curr_tab_index = get_curr_level_editor_core_widget_index();
+	
+	u32& sprite_properties_widget_enabled 
+		= sprite_properties_widget_enabled_vec.at(curr_tab_index);
+	
 	if (sprite_properties_widget_enabled)
 	{
 		sprite_properties_widget_enabled = false;
@@ -984,6 +978,53 @@ void level_editor_widget::hide_sprite_properties_widget()
 	}
 }
 
+void level_editor_widget::modify_sprite_properties_widget_at_tab_switch
+	( int n_index )
+{
+	//cout << "New tab index:  " << n_index << endl;
+	
+	s32 curr_tab_index = get_curr_level_editor_core_widget_index();
+	
+	if ( curr_tab_index == -1 )
+	{
+		return;
+	}
+	
+	if ( sprite_properties_widget_enabled_vec.empty() )
+	{
+		return;
+	}
+	
+	
+	// Hide the_sprite_properties_widget if it has been allocated for a
+	// different sublevel/tab.
+	if ( the_sprite_properties_widget.get() != NULL )
+	{
+		the_sprite_properties_widget->hide();
+		
+		the_sprite_properties_widget.reset(NULL);
+	}
+	
+	
+	u32& sprite_properties_widget_enabled 
+		= sprite_properties_widget_enabled_vec.at(curr_tab_index);
+	
+	// If the_sprite_properties_widget was previously enabled for the tab
+	// to which we are switching, then re-generate it.
+	if (sprite_properties_widget_enabled)
+	{
+		rect_selection_stuff& the_rect_selection_stuff 
+			= the_core_widget_vec.at(curr_tab_index)
+			->the_sfml_canvas_widget->the_rect_selection_stuff;
+		
+		the_sprite_properties_widget.reset(new sprite_properties_widget
+			( this, the_rect_selection_stuff
+			.get_single_selected_sprite_ipgws() ));
+		
+		vert_splitter->addWidget(the_sprite_properties_widget.get());
+	}
+	
+}
 
 
 void level_editor_widget::hello()
@@ -995,15 +1036,15 @@ void level_editor_widget::hello()
 void level_editor_widget::show_horizontal_scroll_bar_stuff()
 {
 	QScrollArea* core_widget_scroll_area = NULL;
-	for ( u32 i=0; i<the_core_widget_vec.size(); ++i )
+	
+	s32 curr_tab_index = get_curr_level_editor_core_widget_index();
+	
+	if ( curr_tab_index != -1 )
 	{
-		if ( core_widgets_tab_widget->currentWidget() 
-			== core_widget_scroll_area_vec.at(i) )
-		{
-			core_widget_scroll_area 
-				= core_widget_scroll_area_vec.at(i);
-		}
+		core_widget_scroll_area = core_widget_scroll_area_vec
+			.at(curr_tab_index);
 	}
+	
 	
 	if ( core_widget_scroll_area == NULL )
 	{
@@ -1019,14 +1060,22 @@ void level_editor_widget::show_horizontal_scroll_bar_stuff()
 void level_editor_widget::show_vertical_scroll_bar_stuff()
 {
 	QScrollArea* core_widget_scroll_area = NULL;
-	for ( u32 i=0; i<the_core_widget_vec.size(); ++i )
+	//for ( u32 i=0; i<the_core_widget_vec.size(); ++i )
+	//{
+	//	if ( core_widgets_tab_widget->currentWidget() 
+	//		== core_widget_scroll_area_vec.at(i) )
+	//	{
+	//		core_widget_scroll_area 
+	//			= core_widget_scroll_area_vec.at(i);
+	//	}
+	//}
+	
+	s32 curr_tab_index = get_curr_level_editor_core_widget_index();
+	
+	if ( curr_tab_index != -1 )
 	{
-		if ( core_widgets_tab_widget->currentWidget() 
-			== core_widget_scroll_area_vec.at(i) )
-		{
-			core_widget_scroll_area 
-				= core_widget_scroll_area_vec.at(i);
-		}
+		core_widget_scroll_area = core_widget_scroll_area_vec
+			.at(curr_tab_index);
 	}
 	
 	if ( core_widget_scroll_area == NULL )
@@ -1042,14 +1091,22 @@ void level_editor_widget::show_vertical_scroll_bar_stuff()
 void level_editor_widget::show_geometry_stuff()
 {
 	QScrollArea* core_widget_scroll_area = NULL;
-	for ( u32 i=0; i<the_core_widget_vec.size(); ++i )
+	//for ( u32 i=0; i<the_core_widget_vec.size(); ++i )
+	//{
+	//	if ( core_widgets_tab_widget->currentWidget() 
+	//		== core_widget_scroll_area_vec.at(i) )
+	//	{
+	//		core_widget_scroll_area 
+	//			= core_widget_scroll_area_vec.at(i);
+	//	}
+	//}
+	
+	s32 curr_tab_index = get_curr_level_editor_core_widget_index();
+	
+	if ( curr_tab_index != -1 )
 	{
-		if ( core_widgets_tab_widget->currentWidget() 
-			== core_widget_scroll_area_vec.at(i) )
-		{
-			core_widget_scroll_area 
-				= core_widget_scroll_area_vec.at(i);
-		}
+		core_widget_scroll_area = core_widget_scroll_area_vec
+			.at(curr_tab_index);
 	}
 	
 	if ( core_widget_scroll_area == NULL )

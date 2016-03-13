@@ -77,7 +77,8 @@ public:		// variables
 	sprite_16x32_selector_widget* the_sprite_16x32_selector_widget;
 	
 	
-	bool sprite_properties_widget_enabled;
+	//bool sprite_properties_widget_enabled;
+	vector<u32> sprite_properties_widget_enabled_vec;
 	
 	//sprite_properties_widget* the_sprite_properties_widget;
 	unique_ptr<sprite_properties_widget> the_sprite_properties_widget;
@@ -87,19 +88,32 @@ public:		// functions
 	level_editor_widget( vector<string>* s_argv_copy, 
 		QWidget* s_parent = 0 );
 	
-	inline sublevel& get_curr_sublevel()
+	inline s32 get_curr_level_editor_core_widget_index()
 	{
 		for ( u32 i=0; i<the_core_widget_vec.size(); ++i )
 		{
 			if ( core_widgets_tab_widget->currentWidget()
-				== the_core_widget_vec.at(i) )
+				== core_widget_scroll_area_vec.at(i) )
 			{
-				return *the_core_widget_vec.at(i)->the_sublevel;
+				return i;
 			}
 		}
 		
-		return *the_core_widget_vec.front()->the_sublevel;
+		return -1;
 	}
+	
+	inline sublevel& get_curr_sublevel()
+	{
+		return the_level.sublevel_vec
+			.at(get_curr_level_editor_core_widget_index());
+	}
+	
+	inline level_editor_core_widget* get_curr_level_editor_core_widget()
+	{
+		return the_core_widget_vec
+			.at(get_curr_level_editor_core_widget_index());
+	}
+	
 	
 	
 protected:		// functions
@@ -165,6 +179,8 @@ protected:		// functions
 protected slots:		// slots
 	void show_sprite_properties_widget();
 	void hide_sprite_properties_widget();
+	void modify_sprite_properties_widget_at_tab_switch( int n_index );
+	
 	
 	
 	void hello();

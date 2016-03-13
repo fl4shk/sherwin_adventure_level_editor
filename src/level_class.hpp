@@ -33,7 +33,7 @@ public:		// constants
 public:		// variables
 	
 	vector<sublevel> sublevel_vec;
-	//u32 curr_sublevel_index;
+	u32 curr_sublevel_index;
 	
 	
 public:		// functions
@@ -50,10 +50,10 @@ public:		// functions
 	
 	level( const vector<vec2_u32>& s_sublevel_size_2d_vec );
 	
-	//inline sublevel& get_curr_sublevel()
-	//{
-	//	return sublevel_vec.at(curr_sublevel_index);
-	//}
+	inline sublevel& get_curr_sublevel()
+	{
+		return sublevel_vec.at(curr_sublevel_index);
+	}
 	
 };
 
