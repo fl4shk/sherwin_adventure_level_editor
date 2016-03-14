@@ -47,11 +47,19 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 	// sublevel, with real_size_2d set to vec2_u32( 16, 16 )
 	if ( argv_copy->size() == 1 )
 	{
-		level_editor_core_widget* to_push = new level_editor_core_widget
-			( this, QPoint( 0, 0 ), string(""), 
-			&the_level.sublevel_vec.front(), vec2_u32( 16, 16 ) );
+		the_level.sublevel_vec.clear();
+		the_level.sublevel_vec.push_back(sublevel(vec2_u32( 16, 16 )));
 		
-		the_core_widget_vec.push_back(to_push);
+		//level_editor_core_widget* to_push = new level_editor_core_widget
+		//	( this, QPoint( 0, 0 ), string(""), 
+		//	&the_level.sublevel_vec.front(), vec2_u32( 16, 16 ) );
+		//level_editor_core_widget* to_push = new level_editor_core_widget
+		//	( this, QPoint( 0, 0 ), string(""), 
+		//	&the_level.sublevel_vec.front() );
+		
+		the_core_widget_vec.push_back(new level_editor_core_widget
+			( this, QPoint( 0, 0 ), string(""), 
+			&the_level.sublevel_vec.front() ));
 		
 		
 		connect( the_core_widget_vec.back(),
@@ -452,57 +460,6 @@ bool level_editor_widget::open_level_core_func
 	xml_parse_result result = doc.load_file(n_level_file_name.c_str());
 	
 	
-	auto parse_sublevel_header_node = [&]( xml_node& sublevel_header_node,
-		u32 sublevel_index ) -> void
-	{
-		sublevel& the_sublevel 
-			= temp_level.sublevel_vec.at(sublevel_index);
-		
-		for ( xml_attribute attr=sublevel_header_node.first_attribute();
-			attr;
-			attr=attr.next_attribute() )
-		{
-			//cout << attr.name() << " " << attr.value() << endl;
-			if ( attr.name() == string("width") )
-			{
-				the_sublevel.real_size_2d.x = attr.as_uint();
-			}
-			else if ( attr.name() == string("height") )
-			{
-				the_sublevel.real_size_2d.y = attr.as_uint();
-			}
-		}
-		
-		//cout << "the_sublevel.real_size_2d:  " 
-		//	<< the_sublevel.real_size_2d.x << ", " 
-		//	<< the_sublevel.real_size_2d.y << endl;
-		
-		//the_sublevel.uncompressed_block_data_vec_2d.clear();
-		//
-		////for ( u32 j=0; j<the_sublevel.real_size_2d.y; ++j )
-		////{
-		////	the_sublevel.uncompressed_block_data_vec_2d.push_back
-		////		(vector<block>());
-		////	
-		////	for ( u32 i=0; i<the_sublevel.real_size_2d.x; ++i )
-		////	{
-		////		the_sublevel.uncompressed_block_data_vec_2d.at(j).push_back
-		////			(block());
-		////	}
-		////}
-		//
-		//for ( u32 j=0; j<the_sublevel.max_size_2d.y; ++j )
-		//{
-		//	the_sublevel.uncompressed_block_data_vec_2d.push_back
-		//		(vector<block>());
-		//	
-		//	for ( u32 i=0; i<the_sublevel.max_size_2d.x; ++i )
-		//	{
-		//		the_sublevel.uncompressed_block_data_vec_2d.at(j).push_back
-		//			(block());
-		//	}
-		//}
-	};
 	
 	auto parse_sublevel_block_data_node 
 		= [&]( xml_node& sublevel_block_data_node, u32 sublevel_index )
@@ -654,15 +611,27 @@ bool level_editor_widget::open_level_core_func
 	auto parse_sublevel_node = [&]( xml_node& sublevel_node, 
 		u32 sublevel_index ) -> void
 	{
+		for ( xml_attribute attr=sublevel_node.first_attribute();
+			attr;
+			attr=attr.next_attribute() )
+		{
+			if ( attr.name() == string("width") )
+			{
+				temp_level.sublevel_vec.at(sublevel_index).real_size_2d.x 
+					= attr.as_uint();
+			}
+			else if ( attr.name() == string("height") )
+			{
+				temp_level.sublevel_vec.at(sublevel_index).real_size_2d.y 
+					= attr.as_uint();
+			}
+		}
+		
 		for ( xml_node node=sublevel_node.first_child();
 			node;
 			node=node.next_sibling() )
 		{
-			if ( node.name() == string("header") )
-			{
-				parse_sublevel_header_node( node, sublevel_index );
-			}
-			else if ( node.name() == string("block_data") )
+			if ( node.name() == string("block_data") )
 			{
 				parse_sublevel_block_data_node( node, sublevel_index );
 			}
@@ -721,7 +690,7 @@ bool level_editor_widget::open_level_core_func
 	
 	u32 real_num_sublevels = 0;
 	
-	for ( xml_node node=doc.first_child();
+	for ( xml_node node=doc.first_child().first_child();
 		node;
 		node=node.next_sibling() )
 	{
@@ -770,30 +739,21 @@ void level_editor_widget::save_level_as_core_func
 	xml_document doc;
 	
 	//cout << the_level.sublevel_vec.size() << endl;
+	xml_node level_node = doc.append_child("level");
 	
 	for ( u32 i=0; i<the_level.sublevel_vec.size(); ++i )
 	{
 		sublevel& the_sublevel = the_level.sublevel_vec.at(i);
 		
-		stringstream sublevel_index_sstm;
-		string sublevel_index_str;
-		
-		sublevel_index_sstm << i;
-		sublevel_index_sstm >> sublevel_index_str;
-		
-		xml_node sublevel_node = doc.append_child( ( string("sublevel_")
-			+ sublevel_index_str ).c_str() );
-		
-		// The sublevel header
-		xml_node header_node = sublevel_node.append_child("header");
+		xml_node sublevel_node = level_node.append_child("sublevel");
 		
 		// Width of the sublevel
-		xml_attribute sublevel_width_attr = header_node.append_attribute
+		xml_attribute sublevel_width_attr = sublevel_node.append_attribute
 			("width");
 		sublevel_width_attr.set_value(the_sublevel.real_size_2d.x);
 		
 		// Height of the sublevel
-		xml_attribute sublevel_height_attr = header_node.append_attribute
+		xml_attribute sublevel_height_attr = sublevel_node.append_attribute
 			("height");
 		sublevel_height_attr.set_value(the_sublevel.real_size_2d.y);
 		
@@ -810,7 +770,7 @@ void level_editor_widget::save_level_as_core_func
 		
 		for ( u32 j=0; j<the_sublevel.real_size_2d.y; ++j )
 		{
-			uncompressed_block_data_str += "\n\t\t";
+			uncompressed_block_data_str += "\n\t\t\t";
 			for ( u32 i=0; i<the_sublevel.real_size_2d.x; ++i )
 			{
 				block& the_block = the_sublevel
@@ -836,13 +796,13 @@ void level_editor_widget::save_level_as_core_func
 				}
 			}
 		}
-		uncompressed_block_data_str += "\n\t";
+		uncompressed_block_data_str += "\n\t\t";
 		
 		uncompressed_block_data_node.text().set
 			(uncompressed_block_data_str.c_str());
 		
 		
-		xml_node parent_node = sublevel_node.append_child
+		xml_node sprites_parent_node = sublevel_node.append_child
 			("sprites");
 		
 		//for ( sprite_init_param_group_with_size& the_sprite_ipgws
@@ -862,8 +822,8 @@ void level_editor_widget::save_level_as_core_func
 			number_sstm << i;
 			number_sstm >> number_str;
 			
-			xml_node child_node = parent_node.append_child(
-				( string("sprite_") + number_str ).c_str());
+			xml_node child_node = sprites_parent_node.append_child
+				("sprite");
 			
 			// The type of sprite
 			xml_attribute type_attr = child_node.append_attribute("type");

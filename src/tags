@@ -6,8 +6,8 @@
 !_TAG_PROGRAM_VERSION	5.8	//
 X	level_editor_core_widget_class.cpp	101;"	kind:d	file:
 X	level_editor_core_widget_class.cpp	93;"	kind:d	file:
-X	level_editor_widget_class.cpp	101;"	kind:d	file:
-X	level_editor_widget_class.cpp	106;"	kind:d	file:
+X	level_editor_widget_class.cpp	109;"	kind:d	file:
+X	level_editor_widget_class.cpp	114;"	kind:d	file:
 adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	sprite_level_data_stuff.cpp	/^	::adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	signature:( sublevel& the_sublevel, u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
 adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	sprite_level_data_stuff.hpp	/^	adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	access:public	signature:( sublevel& the_sublevel, u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
 adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	sprite_level_data_stuff.hpp	/^	inline adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	access:public	signature:()
