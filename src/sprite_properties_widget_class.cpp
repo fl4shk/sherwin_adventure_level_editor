@@ -44,7 +44,7 @@ void sprite_properties_widget::init()
 	group_box_grid_layout.reset(new QGridLayout);
 	group_box->setLayout(group_box_grid_layout.get());
 	
-	facing_right_checkbox.reset(new QCheckBox( QString("Facing Right") ));
+	facing_right_checkbox.reset(new QCheckBox(QString("Facing Right")));
 	
 	if (selected_sprite_ipgws->facing_right)
 	{

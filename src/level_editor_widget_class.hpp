@@ -43,13 +43,13 @@ public:		// variables
 	
 	QWidget* parent;
 	
-	QHBoxLayout* hbox_layout;
-	//QVBoxLayout* vbox_layout;
+	unique_ptr<QHBoxLayout> hbox_layout;
+	//unique_ptr<QVBoxLayout> vbox_layout;
 	
-	QSplitter* horiz_splitter, * vert_splitter;
+	unique_ptr<QSplitter> horiz_splitter, vert_splitter;
 	
 	
-	QTabWidget* core_widgets_tab_widget;
+	unique_ptr<QTabWidget> core_widgets_tab_widget;
 	
 	//// This QScrollArea is used for the_core_widget.
 	//QScrollArea* core_widget_scroll_area;
@@ -57,8 +57,8 @@ public:		// variables
 	//// Much of the "magic" happens within the_core_widget.
 	//level_editor_core_widget* the_core_widget;
 	
-	vector<QScrollArea*> core_widget_scroll_area_vec;
-	vector<level_editor_core_widget*> the_core_widget_vec;
+	vector< unique_ptr<QScrollArea> > core_widget_scroll_area_vec;
+	vector< unique_ptr<level_editor_core_widget> > the_core_widget_vec;
 	
 	
 	
@@ -70,11 +70,13 @@ public:		// variables
 	
 	// Level element selector widgets are placed into
 	// level_element_selectors_tab_widget.
-	QTabWidget* level_element_selectors_tab_widget;
+	unique_ptr<QTabWidget> level_element_selectors_tab_widget;
 	
-	block_selector_widget* the_block_selector_widget;
-	sprite_16x16_selector_widget* the_sprite_16x16_selector_widget;
-	sprite_16x32_selector_widget* the_sprite_16x32_selector_widget;
+	unique_ptr<block_selector_widget> the_block_selector_widget;
+	unique_ptr<sprite_16x16_selector_widget> 
+		the_sprite_16x16_selector_widget;
+	unique_ptr<sprite_16x32_selector_widget> 
+		the_sprite_16x32_selector_widget;
 	
 	
 	//bool sprite_properties_widget_enabled;
@@ -93,7 +95,7 @@ public:		// functions
 		for ( u32 i=0; i<the_core_widget_vec.size(); ++i )
 		{
 			if ( core_widgets_tab_widget->currentWidget()
-				== core_widget_scroll_area_vec.at(i) )
+				== core_widget_scroll_area_vec.at(i).get() )
 			{
 				return i;
 			}
@@ -111,7 +113,7 @@ public:		// functions
 	inline level_editor_core_widget* get_curr_level_editor_core_widget()
 	{
 		return the_core_widget_vec
-			.at(get_curr_level_editor_core_widget_index());
+			.at(get_curr_level_editor_core_widget_index()).get();
 	}
 	
 	

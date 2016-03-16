@@ -25,6 +25,7 @@
 #include "layout_widget_classes.hpp"
 #include "level_editor_widget_class.hpp"
 
+#include "misc_level_properties_widget_class.hpp"
 
 class primary_widget : public QMainWindow
 {
@@ -35,10 +36,16 @@ protected:		// variables
 	vector<string> argv_copy;
 	
 	// Menu Stuff
-	QMenu* file_menu, * second_menu;
+	QMenu* file_menu, * edit_menu;
 	
-	QAction* menu_laugh_action, * menu_open_action, * menu_save_action, 
-		* menu_save_as_action, * menu_quit_action;
+	// File Menu Actions
+	unique_ptr<QAction> file_menu_laugh_action, file_menu_open_action, 
+		file_menu_save_action, file_menu_save_as_action, 
+		file_menu_quit_action;
+	
+	// Edit Menu Actions
+	unique_ptr<QAction> edit_menu_level_properties_action;
+	
 	
 	// Toolbar Stuff
 	static const QString laugh_icon_file_name, quit_icon_file_name;
@@ -49,8 +56,11 @@ protected:		// variables
 	//grid_widget* the_grid_widget;
 	
 	// The central widget.
-	level_editor_widget* the_central_widget;
+	unique_ptr<level_editor_widget> the_central_widget;
 	
+	
+	unique_ptr<misc_level_properties_widget>
+		the_misc_level_properties_widget;
 	
 public:		// functions
 	primary_widget( vector<string>& s_argv_copy, QWidget* parent = 0 );
@@ -81,6 +91,8 @@ protected:		// functions
 protected slots:		// slots
 	void laugh();
 	void quit();
+	
+	void dialog_test();
 	
 	
 };

@@ -36,10 +36,10 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 	init_level_element_selectors_tab_widget();
 	
 	
-	core_widgets_tab_widget = new QTabWidget(this);
+	core_widgets_tab_widget.reset(new QTabWidget(this));
 	core_widgets_tab_widget->setMovable(true);
 	
-	connect( core_widgets_tab_widget, &QTabWidget::currentChanged,
+	connect( core_widgets_tab_widget.get(), &QTabWidget::currentChanged,
 		this, &level_editor_widget
 		::modify_sprite_properties_widget_at_tab_switch );
 	
@@ -57,24 +57,25 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 		//	( this, QPoint( 0, 0 ), string(""), 
 		//	&the_level.sublevel_vec.front() );
 		
-		the_core_widget_vec.push_back(new level_editor_core_widget
-			( this, QPoint( 0, 0 ), string(""), 
-			&the_level.sublevel_vec.front() ));
+		the_core_widget_vec.push_back(unique_ptr<level_editor_core_widget>
+			(new level_editor_core_widget( this, QPoint( 0, 0 ), 
+			string(""), &the_level.sublevel_vec.front() )));
 		
 		
-		connect( the_core_widget_vec.back(),
+		connect( the_core_widget_vec.back().get(),
 			&level_editor_core_widget::sprite_was_selected, this,
 			&level_editor_widget::show_sprite_properties_widget );
 		
-		connect( the_core_widget_vec.back(),
+		connect( the_core_widget_vec.back().get(),
 			&level_editor_core_widget::sprite_no_longer_selected, this,
 			&level_editor_widget::hide_sprite_properties_widget );
 		
 		
 		// core_widget_scroll_area stuff
-		core_widget_scroll_area_vec.push_back(new QScrollArea(this));
+		core_widget_scroll_area_vec.push_back(unique_ptr<QScrollArea>
+			(new QScrollArea(this)));
 		core_widget_scroll_area_vec.back()->setWidget
-			(the_core_widget_vec.back());
+			(the_core_widget_vec.back().get());
 		core_widget_scroll_area_vec.back()->setHorizontalScrollBarPolicy
 			(Qt::ScrollBarAlwaysOn);
 		core_widget_scroll_area_vec.back()->setVerticalScrollBarPolicy
@@ -82,11 +83,11 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 		
 		
 		the_core_widget_vec.back()->the_sfml_canvas_widget
-			->set_scroll_area(core_widget_scroll_area_vec.front());
+			->set_scroll_area(core_widget_scroll_area_vec.front().get());
 		
 		
 		core_widgets_tab_widget->addTab
-			( core_widget_scroll_area_vec.front(), "Sublevel 0" );
+			( core_widget_scroll_area_vec.front().get(), "Sublevel 0" );
 		
 		sprite_properties_widget_enabled_vec.push_back(false);
 	}
@@ -107,21 +108,21 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 void level_editor_widget::init_level_element_selectors_tab_widget()
 {
 	#define X(name) \
-	the_##name##_selector_widget = new name##_selector_widget( this, \
-		QPoint( 0, 0 ), QSize( 64, 64 ) );
+	the_##name##_selector_widget.reset(new name##_selector_widget( this, \
+		QPoint( 0, 0 ), QSize( 64, 64 ) ));
 	
 	list_of_level_element_widget_name_prefixes(X);
 	#undef X
 	
 	// level_element_selectors_tab_widget stuff
-	level_element_selectors_tab_widget = new QTabWidget(this);
+	level_element_selectors_tab_widget.reset(new QTabWidget(this));
 	level_element_selectors_tab_widget->setMovable(true);
 	level_element_selectors_tab_widget->addTab
-		( the_block_selector_widget, "Blocks" );
+		( the_block_selector_widget.get(), "Blocks" );
 	level_element_selectors_tab_widget->addTab
-		( the_sprite_16x16_selector_widget, "16x16 Sprites" );
+		( the_sprite_16x16_selector_widget.get(), "16x16 Sprites" );
 	level_element_selectors_tab_widget->addTab
-		( the_sprite_16x32_selector_widget, "16x32 Sprites" );
+		( the_sprite_16x32_selector_widget.get(), "16x32 Sprites" );
 	
 	
 	//the_core_widget->init_tab_stuff
@@ -136,9 +137,10 @@ void level_editor_widget::init_tab_stuff_for_core_widgets()
 	for ( auto& core_widget : the_core_widget_vec )
 	{
 		core_widget->init_tab_stuff
-			( level_element_selectors_tab_widget, 
-			the_block_selector_widget, the_sprite_16x16_selector_widget,
-			the_sprite_16x32_selector_widget );
+			( level_element_selectors_tab_widget.get(), 
+			the_block_selector_widget.get(), 
+			the_sprite_16x16_selector_widget.get(),
+			the_sprite_16x32_selector_widget.get() );
 	}
 }
 
@@ -146,24 +148,25 @@ void level_editor_widget::init_tab_stuff_for_core_widgets()
 void level_editor_widget::init_splitters_and_hbox_layout()
 {
 	// splitter stuff
-	horiz_splitter = new QSplitter(this);
+	horiz_splitter.reset(new QSplitter(this));
 	
 	horiz_splitter->setSizePolicy( QSizePolicy::Ignored, 
 		QSizePolicy::Ignored );
 	
 	
-	vert_splitter = new QSplitter(this);
-	vert_splitter->addWidget(level_element_selectors_tab_widget);
+	vert_splitter.reset(new QSplitter(this));
+	vert_splitter->addWidget(level_element_selectors_tab_widget.get());
 	vert_splitter->setOrientation(Qt::Vertical);
 	
 	
 	//horiz_splitter->addWidget(core_widget_scroll_area);
-	horiz_splitter->addWidget(core_widgets_tab_widget);
-	horiz_splitter->addWidget(vert_splitter);
+	horiz_splitter->addWidget(core_widgets_tab_widget.get());
+	horiz_splitter->addWidget(vert_splitter.get());
 	
 	
-	hbox_layout = new QHBoxLayout(this);
-	hbox_layout->addWidget(horiz_splitter);
+	hbox_layout.reset(new QHBoxLayout);
+	setLayout(hbox_layout.get());
+	hbox_layout->addWidget(horiz_splitter.get());
 	
 	
 }
@@ -186,23 +189,12 @@ void level_editor_widget::keyPressEvent( QKeyEvent* event )
 	level_editor_core_widget* the_core_widget = NULL;
 	sfml_canvas_widget* the_sfml_canvas_widget = NULL;
 	
-	//for ( auto& core_widget : the_core_widget_vec )
-	//for ( u32 i=0; i<the_core_widget_vec.size(); ++i )
-	//{
-	//	if ( core_widgets_tab_widget->currentWidget()
-	//		== core_widget_scroll_area_vec.at(i) )
-	//	{
-	//		the_core_widget = the_core_widget_vec.at(i);
-	//		the_sfml_canvas_widget = the_core_widget
-	//			->the_sfml_canvas_widget.get();
-	//	}
-	//}
 	
 	s32 curr_tab_index = get_curr_level_editor_core_widget_index();
 	
 	if ( curr_tab_index != -1 )
 	{
-		the_core_widget = the_core_widget_vec.at(curr_tab_index);
+		the_core_widget = the_core_widget_vec.at(curr_tab_index).get();
 		the_sfml_canvas_widget = the_core_widget
 			->the_sfml_canvas_widget.get();
 	}
@@ -432,20 +424,22 @@ bool level_editor_widget::open_level_core_func
 	
 	if ( !the_core_widget_vec.empty() )
 	{
-		for ( auto& core_widget : the_core_widget_vec )
-		{
-			delete core_widget;
-		}
+		//for ( auto& core_widget : the_core_widget_vec )
+		//{
+		//	//delete core_widget;
+		//	core_widget.reset(NULL);
+		//}
 		the_core_widget_vec.clear();
 	}
 	
 	
 	if ( !core_widget_scroll_area_vec.empty() )
 	{
-		for ( auto& scroll_area : core_widget_scroll_area_vec )
-		{
-			delete scroll_area;
-		}
+		//for ( auto& scroll_area : core_widget_scroll_area_vec )
+		//{
+		//	//delete scroll_area;
+		//	scroll_area.reset(NULL);
+		//}
 		core_widget_scroll_area_vec.clear();
 	}
 	
@@ -645,24 +639,25 @@ bool level_editor_widget::open_level_core_func
 		the_level.sublevel_vec.push_back
 			(temp_level.sublevel_vec.at(sublevel_index));
 		
-		the_core_widget_vec.push_back(new level_editor_core_widget
-			( this, QPoint( 0, 0 ), n_level_file_name, 
-			&the_level.sublevel_vec.back() ));
+		the_core_widget_vec.push_back(unique_ptr<level_editor_core_widget>
+			(new level_editor_core_widget( this, QPoint( 0, 0 ), 
+			n_level_file_name, &the_level.sublevel_vec.back() )));
 		
 		
-		connect( the_core_widget_vec.back(),
+		connect( the_core_widget_vec.back().get(),
 			&level_editor_core_widget::sprite_was_selected, this,
 			&level_editor_widget::show_sprite_properties_widget );
 		
-		connect( the_core_widget_vec.back(),
+		connect( the_core_widget_vec.back().get(),
 			&level_editor_core_widget::sprite_no_longer_selected, this,
 			&level_editor_widget::hide_sprite_properties_widget );
 		
 		
 		// core_widget_scroll_area stuff
-		core_widget_scroll_area_vec.push_back(new QScrollArea(this));
+		core_widget_scroll_area_vec.push_back(unique_ptr<QScrollArea>
+			(new QScrollArea(this)));
 		core_widget_scroll_area_vec.back()->setWidget
-			(the_core_widget_vec.back());
+			(the_core_widget_vec.back().get());
 		core_widget_scroll_area_vec.back()->setHorizontalScrollBarPolicy
 			(Qt::ScrollBarAlwaysOn);
 		core_widget_scroll_area_vec.back()->setVerticalScrollBarPolicy
@@ -670,7 +665,7 @@ bool level_editor_widget::open_level_core_func
 		
 		
 		the_core_widget_vec.back()->the_sfml_canvas_widget
-			->set_scroll_area(core_widget_scroll_area_vec.front());
+			->set_scroll_area(core_widget_scroll_area_vec.back().get());
 		
 		
 		string sublevel_index_str;
@@ -680,7 +675,7 @@ bool level_editor_widget::open_level_core_func
 		sublevel_index_sstm >> sublevel_index_str;
 		
 		core_widgets_tab_widget->addTab
-			( core_widget_scroll_area_vec.back(), 
+			( core_widget_scroll_area_vec.back().get(), 
 			( string("Sublevel ") + sublevel_index_str ).c_str() );
 		
 	};
@@ -1002,7 +997,7 @@ void level_editor_widget::show_horizontal_scroll_bar_stuff()
 	if ( curr_tab_index != -1 )
 	{
 		core_widget_scroll_area = core_widget_scroll_area_vec
-			.at(curr_tab_index);
+			.at(curr_tab_index).get();
 	}
 	
 	
@@ -1020,22 +1015,13 @@ void level_editor_widget::show_horizontal_scroll_bar_stuff()
 void level_editor_widget::show_vertical_scroll_bar_stuff()
 {
 	QScrollArea* core_widget_scroll_area = NULL;
-	//for ( u32 i=0; i<the_core_widget_vec.size(); ++i )
-	//{
-	//	if ( core_widgets_tab_widget->currentWidget() 
-	//		== core_widget_scroll_area_vec.at(i) )
-	//	{
-	//		core_widget_scroll_area 
-	//			= core_widget_scroll_area_vec.at(i);
-	//	}
-	//}
 	
 	s32 curr_tab_index = get_curr_level_editor_core_widget_index();
 	
 	if ( curr_tab_index != -1 )
 	{
 		core_widget_scroll_area = core_widget_scroll_area_vec
-			.at(curr_tab_index);
+			.at(curr_tab_index).get();
 	}
 	
 	if ( core_widget_scroll_area == NULL )
@@ -1051,22 +1037,13 @@ void level_editor_widget::show_vertical_scroll_bar_stuff()
 void level_editor_widget::show_geometry_stuff()
 {
 	QScrollArea* core_widget_scroll_area = NULL;
-	//for ( u32 i=0; i<the_core_widget_vec.size(); ++i )
-	//{
-	//	if ( core_widgets_tab_widget->currentWidget() 
-	//		== core_widget_scroll_area_vec.at(i) )
-	//	{
-	//		core_widget_scroll_area 
-	//			= core_widget_scroll_area_vec.at(i);
-	//	}
-	//}
 	
 	s32 curr_tab_index = get_curr_level_editor_core_widget_index();
 	
 	if ( curr_tab_index != -1 )
 	{
 		core_widget_scroll_area = core_widget_scroll_area_vec
-			.at(curr_tab_index);
+			.at(curr_tab_index).get();
 	}
 	
 	if ( core_widget_scroll_area == NULL )

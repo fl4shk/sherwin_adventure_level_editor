@@ -50,35 +50,53 @@ primary_widget::primary_widget( vector<string>& s_argv_copy,
 
 void primary_widget::generate_menus()
 {
-	menu_laugh_action = new QAction( "&Laugh", this );
-	menu_open_action = new QAction( "&Open", this );
-	menu_save_action = new QAction( "&Save", this );
-	menu_save_as_action = new QAction( "&Save As", this );
-	menu_quit_action = new QAction( "&Quit", this );
+	// Generate the file_menu actions.
+	file_menu_laugh_action.reset(new QAction( "&Laugh", this ));
+	file_menu_open_action.reset(new QAction( "&Open", this ));
+	file_menu_save_action.reset(new QAction( "&Save", this ));
+	file_menu_save_as_action.reset(new QAction( "&Save As", this ));
+	file_menu_quit_action.reset(new QAction( "&Quit", this ));
 	
-	connect( menu_laugh_action, &QAction::triggered, this, 
+	// Generate the edit_menu actions.
+	edit_menu_level_properties_action.reset(new QAction
+		( "&Level Properties", this ));
+	
+	
+	// Connect the file_menu actions to the slots.
+	connect( file_menu_laugh_action.get(), &QAction::triggered, this, 
 		&primary_widget::laugh );
-	connect( menu_open_action, &QAction::triggered, the_central_widget,
-		&level_editor_widget::open_level );
-	connect( menu_save_action, &QAction::triggered, the_central_widget,
-		&level_editor_widget::save_level );
-	connect( menu_save_as_action, &QAction::triggered, the_central_widget,
-		&level_editor_widget::save_level_as );
+	connect( file_menu_open_action.get(), &QAction::triggered,
+		the_central_widget.get(), &level_editor_widget::open_level );
+	connect( file_menu_save_action.get(), &QAction::triggered,
+		the_central_widget.get(), &level_editor_widget::save_level );
+	connect( file_menu_save_as_action.get(), &QAction::triggered,
+		the_central_widget.get(), &level_editor_widget::save_level_as );
 	
-	connect( menu_quit_action, &QAction::triggered, this, 
+	connect( file_menu_quit_action.get(), &QAction::triggered, this, 
 		&primary_widget::quit );
 	
+	// Connect the edit_menu actions to the slots.
+	connect( edit_menu_level_properties_action.get(), &QAction::triggered, 
+		this, &primary_widget::dialog_test );
+	
+	
+	
+	// Add the menus to the menu bar
 	file_menu = menuBar()->addMenu("&File");
-	second_menu = menuBar()->addMenu("&Second");
+	edit_menu = menuBar()->addMenu("&Edit");
 	
-	file_menu->addAction(menu_laugh_action);
-	file_menu->addAction(menu_open_action);
-	file_menu->addAction(menu_save_action);
-	file_menu->addAction(menu_save_as_action);
+	
+	// Add the file_menu actions to the file_menu
+	file_menu->addAction(file_menu_laugh_action.get());
+	file_menu->addAction(file_menu_open_action.get());
+	file_menu->addAction(file_menu_save_action.get());
+	file_menu->addAction(file_menu_save_as_action.get());
 	file_menu->addSeparator();
-	file_menu->addAction(menu_quit_action);
+	file_menu->addAction(file_menu_quit_action.get());
 	
-	second_menu->addAction(menu_quit_action);
+	
+	// Add the edit_menu actions to the edit_menu
+	edit_menu->addAction(edit_menu_level_properties_action.get());
 }
 
 bool primary_widget::generate_toolbar()
@@ -116,9 +134,9 @@ bool primary_widget::generate_toolbar()
 
 void primary_widget::generate_central_widget()
 {
-	the_central_widget = new level_editor_widget( &argv_copy, this );
+	the_central_widget.reset(new level_editor_widget( &argv_copy, this ));
 	
-	setCentralWidget(the_central_widget);
+	setCentralWidget(the_central_widget.get());
 }
 
 void primary_widget::laugh()
@@ -197,4 +215,16 @@ void primary_widget::quit()
 {
 	quit_non_slot();
 }
+
+
+void primary_widget::dialog_test()
+{
+	the_misc_level_properties_widget.reset(new misc_level_properties_widget
+		( this, &the_central_widget->the_level ));
+	
+	cout << "dialog_test() note:  I received this value:  "
+		<< the_misc_level_properties_widget->exec() << endl;
+}
+
+
 
