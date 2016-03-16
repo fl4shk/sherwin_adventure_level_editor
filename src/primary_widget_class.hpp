@@ -25,7 +25,6 @@
 #include "layout_widget_classes.hpp"
 #include "level_editor_widget_class.hpp"
 
-#include "misc_level_properties_widget_class.hpp"
 
 class primary_widget : public QMainWindow
 {
@@ -59,9 +58,6 @@ protected:		// variables
 	unique_ptr<level_editor_widget> the_central_widget;
 	
 	
-	unique_ptr<misc_level_properties_widget>
-		the_misc_level_properties_widget;
-	
 public:		// functions
 	primary_widget( vector<string>& s_argv_copy, QWidget* parent = 0 );
 	
@@ -91,8 +87,6 @@ protected:		// functions
 protected slots:		// slots
 	void laugh();
 	void quit();
-	
-	void dialog_test();
 	
 	
 };

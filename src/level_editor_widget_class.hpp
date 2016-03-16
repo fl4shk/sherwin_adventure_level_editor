@@ -29,6 +29,7 @@
 #include "sprite_16x32_selector_widget_class.hpp"
 
 #include "sprite_properties_widget_class.hpp"
+#include "sublevel_size_2d_changer_widget_class.hpp"
 
 
 class level_editor_widget : public QWidget
@@ -85,6 +86,9 @@ public:		// variables
 	//sprite_properties_widget* the_sprite_properties_widget;
 	unique_ptr<sprite_properties_widget> the_sprite_properties_widget;
 	
+	unique_ptr<sublevel_size_2d_changer_widget> 
+		the_sublevel_size_2d_changer_widget;
+	
 	
 public:		// functions
 	level_editor_widget( vector<string>* s_argv_copy, 
@@ -124,6 +128,8 @@ protected:		// functions
 	void init_splitters_and_hbox_layout();
 	
 	
+	void modify_sublevel_size_2d_changer_widget_at_tab_switch();
+	void modify_sprite_properties_widget_at_tab_switch();
 	
 	
 	//void adjust_scroll_bar( QScrollBar* scroll_bar );
@@ -181,7 +187,8 @@ protected:		// functions
 protected slots:		// slots
 	void show_sprite_properties_widget();
 	void hide_sprite_properties_widget();
-	void modify_sprite_properties_widget_at_tab_switch( int n_index );
+	
+	void handle_tab_switch( int n_index );
 	
 	
 	

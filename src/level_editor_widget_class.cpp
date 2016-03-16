@@ -40,8 +40,7 @@ level_editor_widget::level_editor_widget( vector<string>* s_argv_copy,
 	core_widgets_tab_widget->setMovable(true);
 	
 	connect( core_widgets_tab_widget.get(), &QTabWidget::currentChanged,
-		this, &level_editor_widget
-		::modify_sprite_properties_widget_at_tab_switch );
+		this, &level_editor_widget::handle_tab_switch );
 	
 	// If no file name was passed on the command line, create a new
 	// sublevel, with real_size_2d set to vec2_u32( 16, 16 )
@@ -155,8 +154,9 @@ void level_editor_widget::init_splitters_and_hbox_layout()
 	
 	
 	vert_splitter.reset(new QSplitter(this));
-	vert_splitter->addWidget(level_element_selectors_tab_widget.get());
 	vert_splitter->setOrientation(Qt::Vertical);
+	vert_splitter->addWidget(level_element_selectors_tab_widget.get());
+	vert_splitter->addWidget(the_sublevel_size_2d_changer_widget.get());
 	
 	
 	//horiz_splitter->addWidget(core_widget_scroll_area);
@@ -170,6 +170,81 @@ void level_editor_widget::init_splitters_and_hbox_layout()
 	
 	
 }
+
+
+void level_editor_widget
+	::modify_sublevel_size_2d_changer_widget_at_tab_switch()
+{
+	s32 curr_tab_index = get_curr_level_editor_core_widget_index();
+	
+	if ( curr_tab_index == -1 )
+	{
+		return;
+	}
+	
+	if ( the_sublevel_size_2d_changer_widget.get() != NULL )
+	{
+		the_sublevel_size_2d_changer_widget->hide();
+		
+		the_sublevel_size_2d_changer_widget.reset(NULL);
+	}
+	
+	the_sublevel_size_2d_changer_widget.reset
+		(new sublevel_size_2d_changer_widget( this, 
+		&get_curr_sublevel() ));
+	
+	if ( vert_splitter.get() != NULL )
+	{
+		vert_splitter->addWidget
+			(the_sublevel_size_2d_changer_widget.get());
+	}
+}
+
+void level_editor_widget::modify_sprite_properties_widget_at_tab_switch()
+{
+	s32 curr_tab_index = get_curr_level_editor_core_widget_index();
+	
+	if ( curr_tab_index == -1 )
+	{
+		return;
+	}
+	
+	if ( sprite_properties_widget_enabled_vec.empty() )
+	{
+		return;
+	}
+	
+	
+	// Hide the_sprite_properties_widget if it has been allocated for a
+	// different sublevel/tab.
+	if ( the_sprite_properties_widget.get() != NULL )
+	{
+		the_sprite_properties_widget->hide();
+		
+		the_sprite_properties_widget.reset(NULL);
+	}
+	
+	
+	u32& sprite_properties_widget_enabled 
+		= sprite_properties_widget_enabled_vec.at(curr_tab_index);
+	
+	// If the_sprite_properties_widget was previously enabled for the tab
+	// to which we are switching, then re-generate it.
+	if (sprite_properties_widget_enabled)
+	{
+		rect_selection_stuff& the_rect_selection_stuff 
+			= the_core_widget_vec.at(curr_tab_index)
+			->the_sfml_canvas_widget->the_rect_selection_stuff;
+		
+		the_sprite_properties_widget.reset(new sprite_properties_widget
+			( this, the_rect_selection_stuff
+			.get_single_selected_sprite_ipgws() ));
+		
+		vert_splitter->addWidget(the_sprite_properties_widget.get());
+	}
+	
+}
+
 
 
 //void level_editor_widget::adjust_scroll_bar( QScrollBar* scroll_bar )
@@ -933,52 +1008,10 @@ void level_editor_widget::hide_sprite_properties_widget()
 	}
 }
 
-void level_editor_widget::modify_sprite_properties_widget_at_tab_switch
-	( int n_index )
+void level_editor_widget::handle_tab_switch( int n_index )
 {
-	//cout << "New tab index:  " << n_index << endl;
-	
-	s32 curr_tab_index = get_curr_level_editor_core_widget_index();
-	
-	if ( curr_tab_index == -1 )
-	{
-		return;
-	}
-	
-	if ( sprite_properties_widget_enabled_vec.empty() )
-	{
-		return;
-	}
-	
-	
-	// Hide the_sprite_properties_widget if it has been allocated for a
-	// different sublevel/tab.
-	if ( the_sprite_properties_widget.get() != NULL )
-	{
-		the_sprite_properties_widget->hide();
-		
-		the_sprite_properties_widget.reset(NULL);
-	}
-	
-	
-	u32& sprite_properties_widget_enabled 
-		= sprite_properties_widget_enabled_vec.at(curr_tab_index);
-	
-	// If the_sprite_properties_widget was previously enabled for the tab
-	// to which we are switching, then re-generate it.
-	if (sprite_properties_widget_enabled)
-	{
-		rect_selection_stuff& the_rect_selection_stuff 
-			= the_core_widget_vec.at(curr_tab_index)
-			->the_sfml_canvas_widget->the_rect_selection_stuff;
-		
-		the_sprite_properties_widget.reset(new sprite_properties_widget
-			( this, the_rect_selection_stuff
-			.get_single_selected_sprite_ipgws() ));
-		
-		vert_splitter->addWidget(the_sprite_properties_widget.get());
-	}
-	
+	modify_sublevel_size_2d_changer_widget_at_tab_switch();
+	modify_sprite_properties_widget_at_tab_switch();
 }
 
 

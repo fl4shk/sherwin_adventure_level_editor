@@ -75,9 +75,9 @@ void primary_widget::generate_menus()
 	connect( file_menu_quit_action.get(), &QAction::triggered, this, 
 		&primary_widget::quit );
 	
-	// Connect the edit_menu actions to the slots.
-	connect( edit_menu_level_properties_action.get(), &QAction::triggered, 
-		this, &primary_widget::dialog_test );
+	//// Connect the edit_menu actions to the slots.
+	//connect( edit_menu_level_properties_action.get(), &QAction::triggered, 
+	//	this, &primary_widget::dialog_test );
 	
 	
 	
@@ -217,14 +217,6 @@ void primary_widget::quit()
 }
 
 
-void primary_widget::dialog_test()
-{
-	the_misc_level_properties_widget.reset(new misc_level_properties_widget
-		( this, &the_central_widget->the_level ));
-	
-	cout << "dialog_test() note:  I received this value:  "
-		<< the_misc_level_properties_widget->exec() << endl;
-}
 
 
 

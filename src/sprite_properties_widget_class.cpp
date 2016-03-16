@@ -19,7 +19,7 @@
 
 #include "sprite_properties_widget_class.hpp"
 
-#include "sublevel_class.hpp"
+#include "level_class.hpp"
 
 
 sprite_properties_widget::sprite_properties_widget( QWidget* s_parent,
@@ -182,7 +182,8 @@ void sprite_properties_widget::generate_stuff_for_st_door()
 		initial_row_count, 0 );
 	
 	group_box_spinbox_vec.push_back(unique_ptr<QSpinBox>(new QSpinBox));
-	group_box_spinbox_vec.at(0)->setRange( 0, 7 );
+	group_box_spinbox_vec.at(0)->setRange( 0, 
+		level::max_num_sublevels - 1 );
 	group_box_spinbox_vec.at(0)->setValue
 		(selected_sprite_ipgws->extra_param_0);
 	
