@@ -156,7 +156,7 @@ void level_editor_widget::init_splitters_and_hbox_layout()
 	vert_splitter.reset(new QSplitter(this));
 	vert_splitter->setOrientation(Qt::Vertical);
 	vert_splitter->addWidget(level_element_selectors_tab_widget.get());
-	vert_splitter->addWidget(the_sublevel_size_2d_changer_widget.get());
+	//vert_splitter->addWidget(the_sublevel_properties_widget.get());
 	
 	
 	//horiz_splitter->addWidget(core_widget_scroll_area);
@@ -172,33 +172,32 @@ void level_editor_widget::init_splitters_and_hbox_layout()
 }
 
 
-void level_editor_widget
-	::modify_sublevel_size_2d_changer_widget_at_tab_switch()
-{
-	s32 curr_tab_index = get_curr_level_editor_core_widget_index();
-	
-	if ( curr_tab_index == -1 )
-	{
-		return;
-	}
-	
-	if ( the_sublevel_size_2d_changer_widget.get() != NULL )
-	{
-		the_sublevel_size_2d_changer_widget->hide();
-		
-		the_sublevel_size_2d_changer_widget.reset(NULL);
-	}
-	
-	the_sublevel_size_2d_changer_widget.reset
-		(new sublevel_size_2d_changer_widget( this, 
-		&get_curr_sublevel() ));
-	
-	if ( vert_splitter.get() != NULL )
-	{
-		vert_splitter->addWidget
-			(the_sublevel_size_2d_changer_widget.get());
-	}
-}
+//void level_editor_widget
+//	::modify_sublevel_size_2d_changer_widget_at_tab_switch()
+//{
+//	s32 curr_tab_index = get_curr_level_editor_core_widget_index();
+//	
+//	if ( curr_tab_index == -1 )
+//	{
+//		return;
+//	}
+//	
+//	if ( the_sublevel_properties_widget.get() != NULL )
+//	{
+//		the_sublevel_properties_widget->hide();
+//		
+//		the_sublevel_properties_widget.reset(NULL);
+//	}
+//	
+//	the_sublevel_properties_widget.reset
+//		(new sublevel_size_2d_changer_widget( this, 
+//		&get_curr_sublevel() ));
+//	
+//	//if ( vert_splitter.get() != NULL )
+//	//{
+//	//	vert_splitter->addWidget(the_sublevel_properties_widget.get());
+//	//}
+//}
 
 void level_editor_widget::modify_sprite_properties_widget_at_tab_switch()
 {
@@ -1010,7 +1009,7 @@ void level_editor_widget::hide_sprite_properties_widget()
 
 void level_editor_widget::handle_tab_switch( int n_index )
 {
-	modify_sublevel_size_2d_changer_widget_at_tab_switch();
+	//modify_sublevel_size_2d_changer_widget_at_tab_switch();
 	modify_sprite_properties_widget_at_tab_switch();
 }
 
@@ -1088,6 +1087,15 @@ void level_editor_widget::show_geometry_stuff()
 		<< core_widget_scroll_area->geometry().y() << endl;
 	cout << core_widget_scroll_area->frameGeometry().x() << " " 
 		<< core_widget_scroll_area->frameGeometry().y() << endl;
+}
+
+
+void level_editor_widget::create_sublevel_properties_widget()
+{
+	the_sublevel_properties_widget.reset(new sublevel_properties_widget
+		( this, &get_curr_sublevel() ));
+	//the_sublevel_properties_widget->show();
+	the_sublevel_properties_widget->exec();
 }
 
 

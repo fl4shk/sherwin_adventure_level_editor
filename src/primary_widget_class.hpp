@@ -43,7 +43,8 @@ protected:		// variables
 		file_menu_quit_action;
 	
 	// Edit Menu Actions
-	unique_ptr<QAction> edit_menu_level_properties_action;
+	unique_ptr<QAction> edit_menu_sublevel_properties_action,
+		edit_menu_level_properties_action;
 	
 	
 	// Toolbar Stuff

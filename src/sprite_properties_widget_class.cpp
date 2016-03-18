@@ -199,8 +199,8 @@ void sprite_properties_widget::generate_stuff_for_st_door()
 	
 	
 	// Destination Sublevel Index (extra_param_1).  At some point, this
-	// should default to whatever the current sublevel is, once
-	// multi-sublevel editing is a thing.
+	// COULD be made to default to whatever the current sublevel is, since
+	// multi-sublevel editing IS now a thing.
 	group_box_label_vec.push_back(unique_ptr<QLabel>(new QLabel
 		("<small>Dest. <b>Sublevel</b> Index</small>:  ")));
 	group_box_label_vec.at(1)->setTextFormat(Qt::RichText);

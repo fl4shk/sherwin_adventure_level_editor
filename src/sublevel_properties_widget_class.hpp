@@ -17,14 +17,14 @@
 // <http://www.gnu.org/licenses/>.
 
 
-#ifndef sublevel_size_2d_changer_widget_class_hpp
-#define sublevel_size_2d_changer_widget_class_hpp
+#ifndef sublevel_properties_widget_class_hpp
+#define sublevel_properties_widget_class_hpp
 
 #include "misc_includes.hpp"
 #include "level_class.hpp"
 
 // This permits changing the size of a specific sublevel.
-class sublevel_size_2d_changer_widget : public QWidget
+class sublevel_properties_widget : public QDialog
 {
 	Q_OBJECT
 	
@@ -37,9 +37,11 @@ public:		// variables
 	
 	unique_ptr<QSpinBox> sublevel_width_spinbox, sublevel_height_spinbox;
 	
+	unique_ptr<QPushButton> okay_button, cancel_button;
+	
 	
 public:		// functions
-	sublevel_size_2d_changer_widget( QWidget* s_parent, 
+	sublevel_properties_widget( QWidget* s_parent, 
 		sublevel* s_the_sublevel );
 	
 	
@@ -47,11 +49,11 @@ protected:		// functions
 	
 	
 protected slots:		// slots
-	void sublevel_width_changed( int n_width );
-	void sublevel_height_changed( int n_height );
+	void accept();
+	void reject();
 	
 };
 
 
 
-#endif		// sublevel_size_2d_changer_widget_class_hpp
+#endif		// sublevel_properties_widget_class_hpp

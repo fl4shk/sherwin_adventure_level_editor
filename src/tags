@@ -8,6 +8,8 @@ X	level_editor_core_widget_class.cpp	101;"	kind:d	file:
 X	level_editor_core_widget_class.cpp	93;"	kind:d	file:
 X	level_editor_widget_class.cpp	109;"	kind:d	file:
 X	level_editor_widget_class.cpp	114;"	kind:d	file:
+accept	sublevel_properties_widget_class.cpp	/^void sublevel_properties_widget::accept()$/;"	kind:f	class:sublevel_properties_widget	signature:()
+accept	sublevel_properties_widget_class.hpp	/^	void accept();$/;"	kind:p	class:sublevel_properties_widget	access:protected	signature:()
 adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	sprite_level_data_stuff.cpp	/^	::adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	signature:( sublevel& the_sublevel, u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
 adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	sprite_level_data_stuff.hpp	/^	adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	access:public	signature:( sublevel& the_sublevel, u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
 adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	sprite_level_data_stuff.hpp	/^	inline adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	access:public	signature:()
@@ -164,6 +166,7 @@ can_add_sprite	sprite_level_data_stuff.cpp	/^bool adj_sprite_ipgws_ptr_group_for
 can_add_sprite	sprite_level_data_stuff.cpp	/^bool adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32::can_add_sprite()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	signature:()
 can_add_sprite	sprite_level_data_stuff.hpp	/^	bool can_add_sprite();$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	access:public	signature:()
 can_add_sprite	sprite_level_data_stuff.hpp	/^	bool can_add_sprite();$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	access:public	signature:()
+cancel_button	sublevel_properties_widget_class.hpp	/^	unique_ptr<QPushButton> okay_button, cancel_button;$/;"	kind:m	class:sublevel_properties_widget	access:public
 clicked_location_in_rect	rect_selection_stuff_class.hpp	/^	vec2_s32 clicked_location_in_rect;$/;"	kind:m	class:rect_selection_stuff	access:public
 closeEvent	primary_widget_class.hpp	/^	inline void closeEvent( QCloseEvent* event )$/;"	kind:f	class:primary_widget	access:protected	signature:( QCloseEvent* event )
 compressed_block_data_vec	sublevel_class.hpp	/^	vector<u32> compressed_block_data_vec;$/;"	kind:m	class:sublevel	access:public
@@ -178,7 +181,8 @@ copy_selection_contents	rect_selection_stuff_class.cpp	/^void rect_selection_stu
 copy_selection_contents	rect_selection_stuff_class.hpp	/^	void copy_selection_contents();$/;"	kind:p	class:rect_selection_stuff	access:public	signature:()
 core_widget_scroll_area_vec	level_editor_widget_class.hpp	/^	vector< unique_ptr<QScrollArea> > core_widget_scroll_area_vec;$/;"	kind:m	class:level_editor_widget	access:public
 core_widgets_tab_widget	level_editor_widget_class.hpp	/^	unique_ptr<QTabWidget> core_widgets_tab_widget;$/;"	kind:m	class:level_editor_widget	access:public
-curr_sublevel_index	level_class.hpp	/^	u32 curr_sublevel_index;$/;"	kind:m	class:level	access:public
+create_sublevel_properties_widget	level_editor_widget_class.cpp	/^void level_editor_widget::create_sublevel_properties_widget()$/;"	kind:f	class:level_editor_widget	signature:()
+create_sublevel_properties_widget	level_editor_widget_class.hpp	/^	void create_sublevel_properties_widget();$/;"	kind:p	class:level_editor_widget	access:public	signature:()
 current_position	level_editor_core_widget_class.hpp	/^	QPoint current_position;$/;"	kind:m	class:level_editor_core_widget	access:public
 current_size	level_editor_core_widget_class.hpp	/^	QSize current_size;$/;"	kind:m	class:level_editor_core_widget	access:public
 data	fixed24p8_class.hpp	/^	s32 data;$/;"	kind:m	class:fixed24p8	access:public
@@ -214,7 +218,8 @@ draw_block_line	level_editor_core_widget_class.cpp	/^void level_editor_core_widg
 draw_block_line	level_editor_core_widget_class.hpp	/^	inline void draw_block_line( const vec2_s32& pos_0, $/;"	kind:f	class:level_editor_core_widget	access:protected	signature:( const vec2_s32& pos_0, const vec2_s32& pos_1, block_type the_block_type )
 draw_block_line	level_editor_core_widget_class.hpp	/^	void draw_block_line( const sf::Vector2i& pos_0, $/;"	kind:p	class:level_editor_core_widget	access:protected	signature:( const sf::Vector2i& pos_0, const sf::Vector2i& pos_1, block_type the_block_type )
 edit_menu	primary_widget_class.hpp	/^	QMenu* file_menu, * edit_menu;$/;"	kind:m	class:primary_widget	access:protected
-edit_menu_level_properties_action	primary_widget_class.hpp	/^	unique_ptr<QAction> edit_menu_level_properties_action;$/;"	kind:m	class:primary_widget	access:protected
+edit_menu_level_properties_action	primary_widget_class.hpp	/^		edit_menu_level_properties_action;$/;"	kind:m	class:primary_widget	access:protected
+edit_menu_sublevel_properties_action	primary_widget_class.hpp	/^	unique_ptr<QAction> edit_menu_sublevel_properties_action,$/;"	kind:m	class:primary_widget	access:protected
 enable_block_grid	sfml_canvas_widget_classes.hpp	/^	inline void enable_block_grid()$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:()
 enable_single_sprite_selection	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::enable_single_sprite_selection$/;"	kind:f	class:rect_selection_stuff	signature:( sprite_init_param_group_with_size* n_selected_sprite_ipgws )
 enable_single_sprite_selection	rect_selection_stuff_class.hpp	/^	void enable_single_sprite_selection$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( sprite_init_param_group_with_size* n_selected_sprite_ipgws )
@@ -304,7 +309,6 @@ get_bt_name_debug	block_stuff.hpp	/^	inline const string& get_bt_name_debug( blo
 get_compressed_block_data_file_name	block_stuff.hpp	/^	inline const string get_compressed_block_data_file_name$/;"	kind:f	namespace:block_stuff	signature:( const string& output_dirname, const string& output_basename )
 get_curr_level_editor_core_widget	level_editor_widget_class.hpp	/^	inline level_editor_core_widget* get_curr_level_editor_core_widget()$/;"	kind:f	class:level_editor_widget	access:public	signature:()
 get_curr_level_editor_core_widget_index	level_editor_widget_class.hpp	/^	inline s32 get_curr_level_editor_core_widget_index()$/;"	kind:f	class:level_editor_widget	access:public	signature:()
-get_curr_sublevel	level_class.hpp	/^	inline sublevel& get_curr_sublevel()$/;"	kind:f	class:level	access:public	signature:()
 get_curr_sublevel	level_editor_widget_class.hpp	/^	inline sublevel& get_curr_sublevel()$/;"	kind:f	class:level_editor_widget	access:public	signature:()
 get_enabled	rect_selection_stuff_class.hpp	/^	inline bool get_enabled() const$/;"	kind:f	class:rect_selection_stuff	access:public	signature:() const
 get_frac_bits	fixed24p8_class.hpp	/^	inline u8 get_frac_bits() const;$/;"	kind:p	class:fixed24p8	access:public	signature:() const
@@ -367,7 +371,7 @@ get_the_sprite_16x32_selector_core_widget	level_editor_core_widget_class.hpp	/^	
 get_uncompressed_block_data_file_name	block_stuff.hpp	/^	inline const string get_uncompressed_block_data_file_name$/;"	kind:f	namespace:block_stuff	signature:( const string& output_dirname, const string& output_basename )
 get_visible_rect	sfml_canvas_widget_classes.hpp	/^	inline sf::FloatRect get_visible_rect() const$/;"	kind:f	class:sfml_canvas_widget	access:public	signature:() const
 grid_layout	sprite_properties_widget_class.hpp	/^	unique_ptr<QGridLayout> grid_layout;$/;"	kind:m	class:sprite_properties_widget	access:public
-grid_layout	sublevel_size_2d_changer_widget_class.hpp	/^	unique_ptr<QGridLayout> grid_layout;$/;"	kind:m	class:sublevel_size_2d_changer_widget	access:public
+grid_layout	sublevel_properties_widget_class.hpp	/^	unique_ptr<QGridLayout> grid_layout;$/;"	kind:m	class:sublevel_properties_widget	access:public
 grid_widget	layout_widget_classes.hpp	/^	inline grid_widget( QWidget* parent = 0 ) : QWidget(parent)$/;"	kind:f	class:grid_widget	access:public	signature:( QWidget* parent = 0 )
 grid_widget	layout_widget_classes.hpp	/^class grid_widget : public QWidget$/;"	kind:c	inherits:QWidget
 grid_widget::grid_widget	layout_widget_classes.hpp	/^	inline grid_widget( QWidget* parent = 0 ) : QWidget(parent)$/;"	kind:f	class:grid_widget	access:public	signature:( QWidget* parent = 0 )
@@ -384,7 +388,7 @@ hbox_widget	layout_widget_classes.hpp	/^class hbox_widget : public QWidget$/;"	k
 hbox_widget::hbox_widget	layout_widget_classes.hpp	/^	inline hbox_widget( QWidget* parent = 0 ) : QWidget(parent)$/;"	kind:f	class:hbox_widget	access:public	signature:( QWidget* parent = 0 )
 hbox_widget::layout	layout_widget_classes.hpp	/^	QHBoxLayout* layout;$/;"	kind:m	class:hbox_widget	access:public
 height	array_2d_helper_class.hpp	/^	u32 height() const$/;"	kind:f	class:array_2d_helper	access:public	signature:() const
-height_label	sublevel_size_2d_changer_widget_class.hpp	/^	unique_ptr<QLabel> width_label, height_label;$/;"	kind:m	class:sublevel_size_2d_changer_widget	access:public
+height_label	sublevel_properties_widget_class.hpp	/^	unique_ptr<QLabel> width_label, height_label;$/;"	kind:m	class:sublevel_properties_widget	access:public
 hello	level_editor_widget_class.cpp	/^void level_editor_widget::hello()$/;"	kind:f	class:level_editor_widget	signature:()
 hello	level_editor_widget_class.hpp	/^	void hello();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
 hide_sprite_properties_widget	level_editor_widget_class.cpp	/^void level_editor_widget::hide_sprite_properties_widget()$/;"	kind:f	class:level_editor_widget	signature:()
@@ -427,8 +431,6 @@ level	level_class.hpp	/^	inline level() : level(max_num_sublevels)$/;"	kind:f	cl
 level	level_class.hpp	/^	level( const vector<vec2_u32>& s_sublevel_size_2d_vec );$/;"	kind:p	class:level	access:public	signature:( const vector<vec2_u32>& s_sublevel_size_2d_vec )
 level	level_class.hpp	/^	level( u32 s_num_sublevels, const vec2_u32& shared_sublevel_size_2d );$/;"	kind:p	class:level	access:public	signature:( u32 s_num_sublevels, const vec2_u32& shared_sublevel_size_2d )
 level	level_class.hpp	/^class level$/;"	kind:c
-level::curr_sublevel_index	level_class.hpp	/^	u32 curr_sublevel_index;$/;"	kind:m	class:level	access:public
-level::get_curr_sublevel	level_class.hpp	/^	inline sublevel& get_curr_sublevel()$/;"	kind:f	class:level	access:public	signature:()
 level::level	level_class.cpp	/^level::level( const vector<vec2_u32>& s_sublevel_size_2d_vec )$/;"	kind:f	class:level	signature:( const vector<vec2_u32>& s_sublevel_size_2d_vec )
 level::level	level_class.cpp	/^level::level( u32 s_num_sublevels, $/;"	kind:f	class:level	signature:( u32 s_num_sublevels, const vec2_u32& shared_sublevel_size_2d )
 level::level	level_class.hpp	/^	inline level( u32 s_num_sublevels ) $/;"	kind:f	class:level	access:public	signature:( u32 s_num_sublevels )
@@ -493,6 +495,8 @@ level_editor_widget	level_editor_widget_class.hpp	/^class level_editor_widget : 
 level_editor_widget::argv_copy	level_editor_widget_class.hpp	/^	vector<string>* argv_copy;$/;"	kind:m	class:level_editor_widget	access:public
 level_editor_widget::core_widget_scroll_area_vec	level_editor_widget_class.hpp	/^	vector< unique_ptr<QScrollArea> > core_widget_scroll_area_vec;$/;"	kind:m	class:level_editor_widget	access:public
 level_editor_widget::core_widgets_tab_widget	level_editor_widget_class.hpp	/^	unique_ptr<QTabWidget> core_widgets_tab_widget;$/;"	kind:m	class:level_editor_widget	access:public
+level_editor_widget::create_sublevel_properties_widget	level_editor_widget_class.cpp	/^void level_editor_widget::create_sublevel_properties_widget()$/;"	kind:f	class:level_editor_widget	signature:()
+level_editor_widget::create_sublevel_properties_widget	level_editor_widget_class.hpp	/^	void create_sublevel_properties_widget();$/;"	kind:p	class:level_editor_widget	access:public	signature:()
 level_editor_widget::default_parent_title	level_editor_widget_class.cpp	/^const QString level_editor_widget::default_parent_title $/;"	kind:m	class:level_editor_widget	file:
 level_editor_widget::default_parent_title	level_editor_widget_class.hpp	/^	static const QString default_parent_title;$/;"	kind:m	class:level_editor_widget	access:public
 level_editor_widget::export_source	level_editor_widget_class.cpp	/^void level_editor_widget::export_source()$/;"	kind:f	class:level_editor_widget	signature:()
@@ -525,8 +529,6 @@ level_editor_widget::level_editor_widget	level_editor_widget_class.hpp	/^	level_
 level_editor_widget::level_element_selectors_tab_widget	level_editor_widget_class.hpp	/^	unique_ptr<QTabWidget> level_element_selectors_tab_widget;$/;"	kind:m	class:level_editor_widget	access:public
 level_editor_widget::modify_sprite_properties_widget_at_tab_switch	level_editor_widget_class.cpp	/^void level_editor_widget::modify_sprite_properties_widget_at_tab_switch()$/;"	kind:f	class:level_editor_widget	signature:()
 level_editor_widget::modify_sprite_properties_widget_at_tab_switch	level_editor_widget_class.hpp	/^	void modify_sprite_properties_widget_at_tab_switch();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
-level_editor_widget::modify_sublevel_size_2d_changer_widget_at_tab_switch	level_editor_widget_class.cpp	/^	::modify_sublevel_size_2d_changer_widget_at_tab_switch()$/;"	kind:f	class:level_editor_widget	signature:()
-level_editor_widget::modify_sublevel_size_2d_changer_widget_at_tab_switch	level_editor_widget_class.hpp	/^	void modify_sublevel_size_2d_changer_widget_at_tab_switch();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
 level_editor_widget::open_level	level_editor_widget_class.cpp	/^void level_editor_widget::open_level()$/;"	kind:f	class:level_editor_widget	signature:()
 level_editor_widget::open_level	level_editor_widget_class.hpp	/^	void open_level();$/;"	kind:p	class:level_editor_widget	access:public	signature:()
 level_editor_widget::open_level_core_func	level_editor_widget_class.cpp	/^bool level_editor_widget::open_level_core_func$/;"	kind:f	class:level_editor_widget	signature:( const string& n_level_file_name )
@@ -554,7 +556,7 @@ level_editor_widget::the_level	level_editor_widget_class.hpp	/^	level the_level;
 level_editor_widget::the_sprite_16x16_selector_widget	level_editor_widget_class.hpp	/^		the_sprite_16x16_selector_widget;$/;"	kind:m	class:level_editor_widget	access:public
 level_editor_widget::the_sprite_16x32_selector_widget	level_editor_widget_class.hpp	/^		the_sprite_16x32_selector_widget;$/;"	kind:m	class:level_editor_widget	access:public
 level_editor_widget::the_sprite_properties_widget	level_editor_widget_class.hpp	/^	unique_ptr<sprite_properties_widget> the_sprite_properties_widget;$/;"	kind:m	class:level_editor_widget	access:public
-level_editor_widget::the_sublevel_size_2d_changer_widget	level_editor_widget_class.hpp	/^		the_sublevel_size_2d_changer_widget;$/;"	kind:m	class:level_editor_widget	access:public
+level_editor_widget::the_sublevel_properties_widget	level_editor_widget_class.hpp	/^		the_sublevel_properties_widget;$/;"	kind:m	class:level_editor_widget	access:public
 level_editor_widget::vert_splitter	level_editor_widget_class.hpp	/^	unique_ptr<QSplitter> horiz_splitter, vert_splitter;$/;"	kind:m	class:level_editor_widget	access:public
 level_editor_widget_class_hpp	level_editor_widget_class.hpp	22;"	kind:d
 level_element_gfx_file_name	level_element_selector_core_widget_base_class.cpp	/^	::level_element_gfx_file_name = "gfx\/the_block_gfx.png";$/;"	kind:m	class:level_element_selector_core_widget_base	file:
@@ -661,8 +663,6 @@ mm_select_single_sprite	misc_types.hpp	/^	mm_select_single_sprite, $/;"	kind:e	e
 modified_recently	sfml_canvas_widget_classes.hpp	/^	bool modified_recently;$/;"	kind:m	class:sfml_canvas_widget	access:public
 modify_sprite_properties_widget_at_tab_switch	level_editor_widget_class.cpp	/^void level_editor_widget::modify_sprite_properties_widget_at_tab_switch()$/;"	kind:f	class:level_editor_widget	signature:()
 modify_sprite_properties_widget_at_tab_switch	level_editor_widget_class.hpp	/^	void modify_sprite_properties_widget_at_tab_switch();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
-modify_sublevel_size_2d_changer_widget_at_tab_switch	level_editor_widget_class.cpp	/^	::modify_sublevel_size_2d_changer_widget_at_tab_switch()$/;"	kind:f	class:level_editor_widget	signature:()
-modify_sublevel_size_2d_changer_widget_at_tab_switch	level_editor_widget_class.hpp	/^	void modify_sublevel_size_2d_changer_widget_at_tab_switch();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
 mouseMoveEvent	level_editor_core_widget_class.cpp	/^void level_editor_core_widget::mouseMoveEvent( QMouseEvent* event )$/;"	kind:f	class:level_editor_core_widget	signature:( QMouseEvent* event )
 mouseMoveEvent	level_editor_core_widget_class.hpp	/^	void mouseMoveEvent( QMouseEvent* event );$/;"	kind:p	class:level_editor_core_widget	access:protected	signature:( QMouseEvent* event )
 mousePressEvent	level_editor_core_widget_class.cpp	/^void level_editor_core_widget::mousePressEvent( QMouseEvent* event )$/;"	kind:f	class:level_editor_core_widget	signature:( QMouseEvent* event )
@@ -676,6 +676,7 @@ mouse_released	rect_selection_stuff_class.hpp	/^	bool enabled, mouse_released;$/
 moving	rect_selection_stuff_class.hpp	/^	bool moving;$/;"	kind:m	class:rect_selection_stuff	access:public
 num_pixels_per_block_column	sfml_canvas_widget_classes.hpp	/^		num_pixels_per_block_column = 16;$/;"	kind:m	class:sfml_canvas_widget	access:public
 num_pixels_per_block_row	sfml_canvas_widget_classes.hpp	/^	static constexpr u32 num_pixels_per_block_row = 16,$/;"	kind:m	class:sfml_canvas_widget	access:public
+okay_button	sublevel_properties_widget_class.hpp	/^	unique_ptr<QPushButton> okay_button, cancel_button;$/;"	kind:m	class:sublevel_properties_widget	access:public
 on_init	level_element_selector_core_widget_base_class.hpp	/^	inline virtual void on_init()$/;"	kind:f	class:level_element_selector_core_widget_base	access:protected	signature:()
 on_init	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget_base::on_init()$/;"	kind:f	class:sfml_canvas_widget_base	signature:()
 on_init	sfml_canvas_widget_classes.hpp	/^	inline void on_init()$/;"	kind:f	class:sfml_canvas_widget	access:protected	signature:()
@@ -728,7 +729,8 @@ primary_widget	primary_widget_class.hpp	/^class primary_widget : public QMainWin
 primary_widget::argv_copy	primary_widget_class.hpp	/^	vector<string> argv_copy;$/;"	kind:m	class:primary_widget	access:protected
 primary_widget::closeEvent	primary_widget_class.hpp	/^	inline void closeEvent( QCloseEvent* event )$/;"	kind:f	class:primary_widget	access:protected	signature:( QCloseEvent* event )
 primary_widget::edit_menu	primary_widget_class.hpp	/^	QMenu* file_menu, * edit_menu;$/;"	kind:m	class:primary_widget	access:protected
-primary_widget::edit_menu_level_properties_action	primary_widget_class.hpp	/^	unique_ptr<QAction> edit_menu_level_properties_action;$/;"	kind:m	class:primary_widget	access:protected
+primary_widget::edit_menu_level_properties_action	primary_widget_class.hpp	/^		edit_menu_level_properties_action;$/;"	kind:m	class:primary_widget	access:protected
+primary_widget::edit_menu_sublevel_properties_action	primary_widget_class.hpp	/^	unique_ptr<QAction> edit_menu_sublevel_properties_action,$/;"	kind:m	class:primary_widget	access:protected
 primary_widget::file_menu	primary_widget_class.hpp	/^	QMenu* file_menu, * edit_menu;$/;"	kind:m	class:primary_widget	access:protected
 primary_widget::file_menu_laugh_action	primary_widget_class.hpp	/^	unique_ptr<QAction> file_menu_laugh_action, file_menu_open_action, $/;"	kind:m	class:primary_widget	access:protected
 primary_widget::file_menu_open_action	primary_widget_class.hpp	/^	unique_ptr<QAction> file_menu_laugh_action, file_menu_open_action, $/;"	kind:m	class:primary_widget	access:protected
@@ -815,6 +817,8 @@ rect_selection_stuff::stop_moving_selection_contents	rect_selection_stuff_class.
 rect_selection_stuff::stop_moving_selection_contents	rect_selection_stuff_class.hpp	/^	void stop_moving_selection_contents();$/;"	kind:p	class:rect_selection_stuff	access:public	signature:()
 rect_selection_stuff::the_sublevel	rect_selection_stuff_class.hpp	/^	sublevel* the_sublevel;$/;"	kind:m	class:rect_selection_stuff	access:public
 rect_selection_stuff_class_hpp	rect_selection_stuff_class.hpp	21;"	kind:d
+reject	sublevel_properties_widget_class.cpp	/^void sublevel_properties_widget::reject()$/;"	kind:f	class:sublevel_properties_widget	signature:()
+reject	sublevel_properties_widget_class.hpp	/^	void reject();$/;"	kind:p	class:sublevel_properties_widget	access:protected	signature:()
 right_current_level_element_index	level_element_selector_core_widget_base_class.hpp	/^	u32 left_current_level_element_index, right_current_level_element_index;$/;"	kind:m	class:level_element_selector_core_widget_base	access:protected
 right_mouse_button_pressed	level_editor_core_widget_class.hpp	/^	void right_mouse_button_pressed();$/;"	kind:p	class:level_editor_core_widget	access:protected	signature:()
 right_ptr	sprite_level_data_stuff.hpp	/^		* left_ptr, * origin_ptr, * right_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public
@@ -1186,29 +1190,27 @@ sublevel_entrance::type	sublevel_entrance_class.hpp	/^	sublevel_entrance_type ty
 sublevel_entrance_class_hpp	sublevel_entrance_class.hpp	22;"	kind:d
 sublevel_entrance_type	sublevel_entrance_class.hpp	/^enum sublevel_entrance_type$/;"	kind:g
 sublevel_entrance_vec	sublevel_class.hpp	/^	vector<sublevel_entrance> sublevel_entrance_vec;$/;"	kind:m	class:sublevel	access:public
-sublevel_height_changed	sublevel_size_2d_changer_widget_class.cpp	/^void sublevel_size_2d_changer_widget::sublevel_height_changed$/;"	kind:f	class:sublevel_size_2d_changer_widget	signature:( int n_height )
-sublevel_height_changed	sublevel_size_2d_changer_widget_class.hpp	/^	void sublevel_height_changed( int n_height );$/;"	kind:p	class:sublevel_size_2d_changer_widget	access:protected	signature:( int n_height )
-sublevel_height_spinbox	sublevel_size_2d_changer_widget_class.hpp	/^	unique_ptr<QSpinBox> sublevel_width_spinbox, sublevel_height_spinbox;$/;"	kind:m	class:sublevel_size_2d_changer_widget	access:public
-sublevel_size_2d_changer_widget	sublevel_size_2d_changer_widget_class.cpp	/^sublevel_size_2d_changer_widget::sublevel_size_2d_changer_widget$/;"	kind:f	class:sublevel_size_2d_changer_widget	signature:( QWidget* s_parent, sublevel* s_the_sublevel )
-sublevel_size_2d_changer_widget	sublevel_size_2d_changer_widget_class.hpp	/^	sublevel_size_2d_changer_widget( QWidget* s_parent, $/;"	kind:p	class:sublevel_size_2d_changer_widget	access:public	signature:( QWidget* s_parent, sublevel* s_the_sublevel )
-sublevel_size_2d_changer_widget	sublevel_size_2d_changer_widget_class.hpp	/^class sublevel_size_2d_changer_widget : public QWidget$/;"	kind:c	inherits:QWidget
-sublevel_size_2d_changer_widget::grid_layout	sublevel_size_2d_changer_widget_class.hpp	/^	unique_ptr<QGridLayout> grid_layout;$/;"	kind:m	class:sublevel_size_2d_changer_widget	access:public
-sublevel_size_2d_changer_widget::height_label	sublevel_size_2d_changer_widget_class.hpp	/^	unique_ptr<QLabel> width_label, height_label;$/;"	kind:m	class:sublevel_size_2d_changer_widget	access:public
-sublevel_size_2d_changer_widget::sublevel_height_changed	sublevel_size_2d_changer_widget_class.cpp	/^void sublevel_size_2d_changer_widget::sublevel_height_changed$/;"	kind:f	class:sublevel_size_2d_changer_widget	signature:( int n_height )
-sublevel_size_2d_changer_widget::sublevel_height_changed	sublevel_size_2d_changer_widget_class.hpp	/^	void sublevel_height_changed( int n_height );$/;"	kind:p	class:sublevel_size_2d_changer_widget	access:protected	signature:( int n_height )
-sublevel_size_2d_changer_widget::sublevel_height_spinbox	sublevel_size_2d_changer_widget_class.hpp	/^	unique_ptr<QSpinBox> sublevel_width_spinbox, sublevel_height_spinbox;$/;"	kind:m	class:sublevel_size_2d_changer_widget	access:public
-sublevel_size_2d_changer_widget::sublevel_size_2d_changer_widget	sublevel_size_2d_changer_widget_class.cpp	/^sublevel_size_2d_changer_widget::sublevel_size_2d_changer_widget$/;"	kind:f	class:sublevel_size_2d_changer_widget	signature:( QWidget* s_parent, sublevel* s_the_sublevel )
-sublevel_size_2d_changer_widget::sublevel_size_2d_changer_widget	sublevel_size_2d_changer_widget_class.hpp	/^	sublevel_size_2d_changer_widget( QWidget* s_parent, $/;"	kind:p	class:sublevel_size_2d_changer_widget	access:public	signature:( QWidget* s_parent, sublevel* s_the_sublevel )
-sublevel_size_2d_changer_widget::sublevel_width_changed	sublevel_size_2d_changer_widget_class.cpp	/^void sublevel_size_2d_changer_widget::sublevel_width_changed( int n_width )$/;"	kind:f	class:sublevel_size_2d_changer_widget	signature:( int n_width )
-sublevel_size_2d_changer_widget::sublevel_width_changed	sublevel_size_2d_changer_widget_class.hpp	/^	void sublevel_width_changed( int n_width );$/;"	kind:p	class:sublevel_size_2d_changer_widget	access:protected	signature:( int n_width )
-sublevel_size_2d_changer_widget::sublevel_width_spinbox	sublevel_size_2d_changer_widget_class.hpp	/^	unique_ptr<QSpinBox> sublevel_width_spinbox, sublevel_height_spinbox;$/;"	kind:m	class:sublevel_size_2d_changer_widget	access:public
-sublevel_size_2d_changer_widget::the_sublevel	sublevel_size_2d_changer_widget_class.hpp	/^	sublevel* the_sublevel;$/;"	kind:m	class:sublevel_size_2d_changer_widget	access:public
-sublevel_size_2d_changer_widget::width_label	sublevel_size_2d_changer_widget_class.hpp	/^	unique_ptr<QLabel> width_label, height_label;$/;"	kind:m	class:sublevel_size_2d_changer_widget	access:public
-sublevel_size_2d_changer_widget_class_hpp	sublevel_size_2d_changer_widget_class.hpp	21;"	kind:d
+sublevel_height_spinbox	sublevel_properties_widget_class.hpp	/^	unique_ptr<QSpinBox> sublevel_width_spinbox, sublevel_height_spinbox;$/;"	kind:m	class:sublevel_properties_widget	access:public
+sublevel_properties_widget	sublevel_properties_widget_class.cpp	/^sublevel_properties_widget::sublevel_properties_widget( QWidget* s_parent, $/;"	kind:f	class:sublevel_properties_widget	signature:( QWidget* s_parent, sublevel* s_the_sublevel )
+sublevel_properties_widget	sublevel_properties_widget_class.hpp	/^	sublevel_properties_widget( QWidget* s_parent, $/;"	kind:p	class:sublevel_properties_widget	access:public	signature:( QWidget* s_parent, sublevel* s_the_sublevel )
+sublevel_properties_widget	sublevel_properties_widget_class.hpp	/^class sublevel_properties_widget : public QDialog$/;"	kind:c	inherits:QDialog
+sublevel_properties_widget::accept	sublevel_properties_widget_class.cpp	/^void sublevel_properties_widget::accept()$/;"	kind:f	class:sublevel_properties_widget	signature:()
+sublevel_properties_widget::accept	sublevel_properties_widget_class.hpp	/^	void accept();$/;"	kind:p	class:sublevel_properties_widget	access:protected	signature:()
+sublevel_properties_widget::cancel_button	sublevel_properties_widget_class.hpp	/^	unique_ptr<QPushButton> okay_button, cancel_button;$/;"	kind:m	class:sublevel_properties_widget	access:public
+sublevel_properties_widget::grid_layout	sublevel_properties_widget_class.hpp	/^	unique_ptr<QGridLayout> grid_layout;$/;"	kind:m	class:sublevel_properties_widget	access:public
+sublevel_properties_widget::height_label	sublevel_properties_widget_class.hpp	/^	unique_ptr<QLabel> width_label, height_label;$/;"	kind:m	class:sublevel_properties_widget	access:public
+sublevel_properties_widget::okay_button	sublevel_properties_widget_class.hpp	/^	unique_ptr<QPushButton> okay_button, cancel_button;$/;"	kind:m	class:sublevel_properties_widget	access:public
+sublevel_properties_widget::reject	sublevel_properties_widget_class.cpp	/^void sublevel_properties_widget::reject()$/;"	kind:f	class:sublevel_properties_widget	signature:()
+sublevel_properties_widget::reject	sublevel_properties_widget_class.hpp	/^	void reject();$/;"	kind:p	class:sublevel_properties_widget	access:protected	signature:()
+sublevel_properties_widget::sublevel_height_spinbox	sublevel_properties_widget_class.hpp	/^	unique_ptr<QSpinBox> sublevel_width_spinbox, sublevel_height_spinbox;$/;"	kind:m	class:sublevel_properties_widget	access:public
+sublevel_properties_widget::sublevel_properties_widget	sublevel_properties_widget_class.cpp	/^sublevel_properties_widget::sublevel_properties_widget( QWidget* s_parent, $/;"	kind:f	class:sublevel_properties_widget	signature:( QWidget* s_parent, sublevel* s_the_sublevel )
+sublevel_properties_widget::sublevel_properties_widget	sublevel_properties_widget_class.hpp	/^	sublevel_properties_widget( QWidget* s_parent, $/;"	kind:p	class:sublevel_properties_widget	access:public	signature:( QWidget* s_parent, sublevel* s_the_sublevel )
+sublevel_properties_widget::sublevel_width_spinbox	sublevel_properties_widget_class.hpp	/^	unique_ptr<QSpinBox> sublevel_width_spinbox, sublevel_height_spinbox;$/;"	kind:m	class:sublevel_properties_widget	access:public
+sublevel_properties_widget::the_sublevel	sublevel_properties_widget_class.hpp	/^	sublevel* the_sublevel;$/;"	kind:m	class:sublevel_properties_widget	access:public
+sublevel_properties_widget::width_label	sublevel_properties_widget_class.hpp	/^	unique_ptr<QLabel> width_label, height_label;$/;"	kind:m	class:sublevel_properties_widget	access:public
+sublevel_properties_widget_class_hpp	sublevel_properties_widget_class.hpp	21;"	kind:d
 sublevel_vec	level_class.hpp	/^	vector<sublevel> sublevel_vec;$/;"	kind:m	class:level	access:public
-sublevel_width_changed	sublevel_size_2d_changer_widget_class.cpp	/^void sublevel_size_2d_changer_widget::sublevel_width_changed( int n_width )$/;"	kind:f	class:sublevel_size_2d_changer_widget	signature:( int n_width )
-sublevel_width_changed	sublevel_size_2d_changer_widget_class.hpp	/^	void sublevel_width_changed( int n_width );$/;"	kind:p	class:sublevel_size_2d_changer_widget	access:protected	signature:( int n_width )
-sublevel_width_spinbox	sublevel_size_2d_changer_widget_class.hpp	/^	unique_ptr<QSpinBox> sublevel_width_spinbox, sublevel_height_spinbox;$/;"	kind:m	class:sublevel_size_2d_changer_widget	access:public
+sublevel_width_spinbox	sublevel_properties_widget_class.hpp	/^	unique_ptr<QSpinBox> sublevel_width_spinbox, sublevel_height_spinbox;$/;"	kind:m	class:sublevel_properties_widget	access:public
 the_array	array_2d_helper_class.hpp	/^	type* the_array;$/;"	kind:m	class:array_2d_helper	access:public
 the_block_grid_stuff	sfml_canvas_widget_classes.hpp	/^	} the_block_grid_stuff;$/;"	kind:m	class:sfml_canvas_widget	typeref:struct:sfml_canvas_widget::__anon1	access:protected
 the_block_selector_core_widget	sfml_canvas_widget_classes.hpp	/^		the_block_selector_core_widget;$/;"	kind:m	class:sfml_canvas_widget	access:protected
@@ -1234,8 +1236,8 @@ the_sprite_selection_ptr_group	level_editor_core_widget_class.hpp	/^		the_sprite
 the_sublevel	level_editor_core_widget_class.hpp	/^	sublevel* the_sublevel;$/;"	kind:m	class:level_editor_core_widget	access:public
 the_sublevel	rect_selection_stuff_class.hpp	/^	sublevel* the_sublevel;$/;"	kind:m	class:rect_selection_stuff	access:public
 the_sublevel	sfml_canvas_widget_classes.hpp	/^	sublevel* the_sublevel;$/;"	kind:m	class:sfml_canvas_widget	access:protected
-the_sublevel	sublevel_size_2d_changer_widget_class.hpp	/^	sublevel* the_sublevel;$/;"	kind:m	class:sublevel_size_2d_changer_widget	access:public
-the_sublevel_size_2d_changer_widget	level_editor_widget_class.hpp	/^		the_sublevel_size_2d_changer_widget;$/;"	kind:m	class:level_editor_widget	access:public
+the_sublevel	sublevel_properties_widget_class.hpp	/^	sublevel* the_sublevel;$/;"	kind:m	class:sublevel_properties_widget	access:public
+the_sublevel_properties_widget	level_editor_widget_class.hpp	/^		the_sublevel_properties_widget;$/;"	kind:m	class:level_editor_widget	access:public
 timer	sfml_canvas_widget_classes.hpp	/^	QTimer timer;$/;"	kind:m	class:sfml_canvas_widget_base	access:public
 toolbar	primary_widget_class.hpp	/^	QToolBar* toolbar;$/;"	kind:m	class:primary_widget	access:protected
 toolbar_laugh_action	primary_widget_class.hpp	/^	QAction* toolbar_laugh_action, * toolbar_quit_action;$/;"	kind:m	class:primary_widget	access:protected
@@ -1312,7 +1314,7 @@ vert_splitter	level_editor_widget_class.hpp	/^	unique_ptr<QSplitter> horiz_split
 view_center_x	sfml_canvas_widget_classes.hpp	/^	float view_center_x, view_center_y;$/;"	kind:m	class:sfml_canvas_widget	access:public
 view_center_y	sfml_canvas_widget_classes.hpp	/^	float view_center_x, view_center_y;$/;"	kind:m	class:sfml_canvas_widget	access:public
 width	array_2d_helper_class.hpp	/^	u32 width() const$/;"	kind:f	class:array_2d_helper	access:public	signature:() const
-width_label	sublevel_size_2d_changer_widget_class.hpp	/^	unique_ptr<QLabel> width_label, height_label;$/;"	kind:m	class:sublevel_size_2d_changer_widget	access:public
+width_label	sublevel_properties_widget_class.hpp	/^	unique_ptr<QLabel> width_label, height_label;$/;"	kind:m	class:sublevel_properties_widget	access:public
 write_uncompressed_block_data_to_file	sublevel_class.cpp	/^void sublevel::write_uncompressed_block_data_to_file$/;"	kind:f	class:sublevel	signature:( const string& output_dirname, const string& output_basename )
 write_uncompressed_block_data_to_file	sublevel_class.hpp	/^	void write_uncompressed_block_data_to_file$/;"	kind:p	class:sublevel	access:protected	signature:( const string& output_dirname, const string& output_basename )
 x	vec2_class.hpp	/^	fixed24p8 x, y;$/;"	kind:m	class:vec2	access:public

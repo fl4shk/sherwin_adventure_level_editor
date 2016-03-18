@@ -55,7 +55,7 @@ class sublevel
 public:		// constants
 	//static constexpr u32 lowest_warp_id = 0, highest_warp_id = 51;
 	
-	// This is limited entirely by the number of graphics that have been
+	// This is limited ONLY by the number of graphics that have been
 	// created that can be displayed to show which entrance is attached to
 	// which game entity.
 	static constexpr u32 max_num_door_sublevel_entrances = 52;
@@ -79,8 +79,8 @@ public:		// variables
 	// is so that, IN THE GBA-SIDE CODE, the COMPRESSED array of block data
 	// can be DECOMPRESSED DIRECTLY to the statically allocated 2D array of
 	// block data.
-	// Also note that ROWS are stored in the INNER VECTOR!  That means that
-	// this vector of vectors should be indexed as [y][x]!
+	// Also note that COLUMNS are stored in the INNER VECTOR!  That means
+	// that this vector of vectors should be indexed as [y][x]!
 	vector< vector<block> > uncompressed_block_data_vec_2d;
 	
 	// On the other hand, compressed_block_data_vec can have a variable
@@ -91,8 +91,8 @@ public:		// variables
 	// The size of sprite_ipg_with_size_vec_2d is set to the maximum size 
 	// of a level just in case, though it isn't really necessary in this
 	// case.
-	// Also note that ROWS are stored in the OUTER VECTOR!  That means that
-	// this vector of vectors should be indexed as [y][x]!
+	// Also note that COLUMNS are stored in the INNER VECTOR!  That means
+	// that this vector of vectors should be indexed as [y][x]!
 	vector< vector<sprite_init_param_group_with_size> > 
 		sprite_ipgws_vec_2d;
 	

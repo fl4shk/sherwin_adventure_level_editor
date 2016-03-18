@@ -58,8 +58,10 @@ void primary_widget::generate_menus()
 	file_menu_quit_action.reset(new QAction( "&Quit", this ));
 	
 	// Generate the edit_menu actions.
-	edit_menu_level_properties_action.reset(new QAction
-		( "&Level Properties", this ));
+	edit_menu_sublevel_properties_action.reset(new QAction
+		( "&Sublevel Properties", this ));
+	//edit_menu_level_properties_action.reset(new QAction
+	//	( "&Level Properties", this ));
 	
 	
 	// Connect the file_menu actions to the slots.
@@ -75,10 +77,15 @@ void primary_widget::generate_menus()
 	connect( file_menu_quit_action.get(), &QAction::triggered, this, 
 		&primary_widget::quit );
 	
-	//// Connect the edit_menu actions to the slots.
-	//connect( edit_menu_level_properties_action.get(), &QAction::triggered, 
-	//	this, &primary_widget::dialog_test );
 	
+	// Connect the edit_menu actions to the slots.
+	connect( edit_menu_sublevel_properties_action.get(), 
+		&QAction::triggered, the_central_widget.get(), 
+		&level_editor_widget::create_sublevel_properties_widget );
+	
+	//connect( edit_menu_level_properties_action.get(), 
+	//	&QAction::triggered, this, 
+	//	&primary_widget::create_level_properties_widget );
 	
 	
 	// Add the menus to the menu bar
@@ -96,7 +103,8 @@ void primary_widget::generate_menus()
 	
 	
 	// Add the edit_menu actions to the edit_menu
-	edit_menu->addAction(edit_menu_level_properties_action.get());
+	edit_menu->addAction(edit_menu_sublevel_properties_action.get());
+	//edit_menu->addAction(edit_menu_level_properties_action.get());
 }
 
 bool primary_widget::generate_toolbar()
