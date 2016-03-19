@@ -1103,6 +1103,9 @@ void level_editor_widget::create_sublevel_properties_widget()
 	
 	vec2_u32 prev_real_size_2d = the_sublevel->real_size_2d;
 	
+	bool block_grid_was_enabled = the_core_widget->the_sfml_canvas_widget
+		->get_block_grid_enabled();
+	
 	
 	//the_sublevel_properties_widget.reset(new sublevel_properties_widget
 	//	( this, &get_curr_sublevel() ));
@@ -1117,7 +1120,7 @@ void level_editor_widget::create_sublevel_properties_widget()
 	// Check whether the_sublevel->real_size_2d was changed.
 	if ( the_sublevel->real_size_2d == prev_real_size_2d )
 	{
-		cout << "debug info:  unchanged real_size_2d\n";
+		//cout << "debug info:  unchanged real_size_2d\n";
 		return;
 	}
 	
@@ -1145,6 +1148,11 @@ void level_editor_widget::create_sublevel_properties_widget()
 		the_sprite_16x16_selector_widget.get(),
 		the_sprite_16x32_selector_widget.get() );
 	
+	
+	if (block_grid_was_enabled)
+	{
+		the_core_widget->the_sfml_canvas_widget->enable_block_grid();
+	}
 	
 	
 }

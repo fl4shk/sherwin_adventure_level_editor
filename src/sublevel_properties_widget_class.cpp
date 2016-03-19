@@ -44,11 +44,11 @@ sublevel_properties_widget::sublevel_properties_widget( QWidget* s_parent,
 	
 	
 	sublevel_width_spinbox.reset(new QSpinBox);
-	sublevel_width_spinbox->setRange( 1, sublevel::max_size_2d.x - 1 );
+	sublevel_width_spinbox->setRange( 1, sublevel::max_size_2d.x );
 	sublevel_width_spinbox->setValue(the_sublevel->real_size_2d.x);
 	
 	sublevel_height_spinbox.reset(new QSpinBox);
-	sublevel_height_spinbox->setRange( 1, sublevel::max_size_2d.y - 1 );
+	sublevel_height_spinbox->setRange( 1, sublevel::max_size_2d.y );
 	sublevel_height_spinbox->setValue(the_sublevel->real_size_2d.y);
 	
 	grid_layout->addWidget( sublevel_width_spinbox.get(), 1, 0 );
@@ -78,7 +78,7 @@ sublevel_properties_widget::sublevel_properties_widget( QWidget* s_parent,
 
 void sublevel_properties_widget::accept()
 {
-	cout << "accept()\n";
+	//cout << "accept()\n";
 	
 	//cout << "width:  " << sublevel_width_spinbox->value() << endl;
 	//cout << "height:  " << sublevel_height_spinbox->value() << endl;
@@ -93,7 +93,7 @@ void sublevel_properties_widget::accept()
 
 void sublevel_properties_widget::reject()
 {
-	cout << "reject()\n";
+	//cout << "reject()\n";
 	
 	//cout << "done(0) now.\n";
 	done(0);
