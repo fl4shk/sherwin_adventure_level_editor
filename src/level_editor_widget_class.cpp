@@ -1092,10 +1092,61 @@ void level_editor_widget::show_geometry_stuff()
 
 void level_editor_widget::create_sublevel_properties_widget()
 {
+	s32 curr_tab_index = get_curr_level_editor_core_widget_index();
+	
+	level_editor_core_widget* the_core_widget = the_core_widget_vec
+		.at(curr_tab_index).get();
+	
+	//sublevel& the_sublevel = the_level.sublevel_vec.at(curr_tab_index);
+	sublevel* the_sublevel = the_core_widget->the_sublevel;
+	
+	
+	vec2_u32 prev_real_size_2d = the_sublevel->real_size_2d;
+	
+	
+	//the_sublevel_properties_widget.reset(new sublevel_properties_widget
+	//	( this, &get_curr_sublevel() ));
 	the_sublevel_properties_widget.reset(new sublevel_properties_widget
-		( this, &get_curr_sublevel() ));
+		( this, the_sublevel ));
+	
 	//the_sublevel_properties_widget->show();
 	the_sublevel_properties_widget->exec();
+	
+	
+	
+	// Check whether the_sublevel->real_size_2d was changed.
+	if ( the_sublevel->real_size_2d == prev_real_size_2d )
+	{
+		cout << "debug info:  unchanged real_size_2d\n";
+		return;
+	}
+	
+	
+	the_core_widget->current_size = QSize( the_sublevel->real_size_2d.x
+		* sfml_canvas_widget::num_pixels_per_block_column,
+		the_sublevel->real_size_2d.y 
+		* sfml_canvas_widget::num_pixels_per_block_row );
+	
+	the_core_widget->move(the_core_widget->current_position);
+	the_core_widget->resize(the_core_widget->current_size);
+	
+	the_core_widget->the_sfml_canvas_widget.reset(new sfml_canvas_widget
+		( the_core_widget, the_core_widget->current_position,
+		the_core_widget->current_size ));
+	
+	
+	the_core_widget->the_sfml_canvas_widget->set_the_sublevel
+		(the_sublevel);
+	
+	
+	the_core_widget->init_tab_stuff
+		( level_element_selectors_tab_widget.get(),
+		the_block_selector_widget.get(),
+		the_sprite_16x16_selector_widget.get(),
+		the_sprite_16x32_selector_widget.get() );
+	
+	
+	
 }
 
 

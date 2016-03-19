@@ -83,54 +83,9 @@ void sublevel_properties_widget::accept()
 	//cout << "width:  " << sublevel_width_spinbox->value() << endl;
 	//cout << "height:  " << sublevel_height_spinbox->value() << endl;
 	
-	u32 n_width = sublevel_width_spinbox->value(), 
-		n_height = sublevel_height_spinbox->value();
+	the_sublevel->resize(vec2_u32( sublevel_width_spinbox->value(), 
+		sublevel_height_spinbox->value() ));
 	
-	if ( n_height < the_sublevel->real_size_2d.y )
-	{
-		if ( n_width < the_sublevel->real_size_2d.x )
-		{
-			
-		}
-		else if ( n_width > the_sublevel->real_size_2d.x )
-		{
-			
-		}
-		else //if ( n_width == the_sublevel->real_size_2d.x )
-		{
-			
-		}
-	}
-	else if ( n_height > the_sublevel->real_size_2d.y )
-	{
-		if ( n_width < the_sublevel->real_size_2d.x )
-		{
-			
-		}
-		else if ( n_width > the_sublevel->real_size_2d.x )
-		{
-			
-		}
-		else //if ( n_width == the_sublevel->real_size_2d.x )
-		{
-			
-		}
-	}
-	else //if ( n_height == the_sublevel->real_size_2d.y )
-	{
-		if ( n_width < the_sublevel->real_size_2d.x )
-		{
-			
-		}
-		else if ( n_width > the_sublevel->real_size_2d.x )
-		{
-			
-		}
-		else
-		{
-			// No change in the_sublevel->real_size_2d
-		}
-	}
 	
 	//cout << "done(1) now.\n";
 	done(1);

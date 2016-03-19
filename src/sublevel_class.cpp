@@ -54,6 +54,7 @@ void sublevel::init( const vec2_u32& s_real_size_2d )
 	}
 }
 
+
 void sublevel::generate_compressed_block_data_vec
 	( const string& output_dirname, const string& output_basename )
 {

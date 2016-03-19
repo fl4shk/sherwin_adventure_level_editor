@@ -115,6 +115,20 @@ public:		// functions
 	
 	void init( const vec2_u32& s_real_size_2d );
 	
+	inline void resize( const vec2_u32& n_real_size_2d )
+	{
+		real_size_2d = n_real_size_2d;
+		
+		uncompressed_block_data_vec_2d.resize(real_size_2d.y);
+		sprite_ipgws_vec_2d.resize(real_size_2d.y);
+		
+		for ( u32 j=0; j<real_size_2d.y; ++j )
+		{
+			uncompressed_block_data_vec_2d.at(j).resize(real_size_2d.x);
+			sprite_ipgws_vec_2d.at(j).resize(real_size_2d.x);
+		}
+	}
+	
 	void generate_compressed_block_data_vec( const string& output_dirname,
 		const string& output_basename );
 	
