@@ -60,17 +60,17 @@ void level_editor_core_widget::shared_constructor_code
 	the_sublevel->real_size_2d = s_sublevel_real_size_2d;
 	
 	current_size = QSize( the_sublevel->real_size_2d.x
-		* sfml_canvas_widget::num_pixels_per_block_column,
+		* level_editor_sfml_canvas_widget::num_pixels_per_block_column,
 		the_sublevel->real_size_2d.y
-		* sfml_canvas_widget::num_pixels_per_block_row );
+		* level_editor_sfml_canvas_widget::num_pixels_per_block_row );
 	
 	move(current_position);
 	resize(current_size);
 	
 	//the_sfml_canvas_widget = new sfml_canvas_widget( this, s_position, 
 	//	s_size );
-	the_sfml_canvas_widget.reset(new sfml_canvas_widget( this, 
-		current_position, current_size ));
+	the_sfml_canvas_widget.reset(new level_editor_sfml_canvas_widget
+		( this, current_position, current_size ));
 	
 	
 	the_sfml_canvas_widget->set_the_sublevel(the_sublevel);
@@ -104,9 +104,9 @@ void level_editor_core_widget::init_tab_stuff
 //void level_editor_core_widget::reinit( QScrollArea* n_scroll_area )
 //{
 //	current_size = QSize( the_sublevel->real_size_2d.x
-//		* sfml_canvas_widget::num_pixels_per_block_column,
+//		* level_editor_sfml_canvas_widget::num_pixels_per_block_column,
 //		the_sublevel->real_size_2d.y
-//		* sfml_canvas_widget::num_pixels_per_block_row );
+//		* level_editor_sfml_canvas_widget::num_pixels_per_block_row );
 //	
 //	move(current_position);
 //	resize(current_size);
@@ -326,12 +326,14 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 	
 	vec2_s32 block_grid_coords_of_mouse_pos
 		= { (s32)( mouse_pos_in_canvas_coords.x
-		/ ( sfml_canvas_widget::num_pixels_per_block_row ) ),
+		/ ( level_editor_sfml_canvas_widget
+		::num_pixels_per_block_row ) ),
 		
 		(s32)( ( the_sublevel->real_size_2d.y 
 		- ( ( the_sfml_canvas_widget->getSize().y / scale_factor )
 		- mouse_pos_in_canvas_coords.y )
-		/ sfml_canvas_widget::num_pixels_per_block_column ) ) };
+		/ level_editor_sfml_canvas_widget
+		::num_pixels_per_block_column ) ) };
 	
 	//cout << mouse_pos_in_canvas_coords.x << ", "
 	//	<< mouse_pos_in_canvas_coords.y << endl;
@@ -764,12 +766,14 @@ void level_editor_core_widget::mouseMoveEvent( QMouseEvent* event )
 	
 	vec2_s32 block_grid_coords_of_mouse_pos
 		= { (s32)( mouse_pos_in_canvas_coords.x
-		/ ( sfml_canvas_widget::num_pixels_per_block_row ) ),
+		/ ( level_editor_sfml_canvas_widget
+		::num_pixels_per_block_row ) ),
 		
 		(s32)( ( the_sublevel->real_size_2d.y 
 		- ( ( the_sfml_canvas_widget->getSize().y / scale_factor )
 		- mouse_pos_in_canvas_coords.y )
-		/ sfml_canvas_widget::num_pixels_per_block_column ) ) };
+		/ level_editor_sfml_canvas_widget
+		::num_pixels_per_block_column ) ) };
 	
 	//cout << mouse_pos_in_canvas_coords.x << ", "
 	//	<< mouse_pos_in_canvas_coords.y << endl;
@@ -973,12 +977,14 @@ void level_editor_core_widget::mouseReleaseEvent( QMouseEvent* event )
 	
 	vec2_s32 block_grid_coords_of_mouse_pos
 		= { (s32)( mouse_pos_in_canvas_coords.x
-		/ ( sfml_canvas_widget::num_pixels_per_block_row ) ),
+		/ ( level_editor_sfml_canvas_widget
+		::num_pixels_per_block_row ) ),
 		
 		(s32)( ( the_sublevel->real_size_2d.y 
 		- ( ( the_sfml_canvas_widget->getSize().y / scale_factor )
 		- mouse_pos_in_canvas_coords.y )
-		/ sfml_canvas_widget::num_pixels_per_block_column ) ) };
+		/ level_editor_sfml_canvas_widget
+		::num_pixels_per_block_column ) ) };
 	
 	//cout << mouse_pos_in_canvas_coords.x << ", "
 	//	<< mouse_pos_in_canvas_coords.y << endl;

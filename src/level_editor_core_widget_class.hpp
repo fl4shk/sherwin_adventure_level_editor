@@ -48,7 +48,7 @@ public:		// variables
 	string level_file_name;
 	
 	//sfml_canvas_widget* the_sfml_canvas_widget;
-	unique_ptr<sfml_canvas_widget> the_sfml_canvas_widget;
+	unique_ptr<level_editor_sfml_canvas_widget> the_sfml_canvas_widget;
 	
 	QPoint current_position;
 	QSize current_size;

@@ -107,12 +107,12 @@ void sfml_canvas_widget_base::paintEvent( QPaintEvent* event )
 }
 
 
-const string sfml_canvas_widget::door_number_gfx_file_name
+const string level_editor_sfml_canvas_widget::door_number_gfx_file_name
 	= "gfx/the_number_gfx.png";
 
 
-sfml_canvas_widget::sfml_canvas_widget( QWidget* s_parent, 
-	const QPoint& s_position, const QSize& s_size ) 
+level_editor_sfml_canvas_widget::level_editor_sfml_canvas_widget
+	( QWidget* s_parent, const QPoint& s_position, const QSize& s_size ) 
 	: sfml_canvas_widget_base( s_parent, s_position, s_size ),
 	
 	unzoomed_size_2d(s_size),
@@ -143,8 +143,8 @@ sfml_canvas_widget::sfml_canvas_widget( QWidget* s_parent,
 	door_number_sprite.setTexture(door_number_gfx_raw_texture);
 }
 
-sfml_canvas_widget::sfml_canvas_widget( QWidget* s_parent, 
-	const QPoint& s_position, const QSize& s_size, 
+level_editor_sfml_canvas_widget::level_editor_sfml_canvas_widget
+	( QWidget* s_parent, const QPoint& s_position, const QSize& s_size, 
 	QScrollArea* s_scroll_area ) 
 	: sfml_canvas_widget_base( s_parent, s_position, s_size ),
 	
@@ -171,7 +171,7 @@ sfml_canvas_widget::sfml_canvas_widget( QWidget* s_parent,
 
 
 
-const sf::View& sfml_canvas_widget::get_apparent_view()
+const sf::View& level_editor_sfml_canvas_widget::get_apparent_view()
 {
 	apparent_view = getDefaultView();
 	
@@ -190,19 +190,21 @@ const sf::View& sfml_canvas_widget::get_apparent_view()
 
 
 
-void sfml_canvas_widget::set_the_block_selector_core_widget
+void level_editor_sfml_canvas_widget::set_the_block_selector_core_widget
 	( block_selector_core_widget* n_the_block_selector_core_widget )
 {
 	the_block_selector_core_widget = n_the_block_selector_core_widget;
 }
-void sfml_canvas_widget::set_the_sprite_16x16_selector_core_widget
+void level_editor_sfml_canvas_widget
+	::set_the_sprite_16x16_selector_core_widget
 	( sprite_16x16_selector_core_widget* 
 	n_the_sprite_16x16_selector_core_widget )
 {
 	the_sprite_16x16_selector_core_widget 
 		= n_the_sprite_16x16_selector_core_widget;
 }
-void sfml_canvas_widget::set_the_sprite_16x32_selector_core_widget
+void level_editor_sfml_canvas_widget
+	::set_the_sprite_16x32_selector_core_widget
 	( sprite_16x32_selector_core_widget* 
 	n_the_sprite_16x32_selector_core_widget )
 {
@@ -210,13 +212,14 @@ void sfml_canvas_widget::set_the_sprite_16x32_selector_core_widget
 		= n_the_sprite_16x32_selector_core_widget;
 }
 
-//void sfml_canvas_widget::set_the_mouse_mode( mouse_mode* n_the_mouse_mode )
+//void level_editor_sfml_canvas_widget::set_the_mouse_mode
+//	( mouse_mode* n_the_mouse_mode )
 //{
 //	the_mouse_mode = n_the_mouse_mode;
 //}
 
 
-void sfml_canvas_widget::generate_block_grid()
+void level_editor_sfml_canvas_widget::generate_block_grid()
 {
 	//if ( scale_factor < minimum_scale_factor_for_block_grid )
 	//{
@@ -344,7 +347,7 @@ void sfml_canvas_widget::generate_block_grid()
 	
 }
 
-void sfml_canvas_widget::generate_rect_selection_rect()
+void level_editor_sfml_canvas_widget::generate_rect_selection_rect()
 {
 	//if ( !get_rect_selection_enabled() )
 	if ( !the_rect_selection_stuff.get_enabled() )
@@ -493,7 +496,7 @@ void sfml_canvas_widget::generate_rect_selection_rect()
 }
 
 
-void sfml_canvas_widget::update_visible_area()
+void level_editor_sfml_canvas_widget::update_visible_area()
 {
 	sf::FloatRect visible_rect = get_visible_rect();
 	
@@ -739,10 +742,17 @@ void sfml_canvas_widget::update_visible_area()
 					selection_rect_before_moving.top + j );
 				
 				
-				draw_block
-					( &(the_sublevel->uncompressed_block_data_vec_2d
-					.at(original_block_grid_pos.y)
-					.at(original_block_grid_pos.x)), block_grid_pos );
+				if ( block_grid_pos.x >= 0 && block_grid_pos.y >= 0
+					&& block_grid_pos.x 
+					< (s32)the_sublevel->real_size_2d.x
+					&& block_grid_pos.y 
+					< (s32)the_sublevel->real_size_2d.y )
+				{
+					draw_block
+						( &(the_sublevel->uncompressed_block_data_vec_2d
+						.at(original_block_grid_pos.y)
+						.at(original_block_grid_pos.x)), block_grid_pos );
+				}
 			}
 		}
 	}
@@ -757,8 +767,16 @@ void sfml_canvas_widget::update_visible_area()
 				vec2_s32 block_grid_pos( selection_rect.left + i,
 					selection_rect.top + j );
 				
-				draw_block( &(the_rect_selection_stuff
-					.copied_blocks_vec_2d.at(j).at(i)), block_grid_pos );
+				if ( block_grid_pos.x >= 0 && block_grid_pos.y >= 0
+					&& block_grid_pos.x 
+					< (s32)the_sublevel->real_size_2d.x
+					&& block_grid_pos.y 
+					< (s32)the_sublevel->real_size_2d.y )
+				{
+					draw_block( &(the_rect_selection_stuff
+						.copied_blocks_vec_2d.at(j).at(i)), 
+						block_grid_pos );
+				}
 			}
 		}
 	}
@@ -967,9 +985,18 @@ void sfml_canvas_widget::update_visible_area()
 						selection_rect_before_moving.top + j );
 					
 					
-					draw_16x32_sprite( &(the_sublevel->sprite_ipgws_vec_2d
-						.at(original_block_grid_pos.y)
-						.at(original_block_grid_pos.x)), block_grid_pos );
+					if ( block_grid_pos.x >= 0 && block_grid_pos.y >= 0
+						&& block_grid_pos.x 
+						< (s32)the_sublevel->real_size_2d.x
+						&& block_grid_pos.y 
+						< (s32)the_sublevel->real_size_2d.y )
+					{
+						draw_16x32_sprite
+							( &(the_sublevel->sprite_ipgws_vec_2d
+							.at(original_block_grid_pos.y)
+							.at(original_block_grid_pos.x)), 
+							block_grid_pos );
+					}
 				}
 			}
 		}
@@ -985,9 +1012,17 @@ void sfml_canvas_widget::update_visible_area()
 					vec2_s32 block_grid_pos( selection_rect.left + i,
 						selection_rect.top + j );
 					
-					draw_16x32_sprite( &( the_rect_selection_stuff
-						.copied_sprite_ipgws_vec_2d.at(j).at(i)),
-						block_grid_pos );
+					
+					if ( block_grid_pos.x >= 0 && block_grid_pos.y >= 0
+						&& block_grid_pos.x 
+						< (s32)the_sublevel->real_size_2d.x
+						&& block_grid_pos.y 
+						< (s32)the_sublevel->real_size_2d.y )
+					{
+						draw_16x32_sprite( &( the_rect_selection_stuff
+							.copied_sprite_ipgws_vec_2d.at(j).at(i)),
+							block_grid_pos );
+					}
 				}
 			}
 		}
@@ -1200,11 +1235,18 @@ void sfml_canvas_widget::update_visible_area()
 						( selection_rect_before_moving.left + i,
 						selection_rect_before_moving.top + j );
 					
-					draw_16x16_sprite
-						( &(the_sublevel->sprite_ipgws_vec_2d
-						.at(original_block_grid_pos.y)
-						.at(original_block_grid_pos.x)),
-						block_grid_pos );
+					if ( block_grid_pos.x >= 0 && block_grid_pos.y >= 0
+						&& block_grid_pos.x 
+						< (s32)the_sublevel->real_size_2d.x
+						&& block_grid_pos.y 
+						< (s32)the_sublevel->real_size_2d.y )
+					{
+						draw_16x16_sprite
+							( &(the_sublevel->sprite_ipgws_vec_2d
+							.at(original_block_grid_pos.y)
+							.at(original_block_grid_pos.x)),
+							block_grid_pos );
+					}
 				}
 			}
 		}
@@ -1220,9 +1262,17 @@ void sfml_canvas_widget::update_visible_area()
 					vec2_s32 block_grid_pos( selection_rect.left + i,
 						selection_rect.top + j );
 					
-					draw_16x16_sprite( &( the_rect_selection_stuff
-						.copied_sprite_ipgws_vec_2d.at(j).at(i)),
-						block_grid_pos );
+					
+					if ( block_grid_pos.x >= 0 && block_grid_pos.y >= 0
+						&& block_grid_pos.x 
+						< (s32)the_sublevel->real_size_2d.x
+						&& block_grid_pos.y 
+						< (s32)the_sublevel->real_size_2d.y )
+					{
+						draw_16x16_sprite( &( the_rect_selection_stuff
+							.copied_sprite_ipgws_vec_2d.at(j).at(i)),
+							block_grid_pos );
+					}
 				}
 			}
 		}
@@ -1242,7 +1292,7 @@ void sfml_canvas_widget::update_visible_area()
 }
 
 
-void sfml_canvas_widget::on_update()
+void level_editor_sfml_canvas_widget::on_update()
 {
 	if ( zoomed_in_recently || zoomed_out_recently )
 	{

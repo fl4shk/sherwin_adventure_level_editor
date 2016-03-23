@@ -621,9 +621,9 @@ void rect_selection_stuff::enable_single_sprite_selection
 		( n_selected_sprite_ipgws->initial_block_grid_x_coord,
 		n_selected_sprite_ipgws->initial_block_grid_y_coord,
 		n_selected_sprite_ipgws->size_2d.x 
-		/ sfml_canvas_widget::num_pixels_per_block_row, 
+		/ level_editor_sfml_canvas_widget::num_pixels_per_block_row, 
 		n_selected_sprite_ipgws->size_2d.y 
-		/ sfml_canvas_widget::num_pixels_per_block_column );
+		/ level_editor_sfml_canvas_widget::num_pixels_per_block_column );
 	
 	//vec2_s32 block_grid_start_pos
 	//	( (s32)n_selected_sprite_ipgws.initial_block_grid_x_coord,  
@@ -631,9 +631,9 @@ void rect_selection_stuff::enable_single_sprite_selection
 	//
 	//vec2_s32 block_grid_end_pos = block_grid_start_pos
 	//	+ vec2_s32( (s32)n_selected_sprite_ipgws.real_size_2d.x 
-	//		* (s32)sfml_canvas_widget::num_pixels_per_block_column,
+	//		* (s32)level_editor_sfml_canvas_widget::num_pixels_per_block_column,
 	//		(s32)n_selected_sprite_ipgws.real_size_2d.y
-	//		* (s32)sfml_canvas_widget::num_pixels_per_block_row );
+	//		* (s32)level_editor_sfml_canvas_widget::num_pixels_per_block_row );
 	//
 	//if ( block_grid_end_pos.x >= (s32)the_sublevel->size_2d.x )
 	//{

@@ -261,7 +261,7 @@ void level_editor_widget::keyPressEvent( QKeyEvent* event )
 	// These probably ought to be in a toolbar of some sort, as well.
 	
 	level_editor_core_widget* the_core_widget = NULL;
-	sfml_canvas_widget* the_sfml_canvas_widget = NULL;
+	level_editor_sfml_canvas_widget* the_sfml_canvas_widget = NULL;
 	
 	
 	s32 curr_tab_index = get_curr_level_editor_core_widget_index();
@@ -441,12 +441,14 @@ void level_editor_widget::keyPressEvent( QKeyEvent* event )
 		
 		vec2_s32 block_grid_coords_of_mouse_pos
 			= { (s32)( mouse_pos_in_canvas_coords.x
-			/ ( sfml_canvas_widget::num_pixels_per_block_row ) ),
+			/ ( level_editor_sfml_canvas_widget
+			::num_pixels_per_block_row ) ),
 			
 			(s32)( ( the_sfml_canvas_widget->the_sublevel->real_size_2d.y 
 			- ( ( the_sfml_canvas_widget->getSize().y / scale_factor )
 			- mouse_pos_in_canvas_coords.y )
-			/ sfml_canvas_widget::num_pixels_per_block_column ) ) };
+			/ level_editor_sfml_canvas_widget
+			::num_pixels_per_block_column ) ) };
 		
 		
 		if ( visible_block_grid_rect.contains
@@ -1126,15 +1128,16 @@ void level_editor_widget::create_sublevel_properties_widget()
 	
 	
 	the_core_widget->current_size = QSize( the_sublevel->real_size_2d.x
-		* sfml_canvas_widget::num_pixels_per_block_column,
+		* level_editor_sfml_canvas_widget::num_pixels_per_block_column,
 		the_sublevel->real_size_2d.y 
-		* sfml_canvas_widget::num_pixels_per_block_row );
+		* level_editor_sfml_canvas_widget::num_pixels_per_block_row );
 	
 	the_core_widget->move(the_core_widget->current_position);
 	the_core_widget->resize(the_core_widget->current_size);
 	
-	the_core_widget->the_sfml_canvas_widget.reset(new sfml_canvas_widget
-		( the_core_widget, the_core_widget->current_position,
+	the_core_widget->the_sfml_canvas_widget.reset
+		(new level_editor_sfml_canvas_widget( the_core_widget, 
+		the_core_widget->current_position,
 		the_core_widget->current_size ));
 	
 	

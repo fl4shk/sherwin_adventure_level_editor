@@ -71,7 +71,7 @@ class sprite_16x32_selector_core_widget;
 class level_editor_core_widget;
 
 
-class sfml_canvas_widget : public sfml_canvas_widget_base
+class level_editor_sfml_canvas_widget : public sfml_canvas_widget_base
 {
 protected:		// variables
 	// This is necessary for converting coordinates relative to this widget
@@ -123,8 +123,8 @@ protected:		// variables
 	
 	
 	// This is used, in combination with get_visible_rect(), to allow this
-	// sfml_canvas_widget to draw only the parts of the sublevel that are
-	// visible.
+	// level_editor_sfml_canvas_widget to draw only the parts of the
+	// sublevel that are visible.
 	sublevel* the_sublevel;
 	
 	// The raw textures of the level element selector widgets
@@ -156,10 +156,11 @@ public:		// variables and constants
 	
 	
 public:		// functions
-	sfml_canvas_widget( QWidget* s_parent, const QPoint& s_position,
-		const QSize& s_size );
-	sfml_canvas_widget( QWidget* s_parent, const QPoint& s_position,
-		const QSize& s_size, QScrollArea* s_scroll_area );
+	level_editor_sfml_canvas_widget( QWidget* s_parent, 
+		const QPoint& s_position, const QSize& s_size );
+	level_editor_sfml_canvas_widget( QWidget* s_parent, 
+		const QPoint& s_position, const QSize& s_size, 
+		QScrollArea* s_scroll_area );
 	
 	
 	
@@ -185,7 +186,7 @@ public:		// functions
 	//void draw_line( const sf::Vector2i& pos_0, 
 	//	const sf::Vector2i& pos_1, const sf::Color& color );
 	
-	//void sfml_canvas_widget::draw_block_line
+	//void level_editor_sfml_canvas_widget::draw_block_line
 	//	( const sf::Vector2i& block_pos_0, const sf::Vector2i& block_pos_1,
 	//	
 	
@@ -296,7 +297,7 @@ protected:		// functions
 	
 	inline void on_init()
 	{
-		cout << "sfml_canvas_widget initialized!\n";
+		cout << "level_editor_sfml_canvas_widget initialized!\n";
 		
 		//canvas_image->loadFromFile(string("the_powerup_gfx.png"));
 		//open_image();
