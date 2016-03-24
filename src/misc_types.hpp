@@ -54,6 +54,12 @@ enum mouse_mode
 enum rect_selection_layer { rsl_blocks, rsl_sprites };
 
 
+// This corresponds to undo/redo stuff.
+enum action_type { at_draw_blocks, at_draw_sprite, at_erase_sprites, 
+	at_modify_sprite, at_finish_moving_blocks, at_finish_moving_sprites, 
+	at_cut_blocks, at_cut_sprites, at_finish_moving_pasted_blocks,
+	at_finish_moving_pasted_sprites };
+
 
 
 #endif		// misc_types_hpp

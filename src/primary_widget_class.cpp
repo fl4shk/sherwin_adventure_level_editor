@@ -22,7 +22,13 @@
 
 const QString primary_widget::laugh_icon_file_name
 	("icons/laugh_icon_32x32.png"),
-	primary_widget::quit_icon_file_name("icons/quit_32x32.png");
+	primary_widget::draw_mode_icon_file_name
+	("icons/draw_mode_icon_32x32.png"),
+	primary_widget::sprite_properties_mode_icon_file_name
+	("icons/sprite_properties_mode_icon_32x32.png"),
+	primary_widget::rect_selection_mode_icon_file_name
+	("icons/rect_selection_mode_icon_32x32.png");
+
 
 
 primary_widget::primary_widget( vector<string>& s_argv_copy, 
@@ -109,8 +115,11 @@ void primary_widget::generate_menus()
 
 bool primary_widget::generate_toolbar()
 {
-	QPixmap laugh_pixmap(laugh_icon_file_name), 
-		quit_pixmap(quit_icon_file_name);
+	QPixmap laugh_pixmap(laugh_icon_file_name),
+		draw_mode_pixmap(draw_mode_icon_file_name),
+		sprite_properties_mode_pixmap
+		(sprite_properties_mode_icon_file_name),
+		rect_selection_mode_pixmap(rect_selection_mode_icon_file_name);
 	
 	if ( laugh_pixmap.isNull() )
 	{
@@ -119,9 +128,25 @@ bool primary_widget::generate_toolbar()
 		return false;
 	}
 	
-	if ( quit_pixmap.isNull() )
+	if ( draw_mode_pixmap.isNull() )
 	{
-		cout << "Unable to open " << quit_icon_file_name.toStdString()
+		cout << "Unable to open " << draw_mode_icon_file_name.toStdString()
+			<< " for reading!  ";
+		return false;
+	}
+	
+	if ( sprite_properties_mode_pixmap.isNull() )
+	{
+		cout << "Unable to open " 
+			<< sprite_properties_mode_icon_file_name.toStdString()
+			<< " for reading!  ";
+		return false;
+	}
+	
+	if ( rect_selection_mode_pixmap.isNull() )
+	{
+		cout << "Unable to open " 
+			<< rect_selection_mode_icon_file_name.toStdString()
 			<< " for reading!  ";
 		return false;
 	}
@@ -129,13 +154,33 @@ bool primary_widget::generate_toolbar()
 	toolbar = addToolBar("main toolbar");
 	toolbar_laugh_action = toolbar->addAction( QIcon(laugh_pixmap), 
 		"Laugh" );
-	toolbar_quit_action = toolbar->addAction( QIcon(quit_pixmap), 
-		"Quit" );
 	
 	connect( toolbar_laugh_action, &QAction::triggered, this,
 		&primary_widget::laugh );
-	connect( toolbar_quit_action, &QAction::triggered, this,
-		&primary_widget::quit );
+	
+	draw_mode_tool_button_action.reset(new QAction( "Draw", this ));
+	sprite_properties_mode_tool_button_action.reset(new QAction
+		( "Sprite Properties", this ));
+	rect_selection_mode_tool_button_action.reset(new QAction
+		( "Rect Selection", this ));
+	
+	
+	draw_mode_tool_button_action->setIcon(QIcon(draw_mode_pixmap));
+	sprite_properties_mode_tool_button_action->setIcon(QIcon
+		(sprite_properties_mode_pixmap));
+	rect_selection_mode_tool_button_action->setIcon(QIcon
+		(rect_selection_mode_pixmap));
+	
+	
+	the_mouse_mode_button_group_widget.reset
+		(new mouse_mode_button_group_widget( this, QPoint(), QSize(),
+		draw_mode_tool_button_action.get(),
+		sprite_properties_mode_tool_button_action.get(),
+		rect_selection_mode_tool_button_action.get() ));
+	
+	
+	toolbar->addWidget(the_mouse_mode_button_group_widget.get());
+	
 	
 	return true;
 }

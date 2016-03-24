@@ -24,12 +24,18 @@
 #include "misc_includes.hpp"
 #include "layout_widget_classes.hpp"
 #include "level_editor_widget_class.hpp"
+#include "mouse_mode_button_group_widget_class.hpp"
 
 
 class primary_widget : public QMainWindow
 {
 	Q_OBJECT
 	
+public:		// constants
+	// Toolbar Stuff
+	static const QString laugh_icon_file_name, draw_mode_icon_file_name,
+		sprite_properties_mode_icon_file_name, 
+		rect_selection_mode_icon_file_name;
 	
 protected:		// variables
 	vector<string> argv_copy;
@@ -48,9 +54,18 @@ protected:		// variables
 	
 	
 	// Toolbar Stuff
-	static const QString laugh_icon_file_name, quit_icon_file_name;
 	QToolBar* toolbar;
-	QAction* toolbar_laugh_action, * toolbar_quit_action;
+	QAction* toolbar_laugh_action;
+	
+	
+	// These are used with the_mouse_mode_button_group_widget.
+	unique_ptr<QAction> draw_mode_tool_button_action,
+		sprite_properties_mode_tool_button_action,
+		rect_selection_mode_tool_button_action;
+	
+	unique_ptr<mouse_mode_button_group_widget> 
+		the_mouse_mode_button_group_widget;
+	
 	
 	//// The TEMPORARY central widget.
 	//grid_widget* the_grid_widget;

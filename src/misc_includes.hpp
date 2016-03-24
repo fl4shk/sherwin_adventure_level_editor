@@ -98,6 +98,7 @@ using namespace pugi;
 
 #include <QGroupBox>
 #include <QRadioButton>
+#include <QToolButton>
 
 #include <QFileDialog>
 
