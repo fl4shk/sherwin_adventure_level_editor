@@ -151,12 +151,15 @@ bool primary_widget::generate_toolbar()
 		return false;
 	}
 	
+	
 	toolbar = addToolBar("main toolbar");
 	toolbar_laugh_action = toolbar->addAction( QIcon(laugh_pixmap), 
 		"Laugh" );
 	
 	connect( toolbar_laugh_action, &QAction::triggered, this,
 		&primary_widget::laugh );
+	
+	toolbar->addSeparator();
 	
 	draw_mode_tool_button_action.reset(new QAction( "Draw", this ));
 	sprite_properties_mode_tool_button_action.reset(new QAction

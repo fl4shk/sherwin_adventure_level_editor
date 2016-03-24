@@ -38,11 +38,16 @@ mouse_mode_button_group_widget::mouse_mode_button_group_widget
 	hbox_layout.reset(new QHBoxLayout);
 	setLayout(hbox_layout.get());
 	
+	group_box.reset(new QGroupBox("Tools"));
+	group_box_hbox_layout.reset(new QHBoxLayout);
+	group_box->setLayout(group_box_hbox_layout.get());
+	
+	
+	button_group.reset(new QButtonGroup);
+	
 	generate_tool_buttons();
 	
-	hbox_layout->addWidget(draw_mode_tool_button.get());
-	hbox_layout->addWidget(sprite_properties_mode_tool_button.get());
-	hbox_layout->addWidget(rect_selection_mode_tool_button.get());
+	hbox_layout->addWidget(group_box.get());
 }
 
 
@@ -58,9 +63,31 @@ void mouse_mode_button_group_widget::generate_tool_buttons()
 	rect_selection_mode_tool_button->setDefaultAction
 		(rect_selection_mode_tool_button_action);
 	
-	hbox_layout->addWidget(draw_mode_tool_button.get());
-	hbox_layout->addWidget(sprite_properties_mode_tool_button.get());
-	hbox_layout->addWidget(rect_selection_mode_tool_button.get());
+	//draw_mode_tool_button->setMinimumSize(QSize( 32, 32 ));
+	//sprite_properties_mode_tool_button->setMinimumSize(QSize( 32, 32 ));
+	//rect_selection_mode_tool_button->setMinimumSize(QSize( 32, 32 ));
+	
+	draw_mode_tool_button->setIconSize(QSize( 20, 20 ));
+	sprite_properties_mode_tool_button->setIconSize(QSize( 20, 20 ));
+	rect_selection_mode_tool_button->setIconSize(QSize( 20, 20 ));
+	
+	draw_mode_tool_button_action->setCheckable(true);
+	sprite_properties_mode_tool_button_action->setCheckable(true);
+	rect_selection_mode_tool_button_action->setCheckable(true);
+	
+	button_group->addButton( draw_mode_tool_button.get(), 0 );
+	button_group->addButton( sprite_properties_mode_tool_button.get(), 1 );
+	button_group->addButton( rect_selection_mode_tool_button.get(), 2 );
+	
+	draw_mode_tool_button_action->setChecked(true);
+	
+	
+	
+	group_box_hbox_layout->addWidget(draw_mode_tool_button.get());
+	group_box_hbox_layout->addWidget
+		(sprite_properties_mode_tool_button.get());
+	group_box_hbox_layout->addWidget
+		(rect_selection_mode_tool_button.get());
 }
 
 

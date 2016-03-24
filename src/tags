@@ -175,6 +175,7 @@ bt_wood_with_st_fire_muffin	block_stuff.hpp	/^	bt_wood_with_st_fire_muffin,$/;"	
 bt_wood_with_st_ice_muffin	block_stuff.hpp	/^	bt_wood_with_st_ice_muffin,$/;"	kind:e	enum:block_type
 bt_wood_with_st_muffin	block_stuff.hpp	/^	bt_wood_with_st_muffin,$/;"	kind:e	enum:block_type
 bt_wood_with_st_waffle	block_stuff.hpp	/^	bt_wood_with_st_waffle,$/;"	kind:e	enum:block_type
+button_group	mouse_mode_button_group_widget_class.hpp	/^	unique_ptr<QButtonGroup> button_group;$/;"	kind:m	class:mouse_mode_button_group_widget	access:public
 can_add_sprite	sprite_level_data_stuff.cpp	/^bool adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16::can_add_sprite()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	signature:()
 can_add_sprite	sprite_level_data_stuff.cpp	/^bool adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32::can_add_sprite()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	signature:()
 can_add_sprite	sprite_level_data_stuff.hpp	/^	bool can_add_sprite();$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	access:public	signature:()
@@ -398,8 +399,10 @@ grid_widget	layout_widget_classes.hpp	/^	inline grid_widget( QWidget* parent = 0
 grid_widget	layout_widget_classes.hpp	/^class grid_widget : public QWidget$/;"	kind:c	inherits:QWidget
 grid_widget::grid_widget	layout_widget_classes.hpp	/^	inline grid_widget( QWidget* parent = 0 ) : QWidget(parent)$/;"	kind:f	class:grid_widget	access:public	signature:( QWidget* parent = 0 )
 grid_widget::layout	layout_widget_classes.hpp	/^	QGridLayout* layout;$/;"	kind:m	class:grid_widget	access:public
+group_box	mouse_mode_button_group_widget_class.hpp	/^	unique_ptr<QGroupBox> group_box;$/;"	kind:m	class:mouse_mode_button_group_widget	access:public
 group_box	sprite_properties_widget_class.hpp	/^	unique_ptr<QGroupBox> group_box;$/;"	kind:m	class:sprite_properties_widget	access:public
 group_box_grid_layout	sprite_properties_widget_class.hpp	/^	unique_ptr<QGridLayout> group_box_grid_layout;$/;"	kind:m	class:sprite_properties_widget	access:public
+group_box_hbox_layout	mouse_mode_button_group_widget_class.hpp	/^	unique_ptr<QHBoxLayout> group_box_hbox_layout;$/;"	kind:m	class:mouse_mode_button_group_widget	access:public
 group_box_label_vec	sprite_properties_widget_class.hpp	/^	vector< unique_ptr<QLabel> > group_box_label_vec;$/;"	kind:m	class:sprite_properties_widget	access:public
 group_box_spinbox_vec	sprite_properties_widget_class.hpp	/^	vector< unique_ptr<QSpinBox> > group_box_spinbox_vec;$/;"	kind:m	class:sprite_properties_widget	access:public
 handle_tab_switch	level_editor_widget_class.cpp	/^void level_editor_widget::handle_tab_switch( int n_index )$/;"	kind:f	class:level_editor_widget	signature:( int n_index )
@@ -764,10 +767,13 @@ mouse_mode	misc_types.hpp	/^enum mouse_mode $/;"	kind:g
 mouse_mode_button_group_widget	mouse_mode_button_group_widget_class.cpp	/^mouse_mode_button_group_widget::mouse_mode_button_group_widget$/;"	kind:f	class:mouse_mode_button_group_widget	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size, QAction* s_draw_mode_tool_button_action, QAction* s_sprite_properties_mode_tool_button_action, QAction* s_rect_selection_mode_tool_button_action )
 mouse_mode_button_group_widget	mouse_mode_button_group_widget_class.hpp	/^	mouse_mode_button_group_widget( QWidget* s_parent, $/;"	kind:p	class:mouse_mode_button_group_widget	access:public	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size, QAction* s_draw_mode_tool_button_action, QAction* s_sprite_properties_mode_tool_button_action, QAction* s_rect_selection_mode_tool_button_action )
 mouse_mode_button_group_widget	mouse_mode_button_group_widget_class.hpp	/^class mouse_mode_button_group_widget : public QWidget$/;"	kind:c	inherits:QWidget
+mouse_mode_button_group_widget::button_group	mouse_mode_button_group_widget_class.hpp	/^	unique_ptr<QButtonGroup> button_group;$/;"	kind:m	class:mouse_mode_button_group_widget	access:public
 mouse_mode_button_group_widget::draw_mode_tool_button	mouse_mode_button_group_widget_class.hpp	/^	unique_ptr<QToolButton> draw_mode_tool_button,$/;"	kind:m	class:mouse_mode_button_group_widget	access:public
 mouse_mode_button_group_widget::draw_mode_tool_button_action	mouse_mode_button_group_widget_class.hpp	/^	QAction* draw_mode_tool_button_action, $/;"	kind:m	class:mouse_mode_button_group_widget	access:public
 mouse_mode_button_group_widget::generate_tool_buttons	mouse_mode_button_group_widget_class.cpp	/^void mouse_mode_button_group_widget::generate_tool_buttons()$/;"	kind:f	class:mouse_mode_button_group_widget	signature:()
 mouse_mode_button_group_widget::generate_tool_buttons	mouse_mode_button_group_widget_class.hpp	/^	void generate_tool_buttons();$/;"	kind:p	class:mouse_mode_button_group_widget	access:protected	signature:()
+mouse_mode_button_group_widget::group_box	mouse_mode_button_group_widget_class.hpp	/^	unique_ptr<QGroupBox> group_box;$/;"	kind:m	class:mouse_mode_button_group_widget	access:public
+mouse_mode_button_group_widget::group_box_hbox_layout	mouse_mode_button_group_widget_class.hpp	/^	unique_ptr<QHBoxLayout> group_box_hbox_layout;$/;"	kind:m	class:mouse_mode_button_group_widget	access:public
 mouse_mode_button_group_widget::hbox_layout	mouse_mode_button_group_widget_class.hpp	/^	unique_ptr<QHBoxLayout> hbox_layout;$/;"	kind:m	class:mouse_mode_button_group_widget	access:public
 mouse_mode_button_group_widget::mouse_mode_button_group_widget	mouse_mode_button_group_widget_class.cpp	/^mouse_mode_button_group_widget::mouse_mode_button_group_widget$/;"	kind:f	class:mouse_mode_button_group_widget	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size, QAction* s_draw_mode_tool_button_action, QAction* s_sprite_properties_mode_tool_button_action, QAction* s_rect_selection_mode_tool_button_action )
 mouse_mode_button_group_widget::mouse_mode_button_group_widget	mouse_mode_button_group_widget_class.hpp	/^	mouse_mode_button_group_widget( QWidget* s_parent, $/;"	kind:p	class:mouse_mode_button_group_widget	access:public	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size, QAction* s_draw_mode_tool_button_action, QAction* s_sprite_properties_mode_tool_button_action, QAction* s_rect_selection_mode_tool_button_action )

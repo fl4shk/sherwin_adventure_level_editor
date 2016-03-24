@@ -29,8 +29,13 @@ class mouse_mode_button_group_widget : public QWidget
 public:		// variables
 	QWidget* parent;
 	
+	unique_ptr<QGroupBox> group_box;
+	unique_ptr<QHBoxLayout> group_box_hbox_layout;
+	
 	// A QHBoxLayout for the mouse_mode_button_group_widget itself.
 	unique_ptr<QHBoxLayout> hbox_layout;
+	
+	unique_ptr<QButtonGroup> button_group;
 	
 	
 	// The QToolButton's.
