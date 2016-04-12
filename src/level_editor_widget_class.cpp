@@ -298,43 +298,43 @@ void level_editor_widget::keyPressEvent( QKeyEvent* event )
 		{
 			the_sfml_canvas_widget->enable_block_grid();
 			//cout << "Tile grid now enabled.\n";
-		}
+	}
 		else
 		{
 			the_sfml_canvas_widget->disable_block_grid();
 			//cout << "Tile grid now disabled.\n";
 		}
 	}
-	else if ( event->key() == Qt::Key_Q )
-	{
-		if ( the_rect_selection_stuff.get_enabled() )
-		{
-			the_rect_selection_stuff
-				.finalize_movement_of_selection_contents();
-		}
-		
-		the_core_widget->the_mouse_mode = mm_place_level_elements;
-		
-		cout << "Current mouse mode:  place_level_elements\n";
-	}
-	else if ( event->key() == Qt::Key_W )
-	{
-		if ( the_rect_selection_stuff.get_enabled() )
-		{
-			the_rect_selection_stuff
-				.finalize_movement_of_selection_contents();
-		}
-		
-		the_core_widget->the_mouse_mode = mm_select_single_sprite;
-		
-		cout << "Current mouse mode:  select_sprites\n";
-	}
-	else if ( event->key() == Qt::Key_E )
-	{
-		the_core_widget->the_mouse_mode = mm_rect_selection;
-		
-		cout << "Current mouse mode:  rect_selection\n";
-	}
+	//else if ( event->key() == Qt::Key_Q )
+	//{
+	//	if ( the_rect_selection_stuff.get_enabled() )
+	//	{
+	//		the_rect_selection_stuff
+	//			.finalize_movement_of_selection_contents();
+	//	}
+	//	
+	//	the_core_widget->the_mouse_mode = mm_place_level_elements;
+	//	
+	//	cout << "Current mouse mode:  place_level_elements\n";
+	//}
+	//else if ( event->key() == Qt::Key_W )
+	//{
+	//	if ( the_rect_selection_stuff.get_enabled() )
+	//	{
+	//		the_rect_selection_stuff
+	//			.finalize_movement_of_selection_contents();
+	//	}
+	//	
+	//	the_core_widget->the_mouse_mode = mm_select_single_sprite;
+	//	
+	//	cout << "Current mouse mode:  select_sprites\n";
+	//}
+	//else if ( event->key() == Qt::Key_E )
+	//{
+	//	the_core_widget->the_mouse_mode = mm_rect_selection;
+	//	
+	//	cout << "Current mouse mode:  rect_selection\n";
+	//}
 	else if ( event->key() == Qt::Key_C 
 		&& the_core_widget->the_mouse_mode == mm_rect_selection 
 		&& the_rect_selection_stuff.get_enabled() )
@@ -963,6 +963,117 @@ void level_editor_widget::export_source_as_core_func
 }
 
 
+void level_editor_widget::switch_mouse_mode_to_place_level_elements()
+{
+	level_editor_core_widget* the_core_widget = NULL;
+	level_editor_sfml_canvas_widget* the_sfml_canvas_widget = NULL;
+	
+	
+	s32 curr_tab_index = get_curr_level_editor_core_widget_index();
+	
+	if ( curr_tab_index != -1 )
+	{
+		the_core_widget = the_core_widget_vec.at(curr_tab_index).get();
+		the_sfml_canvas_widget = the_core_widget
+			->the_sfml_canvas_widget.get();
+	}
+	
+	if ( the_core_widget == NULL )
+	{
+		cout << "Weird bug in keyPressEvent():  the_core_widget == "
+			<< "NULL.\nExpect a segfault....";
+	}
+	
+	
+	rect_selection_stuff& the_rect_selection_stuff
+		= the_sfml_canvas_widget->the_rect_selection_stuff;
+	
+	
+	if ( the_rect_selection_stuff.get_enabled() )
+	{
+		the_rect_selection_stuff
+			.finalize_movement_of_selection_contents();
+	}
+	
+	the_core_widget->the_mouse_mode = mm_place_level_elements;
+	
+	cout << "Current mouse mode:  place_level_elements\n";
+}
+
+void level_editor_widget::switch_mouse_mode_to_erase_sprites()
+{
+	cout << "switch_mouse_mode_to_erase_sprites() is not yet "
+		<< "implemented other than showing this text.\n";
+}
+
+void level_editor_widget::switch_mouse_mode_to_select_single_sprite()
+{
+	level_editor_core_widget* the_core_widget = NULL;
+	level_editor_sfml_canvas_widget* the_sfml_canvas_widget = NULL;
+	
+	
+	s32 curr_tab_index = get_curr_level_editor_core_widget_index();
+	
+	if ( curr_tab_index != -1 )
+	{
+		the_core_widget = the_core_widget_vec.at(curr_tab_index).get();
+		the_sfml_canvas_widget = the_core_widget
+			->the_sfml_canvas_widget.get();
+	}
+	
+	if ( the_core_widget == NULL )
+	{
+		cout << "Weird bug in keyPressEvent():  the_core_widget == "
+			<< "NULL.\nExpect a segfault....";
+	}
+	
+	
+	rect_selection_stuff& the_rect_selection_stuff
+		= the_sfml_canvas_widget->the_rect_selection_stuff;
+	
+	
+	if ( the_rect_selection_stuff.get_enabled() )
+	{
+		the_rect_selection_stuff
+			.finalize_movement_of_selection_contents();
+	}
+	
+	the_core_widget->the_mouse_mode = mm_select_single_sprite;
+	
+	cout << "Current mouse mode:  select_sprites\n";
+}
+
+void level_editor_widget::switch_mouse_mode_to_rect_selection()
+{
+	level_editor_core_widget* the_core_widget = NULL;
+	level_editor_sfml_canvas_widget* the_sfml_canvas_widget = NULL;
+	
+	
+	s32 curr_tab_index = get_curr_level_editor_core_widget_index();
+	
+	if ( curr_tab_index != -1 )
+	{
+		the_core_widget = the_core_widget_vec.at(curr_tab_index).get();
+		the_sfml_canvas_widget = the_core_widget
+			->the_sfml_canvas_widget.get();
+	}
+	
+	if ( the_core_widget == NULL )
+	{
+		cout << "Weird bug in keyPressEvent():  the_core_widget == "
+			<< "NULL.\nExpect a segfault....";
+	}
+	
+	
+	rect_selection_stuff& the_rect_selection_stuff
+		= the_sfml_canvas_widget->the_rect_selection_stuff;
+	
+	the_core_widget->the_mouse_mode = mm_rect_selection;
+	
+	cout << "Current mouse mode:  rect_selection\n";
+}
+
+
 
 void level_editor_widget::show_sprite_properties_widget()
 {
@@ -1014,7 +1125,6 @@ void level_editor_widget::handle_tab_switch( int n_index )
 	//modify_sublevel_size_2d_changer_widget_at_tab_switch();
 	modify_sprite_properties_widget_at_tab_switch();
 }
-
 
 void level_editor_widget::hello()
 {
@@ -1237,5 +1347,23 @@ void level_editor_widget::export_source_as()
 	
 }
 
+
+
+void level_editor_widget::switch_mouse_mode( int button_id )
+{
+	switch (button_id)
+	{
+		case 0:
+			switch_mouse_mode_to_place_level_elements();
+			break;
+		
+		case 1:
+			switch_mouse_mode_to_select_single_sprite();
+			break;
+		
+		case 2:
+			switch_mouse_mode_to_rect_selection();
+	}
+}
 
 

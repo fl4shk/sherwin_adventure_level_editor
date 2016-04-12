@@ -183,12 +183,18 @@ protected:		// functions
 	void export_source_as_core_func( const string& output_file_name );
 	
 	
+	void switch_mouse_mode_to_place_level_elements();
+	void switch_mouse_mode_to_erase_sprites();
+	void switch_mouse_mode_to_select_single_sprite();
+	void switch_mouse_mode_to_rect_selection();
+	
 	
 protected slots:		// slots
 	void show_sprite_properties_widget();
 	void hide_sprite_properties_widget();
 	
 	void handle_tab_switch( int n_index );
+	
 	
 	
 	
@@ -211,6 +217,10 @@ public slots:		// slots
 	void export_source();
 	void export_source_as();
 	
+	
+	// the_central_widget->the_mouse_mode_button_group_widget is connected
+	// to this slot.
+	void switch_mouse_mode( int button_id );
 };
 
 

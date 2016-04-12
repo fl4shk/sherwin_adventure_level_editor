@@ -197,6 +197,7 @@ core_widget_scroll_area_vec	level_editor_widget_class.hpp	/^	vector< unique_ptr<
 core_widgets_tab_widget	level_editor_widget_class.hpp	/^	unique_ptr<QTabWidget> core_widgets_tab_widget;$/;"	kind:m	class:level_editor_widget	access:public
 create_sublevel_properties_widget	level_editor_widget_class.cpp	/^void level_editor_widget::create_sublevel_properties_widget()$/;"	kind:f	class:level_editor_widget	signature:()
 create_sublevel_properties_widget	level_editor_widget_class.hpp	/^	void create_sublevel_properties_widget();$/;"	kind:p	class:level_editor_widget	access:public	signature:()
+curr_action_index	undo_and_redo_stack_class.hpp	/^	u32 curr_action_index;$/;"	kind:m	class:undo_and_redo_stack	access:public
 curr_block_vec	undo_and_redo_stack_class.hpp	/^		vector< pair< block, vec2_u32> > prev_block_vec, curr_block_vec;$/;"	kind:m	struct:undo_and_redo_action::block_drawing_stuff	access:public
 curr_sprite_ipgws	undo_and_redo_stack_class.hpp	/^			curr_sprite_ipgws;$/;"	kind:m	struct:undo_and_redo_action::sprite_drawing_stuff	access:public
 curr_sprite_ipgws	undo_and_redo_stack_class.hpp	/^			curr_sprite_ipgws;$/;"	kind:m	struct:undo_and_redo_action::sprite_modifying_stuff	access:public
@@ -642,6 +643,16 @@ level_editor_widget::show_sprite_properties_widget	level_editor_widget_class.hpp
 level_editor_widget::show_vertical_scroll_bar_stuff	level_editor_widget_class.cpp	/^void level_editor_widget::show_vertical_scroll_bar_stuff()$/;"	kind:f	class:level_editor_widget	signature:()
 level_editor_widget::show_vertical_scroll_bar_stuff	level_editor_widget_class.hpp	/^	void show_vertical_scroll_bar_stuff();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
 level_editor_widget::sprite_properties_widget_enabled_vec	level_editor_widget_class.hpp	/^	vector<u32> sprite_properties_widget_enabled_vec;$/;"	kind:m	class:level_editor_widget	access:public
+level_editor_widget::switch_mouse_mode	level_editor_widget_class.cpp	/^void level_editor_widget::switch_mouse_mode( int button_id )$/;"	kind:f	class:level_editor_widget	signature:( int button_id )
+level_editor_widget::switch_mouse_mode	level_editor_widget_class.hpp	/^	void switch_mouse_mode( int button_id );$/;"	kind:p	class:level_editor_widget	access:public	signature:( int button_id )
+level_editor_widget::switch_mouse_mode_to_erase_sprites	level_editor_widget_class.cpp	/^void level_editor_widget::switch_mouse_mode_to_erase_sprites()$/;"	kind:f	class:level_editor_widget	signature:()
+level_editor_widget::switch_mouse_mode_to_erase_sprites	level_editor_widget_class.hpp	/^	void switch_mouse_mode_to_erase_sprites();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
+level_editor_widget::switch_mouse_mode_to_place_level_elements	level_editor_widget_class.cpp	/^void level_editor_widget::switch_mouse_mode_to_place_level_elements()$/;"	kind:f	class:level_editor_widget	signature:()
+level_editor_widget::switch_mouse_mode_to_place_level_elements	level_editor_widget_class.hpp	/^	void switch_mouse_mode_to_place_level_elements();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
+level_editor_widget::switch_mouse_mode_to_rect_selection	level_editor_widget_class.cpp	/^void level_editor_widget::switch_mouse_mode_to_rect_selection()$/;"	kind:f	class:level_editor_widget	signature:()
+level_editor_widget::switch_mouse_mode_to_rect_selection	level_editor_widget_class.hpp	/^	void switch_mouse_mode_to_rect_selection();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
+level_editor_widget::switch_mouse_mode_to_select_single_sprite	level_editor_widget_class.cpp	/^void level_editor_widget::switch_mouse_mode_to_select_single_sprite()$/;"	kind:f	class:level_editor_widget	signature:()
+level_editor_widget::switch_mouse_mode_to_select_single_sprite	level_editor_widget_class.hpp	/^	void switch_mouse_mode_to_select_single_sprite();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
 level_editor_widget::the_block_selector_widget	level_editor_widget_class.hpp	/^	unique_ptr<block_selector_widget> the_block_selector_widget;$/;"	kind:m	class:level_editor_widget	access:public
 level_editor_widget::the_core_widget_vec	level_editor_widget_class.hpp	/^	vector< unique_ptr<level_editor_core_widget> > the_core_widget_vec;$/;"	kind:m	class:level_editor_widget	access:public
 level_editor_widget::the_level	level_editor_widget_class.hpp	/^	level the_level;$/;"	kind:m	class:level_editor_widget	access:public
@@ -1278,6 +1289,16 @@ sublevel_properties_widget::width_label	sublevel_properties_widget_class.hpp	/^	
 sublevel_properties_widget_class_hpp	sublevel_properties_widget_class.hpp	21;"	kind:d
 sublevel_vec	level_class.hpp	/^	vector<sublevel> sublevel_vec;$/;"	kind:m	class:level	access:public
 sublevel_width_spinbox	sublevel_properties_widget_class.hpp	/^	unique_ptr<QSpinBox> sublevel_width_spinbox, sublevel_height_spinbox;$/;"	kind:m	class:sublevel_properties_widget	access:public
+switch_mouse_mode	level_editor_widget_class.cpp	/^void level_editor_widget::switch_mouse_mode( int button_id )$/;"	kind:f	class:level_editor_widget	signature:( int button_id )
+switch_mouse_mode	level_editor_widget_class.hpp	/^	void switch_mouse_mode( int button_id );$/;"	kind:p	class:level_editor_widget	access:public	signature:( int button_id )
+switch_mouse_mode_to_erase_sprites	level_editor_widget_class.cpp	/^void level_editor_widget::switch_mouse_mode_to_erase_sprites()$/;"	kind:f	class:level_editor_widget	signature:()
+switch_mouse_mode_to_erase_sprites	level_editor_widget_class.hpp	/^	void switch_mouse_mode_to_erase_sprites();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
+switch_mouse_mode_to_place_level_elements	level_editor_widget_class.cpp	/^void level_editor_widget::switch_mouse_mode_to_place_level_elements()$/;"	kind:f	class:level_editor_widget	signature:()
+switch_mouse_mode_to_place_level_elements	level_editor_widget_class.hpp	/^	void switch_mouse_mode_to_place_level_elements();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
+switch_mouse_mode_to_rect_selection	level_editor_widget_class.cpp	/^void level_editor_widget::switch_mouse_mode_to_rect_selection()$/;"	kind:f	class:level_editor_widget	signature:()
+switch_mouse_mode_to_rect_selection	level_editor_widget_class.hpp	/^	void switch_mouse_mode_to_rect_selection();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
+switch_mouse_mode_to_select_single_sprite	level_editor_widget_class.cpp	/^void level_editor_widget::switch_mouse_mode_to_select_single_sprite()$/;"	kind:f	class:level_editor_widget	signature:()
+switch_mouse_mode_to_select_single_sprite	level_editor_widget_class.hpp	/^	void switch_mouse_mode_to_select_single_sprite();$/;"	kind:p	class:level_editor_widget	access:protected	signature:()
 the_action_type	undo_and_redo_stack_class.hpp	/^	action_type the_action_type;$/;"	kind:m	class:undo_and_redo_action	access:public
 the_array	array_2d_helper_class.hpp	/^	type* the_array;$/;"	kind:m	class:array_2d_helper	access:public
 the_block_drawing_stuff	undo_and_redo_stack_class.hpp	/^	} the_block_drawing_stuff;$/;"	kind:m	class:undo_and_redo_action	typeref:struct:undo_and_redo_action::block_drawing_stuff	access:public
@@ -1344,6 +1365,7 @@ undo_and_redo_action::the_sprite_erasing_stuff	undo_and_redo_stack_class.hpp	/^	
 undo_and_redo_action::the_sprite_modifying_stuff	undo_and_redo_stack_class.hpp	/^	} the_sprite_modifying_stuff;$/;"	kind:m	class:undo_and_redo_action	typeref:struct:undo_and_redo_action::sprite_modifying_stuff	access:public
 undo_and_redo_stack	undo_and_redo_stack_class.hpp	/^class undo_and_redo_stack$/;"	kind:c
 undo_and_redo_stack::action_vec	undo_and_redo_stack_class.hpp	/^	vector<undo_and_redo_action> action_vec;$/;"	kind:m	class:undo_and_redo_stack	access:public
+undo_and_redo_stack::curr_action_index	undo_and_redo_stack_class.hpp	/^	u32 curr_action_index;$/;"	kind:m	class:undo_and_redo_stack	access:public
 undo_and_redo_stack_class_hpp	undo_and_redo_stack_class.hpp	21;"	kind:d
 unzoomed_size_2d	sfml_canvas_widget_classes.hpp	/^	QSize unzoomed_size_2d;$/;"	kind:m	class:level_editor_sfml_canvas_widget	access:protected
 up_left_ptr	sprite_level_data_stuff.hpp	/^		* up_left_ptr, * up_ptr, * up_right_ptr,$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public

@@ -69,11 +69,13 @@ class undo_and_redo_stack
 public:		// variables
 	vector<undo_and_redo_action> action_vec;
 	
+	u32 curr_action_index;
 	
 public:		// functions
 	
 	
 };
+
 
 
 
