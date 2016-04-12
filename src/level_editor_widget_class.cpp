@@ -1218,6 +1218,9 @@ void level_editor_widget::create_sublevel_properties_widget()
 	bool block_grid_was_enabled = the_core_widget->the_sfml_canvas_widget
 		->get_block_grid_enabled();
 	
+	u32 prev_scale_factor = the_core_widget->the_sfml_canvas_widget
+		->scale_factor;
+	
 	
 	//the_sublevel_properties_widget.reset(new sublevel_properties_widget
 	//	( this, &get_curr_sublevel() ));
@@ -1265,6 +1268,12 @@ void level_editor_widget::create_sublevel_properties_widget()
 	if (block_grid_was_enabled)
 	{
 		the_core_widget->the_sfml_canvas_widget->enable_block_grid();
+	}
+	
+	while ( the_core_widget->the_sfml_canvas_widget->scale_factor 
+		< prev_scale_factor )
+	{
+		the_core_widget->zoom_in();
 	}
 	
 	
