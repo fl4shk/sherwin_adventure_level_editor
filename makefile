@@ -72,7 +72,8 @@ $(CXX_OFILES) : $(OBJDIR)/%.o : %.cpp
 
 $(CXX_MOC_SOURCES) : $(MOC_SOURCE_DIR)/%.moc.cpp : %.hpp
 	@#moc-qt5 $(DEFINES) $< -o $@
-	@/usr/lib/qt5/bin/moc $(DEFINES) $< -o $@
+	@#/usr/lib/qt5/bin/moc $(DEFINES) $< -o $@
+	@moc -qt=5 $(DEFINES) $< -o $@
 
 $(CXX_MOC_OFILES) : $(OBJDIR)/%.moc.o : $(MOC_SOURCE_DIR)/%.moc.cpp
 	$(CXX) $(CXX_FLAGS) -c $< -o $@
