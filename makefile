@@ -12,7 +12,8 @@ AR=ar
 
 DEFINES=-DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_SHARED
 
-DEBUG=yeah do debug
+
+#DEBUG=yeah do debug
 
 ifdef DEBUG
 	DEBUG_FLAGS=-gdwarf-3 -g
@@ -28,9 +29,7 @@ endif
 #CXX_FLAGS=-std=c++14 -pipe -I/usr/include $(BASE_FLAGS) `pkg-config \
 #	--cflags Qt5Core Qt5Gui Qt5Widgets sfml-window sfml-graphics` -fPIC
 
-SHARED_CXX_FLAGS=-std=c++14 -pipe $(BASE_FLAGS)
-CXX_FLAGS=$(SHARED_CXX_FLAGS) -fPIC
-PUGI_CXX_FLAGS=$(SHARED_CXX_FLAGS)
+CXX_FLAGS=-std=c++14 -pipe $(BASE_FLAGS)
 S_FLAGS=
 #LD_FLAGS=-lm `pkg-config --libs Qt5Core Qt5Gui Qt5Widgets sfml-window \
 #	sfml-graphics` -lpugixml $(DEBUG_FLAGS)
@@ -57,7 +56,7 @@ else
 	#	sfml-window sfml-graphics) -lpugixml
 	
 	CXX_FLAGS+=`pkg-config --cflags Qt5Core Qt5Gui Qt5Widgets \
-		sfml-window sfml-graphics`
+		sfml-window sfml-graphics` -fPIC
 	LD_FLAGS+=`pkg-config --libs Qt5Core Qt5Gui Qt5Widgets \
 		sfml-window sfml-graphics` -lpugixml
 endif
@@ -103,7 +102,7 @@ all_pre : pugixml_static_stuff
 	mkdir -p $(OBJDIR) $(DEPDIR) $(MOC_SOURCE_DIR)
 
 pugixml_static_stuff : 
-	$(CXX) $(PUGI_CXX_FLAGS) -c pugixml_source/pugixml.cpp \
+	$(CXX) $(CXX_FLAGS) -c pugixml_source/pugixml.cpp \
 		-o pugixml_source/pugixml.o
 	$(AR) rcs pugixml_source/libpugixml.a pugixml_source/pugixml.o
 
