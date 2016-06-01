@@ -99,7 +99,8 @@ all_pre : pugixml_static_stuff
 	mkdir -p $(OBJDIR) $(DEPDIR) $(MOC_SOURCE_DIR)
 
 pugixml_static_stuff : 
-	$(CXX) $(CXX_FLAGS) -c pugixml_source/pugixml.cpp
+	$(CXX) $(CXX_FLAGS) -c pugixml_source/pugixml.cpp \
+		-o pugixml_source/pugixml.o
 	$(AR) rcs pugixml_source/libpugixml.a pugixml_source/pugixml.o
 
 else
