@@ -38,6 +38,7 @@ LD_FLAGS=-lm $(DEBUG_FLAGS)
 
 
 ifeq ($(OS),Windows_NT)
+	CXX_FLAGS+=-Ipugixml_source
 	LD_FLAGS+=-Lpugixml_source -Wl,-Bstatic -lpugixml -Wl,-Bdynamic \
 		-lQtWidgets -lQtGui -lQtCore -lsfml-graphics -lsfml-window \
 		-lsfml-system
