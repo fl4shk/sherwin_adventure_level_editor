@@ -47,7 +47,10 @@ protected:		// functions
 		parent->resize(n_size);
 		resize(n_size);
 		//sf::RenderWindow::create(winId());
-		sf::RenderWindow::create(static_cast<sf::WindowHandle>(winId()));
+		//sf::RenderWindow::create(static_cast<sf::WindowHandle>(winId()));
+		//sf::RenderWindow::create(reinterpret_cast<sf::WindowHandle>
+		//	(winId()));
+		sf::RenderWindow::create((sf::WindowHandle)(winId()));
 	}
 	inline void set_min_max_sizes( const QSize& n_size )
 	{
@@ -272,9 +275,12 @@ protected:		// functions
 	//		parent->resize(n_size);
 	//		resize(n_size);
 	//		//sf::RenderWindow::create(winId());
+	//		//sf::RenderWindow::create(static_cast<sf::WindowHandle>
+	//		//	(winId()));
+	//		//sf::RenderWindow::create(reinterpret_cast<sf::WindowHandle>
+	//		//	(winId()));
+	//		sf::RenderWindow::create((sf::WindowHandle)(winId());
 	//		
-	//		sf::RenderWindow::create(static_cast<sf::WindowHandle>
-	//			(winId()));
 	//	}
 	//	else
 	//	{
@@ -289,9 +295,13 @@ protected:		// functions
 	//		resize(n_size_modded);
 	//		
 	//		//sf::RenderWindow::create(winId());
+	//		//sf::RenderWindow::create(static_cast<sf::WindowHandle>
+	//		//	(winId()));
+	//		//sf::RenderWindow::create(reinterpret_cast<sf::WindowHandle>
+	//		//	(winId()));
 	//		
-	//		sf::RenderWindow::create(static_cast<sf::WindowHandle>
-	//			(winId()));
+	//		sf::RenderWindow::create((sf::WindowHandle)(winId());
+	//		
 	//	}
 	//	
 	//	
