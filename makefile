@@ -13,7 +13,7 @@ AR=ar
 DEFINES=-DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_SHARED
 
 
-#DEBUG=yeah do debug
+DEBUG=yeah do debug
 
 ifdef DEBUG
 	DEBUG_FLAGS=-gdwarf-3 -g
