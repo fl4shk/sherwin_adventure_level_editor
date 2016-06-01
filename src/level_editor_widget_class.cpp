@@ -371,14 +371,15 @@ void level_editor_widget::keyPressEvent( QKeyEvent* event )
 			/ (double)( num_pixels_per_block_column * scale_factor ), 
 			(double)visible_rect.top / (double)( num_pixels_per_block_row
 			* scale_factor ) );
-		vec2<double> visible_block_grid_size_2d( (double)visible_rect.width 
+		vec2<double> visible_block_grid_size_2d
+			( (double)visible_rect.width 
 			/ (double)( num_pixels_per_block_column * scale_factor ), 
 			(double)visible_rect.height 
 			/ (double)( num_pixels_per_block_row * scale_factor ) );
 		
-		// this is so that sprites larger than 16x16 pixels will be drawn if
-		// their starting position is offscreen but part of them still is on
-		// screen.
+		// this is so that sprites larger than 16x16 pixels will be drawn
+		// if their starting position is offscreen but part of them still
+		// is on screen.
 		--visible_block_grid_start_pos.x;
 		--visible_block_grid_start_pos.y;
 		

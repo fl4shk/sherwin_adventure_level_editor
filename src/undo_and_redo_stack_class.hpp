@@ -64,6 +64,7 @@ public:		// variables
 	
 };
 
+
 class undo_and_redo_stack
 {
 public:		// variables

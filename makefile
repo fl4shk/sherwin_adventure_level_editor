@@ -22,25 +22,44 @@ else
 endif
 
 
-CXX_FLAGS=-std=c++14 -I/usr/include $(BASE_FLAGS) `pkg-config --cflags Qt5Core Qt5Gui Qt5Widgets sfml-window sfml-graphics` -fPIC
+#CXX_FLAGS=-std=c++14 -pipe -I/usr/include $(BASE_FLAGS) `pkg-config \
+#	--cflags Qt5Core Qt5Gui Qt5Widgets sfml-window sfml-graphics` -fPIC
+
+CXX_FLAGS=-std=c++14 -pipe $(BASE_FLAGS) -fPIC
 S_FLAGS=
-LD_FLAGS=-lm `pkg-config --libs Qt5Core Qt5Gui Qt5Widgets sfml-window sfml-graphics` -lpugixml $(DEBUG_FLAGS)
+#LD_FLAGS=-lm `pkg-config --libs Qt5Core Qt5Gui Qt5Widgets sfml-window \
+#	sfml-graphics` -lpugixml $(DEBUG_FLAGS)
+LD_FLAGS=-lm -lpugixml $(DEBUG_FLAGS)
+
+ifeq ($(OS),Windows_NT)
+	CXX_FLAGS+=`pkg-config --cflags Qt5Core Qt5Gui Qt5Widgets sfml-window \
+		sfml-graphics`
+	LD_FLAGS+=`pkg-config --libs Qt5Core Qt5Gui Qt5Widgets sfml-window \
+		sfml-graphics`
+else
+	LD_FLAGS+=-lQtWidgets -lQtGui -lQtCore -lsfml-graphics -lsfml-window \
+		-lsfml-system
+endif
+
 
 OBJDIR=objs
 DEPDIR=deps
 OBJDIR_TEMP=objs_temp
 MOC_SOURCE_DIR=moc_sources
 
-# No, this stuff isn't portable to non-GNU versions of Make.
+
+# No, this stuff isn't portable to non-GNU versions of Make, at least as
+# far as I know.
 CXX_SOURCES=$(foreach DIR,$(CXX_DIRS),$(notdir $(wildcard $(DIR)/*.cpp)))
 CXX_HEADERS=$(foreach DIR,$(CXX_DIRS),$(notdir $(wildcard $(DIR)/*.hpp)))
-CXX_MOC_SOURCES=$(patsubst %.hpp,$(MOC_SOURCE_DIR)/%.moc.cpp,$(CXX_HEADERS))
+CXX_MOC_SOURCES=$(patsubst %.hpp,$(MOC_SOURCE_DIR)/%.moc.cpp, \
+	$(CXX_HEADERS))
 
 export VPATH	:=	$(foreach DIR,$(CXX_DIRS),$(CURDIR)/$(DIR))
 
-
 CXX_OFILES=$(patsubst %.cpp,$(OBJDIR)/%.o,$(CXX_SOURCES))
-CXX_MOC_OFILES=$(patsubst $(MOC_SOURCE_DIR)/%.moc.cpp,$(OBJDIR)/%.moc.o,$(CXX_MOC_SOURCES))
+CXX_MOC_OFILES=$(patsubst $(MOC_SOURCE_DIR)/%.moc.cpp,$(OBJDIR)/%.moc.o, \
+	$(CXX_MOC_SOURCES))
 OFILES=$(CXX_MOC_OFILES) $(CXX_OFILES)
 
 CXX_PFILES=$(patsubst %.cpp,$(DEPDIR)/%.P,$(CXX_SOURCES))
@@ -70,10 +89,15 @@ $(CXX_OFILES) : $(OBJDIR)/%.o : %.cpp
 
 -include $(PFILES)
 
+ifeq ($(OS),Windows_NT)
+$(CXX_MOC_SOURCES) : $(MOC_SOURCE_DIR)/%.moc.cpp : %.hpp
+	@moc $(DEFINES) $< -o $@
+else
 $(CXX_MOC_SOURCES) : $(MOC_SOURCE_DIR)/%.moc.cpp : %.hpp
 	@#moc-qt5 $(DEFINES) $< -o $@
 	@#/usr/lib/qt5/bin/moc $(DEFINES) $< -o $@
 	@moc -qt=5 $(DEFINES) $< -o $@
+endif
 
 $(CXX_MOC_OFILES) : $(OBJDIR)/%.moc.o : $(MOC_SOURCE_DIR)/%.moc.cpp
 	$(CXX) $(CXX_FLAGS) -c $< -o $@

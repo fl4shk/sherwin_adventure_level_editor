@@ -32,6 +32,9 @@
 #include "sublevel_properties_widget_class.hpp"
 
 
+#include "undo_and_redo_stack_class.hpp"
+
+
 class level_editor_widget : public QWidget
 {
 	Q_OBJECT
@@ -88,6 +91,8 @@ public:		// variables
 	
 	unique_ptr<sublevel_properties_widget> 
 		the_sublevel_properties_widget;
+	
+	
 	
 	
 public:		// functions
