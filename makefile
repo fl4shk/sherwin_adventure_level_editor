@@ -8,6 +8,7 @@ PROJ=$(shell basename $(CURDIR))
 
 CXX=g++
 LD=g++
+AR=ar
 
 DEFINES=-DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_SHARED
 
@@ -16,9 +17,11 @@ DEBUG=yeah do debug
 ifdef DEBUG
 	DEBUG_FLAGS=-gdwarf-3 -g
 	
-	BASE_FLAGS=-Wall -g -march=native $(DEFINES)
+	#BASE_FLAGS=-Wall -g -march=native -mtune=native $(DEFINES)
+	BASE_FLAGS=-Wall -g $(DEFINES)
 else
-	BASE_FLAGS=-Wall -O3 -march=native $(DEFINES)
+	#BASE_FLAGS=-Wall -O3 -march=native -mtune=native $(DEFINES)
+	BASE_FLAGS=-Wall -O3 $(DEFINES)
 endif
 
 
@@ -29,16 +32,30 @@ CXX_FLAGS=-std=c++14 -pipe $(BASE_FLAGS) -fPIC
 S_FLAGS=
 #LD_FLAGS=-lm `pkg-config --libs Qt5Core Qt5Gui Qt5Widgets sfml-window \
 #	sfml-graphics` -lpugixml $(DEBUG_FLAGS)
-LD_FLAGS=-lm -lpugixml $(DEBUG_FLAGS)
+#LD_FLAGS=-lm -lpugixml $(DEBUG_FLAGS)
+LD_FLAGS=-lm $(DEBUG_FLAGS)
+
+
 
 ifeq ($(OS),Windows_NT)
-	LD_FLAGS+=-lQtWidgets -lQtGui -lQtCore -lsfml-graphics -lsfml-window \
+	LD_FLAGS+=-Lpugixml_source -Wl,-Bstatic -lpugixml -Wl,-Bdynamic \
+		-lQtWidgets -lQtGui -lQtCore -lsfml-graphics -lsfml-window \
 		-lsfml-system
 else
-	CXX_FLAGS+=`pkg-config --cflags Qt5Core Qt5Gui Qt5Widgets sfml-window \
-		sfml-graphics`
-	LD_FLAGS+=`pkg-config --libs Qt5Core Qt5Gui Qt5Widgets sfml-window \
-		sfml-graphics`
+	## Uncomment these if you want the pkg-config results to be "cached" 
+	## for the current run of make.  This may cause a problem if the 
+	## directories of any libraries change, and a new build is done without 
+	## doing make clean first.  Oh, and this appears to be specific to GNU 
+	## Make as well.  GNU Make is definitely the best version of Make :^).
+	#CXX_FLAGS+=$(shell pkg-config --cflags Qt5Core Qt5Gui Qt5Widgets \
+	#	sfml-window sfml-graphics)
+	#LD_FLAGS+=$(shell pkg-config --libs Qt5Core Qt5Gui Qt5Widgets \
+	#	sfml-window sfml-graphics) -lpugixml
+	
+	CXX_FLAGS+=`pkg-config --cflags Qt5Core Qt5Gui Qt5Widgets \
+		sfml-window sfml-graphics`
+	LD_FLAGS+=`pkg-config --libs Qt5Core Qt5Gui Qt5Widgets \
+		sfml-window sfml-graphics` -lpugixml
 endif
 
 
@@ -69,14 +86,29 @@ CXX_OFILES_TEMP=$(patsubst %.cpp,$(OBJDIR_TEMP)/%.o,$(CXX_SOURCES))
 OFILES_TEMP=$(CXX_OFILES_TEMP)
 
 
+
+
 all : all_pre $(OFILES)
 	$(LD) $(OFILES) -o $(PROJ) $(LD_FLAGS)
 
 all_objs : all_pre $(OFILES)
 	@#
 
+ifeq ($(OS),Windows_NT)
+all_pre : pugixml_static_stuff
+	mkdir -p $(OBJDIR) $(DEPDIR) $(MOC_SOURCE_DIR)
+
+pugixml_static_stuff : 
+	$(CXX) $(CXX_FLAGS) -c pugixml_source/pugixml.cpp
+	$(AR) rcs pugixml_source/libpugixml.a pugixml_source/pugixml.o
+
+else
 all_pre :
 	mkdir -p $(OBJDIR) $(DEPDIR) $(MOC_SOURCE_DIR)
+endif
+
+
+
 
 $(CXX_OFILES) : $(OBJDIR)/%.o : %.cpp
 	@#echo "Generating dependency information for "$@"...."
