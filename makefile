@@ -32,13 +32,13 @@ S_FLAGS=
 LD_FLAGS=-lm -lpugixml $(DEBUG_FLAGS)
 
 ifeq ($(OS),Windows_NT)
+	LD_FLAGS+=-lQtWidgets -lQtGui -lQtCore -lsfml-graphics -lsfml-window \
+		-lsfml-system
+else
 	CXX_FLAGS+=`pkg-config --cflags Qt5Core Qt5Gui Qt5Widgets sfml-window \
 		sfml-graphics`
 	LD_FLAGS+=`pkg-config --libs Qt5Core Qt5Gui Qt5Widgets sfml-window \
 		sfml-graphics`
-else
-	LD_FLAGS+=-lQtWidgets -lQtGui -lQtCore -lsfml-graphics -lsfml-window \
-		-lsfml-system
 endif
 
 
