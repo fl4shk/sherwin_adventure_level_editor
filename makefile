@@ -43,8 +43,8 @@ ifeq ($(OS),Windows_NT)
 	CXX_FLAGS+=-Ipugixml_source `pkg-config --cflags Qt5Core Qt5Gui \
 		Qt5Widgets`
 	LD_FLAGS+=-Lpugixml_source -Wl,-Bstatic -lpugixml -Wl,-Bdynamic \
-		-lQtWidgets -lQtGui -lQtCore -lsfml-graphics -lsfml-window \
-		-lsfml-system
+		`pkg-config --libs Qt5Core Qt5Gui Qt5Widgets` -lsfml-graphics \
+		-lsfml-window -lsfml-system
 else
 	## Uncomment these if you want the pkg-config results to be "cached" 
 	## for the current run of make.  This may cause a problem if the 
