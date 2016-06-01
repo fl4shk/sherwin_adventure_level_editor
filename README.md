@@ -4,22 +4,17 @@ sherwin\_adventure\_level\_editor
 This isn't complete yet, but it functions.
 
 
-Dependencies for Everywhere
----------------------------
+Dependencies
+------------
 1.  GNU Make (That's right... POSIX Make isn't enough!)
 2.  GCC (with G++) version 4.9 (probably) or higher, due to the use of
 -std=c++14.
+3.  pkg-config (unless you want to change the makefile)
 4.  Qt5
 5.  SFML (Only 2.x versions supported)
 6.  pugixml
 7.  gbalzss (included in devkitARM) (Probably __only needed for level
 exporting__ once that has been completely implemented)
-
-
-
-Non-Windows Dependencies
-------------------------
-1.  pkg-config (unless you want to change the makefile)
 
 
 

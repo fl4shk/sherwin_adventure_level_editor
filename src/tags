@@ -1363,9 +1363,13 @@ undo_and_redo_action::the_block_drawing_stuff	undo_and_redo_stack_class.hpp	/^	}
 undo_and_redo_action::the_sprite_drawing_stuff	undo_and_redo_stack_class.hpp	/^	} the_sprite_drawing_stuff;$/;"	kind:m	class:undo_and_redo_action	typeref:struct:undo_and_redo_action::sprite_drawing_stuff	access:public
 undo_and_redo_action::the_sprite_erasing_stuff	undo_and_redo_stack_class.hpp	/^	} the_sprite_erasing_stuff;$/;"	kind:m	class:undo_and_redo_action	typeref:struct:undo_and_redo_action::sprite_erasing_stuff	access:public
 undo_and_redo_action::the_sprite_modifying_stuff	undo_and_redo_stack_class.hpp	/^	} the_sprite_modifying_stuff;$/;"	kind:m	class:undo_and_redo_action	typeref:struct:undo_and_redo_action::sprite_modifying_stuff	access:public
+undo_and_redo_stack	undo_and_redo_stack_class.cpp	/^undo_and_redo_stack::undo_and_redo_stack()$/;"	kind:f	class:undo_and_redo_stack	signature:()
+undo_and_redo_stack	undo_and_redo_stack_class.hpp	/^	undo_and_redo_stack();$/;"	kind:p	class:undo_and_redo_stack	access:public	signature:()
 undo_and_redo_stack	undo_and_redo_stack_class.hpp	/^class undo_and_redo_stack$/;"	kind:c
 undo_and_redo_stack::action_vec	undo_and_redo_stack_class.hpp	/^	vector<undo_and_redo_action> action_vec;$/;"	kind:m	class:undo_and_redo_stack	access:public
 undo_and_redo_stack::curr_action_index	undo_and_redo_stack_class.hpp	/^	u32 curr_action_index;$/;"	kind:m	class:undo_and_redo_stack	access:public
+undo_and_redo_stack::undo_and_redo_stack	undo_and_redo_stack_class.cpp	/^undo_and_redo_stack::undo_and_redo_stack()$/;"	kind:f	class:undo_and_redo_stack	signature:()
+undo_and_redo_stack::undo_and_redo_stack	undo_and_redo_stack_class.hpp	/^	undo_and_redo_stack();$/;"	kind:p	class:undo_and_redo_stack	access:public	signature:()
 undo_and_redo_stack_class_hpp	undo_and_redo_stack_class.hpp	21;"	kind:d
 unzoomed_size_2d	sfml_canvas_widget_classes.hpp	/^	QSize unzoomed_size_2d;$/;"	kind:m	class:level_editor_sfml_canvas_widget	access:protected
 up_left_ptr	sprite_level_data_stuff.hpp	/^		* up_left_ptr, * up_ptr, * up_right_ptr,$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public

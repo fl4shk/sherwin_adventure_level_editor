@@ -20,4 +20,8 @@
 #include "undo_and_redo_stack_class.hpp"
 
 
+undo_and_redo_stack::undo_and_redo_stack()
+{
+}
+
 

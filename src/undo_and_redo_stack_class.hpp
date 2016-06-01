@@ -73,6 +73,8 @@ public:		// variables
 	u32 curr_action_index;
 	
 public:		// functions
+	undo_and_redo_stack();
+	
 	
 	
 };
