@@ -175,6 +175,7 @@ bool primary_widget::generate_toolbar()
 		(rect_selection_mode_pixmap));
 	
 	
+	
 	the_mouse_mode_button_group_widget.reset
 		(new mouse_mode_button_group_widget( this, QPoint(), QSize(),
 		draw_mode_tool_button_action.get(),
@@ -190,9 +191,7 @@ bool primary_widget::generate_toolbar()
 	//	&level_editor_widget::switch_mouse_mode );
 	connect( the_mouse_mode_button_group_widget->button_group.get(),
 		(void (QButtonGroup::*)(int))(&QButtonGroup::buttonClicked), 
-		the_central_widget.get(), 
-		(void (level_editor_widget::*)(int))(&level_editor_widget
-		::switch_mouse_mode) );
+		the_central_widget.get(), &level_editor_widget::switch_mouse_mode);
 	
 	
 	toolbar->setMovable(false);
