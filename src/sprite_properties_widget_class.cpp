@@ -190,8 +190,12 @@ void sprite_properties_widget::generate_stuff_for_st_door()
 	group_box_grid_layout->addWidget( group_box_spinbox_vec.at(0).get(),
 		initial_row_count, 1 );
 	
+	//connect( group_box_spinbox_vec.at(0).get(),
+	//	static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+	//	this, &sprite_properties_widget
+	//	::door_sprite_destination_sublevel_entrance_index_changed );
 	connect( group_box_spinbox_vec.at(0).get(),
-		static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+		(void (QSpinBox::*)(int))(&QSpinBox::valueChanged),
 		this, &sprite_properties_widget
 		::door_sprite_destination_sublevel_entrance_index_changed );
 	
@@ -216,11 +220,14 @@ void sprite_properties_widget::generate_stuff_for_st_door()
 	group_box_grid_layout->addWidget( group_box_spinbox_vec.at(1).get(),
 		initial_row_count + 1, 1 );
 	
+	//connect( group_box_spinbox_vec.at(1).get(), 
+	//	static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+	//	this, &sprite_properties_widget
+	//	::door_sprite_destination_sublevel_index_changed );
 	connect( group_box_spinbox_vec.at(1).get(), 
-		static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+		(void (QSpinBox::*)(int))(&QSpinBox::valueChanged),
 		this, &sprite_properties_widget
 		::door_sprite_destination_sublevel_index_changed );
-	
 	
 	
 	
@@ -240,8 +247,11 @@ void sprite_properties_widget::generate_stuff_for_st_door()
 	group_box_grid_layout->addWidget( group_box_spinbox_vec.at(2).get(),
 		initial_row_count + 2, 1 );
 	
+	//connect( group_box_spinbox_vec.at(2).get(), 
+	//	static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+	//	this, &sprite_properties_widget::door_sprite_door_number_changed );
 	connect( group_box_spinbox_vec.at(2).get(), 
-		static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+		(void (QSpinBox::*)(int))(&QSpinBox::valueChanged),
 		this, &sprite_properties_widget::door_sprite_door_number_changed );
 }
 
