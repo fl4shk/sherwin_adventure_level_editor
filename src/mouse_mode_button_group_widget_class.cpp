@@ -34,22 +34,13 @@ mouse_mode_button_group_widget::mouse_mode_button_group_widget
 	move(s_position);
 	resize(s_size);
 	
-	cout << "move() and resize() done\n";
 	
 	hbox_layout.reset(new QHBoxLayout);
-	cout << "hbox_layout.reset() done\n";
-	
 	setLayout(hbox_layout.get());
-	cout << "setLayout() done\n";
-	
 	
 	group_box.reset(new QGroupBox("Tools"));
-	cout << "group_box.reset() done\n";
-	
 	group_box_hbox_layout.reset(new QHBoxLayout);
 	group_box->setLayout(group_box_hbox_layout.get());
-	
-	
 	
 	
 	button_group.reset(new QButtonGroup);
