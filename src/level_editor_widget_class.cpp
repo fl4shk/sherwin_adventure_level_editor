@@ -1361,7 +1361,7 @@ void level_editor_widget::export_source_as()
 
 void level_editor_widget::switch_mouse_mode( int button_id )
 {
-	cout << "Hey, connect() worked!\n";
+	cout << "Hey, connect() to switch_mouse_mode() worked!\n";
 	
 	switch (button_id)
 	{
