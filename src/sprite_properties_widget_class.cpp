@@ -252,7 +252,9 @@ void sprite_properties_widget::generate_stuff_for_st_door()
 	//	this, &sprite_properties_widget::door_sprite_door_number_changed );
 	connect( group_box_spinbox_vec.at(2).get(), 
 		(void (QSpinBox::*)(int))(&QSpinBox::valueChanged),
-		this, &sprite_properties_widget::door_sprite_door_number_changed );
+		this, 
+		(void (sprite_properties_widget::*)(int))(&sprite_properties_widget
+		::door_sprite_door_number_changed) );
 }
 
 

@@ -191,7 +191,8 @@ bool primary_widget::generate_toolbar()
 	connect( the_mouse_mode_button_group_widget->button_group.get(),
 		(void (QButtonGroup::*)(int))(&QButtonGroup::buttonClicked), 
 		the_central_widget.get(), 
-		&level_editor_widget::switch_mouse_mode );
+		(void (level_editor_widget::*)(int))(&level_editor_widget
+		::switch_mouse_mode) );
 	
 	
 	toolbar->setMovable(false);
