@@ -53,6 +53,8 @@ mouse_mode_button_group_widget::mouse_mode_button_group_widget
 
 void mouse_mode_button_group_widget::generate_tool_buttons()
 {
+	cout << "generate_tool_buttons()\n";
+	
 	draw_mode_tool_button.reset(new QToolButton);
 	sprite_properties_mode_tool_button.reset(new QToolButton);
 	rect_selection_mode_tool_button.reset(new QToolButton);
@@ -88,6 +90,7 @@ void mouse_mode_button_group_widget::generate_tool_buttons()
 		(sprite_properties_mode_tool_button.get());
 	group_box_hbox_layout->addWidget
 		(rect_selection_mode_tool_button.get());
+	
 }
 
 

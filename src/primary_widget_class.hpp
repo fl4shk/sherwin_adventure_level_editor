@@ -59,9 +59,12 @@ protected:		// variables
 	
 	
 	// These are used with the_mouse_mode_button_group_widget.
-	unique_ptr<QAction> draw_mode_tool_button_action,
-		sprite_properties_mode_tool_button_action,
-		rect_selection_mode_tool_button_action;
+	//unique_ptr<QAction> draw_mode_tool_button_action,
+	//	sprite_properties_mode_tool_button_action,
+	//	rect_selection_mode_tool_button_action;
+	QAction * draw_mode_tool_button_action,
+		* sprite_properties_mode_tool_button_action,
+		* rect_selection_mode_tool_button_action;
 	
 	unique_ptr<mouse_mode_button_group_widget> 
 		the_mouse_mode_button_group_widget;

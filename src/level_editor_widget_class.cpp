@@ -966,6 +966,8 @@ void level_editor_widget::export_source_as_core_func
 
 void level_editor_widget::switch_mouse_mode_to_place_level_elements()
 {
+	cout << "Target mouse mode:  place_level_elements\n";
+	
 	level_editor_core_widget* the_core_widget = NULL;
 	level_editor_sfml_canvas_widget* the_sfml_canvas_widget = NULL;
 	
@@ -981,8 +983,9 @@ void level_editor_widget::switch_mouse_mode_to_place_level_elements()
 	
 	if ( the_core_widget == NULL )
 	{
-		cout << "Weird bug in keyPressEvent():  the_core_widget == "
-			<< "NULL.\nExpect a segfault....";
+		cout << "Weird bug in "
+			<< "switch_mouse_mode_to_place_level_elements():  "
+			<< "the_core_widget == NULL.\nExpect a segfault....\n";
 	}
 	
 	
@@ -1009,6 +1012,8 @@ void level_editor_widget::switch_mouse_mode_to_erase_sprites()
 
 void level_editor_widget::switch_mouse_mode_to_select_single_sprite()
 {
+	cout << "Target mouse mode:  select_sprites\n";
+	
 	level_editor_core_widget* the_core_widget = NULL;
 	level_editor_sfml_canvas_widget* the_sfml_canvas_widget = NULL;
 	
@@ -1024,8 +1029,9 @@ void level_editor_widget::switch_mouse_mode_to_select_single_sprite()
 	
 	if ( the_core_widget == NULL )
 	{
-		cout << "Weird bug in keyPressEvent():  the_core_widget == "
-			<< "NULL.\nExpect a segfault....";
+		cout << "Weird bug in "
+			<< "switch_mouse_mode_to_select_single_sprite():  "
+			<< "the_core_widget == NULL.\nExpect a segfault....\n";
 	}
 	
 	
@@ -1041,11 +1047,14 @@ void level_editor_widget::switch_mouse_mode_to_select_single_sprite()
 	
 	the_core_widget->the_mouse_mode = mm_select_single_sprite;
 	
+	
 	cout << "Current mouse mode:  select_sprites\n";
 }
 
 void level_editor_widget::switch_mouse_mode_to_rect_selection()
 {
+	cout << "Target mode:  rect_selection\n";
+	
 	level_editor_core_widget* the_core_widget = NULL;
 	level_editor_sfml_canvas_widget* the_sfml_canvas_widget = NULL;
 	
@@ -1061,8 +1070,8 @@ void level_editor_widget::switch_mouse_mode_to_rect_selection()
 	
 	if ( the_core_widget == NULL )
 	{
-		cout << "Weird bug in keyPressEvent():  the_core_widget == "
-			<< "NULL.\nExpect a segfault....";
+		cout << "Weird bug in switch_mouse_mode_to_rect_selection():  "
+			<< "the_core_widget == NULL.\nExpect a segfault....\n";
 	}
 	
 	

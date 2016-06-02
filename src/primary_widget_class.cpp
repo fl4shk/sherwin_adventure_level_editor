@@ -161,12 +161,17 @@ bool primary_widget::generate_toolbar()
 	
 	toolbar->addSeparator();
 	
-	draw_mode_tool_button_action.reset(new QAction( "Draw", this ));
-	sprite_properties_mode_tool_button_action.reset(new QAction
-		( "Sprite Properties", this ));
-	rect_selection_mode_tool_button_action.reset(new QAction
-		( "Rect Selection", this ));
 	
+	//draw_mode_tool_button_action.reset(new QAction( "Draw", this ));
+	//sprite_properties_mode_tool_button_action.reset(new QAction
+	//	( "Sprite Properties", this ));
+	//rect_selection_mode_tool_button_action.reset(new QAction
+	//	( "Rect Selection", this ));
+	draw_mode_tool_button_action = new QAction( "Draw", this );
+	sprite_properties_mode_tool_button_action = new QAction
+		( "Sprite Properties", this );
+	rect_selection_mode_tool_button_action = new QAction
+		( "Rect Selection", this );
 	
 	draw_mode_tool_button_action->setIcon(QIcon(draw_mode_pixmap));
 	sprite_properties_mode_tool_button_action->setIcon(QIcon
@@ -176,11 +181,16 @@ bool primary_widget::generate_toolbar()
 	
 	
 	
+	//the_mouse_mode_button_group_widget.reset
+	//	(new mouse_mode_button_group_widget( this, QPoint(), QSize(),
+	//	draw_mode_tool_button_action.get(),
+	//	sprite_properties_mode_tool_button_action.get(),
+	//	rect_selection_mode_tool_button_action.get() ));
 	the_mouse_mode_button_group_widget.reset
 		(new mouse_mode_button_group_widget( this, QPoint(), QSize(),
-		draw_mode_tool_button_action.get(),
-		sprite_properties_mode_tool_button_action.get(),
-		rect_selection_mode_tool_button_action.get() ));
+		draw_mode_tool_button_action,
+		sprite_properties_mode_tool_button_action,
+		rect_selection_mode_tool_button_action ));
 	
 	
 	toolbar->addWidget(the_mouse_mode_button_group_widget.get());

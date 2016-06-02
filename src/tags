@@ -238,7 +238,7 @@ draw_block_line	level_editor_core_widget_class.hpp	/^	void draw_block_line( cons
 draw_mode_icon_file_name	primary_widget_class.hpp	/^	static const QString laugh_icon_file_name, draw_mode_icon_file_name,$/;"	kind:m	class:primary_widget	access:public
 draw_mode_tool_button	mouse_mode_button_group_widget_class.hpp	/^	unique_ptr<QToolButton> draw_mode_tool_button,$/;"	kind:m	class:mouse_mode_button_group_widget	access:public
 draw_mode_tool_button_action	mouse_mode_button_group_widget_class.hpp	/^	QAction* draw_mode_tool_button_action, $/;"	kind:m	class:mouse_mode_button_group_widget	access:public
-draw_mode_tool_button_action	primary_widget_class.hpp	/^	unique_ptr<QAction> draw_mode_tool_button_action,$/;"	kind:m	class:primary_widget	access:protected
+draw_mode_tool_button_action	primary_widget_class.hpp	/^	QAction * draw_mode_tool_button_action,$/;"	kind:m	class:primary_widget	access:protected
 edit_menu	primary_widget_class.hpp	/^	QMenu* file_menu, * edit_menu;$/;"	kind:m	class:primary_widget	access:protected
 edit_menu_level_properties_action	primary_widget_class.hpp	/^		edit_menu_level_properties_action;$/;"	kind:m	class:primary_widget	access:protected
 edit_menu_sublevel_properties_action	primary_widget_class.hpp	/^	unique_ptr<QAction> edit_menu_sublevel_properties_action,$/;"	kind:m	class:primary_widget	access:protected
@@ -856,7 +856,7 @@ primary_widget	primary_widget_class.hpp	/^class primary_widget : public QMainWin
 primary_widget::argv_copy	primary_widget_class.hpp	/^	vector<string> argv_copy;$/;"	kind:m	class:primary_widget	access:protected
 primary_widget::closeEvent	primary_widget_class.hpp	/^	inline void closeEvent( QCloseEvent* event )$/;"	kind:f	class:primary_widget	access:protected	signature:( QCloseEvent* event )
 primary_widget::draw_mode_icon_file_name	primary_widget_class.hpp	/^	static const QString laugh_icon_file_name, draw_mode_icon_file_name,$/;"	kind:m	class:primary_widget	access:public
-primary_widget::draw_mode_tool_button_action	primary_widget_class.hpp	/^	unique_ptr<QAction> draw_mode_tool_button_action,$/;"	kind:m	class:primary_widget	access:protected
+primary_widget::draw_mode_tool_button_action	primary_widget_class.hpp	/^	QAction * draw_mode_tool_button_action,$/;"	kind:m	class:primary_widget	access:protected
 primary_widget::edit_menu	primary_widget_class.hpp	/^	QMenu* file_menu, * edit_menu;$/;"	kind:m	class:primary_widget	access:protected
 primary_widget::edit_menu_level_properties_action	primary_widget_class.hpp	/^		edit_menu_level_properties_action;$/;"	kind:m	class:primary_widget	access:protected
 primary_widget::edit_menu_sublevel_properties_action	primary_widget_class.hpp	/^	unique_ptr<QAction> edit_menu_sublevel_properties_action,$/;"	kind:m	class:primary_widget	access:protected
@@ -880,9 +880,9 @@ primary_widget::primary_widget	primary_widget_class.hpp	/^	primary_widget( vecto
 primary_widget::quit	primary_widget_class.cpp	/^void primary_widget::quit()$/;"	kind:f	class:primary_widget	signature:()
 primary_widget::quit	primary_widget_class.hpp	/^	void quit();$/;"	kind:p	class:primary_widget	access:protected	signature:()
 primary_widget::rect_selection_mode_icon_file_name	primary_widget_class.hpp	/^		rect_selection_mode_icon_file_name;$/;"	kind:m	class:primary_widget	access:public
-primary_widget::rect_selection_mode_tool_button_action	primary_widget_class.hpp	/^		rect_selection_mode_tool_button_action;$/;"	kind:m	class:primary_widget	access:protected
+primary_widget::rect_selection_mode_tool_button_action	primary_widget_class.hpp	/^		* rect_selection_mode_tool_button_action;$/;"	kind:m	class:primary_widget	access:protected
 primary_widget::sprite_properties_mode_icon_file_name	primary_widget_class.hpp	/^		sprite_properties_mode_icon_file_name, $/;"	kind:m	class:primary_widget	access:public
-primary_widget::sprite_properties_mode_tool_button_action	primary_widget_class.hpp	/^		sprite_properties_mode_tool_button_action,$/;"	kind:m	class:primary_widget	access:protected
+primary_widget::sprite_properties_mode_tool_button_action	primary_widget_class.hpp	/^		* sprite_properties_mode_tool_button_action,$/;"	kind:m	class:primary_widget	access:protected
 primary_widget::the_central_widget	primary_widget_class.hpp	/^	unique_ptr<level_editor_widget> the_central_widget;$/;"	kind:m	class:primary_widget	access:protected
 primary_widget::the_mouse_mode_button_group_widget	primary_widget_class.hpp	/^		the_mouse_mode_button_group_widget;$/;"	kind:m	class:primary_widget	access:protected
 primary_widget::toolbar	primary_widget_class.hpp	/^	QToolBar* toolbar;$/;"	kind:m	class:primary_widget	access:protected
@@ -898,7 +898,7 @@ rect_selection_layer	misc_types.hpp	/^enum rect_selection_layer { rsl_blocks, rs
 rect_selection_mode_icon_file_name	primary_widget_class.hpp	/^		rect_selection_mode_icon_file_name;$/;"	kind:m	class:primary_widget	access:public
 rect_selection_mode_tool_button	mouse_mode_button_group_widget_class.hpp	/^		rect_selection_mode_tool_button;$/;"	kind:m	class:mouse_mode_button_group_widget	access:public
 rect_selection_mode_tool_button_action	mouse_mode_button_group_widget_class.hpp	/^		* rect_selection_mode_tool_button_action;$/;"	kind:m	class:mouse_mode_button_group_widget	access:public
-rect_selection_mode_tool_button_action	primary_widget_class.hpp	/^		rect_selection_mode_tool_button_action;$/;"	kind:m	class:primary_widget	access:protected
+rect_selection_mode_tool_button_action	primary_widget_class.hpp	/^		* rect_selection_mode_tool_button_action;$/;"	kind:m	class:primary_widget	access:protected
 rect_selection_stuff	rect_selection_stuff_class.hpp	/^class rect_selection_stuff$/;"	kind:c
 rect_selection_stuff::clicked_location_in_rect	rect_selection_stuff_class.hpp	/^	vec2_s32 clicked_location_in_rect;$/;"	kind:m	class:rect_selection_stuff	access:public
 rect_selection_stuff::continue_creating_selection	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::continue_creating_selection$/;"	kind:f	class:rect_selection_stuff	signature:( const vec2_s32& curr_block_grid_coords_of_mouse )
@@ -1150,7 +1150,7 @@ sprite_no_longer_selected	level_editor_core_widget_class.hpp	/^	void sprite_no_l
 sprite_properties_mode_icon_file_name	primary_widget_class.hpp	/^		sprite_properties_mode_icon_file_name, $/;"	kind:m	class:primary_widget	access:public
 sprite_properties_mode_tool_button	mouse_mode_button_group_widget_class.hpp	/^		sprite_properties_mode_tool_button,$/;"	kind:m	class:mouse_mode_button_group_widget	access:public
 sprite_properties_mode_tool_button_action	mouse_mode_button_group_widget_class.hpp	/^		* sprite_properties_mode_tool_button_action,$/;"	kind:m	class:mouse_mode_button_group_widget	access:public
-sprite_properties_mode_tool_button_action	primary_widget_class.hpp	/^		sprite_properties_mode_tool_button_action,$/;"	kind:m	class:primary_widget	access:protected
+sprite_properties_mode_tool_button_action	primary_widget_class.hpp	/^		* sprite_properties_mode_tool_button_action,$/;"	kind:m	class:primary_widget	access:protected
 sprite_properties_widget	sprite_properties_widget_class.cpp	/^sprite_properties_widget::sprite_properties_widget( QWidget* s_parent,$/;"	kind:f	class:sprite_properties_widget	signature:( QWidget* s_parent, sprite_init_param_group_with_size* s_selected_sprite_ipgws )
 sprite_properties_widget	sprite_properties_widget_class.hpp	/^	sprite_properties_widget( QWidget* s_parent,$/;"	kind:p	class:sprite_properties_widget	access:public	signature:( QWidget* s_parent, sprite_init_param_group_with_size* s_selected_sprite_ipgws )
 sprite_properties_widget	sprite_properties_widget_class.hpp	/^class sprite_properties_widget : public QWidget$/;"	kind:c	inherits:QWidget
