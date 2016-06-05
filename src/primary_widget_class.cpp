@@ -186,19 +186,15 @@ bool primary_widget::generate_toolbar()
 	//	draw_mode_tool_button_action.get(),
 	//	sprite_properties_mode_tool_button_action.get(),
 	//	rect_selection_mode_tool_button_action.get() ));
-	//the_mouse_mode_button_group_widget.reset
-	//	(new mouse_mode_button_group_widget( this, QPoint(), QSize(),
-	//	draw_mode_tool_button_action,
-	//	sprite_properties_mode_tool_button_action,
-	//	rect_selection_mode_tool_button_action ));
 	
-	the_mouse_mode_button_group_widget = new mouse_mode_button_group_widget
-		( this, QPoint(), QSize(), draw_mode_tool_button_action,
+	
+	the_mouse_mode_button_group_widget.reset
+		(new mouse_mode_button_group_widget( this, QPoint(), QSize(),
+		draw_mode_tool_button_action,
 		sprite_properties_mode_tool_button_action,
-		rect_selection_mode_tool_button_action );
+		rect_selection_mode_tool_button_action ));
 	
-	//toolbar->addWidget(the_mouse_mode_button_group_widget.get());
-	toolbar->addWidget(the_mouse_mode_button_group_widget);
+	toolbar->addWidget(the_mouse_mode_button_group_widget.get());
 	
 	//connect( the_mouse_mode_button_group_widget->button_group.get(),
 	//	static_cast<void (QButtonGroup::*)(int)>

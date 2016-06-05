@@ -884,7 +884,7 @@ primary_widget::rect_selection_mode_tool_button_action	primary_widget_class.hpp	
 primary_widget::sprite_properties_mode_icon_file_name	primary_widget_class.hpp	/^		sprite_properties_mode_icon_file_name, $/;"	kind:m	class:primary_widget	access:public
 primary_widget::sprite_properties_mode_tool_button_action	primary_widget_class.hpp	/^		* sprite_properties_mode_tool_button_action,$/;"	kind:m	class:primary_widget	access:protected
 primary_widget::the_central_widget	primary_widget_class.hpp	/^	unique_ptr<level_editor_widget> the_central_widget;$/;"	kind:m	class:primary_widget	access:protected
-primary_widget::the_mouse_mode_button_group_widget	primary_widget_class.hpp	/^	mouse_mode_button_group_widget* the_mouse_mode_button_group_widget;$/;"	kind:m	class:primary_widget	access:protected
+primary_widget::the_mouse_mode_button_group_widget	primary_widget_class.hpp	/^		the_mouse_mode_button_group_widget;$/;"	kind:m	class:primary_widget	access:protected
 primary_widget::toolbar	primary_widget_class.hpp	/^	QToolBar* toolbar;$/;"	kind:m	class:primary_widget	access:protected
 primary_widget::toolbar_laugh_action	primary_widget_class.hpp	/^	QAction* toolbar_laugh_action;$/;"	kind:m	class:primary_widget	access:protected
 primary_widget_class_hpp	primary_widget_class.hpp	22;"	kind:d
@@ -1313,7 +1313,7 @@ the_core_widget	sprite_16x32_selector_widget_class.hpp	/^	sprite_16x32_selector_
 the_core_widget_vec	level_editor_widget_class.hpp	/^	vector< unique_ptr<level_editor_core_widget> > the_core_widget_vec;$/;"	kind:m	class:level_editor_widget	access:public
 the_level	level_editor_widget_class.hpp	/^	level the_level;$/;"	kind:m	class:level_editor_widget	access:public
 the_mouse_mode	level_editor_core_widget_class.hpp	/^	mouse_mode the_mouse_mode;$/;"	kind:m	class:level_editor_core_widget	access:public
-the_mouse_mode_button_group_widget	primary_widget_class.hpp	/^	mouse_mode_button_group_widget* the_mouse_mode_button_group_widget;$/;"	kind:m	class:primary_widget	access:protected
+the_mouse_mode_button_group_widget	primary_widget_class.hpp	/^		the_mouse_mode_button_group_widget;$/;"	kind:m	class:primary_widget	access:protected
 the_rect_selection_stuff	sfml_canvas_widget_classes.hpp	/^	rect_selection_stuff the_rect_selection_stuff;$/;"	kind:m	class:level_editor_sfml_canvas_widget	access:protected
 the_sfml_canvas_widget	level_editor_core_widget_class.hpp	/^	unique_ptr<level_editor_sfml_canvas_widget> the_sfml_canvas_widget;$/;"	kind:m	class:level_editor_core_widget	access:public
 the_sprite_16x16_selector_core_widget	sfml_canvas_widget_classes.hpp	/^		the_sprite_16x16_selector_core_widget;$/;"	kind:m	class:level_editor_sfml_canvas_widget	access:protected
