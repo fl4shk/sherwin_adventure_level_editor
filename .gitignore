@@ -5,7 +5,14 @@ objs/*
 asmouts/*
 moc_sources/*
 sherwin_adventure_level_editor
+sherwin_adventure_level_editor.exe
 pugixml_test/*
 adj_pointers_test/*
 logs.txt
 *.xml
+pugixml_source/*.hpp
+pugixml_source/*.cpp
+pugixml_source/*.o
+pugixml_source/*.a
+*.dll
+wine_test/*

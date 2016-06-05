@@ -15,6 +15,7 @@ DEFINES=-DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_SHARED
 
 DEBUG=yeah do debug
 
+
 ifdef DEBUG
 	DEBUG_FLAGS=-gdwarf-3 -g
 	
@@ -35,7 +36,6 @@ S_FLAGS=
 #	sfml-graphics` -lpugixml $(DEBUG_FLAGS)
 #LD_FLAGS=-lm -lpugixml $(DEBUG_FLAGS)
 LD_FLAGS=-lm $(DEBUG_FLAGS)
-
 
 
 ifeq ($(OS),Windows_NT)
@@ -60,6 +60,7 @@ else
 	LD_FLAGS+=`pkg-config --libs Qt5Core Qt5Gui Qt5Widgets \
 		sfml-window sfml-graphics` -lpugixml
 endif
+
 
 
 OBJDIR=objs
