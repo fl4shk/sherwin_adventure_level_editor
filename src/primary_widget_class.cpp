@@ -207,10 +207,14 @@ bool primary_widget::generate_toolbar()
 	//connect( the_mouse_mode_button_group_widget->button_group.get(),
 	//	(void (QButtonGroup::*)(int))(&QButtonGroup::buttonClicked), 
 	//	the_central_widget.get(), &level_editor_widget::switch_mouse_mode);
-	connect( the_mouse_mode_button_group_widget->button_group.get(),
+	bool connect_result = connect
+		( the_mouse_mode_button_group_widget->button_group.get(),
 		(void (QButtonGroup::*)(int))(&QButtonGroup::buttonClicked), 
 		the_central_widget.get(), 
 		&level_editor_widget::switch_mouse_mode );
+	
+	cout << "Here's the result of connect() from primary_widget"
+		<< "::generate_toolbar():  " << connect_result << endl;
 	
 	
 	toolbar->setMovable(false);
