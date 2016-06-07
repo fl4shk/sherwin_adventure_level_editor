@@ -3,44 +3,20 @@
 CXX_DIRS=src
 
 
-PROJ=$(shell basename $(CURDIR))
 
-
-
-
-UNAME_MINUS_O_RESULT=$(shell uname -o)
-
-
-ifeq ($(UNAME_MINUS_O_RESULT),Msys)
-	## If using Msys, change this to wherever you have MingW installed.
-	PREFIX=/d/Qt/Qt5.6.0/Tools/mingw492_32/bin/
-	#PREFIX=D:/Qt/Qt5.6.0/Tools/mingw492_32/bin/
-	#PREFIX=D:\\Qt\\Qt5.6.0\\Tools\\mingw492_32\\bin\\
-	
-	# If using Cygwin, change this to wherever you have Qt's MingW
-	# installed.
-	MOC_PREFIX=/d/Qt/Qt5.6.0/5.6/mingw49_32/bin/
-	#MOC_PREFIX=D:/Qt/Qt5.6.0/5.6/mingw49_32/bin/
-	
-	# Also change this as well
-	SET_PC_PATH_PART_1=export PKG_CONFIG_PATH=/d/Qt/Qt5.6.0/5.6/
-	SET_PC_PATH_PART_2=mingw49_32/lib/pkgconfig;
-	SET_PKG_CONFIG_PATH=$(SET_PC_PATH_PART_1)$(SET_PC_PATH_PART_2)
-	
-	# As you might expect, change SFML_ROOT_DIR to a correct directory as
-	# well.
-	SFML_ROOT_DIR=../SFML-2.3.2
-	SFML_INCLUDE_DIR_FLAG=-I$(SFML_ROOT_DIR)/include
-	SFML_LINK_DIR_FLAG=-L$(SFML_ROOT_DIR)/bin
+ifeq ($(OS),Windows_NT)
+	PROJ=$(shell basename $(CURDIR)).exe
+else
+	PROJ=$(shell basename $(CURDIR))
 endif
 
 
 
 
-CXX=$(SET_PKG_CONFIG_PATH) $(PREFIX)g++
-LD=$(SET_PKG_CONFIG_PATH) $(PREFIX)g++
-AR=$(PREFIX)ar
-MOC=$(MOC_PREFIX)moc
+CXX=g++
+LD=g++
+AR=ar
+MOC=moc
 
 
 DEFINES=-DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_SHARED
@@ -53,7 +29,8 @@ ifdef DEBUG
 	DEBUG_FLAGS=-gdwarf-3 -g
 	
 	#BASE_FLAGS=-Wall -Og -g -march=native -mtune=native $(DEFINES)
-	BASE_FLAGS=-Wall -Og -g $(DEFINES)
+	#BASE_FLAGS=-Wall -Og -g $(DEFINES)
+	BASE_FLAGS=-Wall -O0 -g $(DEFINES)
 else
 	#BASE_FLAGS=-Wall -O3 -march=native -mtune=native $(DEFINES)
 	BASE_FLAGS=-Wall -O3 $(DEFINES)
@@ -94,8 +71,8 @@ else
 	
 	CXX_FLAGS+=`pkg-config --cflags Qt5Core Qt5Gui Qt5Widgets \
 		sfml-window sfml-graphics` -fPIC
-	LD_FLAGS+=`pkg-config --libs Qt5Core Qt5Gui Qt5Widgets \
-		sfml-window sfml-graphics` -lpugixml
+	LD_FLAGS+=-lpugixml `pkg-config --libs Qt5Core Qt5Gui Qt5Widgets` \
+		-lsfml-graphics -lsfml-window -lsfml-system
 endif
 
 
@@ -139,7 +116,10 @@ all_objs : all_pre $(OFILES)
 	@#
 
 ifeq ($(OS),Windows_NT)
-all_pre : pugixml_static_stuff
+all_pre : dir_making_stuff pugixml_static_stuff
+	@#mkdir -p $(OBJDIR) $(DEPDIR) $(MOC_SOURCE_DIR)
+
+dir_making_stuff :
 	mkdir -p $(OBJDIR) $(DEPDIR) $(MOC_SOURCE_DIR)
 
 pugixml_static_stuff : 
@@ -172,7 +152,7 @@ $(CXX_MOC_SOURCES) : $(MOC_SOURCE_DIR)/%.moc.cpp : %.hpp
 	@#$(MOC) $(DEFINES) $(patsubst `pwd`/, ,$<)
 	@#echo "HEY THERE"
 	@#echo $(subst $(CURDIR)/,,$(<))
-	$(MOC) $(DEFINES) $(subst $(CURDIR)/,,$(<)) -o $@
+	@$(MOC) $(DEFINES) $(subst $(CURDIR)/,,$(<)) -o $@
 	
 else
 $(CXX_MOC_SOURCES) : $(MOC_SOURCE_DIR)/%.moc.cpp : %.hpp

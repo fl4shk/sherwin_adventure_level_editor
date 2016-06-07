@@ -34,14 +34,43 @@ const QString primary_widget::laugh_icon_file_name
 primary_widget::primary_widget( vector<string>& s_argv_copy, 
 	QWidget* parent ) : QMainWindow(parent), argv_copy(s_argv_copy)
 {
+	bool generate_toolbar_result = generate_toolbar();
+	
+	cout << "Here's the result of generate_toolbar():  " 
+		<< generate_toolbar_result << endl;
+	
+	if ( !generate_toolbar_result )
+	{
+		quit_non_slot();
+	}
+	
 	generate_central_widget();
 	
 	generate_menus();
 	
-	if ( !generate_toolbar() )
-	{
-		quit_non_slot();
-	}
+	//connect( the_mouse_mode_button_group_widget->button_group.get(),
+	//	static_cast<void (QButtonGroup::*)(int)>
+	//	(&QButtonGroup::buttonClicked), the_central_widget.get(),
+	//	&level_editor_widget::switch_mouse_mode );
+	//connect( the_mouse_mode_button_group_widget->button_group.get(),
+	//	(void (QButtonGroup::*)(int))(&QButtonGroup::buttonClicked), 
+	//	the_central_widget.get(), &level_editor_widget::switch_mouse_mode);
+	bool connect_result = connect
+		( the_mouse_mode_button_group_widget->button_group.get(),
+		(void (QButtonGroup::*)(int))(&QButtonGroup::buttonClicked), 
+		the_central_widget.get(), 
+		&level_editor_widget::switch_mouse_mode );
+	
+	cout << "Here's the result of connect() from primary_widget"
+		<< "::generate_toolbar():  " << connect_result << endl;
+	
+	
+	
+	//if ( !generate_toolbar() )
+	//{
+	//	quit_non_slot();
+	//}
+	
 	
 	
 	//if ( !the_central_widget->open_image
@@ -195,23 +224,6 @@ bool primary_widget::generate_toolbar()
 		rect_selection_mode_tool_button_action ));
 	
 	toolbar->addWidget(the_mouse_mode_button_group_widget.get());
-	
-	//connect( the_mouse_mode_button_group_widget->button_group.get(),
-	//	static_cast<void (QButtonGroup::*)(int)>
-	//	(&QButtonGroup::buttonClicked), the_central_widget.get(),
-	//	&level_editor_widget::switch_mouse_mode );
-	//connect( the_mouse_mode_button_group_widget->button_group.get(),
-	//	(void (QButtonGroup::*)(int))(&QButtonGroup::buttonClicked), 
-	//	the_central_widget.get(), &level_editor_widget::switch_mouse_mode);
-	bool connect_result = connect
-		( the_mouse_mode_button_group_widget->button_group.get(),
-		(void (QButtonGroup::*)(int))(&QButtonGroup::buttonClicked), 
-		the_central_widget.get(), 
-		&level_editor_widget::switch_mouse_mode );
-	
-	cout << "Here's the result of connect() from primary_widget"
-		<< "::generate_toolbar():  " << connect_result << endl;
-	
 	
 	toolbar->setMovable(false);
 	
