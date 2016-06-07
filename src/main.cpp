@@ -27,6 +27,7 @@
 int main( int argc, char** argv )
 {
 	vector<string> argv_copy;
+	argv_copy.clear();
 	
 	for ( int i=0; i<argc; ++i )
 	{
