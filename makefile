@@ -1,14 +1,47 @@
-# Edit these variables if more directories are needed.
+# Edit this variable if more source code directories are needed.
 # Separate each entry by spaces.
 CXX_DIRS=src
 
-# This is likely specific to *nix.
+
 PROJ=$(shell basename $(CURDIR))
 
 
-CXX=g++
-LD=g++
-AR=ar
+
+
+UNAME_MINUS_O_RESULT=$(shell uname -o)
+
+
+ifeq ($(UNAME_MINUS_O_RESULT),Msys)
+	## If using Msys, change this to wherever you have MingW installed.
+	PREFIX=/d/Qt/Qt5.6.0/Tools/mingw492_32/bin/
+	#PREFIX=D:/Qt/Qt5.6.0/Tools/mingw492_32/bin/
+	#PREFIX=D:\\Qt\\Qt5.6.0\\Tools\\mingw492_32\\bin\\
+	
+	# If using Cygwin, change this to wherever you have Qt's MingW
+	# installed.
+	MOC_PREFIX=/d/Qt/Qt5.6.0/5.6/mingw49_32/bin/
+	#MOC_PREFIX=D:/Qt/Qt5.6.0/5.6/mingw49_32/bin/
+	
+	# Also change this as well
+	SET_PC_PATH_PART_1=export PKG_CONFIG_PATH=/d/Qt/Qt5.6.0/5.6/
+	SET_PC_PATH_PART_2=mingw49_32/lib/pkgconfig;
+	SET_PKG_CONFIG_PATH=$(SET_PC_PATH_PART_1)$(SET_PC_PATH_PART_2)
+	
+	# As you might expect, change SFML_ROOT_DIR to a correct directory as
+	# well.
+	SFML_ROOT_DIR=../SFML-2.3.2
+	SFML_INCLUDE_DIR_FLAG=-I$(SFML_ROOT_DIR)/include
+	SFML_LINK_DIR_FLAG=-L$(SFML_ROOT_DIR)/bin
+endif
+
+
+
+
+CXX=$(SET_PKG_CONFIG_PATH) $(PREFIX)g++
+LD=$(SET_PKG_CONFIG_PATH) $(PREFIX)g++
+AR=$(PREFIX)ar
+MOC=$(MOC_PREFIX)moc
+
 
 DEFINES=-DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_SHARED
 
@@ -19,8 +52,8 @@ DEBUG=yeah do debug
 ifdef DEBUG
 	DEBUG_FLAGS=-gdwarf-3 -g
 	
-	#BASE_FLAGS=-Wall -g -march=native -mtune=native $(DEFINES)
-	BASE_FLAGS=-Wall -g $(DEFINES)
+	#BASE_FLAGS=-Wall -Og -g -march=native -mtune=native $(DEFINES)
+	BASE_FLAGS=-Wall -Og -g $(DEFINES)
 else
 	#BASE_FLAGS=-Wall -O3 -march=native -mtune=native $(DEFINES)
 	BASE_FLAGS=-Wall -O3 $(DEFINES)
@@ -30,7 +63,11 @@ endif
 #CXX_FLAGS=-std=c++14 -pipe -I/usr/include $(BASE_FLAGS) `pkg-config \
 #	--cflags Qt5Core Qt5Gui Qt5Widgets sfml-window sfml-graphics` -fPIC
 
-CXX_FLAGS=-std=c++14 -pipe $(BASE_FLAGS)
+
+SHARED_CXX_FLAGS=-std=c++14 -pipe $(BASE_FLAGS)
+CXX_FLAGS=$(SHARED_CXX_FLAGS)
+PUGIXML_CXX_FLAGS=-Ipugixml_source $(SHARED_CXX_FLAGS)
+
 S_FLAGS=
 #LD_FLAGS=-lm `pkg-config --libs Qt5Core Qt5Gui Qt5Widgets sfml-window \
 #	sfml-graphics` -lpugixml $(DEBUG_FLAGS)
@@ -39,11 +76,11 @@ LD_FLAGS=-lm $(DEBUG_FLAGS)
 
 
 ifeq ($(OS),Windows_NT)
-	CXX_FLAGS+=-Ipugixml_source `pkg-config --cflags Qt5Core Qt5Gui \
-		Qt5Widgets`
-	LD_FLAGS+=-Lpugixml_source -Wl,-Bstatic -lpugixml -Wl,-Bdynamic \
-		`pkg-config --libs Qt5Core Qt5Gui Qt5Widgets` -lsfml-graphics \
-		-lsfml-window -lsfml-system
+	CXX_FLAGS+=-Ipugixml_source $(SFML_INCLUDE_DIR_FLAG) `pkg-config \
+		--cflags Qt5Core Qt5Gui Qt5Widgets`
+	LD_FLAGS+=-Lpugixml_source $(SFML_LINK_DIR_FLAG) -Wl,-Bstatic \
+		-lpugixml -Wl,-Bdynamic `pkg-config --libs Qt5Core Qt5Gui \
+		Qt5Widgets` -lsfml-graphics -lsfml-window -lsfml-system
 else
 	## Uncomment these if you want the pkg-config results to be "cached" 
 	## for the current run of make.  This may cause a problem if the 
@@ -94,6 +131,9 @@ OFILES_TEMP=$(CXX_OFILES_TEMP)
 
 all : all_pre $(OFILES)
 	$(LD) $(OFILES) -o $(PROJ) $(LD_FLAGS)
+#all : all_pre
+#	@#$(LD) $(OFILES) -o $(PROJ) $(LD_FLAGS)
+#	echo "all_pre done"
 
 all_objs : all_pre $(OFILES)
 	@#
@@ -103,7 +143,7 @@ all_pre : pugixml_static_stuff
 	mkdir -p $(OBJDIR) $(DEPDIR) $(MOC_SOURCE_DIR)
 
 pugixml_static_stuff : 
-	$(CXX) $(CXX_FLAGS) -c pugixml_source/pugixml.cpp \
+	$(CXX) $(PUGIXML_CXX_FLAGS) -c pugixml_source/pugixml.cpp \
 		-o pugixml_source/pugixml.o
 	$(AR) rcs pugixml_source/libpugixml.a pugixml_source/pugixml.o
 
@@ -128,7 +168,12 @@ $(CXX_OFILES) : $(OBJDIR)/%.o : %.cpp
 
 ifeq ($(OS),Windows_NT)
 $(CXX_MOC_SOURCES) : $(MOC_SOURCE_DIR)/%.moc.cpp : %.hpp
-	@moc $(DEFINES) $< -o $@
+	@#$(MOC) $(DEFINES) $(shell bash -c "export thing=$<; echo $${thing#*`pwd`/}") -o $@
+	@#$(MOC) $(DEFINES) $(patsubst `pwd`/, ,$<)
+	@#echo "HEY THERE"
+	@#echo $(subst $(CURDIR)/,,$(<))
+	$(MOC) $(DEFINES) $(subst $(CURDIR)/,,$(<)) -o $@
+	
 else
 $(CXX_MOC_SOURCES) : $(MOC_SOURCE_DIR)/%.moc.cpp : %.hpp
 	@#moc-qt5 $(DEFINES) $< -o $@
@@ -144,7 +189,8 @@ $(CXX_MOC_OFILES) : $(OBJDIR)/%.moc.o : $(MOC_SOURCE_DIR)/%.moc.cpp
 
 .PHONY : clean
 clean :
-	rm -rfv $(OBJDIR) $(DEPDIR) $(MOC_SOURCE_DIR) $(PROJ) tags *.taghl
+	rm -rfv $(OBJDIR) $(DEPDIR) $(MOC_SOURCE_DIR) $(PROJ) \
+	pugixml_source/*.a pugixml_source/*.o tags *.taghl
 
 .PHONY : clean_objs_with_no_source
 clean_objs_with_no_source :

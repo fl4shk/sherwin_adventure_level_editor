@@ -37,6 +37,9 @@ public:		// constants
 		sprite_properties_mode_icon_file_name, 
 		rect_selection_mode_icon_file_name;
 	
+	int test;
+	
+	
 protected:		// variables
 	vector<string> argv_copy;
 	
