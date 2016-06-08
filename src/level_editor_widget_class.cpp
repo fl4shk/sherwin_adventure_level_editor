@@ -26,9 +26,8 @@ const QString level_editor_widget::default_parent_title
 
 level_editor_widget::level_editor_widget
 	( editing_manager* s_the_editing_manager, vector<string>* s_argv_copy,
-	QWidget* s_parent ) : the_editing_manager(s_the_editing_manager), 
-	QWidget(s_parent), argv_copy(s_argv_copy),
-	parent(s_parent)
+	QWidget* s_parent ) :  QWidget(s_parent), argv_copy(s_argv_copy),
+	parent(s_parent), the_editing_manager(s_the_editing_manager)
 {
 	the_editing_manager->set_the_level_editor_widget(this);
 	
@@ -56,14 +55,16 @@ level_editor_widget::level_editor_widget
 		
 		//level_editor_core_widget* to_push = new level_editor_core_widget
 		//	( this, QPoint( 0, 0 ), string(""), 
-		//	&the_level.sublevel_vec.front(), vec2_u32( 16, 16 ) );
+		//	&the_level.sublevel_vec.front(), vec2_u32( 16, 16 ),
+		//	the_editing_manager );
 		//level_editor_core_widget* to_push = new level_editor_core_widget
 		//	( this, QPoint( 0, 0 ), string(""), 
-		//	&the_level.sublevel_vec.front() );
+		//	&the_level.sublevel_vec.front(), the_editing_manager );
 		
 		the_core_widget_vec.push_back(unique_ptr<level_editor_core_widget>
 			(new level_editor_core_widget( this, QPoint( 0, 0 ), 
-			string(""), &the_level.sublevel_vec.front() )));
+			string(""), &the_level.sublevel_vec.front(),
+			the_editing_manager )));
 		
 		
 		connect( the_core_widget_vec.back().get(),
@@ -512,7 +513,8 @@ bool level_editor_widget::open_level_core_func
 		
 		the_core_widget_vec.push_back(unique_ptr<level_editor_core_widget>
 			(new level_editor_core_widget( this, QPoint( 0, 0 ), 
-			n_level_file_name, &the_level.sublevel_vec.back() )));
+			n_level_file_name, &the_level.sublevel_vec.back(),
+			the_editing_manager )));
 		
 		
 		connect( the_core_widget_vec.back().get(),

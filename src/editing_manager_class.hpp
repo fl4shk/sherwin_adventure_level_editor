@@ -57,9 +57,12 @@ public:		// functions
 	void key_press_event( QKeyEvent* event );
 	
 	// level_editor_core_widget
-	void mouse_press_event( QMouseEvent* event );
-	void mouse_move_event( QMouseEvent* event );
-	void mouse_release_event( QMouseEvent* event );
+	void mouse_press_event( level_editor_core_widget* the_core_widget, 
+		QMouseEvent* event );
+	void mouse_move_event( level_editor_core_widget* the_core_widget, 
+		QMouseEvent* event );
+	void mouse_release_event( level_editor_core_widget* the_core_widget, 
+		QMouseEvent* event );
 	
 	
 protected:		// functions

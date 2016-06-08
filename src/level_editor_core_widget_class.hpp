@@ -35,6 +35,8 @@ class block_selector_core_widget;
 class sprite_16x16_selector_core_widget;
 class sprite_16x32_selector_core_widget;
 
+class editing_manager;
+
 class level_editor_core_widget : public QWidget
 {
 	Q_OBJECT
@@ -84,14 +86,17 @@ public:		// variables
 	adj_sprite_ipgws_ptr_group_for_selecting_sprite
 		the_sprite_selection_ptr_group;
 	
+	editing_manager* the_editing_manager;
 	
 	
 public:		// functions
 	level_editor_core_widget( QWidget* s_parent, const QPoint& s_position,
-		const string& s_level_file_name, sublevel* s_the_sublevel );
+		const string& s_level_file_name, sublevel* s_the_sublevel,
+		editing_manager* s_the_editing_manager);
 	level_editor_core_widget( QWidget* s_parent, const QPoint& s_position,
 		const string& s_level_file_name, sublevel* s_the_sublevel,
-		const vec2_u32& s_sublevel_real_size_2d );
+		const vec2_u32& s_sublevel_real_size_2d,
+		editing_manager* s_the_editing_manager);
 	
 	void shared_constructor_code( const QPoint& s_position, 
 		 const vec2_u32& s_sublevel_real_size_2d );
@@ -125,6 +130,21 @@ public:		// functions
 	
 protected:		// functions
 	// Utility functions
+	
+	inline void do_emit_right_mouse_button_pressed()
+	{
+		emit right_mouse_button_pressed();
+	}
+	
+	inline void do_emit_sprite_no_longer_selected()
+	{
+		emit sprite_no_longer_selected();
+	}
+	
+	inline void do_emit_sprite_was_selected()
+	{
+		emit sprite_was_selected();
+	}
 	
 	
 	// This uses a purely integer-based line drawing algorithm.  The

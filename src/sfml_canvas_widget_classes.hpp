@@ -27,6 +27,8 @@
 #include "sprite_level_data_stuff.hpp"
 #include "rect_selection_stuff_class.hpp"
 
+//#include "editing_manager_class.hpp"
+
 
 class sfml_canvas_widget_base : public QWidget, public sf::RenderWindow
 {
@@ -74,7 +76,6 @@ class sprite_16x32_selector_core_widget;
 
 class level_editor_core_widget;
 
-class editing_manager;
 
 class level_editor_sfml_canvas_widget : public sfml_canvas_widget_base
 {
