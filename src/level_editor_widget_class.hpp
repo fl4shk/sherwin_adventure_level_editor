@@ -34,6 +34,9 @@
 
 #include "undo_and_redo_stack_class.hpp"
 
+//#include "editing_manager_class.hpp"
+
+class editing_manager;
 
 class level_editor_widget : public QWidget
 {
@@ -93,11 +96,12 @@ public:		// variables
 		the_sublevel_properties_widget;
 	
 	
+	editing_manager* the_editing_manager;
 	
 	
 public:		// functions
-	level_editor_widget( vector<string>* s_argv_copy, 
-		QWidget* s_parent = 0 );
+	level_editor_widget( editing_manager* s_the_editing_manager, 
+		vector<string>* s_argv_copy, QWidget* s_parent = 0 );
 	
 	inline s32 get_curr_level_editor_core_widget_index()
 	{
@@ -226,6 +230,11 @@ public slots:		// slots
 	// the_central_widget->the_mouse_mode_button_group_widget is connected
 	// to this slot.
 	void switch_mouse_mode( int button_id );
+	
+	
+public:		// friend classes
+	friend class editing_manager;
+	
 };
 
 

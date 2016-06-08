@@ -74,6 +74,7 @@ class sprite_16x32_selector_core_widget;
 
 class level_editor_core_widget;
 
+class editing_manager;
 
 class level_editor_sfml_canvas_widget : public sfml_canvas_widget_base
 {
@@ -325,6 +326,7 @@ protected:		// functions
 	
 	friend class level_editor_core_widget;
 	friend class level_editor_widget;
+	friend class editing_manager;
 	
 };
 

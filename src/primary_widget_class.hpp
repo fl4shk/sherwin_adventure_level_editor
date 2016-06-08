@@ -23,8 +23,11 @@
 
 #include "misc_includes.hpp"
 #include "layout_widget_classes.hpp"
-#include "level_editor_widget_class.hpp"
+//#include "level_editor_widget_class.hpp"
+#include "editing_manager_class.hpp"
 #include "mouse_mode_button_group_widget_class.hpp"
+
+
 
 
 class primary_widget : public QMainWindow
@@ -79,6 +82,9 @@ protected:		// variables
 	// The central widget.
 	unique_ptr<level_editor_widget> the_central_widget;
 	
+	
+	// The editing manager
+	unique_ptr<editing_manager> the_editing_manager;
 	
 public:		// functions
 	primary_widget( vector<string>& s_argv_copy, QWidget* parent = 0 );

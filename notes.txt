@@ -1,0 +1,9 @@
+What needs to be done to avoid using a GIANT SFML RenderWindow
+17:02 <+peppe> FL4SHK: you want QAbstractScrollArea then
+17:02 <FL4SHK> I see
+17:02 <+peppe> and implement your own scrollBy mechanism
+17:02 <FL4SHK> ooh, I see
+17:02 <+peppe> keep the scrollbars under your control, etc.
+17:07 <FL4SHK> peppe:  is there anything else I'd need to implement
+17:10 <+peppe> FL4SHK: I'd say no?
+17:13 <FL4SHK> okay cool

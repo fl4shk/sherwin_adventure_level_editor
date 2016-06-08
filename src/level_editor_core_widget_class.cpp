@@ -150,7 +150,11 @@ bool level_editor_core_widget::zoom_in()
 	//{
 	//	return false;
 	//}
-	if ( the_sfml_canvas_widget->scale_factor == 4 )
+	//if ( the_sfml_canvas_widget->scale_factor == 4 )
+	//{
+	//	return false;
+	//}
+	if ( the_sfml_canvas_widget->scale_factor == 2 )
 	{
 		return false;
 	}
@@ -705,7 +709,7 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 		emit sprite_no_longer_selected();
 	};
 	
-	if ( event->button() == Qt::LeftButton )
+	if ( event->buttons() == Qt::LeftButton )
 	{
 		//cout << block_grid_coords_of_mouse_pos.x << ", "
 		//	<< block_grid_coords_of_mouse_pos.y << endl;
@@ -737,7 +741,7 @@ void level_editor_core_widget::mousePressEvent( QMouseEvent* event )
 		}
 		
 	}
-	else if ( event->button() == Qt::RightButton )
+	else if ( event->buttons() == Qt::RightButton )
 	{
 		
 		//emit right_mouse_button_pressed();

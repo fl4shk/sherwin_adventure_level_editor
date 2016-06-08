@@ -67,19 +67,37 @@ public:		// variables
 
 class undo_and_redo_stack
 {
-public:		// variables
+//public:		// variables
+protected:		// variables
 	vector<undo_and_redo_action> action_vec;
 	
-	u32 curr_action_index;
+	// A u64 can only represent so many different actions, so over time
+	// perhaps this could be a source of an error :/
+	u64 curr_action_index;
 	
 public:		// functions
 	undo_and_redo_stack();
 	
 	
+	// This is just for good measure.
+	u64 get_curr_action_index() const;
+	
+	const undo_and_redo_action& get_curr_action() const;
+	
+	
+	// If not at the end of action_vec, this chops off everything after the
+	// current position.
+	void add_action( const undo_and_redo_action& the_action );
+	
+	
+	// Only one undo or redo at a time.  Returns whether the undo or redo
+	// was successful, which is probably only useful for debugging
+	// purposes.
+	bool undo(  );
+	bool redo(  );
+	
 	
 };
-
-
 
 
 #endif		// undo_and_redo_stack_class_hpp

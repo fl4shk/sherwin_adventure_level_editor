@@ -44,6 +44,8 @@ primary_widget::primary_widget( vector<string>& s_argv_copy,
 		quit_non_slot();
 	}
 	
+	the_editing_manager.reset(new editing_manager());
+	
 	generate_central_widget();
 	
 	generate_menus();
@@ -232,7 +234,8 @@ bool primary_widget::generate_toolbar()
 
 void primary_widget::generate_central_widget()
 {
-	the_central_widget.reset(new level_editor_widget( &argv_copy, this ));
+	the_central_widget.reset(new level_editor_widget
+		( the_editing_manager.get(), &argv_copy, this ));
 	
 	setCentralWidget(the_central_widget.get());
 }

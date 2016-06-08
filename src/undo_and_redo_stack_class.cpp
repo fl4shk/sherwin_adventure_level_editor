@@ -22,6 +22,51 @@
 
 undo_and_redo_stack::undo_and_redo_stack()
 {
+	action_vec.clear();
+	curr_action_index = 0;
+}
+
+
+u64 undo_and_redo_stack::get_curr_action_index() const
+{
+	return curr_action_index;
+}
+
+
+void undo_and_redo_stack::add_action
+	( const undo_and_redo_action& the_action )
+{
+	// Check whether undo has been done recently.
+	if ( curr_action_index == action_vec.size() - 1 )
+	{
+		action_vec.push_back(the_action);
+	}
+	
+	// If not, then replace all the stuff after
+	else //if ( curr_action_index < action_vec.size() - 1 )
+	{
+		action_vec.resize( curr_action_index + 1 );
+		action_vec.push_back(the_action);
+	}
+	
+	++curr_action_index;
+}
+
+
+bool undo_and_redo_stack::undo()
+{
+	if ( curr_action_index > 0 )
+	{
+		--curr_action_index;
+	}
+}
+
+bool undo_and_redo_stack::redo()
+{
+	if ( curr_action_index < action_vec.size() - 1 )
+	{
+		++curr_action_index;
+	}
 }
 
 

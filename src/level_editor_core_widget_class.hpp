@@ -161,6 +161,9 @@ signals:		// signals
 	void sprite_no_longer_selected();
 	
 	
+public:		// friend classes
+	friend class editing_manager;
+	
 	
 };
 
