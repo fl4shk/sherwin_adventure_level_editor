@@ -239,16 +239,21 @@ void level_editor_sfml_canvas_widget::generate_block_grid()
 	
 	sf::FloatRect visible_rect = get_visible_rect();
 
-	vec2<double> visible_block_grid_start_pos
-		( (double)visible_rect.left 
-		/ (double)( num_pixels_per_block_column * scale_factor ), 
-		(double)visible_rect.top / (double)( num_pixels_per_block_row
-		* scale_factor ) );
+	//vec2<double> visible_block_grid_start_pos
+	//	( (double)visible_rect.left 
+	//	/ (double)( num_pixels_per_block_column * scale_factor ), 
+	//	(double)visible_rect.top / (double)( num_pixels_per_block_row
+	//	* scale_factor ) );
+	//vec2<double> visible_block_grid_size_2d
+	//	( (double)visible_rect.width 
+	//	/ (double)( num_pixels_per_block_column * scale_factor ), 
+	//	(double)visible_rect.height / (double)( num_pixels_per_block_row 
+	//	* scale_factor ) );
+	
+	vec2<double> visible_block_grid_start_pos 
+		= get_basic_visible_block_grid_start_pos(visible_rect);
 	vec2<double> visible_block_grid_size_2d
-		( (double)visible_rect.width 
-		/ (double)( num_pixels_per_block_column * scale_factor ), 
-		(double)visible_rect.height / (double)( num_pixels_per_block_row 
-		* scale_factor ) );
+		= get_basic_visible_block_grid_size_2d(visible_rect);
 	
 	//cout << visible_block_grid_size_2d.x << ", "
 	//	<< visible_block_grid_size_2d.y << endl;
@@ -258,19 +263,6 @@ void level_editor_sfml_canvas_widget::generate_block_grid()
 	
 	++visible_block_grid_size_2d.x;
 	++visible_block_grid_size_2d.y;
-	
-	//if ( ( visible_block_grid_start_pos.x + visible_block_grid_size_2d.x ) 
-	//	> ( the_sublevel->real_size_2d.x ) )
-	//{
-	//	cout << "visible_block_grid_size_2d.y too large\n";
-	//	--visible_block_grid_size_2d.x;
-	//}
-	//if ( ( visible_block_grid_start_pos.y + visible_block_grid_size_2d.y ) 
-	//	> ( the_sublevel->real_size_2d.y ) )
-	//{
-	//	cout << "visible_block_grid_size_2d.y too large\n";
-	//	--visible_block_grid_size_2d.y;
-	//}
 	
 	
 	
@@ -371,61 +363,61 @@ void level_editor_sfml_canvas_widget::generate_rect_selection_rect()
 		selection_rect.height * num_pixels_per_block_row * scale_factor, 
 		sf::Color( 0, 0, 0, 0 ) );
 	
+	
+	auto partially_set_pixels_of_vertical_lines = [&]( u32 j, 
+		const sf::Color& pixel_color ) -> void
+	{
+		the_rect_selection_stuff.selection_image->setPixel( 0, j,
+			pixel_color );
+		the_rect_selection_stuff.selection_image->setPixel( 1, j,
+			pixel_color );
+		the_rect_selection_stuff.selection_image->setPixel
+			( the_rect_selection_stuff.selection_image->getSize().x - 2, 
+			j, pixel_color );
+		the_rect_selection_stuff.selection_image->setPixel
+			( the_rect_selection_stuff.selection_image->getSize().x - 1, 
+			j, pixel_color );
+	};
+	
+	auto partially_set_pixels_of_horizontal_lines = [&]( u32 i, 
+		const sf::Color& pixel_color ) -> void
+	{
+		the_rect_selection_stuff.selection_image->setPixel( i, 0,
+			pixel_color );
+		the_rect_selection_stuff.selection_image->setPixel( i, 1,
+			pixel_color );
+		the_rect_selection_stuff.selection_image->setPixel( i, 
+			the_rect_selection_stuff.selection_image->getSize().y - 2,
+			pixel_color );
+		the_rect_selection_stuff.selection_image->setPixel( i, 
+			the_rect_selection_stuff.selection_image->getSize().y - 1,
+			pixel_color );
+	};
+	
+	
+	sf::Color line_pixels_color;
+	
+	if ( the_rect_selection_stuff.selection_layer == rsl_blocks )
+	{
+		line_pixels_color = sf::Color::Blue;
+	}
+	else if ( the_rect_selection_stuff.selection_layer == rsl_sprites 
+		&& the_rect_selection_stuff.single_sprite_selected )
+	{
+		line_pixels_color = sf::Color::Red;
+	}
+	else if ( the_rect_selection_stuff.selection_layer == rsl_sprites 
+		&& !the_rect_selection_stuff.single_sprite_selected )
+	{
+		line_pixels_color = sf::Color( 0, 188, 0 );
+	}
+	
 	// Vertical lines
 	for ( u32 j=0; 
 		j<the_rect_selection_stuff.selection_image->getSize().y;
 		++j )
 	{
-		//the_rect_selection_stuff.selection_image->setPixel( 0, j,
-		//	sf::Color( 128, 0, 0 ) );
-		//the_rect_selection_stuff.selection_image->setPixel
-		//	( the_rect_selection_stuff.selection_image->getSize().x - 1, 
-		//	j, sf::Color( 128, 0, 0 ) );
-		
-		
-		
-		if ( the_rect_selection_stuff.selection_layer == rsl_blocks )
-		{
-			the_rect_selection_stuff.selection_image->setPixel( 0, j,
-				sf::Color::Blue );
-			the_rect_selection_stuff.selection_image->setPixel( 1, j,
-				sf::Color::Blue );
-			the_rect_selection_stuff.selection_image->setPixel
-				( the_rect_selection_stuff.selection_image->getSize().x 
-				- 2, j, sf::Color::Blue );
-			the_rect_selection_stuff.selection_image->setPixel
-				( the_rect_selection_stuff.selection_image->getSize().x 
-				- 1, j, sf::Color::Blue );
-			
-		}
-		else if ( the_rect_selection_stuff.selection_layer == rsl_sprites 
-			&& the_rect_selection_stuff.single_sprite_selected )
-		{
-			the_rect_selection_stuff.selection_image->setPixel( 0, j,
-				sf::Color::Red );
-			the_rect_selection_stuff.selection_image->setPixel( 1, j,
-				sf::Color::Red );
-			the_rect_selection_stuff.selection_image->setPixel
-				( the_rect_selection_stuff.selection_image->getSize().x 
-				- 2, j, sf::Color::Red );
-			the_rect_selection_stuff.selection_image->setPixel
-				( the_rect_selection_stuff.selection_image->getSize().x 
-				- 1, j, sf::Color::Red );
-		}
-		else if ( the_rect_selection_stuff.selection_layer == rsl_sprites 
-			&& !the_rect_selection_stuff.single_sprite_selected )
-		{
-			the_rect_selection_stuff.selection_image->setPixel( 0, j,
-				sf::Color( 0, 188, 0 ) );
-			the_rect_selection_stuff.selection_image->setPixel( 1, j,
-				sf::Color( 0, 188, 0 ) );
-			the_rect_selection_stuff.selection_image->setPixel
-				( the_rect_selection_stuff.selection_image->getSize().x 
-				- 2, j, sf::Color( 0, 188, 0 ) );
-			the_rect_selection_stuff.selection_image->setPixel
-				( the_rect_selection_stuff.selection_image->getSize().x 
-				- 1, j, sf::Color( 0, 188, 0 ) );
-		}
+		partially_set_pixels_of_vertical_lines( j, line_pixels_color );
 	}
 	
 	// Horizontal lines
@@ -433,53 +425,7 @@ void level_editor_sfml_canvas_widget::generate_rect_selection_rect()
 		i<the_rect_selection_stuff.selection_image->getSize().x;
 		++i )
 	{
-		//the_rect_selection_stuff.selection_image->setPixel( i, 0,
-		//	sf::Color( 128, 0, 0 ) );
-		//the_rect_selection_stuff.selection_image->setPixel( i, 
-		//	the_rect_selection_stuff.selection_image->getSize().y - 1,
-		//	sf::Color( 128, 0, 0 ) );
-		
-		if ( the_rect_selection_stuff.selection_layer == rsl_blocks )
-		{
-			the_rect_selection_stuff.selection_image->setPixel( i, 0,
-				sf::Color::Blue );
-			the_rect_selection_stuff.selection_image->setPixel( i, 1,
-				sf::Color::Blue );
-			the_rect_selection_stuff.selection_image->setPixel( i, 
-				the_rect_selection_stuff.selection_image->getSize().y - 2,
-				sf::Color::Blue );
-			the_rect_selection_stuff.selection_image->setPixel( i, 
-				the_rect_selection_stuff.selection_image->getSize().y - 1,
-				sf::Color::Blue );
-		}
-		else if ( the_rect_selection_stuff.selection_layer == rsl_sprites 
-			&& the_rect_selection_stuff.single_sprite_selected )
-		{
-			the_rect_selection_stuff.selection_image->setPixel( i, 0,
-				sf::Color::Red );
-			the_rect_selection_stuff.selection_image->setPixel( i, 1,
-				sf::Color::Red );
-			the_rect_selection_stuff.selection_image->setPixel( i, 
-				the_rect_selection_stuff.selection_image->getSize().y - 2,
-				sf::Color::Red );
-			the_rect_selection_stuff.selection_image->setPixel( i, 
-				the_rect_selection_stuff.selection_image->getSize().y - 1,
-				sf::Color::Red );
-		}
-		else if ( the_rect_selection_stuff.selection_layer == rsl_sprites 
-			&& !the_rect_selection_stuff.single_sprite_selected )
-		{
-			the_rect_selection_stuff.selection_image->setPixel( i, 0,
-				sf::Color( 0, 188, 0 ) );
-			the_rect_selection_stuff.selection_image->setPixel( i, 1,
-				sf::Color( 0, 188, 0 ) );
-			the_rect_selection_stuff.selection_image->setPixel( i, 
-				the_rect_selection_stuff.selection_image->getSize().y - 2,
-				sf::Color( 0, 188, 0 ) );
-			the_rect_selection_stuff.selection_image->setPixel( i, 
-				the_rect_selection_stuff.selection_image->getSize().y - 1,
-				sf::Color( 0, 188, 0 ) );
-		}
+		partially_set_pixels_of_horizontal_lines( i, line_pixels_color );
 	}
 	
 	
@@ -507,16 +453,6 @@ void level_editor_sfml_canvas_widget::update_visible_area()
 	//canvas_render_texture.create ( visible_rect.width, 
 	//	visible_rect.height );
 	//canvas_render_texture.clear(sf::Color::Cyan);
-	
-	
-	vec2<double> visible_block_grid_start_pos( (double)visible_rect.left 
-		/ (double)( num_pixels_per_block_column * scale_factor ), 
-		(double)visible_rect.top / (double)( num_pixels_per_block_row
-		* scale_factor ) );
-	vec2<double> visible_block_grid_size_2d( (double)visible_rect.width 
-		/ (double)( num_pixels_per_block_column * scale_factor ), 
-		(double)visible_rect.height / (double)( num_pixels_per_block_row
-		* scale_factor ) );
 	
 	
 	const vec2_s32& rs_starting_block_grid_coords
@@ -547,6 +483,21 @@ void level_editor_sfml_canvas_widget::update_visible_area()
 		- rs_starting_block_grid_coords_before_moving.y + 1 ) );
 	
 	
+	//vec2<double> visible_block_grid_start_pos( (double)visible_rect.left 
+	//	/ (double)( num_pixels_per_block_column * scale_factor ), 
+	//	(double)visible_rect.top / (double)( num_pixels_per_block_row
+	//	* scale_factor ) );
+	//vec2<double> visible_block_grid_size_2d( (double)visible_rect.width 
+	//	/ (double)( num_pixels_per_block_column * scale_factor ), 
+	//	(double)visible_rect.height / (double)( num_pixels_per_block_row
+	//	* scale_factor ) );
+	vec2<double> visible_block_grid_start_pos 
+		= get_basic_visible_block_grid_start_pos(visible_rect);
+	vec2<double> visible_block_grid_size_2d
+		= get_basic_visible_block_grid_size_2d(visible_rect);
+	
+	
+	
 	// This is so that sprites larger than 16x16 pixels will be drawn if
 	// their starting position is offscreen but part of them still IS on
 	// screen.
@@ -564,6 +515,8 @@ void level_editor_sfml_canvas_widget::update_visible_area()
 	++visible_block_grid_size_2d.x;
 	++visible_block_grid_size_2d.y;
 	
+	
+	// Correct the visible_block_grid_start_pos 
 	if ( visible_block_grid_start_pos.x < 0 )
 	{
 		visible_block_grid_start_pos.x = 0;
@@ -602,53 +555,47 @@ void level_editor_sfml_canvas_widget::update_visible_area()
 	
 	u32 num_drawn_blocks = 0;
 	
+	// Draw non-air blocks
+	
+	auto draw_block_shared_code = [&]( block* the_block, 
+		const vec2_s32& block_grid_pos ) -> void
+	{
+		sprite_for_drawing_level_elements.setTextureRect
+			( the_block_selector_core_widget
+			->get_texture_rect_of_other_index(the_block->type) );
+		
+		sprite_for_drawing_level_elements.setScale( scale_factor, 
+			scale_factor );
+		
+		sprite_for_drawing_level_elements.setPosition
+			( (u32)block_grid_pos.x * num_pixels_per_block_column
+			* scale_factor, (u32)block_grid_pos.y 
+			* num_pixels_per_block_row * scale_factor );
+		
+		draw(sprite_for_drawing_level_elements);
+		
+		++num_drawn_blocks;
+		
+		//cout << endl;
+	
+	};
+	
 	auto draw_block = [&]( block* the_block, 
 		const vec2_s32& block_grid_pos ) -> void
 	{
 		if ( the_block->type != bt_air )
 		{
-			sprite_for_drawing_level_elements.setTextureRect
-				( the_block_selector_core_widget
-				->get_texture_rect_of_other_index(the_block->type) );
-			
-			sprite_for_drawing_level_elements.setScale( scale_factor, 
-				scale_factor );
-			
-			sprite_for_drawing_level_elements.setPosition
-				( (u32)block_grid_pos.x * num_pixels_per_block_column
-				* scale_factor, (u32)block_grid_pos.y 
-				* num_pixels_per_block_row * scale_factor );
-			
-			draw(sprite_for_drawing_level_elements);
-			
-			++num_drawn_blocks;
-			
-			//cout << endl;
+			draw_block_shared_code( the_block, block_grid_pos );
 		}
 	};
 	
+	// Draw all blocks 
 	auto draw_block_2 = [&]( block* the_block, 
 		const vec2_s32& block_grid_pos ) -> void
 	{
 		//if ( the_block->type != bt_air )
 		{
-			sprite_for_drawing_level_elements.setTextureRect
-				( the_block_selector_core_widget
-				->get_texture_rect_of_other_index(the_block->type) );
-			
-			sprite_for_drawing_level_elements.setScale( scale_factor, 
-				scale_factor );
-			
-			sprite_for_drawing_level_elements.setPosition
-				( (u32)block_grid_pos.x * num_pixels_per_block_column
-				* scale_factor, (u32)block_grid_pos.y 
-				* num_pixels_per_block_row * scale_factor );
-			
-			draw(sprite_for_drawing_level_elements);
-			
-			++num_drawn_blocks;
-			
-			//cout << endl;
+			draw_block_shared_code( the_block, block_grid_pos );
 		}
 	};
 	
@@ -661,10 +608,7 @@ void level_editor_sfml_canvas_widget::update_visible_area()
 		{
 			block_grid_pos.x = i + visible_block_grid_start_pos.x;
 			
-			if ( block_grid_pos.x < 0 
-				|| block_grid_pos.x >= (s32)the_sublevel->real_size_2d.x
-				|| block_grid_pos.y < 0 
-				|| block_grid_pos.y >= (s32)the_sublevel->real_size_2d.y )
+			if ( !block_grid_pos_is_in_sublevel(block_grid_pos) )
 			{
 				//cout << "block_grid_pos out of bounds:  "
 				//	<< block_grid_pos.x << ", " << block_grid_pos.y
@@ -730,6 +674,8 @@ void level_editor_sfml_canvas_widget::update_visible_area()
 	}
 	//cout << num_drawn_blocks << endl;
 	
+	
+	// If a selection of blocks is "floating" and WAS NOT pasted
 	if ( the_rect_selection_stuff.get_enabled()
 		&& the_rect_selection_stuff.selection_layer == rsl_blocks
 		&& !the_rect_selection_stuff.selection_was_pasted )
@@ -746,11 +692,7 @@ void level_editor_sfml_canvas_widget::update_visible_area()
 					selection_rect_before_moving.top + j );
 				
 				
-				if ( block_grid_pos.x >= 0 && block_grid_pos.y >= 0
-					&& block_grid_pos.x 
-					< (s32)the_sublevel->real_size_2d.x
-					&& block_grid_pos.y 
-					< (s32)the_sublevel->real_size_2d.y )
+				if ( block_grid_pos_is_in_sublevel(block_grid_pos) )
 				{
 					draw_block
 						( &(the_sublevel->uncompressed_block_data_vec_2d
@@ -760,6 +702,7 @@ void level_editor_sfml_canvas_widget::update_visible_area()
 			}
 		}
 	}
+	// If a selection of blocks is "floating" and WAS pasted
 	else if ( the_rect_selection_stuff.get_enabled()
 		&& the_rect_selection_stuff.original_layer_of_pasted_selection
 		== rsl_blocks && the_rect_selection_stuff.selection_was_pasted )
@@ -771,11 +714,7 @@ void level_editor_sfml_canvas_widget::update_visible_area()
 				vec2_s32 block_grid_pos( selection_rect.left + i,
 					selection_rect.top + j );
 				
-				if ( block_grid_pos.x >= 0 && block_grid_pos.y >= 0
-					&& block_grid_pos.x 
-					< (s32)the_sublevel->real_size_2d.x
-					&& block_grid_pos.y 
-					< (s32)the_sublevel->real_size_2d.y )
+				if ( block_grid_pos_is_in_sublevel(block_grid_pos) )
 				{
 					draw_block( &(the_rect_selection_stuff
 						.copied_blocks_vec_2d.at(j).at(i)), 
@@ -900,10 +839,7 @@ void level_editor_sfml_canvas_widget::update_visible_area()
 		{
 			block_grid_pos.x = i + visible_block_grid_start_pos.x;
 			
-			if ( block_grid_pos.x < 0 
-				|| block_grid_pos.x >= (s32)the_sublevel->real_size_2d.x
-				|| block_grid_pos.y < 0
-				|| block_grid_pos.y >= (s32)the_sublevel->real_size_2d.y )
+			if ( !block_grid_pos_is_in_sublevel(block_grid_pos) )
 			{
 				//cout << "block_grid_pos out of bounds:  "
 				//	<< block_grid_pos.x << ", " << block_grid_pos.y
@@ -989,11 +925,7 @@ void level_editor_sfml_canvas_widget::update_visible_area()
 						selection_rect_before_moving.top + j );
 					
 					
-					if ( block_grid_pos.x >= 0 && block_grid_pos.y >= 0
-						&& block_grid_pos.x 
-						< (s32)the_sublevel->real_size_2d.x
-						&& block_grid_pos.y 
-						< (s32)the_sublevel->real_size_2d.y )
+					if ( block_grid_pos_is_in_sublevel(block_grid_pos) )
 					{
 						draw_16x32_sprite
 							( &(the_sublevel->sprite_ipgws_vec_2d
@@ -1017,11 +949,7 @@ void level_editor_sfml_canvas_widget::update_visible_area()
 						selection_rect.top + j );
 					
 					
-					if ( block_grid_pos.x >= 0 && block_grid_pos.y >= 0
-						&& block_grid_pos.x 
-						< (s32)the_sublevel->real_size_2d.x
-						&& block_grid_pos.y 
-						< (s32)the_sublevel->real_size_2d.y )
+					if ( block_grid_pos_is_in_sublevel(block_grid_pos) )
 					{
 						draw_16x32_sprite( &( the_rect_selection_stuff
 							.copied_sprite_ipgws_vec_2d.at(j).at(i)),
@@ -1044,8 +972,7 @@ void level_editor_sfml_canvas_widget::update_visible_area()
 	
 	auto draw_16x16_sprite = [&]
 		( sprite_init_param_group_with_size* the_sprite_ipgws,
-		const vec2_s32& block_grid_pos ) 
-		-> void
+		const vec2_s32& block_grid_pos ) -> void
 	{
 		if ( the_sprite_ipgws->type != st_default 
 			&& the_sprite_ipgws->size_2d.x == 16
@@ -1150,10 +1077,7 @@ void level_editor_sfml_canvas_widget::update_visible_area()
 		{
 			block_grid_pos.x = i + visible_block_grid_start_pos.x;
 			
-			if ( block_grid_pos.x < 0 
-				|| block_grid_pos.x >= (s32)the_sublevel->real_size_2d.x
-				|| block_grid_pos.y < 0
-				|| block_grid_pos.y >= (s32)the_sublevel->real_size_2d.y )
+			if ( !block_grid_pos_is_in_sublevel(block_grid_pos) )
 			{
 				//cout << "block_grid_pos out of bounds:  "
 				//	<< block_grid_pos.x << ", " << block_grid_pos.y
@@ -1162,12 +1086,6 @@ void level_editor_sfml_canvas_widget::update_visible_area()
 			}
 			
 			
-			//vec2_s32 block_grid_pos_relative_to_sr( block_grid_pos.x 
-			//	- selection_rect.left, block_grid_pos.y 
-			//	- selection_rect.top );
-			
-			//bool sr_contains_block_grid_pos = selection_rect.contains
-			//	( block_grid_pos.x, block_grid_pos.y );
 			bool sr_before_moving_contains_block_grid_pos 
 				= selection_rect_before_moving.contains
 				( block_grid_pos.x, block_grid_pos.y );
@@ -1185,10 +1103,6 @@ void level_editor_sfml_canvas_widget::update_visible_area()
 			else if ( the_rect_selection_stuff.selection_layer 
 				== rsl_sprites )
 			{
-				//if ( !get_rect_selection_enabled()
-				//	|| ( get_rect_selection_enabled() 
-				//	&& selection_rect == selection_rect_before_moving ) 
-				//	|| the_rect_selection_stuff.single_sprite_selected )
 				if ( !the_rect_selection_stuff.get_enabled()
 					|| ( the_rect_selection_stuff.get_enabled() 
 					&& ( selection_rect == selection_rect_before_moving 
@@ -1239,11 +1153,7 @@ void level_editor_sfml_canvas_widget::update_visible_area()
 						( selection_rect_before_moving.left + i,
 						selection_rect_before_moving.top + j );
 					
-					if ( block_grid_pos.x >= 0 && block_grid_pos.y >= 0
-						&& block_grid_pos.x 
-						< (s32)the_sublevel->real_size_2d.x
-						&& block_grid_pos.y 
-						< (s32)the_sublevel->real_size_2d.y )
+					if ( block_grid_pos_is_in_sublevel(block_grid_pos) )
 					{
 						draw_16x16_sprite
 							( &(the_sublevel->sprite_ipgws_vec_2d
@@ -1267,11 +1177,7 @@ void level_editor_sfml_canvas_widget::update_visible_area()
 						selection_rect.top + j );
 					
 					
-					if ( block_grid_pos.x >= 0 && block_grid_pos.y >= 0
-						&& block_grid_pos.x 
-						< (s32)the_sublevel->real_size_2d.x
-						&& block_grid_pos.y 
-						< (s32)the_sublevel->real_size_2d.y )
+					if ( block_grid_pos_is_in_sublevel(block_grid_pos) )
 					{
 						draw_16x16_sprite( &( the_rect_selection_stuff
 							.copied_sprite_ipgws_vec_2d.at(j).at(i)),
@@ -1342,6 +1248,10 @@ void level_editor_sfml_canvas_widget::on_update()
 			// max size an sf::RenderWindow can be seems to limit how much
 			// I can zoom in.  Perhaps I should come up with a way to not
 			// need such a large sf::RenderWindow.
+			
+			// Update:  I can apparently avoid needing such a large
+			// sf::RenderWindow by using a custom derived class of
+			// the QAbstractScrollArea class.
 			if ( ( getSize().x + 1 ) < ( unzoomed_size_2d.width() 
 				* scale_factor )
 				|| getSize().y < ( unzoomed_size_2d.height() 
@@ -1397,7 +1307,7 @@ void level_editor_sfml_canvas_widget::on_update()
 			
 			scroll_area->verticalScrollBar()->setValue
 				((int)vert_sb_val_after);
-		
+			
 			//cout << endl;
 		};
 		

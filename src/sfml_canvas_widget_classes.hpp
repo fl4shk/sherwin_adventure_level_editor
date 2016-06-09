@@ -269,6 +269,33 @@ public:		// functions
 	}
 	
 	
+	inline vec2<double> get_basic_visible_block_grid_start_pos
+		( const sf::FloatRect& visible_rect ) const
+	{
+		return vec2<double>( (double)visible_rect.left 
+			/ (double)( num_pixels_per_block_column * scale_factor ), 
+			(double)visible_rect.top / (double)( num_pixels_per_block_row
+			* scale_factor ) );
+	}
+	
+	inline vec2<double> get_basic_visible_block_grid_size_2d
+		( const sf::FloatRect& visible_rect ) const
+	{
+		return vec2<double>( (double)visible_rect.width 
+			/ (double)( num_pixels_per_block_column * scale_factor ), 
+			(double)visible_rect.height 
+			/ (double)( num_pixels_per_block_row * scale_factor ) );
+	}
+	
+	
+	inline bool block_grid_pos_is_in_sublevel( vec2_s32 block_grid_pos )
+	{
+		return ( block_grid_pos.x >= 0 && block_grid_pos.y >= 0
+			&& block_grid_pos.x < (s32)the_sublevel->real_size_2d.x
+			&& block_grid_pos.y < (s32)the_sublevel->real_size_2d.y );
+	}
+	
+	
 protected:		// functions
 	//virtual inline void full_resize( const QSize& n_size )
 	//{

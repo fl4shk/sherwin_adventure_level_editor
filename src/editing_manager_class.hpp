@@ -78,6 +78,9 @@ protected:		// functions
 		return the_core_widget->the_sfml_canvas_widget;
 	}
 	
+	void copy_selection_contents();
+	void paste_copied_selection_contents();
+	
 	
 	friend class level_editor_widget;
 	friend class level_editor_core_widget;
