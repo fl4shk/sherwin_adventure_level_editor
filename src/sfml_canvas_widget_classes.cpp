@@ -589,7 +589,7 @@ void level_editor_sfml_canvas_widget::update_visible_area()
 		}
 	};
 	
-	// Draw all blocks 
+	// Draw any type of block
 	auto draw_block_2 = [&]( block* the_block, 
 		const vec2_s32& block_grid_pos ) -> void
 	{
@@ -630,15 +630,6 @@ void level_editor_sfml_canvas_widget::update_visible_area()
 			
 			if ( the_rect_selection_stuff.selection_layer == rsl_blocks )
 			{
-				//if ( !get_rect_selection_enabled()
-				//	|| ( get_rect_selection_enabled() 
-				//	&& selection_rect == selection_rect_before_moving ) )
-				//if ( !the_rect_selection_stuff.get_enabled()
-				//	|| ( the_rect_selection_stuff.get_enabled() 
-				//	&& ( selection_rect == selection_rect_before_moving 
-				//	|| the_rect_selection_stuff.selection_was_pasted ) ) )
-				//{
-				//}
 				if ( !the_rect_selection_stuff.get_enabled()
 					|| selection_rect == selection_rect_before_moving )
 				{
@@ -646,12 +637,13 @@ void level_editor_sfml_canvas_widget::update_visible_area()
 				
 				// Don't draw a block from the level data if the current
 				// block_grid_pos is (inside the selection_rect) or (inside
-				// the selection_rect_before_moving and the selection was
-				// not pasted).  
+				// the selection_rect_before_moving and the selection WAS
+				// NOT pasted).  
 				// There is no visible transparency.
-				else if ( selection_rect.contains( block_grid_pos.x,
-					block_grid_pos.y ) || ( selection_rect_before_moving
-					.contains( block_grid_pos.x, block_grid_pos.y ) 
+				else if ( selection_rect.contains
+					( block_grid_pos.x, block_grid_pos.y ) 
+					|| ( selection_rect_before_moving.contains
+					( block_grid_pos.x, block_grid_pos.y ) 
 					&& !the_rect_selection_stuff.selection_was_pasted ) )
 				{
 					the_block = &default_block;
@@ -725,6 +717,80 @@ void level_editor_sfml_canvas_widget::update_visible_area()
 	}
 	
 	
+	auto shared_sprite_drawing_stuff = [&]
+		( sprite_init_param_group_with_size* the_sprite_ipgws,
+		const vec2_s32& block_grid_pos ) -> void
+	{
+		if (!the_sprite_ipgws->facing_right)
+		{
+			sprite_for_drawing_level_elements.setScale
+				( scale_factor, scale_factor );
+			
+			sprite_for_drawing_level_elements.setPosition
+				( (u32)block_grid_pos.x 
+				* num_pixels_per_block_column * scale_factor, 
+				(u32)block_grid_pos.y 
+				* num_pixels_per_block_row * scale_factor );
+		}
+		else //if (the_sprite_ipgws->facing_right)
+		{
+			sprite_for_drawing_level_elements.setScale
+				( -1 * (s32)scale_factor, scale_factor );
+			
+			sprite_for_drawing_level_elements.setPosition
+				( ( (u32)block_grid_pos.x + 1 )
+				* num_pixels_per_block_column * scale_factor, 
+				(u32)block_grid_pos.y 
+				* num_pixels_per_block_row * scale_factor );
+		}
+		
+		draw(sprite_for_drawing_level_elements);
+		
+		
+		if ( the_sprite_ipgws->type == st_door )
+		{
+			door_number_sprite.setScale( scale_factor, 
+				scale_factor );
+			
+			sf::IntRect n_door_number_sprite_texture_rect;
+			
+			const u32 the_door_number 
+				= the_sprite_ipgws->extra_param_2;
+			
+			n_door_number_sprite_texture_rect.left = ( the_door_number 
+				% door_number_gfx_num_slots_per_row ) 
+				* door_number_gfx_slot_width; 
+			n_door_number_sprite_texture_rect.top = ( the_door_number 
+				/ door_number_gfx_num_slots_per_row )
+				* door_number_gfx_slot_height; 
+			n_door_number_sprite_texture_rect.width 
+				= door_number_gfx_slot_width;
+			n_door_number_sprite_texture_rect.height 
+				= door_number_gfx_slot_height;
+			
+			door_number_sprite.setTextureRect
+				(n_door_number_sprite_texture_rect);
+			
+			if (!the_sprite_ipgws->facing_right)
+			{
+				door_number_sprite.setPosition
+					( sprite_for_drawing_level_elements.getPosition().x, 
+					sprite_for_drawing_level_elements.getPosition().y 
+					+ ( num_pixels_per_block_row * scale_factor ) );
+			}
+			else //if (the_sprite_ipgws->facing_right)
+			{
+				door_number_sprite.setPosition
+					( sprite_for_drawing_level_elements.getPosition().x 
+					- ( num_pixels_per_block_column * scale_factor ), 
+					sprite_for_drawing_level_elements.getPosition().y 
+					+ ( num_pixels_per_block_row * scale_factor ) );
+			}
+			
+			draw(door_number_sprite);
+		}
+	};
+	
 	
 	// Draw 16x32 sprites
 	sprite_for_drawing_level_elements.setTexture
@@ -746,83 +812,9 @@ void level_editor_sfml_canvas_widget::update_visible_area()
 				->get_texture_rect_of_other_index
 				(the_sprite_ipgws->type) );
 			
-			if (!the_sprite_ipgws->facing_right)
-			{
-				sprite_for_drawing_level_elements.setScale
-					( scale_factor, scale_factor );
-				
-				sprite_for_drawing_level_elements.setPosition
-					( (u32)block_grid_pos.x 
-					* num_pixels_per_block_column * scale_factor, 
-					(u32)block_grid_pos.y 
-					* num_pixels_per_block_row * scale_factor );
-			}
-			else //if (the_sprite_ipgws->facing_right)
-			{
-				sprite_for_drawing_level_elements.setScale
-					( -1 * (s32)scale_factor, scale_factor );
-				
-				sprite_for_drawing_level_elements.setPosition
-					( ( (u32)block_grid_pos.x + 1 )
-					* num_pixels_per_block_column * scale_factor, 
-					(u32)block_grid_pos.y 
-					* num_pixels_per_block_row * scale_factor );
-			}
+			shared_sprite_drawing_stuff( the_sprite_ipgws,
+				block_grid_pos );
 			
-			
-			draw(sprite_for_drawing_level_elements);
-			
-			if ( the_sprite_ipgws->type == st_door )
-			{
-				door_number_sprite.setScale( scale_factor, 
-					scale_factor );
-				
-				sf::IntRect n_door_number_sprite_texture_rect;
-				
-				const u32 the_door_number 
-					= the_sprite_ipgws->extra_param_2;
-				
-				n_door_number_sprite_texture_rect.left
-					= ( the_door_number 
-					% door_number_gfx_num_slots_per_row ) 
-					* door_number_gfx_slot_width; 
-				n_door_number_sprite_texture_rect.top
-					= ( the_door_number 
-					/ door_number_gfx_num_slots_per_row )
-					* door_number_gfx_slot_height; 
-				n_door_number_sprite_texture_rect.width 
-					= door_number_gfx_slot_width;
-				n_door_number_sprite_texture_rect.height 
-					= door_number_gfx_slot_height;
-				
-				door_number_sprite.setTextureRect
-					(n_door_number_sprite_texture_rect);
-				
-				if (!the_sprite_ipgws->facing_right)
-				{
-					door_number_sprite.setPosition
-						( sprite_for_drawing_level_elements
-						.getPosition().x, 
-						sprite_for_drawing_level_elements
-						.getPosition().y 
-						+ ( num_pixels_per_block_row 
-						* scale_factor ) );
-				}
-				else //if (the_sprite_ipgws->facing_right)
-				{
-					door_number_sprite.setPosition
-						( sprite_for_drawing_level_elements
-						.getPosition().x 
-						- ( num_pixels_per_block_column 
-						* scale_factor ), 
-						sprite_for_drawing_level_elements
-						.getPosition().y 
-						+ ( num_pixels_per_block_row 
-						* scale_factor ) );
-				}
-				
-				draw(door_number_sprite);
-			}
 			
 			++num_drawn_16x32_sprites;
 			
@@ -885,7 +877,8 @@ void level_editor_sfml_canvas_widget::update_visible_area()
 				
 				// Don't show any sprites if they are part of
 				// selection_rect_before_moving and the selection was not
-				// pasted.
+				// pasted and the sprite properties tool was not used to
+				// create the rectangle.
 				else if ( sr_before_moving_contains_block_grid_pos 
 					&& !the_rect_selection_stuff.selection_was_pasted )
 				{
@@ -903,6 +896,8 @@ void level_editor_sfml_canvas_widget::update_visible_area()
 	//cout << num_drawn_16x32_sprites << endl;
 	//cout << endl;
 	
+	
+	// Draw sprites within the selection rect if the selection WAS pasted.
 	if ( the_rect_selection_stuff.get_enabled()
 		&& !the_rect_selection_stuff.single_sprite_selected)
 	{
@@ -983,84 +978,10 @@ void level_editor_sfml_canvas_widget::update_visible_area()
 				->get_texture_rect_of_other_index
 				(the_sprite_ipgws->type) );
 			
-			if (!the_sprite_ipgws->facing_right)
-			{
-				sprite_for_drawing_level_elements.setScale
-					( scale_factor, scale_factor );
-				
-				sprite_for_drawing_level_elements.setPosition
-					( (u32)block_grid_pos.x
-					* num_pixels_per_block_column * scale_factor, 
-					(u32)block_grid_pos.y 
-					* num_pixels_per_block_row * scale_factor );
-			}
-			else //if (the_sprite_ipgws->facing_right)
-			{
-				sprite_for_drawing_level_elements.setScale
-					( -1 * (s32)scale_factor, scale_factor );
-				
-				sprite_for_drawing_level_elements.setPosition
-					( ( (u32)block_grid_pos.x + 1 )
-					* num_pixels_per_block_column * scale_factor, 
-					(u32)block_grid_pos.y 
-					* num_pixels_per_block_row * scale_factor );
-				
-			}
 			
+			shared_sprite_drawing_stuff( the_sprite_ipgws,
+				block_grid_pos );
 			
-			draw(sprite_for_drawing_level_elements);
-			
-			if ( the_sprite_ipgws->type == st_door )
-			{
-				door_number_sprite.setScale( scale_factor, 
-					scale_factor );
-				
-				sf::IntRect n_door_number_sprite_texture_rect;
-				
-				const u32 the_door_number 
-					= the_sprite_ipgws->extra_param_2;
-				
-				n_door_number_sprite_texture_rect.left
-					= ( the_door_number 
-					% door_number_gfx_num_slots_per_row ) 
-					* door_number_gfx_slot_width; 
-				n_door_number_sprite_texture_rect.top
-					= ( the_door_number 
-					/ door_number_gfx_num_slots_per_row )
-					* door_number_gfx_slot_height; 
-				n_door_number_sprite_texture_rect.width 
-					= door_number_gfx_slot_width;
-				n_door_number_sprite_texture_rect.height 
-					= door_number_gfx_slot_height;
-				
-				door_number_sprite.setTextureRect
-					(n_door_number_sprite_texture_rect);
-				
-				if (!the_sprite_ipgws->facing_right)
-				{
-					door_number_sprite.setPosition
-						( sprite_for_drawing_level_elements
-						.getPosition().x, 
-						sprite_for_drawing_level_elements
-						.getPosition().y 
-						+ ( num_pixels_per_block_row 
-						* scale_factor ) );
-				}
-				else //if (the_sprite_ipgws->facing_right)
-				{
-					door_number_sprite.setPosition
-						( sprite_for_drawing_level_elements
-						.getPosition().x 
-						- ( num_pixels_per_block_column 
-						* scale_factor ), 
-						sprite_for_drawing_level_elements
-						.getPosition().y 
-						+ ( num_pixels_per_block_row 
-						* scale_factor ) );
-				}
-				
-				draw(door_number_sprite);
-			}
 			
 			++num_drawn_16x16_sprites;
 			
