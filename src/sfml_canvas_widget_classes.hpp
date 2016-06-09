@@ -112,6 +112,8 @@ protected:		// variables
 	sf::Sprite door_number_sprite;
 	
 	
+	u32 num_drawn_blocks, num_drawn_16x32_sprites, num_drawn_16x16_sprites;
+	
 	
 	
 	QSize unzoomed_size_2d;
@@ -297,6 +299,11 @@ public:		// functions
 	
 	
 protected:		// functions
+	
+	
+	
+	//void draw_sprite_shared_code( 
+	
 	//virtual inline void full_resize( const QSize& n_size )
 	//{
 	//	if ( scroll_area == NULL )
@@ -336,11 +343,50 @@ protected:		// functions
 	//	
 	//}
 	
+	
 	void generate_block_grid();
 	void generate_rect_selection_rect();
 	
+	
+	
+	// Functions for preparing for drawing level elements
+	void prepare_for_drawing_blocks
+		( sf::Sprite& sprite_for_drawing_level_elements );
+	void prepare_for_drawing_16x32_sprites
+		( sf::Sprite& sprite_for_drawing_level_elements );
+	void prepare_for_drawing_16x16_sprites
+		( sf::Sprite& sprite_for_drawing_level_elements );
+	
+	
 	//void update_canvas_render_texture();
 	void update_visible_area();
+	
+	
+	void draw_visible_blocks
+		( sf::Sprite& sprite_for_drawing_level_elements,
+		const vec2<double>& visible_block_grid_start_pos,
+		const vec2<double>& visible_block_grid_size_2d,
+		const sf::IntRect& selection_rect_before_moving );
+	
+	
+	void draw_sprite_shared_code
+		( sf::Sprite& sprite_for_drawing_level_elements,
+		sprite_init_param_group_with_size* the_sprite_ipgws,
+		const vec2_s32& block_grid_pos );
+	
+	void draw_visible_16x32_sprites
+		( sf::Sprite& sprite_for_drawing_level_elements,
+		const vec2<double>& visible_block_grid_start_pos,
+		const vec2<double>& visible_block_grid_size_2d,
+		const sf::IntRect& selection_rect_before_moving );
+	
+	void draw_visible_16x16_sprites
+		( sf::Sprite& sprite_for_drawing_level_elements,
+		const vec2<double>& visible_block_grid_start_pos,
+		const vec2<double>& visible_block_grid_size_2d,
+		const sf::IntRect& selection_rect_before_moving );
+	
+	
 	
 	inline void on_init()
 	{
