@@ -194,7 +194,8 @@ continue_moving_selection_contents	rect_selection_stuff_class.hpp	/^	void contin
 convert_range	misc_funcs.hpp	/^inline type convert_range( type val_old, type min_old, type max_old, $/;"	kind:f	signature:( type val_old, type min_old, type max_old, type min_new, type max_new )
 copied_blocks_vec_2d	rect_selection_stuff_class.hpp	/^	vector< vector<block> > copied_blocks_vec_2d;$/;"	kind:m	class:rect_selection_stuff	access:public
 copied_sprite_ipgws_vec_2d	rect_selection_stuff_class.hpp	/^		copied_sprite_ipgws_vec_2d;$/;"	kind:m	class:rect_selection_stuff	access:public
-copy_selection_contents	editing_manager_class.hpp	/^	void copy_selection_contents();$/;"	kind:p	class:editing_manager	access:protected	signature:()
+copy_selection_contents	editing_manager_class.cpp	/^void editing_manager::copy_selection_contents$/;"	kind:f	class:editing_manager	signature:( rect_selection_stuff& the_rect_selection_stuff )
+copy_selection_contents	editing_manager_class.hpp	/^	void copy_selection_contents$/;"	kind:p	class:editing_manager	access:protected	signature:( rect_selection_stuff& the_rect_selection_stuff )
 copy_selection_contents	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::copy_selection_contents()$/;"	kind:f	class:rect_selection_stuff	signature:()
 copy_selection_contents	rect_selection_stuff_class.hpp	/^	void copy_selection_contents();$/;"	kind:p	class:rect_selection_stuff	access:public	signature:()
 core_widget_scroll_area_vec	level_editor_widget_class.hpp	/^	vector< unique_ptr<QScrollArea> > core_widget_scroll_area_vec;$/;"	kind:m	class:level_editor_widget	access:public
@@ -259,7 +260,8 @@ edit_menu_level_properties_action	primary_widget_class.hpp	/^		edit_menu_level_p
 edit_menu_sublevel_properties_action	primary_widget_class.hpp	/^	unique_ptr<QAction> edit_menu_sublevel_properties_action,$/;"	kind:m	class:primary_widget	access:protected
 editing_manager	editing_manager_class.hpp	/^	inline editing_manager() : the_level_editor_widget(NULL)$/;"	kind:f	class:editing_manager	access:public	signature:()
 editing_manager	editing_manager_class.hpp	/^class editing_manager$/;"	kind:c
-editing_manager::copy_selection_contents	editing_manager_class.hpp	/^	void copy_selection_contents();$/;"	kind:p	class:editing_manager	access:protected	signature:()
+editing_manager::copy_selection_contents	editing_manager_class.cpp	/^void editing_manager::copy_selection_contents$/;"	kind:f	class:editing_manager	signature:( rect_selection_stuff& the_rect_selection_stuff )
+editing_manager::copy_selection_contents	editing_manager_class.hpp	/^	void copy_selection_contents$/;"	kind:p	class:editing_manager	access:protected	signature:( rect_selection_stuff& the_rect_selection_stuff )
 editing_manager::editing_manager	editing_manager_class.hpp	/^	inline editing_manager() : the_level_editor_widget(NULL)$/;"	kind:f	class:editing_manager	access:public	signature:()
 editing_manager::get_the_core_widget_vec	editing_manager_class.hpp	/^		get_the_core_widget_vec()$/;"	kind:f	class:editing_manager	access:protected	signature:()
 editing_manager::get_the_level_editor_widget	editing_manager_class.hpp	/^	inline level_editor_widget* get_the_level_editor_widget()$/;"	kind:f	class:editing_manager	access:public	signature:()
@@ -272,7 +274,8 @@ editing_manager::mouse_press_event	editing_manager_class.cpp	/^void editing_mana
 editing_manager::mouse_press_event	editing_manager_class.hpp	/^	void mouse_press_event( level_editor_core_widget* the_core_widget, $/;"	kind:p	class:editing_manager	access:public	signature:( level_editor_core_widget* the_core_widget, QMouseEvent* event )
 editing_manager::mouse_release_event	editing_manager_class.cpp	/^void editing_manager::mouse_release_event$/;"	kind:f	class:editing_manager	signature:( level_editor_core_widget* the_core_widget, QMouseEvent* event )
 editing_manager::mouse_release_event	editing_manager_class.hpp	/^	void mouse_release_event( level_editor_core_widget* the_core_widget, $/;"	kind:p	class:editing_manager	access:public	signature:( level_editor_core_widget* the_core_widget, QMouseEvent* event )
-editing_manager::paste_copied_selection_contents	editing_manager_class.hpp	/^	void paste_copied_selection_contents();$/;"	kind:p	class:editing_manager	access:protected	signature:()
+editing_manager::paste_copied_selection_contents	editing_manager_class.cpp	/^void editing_manager::paste_copied_selection_contents$/;"	kind:f	class:editing_manager	signature:( level_editor_sfml_canvas_widget* the_sfml_canvas_widget, rect_selection_stuff& the_rect_selection_stuff )
+editing_manager::paste_copied_selection_contents	editing_manager_class.hpp	/^	void paste_copied_selection_contents$/;"	kind:p	class:editing_manager	access:protected	signature:( level_editor_sfml_canvas_widget* the_sfml_canvas_widget, rect_selection_stuff& the_rect_selection_stuff )
 editing_manager::set_the_level_editor_widget	editing_manager_class.hpp	/^	inline void set_the_level_editor_widget$/;"	kind:f	class:editing_manager	access:public	signature:( level_editor_widget* n_the_level_editor_widget )
 editing_manager::the_level_editor_widget	editing_manager_class.hpp	/^	level_editor_widget* the_level_editor_widget;$/;"	kind:m	class:editing_manager	access:protected
 editing_manager_class_hpp	editing_manager_class.hpp	20;"	kind:d
@@ -376,6 +379,7 @@ get_curr_sublevel	level_editor_widget_class.hpp	/^	inline sublevel& get_curr_sub
 get_enabled	rect_selection_stuff_class.hpp	/^	inline bool get_enabled() const$/;"	kind:f	class:rect_selection_stuff	access:public	signature:() const
 get_frac_bits	fixed24p8_class.hpp	/^	inline u8 get_frac_bits() const;$/;"	kind:p	class:fixed24p8	access:public	signature:() const
 get_frac_bits	fixed24p8_class.hpp	/^inline u8 fixed24p8::get_frac_bits() const$/;"	kind:f	class:fixed24p8	signature:() const
+get_le_core_widget_stuff	editing_manager_class.hpp	25;"	kind:d
 get_left_current_level_element_index	level_element_selector_core_widget_base_class.hpp	/^	inline u32 get_left_current_level_element_index() const$/;"	kind:f	class:level_element_selector_core_widget_base	access:public	signature:() const
 get_left_current_level_element_index_x_coord	level_element_selector_core_widget_base_class.hpp	/^	inline u32 get_left_current_level_element_index_x_coord() const$/;"	kind:f	class:level_element_selector_core_widget_base	access:public	signature:() const
 get_left_current_level_element_index_y_coord	level_element_selector_core_widget_base_class.hpp	/^	inline u32 get_left_current_level_element_index_y_coord() const$/;"	kind:f	class:level_element_selector_core_widget_base	access:public	signature:() const
@@ -919,7 +923,8 @@ parent	mouse_mode_button_group_widget_class.hpp	/^	QWidget* parent;$/;"	kind:m	c
 parent	sfml_canvas_widget_classes.hpp	/^	QWidget* parent;$/;"	kind:m	class:sfml_canvas_widget_base	access:public
 parent	sprite_16x16_selector_widget_class.hpp	/^	QWidget* parent;$/;"	kind:m	class:sprite_16x16_selector_widget	access:public
 parent	sprite_16x32_selector_widget_class.hpp	/^	QWidget* parent;$/;"	kind:m	class:sprite_16x32_selector_widget	access:public
-paste_copied_selection_contents	editing_manager_class.hpp	/^	void paste_copied_selection_contents();$/;"	kind:p	class:editing_manager	access:protected	signature:()
+paste_copied_selection_contents	editing_manager_class.cpp	/^void editing_manager::paste_copied_selection_contents$/;"	kind:f	class:editing_manager	signature:( level_editor_sfml_canvas_widget* the_sfml_canvas_widget, rect_selection_stuff& the_rect_selection_stuff )
+paste_copied_selection_contents	editing_manager_class.hpp	/^	void paste_copied_selection_contents$/;"	kind:p	class:editing_manager	access:protected	signature:( level_editor_sfml_canvas_widget* the_sfml_canvas_widget, rect_selection_stuff& the_rect_selection_stuff )
 paste_copied_selection_contents	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::paste_copied_selection_contents$/;"	kind:f	class:rect_selection_stuff	signature:( const vec2_s32& n_starting_block_grid_coords )
 paste_copied_selection_contents	rect_selection_stuff_class.hpp	/^	void paste_copied_selection_contents$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( const vec2_s32& n_starting_block_grid_coords )
 persistent_block_data_array_size	block_stuff.hpp	/^	constexpr u32 persistent_block_data_array_size = 2048;$/;"	kind:m	namespace:block_stuff
