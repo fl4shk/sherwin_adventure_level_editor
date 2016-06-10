@@ -290,12 +290,7 @@ public:		// functions
 	}
 	
 	
-	inline bool block_grid_pos_is_in_sublevel( vec2_s32 block_grid_pos )
-	{
-		return ( block_grid_pos.x >= 0 && block_grid_pos.y >= 0
-			&& block_grid_pos.x < (s32)the_sublevel->real_size_2d.x
-			&& block_grid_pos.y < (s32)the_sublevel->real_size_2d.y );
-	}
+	
 	
 	
 protected:		// functions

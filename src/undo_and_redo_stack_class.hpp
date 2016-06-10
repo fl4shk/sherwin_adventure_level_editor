@@ -34,10 +34,18 @@ public:		// variables
 	
 	
 	// Stuff for drawing blocks.
-	struct block_drawing_stuff
+	
+	// How this works is that when blocks are overwritten, keep track of
+	// what the blocks were before, and what they were replaced with.  This
+	// should work with plain old drawing blocks, plain old erasing blocks,
+	// moving a rectangular selection of blocks, cutting a rectangular
+	// selection of blocks, and pasting a copied rectangular selection of
+	// blocks.
+	struct block_changing_stuff
 	{
 		vector< pair< block, vec2_u32> > prev_block_vec, curr_block_vec;
 	} the_block_drawing_stuff;
+	
 	
 	// Stuff for drawing a sprite.
 	struct sprite_drawing_stuff
@@ -45,6 +53,15 @@ public:		// variables
 		sprite_init_param_group_with_size prev_sprite_ipgws, 
 			curr_sprite_ipgws;
 	} the_sprite_drawing_stuff;
+	
+	
+	//
+	struct sprite_pasting_stuff
+	{
+		vector<sprite_init_param_group_with_size> prev_sprite_ipgws_vec,
+			curr_sprite_ipgws_vec;
+	} the_sprite_pasting_stuff;
+	
 	
 	// Stuff for modifying a sprite.
 	struct sprite_modifying_stuff
@@ -54,7 +71,7 @@ public:		// variables
 	} the_sprite_modifying_stuff;
 	
 	
-	// Stuff for erasing sprites.
+	// Stuff for erasing and cutting sprites.
 	struct sprite_erasing_stuff
 	{
 		vector<sprite_init_param_group_with_size> prev_sprite_ipgws_vec;

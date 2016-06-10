@@ -118,6 +118,47 @@ void editing_manager::key_press_event( QKeyEvent* event )
 	}
 }
 
+
+// This is used in mouse_press_event() and mouse_move_event().  I don't see
+// any reason to make it a function instead of a #define.
+
+
+#define get_le_core_widget_stuff(the_core_widget) \
+	level_editor_sfml_canvas_widget* the_sfml_canvas_widget \
+		= the_core_widget->the_sfml_canvas_widget.get(); \
+	QTabWidget* level_element_selectors_tab_widget \
+		= the_core_widget->level_element_selectors_tab_widget; \
+	\
+	block_selector_widget* the_block_selector_widget \
+		= the_core_widget->the_block_selector_widget; \
+	sprite_16x16_selector_widget* the_sprite_16x16_selector_widget \
+		= the_core_widget->the_sprite_16x16_selector_widget; \
+	sprite_16x32_selector_widget* the_sprite_16x32_selector_widget \
+		= the_core_widget->the_sprite_16x32_selector_widget; \
+	\
+	adj_sprite_ipgws_ptr_group_for_selecting_sprite& \
+		the_sprite_selection_ptr_group \
+		= the_core_widget->the_sprite_selection_ptr_group; \
+	\
+	mouse_mode& the_mouse_mode = the_core_widget->the_mouse_mode; \
+	vec2_s32& block_grid_coords_of_prev_mouse_pos = the_core_widget \
+		->block_grid_coords_of_prev_mouse_pos; \
+	\
+	u32 scale_factor = the_sfml_canvas_widget->scale_factor; \
+	\
+	sf::Vector2i mouse_pos_in_canvas_widget_coords; \
+	sf::Vector2f mouse_pos_in_canvas_coords; \
+	vec2_s32 block_grid_coords_of_mouse_pos; \
+	\
+	get_a_few_types_of_mouse_pos( the_sfml_canvas_widget, \
+		mouse_pos_in_canvas_widget_coords, mouse_pos_in_canvas_coords, \
+		block_grid_coords_of_mouse_pos ); \
+	\
+	rect_selection_stuff& the_rect_selection_stuff \
+		= the_sfml_canvas_widget->the_rect_selection_stuff;
+
+
+
 void editing_manager::mouse_press_event
 	( level_editor_core_widget* the_core_widget, QMouseEvent* event )
 {
@@ -126,7 +167,9 @@ void editing_manager::mouse_press_event
 	//cout << mouse_pos_in_canvas_coords.x << ", "
 	//	<< mouse_pos_in_canvas_coords.y << endl;
 	
-	if ( !the_sfml_canvas_widget->block_grid_pos_is_in_sublevel
+	sublevel* the_sublevel = the_sfml_canvas_widget->the_sublevel; \
+	
+	if ( !the_sublevel->contains_block_grid_pos
 		(block_grid_coords_of_mouse_pos) )
 	{
 		return;
@@ -181,27 +224,13 @@ void editing_manager::mouse_press_event
 		if ( the_sprite_selection_ptr_group.origin_ptr->type 
 			== st_default )
 		{
-			//if ( the_sfml_canvas_widget
-			//	->get_rect_selection_single_sprite_selected() )
-			//{
-			//	the_sfml_canvas_widget->disable_rect_selection();
-			//}
-			
-			//if ( the_sfml_canvas_widget
-			//	->get_rect_selection_single_sprite_selected()
-			//	&& the_sfml_canvas_widget->get_rect_selection_enabled()
-			//	&& the_sfml_canvas_widget
-			//	->get_rect_selection_mouse_released() )
-			if ( the_sfml_canvas_widget->the_rect_selection_stuff
-				.get_single_sprite_selected()
-				&& the_sfml_canvas_widget->the_rect_selection_stuff
-				.get_enabled()
-				&& the_sfml_canvas_widget->the_rect_selection_stuff
-				.get_mouse_released() )
+			if ( the_rect_selection_stuff.get_single_sprite_selected()
+				&& the_rect_selection_stuff.get_enabled()
+				&& the_rect_selection_stuff.get_mouse_released() )
 			{
 				//the_sfml_canvas_widget
 				//	->finalize_movement_of_rect_selection_contents();
-				the_sfml_canvas_widget->the_rect_selection_stuff
+				the_rect_selection_stuff
 					.finalize_movement_of_selection_contents();
 			}
 			
@@ -213,34 +242,13 @@ void editing_manager::mouse_press_event
 	// I am not sure this will ever be the case.
 	else 
 	{
-		//if ( the_sfml_canvas_widget
-		//	->get_rect_selection_single_sprite_selected() )
-		//{
-		//	the_sfml_canvas_widget->disable_rect_selection();
-		//}
-		//if ( the_sfml_canvas_widget->get_rect_selection_enabled()
-		//	&& the_sfml_canvas_widget
-		//	->get_rect_selection_mouse_released() )
-		//{
-		//	the_sfml_canvas_widget
-		//		->finalize_movement_of_rect_selection_contents();
-		//}
-		
-		//if ( the_sfml_canvas_widget
-		//	->get_rect_selection_single_sprite_selected()
-		//	&& the_sfml_canvas_widget->get_rect_selection_enabled()
-		//	&& the_sfml_canvas_widget
-		//	->get_rect_selection_mouse_released() )
-		if ( the_sfml_canvas_widget->the_rect_selection_stuff
-			.get_single_sprite_selected()
-			&& the_sfml_canvas_widget->the_rect_selection_stuff
-			.get_enabled()
-			&& the_sfml_canvas_widget->the_rect_selection_stuff
-			.get_mouse_released() )
+		if ( the_rect_selection_stuff.get_single_sprite_selected()
+			&& the_rect_selection_stuff.get_enabled()
+			&& the_rect_selection_stuff.get_mouse_released() )
 		{
 			//the_sfml_canvas_widget
 			//	->finalize_movement_of_rect_selection_contents();
-			the_sfml_canvas_widget->the_rect_selection_stuff
+			the_rect_selection_stuff
 				.finalize_movement_of_selection_contents();
 		}
 		//cout << "else\n";
@@ -254,14 +262,12 @@ void editing_manager::mouse_press_event
 		//if ( the_sfml_canvas_widget->get_rect_selection_enabled()
 		//	&& the_sfml_canvas_widget
 		//	->get_rect_selection_mouse_released() )
-		if ( the_sfml_canvas_widget->the_rect_selection_stuff
-			.get_enabled() 
-			&& the_sfml_canvas_widget->the_rect_selection_stuff
-			.get_mouse_released() )
+		if ( the_rect_selection_stuff.get_enabled() 
+			&& the_rect_selection_stuff.get_mouse_released() )
 		{
 			//the_sfml_canvas_widget
 			//	->finalize_movement_of_rect_selection_contents();
-			the_sfml_canvas_widget->the_rect_selection_stuff
+			the_rect_selection_stuff
 				.finalize_movement_of_selection_contents();
 		}
 		
@@ -367,14 +373,12 @@ void editing_manager::mouse_press_event
 				//if ( the_sfml_canvas_widget->get_rect_selection_enabled()
 				//	&& the_sfml_canvas_widget
 				//	->get_rect_selection_mouse_released() )
-				if ( the_sfml_canvas_widget->the_rect_selection_stuff
-					.get_enabled()
-					&& the_sfml_canvas_widget->the_rect_selection_stuff
-					.get_mouse_released() )
+				if ( the_rect_selection_stuff.get_enabled()
+					&& the_rect_selection_stuff.get_mouse_released() )
 				{
 					//the_sfml_canvas_widget
 					//	->finalize_movement_of_rect_selection_contents();
-					the_sfml_canvas_widget->the_rect_selection_stuff
+					the_rect_selection_stuff
 						.finalize_movement_of_selection_contents();
 				}
 				
@@ -391,14 +395,12 @@ void editing_manager::mouse_press_event
 			//if ( the_sfml_canvas_widget->get_rect_selection_enabled()
 			//	&& the_sfml_canvas_widget
 			//	->get_rect_selection_mouse_released() )
-			if ( the_sfml_canvas_widget->the_rect_selection_stuff
-				.get_enabled()
-				&& the_sfml_canvas_widget->the_rect_selection_stuff
-				.get_mouse_released() )
+			if ( the_rect_selection_stuff .get_enabled()
+				&& the_rect_selection_stuff.get_mouse_released() )
 			{
 				//the_sfml_canvas_widget
 				//	->finalize_movement_of_rect_selection_contents();
-				the_sfml_canvas_widget->the_rect_selection_stuff
+				the_rect_selection_stuff
 					.finalize_movement_of_selection_contents();
 			}
 			
@@ -415,7 +417,7 @@ void editing_manager::mouse_press_event
 		
 		//the_sfml_canvas_widget->enable_single_sprite_rect_selection
 		//	(clicked_sprite_ipgws);
-		the_sfml_canvas_widget->the_rect_selection_stuff
+		the_rect_selection_stuff
 			.enable_single_sprite_selection(clicked_sprite_ipgws);
 		
 		//emit sprite_was_selected();
@@ -433,49 +435,42 @@ void editing_manager::mouse_press_event
 		//	<< clicked_location_intersects_rect << endl;
 		//
 		//cout << "rect selection enabled:  " 
-		//	<< the_sfml_canvas_widget->the_rect_selection_stuff
-		//	.get_enabled() << endl;
+		//	<< the_rect_selection_stuff.get_enabled() << endl;
 		
 		
 		//if ( !the_sfml_canvas_widget->get_rect_selection_enabled() 
 		//	|| ( the_sfml_canvas_widget->get_rect_selection_enabled() 
 		//	&& !clicked_location_intersects_rect ) )
-		if ( !the_sfml_canvas_widget->the_rect_selection_stuff
-			.get_enabled() 
-			|| ( the_sfml_canvas_widget->the_rect_selection_stuff
-			.get_enabled() 
+		if ( !the_rect_selection_stuff.get_enabled() 
+			|| ( the_rect_selection_stuff.get_enabled() 
 			&& !clicked_location_intersects_rect ) )
 		{
 			//if ( the_sfml_canvas_widget->get_rect_selection_enabled()
 			//	&& the_sfml_canvas_widget
 			//	->get_rect_selection_mouse_released() )
-			if ( the_sfml_canvas_widget->the_rect_selection_stuff
-				.get_enabled()
-				&& the_sfml_canvas_widget->the_rect_selection_stuff
-				.get_mouse_released() )
+			if ( the_rect_selection_stuff.get_enabled()
+				&& the_rect_selection_stuff.get_mouse_released() )
 			{
-				the_sfml_canvas_widget->the_rect_selection_stuff
+				the_rect_selection_stuff
 					.finalize_movement_of_selection_contents();
 			}
 			
 			if (current_tabbed_widget_is_for_blocks)
 			{
-				the_sfml_canvas_widget->the_rect_selection_stuff
-					.start_creating_selection
+				the_rect_selection_stuff.start_creating_selection
 					( block_grid_coords_of_mouse_pos, rsl_blocks );
 			}
 			else if ( current_tabbed_widget_is_for_16x16_sprites 
 				|| current_tabbed_widget_is_for_16x32_sprites )
 			{
-				the_sfml_canvas_widget->the_rect_selection_stuff
-					.start_creating_selection
+				the_rect_selection_stuff.start_creating_selection
 					( block_grid_coords_of_mouse_pos, rsl_sprites );
 			}
 		}
 		//else if ( the_sfml_canvas_widget->get_rect_selection_enabled()
 		//	&& clicked_location_intersects_rect )
-		else if ( the_sfml_canvas_widget->the_rect_selection_stuff
-			.get_enabled() && clicked_location_intersects_rect )
+		else if ( the_rect_selection_stuff.get_enabled() 
+			&& clicked_location_intersects_rect )
 		{
 			//vec2_s32 clicked_location_in_rect
 			//	= block_grid_coords_of_mouse_pos - the_sfml_canvas_widget
@@ -487,8 +482,8 @@ void editing_manager::mouse_press_event
 			
 			//the_sfml_canvas_widget->start_moving_rect_selection_contents
 			//	(clicked_location_in_rect);
-			the_sfml_canvas_widget->the_rect_selection_stuff
-				.start_moving_selection_contents(clicked_location_in_rect);
+			the_rect_selection_stuff.start_moving_selection_contents
+				(clicked_location_in_rect);
 		}
 		
 		//emit sprite_no_longer_selected();
@@ -547,53 +542,11 @@ void editing_manager::mouse_move_event
 	
 	get_le_core_widget_stuff(the_core_widget);
 	
-	//level_editor_sfml_canvas_widget* the_sfml_canvas_widget 
-	//	= the_core_widget->the_sfml_canvas_widget.get();
-	//QTabWidget* level_element_selectors_tab_widget 
-	//	= the_core_widget->level_element_selectors_tab_widget;
-	//
-	//block_selector_widget* the_block_selector_widget 
-	//	= the_core_widget->the_block_selector_widget;
-	//sprite_16x16_selector_widget* the_sprite_16x16_selector_widget
-	//	= the_core_widget->the_sprite_16x16_selector_widget;
-	//sprite_16x32_selector_widget* the_sprite_16x32_selector_widget
-	//	= the_core_widget->the_sprite_16x32_selector_widget;
-	//
-	//adj_sprite_ipgws_ptr_group_for_selecting_sprite&
-	//	the_sprite_selection_ptr_group 
-	//	= the_core_widget->the_sprite_selection_ptr_group;
-	//
-	//mouse_mode& the_mouse_mode = the_core_widget->the_mouse_mode;
-	//vec2_s32& block_grid_coords_of_prev_mouse_pos = the_core_widget
-	//	->block_grid_coords_of_prev_mouse_pos;
-	//
-	//sf::Vector2i mouse_pos_in_canvas_widget_coords 
-	//	= sf::Mouse::getPosition(*the_sfml_canvas_widget);
-	//
-	//// This converts the clicked coordinate to pixel coordinates.
-	//sf::Vector2f mouse_pos_in_canvas_coords
-	//	( (double)mouse_pos_in_canvas_widget_coords.x 
-	//	/ (double)the_sfml_canvas_widget->scale_factor,
-	//	(double)mouse_pos_in_canvas_widget_coords.y
-	//	/ (double)the_sfml_canvas_widget->scale_factor );
-	//
-	//u32 scale_factor = the_sfml_canvas_widget->scale_factor;
-	//
-	//vec2_s32 block_grid_coords_of_mouse_pos
-	//	= { (s32)( mouse_pos_in_canvas_coords.x
-	//	/ ( level_editor_sfml_canvas_widget
-	//	::num_pixels_per_block_row ) ),
-	//	
-	//	(s32)( ( the_core_widget->the_sublevel->real_size_2d.y 
-	//	- ( ( the_sfml_canvas_widget->getSize().y / scale_factor )
-	//	- mouse_pos_in_canvas_coords.y )
-	//	/ level_editor_sfml_canvas_widget
-	//	::num_pixels_per_block_column ) ) };
 	
 	//cout << mouse_pos_in_canvas_coords.x << ", "
 	//	<< mouse_pos_in_canvas_coords.y << endl;
 	
-	//if ( !the_sfml_canvas_widget->block_grid_pos_is_in_sublevel
+	//if ( !the_sublevel->contains_block_grid_pos
 	//	(block_grid_coords_of_mouse_pos) )
 	//{
 	//	return;
@@ -715,18 +668,19 @@ void editing_manager::mouse_move_event
 	
 	auto func_for_rect_selection = [&]() -> void
 	{
-		if ( !the_sfml_canvas_widget->the_rect_selection_stuff
-			.get_moving() )
+		// If the selection isn't currently moving, i.e., its size is not
+		// fixed yet, then continue changing its size.
+		
+		// I don't think either of these needs to be recorded for
+		// undo/redo.
+		if ( !the_rect_selection_stuff.get_moving() )
 		{
-			the_sfml_canvas_widget->the_rect_selection_stuff
-				.continue_creating_selection
+			the_rect_selection_stuff.continue_creating_selection
 				(block_grid_coords_of_mouse_pos);
 		}
-		else //if ( the_sfml_canvas_widget->the_rect_selection_stuff
-			// .get_moving() )
+		else //if ( the_rect_selection_stuff.get_moving() )
 		{
-			the_sfml_canvas_widget->the_rect_selection_stuff
-				.continue_moving_selection_contents
+			the_rect_selection_stuff.continue_moving_selection_contents
 				(block_grid_coords_of_mouse_pos);
 		}
 		
@@ -782,12 +736,30 @@ void editing_manager::mouse_release_event
 {
 	//cout << "mouseReleaseEvent()\n";
 	
-	get_le_core_widget_stuff(the_core_widget);
+	//get_le_core_widget_stuff(the_core_widget);
+	
+	level_editor_sfml_canvas_widget* the_sfml_canvas_widget
+		= the_core_widget->the_sfml_canvas_widget.get();
+	
+	rect_selection_stuff& the_rect_selection_stuff = the_sfml_canvas_widget
+		->the_rect_selection_stuff;
+	
+	mouse_mode& the_mouse_mode = the_core_widget->the_mouse_mode;
+	vec2_s32& block_grid_coords_of_prev_mouse_pos = the_core_widget
+		->block_grid_coords_of_prev_mouse_pos;
+	
+	sf::Vector2i mouse_pos_in_canvas_widget_coords;
+	sf::Vector2f mouse_pos_in_canvas_coords;
+	vec2_s32 block_grid_coords_of_mouse_pos;
+	
+	get_a_few_types_of_mouse_pos( the_sfml_canvas_widget,
+		mouse_pos_in_canvas_widget_coords, mouse_pos_in_canvas_coords,
+		block_grid_coords_of_mouse_pos );
 	
 	//cout << mouse_pos_in_canvas_coords.x << ", "
 	//	<< mouse_pos_in_canvas_coords.y << endl;
 	
-	//if ( !the_sfml_canvas_widget->block_grid_pos_is_in_sublevel
+	//if ( !the_sublevel->contains_block_grid_pos
 	//	(block_grid_coords_of_mouse_pos) )
 	//{
 	//	return;
@@ -812,15 +784,15 @@ void editing_manager::mouse_release_event
 	//	[block_grid_coords_of_mouse_pos.x];
 	
 	
-	bool current_tabbed_widget_is_for_blocks 
-		= ( level_element_selectors_tab_widget->currentWidget()
-		== the_block_selector_widget );
-	bool current_tabbed_widget_is_for_16x16_sprites
-		= ( level_element_selectors_tab_widget->currentWidget()
-		== the_sprite_16x16_selector_widget );
-	bool current_tabbed_widget_is_for_16x32_sprites
-		= ( level_element_selectors_tab_widget->currentWidget()
-		== the_sprite_16x32_selector_widget );
+	//bool current_tabbed_widget_is_for_blocks 
+	//	= ( level_element_selectors_tab_widget->currentWidget()
+	//	== the_block_selector_widget );
+	//bool current_tabbed_widget_is_for_16x16_sprites
+	//	= ( level_element_selectors_tab_widget->currentWidget()
+	//	== the_sprite_16x16_selector_widget );
+	//bool current_tabbed_widget_is_for_16x32_sprites
+	//	= ( level_element_selectors_tab_widget->currentWidget()
+	//	== the_sprite_16x32_selector_widget );
 	
 	
 	
@@ -847,19 +819,16 @@ void editing_manager::mouse_release_event
 	
 	auto func_for_rect_selection = [&]() -> void
 	{
-		if ( !the_sfml_canvas_widget->the_rect_selection_stuff
-			.get_moving() )
+		if ( !the_rect_selection_stuff.get_moving() )
 		{
-			the_sfml_canvas_widget->the_rect_selection_stuff
-				.stop_creating_selection();
+			the_rect_selection_stuff.stop_creating_selection();
 		}
-		else //if ( the_sfml_canvas_widget->the_rect_selection_stuff
-			//.get_moving() )
+		else //if ( the_rect_selection_stuff.get_moving() )
 		{
-			the_sfml_canvas_widget->the_rect_selection_stuff
-				.stop_moving_selection_contents();
+			the_rect_selection_stuff.stop_moving_selection_contents();
 		}
 		
+		// I can't remember why I did this.
 		//emit sprite_no_longer_selected();
 		the_core_widget->do_emit_sprite_no_longer_selected();
 	};
@@ -917,8 +886,8 @@ void editing_manager::paste_copied_selection_contents
 	
 	//cout << "Pasting the copied selection contents\n";
 	
-	//the_sfml_canvas_widget->the_rect_selection_stuff
-	//	.paste_copied_selection_contents( vec2_s32( 0, 0 ) );
+	//the_rect_selection_stuff.paste_copied_selection_contents
+	//	( vec2_s32( 0, 0 ) );
 	
 	sf::FloatRect visible_rect 
 		= the_sfml_canvas_widget->get_visible_rect();
@@ -995,9 +964,9 @@ void editing_manager::paste_copied_selection_contents
 	// This converts the clicked coordinate to pixel coordinates.
 	sf::Vector2f mouse_pos_in_canvas_coords
 		( (double)mouse_pos_in_canvas_widget_coords.x 
-		/ (double)the_sfml_canvas_widget->scale_factor,
+		/ (double)scale_factor,
 		(double)mouse_pos_in_canvas_widget_coords.y
-		/ (double)the_sfml_canvas_widget->scale_factor );
+		/ (double)scale_factor );
 	
 	vec2_s32 block_grid_coords_of_mouse_pos
 		= { (s32)( mouse_pos_in_canvas_coords.x
@@ -1015,14 +984,12 @@ void editing_manager::paste_copied_selection_contents
 		( block_grid_coords_of_mouse_pos.x, 
 		block_grid_coords_of_mouse_pos.y ) )
 	{
-		the_sfml_canvas_widget->the_rect_selection_stuff
-			.paste_copied_selection_contents
+		the_rect_selection_stuff.paste_copied_selection_contents
 			(block_grid_coords_of_mouse_pos);
 	}
 	//else
 	//{
-	//	the_sfml_canvas_widget->the_rect_selection_stuff
-	//		.paste_copied_selection_contents( vec2_s32
+	//	the_rect_selection_stuff.paste_copied_selection_contents( vec2_s32
 	//		( visible_block_grid_start_pos.x, 
 	//		visible_block_grid_start_pos.y ) );
 	//}

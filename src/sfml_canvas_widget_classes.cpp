@@ -653,7 +653,7 @@ void level_editor_sfml_canvas_widget::draw_visible_blocks
 		{
 			block_grid_pos.x = i + visible_block_grid_start_pos.x;
 			
-			if ( !block_grid_pos_is_in_sublevel(block_grid_pos) )
+			if ( !the_sublevel->contains_block_grid_pos(block_grid_pos) )
 			{
 				//cout << "block_grid_pos out of bounds:  "
 				//	<< block_grid_pos.x << ", " << block_grid_pos.y
@@ -729,7 +729,8 @@ void level_editor_sfml_canvas_widget::draw_visible_blocks
 					selection_rect_before_moving.top + j );
 				
 				
-				if ( block_grid_pos_is_in_sublevel(block_grid_pos) )
+				if ( the_sublevel->contains_block_grid_pos
+					(block_grid_pos) )
 				{
 					draw_block
 						( &(the_sublevel->uncompressed_block_data_vec_2d
@@ -751,7 +752,8 @@ void level_editor_sfml_canvas_widget::draw_visible_blocks
 				vec2_s32 block_grid_pos( selection_rect.left + i,
 					selection_rect.top + j );
 				
-				if ( block_grid_pos_is_in_sublevel(block_grid_pos) )
+				if ( the_sublevel->contains_block_grid_pos
+					(block_grid_pos) )
 				{
 					draw_block( &(the_rect_selection_stuff
 						.copied_blocks_vec_2d.at(j).at(i)), 
@@ -879,7 +881,7 @@ void level_editor_sfml_canvas_widget::draw_visible_16x32_sprites
 		{
 			block_grid_pos.x = i + visible_block_grid_start_pos.x;
 			
-			if ( !block_grid_pos_is_in_sublevel(block_grid_pos) )
+			if ( !the_sublevel->contains_block_grid_pos(block_grid_pos) )
 			{
 				//cout << "block_grid_pos out of bounds:  "
 				//	<< block_grid_pos.x << ", " << block_grid_pos.y
@@ -968,7 +970,8 @@ void level_editor_sfml_canvas_widget::draw_visible_16x32_sprites
 						selection_rect_before_moving.top + j );
 					
 					
-					if ( block_grid_pos_is_in_sublevel(block_grid_pos) )
+					if ( the_sublevel->contains_block_grid_pos
+						(block_grid_pos) )
 					{
 						draw_16x32_sprite
 							( &(the_sublevel->sprite_ipgws_vec_2d
@@ -992,7 +995,8 @@ void level_editor_sfml_canvas_widget::draw_visible_16x32_sprites
 						selection_rect.top + j );
 					
 					
-					if ( block_grid_pos_is_in_sublevel(block_grid_pos) )
+					if ( the_sublevel->contains_block_grid_pos
+						(block_grid_pos) )
 					{
 						draw_16x32_sprite( &( the_rect_selection_stuff
 							.copied_sprite_ipgws_vec_2d.at(j).at(i)),
@@ -1048,7 +1052,7 @@ void level_editor_sfml_canvas_widget::draw_visible_16x16_sprites
 		{
 			block_grid_pos.x = i + visible_block_grid_start_pos.x;
 			
-			if ( !block_grid_pos_is_in_sublevel(block_grid_pos) )
+			if ( !the_sublevel->contains_block_grid_pos(block_grid_pos) )
 			{
 				//cout << "block_grid_pos out of bounds:  "
 				//	<< block_grid_pos.x << ", " << block_grid_pos.y
@@ -1124,7 +1128,8 @@ void level_editor_sfml_canvas_widget::draw_visible_16x16_sprites
 						( selection_rect_before_moving.left + i,
 						selection_rect_before_moving.top + j );
 					
-					if ( block_grid_pos_is_in_sublevel(block_grid_pos) )
+					if ( the_sublevel->contains_block_grid_pos
+						(block_grid_pos) )
 					{
 						draw_16x16_sprite
 							( &(the_sublevel->sprite_ipgws_vec_2d
@@ -1148,7 +1153,8 @@ void level_editor_sfml_canvas_widget::draw_visible_16x16_sprites
 						selection_rect.top + j );
 					
 					
-					if ( block_grid_pos_is_in_sublevel(block_grid_pos) )
+					if ( the_sublevel->contains_block_grid_pos
+						(block_grid_pos) )
 					{
 						draw_16x16_sprite( &( the_rect_selection_stuff
 							.copied_sprite_ipgws_vec_2d.at(j).at(i)),

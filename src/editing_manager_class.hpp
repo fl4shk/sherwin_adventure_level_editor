@@ -22,50 +22,7 @@
 #include "level_editor_widget_class.hpp"
 
 
-#define get_le_core_widget_stuff(the_core_widget)					\
-	level_editor_sfml_canvas_widget* the_sfml_canvas_widget			\
-		= the_core_widget->the_sfml_canvas_widget.get();			\
-	QTabWidget* level_element_selectors_tab_widget					\
-		= the_core_widget->level_element_selectors_tab_widget;		\
-																	\
-	block_selector_widget* the_block_selector_widget 				\
-		= the_core_widget->the_block_selector_widget;				\
-	sprite_16x16_selector_widget* the_sprite_16x16_selector_widget	\
-		= the_core_widget->the_sprite_16x16_selector_widget;		\
-	sprite_16x32_selector_widget* the_sprite_16x32_selector_widget	\
-		= the_core_widget->the_sprite_16x32_selector_widget;		\
-																	\
-	adj_sprite_ipgws_ptr_group_for_selecting_sprite&				\
-		the_sprite_selection_ptr_group 								\
-		= the_core_widget->the_sprite_selection_ptr_group;			\
-																	\
-	mouse_mode& the_mouse_mode = the_core_widget->the_mouse_mode;	\
-	vec2_s32& block_grid_coords_of_prev_mouse_pos = the_core_widget	\
-		->block_grid_coords_of_prev_mouse_pos;						\
-																	\
-	sf::Vector2i mouse_pos_in_canvas_widget_coords 					\
-		= sf::Mouse::getPosition(*the_sfml_canvas_widget);			\
-																	\
-	/* This converts the clicked coordinate to pixel coordinates.*/	\
-	sf::Vector2f mouse_pos_in_canvas_coords							\
-		( (double)mouse_pos_in_canvas_widget_coords.x 				\
-		/ (double)the_sfml_canvas_widget->scale_factor,				\
-		(double)mouse_pos_in_canvas_widget_coords.y					\
-		/ (double)the_sfml_canvas_widget->scale_factor );			\
-																	\
-	u32 scale_factor = the_sfml_canvas_widget->scale_factor;		\
-																	\
-	vec2_s32 block_grid_coords_of_mouse_pos							\
-		= { (s32)( mouse_pos_in_canvas_coords.x						\
-		/ ( level_editor_sfml_canvas_widget							\
-		::num_pixels_per_block_row ) ),								\
-																	\
-		(s32)( ( the_core_widget->the_sublevel->real_size_2d.y 		\
-		- ( ( the_sfml_canvas_widget->getSize().y / scale_factor )	\
-		- mouse_pos_in_canvas_coords.y )							\
-		/ level_editor_sfml_canvas_widget							\
-		::num_pixels_per_block_column ) ) };
-	
+
 
 
 // This class is supposed to help manage editing levels, including undo and
@@ -124,6 +81,37 @@ protected:		// functions
 		return the_core_widget->the_sfml_canvas_widget;
 	}
 	
+	inline void get_a_few_types_of_mouse_pos
+		( level_editor_sfml_canvas_widget* the_sfml_canvas_widget,
+		sf::Vector2i& ret_mouse_pos_in_canvas_widget_coords,
+		sf::Vector2f& ret_mouse_pos_in_canvas_coords, 
+		vec2_s32& ret_block_grid_coords_of_mouse_pos )
+	{
+		u32 scale_factor = the_sfml_canvas_widget->scale_factor;
+		sublevel* the_sublevel = the_sfml_canvas_widget->the_sublevel;
+		
+		ret_mouse_pos_in_canvas_widget_coords  
+			= sf::Mouse::getPosition(*the_sfml_canvas_widget); 
+		
+		// This converts the clicked coordinate to pixel coordinates.
+		ret_mouse_pos_in_canvas_coords = sf::Vector2f
+			( (double)ret_mouse_pos_in_canvas_widget_coords.x 
+			/ (double)scale_factor, 
+			(double)ret_mouse_pos_in_canvas_widget_coords.y 
+			/ (double)scale_factor ); 
+		
+		ret_block_grid_coords_of_mouse_pos 
+			= { (s32)( ret_mouse_pos_in_canvas_coords.x 
+			/ ( level_editor_sfml_canvas_widget 
+			::num_pixels_per_block_row ) ), 
+			
+			(s32)( ( the_sublevel->real_size_2d.y 
+			- ( ( the_sfml_canvas_widget->getSize().y / scale_factor ) 
+			- ret_mouse_pos_in_canvas_coords.y ) 
+			/ level_editor_sfml_canvas_widget 
+			::num_pixels_per_block_column ) ) }; 
+	}
+	
 	
 	// Things to 
 	void copy_selection_contents
@@ -131,6 +119,7 @@ protected:		// functions
 	void paste_copied_selection_contents
 		( level_editor_sfml_canvas_widget* the_sfml_canvas_widget,
 		rect_selection_stuff& the_rect_selection_stuff );
+	
 	
 	
 	friend class level_editor_widget;
