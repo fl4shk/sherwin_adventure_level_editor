@@ -103,6 +103,16 @@ public:		// variables
 	// Which layer the pasted selection is from.
 	rect_selection_layer original_layer_of_pasted_selection;
 	
+	// Whether the selection was finished being created.  This is not
+	// related to pasting.
+	bool selection_still_being_created;
+	
+	
+	// Stuff to move
+	vector< vector<block> > moving_blocks_vec_2d;
+	vector< vector<sprite_init_param_group_with_size> >
+		moving_sprite_ipgws_vec_2d;
+	
 	// Stuff to paste
 	vector< vector<block> > copied_blocks_vec_2d;
 	vector< vector<sprite_init_param_group_with_size> > 

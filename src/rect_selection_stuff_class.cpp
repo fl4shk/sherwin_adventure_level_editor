@@ -24,6 +24,8 @@ void rect_selection_stuff::start_creating_selection
 	( const vec2_s32& n_starting_block_grid_coords_of_mouse, 
 	rect_selection_layer n_selection_layer )
 {
+	selection_still_being_created = true;
+	
 	//cout << "start_rect_selection()\n";
 	
 	starting_block_grid_coords_of_mouse
@@ -137,11 +139,67 @@ void rect_selection_stuff::continue_creating_selection
 
 void rect_selection_stuff::stop_creating_selection()
 {
+	selection_still_being_created = false;
+	
 	//cout << "stop_rect_selection()\n";
 	mouse_released = true;
 	
 	starting_block_grid_coords_before_moving = starting_block_grid_coords;
 	ending_block_grid_coords_before_moving = ending_block_grid_coords;
+	
+	const vec2_s32& rs_starting_block_grid_coords_before_moving
+		= starting_block_grid_coords_before_moving;
+	const vec2_s32& rs_ending_block_grid_coords_before_moving
+		= ending_block_grid_coords_before_moving;
+	
+	const sf::IntRect selection_rect_before_moving
+		( rs_starting_block_grid_coords_before_moving.x,
+		
+		rs_starting_block_grid_coords_before_moving.y,
+		
+		( rs_ending_block_grid_coords_before_moving.x 
+		- rs_starting_block_grid_coords_before_moving.x + 1 ),
+		
+		( rs_ending_block_grid_coords_before_moving.y
+		- rs_starting_block_grid_coords_before_moving.y + 1 ) );
+	
+	
+	if ( selection_layer == rsl_blocks )
+	{
+		moving_blocks_vec_2d.clear();
+		
+		for ( s32 j=0; j<selection_rect.height; ++j )
+		{
+			moving_blocks_vec_2d.push_back(vector<block>());
+			
+			for ( s32 i=0; i<selection_rect.width; ++i )
+			{
+				vec2_s32 original_block_grid_pos
+					( selection_rect_before_moving.left + i,
+					selection_rect_before_moving.top + j );
+				
+				if ( !the_sublevel->contains_block_grid_pos
+					(original_block_grid_pos) )
+				{
+					//moving_blocks_vec_2d.at(j).push_back(block());
+					continue;
+				}
+				
+				block the_block = the_sublevel
+					->uncompressed_block_data_vec_2d
+					.at((u32)original_block_grid_pos.y)
+					.at((u32)original_block_grid_pos.x);
+				
+				moving_blocks_vec_2d.at(j).push_back(the_block);
+				
+			}
+		}
+	}
+	else if ( selection_layer == rsl_sprites )
+	{
+		
+	}
+	
 }
 
 
@@ -280,15 +338,11 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 		return;
 	}
 	
+	// Blocks were moved, but not pasted
 	if ( selection_layer == rsl_blocks && !get_selection_was_pasted() )
 	{
-		vector< vector<block> > moved_blocks_in_selection_vec_2d;
-		
 		for ( s32 j=0; j<selection_rect.height; ++j )
 		{
-			moved_blocks_in_selection_vec_2d.push_back
-				(vector<block>());
-			
 			for ( s32 i=0; i<selection_rect.width; ++i )
 			{
 				vec2_s32 original_block_grid_pos
@@ -298,8 +352,6 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 				if ( !the_sublevel->contains_block_grid_pos
 					(original_block_grid_pos) )
 				{
-					//moved_blocks_in_selection_vec_2d.at(j).push_back
-					//	(block());
 					continue;
 				}
 				
@@ -307,9 +359,6 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 					->uncompressed_block_data_vec_2d
 					.at((u32)original_block_grid_pos.y)
 					.at((u32)original_block_grid_pos.x);
-				
-				moved_blocks_in_selection_vec_2d.at(j).push_back
-					(the_block);
 				
 				// Delete the data of the_block.
 				the_block = block();
@@ -331,7 +380,7 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 				
 				the_sublevel->uncompressed_block_data_vec_2d
 					.at(block_grid_pos.y).at(block_grid_pos.x)
-					= moved_blocks_in_selection_vec_2d.at(j).at(i);
+					= moving_blocks_vec_2d.at(j).at(i);
 			}
 		}
 	}
