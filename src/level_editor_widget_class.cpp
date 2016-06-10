@@ -1054,6 +1054,12 @@ void level_editor_widget::create_sublevel_properties_widget()
 	the_core_widget->move(the_core_widget->current_position);
 	the_core_widget->resize(the_core_widget->current_size);
 	
+	
+	// Make a backup of the_rect_selection_stuff
+	rect_selection_stuff the_rect_selection_stuff = the_core_widget
+		->the_sfml_canvas_widget->the_rect_selection_stuff;
+	
+	
 	the_core_widget->the_sfml_canvas_widget.reset
 		(new level_editor_sfml_canvas_widget( the_core_widget, 
 		the_core_widget->current_position,
@@ -1062,6 +1068,10 @@ void level_editor_widget::create_sublevel_properties_widget()
 	
 	the_core_widget->the_sfml_canvas_widget->set_the_sublevel
 		(the_sublevel);
+	
+	// Restore the_rect_selection_stuff.
+	the_core_widget->the_sfml_canvas_widget->the_rect_selection_stuff
+		= the_rect_selection_stuff;
 	
 	
 	the_core_widget->init_tab_stuff

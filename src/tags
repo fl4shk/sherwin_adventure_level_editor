@@ -994,6 +994,8 @@ rect_selection_mode_icon_file_name	primary_widget_class.hpp	/^		rect_selection_m
 rect_selection_mode_tool_button	mouse_mode_button_group_widget_class.hpp	/^		rect_selection_mode_tool_button;$/;"	kind:m	class:mouse_mode_button_group_widget	access:public
 rect_selection_mode_tool_button_action	mouse_mode_button_group_widget_class.hpp	/^		* rect_selection_mode_tool_button_action;$/;"	kind:m	class:mouse_mode_button_group_widget	access:public
 rect_selection_mode_tool_button_action	primary_widget_class.hpp	/^		* rect_selection_mode_tool_button_action;$/;"	kind:m	class:primary_widget	access:protected
+rect_selection_stuff	rect_selection_stuff_class.hpp	/^	inline rect_selection_stuff$/;"	kind:f	class:rect_selection_stuff	access:public	signature:( const rect_selection_stuff& s_rect_selection_stuff )
+rect_selection_stuff	rect_selection_stuff_class.hpp	/^	inline rect_selection_stuff()$/;"	kind:f	class:rect_selection_stuff	access:public	signature:()
 rect_selection_stuff	rect_selection_stuff_class.hpp	/^class rect_selection_stuff$/;"	kind:c
 rect_selection_stuff::clicked_location_in_rect	rect_selection_stuff_class.hpp	/^	vec2_s32 clicked_location_in_rect;$/;"	kind:m	class:rect_selection_stuff	access:public
 rect_selection_stuff::continue_creating_selection	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::continue_creating_selection$/;"	kind:f	class:rect_selection_stuff	signature:( const vec2_s32& curr_block_grid_coords_of_mouse )
@@ -1027,11 +1029,13 @@ rect_selection_stuff::moving	rect_selection_stuff_class.hpp	/^	bool moving;$/;"	
 rect_selection_stuff::original_layer_of_pasted_selection	rect_selection_stuff_class.hpp	/^	rect_selection_layer original_layer_of_pasted_selection;$/;"	kind:m	class:rect_selection_stuff	access:public
 rect_selection_stuff::paste_copied_selection_contents	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::paste_copied_selection_contents$/;"	kind:f	class:rect_selection_stuff	signature:( const vec2_s32& n_starting_block_grid_coords )
 rect_selection_stuff::paste_copied_selection_contents	rect_selection_stuff_class.hpp	/^	void paste_copied_selection_contents$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( const vec2_s32& n_starting_block_grid_coords )
-rect_selection_stuff::selection_image	rect_selection_stuff_class.hpp	/^	unique_ptr<sf::Image> selection_image;$/;"	kind:m	class:rect_selection_stuff	access:public
+rect_selection_stuff::rect_selection_stuff	rect_selection_stuff_class.hpp	/^	inline rect_selection_stuff$/;"	kind:f	class:rect_selection_stuff	access:public	signature:( const rect_selection_stuff& s_rect_selection_stuff )
+rect_selection_stuff::rect_selection_stuff	rect_selection_stuff_class.hpp	/^	inline rect_selection_stuff()$/;"	kind:f	class:rect_selection_stuff	access:public	signature:()
+rect_selection_stuff::selection_image	rect_selection_stuff_class.hpp	/^	shared_ptr<sf::Image> selection_image;$/;"	kind:m	class:rect_selection_stuff	access:public
 rect_selection_stuff::selection_layer	rect_selection_stuff_class.hpp	/^	rect_selection_layer selection_layer;$/;"	kind:m	class:rect_selection_stuff	access:public
 rect_selection_stuff::selection_rect	rect_selection_stuff_class.hpp	/^	sf::IntRect selection_rect;$/;"	kind:m	class:rect_selection_stuff	access:public
-rect_selection_stuff::selection_sprite	rect_selection_stuff_class.hpp	/^	unique_ptr<sf::Sprite> selection_sprite;$/;"	kind:m	class:rect_selection_stuff	access:public
-rect_selection_stuff::selection_texture	rect_selection_stuff_class.hpp	/^	unique_ptr<sf::Texture> selection_texture;$/;"	kind:m	class:rect_selection_stuff	access:public
+rect_selection_stuff::selection_sprite	rect_selection_stuff_class.hpp	/^	shared_ptr<sf::Sprite> selection_sprite;$/;"	kind:m	class:rect_selection_stuff	access:public
+rect_selection_stuff::selection_texture	rect_selection_stuff_class.hpp	/^	shared_ptr<sf::Texture> selection_texture;$/;"	kind:m	class:rect_selection_stuff	access:public
 rect_selection_stuff::selection_was_pasted	rect_selection_stuff_class.hpp	/^	bool selection_was_pasted;$/;"	kind:m	class:rect_selection_stuff	access:public
 rect_selection_stuff::single_sprite_selected	rect_selection_stuff_class.hpp	/^	bool single_sprite_selected;$/;"	kind:m	class:rect_selection_stuff	access:public
 rect_selection_stuff::start_creating_selection	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::start_creating_selection$/;"	kind:f	class:rect_selection_stuff	signature:( const vec2_s32& n_starting_block_grid_coords_of_mouse, rect_selection_layer n_selection_layer )
@@ -1077,11 +1081,11 @@ scroll_area	sprite_16x16_selector_widget_class.hpp	/^	QScrollArea* scroll_area;$
 scroll_area	sprite_16x32_selector_widget_class.hpp	/^	QScrollArea* scroll_area;$/;"	kind:m	class:sprite_16x32_selector_widget	access:public
 selected_level_element_sprite	level_element_selector_core_widget_base_class.hpp	/^	sf::Sprite selected_level_element_sprite;$/;"	kind:m	class:level_element_selector_core_widget_base	access:protected
 selected_sprite_ipgws	sprite_properties_widget_class.hpp	/^	sprite_init_param_group_with_size* selected_sprite_ipgws;$/;"	kind:m	class:sprite_properties_widget	access:public
-selection_image	rect_selection_stuff_class.hpp	/^	unique_ptr<sf::Image> selection_image;$/;"	kind:m	class:rect_selection_stuff	access:public
+selection_image	rect_selection_stuff_class.hpp	/^	shared_ptr<sf::Image> selection_image;$/;"	kind:m	class:rect_selection_stuff	access:public
 selection_layer	rect_selection_stuff_class.hpp	/^	rect_selection_layer selection_layer;$/;"	kind:m	class:rect_selection_stuff	access:public
 selection_rect	rect_selection_stuff_class.hpp	/^	sf::IntRect selection_rect;$/;"	kind:m	class:rect_selection_stuff	access:public
-selection_sprite	rect_selection_stuff_class.hpp	/^	unique_ptr<sf::Sprite> selection_sprite;$/;"	kind:m	class:rect_selection_stuff	access:public
-selection_texture	rect_selection_stuff_class.hpp	/^	unique_ptr<sf::Texture> selection_texture;$/;"	kind:m	class:rect_selection_stuff	access:public
+selection_sprite	rect_selection_stuff_class.hpp	/^	shared_ptr<sf::Sprite> selection_sprite;$/;"	kind:m	class:rect_selection_stuff	access:public
+selection_texture	rect_selection_stuff_class.hpp	/^	shared_ptr<sf::Texture> selection_texture;$/;"	kind:m	class:rect_selection_stuff	access:public
 selection_was_pasted	rect_selection_stuff_class.hpp	/^	bool selection_was_pasted;$/;"	kind:m	class:rect_selection_stuff	access:public
 set_left_current_level_element_index	level_element_selector_core_widget_base_class.hpp	/^	inline void set_left_current_level_element_index$/;"	kind:f	class:level_element_selector_core_widget_base	access:public	signature:( u32 n_left_current_level_element_index )
 set_min_max_sizes	sfml_canvas_widget_classes.hpp	/^	inline void set_min_max_sizes( const QSize& n_size )$/;"	kind:f	class:sfml_canvas_widget_base	access:protected	signature:( const QSize& n_size )

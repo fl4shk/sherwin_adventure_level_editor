@@ -36,9 +36,11 @@
 class rect_selection_stuff
 {
 public:		// variables
-	unique_ptr<sf::Image> selection_image;
-	unique_ptr<sf::Texture> selection_texture;
-	unique_ptr<sf::Sprite> selection_sprite;
+	// Use shared_ptr's so that the_sfml_canvas_widget
+	// ->the_rect_selection_stuff can be copied.
+	shared_ptr<sf::Image> selection_image;
+	shared_ptr<sf::Texture> selection_texture;
+	shared_ptr<sf::Sprite> selection_sprite;
 	
 	
 	// The actual rectangle representing the selected area.  It is
@@ -108,6 +110,15 @@ public:		// variables
 	
 	
 public:		// functions
+	inline rect_selection_stuff()
+	{
+	}
+	
+	inline rect_selection_stuff
+		( const rect_selection_stuff& s_rect_selection_stuff )
+	{
+		*this = s_rect_selection_stuff;
+	}
 	
 	inline bool get_enabled() const
 	{

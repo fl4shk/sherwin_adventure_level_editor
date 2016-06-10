@@ -20,7 +20,6 @@
 #include "sublevel_class.hpp"
 #include "sfml_canvas_widget_classes.hpp"
 
-
 void rect_selection_stuff::start_creating_selection
 	( const vec2_s32& n_starting_block_grid_coords_of_mouse, 
 	rect_selection_layer n_selection_layer )
@@ -297,7 +296,7 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 					selection_rect_before_moving.top + j );
 				
 				if ( !the_sublevel->contains_block_grid_pos
-					(original_block_grid_pos))
+					(original_block_grid_pos) )
 				{
 					//moved_blocks_in_selection_vec_2d.at(j).push_back
 					//	(block());
@@ -436,12 +435,9 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 				vec2_s32 block_grid_pos( selection_rect.left + i,
 					selection_rect.top + j );
 				
-				if ( block_grid_pos.x < 0 
-					|| block_grid_pos.y < 0
-					|| ( block_grid_pos.x 
-					>= (s32)the_sublevel->real_size_2d.x ) 
-					|| ( block_grid_pos.y 
-					>= (s32)the_sublevel->real_size_2d.y ) )
+				
+				if ( !the_sublevel->contains_block_grid_pos
+					(block_grid_pos) )
 				{
 					continue;
 				}
