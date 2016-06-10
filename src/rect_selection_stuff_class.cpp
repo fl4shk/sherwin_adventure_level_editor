@@ -164,6 +164,9 @@ void rect_selection_stuff::stop_creating_selection()
 		- rs_starting_block_grid_coords_before_moving.y + 1 ) );
 	
 	
+	// The reason these copies happen is that the_sublevel can be resized
+	// (in particular, made smaller in either horizontally or vertically)
+	// while keeping the_rect_selection_stuff active.
 	if ( selection_layer == rsl_blocks )
 	{
 		moving_blocks_vec_2d.clear();
@@ -197,7 +200,34 @@ void rect_selection_stuff::stop_creating_selection()
 	}
 	else if ( selection_layer == rsl_sprites )
 	{
+		moving_sprite_ipgws_vec_2d.clear();
 		
+		for ( s32 j=0; j<selection_rect.height; ++j )
+		{
+			moving_sprite_ipgws_vec_2d.push_back
+				(vector<sprite_init_param_group_with_size>());
+			
+			for ( s32 i=0; i<selection_rect.width; ++i )
+			{
+				vec2_s32 original_block_grid_pos
+					( selection_rect_before_moving.left + i,
+					selection_rect_before_moving.top + j );
+				
+				if ( !the_sublevel->contains_block_grid_pos
+					(original_block_grid_pos) )
+				{
+					continue;
+				}
+				
+				sprite_init_param_group_with_size the_sprite_ipgws 
+					= the_sublevel->sprite_ipgws_vec_2d
+					.at((u32)original_block_grid_pos.y)
+					.at((u32)original_block_grid_pos.x);
+				
+				moving_sprite_ipgws_vec_2d.at(j).push_back
+					(the_sprite_ipgws);
+			}
+		}
 	}
 	
 }
@@ -409,14 +439,8 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 	else if ( selection_layer == rsl_sprites 
 		&& !get_selection_was_pasted() )
 	{
-		vector< vector<sprite_init_param_group_with_size> > 
-			moved_sprite_ipgws_in_selection_vec_2d;
-		
 		for ( s32 j=0; j<selection_rect.height; ++j )
 		{
-			moved_sprite_ipgws_in_selection_vec_2d.push_back
-				(vector<sprite_init_param_group_with_size>());
-			
 			for ( s32 i=0; i<selection_rect.width; ++i )
 			{
 				vec2_s32 original_block_grid_pos
@@ -433,9 +457,6 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 					= the_sublevel->sprite_ipgws_vec_2d
 					.at((u32)original_block_grid_pos.y)
 					.at((u32)original_block_grid_pos.x);
-				
-				moved_sprite_ipgws_in_selection_vec_2d.at(j).push_back
-					(the_sprite_ipgws);
 				
 				// Delete the data of the_sprite_ipgws.
 				the_sprite_ipgws = sprite_init_param_group_with_size();
@@ -456,7 +477,7 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 				}
 				
 				sprite_init_param_group_with_size& the_sprite_ipgws
-					= moved_sprite_ipgws_in_selection_vec_2d.at(j).at(i);
+					= moving_sprite_ipgws_vec_2d.at(j).at(i);
 				
 				if ( the_sprite_ipgws.type != st_default )
 				{
