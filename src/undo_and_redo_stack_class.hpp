@@ -43,41 +43,23 @@ public:		// variables
 	// blocks.
 	struct block_changing_stuff
 	{
-		vector< pair< block, vec2_u32> > prev_block_vec, curr_block_vec;
-	} the_block_drawing_stuff;
+		//vector< pair< block, vec2_u32> > prev_block_vec, curr_block_vec;
+		
+		// use std::map so that there are no duplicates (there really don't
+		// need to be any).
+		map< vec2_s32, block > prev_block_map, curr_block_map;
+	} the_block_changing_stuff;
 	
-	
-	// Stuff for drawing a sprite.
-	struct sprite_drawing_stuff
+public:		// functions
+	inline undo_and_redo_action()
 	{
-		sprite_init_param_group_with_size prev_sprite_ipgws, 
-			curr_sprite_ipgws;
-	} the_sprite_drawing_stuff;
-	
-	
-	//
-	struct sprite_pasting_stuff
+	}
+	inline undo_and_redo_action( const undo_and_redo_action& to_copy )
 	{
-		vector<sprite_init_param_group_with_size> prev_sprite_ipgws_vec,
-			curr_sprite_ipgws_vec;
-	} the_sprite_pasting_stuff;
+		*this = to_copy;
+	}
 	
-	
-	// Stuff for modifying a sprite.
-	struct sprite_modifying_stuff
-	{
-		sprite_init_param_group_with_size prev_sprite_ipgws,
-			curr_sprite_ipgws;
-	} the_sprite_modifying_stuff;
-	
-	
-	// Stuff for erasing and cutting sprites.
-	struct sprite_erasing_stuff
-	{
-		vector<sprite_init_param_group_with_size> prev_sprite_ipgws_vec;
-	} the_sprite_erasing_stuff;
-	
-	
+	void debug_print();
 	
 };
 
@@ -99,13 +81,15 @@ public:		// functions
 	// This is just for good measure.
 	u64 get_curr_action_index() const;
 	
-	const undo_and_redo_action& get_curr_action() const;
+	undo_and_redo_action& get_curr_action();
 	
 	
 	// If not at the end of action_vec, this chops off everything after the
 	// current position.
 	void add_action( const undo_and_redo_action& the_action );
 	
+	
+	void debug_print();
 	
 	// Only one undo or redo at a time.  Returns whether the undo or redo
 	// was successful, which is probably only useful for debugging

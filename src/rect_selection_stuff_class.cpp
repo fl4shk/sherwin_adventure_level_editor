@@ -414,6 +414,7 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 			}
 		}
 	}
+	// Blocks were pasted
 	else if ( original_layer_of_pasted_selection == rsl_blocks 
 		&& get_selection_was_pasted() )
 	{
@@ -436,6 +437,8 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 			}
 		}
 	}
+	
+	// Sprites were moved, but not pasted
 	else if ( selection_layer == rsl_sprites 
 		&& !get_selection_was_pasted() )
 	{
@@ -495,6 +498,7 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 			}
 		}
 	}
+	// Sprites were pasted
 	else if ( original_layer_of_pasted_selection == rsl_sprites 
 		&& get_selection_was_pasted() )
 	{

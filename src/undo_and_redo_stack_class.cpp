@@ -19,6 +19,10 @@
 
 #include "undo_and_redo_stack_class.hpp"
 
+void undo_and_redo_action::debug_print()
+{
+	
+}
 
 undo_and_redo_stack::undo_and_redo_stack()
 {
@@ -30,6 +34,11 @@ undo_and_redo_stack::undo_and_redo_stack()
 u64 undo_and_redo_stack::get_curr_action_index() const
 {
 	return curr_action_index;
+}
+
+undo_and_redo_action& undo_and_redo_stack::get_curr_action()
+{
+	return action_vec.at(get_curr_action_index());
 }
 
 
@@ -53,20 +62,20 @@ void undo_and_redo_stack::add_action
 }
 
 
-bool undo_and_redo_stack::undo()
-{
-	if ( curr_action_index > 0 )
-	{
-		--curr_action_index;
-	}
-}
-
-bool undo_and_redo_stack::redo()
-{
-	if ( curr_action_index < action_vec.size() - 1 )
-	{
-		++curr_action_index;
-	}
-}
+//bool undo_and_redo_stack::undo()
+//{
+//	if ( curr_action_index > 0 )
+//	{
+//		--curr_action_index;
+//	}
+//}
+//
+//bool undo_and_redo_stack::redo()
+//{
+//	if ( curr_action_index < action_vec.size() - 1 )
+//	{
+//		++curr_action_index;
+//	}
+//}
 
 

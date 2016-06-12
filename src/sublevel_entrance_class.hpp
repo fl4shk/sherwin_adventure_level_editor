@@ -37,7 +37,7 @@ enum sublevel_entrance_type
 	sle_from_door,
 	
 	// The number of sublevel entrance types is automatically updated by the
-	// compiler via the le_count enum id
+	// compiler via the sle_count enum id
 	sle_count,
 	
 } __attribute__((aligned(4)));

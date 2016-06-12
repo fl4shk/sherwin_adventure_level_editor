@@ -37,6 +37,19 @@ protected:		// variables
 	level_editor_widget* the_level_editor_widget;
 	//vector< unique_ptr<level_editor_widget> >* the_core_widget_vec;
 	
+	struct undo_and_redo_stuff
+	{
+		undo_and_redo_stack ur_stack;
+		bool ur_action_active;
+		
+		// I am not sure whether having only one ur_action_to_push will
+		// work.  If it works, it should 
+		undo_and_redo_action ur_action_to_push;
+	};
+	
+	map< level_editor_core_widget*, undo_and_redo_stuff > ur_stuff_map;
+	
+	
 	
 public:		// functions
 	inline editing_manager() : the_level_editor_widget(NULL)
@@ -68,7 +81,64 @@ public:		// functions
 		QMouseEvent* event );
 	
 	
+	// Editing actions that have been made into their own functions so
+	// that the_editing_manager can handle them.
+	
+	void finalize_movement_of_rect_selection_contents
+		( level_editor_core_widget* the_core_widget,
+		rect_selection_stuff& the_rect_selection_stuff );
+	
+	
 protected:		// functions
+	// Mouse press handler functions.  These were once lambda functions,
+	// but not any more.
+	void handle_placing_le_during_mouse_press
+		( level_editor_core_widget* the_core_widget,
+		const vec2_s32& block_grid_coords_of_mouse_pos,
+		bool current_tabbed_widget_is_for_blocks,
+		bool current_tabbed_widget_is_for_16x16_sprites,
+		bool current_tabbed_widget_is_for_16x32_sprites );
+	void handle_erasing_sprite_during_mouse_press
+		( level_editor_core_widget* the_core_widget,
+		const vec2_s32& block_grid_coords_of_mouse_pos );
+	void handle_selecting_single_sprite_during_mouse_press
+		( level_editor_core_widget* the_core_widget );
+	void handle_rect_selection_during_mouse_press
+		( level_editor_core_widget* the_core_widget,
+		const vec2_s32& block_grid_coords_of_mouse_pos,
+		bool current_tabbed_widget_is_for_blocks,
+		bool current_tabbed_widget_is_for_16x16_sprites,
+		bool current_tabbed_widget_is_for_16x32_sprites );
+	
+	// Mouse move handler functions.  These were once lambda functions, but
+	// not any more.
+	void handle_placing_le_during_mouse_move
+		( level_editor_core_widget* the_core_widget,
+		const vec2_s32& block_grid_coords_of_mouse_pos,
+		bool current_tabbed_widget_is_for_blocks );
+	void handle_erasing_sprite_during_mouse_move
+		( level_editor_core_widget* the_core_widget,
+		const vec2_s32& block_grid_coords_of_mouse_pos );
+	void handle_selecting_single_sprite_during_mouse_move
+		( level_editor_core_widget* the_core_widget );
+	void handle_rect_selection_during_mouse_move
+		( level_editor_core_widget* the_core_widget,
+		const vec2_s32& block_grid_coords_of_mouse_pos );
+	
+	
+	// Mouse release handler functions.  These were once lambda functions,
+	// but not any more.
+	void handle_placing_le_during_mouse_release
+		( level_editor_core_widget* the_core_widget );
+	void handle_erasing_sprite_during_mouse_release
+		( level_editor_core_widget* the_core_widget );
+	void handle_selecting_single_sprite_during_mouse_release
+		( level_editor_core_widget* the_core_widget );
+	void handle_rect_selection_during_mouse_release
+		( level_editor_core_widget* the_core_widget );
+	
+	
+	
 	inline vector< unique_ptr<level_editor_core_widget> >&
 		get_the_core_widget_vec()
 	{
@@ -81,44 +151,24 @@ protected:		// functions
 		return the_core_widget->the_sfml_canvas_widget;
 	}
 	
-	inline void get_a_few_types_of_mouse_pos
+	
+	// This is used in a few different places.
+	void get_a_few_types_of_mouse_pos
 		( level_editor_sfml_canvas_widget* the_sfml_canvas_widget,
 		sf::Vector2i& ret_mouse_pos_in_canvas_widget_coords,
 		sf::Vector2f& ret_mouse_pos_in_canvas_coords, 
-		vec2_s32& ret_block_grid_coords_of_mouse_pos )
-	{
-		u32 scale_factor = the_sfml_canvas_widget->scale_factor;
-		sublevel* the_sublevel = the_sfml_canvas_widget->the_sublevel;
-		
-		ret_mouse_pos_in_canvas_widget_coords  
-			= sf::Mouse::getPosition(*the_sfml_canvas_widget); 
-		
-		// This converts the clicked coordinate to pixel coordinates.
-		ret_mouse_pos_in_canvas_coords = sf::Vector2f
-			( (double)ret_mouse_pos_in_canvas_widget_coords.x 
-			/ (double)scale_factor, 
-			(double)ret_mouse_pos_in_canvas_widget_coords.y 
-			/ (double)scale_factor ); 
-		
-		ret_block_grid_coords_of_mouse_pos 
-			= { (s32)( ret_mouse_pos_in_canvas_coords.x 
-			/ ( level_editor_sfml_canvas_widget 
-			::num_pixels_per_block_row ) ), 
-			
-			(s32)( ( the_sublevel->real_size_2d.y 
-			- ( ( the_sfml_canvas_widget->getSize().y / scale_factor ) 
-			- ret_mouse_pos_in_canvas_coords.y ) 
-			/ level_editor_sfml_canvas_widget 
-			::num_pixels_per_block_column ) ) }; 
-	}
+		vec2_s32& ret_block_grid_coords_of_mouse_pos );
 	
 	
-	// Things to 
+	// Editing functions to activate upon key press.  These are meant to
+	// actually 
 	void copy_selection_contents
 		( rect_selection_stuff& the_rect_selection_stuff );
 	void paste_copied_selection_contents
-		( level_editor_sfml_canvas_widget* the_sfml_canvas_widget,
+		( level_editor_core_widget* the_core_widget,
 		rect_selection_stuff& the_rect_selection_stuff );
+	
+	
 	
 	
 	
