@@ -41,14 +41,11 @@ public:		// variables
 	// moving a rectangular selection of blocks, cutting a rectangular
 	// selection of blocks, and pasting a copied rectangular selection of
 	// blocks.
-	struct block_changing_stuff
-	{
-		//vector< pair< block, vec2_u32> > prev_block_vec, curr_block_vec;
-		
-		// use std::map so that there are no duplicates (there really don't
-		// need to be any).
-		map< vec2_s32, block > prev_block_map, curr_block_map;
-	} the_block_changing_stuff;
+	
+	// use std::map so that there are no duplicates (there really don't
+	// need to be any).
+	map< vec2_s32, block > prev_block_map, curr_block_map;
+	
 	
 public:		// functions
 	inline undo_and_redo_action()

@@ -37,11 +37,11 @@ else
 endif
 
 
-#CXX_FLAGS=-std=c++14 -pipe -I/usr/include $(BASE_FLAGS) `pkg-config \
+#CXX_FLAGS=-std=c++17 -pipe -I/usr/include $(BASE_FLAGS) `pkg-config \
 #	--cflags Qt5Core Qt5Gui Qt5Widgets sfml-window sfml-graphics` -fPIC
 
 
-SHARED_CXX_FLAGS=-std=c++14 -pipe $(BASE_FLAGS)
+SHARED_CXX_FLAGS=-std=c++17 -pipe $(BASE_FLAGS)
 CXX_FLAGS=$(SHARED_CXX_FLAGS)
 PUGIXML_CXX_FLAGS=-Ipugixml_source $(SHARED_CXX_FLAGS)
 

@@ -27,6 +27,8 @@
 
 #include "sublevel_entrance_class.hpp"
 
+#include <SFML/Graphics.hpp>
+
 
 #include <vector>
 #include <string>
@@ -132,14 +134,21 @@ public:		// functions
 	void generate_compressed_block_data_vec( const string& output_dirname,
 		const string& output_basename );
 	
-	inline bool contains_block_grid_pos( const vec2_s32& block_grid_pos )
-		const
+	
+	inline bool contains_block_grid_pos
+		( const sf::Vector2i& block_grid_pos ) const
 	{
 		return ( block_grid_pos.x >= 0 && block_grid_pos.y >= 0
 			&& block_grid_pos.x < (s32)real_size_2d.x
 			&& block_grid_pos.y < (s32)real_size_2d.y );
 	}
 	
+	inline bool contains_block_grid_pos( const vec2_s32& block_grid_pos )
+		const
+	{
+		return contains_block_grid_pos( sf::Vector2i( block_grid_pos.x,
+			block_grid_pos.y ) );
+	}
 	
 protected:		// functions
 	void write_uncompressed_block_data_to_file

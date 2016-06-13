@@ -21,6 +21,7 @@
 //#include "level_editor_core_widget_class.hpp"
 //#include "sublevel_class.hpp"
 
+
 void editing_manager::key_press_event( QKeyEvent* event )
 {
 	// These probably ought to be in a toolbar of some sort, as well.
@@ -551,7 +552,6 @@ void editing_manager::mouse_release_event
 }
 
 
-
 // This function needs to eventually handle undo and redo, which is why a
 // level_editor_core_widget is passed to this function.
 void editing_manager::finalize_movement_of_rect_selection_contents
@@ -560,6 +560,9 @@ void editing_manager::finalize_movement_of_rect_selection_contents
 {
 	the_rect_selection_stuff.finalize_movement_of_selection_contents();
 }
+
+
+
 
 
 void editing_manager::handle_placing_le_during_mouse_press
@@ -595,15 +598,24 @@ void editing_manager::handle_placing_le_during_mouse_press
 	
 	the_sfml_canvas_widget->modified_recently = true;
 	
+	
+	undo_and_redo_stuff& ur_stuff = get_or_create_ur_stuff
+		(the_core_widget);
+	undo_and_redo_action& ur_action_to_push = ur_stuff.ur_action_to_push;
+	
 	if (current_tabbed_widget_is_for_blocks)
 	{
 		//cout << "the_block_selector_widget_is_enabled!\n";
 		
-		// Start drawing blocks, possibly just one
-		the_block_at_mouse_pos.type 
-			= the_core_widget->get_the_block_selector_core_widget()
-			->get_left_current_level_element_index();
+		ur_stuff.ur_action_active = true;
 		
+		ur_action_to_push = undo_and_redo_action();
+		ur_action_to_push.the_action_type = at_draw_blocks;
+		
+		draw_single_block_and_record_ur_stuff( the_block_at_mouse_pos, 
+			block_grid_coords_of_mouse_pos, 
+			get_left_selected_block_type(the_core_widget),
+			ur_action_to_push );
 	}
 	
 	else if (current_tabbed_widget_is_for_16x16_sprites)
@@ -838,9 +850,17 @@ void editing_manager::handle_placing_le_during_mouse_move
 	the_sfml_canvas_widget->modified_recently = true;
 	//cout << "placing level elements\n";
 	
+	undo_and_redo_stuff& ur_stuff = get_or_create_ur_stuff
+		(the_core_widget);
+	
+	undo_and_redo_action& ur_action_to_push = ur_stuff.ur_action_to_push;
+	
 	if (current_tabbed_widget_is_for_blocks)
 	{
 		//cout << "the_block_selector_widget_is_enabled!\n";
+		
+		block_type the_block_type = get_left_selected_block_type
+			(the_core_widget);
 		
 		if ( !the_sublevel->contains_block_grid_pos
 			(block_grid_coords_of_mouse_pos) )
@@ -849,24 +869,32 @@ void editing_manager::handle_placing_le_during_mouse_move
 		}
 		else
 		{
-			block& the_block_at_mouse_pos 
-				= the_sublevel->uncompressed_block_data_vec_2d
-				.at((u32)block_grid_coords_of_mouse_pos.y)
-				.at((u32)block_grid_coords_of_mouse_pos.x);
+			//block& the_block_at_mouse_pos 
+			//	= the_sublevel->uncompressed_block_data_vec_2d
+			//	.at((u32)block_grid_coords_of_mouse_pos.y)
+			//	.at((u32)block_grid_coords_of_mouse_pos.x);
+			//
+			//// This needs to be recorded for undo and redo stuff
+			//the_block_at_mouse_pos.type = the_core_widget
+			//	->get_the_block_selector_core_widget()
+			//	->get_left_current_level_element_index();
 			
-			// This needs to be recorded for undo and redo stuff
-			the_block_at_mouse_pos.type = the_core_widget
-				->get_the_block_selector_core_widget()
-				->get_left_current_level_element_index();
+			draw_single_block_and_record_ur_stuff( the_sublevel,
+				block_grid_coords_of_mouse_pos, the_block_type,
+				ur_action_to_push );
 		}
 		
 		// This needs to be recorded for undo and redo stuff
-		the_core_widget->draw_block_line
-			( block_grid_coords_of_prev_mouse_pos,
-			block_grid_coords_of_mouse_pos, 
-			(block_type)the_core_widget
-			->get_the_block_selector_core_widget()
-			->get_left_current_level_element_index() );
+		//draw_block_line( the_core_widget,
+		//	block_grid_coords_of_prev_mouse_pos,
+		//	block_grid_coords_of_mouse_pos, 
+		//	(block_type)the_core_widget
+		//	->get_the_block_selector_core_widget()
+		//	->get_left_current_level_element_index() );
+		draw_block_line( the_core_widget,
+			block_grid_coords_of_prev_mouse_pos,
+			block_grid_coords_of_mouse_pos, the_block_type,
+			ur_action_to_push );
 	}
 	
 	//cout << endl;
@@ -917,7 +945,52 @@ void editing_manager::handle_rect_selection_during_mouse_move
 void editing_manager::handle_placing_le_during_mouse_release
 	( level_editor_core_widget* the_core_widget )
 {
+	undo_and_redo_stuff& ur_stuff = get_or_create_ur_stuff
+		(the_core_widget);
+	undo_and_redo_action& ur_action_to_push = ur_stuff.ur_action_to_push;
+	
+	
 	cout << "Done placing level elements\n";
+	cout << "Here's the action_type:  " 
+		<< ur_action_to_push.the_action_type << endl;
+	
+	
+	auto func_for_drawing_blocks = [&]() -> void
+	{
+		cout << "Here's prev_block_map:  \n";
+		
+		for ( auto pbm_iter : ur_action_to_push.prev_block_map )
+		{
+			cout << "block coord:  ( " << pbm_iter.first.x << ", "
+				<< pbm_iter.first.y << " ); block_type:  " 
+				<< block_stuff::get_bt_name_debug
+				((block_type)pbm_iter.second.type) << "\n";
+		}
+		
+		cout << "\nHere's curr_block_map:  \n";
+		
+		for ( auto cbm_iter : ur_action_to_push.curr_block_map )
+		{
+			cout << "block coord:  ( " << cbm_iter.first.x << ", "
+				<< cbm_iter.first.y << " ); block_type:  " 
+				<< block_stuff::get_bt_name_debug
+				((block_type)cbm_iter.second.type) << "\n";
+		}
+		
+		cout << endl;
+		
+	};
+	
+	switch ( ur_action_to_push.the_action_type )
+	{
+		case at_draw_blocks:
+			func_for_drawing_blocks();
+			break;
+		
+		default:
+			cout << "Strange action_type.  Perhaps there's a bug?\n";
+			break;
+	}
 }
 
 void editing_manager::handle_erasing_sprite_during_mouse_release
@@ -983,6 +1056,137 @@ void editing_manager::get_a_few_types_of_mouse_pos
 		- ret_mouse_pos_in_canvas_coords.y ) 
 		/ level_editor_sfml_canvas_widget 
 		::num_pixels_per_block_column ) ) }; 
+}
+
+
+
+// Editing functions to activate upon mouse events
+void editing_manager::draw_block_line
+	( level_editor_core_widget* the_core_widget, 
+	const sf::Vector2i& pos_0, const sf::Vector2i& pos_1, 
+	block_type the_block_type, undo_and_redo_action& ur_action_to_push )
+{
+	level_editor_sfml_canvas_widget* the_sfml_canvas_widget
+		= the_core_widget->the_sfml_canvas_widget.get();
+	sublevel* the_sublevel = the_core_widget->the_sublevel;
+	
+	the_sfml_canvas_widget->modified_recently = true;
+	
+	sf::Vector2i delta, block_coord, offset;
+	
+	delta = sf::Vector2i( pos_1.x - pos_0.x, pos_1.y - pos_0.y );
+	
+	if ( delta.x < 0 )
+	{
+		delta.x = -delta.x;
+	}
+	if ( delta.y < 0 )
+	{
+		delta.y = -delta.y;
+	}
+	
+	block_coord = pos_0;
+	
+	if ( pos_0.x > pos_1.x )
+	{
+		offset.x = -1;
+	}
+	else
+	{
+		offset.x = 1;
+	}
+	
+	if ( pos_0.y > pos_1.y )
+	{
+		offset.y = -1;
+	}
+	else
+	{
+		offset.y = 1;
+	}
+	
+	//if ( point_is_in_image(pixel_coord) )
+	//{
+	//	canvas_image->setPixel( (u32)pixel_coord.x, (u32)pixel_coord.y, 
+	//		color );
+	//}
+	
+	if ( the_sublevel->contains_block_grid_pos(block_coord) )
+	{
+		//the_sublevel->uncompressed_block_data_vec_2d
+		//	[(u32)block_coord.y][(u32)block_coord.x].type = the_block_type;
+		draw_single_block_and_record_ur_stuff( the_sublevel, 
+			vec2_s32( block_coord.x, block_coord.y ), the_block_type, 
+			ur_action_to_push );
+	}
+	
+	if ( delta.x > delta.y )
+	{
+		s32 error = delta.x >> 1;
+		
+		while ( block_coord.x != pos_1.x )
+		{
+			error -= delta.y;
+			
+			if ( error < 0 )
+			{
+				block_coord.y += offset.y;
+				error += delta.x;
+			}
+			
+			block_coord.x += offset.x;
+			
+			//if ( point_is_in_image(pixel_coord) )
+			//{
+			//	canvas_image->setPixel( (u32)pixel_coord.x, 
+			//		(u32)pixel_coord.y, color );
+			//}
+			
+			if ( the_sublevel->contains_block_grid_pos(block_coord) )
+			{
+				//the_sublevel->uncompressed_block_data_vec_2d
+				//	[(u32)block_coord.y][(u32)block_coord.x].type 
+				//	= the_block_type;
+				draw_single_block_and_record_ur_stuff( the_sublevel, 
+					vec2_s32( block_coord.x, block_coord.y ), 
+					the_block_type, ur_action_to_push );
+			}
+		}
+	}
+	else
+	{
+		s32 error = delta.y >> 1;
+		
+		while ( block_coord.y != pos_1.y )
+		{
+			error -= delta.x;
+			
+			if ( error < 0 )
+			{
+				block_coord.x += offset.x;
+				error += delta.y;
+			}
+			
+			block_coord.y += offset.y;
+			
+			//if ( point_is_in_image(pixel_coord) )
+			//{
+			//	canvas_image->setPixel( (u32)pixel_coord.x, 
+			//		(u32)pixel_coord.y, color );
+			//}
+			
+			if ( the_sublevel->contains_block_grid_pos(block_coord) )
+			{
+				//the_sublevel->uncompressed_block_data_vec_2d
+				//	[(u32)block_coord.y][(u32)block_coord.x].type 
+				//	= the_block_type;
+				draw_single_block_and_record_ur_stuff( the_sublevel, 
+					vec2_s32( block_coord.x, block_coord.y ), 
+					the_block_type, ur_action_to_push );
+			}
+		}
+	}
+	
 }
 
 void editing_manager::copy_selection_contents

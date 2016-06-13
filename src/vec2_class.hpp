@@ -120,6 +120,34 @@ public:		// functions
 		return ( ( x != to_cmp.x ) || ( y != to_cmp.y ) );
 	}
 	
+	inline bool operator < ( const vec2<type>& to_cmp ) const
+	{
+		if ( *this == to_cmp )
+		{
+			return false;
+		}
+		
+		else if ( x < to_cmp.x )
+		{
+			return true;
+		}
+		else if ( x > to_cmp.x )
+		{
+			return false;
+		}
+		else //if ( x == to_cmp.x )
+		{
+			if ( y < to_cmp.y )
+			{
+				return true;
+			}
+			else //if ( y >= to_cmp.y )
+			{
+				return false;
+			}
+		}
+	}
+	
 	
 	
 } __attribute__((aligned(4)));
@@ -177,8 +205,28 @@ public:		// functions
 } __attribute__((aligned(4)));
 
 
-
 typedef vec2<fixed24p8> vec2_f24p8;
+
+
+/*
+#define macro_double( macro, arg ) macro( arg, arg )
+
+#define list_of_vec2_shortcut_types(macro) \
+	macro_double( macro, u16) macro_double( macro, s16 ) \
+	macro_double( macro, u32 ) macro_double( macro, s32 ) \
+	macro_double( macro, u64 ) macro_double( macro, s64 ) \
+	macro( fixed24p8, f24p8 )
+
+#define make_vec2_shortcut_type( type, name_part_2 ) \
+	using vec2_##name_part_2 = vec2<type>;
+	
+	list_of_vec2_shortcut_types(make_vec2_shortcut_type);
+	
+#undef make_vec2_shortcut_type
+*/
+
+
+
 
 
 

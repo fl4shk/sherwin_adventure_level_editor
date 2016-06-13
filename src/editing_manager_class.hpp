@@ -24,7 +24,6 @@
 
 
 
-
 // This class is supposed to help manage editing levels, including undo and
 // redo stuff.  Editing actions are supposed to go through this class.
 // Therefore, instances level_editor_widget and level_editor_core_widget
@@ -40,11 +39,10 @@ protected:		// variables
 	struct undo_and_redo_stuff
 	{
 		undo_and_redo_stack ur_stack;
-		bool ur_action_active;
 		
-		// I am not sure whether having only one ur_action_to_push will
-		// work.  If it works, it should 
 		undo_and_redo_action ur_action_to_push;
+		
+		bool ur_action_active;
 	};
 	
 	map< level_editor_core_widget*, undo_and_redo_stuff > ur_stuff_map;
@@ -90,6 +88,12 @@ public:		// functions
 	
 	
 protected:		// functions
+	inline undo_and_redo_stuff& get_or_create_ur_stuff
+		( level_editor_core_widget* the_core_widget )
+	{
+		return get_or_create_map_value( ur_stuff_map, the_core_widget );
+	}
+	
 	// Mouse press handler functions.  These were once lambda functions,
 	// but not any more.
 	void handle_placing_le_during_mouse_press
@@ -158,6 +162,98 @@ protected:		// functions
 		sf::Vector2i& ret_mouse_pos_in_canvas_widget_coords,
 		sf::Vector2f& ret_mouse_pos_in_canvas_coords, 
 		vec2_s32& ret_block_grid_coords_of_mouse_pos );
+	
+	
+	// Editing functions to activate upon mouse events
+	
+	inline block_type get_left_selected_block_type
+		( level_editor_core_widget* the_core_widget ) const
+	{
+		return (block_type)the_core_widget
+			->get_the_block_selector_core_widget()
+			->get_left_current_level_element_index();
+	}
+	inline sprite_type get_left_selected_16x16_sprite_type
+		( level_editor_core_widget* the_core_widget ) const
+	{
+		return (sprite_type)the_core_widget
+			->get_the_sprite_16x16_selector_core_widget()
+			->get_left_current_level_element_index();
+	}
+	inline sprite_type get_left_selected_16x32_sprite_type
+		( level_editor_core_widget* the_core_widget ) const
+	{
+		return (sprite_type)the_core_widget
+			->get_the_sprite_16x32_selector_core_widget()
+			->get_left_current_level_element_index();
+	}
+	
+	
+	// This uses a purely integer-based line drawing algorithm.  The
+	// algorithm was originally used for drawing lines of pixels for a very
+	// basic 3D software rasterizer I wrote for the GBA.  That code was
+	// never published anywhere, since the software rasterizer kind of
+	// sucked.  Perhaps I will put it up on GitHub at some point.
+	void draw_block_line( level_editor_core_widget* the_core_widget, 
+		const sf::Vector2i& pos_0, const sf::Vector2i& pos_1, 
+		block_type the_block_type, 
+		undo_and_redo_action& ur_action_to_push );
+	
+	// A wrapper
+	inline void draw_block_line( level_editor_core_widget* the_core_widget, 
+		const vec2_s32& pos_0, const vec2_s32& pos_1, 
+		block_type the_block_type, 
+		undo_and_redo_action& ur_action_to_push )
+	{
+		draw_block_line( the_core_widget, sf::Vector2i( pos_0.x, pos_0.y ),
+			sf::Vector2i( pos_1.x, pos_1.y ), the_block_type,
+			ur_action_to_push );
+	}
+	
+	
+	inline void draw_single_block_and_record_ur_stuff
+		( block& the_block_in_sublevel, const vec2_s32& block_grid_coord,
+		const block_type& the_block_type,
+		undo_and_redo_action& ur_action_to_push )
+	{
+		auto pbm_iter = ur_action_to_push.prev_block_map.find
+			(block_grid_coord);
+		
+		
+		// Prevent overwriting the previous data within the same action
+		if ( pbm_iter == ur_action_to_push.prev_block_map.end() )
+		{
+			block& prev_block = get_or_create_map_value
+				( ur_action_to_push.prev_block_map, block_grid_coord );
+			prev_block = the_block_in_sublevel;
+		}
+		
+		block& curr_block = get_or_create_map_value
+			( ur_action_to_push.curr_block_map, block_grid_coord );
+		
+		curr_block.type = the_block_type;
+		
+		// Start drawing blocks, possibly just one
+		the_block_in_sublevel.type = the_block_type;
+	}
+	
+	
+	inline void draw_single_block_and_record_ur_stuff
+		( sublevel* the_sublevel, const vec2_s32& block_grid_coord,
+		const block_type& the_block_type,
+		undo_and_redo_action& ur_action_to_push )
+	{
+		block& the_block_in_sublevel
+			= the_sublevel->uncompressed_block_data_vec_2d
+			.at((u32)block_grid_coord.y).at((u32)block_grid_coord.x);
+		
+		draw_single_block_and_record_ur_stuff( the_block_in_sublevel,
+			block_grid_coord, the_block_type, ur_action_to_push );
+	}
+	
+	
+	
+	
 	
 	
 	// Editing functions to activate upon key press.  These are meant to

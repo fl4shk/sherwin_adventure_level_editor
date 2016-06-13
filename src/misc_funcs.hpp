@@ -54,4 +54,20 @@ inline type convert_range( type val_old, type min_old, type max_old,
 }
 
 
+// insert_or_assign() from C++17 would be helpful here
+template< typename key, typename type >
+inline type& get_or_create_map_value( map< key, type >& the_map, 
+	const key& the_key )
+{
+	auto iter = the_map.find(the_key);
+	
+	if ( iter == the_map.end() )
+	{
+		the_map[the_key] = type();
+	}
+	
+	return the_map[the_key];
+}
+
+
 #endif		// misc_funcs_hpp
