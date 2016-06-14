@@ -58,7 +58,7 @@ enum rect_selection_layer { rsl_blocks, rsl_sprites };
 enum action_type 
 { 
 	at_draw_blocks, 
-	//at_draw_sprite, 
+	at_draw_sprite, 
 	
 	//at_erase_sprites, 
 	
@@ -93,6 +93,10 @@ enum action_type
 	// sublevel contents were if any portion was lost due to shrinking the
 	// sublevel (horizontally, vertically, or both). 
 	at_resize_sublevel,
+	
+	
+	
+	at_unknown,
 };
 
 

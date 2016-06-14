@@ -123,8 +123,9 @@ bool adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16::can_add_sprite()
 }
 
 adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32
-	::adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32( sublevel& the_sublevel, 
-	u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
+	::adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32
+	( sublevel& the_sublevel, u32 origin_block_grid_x_coord, 
+	u32 origin_block_grid_y_coord )
 {
 	// Do some sanity checks.
 	if ( origin_block_grid_x_coord >= the_sublevel.real_size_2d.x

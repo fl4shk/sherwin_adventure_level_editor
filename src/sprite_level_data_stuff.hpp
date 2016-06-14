@@ -65,6 +65,56 @@ public:		// variables
 	sprite_spawn_state spawn_state;
 	
 public:		// functions
+	inline sprite_init_param_group() : type(st_default),
+		initial_block_grid_x_coord(0), initial_block_grid_y_coord(0),
+		facing_right(false), extra_param_0(0), extra_param_1(0),
+		extra_param_2(0), extra_param_3(0),
+		spawn_state(sss_not_active)
+	{
+	}
+	
+	inline sprite_init_param_group
+		( const sprite_init_param_group& to_copy ) : type(to_copy.type),
+		initial_block_grid_x_coord(to_copy.initial_block_grid_x_coord), 
+		initial_block_grid_y_coord(to_copy.initial_block_grid_y_coord),
+		facing_right(to_copy.facing_right),
+		extra_param_0(to_copy.extra_param_0), 
+		extra_param_1(to_copy.extra_param_1),
+		extra_param_2(to_copy.extra_param_2), 
+		extra_param_3(to_copy.extra_param_3),
+		spawn_state(to_copy.spawn_state)
+	{
+	}
+	
+	inline sprite_init_param_group( const sprite_type& s_type, 
+		u32 s_initial_block_grid_x_coord, u32 s_initial_block_grid_y_coord,
+		bool s_facing_right, u32 s_extra_param_0, u32 s_extra_param_1,
+		u32 s_extra_param_2, u32 s_extra_param_3, 
+		const sprite_spawn_state& s_spawn_state ) : type(s_type),
+		initial_block_grid_x_coord(s_initial_block_grid_x_coord),
+		initial_block_grid_y_coord(s_initial_block_grid_y_coord),
+		facing_right(s_facing_right), extra_param_0(s_extra_param_0),
+		extra_param_1(s_extra_param_1), extra_param_2(s_extra_param_2),
+		extra_param_3(s_extra_param_3), spawn_state(s_spawn_state)
+	{
+	}
+	
+	
+	inline sprite_init_param_group& operator = 
+		( const sprite_init_param_group& to_copy )
+	{
+		type = to_copy.type;
+		initial_block_grid_x_coord = to_copy.initial_block_grid_x_coord;
+		initial_block_grid_y_coord = to_copy.initial_block_grid_y_coord;
+		facing_right = to_copy.facing_right;
+		extra_param_0 = to_copy.extra_param_0;
+		extra_param_1 = to_copy.extra_param_1;
+		extra_param_2 = to_copy.extra_param_2;
+		extra_param_3 = to_copy.extra_param_3;
+		spawn_state = to_copy.spawn_state;
+		
+		return *this;
+	}
 	
 	// This function is included so that an std::forward_list of
 	// sprite_init_param_group's can be sorted in ascending order by the
@@ -101,6 +151,53 @@ class sprite_init_param_group_with_size : public sprite_init_param_group
 {
 public:		// variables
 	vec2_u32 size_2d;
+	
+public:		// functions
+	inline sprite_init_param_group_with_size() : sprite_init_param_group(),
+		size_2d(vec2_u32())
+	{
+	}
+	
+	inline sprite_init_param_group_with_size
+		( const sprite_init_param_group_with_size& to_copy )
+		: sprite_init_param_group( to_copy.type,
+		to_copy.initial_block_grid_x_coord,
+		to_copy.initial_block_grid_y_coord, to_copy.facing_right,
+		to_copy.extra_param_0, to_copy.extra_param_1,
+		to_copy.extra_param_2, to_copy.extra_param_3, 
+		to_copy.spawn_state ), size_2d(to_copy.size_2d)
+	{
+	}
+	
+	
+	inline sprite_init_param_group_with_size( const sprite_type& s_type, 
+		u32 s_initial_block_grid_x_coord, u32 s_initial_block_grid_y_coord,
+		bool s_facing_right, u32 s_extra_param_0, u32 s_extra_param_1,
+		u32 s_extra_param_2, u32 s_extra_param_3, 
+		const sprite_spawn_state& s_spawn_state, 
+		const vec2_u32& s_size_2d )
+		: sprite_init_param_group( s_type, s_initial_block_grid_x_coord, 
+		s_initial_block_grid_y_coord, s_facing_right, s_extra_param_0, 
+		s_extra_param_1, s_extra_param_2, s_extra_param_3, s_spawn_state ), 
+		size_2d(s_size_2d)
+	{
+	}
+	
+	inline sprite_init_param_group_with_size& operator = 
+		( const sprite_init_param_group_with_size& to_copy )
+	{
+		sprite_init_param_group::operator = ( sprite_init_param_group
+			( to_copy.type, to_copy.initial_block_grid_x_coord, 
+			to_copy.initial_block_grid_y_coord, to_copy.facing_right,
+			to_copy.extra_param_0, to_copy.extra_param_1,
+			to_copy.extra_param_2, to_copy.extra_param_3,
+			to_copy.spawn_state ) );
+		
+		size_2d = to_copy.size_2d;
+		
+		return *this;
+	}
+	
 	
 } __attribute__((aligned(4)));
 
@@ -139,6 +236,9 @@ class sublevel;
 // Schematic, where X is the 16x16 sprite
 // [ ][ ]
 // [ ][X]
+
+
+// These classes could easily be derived from a base class.
 
 class adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16
 {

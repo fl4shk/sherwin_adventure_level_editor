@@ -19,6 +19,33 @@
 
 #include "undo_and_redo_stack_class.hpp"
 
+undo_and_redo_action::undo_and_redo_action
+	( const undo_and_redo_action& to_copy )
+	: prev_block_map(to_copy.prev_block_map),
+	curr_block_map(to_copy.curr_block_map),
+	prev_sprite_ipgws(to_copy.prev_sprite_ipgws),
+	curr_sprite_ipgws(to_copy.curr_sprite_ipgws),
+	moved_rs_starting_top_left_pos(to_copy.moved_rs_starting_top_left_pos),
+	moved_rs_ending_top_left_pos(to_copy.moved_rs_ending_top_left_pos),
+	replaced_block_vec_2d(to_copy.replaced_block_vec_2d),
+	moved_block_vec_2d(to_copy.moved_block_vec_2d),
+	replaced_sprite_ipgws_vec_2d(to_copy.replaced_sprite_ipgws_vec_2d),
+	moved_sprite_ipgws_vec_2d(to_copy.moved_sprite_ipgws_vec_2d)
+{
+}
+
+//undo_and_redo_action::undo_and_redo_action
+//	( undo_and_redo_action&& to_move )
+//	: prev_block_map
+//{
+//	
+//}
+
+undo_and_redo_action::~undo_and_redo_action()
+{
+	
+}
+
 void undo_and_redo_action::debug_print()
 {
 	
@@ -27,54 +54,60 @@ void undo_and_redo_action::debug_print()
 undo_and_redo_stack::undo_and_redo_stack()
 {
 	action_vec.clear();
-	curr_action_index = 0;
+	next_action_index = 0;
 }
 
 
-u64 undo_and_redo_stack::get_curr_action_index() const
+u64 undo_and_redo_stack::get_next_action_index() const
 {
-	return curr_action_index;
+	return next_action_index;
 }
 
 undo_and_redo_action& undo_and_redo_stack::get_curr_action()
 {
-	return action_vec.at(get_curr_action_index());
+	return action_vec.at(get_next_action_index());
 }
 
 
 void undo_and_redo_stack::add_action
 	( const undo_and_redo_action& the_action )
 {
+	//cout << "add_action()\n";
+	//cout << "next_action_index:  " << next_action_index << endl;
+	//cout << "action_vec.size():  " << action_vec.size() << endl;
+	
 	// Check whether undo has been done recently.
-	if ( curr_action_index == action_vec.size() - 1 )
+	if ( next_action_index == action_vec.size() )
 	{
+		//cout << "if\n";
 		action_vec.push_back(the_action);
 	}
 	
 	// If not, then replace all the stuff after
-	else //if ( curr_action_index < action_vec.size() - 1 )
+	else //if ( next_action_index < action_vec.size() - 1 )
 	{
-		action_vec.resize( curr_action_index + 1 );
+		//cout << "else\n";
+		action_vec.resize( next_action_index + 1 );
 		action_vec.push_back(the_action);
 	}
 	
-	++curr_action_index;
+	++next_action_index;
 }
 
 
 //bool undo_and_redo_stack::undo()
 //{
-//	if ( curr_action_index > 0 )
+//	if ( next_action_index > 0 )
 //	{
-//		--curr_action_index;
+//		--next_action_index;
 //	}
 //}
 //
 //bool undo_and_redo_stack::redo()
 //{
-//	if ( curr_action_index < action_vec.size() - 1 )
+//	if ( next_action_index < action_vec.size() - 1 )
 //	{
-//		++curr_action_index;
+//		++next_action_index;
 //	}
 //}
 

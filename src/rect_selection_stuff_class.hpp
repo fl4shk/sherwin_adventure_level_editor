@@ -75,7 +75,10 @@ public:		// variables
 	rect_selection_layer selection_layer;
 	
 	// This corresponds to when the level_editor_widget's
-	// sprite_properties_widget should be generated.
+	// sprite_properties_widget should be generated.  I should perhaps have
+	// a better name for this, though, since you can select a single sprite
+	// using the type of rect selection that can be moved, copied, and
+	// pasted.
 	bool single_sprite_selected;
 	
 	
@@ -204,6 +207,26 @@ public:		// functions
 	void stop_moving_selection_contents();
 	
 	// 
+	inline sf::IntRect get_selection_rect_before_moving() const
+	{
+		const vec2_s32& rs_starting_block_grid_coords_before_moving
+			= starting_block_grid_coords_before_moving;
+		const vec2_s32& rs_ending_block_grid_coords_before_moving
+			= ending_block_grid_coords_before_moving;
+		
+		sf::IntRect selection_rect_before_moving
+			( rs_starting_block_grid_coords_before_moving.x,
+			rs_starting_block_grid_coords_before_moving.y,
+			
+			( rs_ending_block_grid_coords_before_moving.x 
+			- rs_starting_block_grid_coords_before_moving.x + 1 ),
+			
+			( rs_ending_block_grid_coords_before_moving.y
+			- rs_starting_block_grid_coords_before_moving.y + 1 ) );
+		
+		return selection_rect_before_moving;
+	}
+	
 	void finalize_movement_of_selection_contents();
 	
 	

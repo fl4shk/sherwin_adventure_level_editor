@@ -147,22 +147,10 @@ void rect_selection_stuff::stop_creating_selection()
 	starting_block_grid_coords_before_moving = starting_block_grid_coords;
 	ending_block_grid_coords_before_moving = ending_block_grid_coords;
 	
-	const vec2_s32& rs_starting_block_grid_coords_before_moving
-		= starting_block_grid_coords_before_moving;
-	const vec2_s32& rs_ending_block_grid_coords_before_moving
-		= ending_block_grid_coords_before_moving;
+	sf::IntRect&& selection_rect_before_moving 
+		= get_selection_rect_before_moving();
 	
-	const sf::IntRect selection_rect_before_moving
-		( rs_starting_block_grid_coords_before_moving.x,
-		
-		rs_starting_block_grid_coords_before_moving.y,
-		
-		( rs_ending_block_grid_coords_before_moving.x 
-		- rs_starting_block_grid_coords_before_moving.x + 1 ),
-		
-		( rs_ending_block_grid_coords_before_moving.y
-		- rs_starting_block_grid_coords_before_moving.y + 1 ) );
-	
+
 	
 	// The reason these copies happen is that the_sublevel can be resized
 	// (in particular, made smaller in either horizontally or vertically)
@@ -346,21 +334,8 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 	//	= selection_rect;
 	
 	
-	const vec2_s32& rs_starting_block_grid_coords_before_moving
-		= starting_block_grid_coords_before_moving;
-	const vec2_s32& rs_ending_block_grid_coords_before_moving
-		= ending_block_grid_coords_before_moving;
-	
-	const sf::IntRect selection_rect_before_moving
-		( rs_starting_block_grid_coords_before_moving.x,
-		
-		rs_starting_block_grid_coords_before_moving.y,
-		
-		( rs_ending_block_grid_coords_before_moving.x 
-		- rs_starting_block_grid_coords_before_moving.x + 1 ),
-		
-		( rs_ending_block_grid_coords_before_moving.y
-		- rs_starting_block_grid_coords_before_moving.y + 1 ) );
+	sf::IntRect&& selection_rect_before_moving 
+		= get_selection_rect_before_moving();
 	
 	if ( selection_rect == selection_rect_before_moving 
 		&& !get_selection_was_pasted() )
@@ -482,18 +457,27 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 				sprite_init_param_group_with_size& the_sprite_ipgws
 					= moving_sprite_ipgws_vec_2d.at(j).at(i);
 				
+				sprite_init_param_group_with_size& the_new_sprite_ipgws 
+					= the_sublevel->sprite_ipgws_vec_2d
+					.at(block_grid_pos.y).at(block_grid_pos.x);
+				
 				if ( the_sprite_ipgws.type != st_default )
 				{
-					sprite_init_param_group_with_size& the_new_sprite_ipgws 
-						= the_sublevel->sprite_ipgws_vec_2d
-						.at(block_grid_pos.y).at(block_grid_pos.x);
-					
 					the_new_sprite_ipgws = the_sprite_ipgws;
 					
+					// Don't forget to update the intial block grid
+					// coordinates, since the_new_sprite_ipgws is at a
+					// different location from the_sprite_ipgws.
 					the_new_sprite_ipgws.initial_block_grid_x_coord
 						= block_grid_pos.x;
 					the_new_sprite_ipgws.initial_block_grid_y_coord
 						= block_grid_pos.y;
+				}
+				// Don't allow overlapping sprites
+				else //if ( the_sprite_ipgws.type == st_default )
+				{
+					the_new_sprite_ipgws 
+						= sprite_init_param_group_with_size();
 				}
 			}
 		}
@@ -519,18 +503,28 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 				sprite_init_param_group_with_size& the_sprite_ipgws
 					= copied_sprite_ipgws_vec_2d.at(j).at(i);
 				
+				
+				sprite_init_param_group_with_size& the_new_sprite_ipgws 
+					= the_sublevel->sprite_ipgws_vec_2d
+					.at(block_grid_pos.y).at(block_grid_pos.x);
+				
 				if ( the_sprite_ipgws.type != st_default )
 				{
-					sprite_init_param_group_with_size& the_new_sprite_ipgws 
-						= the_sublevel->sprite_ipgws_vec_2d
-						.at(block_grid_pos.y).at(block_grid_pos.x);
-					
 					the_new_sprite_ipgws = the_sprite_ipgws;
 					
+					// Don't forget to update the intial block grid
+					// coordinates, since the_new_sprite_ipgws is at a
+					// different location from the_sprite_ipgws.
 					the_new_sprite_ipgws.initial_block_grid_x_coord
 						= block_grid_pos.x;
 					the_new_sprite_ipgws.initial_block_grid_y_coord
 						= block_grid_pos.y;
+				}
+				// Don't allow overlapping sprites
+				else //if ( the_sprite_ipgws.type == st_default )
+				{
+					the_new_sprite_ipgws 
+						= sprite_init_param_group_with_size();
 				}
 			}
 		}
@@ -550,21 +544,8 @@ void rect_selection_stuff::copy_selection_contents()
 	original_layer_of_pasted_selection = selection_layer;
 	
 	
-	const vec2_s32& rs_starting_block_grid_coords_before_moving
-		= starting_block_grid_coords_before_moving;
-	const vec2_s32& rs_ending_block_grid_coords_before_moving
-		= ending_block_grid_coords_before_moving;
-	
-	const sf::IntRect selection_rect_before_moving
-		( rs_starting_block_grid_coords_before_moving.x,
-		
-		rs_starting_block_grid_coords_before_moving.y,
-		
-		( rs_ending_block_grid_coords_before_moving.x 
-		- rs_starting_block_grid_coords_before_moving.x + 1 ),
-		
-		( rs_ending_block_grid_coords_before_moving.y
-		- rs_starting_block_grid_coords_before_moving.y + 1 ) );
+	sf::IntRect&& selection_rect_before_moving 
+		= get_selection_rect_before_moving();
 	
 	if ( original_layer_of_pasted_selection == rsl_blocks )
 	{

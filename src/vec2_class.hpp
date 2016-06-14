@@ -37,27 +37,29 @@ public:		// functions
 	{
 	}
 	
-	inline vec2( vec2<type>& to_copy )
+	inline vec2( const vec2<type>& to_copy )
 		: x(to_copy.x), y(to_copy.y)
 	{
 	}
 	
 	
-	inline vec2( type& s_x, type& s_y )
+	
+	inline vec2( const type& s_x, const type& s_y )
 		: x(s_x), y(s_y)
 	{
 	}
 	
 	
-	constexpr inline vec2( const vec2<type>& to_copy )
-		: x(to_copy.x), y(to_copy.y)
-	{
-	}
 	
-	constexpr inline vec2( const type& s_x, const type& s_y )
-		: x(s_x), y(s_y)
-	{
-	}
+	//constexpr inline vec2( const vec2<type>& to_copy )
+	//	: x(to_copy.x), y(to_copy.y)
+	//{
+	//}
+	//
+	//constexpr inline vec2( const type& s_x, const type& s_y )
+	//	: x(s_x), y(s_y)
+	//{
+	//}
 	
 	
 	inline vec2<type>& operator = ( const vec2<type>& to_copy )

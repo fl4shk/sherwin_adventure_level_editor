@@ -791,8 +791,6 @@ void level_editor_widget::switch_mouse_mode_to_place_level_elements()
 	
 	if ( the_rect_selection_stuff.get_enabled() )
 	{
-		//the_rect_selection_stuff
-		//	.finalize_movement_of_selection_contents();
 		the_editing_manager->finalize_movement_of_rect_selection_contents
 			( the_core_widget, the_rect_selection_stuff );
 	}
@@ -839,8 +837,6 @@ void level_editor_widget::switch_mouse_mode_to_select_single_sprite()
 	
 	if ( the_rect_selection_stuff.get_enabled() )
 	{
-		//the_rect_selection_stuff
-		//	.finalize_movement_of_selection_contents();
 		the_editing_manager->finalize_movement_of_rect_selection_contents
 			( the_core_widget, the_rect_selection_stuff );
 	}

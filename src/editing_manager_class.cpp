@@ -120,50 +120,40 @@ void editing_manager::key_press_event( QKeyEvent* event )
 }
 
 
-// This is used in mouse_press_event() and mouse_move_event().  I don't see
-// any reason to make it a function instead of a #define.
-
-
-#define get_le_core_widget_stuff(the_core_widget) \
-	level_editor_sfml_canvas_widget* the_sfml_canvas_widget \
-		= the_core_widget->the_sfml_canvas_widget.get(); \
-	QTabWidget* level_element_selectors_tab_widget \
-		= the_core_widget->level_element_selectors_tab_widget; \
-	\
-	block_selector_widget* the_block_selector_widget \
-		= the_core_widget->the_block_selector_widget; \
-	sprite_16x16_selector_widget* the_sprite_16x16_selector_widget \
-		= the_core_widget->the_sprite_16x16_selector_widget; \
-	sprite_16x32_selector_widget* the_sprite_16x32_selector_widget \
-		= the_core_widget->the_sprite_16x32_selector_widget; \
-	\
-	adj_sprite_ipgws_ptr_group_for_selecting_sprite& \
-		the_sprite_selection_ptr_group \
-		= the_core_widget->the_sprite_selection_ptr_group; \
-	\
-	mouse_mode& the_mouse_mode = the_core_widget->the_mouse_mode; \
-	vec2_s32& block_grid_coords_of_prev_mouse_pos = the_core_widget \
-		->block_grid_coords_of_prev_mouse_pos; \
-	\
-	u32 scale_factor = the_sfml_canvas_widget->scale_factor; \
-	\
-	sf::Vector2i mouse_pos_in_canvas_widget_coords; \
-	sf::Vector2f mouse_pos_in_canvas_coords; \
-	vec2_s32 block_grid_coords_of_mouse_pos; \
-	\
-	get_a_few_types_of_mouse_pos( the_sfml_canvas_widget, \
-		mouse_pos_in_canvas_widget_coords, mouse_pos_in_canvas_coords, \
-		block_grid_coords_of_mouse_pos ); \
-	\
-	rect_selection_stuff& the_rect_selection_stuff \
-		= the_sfml_canvas_widget->the_rect_selection_stuff;
-
-
-
 void editing_manager::mouse_press_event
 	( level_editor_core_widget* the_core_widget, QMouseEvent* event )
 {
-	get_le_core_widget_stuff(the_core_widget);
+	level_editor_sfml_canvas_widget* the_sfml_canvas_widget 
+		= the_core_widget->the_sfml_canvas_widget.get(); 
+	QTabWidget* level_element_selectors_tab_widget 
+		= the_core_widget->level_element_selectors_tab_widget; 
+	
+	block_selector_widget* the_block_selector_widget 
+		= the_core_widget->the_block_selector_widget; 
+	sprite_16x16_selector_widget* the_sprite_16x16_selector_widget 
+		= the_core_widget->the_sprite_16x16_selector_widget; 
+	sprite_16x32_selector_widget* the_sprite_16x32_selector_widget 
+		= the_core_widget->the_sprite_16x32_selector_widget; 
+	
+	adj_sprite_ipgws_ptr_group_for_selecting_sprite& 
+		the_sprite_selection_ptr_group 
+		= the_core_widget->the_sprite_selection_ptr_group; 
+	
+	mouse_mode& the_mouse_mode = the_core_widget->the_mouse_mode; 
+	vec2_s32& block_grid_coords_of_prev_mouse_pos = the_core_widget 
+		->block_grid_coords_of_prev_mouse_pos; 
+	
+	
+	sf::Vector2i mouse_pos_in_canvas_widget_coords; 
+	sf::Vector2f mouse_pos_in_canvas_coords; 
+	vec2_s32 block_grid_coords_of_mouse_pos; 
+	
+	get_a_few_types_of_mouse_pos( the_sfml_canvas_widget, 
+		mouse_pos_in_canvas_widget_coords, mouse_pos_in_canvas_coords, 
+		block_grid_coords_of_mouse_pos ); 
+	
+	rect_selection_stuff& the_rect_selection_stuff 
+		= the_sfml_canvas_widget->the_rect_selection_stuff;
 	
 	//cout << mouse_pos_in_canvas_coords.x << ", "
 	//	<< mouse_pos_in_canvas_coords.y << endl;
@@ -185,15 +175,15 @@ void editing_manager::mouse_press_event
 	}
 	
 	
-	block& the_block_at_mouse_pos 
-		= the_sublevel->uncompressed_block_data_vec_2d
-		.at((u32)block_grid_coords_of_mouse_pos.y)
-		.at((u32)block_grid_coords_of_mouse_pos.x);
-	
-	sprite_init_param_group_with_size& the_sprite_ipgws_at_mouse_pos
-		= the_sublevel->sprite_ipgws_vec_2d
-		.at((u32)block_grid_coords_of_mouse_pos.y)
-		.at((u32)block_grid_coords_of_mouse_pos.x);
+	//block& the_block_at_mouse_pos 
+	//	= the_sublevel->uncompressed_block_data_vec_2d
+	//	.at((u32)block_grid_coords_of_mouse_pos.y)
+	//	.at((u32)block_grid_coords_of_mouse_pos.x);
+	//
+	//sprite_init_param_group_with_size& the_sprite_ipgws_at_mouse_pos
+	//	= the_sublevel->sprite_ipgws_vec_2d
+	//	.at((u32)block_grid_coords_of_mouse_pos.y)
+	//	.at((u32)block_grid_coords_of_mouse_pos.x);
 	
 	
 	bool current_tabbed_widget_is_for_blocks 
@@ -211,6 +201,8 @@ void editing_manager::mouse_press_event
 	//	the_sprite_selection_ptr_group( *the_core_widget->the_sublevel,
 	//	block_grid_coords_of_mouse_pos.x, 
 	//	block_grid_coords_of_mouse_pos.y );
+	
+	
 	
 	
 	the_sprite_selection_ptr_group 
@@ -252,6 +244,10 @@ void editing_manager::mouse_press_event
 		the_core_widget->do_emit_sprite_no_longer_selected();
 	}
 	
+	
+	
+	bool do_activate_ur_action = true;
+	
 	if ( event->buttons() == Qt::LeftButton )
 	{
 		//cout << block_grid_coords_of_mouse_pos.x << ", "
@@ -268,7 +264,7 @@ void editing_manager::mouse_press_event
 				break;
 			
 			case mm_erase_sprites:
-				handle_erasing_sprite_during_mouse_press( the_core_widget,
+				handle_erasing_sprites_during_mouse_press( the_core_widget,
 					block_grid_coords_of_mouse_pos );
 				break;
 			
@@ -286,6 +282,8 @@ void editing_manager::mouse_press_event
 				break;
 			
 			default:
+				do_activate_ur_action = false;
+				
 				cout << "Darn it.  I don't know what enum value "
 					<< "the_mouse_mode is supposed to represent right "
 					<< "now.  Note to the programmer:  there is a bug of "
@@ -305,6 +303,11 @@ void editing_manager::mouse_press_event
 	//prev_mouse_pos = event->pos();
 	block_grid_coords_of_prev_mouse_pos = block_grid_coords_of_mouse_pos;
 	
+	if ( do_activate_ur_action )
+	{
+		undo_and_redo_stuff& ur_stuff = get_or_create_ur_stuff
+			(the_core_widget);
+	}
 }
 
 
@@ -314,52 +317,40 @@ void editing_manager::mouse_move_event
 {
 	//cout << "mouseMoveEvent()\n";
 	
-	get_le_core_widget_stuff(the_core_widget);
+	level_editor_sfml_canvas_widget* the_sfml_canvas_widget 
+		= the_core_widget->the_sfml_canvas_widget.get(); 
+	QTabWidget* level_element_selectors_tab_widget 
+		= the_core_widget->level_element_selectors_tab_widget; 
 	
-	sublevel* the_sublevel = the_core_widget->the_sublevel;
+	block_selector_widget* the_block_selector_widget 
+		= the_core_widget->the_block_selector_widget; 
 	
+	adj_sprite_ipgws_ptr_group_for_selecting_sprite& 
+		the_sprite_selection_ptr_group 
+		= the_core_widget->the_sprite_selection_ptr_group; 
 	
-	//cout << mouse_pos_in_canvas_coords.x << ", "
-	//	<< mouse_pos_in_canvas_coords.y << endl;
-	
-	//if ( !the_sublevel->contains_block_grid_pos
-	//	(block_grid_coords_of_mouse_pos) )
-	//{
-	//	return;
-	//}
-	//
-	//if ( !the_sfml_canvas_widget->point_is_in_visible_rect
-	//	( sf::Vector2i( event->x(), event->y() ) ) )
-	//{
-	//	//cout << "out of bounds\n";
-	//	return;
-	//}
+	mouse_mode& the_mouse_mode = the_core_widget->the_mouse_mode; 
+	vec2_s32& block_grid_coords_of_prev_mouse_pos = the_core_widget 
+		->block_grid_coords_of_prev_mouse_pos; 
 	
 	
+	sf::Vector2i mouse_pos_in_canvas_widget_coords; 
+	sf::Vector2f mouse_pos_in_canvas_coords; 
+	vec2_s32 block_grid_coords_of_mouse_pos; 
 	
-	//sprite_init_param_group_with_size& the_sprite_ipgws_at_mouse_pos
-	//	= the_core_widget->the_sublevel->sprite_ipgws_vec_2d
-	//	[block_grid_coords_of_mouse_pos.y]
-	//	[block_grid_coords_of_mouse_pos.x];
+	get_a_few_types_of_mouse_pos( the_sfml_canvas_widget, 
+		mouse_pos_in_canvas_widget_coords, mouse_pos_in_canvas_coords, 
+		block_grid_coords_of_mouse_pos ); 
+	
+	
+	
 	
 	
 	bool current_tabbed_widget_is_for_blocks 
 		= ( level_element_selectors_tab_widget->currentWidget()
 		== the_block_selector_widget );
-	//bool current_tabbed_widget_is_for_16x16_sprites
-	//	= ( level_element_selectors_tab_widget->currentWidget()
-	//	== the_sprite_16x16_selector_widget );
-	//bool current_tabbed_widget_is_for_16x32_sprites
-	//	= ( level_element_selectors_tab_widget->currentWidget()
-	//	== the_sprite_16x32_selector_widget );
 	
 	
-	
-	
-	//adj_sprite_ipgws_ptr_group_for_selecting_sprite
-	//	the_sprite_selection_ptr_group( *the_core_widget->the_sublevel,
-	//	block_grid_coords_of_mouse_pos.x, 
-	//	block_grid_coords_of_mouse_pos.y );
 	
 	the_sprite_selection_ptr_group 
 		= adj_sprite_ipgws_ptr_group_for_selecting_sprite
@@ -367,34 +358,12 @@ void editing_manager::mouse_move_event
 		block_grid_coords_of_mouse_pos.x, 
 		block_grid_coords_of_mouse_pos.y );
 	
-	//if ( the_sprite_selection_ptr_group.origin_ptr != NULL )
-	//{
-	//	if ( the_sprite_selection_ptr_group.origin_ptr->type 
-	//		== st_default )
-	//	{
-	//		the_sfml_canvas_widget->disable_rect_selection();
-	//		
-	//		//cout << "st_default\n";
-	//		////emit sprite_no_longer_selected();
-	//		//the_core_widget->do_emit_sprite_no_longer_selected();
-	//	}
-	//}
-	//// I am not sure this will ever be the case.
-	//else 
-	//{
-	//	the_sfml_canvas_widget->disable_rect_selection();
-	//	
-	//	//cout << "else\n";
-	//	//emit sprite_no_longer_selected();
-	//	the_core_widget->do_emit_sprite_no_longer_selected();
-	//}
-	
 	
 	//auto func_for_placing_level_elements = [&]() -> void
 	//{
 	//};
 	//
-	//auto func_for_erasing_sprites = [&]() -> void
+	//auto func_for_erasing_spritess = [&]() -> void
 	//{
 	//};
 	//
@@ -420,7 +389,7 @@ void editing_manager::mouse_move_event
 				break;
 			
 			case mm_erase_sprites:
-				handle_erasing_sprite_during_mouse_move( the_core_widget,
+				handle_erasing_sprites_during_mouse_move( the_core_widget,
 					block_grid_coords_of_mouse_pos );
 				break;
 			
@@ -464,9 +433,6 @@ void editing_manager::mouse_release_event
 	level_editor_sfml_canvas_widget* the_sfml_canvas_widget
 		= the_core_widget->the_sfml_canvas_widget.get();
 	
-	rect_selection_stuff& the_rect_selection_stuff = the_sfml_canvas_widget
-		->the_rect_selection_stuff;
-	
 	mouse_mode& the_mouse_mode = the_core_widget->the_mouse_mode;
 	vec2_s32& block_grid_coords_of_prev_mouse_pos = the_core_widget
 		->block_grid_coords_of_prev_mouse_pos;
@@ -479,29 +445,13 @@ void editing_manager::mouse_release_event
 		mouse_pos_in_canvas_widget_coords, mouse_pos_in_canvas_coords,
 		block_grid_coords_of_mouse_pos );
 	
-	//cout << mouse_pos_in_canvas_coords.x << ", "
-	//	<< mouse_pos_in_canvas_coords.y << endl;
-	
-	//if ( !the_sublevel->contains_block_grid_pos
-	//	(block_grid_coords_of_mouse_pos) )
-	//{
-	//	return;
-	//}
-	
-	//if ( !the_sfml_canvas_widget->point_is_in_visible_rect
-	//	( sf::Vector2i( event->x(), event->y() ) ) )
-	//{
-	//	//cout << "out of bounds\n";
-	//	return;
-	//}
-	
 	
 	
 	//auto func_for_placing_level_elements = [&]() -> void
 	//{
 	//};
 	//
-	//auto func_for_erasing_sprites = [&]() -> void
+	//auto func_for_erasing_spritess = [&]() -> void
 	//{
 	//};
 	//
@@ -516,6 +466,8 @@ void editing_manager::mouse_release_event
 	//cout << block_grid_coords_of_mouse_pos.x << ", "
 	//	<< block_grid_coords_of_mouse_pos.y << endl;
 	
+	bool do_deactivate_ur_action = true;
+	
 	switch (the_mouse_mode)
 	{
 		case mm_place_level_elements:
@@ -524,7 +476,7 @@ void editing_manager::mouse_release_event
 			break;
 		
 		case mm_erase_sprites:
-			handle_erasing_sprite_during_mouse_release
+			handle_erasing_sprites_during_mouse_release
 				(the_core_widget);
 			break;
 		
@@ -539,6 +491,8 @@ void editing_manager::mouse_release_event
 			break;
 		
 		default:
+			do_deactivate_ur_action = false;
+			
 			cout << "Darn it.  I don't know what enum value "
 				<< "the_mouse_mode is supposed to represent right "
 				<< "now.  Note to the programmer:  there is a bug of "
@@ -549,7 +503,18 @@ void editing_manager::mouse_release_event
 	
 	//prev_mouse_pos = event->pos();
 	block_grid_coords_of_prev_mouse_pos = block_grid_coords_of_mouse_pos;
+	
+	
+	if ( do_deactivate_ur_action )
+	{
+		undo_and_redo_stuff& ur_stuff = get_or_create_ur_stuff
+			(the_core_widget);
+		
+		// Clear ur_action_to_push
+		ur_stuff.ur_action_to_push = undo_and_redo_action();
+	}
 }
+
 
 
 // This function needs to eventually handle undo and redo, which is why a
@@ -558,10 +523,74 @@ void editing_manager::finalize_movement_of_rect_selection_contents
 	( level_editor_core_widget* the_core_widget,
 	rect_selection_stuff& the_rect_selection_stuff )
 {
+	//sublevel* the_sublevel = the_core_widget->the_sublevel;
+	//
+	//sf::IntRect&& selection_rect_before_moving 
+	//	= the_rect_selection_stuff.get_selection_rect_before_moving();
+	//const sf::IntRect& selection_rect 
+	//	= the_rect_selection_stuff.selection_rect;
+	//
+	//rect_selection_layer selection_layer 
+	//	= the_rect_selection_stuff.get_selection_layer();
+	//rect_selection_layer original_layer_of_pasted_selection
+	//	= the_rect_selection_stuff
+	//	.get_original_layer_of_pasted_selection();
+	//bool single_sprite_selected 
+	//	= the_rect_selection_stuff.get_single_sprite_selected();
+	//bool selection_was_pasted 
+	//	= the_rect_selection_stuff.get_selection_was_pasted();
+	//
+	//
+	//
+	//
+	//if ( single_sprite_selected )
+	//{
+	//	return;
+	//}
+	//
+	//
+	//// If a selection was not pasted, but not moved, don't update the undo
+	//// and redo stuff.
+	//if ( selection_rect == selection_rect_before_moving 
+	//	&& !selection_was_pasted )
+	//{
+	//	return;
+	//}
+	//
+	//undo_and_redo_stuff& ur_stuff 
+	//	= get_or_create_ur_stuff(the_core_widget);
+	//
+	//// Blocks were moved, but not pasted
+	//if ( selection_layer == rsl_blocks && !selection_was_pasted )
+	//{
+	//}
+	//// Blocks were pasted
+	//else if ( original_layer_of_pasted_selection == rsl_blocks 
+	//	&& selection_was_pasted )
+	//{
+	//	
+	//}
+	//// Sprites were moved, but not pasted
+	//else if ( selection_layer == rsl_sprites && selection_was_pasted )
+	//{
+	//}
+	//// Sprites were pasted
+	//else if ( original_layer_of_pasted_selection == rsl_sprites 
+	//	&& selection_was_pasted )
+	//{
+	//	
+	//}
+	//
+	//
 	the_rect_selection_stuff.finalize_movement_of_selection_contents();
 }
 
 
+undo_and_redo_stuff& editing_manager::get_or_create_ur_stuff
+	( level_editor_core_widget* the_core_widget )
+{
+	return get_or_create_map_value( ur_stuff_map, the_core_widget );
+}
 
 
 
@@ -607,9 +636,7 @@ void editing_manager::handle_placing_le_during_mouse_press
 	{
 		//cout << "the_block_selector_widget_is_enabled!\n";
 		
-		ur_stuff.ur_action_active = true;
-		
-		ur_action_to_push = undo_and_redo_action();
+		//ur_action_to_push = undo_and_redo_action();
 		ur_action_to_push.the_action_type = at_draw_blocks;
 		
 		draw_single_block_and_record_ur_stuff( the_block_at_mouse_pos, 
@@ -620,77 +647,33 @@ void editing_manager::handle_placing_le_during_mouse_press
 	
 	else if (current_tabbed_widget_is_for_16x16_sprites)
 	{
+		ur_action_to_push.the_action_type = at_draw_sprite;
+		
 		//cout << "the_sprite_16x16_selector_widget_is_enabled!\n";
 		
-		// Woohoo, nested lambda functions
-		auto add_sprite = [&]() -> void
-		{
-			//// Delete the data (if any)
-			//the_sprite_ipgws_at_mouse_pos 
-			//	= sprite_init_param_group_with_size();
-			
-			// Create a new 16x16 sprite
-			the_sprite_ipgws_at_mouse_pos.type 
-				= (sprite_type)(the_core_widget
-				->get_the_sprite_16x16_selector_core_widget()
-				->get_left_current_level_element_index());
-			
-			the_sprite_ipgws_at_mouse_pos.initial_block_grid_x_coord
-				= block_grid_coords_of_mouse_pos.x;
-			the_sprite_ipgws_at_mouse_pos.initial_block_grid_y_coord
-				= block_grid_coords_of_mouse_pos.y;
-			
-			the_sprite_ipgws_at_mouse_pos.size_2d = vec2_u32( 16, 16 );
-		};
-		
-		adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16 
-			the_ptr_group( *the_core_widget->the_sublevel, 
-			block_grid_coords_of_mouse_pos.x,
-			block_grid_coords_of_mouse_pos.y );
-		
-		if ( the_ptr_group.can_add_sprite() )
-		{
-			add_sprite();
-		}
+		draw_single_16x16_sprite_and_record_ur_stuff
+			( the_sublevel, block_grid_coords_of_mouse_pos,
+			get_left_selected_16x16_sprite_type(the_core_widget),
+			ur_action_to_push );
 	}
 	
 	else if (current_tabbed_widget_is_for_16x32_sprites)
 	{
+		ur_action_to_push.the_action_type = at_draw_sprite;
+		
 		//cout << "the_sprite_16x32_selector_widget_is_enabled!\n";
 		
-		auto add_sprite = [&]() -> void
-		{
-			the_sprite_ipgws_at_mouse_pos.type 
-				= (sprite_type)(the_core_widget
-				->get_the_sprite_16x32_selector_core_widget()
-				->get_left_current_level_element_index());
-			
-			the_sprite_ipgws_at_mouse_pos.initial_block_grid_x_coord
-				= block_grid_coords_of_mouse_pos.x;
-			the_sprite_ipgws_at_mouse_pos.initial_block_grid_y_coord
-				= block_grid_coords_of_mouse_pos.y;
-			
-			the_sprite_ipgws_at_mouse_pos.size_2d = vec2_u32( 16, 32 );
-		};
-		
-		adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32 
-			the_ptr_group( *the_core_widget->the_sublevel, 
-			block_grid_coords_of_mouse_pos.x,
-			block_grid_coords_of_mouse_pos.y );
-		
-		
-		if ( the_ptr_group.can_add_sprite() )
-		{
-			add_sprite();
-		}
-		
+		draw_single_16x32_sprite_and_record_ur_stuff
+			( the_sublevel, block_grid_coords_of_mouse_pos,
+			get_left_selected_16x32_sprite_type(the_core_widget),
+			ur_action_to_push );
 	}
 	
 	//cout << endl;
 	
 }
 
-void editing_manager::handle_erasing_sprite_during_mouse_press
+void editing_manager::handle_erasing_sprites_during_mouse_press
 	( level_editor_core_widget* the_core_widget,
 	const vec2_s32& block_grid_coords_of_mouse_pos )
 {
@@ -705,7 +688,6 @@ void editing_manager::handle_selecting_single_sprite_during_mouse_press
 	rect_selection_stuff& the_rect_selection_stuff 
 		= the_sfml_canvas_widget->the_rect_selection_stuff;
 	
-	sublevel* the_sublevel = the_sfml_canvas_widget->the_sublevel;
 	
 	adj_sprite_ipgws_ptr_group_for_selecting_sprite&
 		the_sprite_selection_ptr_group = the_core_widget
@@ -773,8 +755,8 @@ void editing_manager::handle_rect_selection_during_mouse_press
 	rect_selection_stuff& the_rect_selection_stuff = the_sfml_canvas_widget
 		->the_rect_selection_stuff;
 	
-	bool clicked_location_intersects_rect = the_rect_selection_stuff
-		.get_selection_rect().contains
+	bool clicked_location_intersects_rect 
+		= the_rect_selection_stuff.get_selection_rect().contains
 		( block_grid_coords_of_mouse_pos.x, 
 		block_grid_coords_of_mouse_pos.y );
 	
@@ -869,28 +851,12 @@ void editing_manager::handle_placing_le_during_mouse_move
 		}
 		else
 		{
-			//block& the_block_at_mouse_pos 
-			//	= the_sublevel->uncompressed_block_data_vec_2d
-			//	.at((u32)block_grid_coords_of_mouse_pos.y)
-			//	.at((u32)block_grid_coords_of_mouse_pos.x);
-			//
-			//// This needs to be recorded for undo and redo stuff
-			//the_block_at_mouse_pos.type = the_core_widget
-			//	->get_the_block_selector_core_widget()
-			//	->get_left_current_level_element_index();
-			
 			draw_single_block_and_record_ur_stuff( the_sublevel,
 				block_grid_coords_of_mouse_pos, the_block_type,
 				ur_action_to_push );
 		}
 		
 		// This needs to be recorded for undo and redo stuff
-		//draw_block_line( the_core_widget,
-		//	block_grid_coords_of_prev_mouse_pos,
-		//	block_grid_coords_of_mouse_pos, 
-		//	(block_type)the_core_widget
-		//	->get_the_block_selector_core_widget()
-		//	->get_left_current_level_element_index() );
 		draw_block_line( the_core_widget,
 			block_grid_coords_of_prev_mouse_pos,
 			block_grid_coords_of_mouse_pos, the_block_type,
@@ -901,7 +867,7 @@ void editing_manager::handle_placing_le_during_mouse_move
 	
 }
 
-void editing_manager::handle_erasing_sprite_during_mouse_move
+void editing_manager::handle_erasing_sprites_during_mouse_move
 	( level_editor_core_widget* the_core_widget,
 	const vec2_s32& block_grid_coords_of_mouse_pos )
 {
@@ -942,43 +908,66 @@ void editing_manager::handle_rect_selection_during_mouse_move
 }
 
 
+
+
 void editing_manager::handle_placing_le_during_mouse_release
 	( level_editor_core_widget* the_core_widget )
 {
 	undo_and_redo_stuff& ur_stuff = get_or_create_ur_stuff
 		(the_core_widget);
+	undo_and_redo_stack& ur_stack = ur_stuff.ur_stack;
 	undo_and_redo_action& ur_action_to_push = ur_stuff.ur_action_to_push;
 	
 	
-	cout << "Done placing level elements\n";
-	cout << "Here's the action_type:  " 
-		<< ur_action_to_push.the_action_type << endl;
+	//cout << "Done placing level elements\n";
+	//cout << "Here's the action_type:  " 
+	//	<< ur_action_to_push.the_action_type << endl;
 	
 	
 	auto func_for_drawing_blocks = [&]() -> void
 	{
-		cout << "Here's prev_block_map:  \n";
+		//cout << "func_for_drawing_blocks()\n";
 		
-		for ( auto pbm_iter : ur_action_to_push.prev_block_map )
+		//cout << "Here's prev_block_map:  \n";
+		//
+		//for ( auto pbm_iter : ur_action_to_push.prev_block_map )
+		//{
+		//	cout << "block coord:  ( " << pbm_iter.first.x << ", "
+		//		<< pbm_iter.first.y << " ); block_type:  " 
+		//		<< block_stuff::get_bt_name_debug
+		//		((block_type)pbm_iter.second.type) << "\n";
+		//}
+		//
+		//cout << endl;
+		
+		ur_stack.add_action(ur_action_to_push);
+	};
+	
+	auto func_for_drawing_sprite = [&]() -> void
+	{
+		//cout << "func_for_drawing_sprite()\n";
+		
+		sprite_init_param_group_with_size& curr_sprite_ipgws
+			= ur_action_to_push.curr_sprite_ipgws;
+		
+		if ( curr_sprite_ipgws.type <= st_default 
+			|| curr_sprite_ipgws.type >= st_count )
 		{
-			cout << "block coord:  ( " << pbm_iter.first.x << ", "
-				<< pbm_iter.first.y << " ); block_type:  " 
-				<< block_stuff::get_bt_name_debug
-				((block_type)pbm_iter.second.type) << "\n";
+			return;
 		}
 		
-		cout << "\nHere's curr_block_map:  \n";
 		
-		for ( auto cbm_iter : ur_action_to_push.curr_block_map )
-		{
-			cout << "block coord:  ( " << cbm_iter.first.x << ", "
-				<< cbm_iter.first.y << " ); block_type:  " 
-				<< block_stuff::get_bt_name_debug
-				((block_type)cbm_iter.second.type) << "\n";
-		}
+		//cout << sprite_type_helper::get_st_name_debug
+		//	((sprite_type)curr_sprite_ipgws.type)
+		//	<< ", " << curr_sprite_ipgws.initial_block_grid_x_coord
+		//	<< ", " << curr_sprite_ipgws.initial_block_grid_y_coord
+		//	<< ", " << curr_sprite_ipgws.facing_right 
+		//	<< ", " << curr_sprite_ipgws.extra_param_0
+		//	<< ", " << curr_sprite_ipgws.extra_param_1
+		//	<< ", " << curr_sprite_ipgws.extra_param_2
+		//	<< ", " << curr_sprite_ipgws.extra_param_3 << endl;
 		
-		cout << endl;
-		
+		ur_stack.add_action(ur_action_to_push);
 	};
 	
 	switch ( ur_action_to_push.the_action_type )
@@ -987,13 +976,17 @@ void editing_manager::handle_placing_le_during_mouse_release
 			func_for_drawing_blocks();
 			break;
 		
+		case at_draw_sprite:
+			func_for_drawing_sprite();
+			break;
+		
 		default:
 			cout << "Strange action_type.  Perhaps there's a bug?\n";
 			break;
 	}
 }
 
-void editing_manager::handle_erasing_sprite_during_mouse_release
+void editing_manager::handle_erasing_sprites_during_mouse_release
 	( level_editor_core_widget* the_core_widget )
 {
 	
@@ -1023,7 +1016,6 @@ void editing_manager::handle_rect_selection_during_mouse_release
 	// I can't remember why I did this.
 	//emit sprite_no_longer_selected();
 	the_core_widget->do_emit_sprite_no_longer_selected();
-	
 }
 
 
@@ -1061,6 +1053,36 @@ void editing_manager::get_a_few_types_of_mouse_pos
 
 
 // Editing functions to activate upon mouse events
+void editing_manager::draw_single_block_and_record_ur_stuff
+	( block& the_block_in_sublevel, const vec2_s32& block_grid_coord,
+	const block_type& the_block_type,
+	undo_and_redo_action& ur_action_to_push )
+{
+	auto pbm_iter = ur_action_to_push.prev_block_map.find
+		(block_grid_coord);
+	auto cbm_iter = ur_action_to_push.curr_block_map.find
+		(block_grid_coord);
+	
+	
+	// Prevent overwriting the previous data within the same action
+	if ( pbm_iter == ur_action_to_push.prev_block_map.end() )
+	{
+		ur_action_to_push.prev_block_map[block_grid_coord]
+			= the_block_in_sublevel;
+	}
+	
+	if ( cbm_iter == ur_action_to_push.curr_block_map.end() )
+	{
+		ur_action_to_push.curr_block_map[block_grid_coord] = block();
+		ur_action_to_push.curr_block_map[block_grid_coord].type
+			= the_block_type;
+		
+		// Start drawing blocks, possibly just one
+		the_block_in_sublevel.type = the_block_type;
+	}
+}
+
+
 void editing_manager::draw_block_line
 	( level_editor_core_widget* the_core_widget, 
 	const sf::Vector2i& pos_0, const sf::Vector2i& pos_1, 
@@ -1189,6 +1211,98 @@ void editing_manager::draw_block_line
 	
 }
 
+void editing_manager::draw_single_16x16_sprite_and_record_ur_stuff
+	( sublevel* the_sublevel, const vec2_s32& block_grid_coord, 
+	const sprite_type& the_sprite_type,
+	undo_and_redo_action& ur_action_to_push )
+{
+	if ( the_sprite_type <= st_default || the_sprite_type >= st_count )
+	{
+		return;
+	}
+	
+	sprite_init_param_group_with_size& the_sprite_ipgws_in_sublevel
+		= the_sublevel->sprite_ipgws_vec_2d
+		.at((u32)block_grid_coord.y).at((u32)block_grid_coord.x);
+	
+	auto add_sprite_and_record_ur_stuff = [&]() -> void
+	{
+		
+		//the_sprite_ipgws_at_mouse_pos 
+		//	= sprite_init_param_group_with_size();
+		
+		// Create a new 16x16 sprite
+		the_sprite_ipgws_in_sublevel.type = the_sprite_type;
+		
+		the_sprite_ipgws_in_sublevel.initial_block_grid_x_coord
+			= block_grid_coord.x;
+		the_sprite_ipgws_in_sublevel.initial_block_grid_y_coord
+			= block_grid_coord.y;
+		
+		the_sprite_ipgws_in_sublevel.size_2d = vec2_u32( 16, 16 );
+		
+		ur_action_to_push.curr_sprite_ipgws = the_sprite_ipgws_in_sublevel;
+	};
+	
+	adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16 the_ptr_group
+		( *the_sublevel, block_grid_coord.x, block_grid_coord.y );
+	
+	if ( the_ptr_group.can_add_sprite() )
+	{
+		add_sprite_and_record_ur_stuff();
+	}
+}
+
+void editing_manager::draw_single_16x32_sprite_and_record_ur_stuff
+	( sublevel* the_sublevel, const vec2_s32& block_grid_coord, 
+	const sprite_type& the_sprite_type,
+	undo_and_redo_action& ur_action_to_push )
+{
+	if ( the_sprite_type <= st_default || the_sprite_type >= st_count )
+	{
+		return;
+	}
+	
+	sprite_init_param_group_with_size& the_sprite_ipgws_in_sublevel
+		= the_sublevel->sprite_ipgws_vec_2d
+		.at((u32)block_grid_coord.y).at((u32)block_grid_coord.x);
+	
+	auto add_sprite_and_record_ur_stuff = [&]() -> void
+	{
+		the_sprite_ipgws_in_sublevel.type = the_sprite_type;
+		
+		the_sprite_ipgws_in_sublevel.initial_block_grid_x_coord
+			= block_grid_coord.x;
+		the_sprite_ipgws_in_sublevel.initial_block_grid_y_coord
+			= block_grid_coord.y;
+		
+		the_sprite_ipgws_in_sublevel.size_2d = vec2_u32( 16, 32 );
+		
+		the_sprite_ipgws_in_sublevel.extra_param_0 = 0;
+		the_sprite_ipgws_in_sublevel.extra_param_1 = 0;
+		the_sprite_ipgws_in_sublevel.extra_param_2 = 0;
+		the_sprite_ipgws_in_sublevel.extra_param_3 = 0;
+		
+		the_sprite_ipgws_in_sublevel.spawn_state = sss_not_active;
+		
+		ur_action_to_push.curr_sprite_ipgws = the_sprite_ipgws_in_sublevel;
+	};
+	
+	adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32 the_ptr_group
+		( *the_sublevel, block_grid_coord.x, block_grid_coord.y );
+	
+	
+	if ( the_ptr_group.can_add_sprite() )
+	{
+		add_sprite_and_record_ur_stuff();
+	}
+	
+}
+
+
+
+// Editing functions to activate upon key press.  These are meant to
+// actually 
 void editing_manager::copy_selection_contents
 	( rect_selection_stuff& the_rect_selection_stuff )
 {
@@ -1203,6 +1317,7 @@ void editing_manager::paste_copied_selection_contents
 	level_editor_sfml_canvas_widget* the_sfml_canvas_widget
 		= the_core_widget->the_sfml_canvas_widget.get();
 	
+	sublevel* the_sublevel = the_core_widget->the_sublevel;
 	
 	if ( the_rect_selection_stuff.get_enabled() )
 	{
@@ -1218,11 +1333,7 @@ void editing_manager::paste_copied_selection_contents
 	sf::FloatRect visible_rect 
 		= the_sfml_canvas_widget->get_visible_rect();
 	
-	u32 num_pixels_per_block_row 
-		= the_sfml_canvas_widget->num_pixels_per_block_row;
-	u32 num_pixels_per_block_column 
-		= the_sfml_canvas_widget->num_pixels_per_block_column;
-	u32 scale_factor = the_sfml_canvas_widget->scale_factor;
+	//u32 scale_factor = the_sfml_canvas_widget->scale_factor;
 	
 	
 	
@@ -1257,20 +1368,16 @@ void editing_manager::paste_copied_selection_contents
 		visible_block_grid_start_pos.y = 0;
 	}
 	
-	if ( ( visible_block_grid_start_pos.x 
-		+ visible_block_grid_size_2d.x )
-		>= (s32)the_sfml_canvas_widget->the_sublevel->real_size_2d.x )
+	if ( ( visible_block_grid_start_pos.x + visible_block_grid_size_2d.x )
+		>= (s32)the_sublevel->real_size_2d.x )
 	{
-		visible_block_grid_size_2d.x 
-			= the_sfml_canvas_widget->the_sublevel->real_size_2d.x
+		visible_block_grid_size_2d.x = the_sublevel->real_size_2d.x
 			- visible_block_grid_start_pos.x;
 	}
-	if ( ( visible_block_grid_start_pos.y 
-		+ visible_block_grid_size_2d.y )
-		>= (s32)the_sfml_canvas_widget->the_sublevel->real_size_2d.y )
+	if ( ( visible_block_grid_start_pos.y + visible_block_grid_size_2d.y )
+		>= (s32)the_sublevel->real_size_2d.y )
 	{
-		visible_block_grid_size_2d.y 
-			= the_sfml_canvas_widget->the_sublevel->real_size_2d.y
+		visible_block_grid_size_2d.y = the_sublevel->real_size_2d.y
 			- visible_block_grid_start_pos.y;
 	}
 	

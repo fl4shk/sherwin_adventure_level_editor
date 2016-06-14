@@ -47,14 +47,41 @@ public:		// variables
 	map< vec2_s32, block > prev_block_map, curr_block_map;
 	
 	
+	// Stuff for drawing a single sprite or modifying a sprite.
+	// prev_sprite_ipgws is used for when a sprite is modified.
+	sprite_init_param_group_with_size prev_sprite_ipgws, curr_sprite_ipgws;
+	
+	
+	
+	// Stuff for moving blocks or sprites
+	
+	// The original top-left position of the moved rect selection, and the
+	// final top-left position of the moved rect selection.  These can not
+	// be negative as far as I know because the program doesn't allow
+	// moving a rectangular selection to negative coordinates.
+	vec2_s32 moved_rs_starting_top_left_pos, moved_rs_ending_top_left_pos;
+	
+	// The blocks that were replaced, and the blocks that were moved
+	vector< vector<block> > replaced_block_vec_2d, moved_block_vec_2d;
+	
+	// The sprites that were replaced, and the sprites that were moved
+	vector< vector<sprite_init_param_group_with_size> >
+		replaced_sprite_ipgws_vec_2d, moved_sprite_ipgws_vec_2d;
+	
+	
+	
 public:		// functions
-	inline undo_and_redo_action()
+	inline undo_and_redo_action() : the_action_type(at_unknown),
+		curr_sprite_ipgws(sprite_init_param_group_with_size())
 	{
 	}
-	inline undo_and_redo_action( const undo_and_redo_action& to_copy )
-	{
-		*this = to_copy;
-	}
+	// copy constructor
+	undo_and_redo_action( const undo_and_redo_action& to_copy );
+	
+	//// move constructor
+	//undo_and_redo_action( undo_and_redo_action&& to_move );
+	
+	~undo_and_redo_action();
 	
 	void debug_print();
 	
@@ -69,14 +96,14 @@ protected:		// variables
 	
 	// A u64 can only represent so many different actions, so over time
 	// perhaps this could be a source of an error :/
-	u64 curr_action_index;
+	u64 next_action_index;
 	
 public:		// functions
 	undo_and_redo_stack();
 	
 	
 	// This is just for good measure.
-	u64 get_curr_action_index() const;
+	u64 get_next_action_index() const;
 	
 	undo_and_redo_action& get_curr_action();
 	
@@ -96,6 +123,15 @@ public:		// functions
 	
 	
 };
+
+
+struct undo_and_redo_stuff
+{
+	undo_and_redo_stack ur_stack;
+	
+	undo_and_redo_action ur_action_to_push;
+};
+
 
 
 #endif		// undo_and_redo_stack_class_hpp

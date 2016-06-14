@@ -36,14 +36,6 @@ protected:		// variables
 	level_editor_widget* the_level_editor_widget;
 	//vector< unique_ptr<level_editor_widget> >* the_core_widget_vec;
 	
-	struct undo_and_redo_stuff
-	{
-		undo_and_redo_stack ur_stack;
-		
-		undo_and_redo_action ur_action_to_push;
-		
-		bool ur_action_active;
-	};
 	
 	map< level_editor_core_widget*, undo_and_redo_stuff > ur_stuff_map;
 	
@@ -88,11 +80,8 @@ public:		// functions
 	
 	
 protected:		// functions
-	inline undo_and_redo_stuff& get_or_create_ur_stuff
-		( level_editor_core_widget* the_core_widget )
-	{
-		return get_or_create_map_value( ur_stuff_map, the_core_widget );
-	}
+	undo_and_redo_stuff& get_or_create_ur_stuff
+		( level_editor_core_widget* the_core_widget );
 	
 	// Mouse press handler functions.  These were once lambda functions,
 	// but not any more.
@@ -102,7 +91,7 @@ protected:		// functions
 		bool current_tabbed_widget_is_for_blocks,
 		bool current_tabbed_widget_is_for_16x16_sprites,
 		bool current_tabbed_widget_is_for_16x32_sprites );
-	void handle_erasing_sprite_during_mouse_press
+	void handle_erasing_sprites_during_mouse_press
 		( level_editor_core_widget* the_core_widget,
 		const vec2_s32& block_grid_coords_of_mouse_pos );
 	void handle_selecting_single_sprite_during_mouse_press
@@ -120,7 +109,7 @@ protected:		// functions
 		( level_editor_core_widget* the_core_widget,
 		const vec2_s32& block_grid_coords_of_mouse_pos,
 		bool current_tabbed_widget_is_for_blocks );
-	void handle_erasing_sprite_during_mouse_move
+	void handle_erasing_sprites_during_mouse_move
 		( level_editor_core_widget* the_core_widget,
 		const vec2_s32& block_grid_coords_of_mouse_pos );
 	void handle_selecting_single_sprite_during_mouse_move
@@ -134,7 +123,7 @@ protected:		// functions
 	// but not any more.
 	void handle_placing_le_during_mouse_release
 		( level_editor_core_widget* the_core_widget );
-	void handle_erasing_sprite_during_mouse_release
+	void handle_erasing_sprites_during_mouse_release
 		( level_editor_core_widget* the_core_widget );
 	void handle_selecting_single_sprite_during_mouse_release
 		( level_editor_core_widget* the_core_widget );
@@ -189,6 +178,26 @@ protected:		// functions
 	}
 	
 	
+	void draw_single_block_and_record_ur_stuff
+		( block& the_block_in_sublevel, const vec2_s32& block_grid_coord,
+		const block_type& the_block_type,
+		undo_and_redo_action& ur_action_to_push );
+	
+	// A wrapper
+	inline void draw_single_block_and_record_ur_stuff
+		( sublevel* the_sublevel, const vec2_s32& block_grid_coord,
+		const block_type& the_block_type,
+		undo_and_redo_action& ur_action_to_push )
+	{
+		block& the_block_in_sublevel
+			= the_sublevel->uncompressed_block_data_vec_2d
+			.at((u32)block_grid_coord.y).at((u32)block_grid_coord.x);
+		
+		draw_single_block_and_record_ur_stuff( the_block_in_sublevel,
+			block_grid_coord, the_block_type, ur_action_to_push );
+	}
+	
+	
 	// This uses a purely integer-based line drawing algorithm.  The
 	// algorithm was originally used for drawing lines of pixels for a very
 	// basic 3D software rasterizer I wrote for the GBA.  That code was
@@ -211,48 +220,15 @@ protected:		// functions
 	}
 	
 	
-	inline void draw_single_block_and_record_ur_stuff
-		( block& the_block_in_sublevel, const vec2_s32& block_grid_coord,
-		const block_type& the_block_type,
-		undo_and_redo_action& ur_action_to_push )
-	{
-		auto pbm_iter = ur_action_to_push.prev_block_map.find
-			(block_grid_coord);
-		
-		
-		// Prevent overwriting the previous data within the same action
-		if ( pbm_iter == ur_action_to_push.prev_block_map.end() )
-		{
-			block& prev_block = get_or_create_map_value
-				( ur_action_to_push.prev_block_map, block_grid_coord );
-			prev_block = the_block_in_sublevel;
-		}
-		
-		block& curr_block = get_or_create_map_value
-			( ur_action_to_push.curr_block_map, block_grid_coord );
-		
-		curr_block.type = the_block_type;
-		
-		// Start drawing blocks, possibly just one
-		the_block_in_sublevel.type = the_block_type;
-	}
+	void draw_single_16x16_sprite_and_record_ur_stuff
+		( sublevel* the_sublevel, const vec2_s32& block_grid_coord, 
+		const sprite_type& the_sprite_type,
+		undo_and_redo_action& ur_action_to_push );
 	
-	
-	inline void draw_single_block_and_record_ur_stuff
-		( sublevel* the_sublevel, const vec2_s32& block_grid_coord,
-		const block_type& the_block_type,
-		undo_and_redo_action& ur_action_to_push )
-	{
-		block& the_block_in_sublevel
-			= the_sublevel->uncompressed_block_data_vec_2d
-			.at((u32)block_grid_coord.y).at((u32)block_grid_coord.x);
-		
-		draw_single_block_and_record_ur_stuff( the_block_in_sublevel,
-			block_grid_coord, the_block_type, ur_action_to_push );
-	}
-	
-	
-	
+	void draw_single_16x32_sprite_and_record_ur_stuff
+		( sublevel* the_sublevel, const vec2_s32& block_grid_coord, 
+		const sprite_type& the_sprite_type,
+		undo_and_redo_action& ur_action_to_push );
 	
 	
 	
