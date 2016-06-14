@@ -344,19 +344,17 @@ void editing_manager::mouse_move_event
 	
 	
 	
-	
-	
 	bool current_tabbed_widget_is_for_blocks 
 		= ( level_element_selectors_tab_widget->currentWidget()
 		== the_block_selector_widget );
 	
 	
 	
-	the_sprite_selection_ptr_group 
-		= adj_sprite_ipgws_ptr_group_for_selecting_sprite
-		( *the_core_widget->the_sublevel, 
-		block_grid_coords_of_mouse_pos.x, 
-		block_grid_coords_of_mouse_pos.y );
+	//the_sprite_selection_ptr_group 
+	//	= adj_sprite_ipgws_ptr_group_for_selecting_sprite
+	//	( *the_core_widget->the_sublevel, 
+	//	block_grid_coords_of_mouse_pos.x, 
+	//	block_grid_coords_of_mouse_pos.y );
 	
 	
 	//auto func_for_placing_level_elements = [&]() -> void
@@ -549,7 +547,6 @@ void editing_manager::finalize_movement_of_rect_selection_contents
 		return;
 	}
 	
-	
 	// If a selection was not pasted, but not moved, don't update the undo
 	// and redo stuff.
 	if ( selection_rect == selection_rect_before_moving 
@@ -637,9 +634,9 @@ void editing_manager::handle_placing_le_during_mouse_press
 		//cout << "the_block_selector_widget_is_enabled!\n";
 		
 		//ur_action_to_push = undo_and_redo_action();
-		ur_action_to_push.the_action_type = at_draw_blocks;
+		ur_action_to_push.the_action_type = at_place_blocks;
 		
-		draw_single_block_and_record_ur_stuff( the_block_at_mouse_pos, 
+		place_single_block_and_record_ur_stuff( the_block_at_mouse_pos, 
 			block_grid_coords_of_mouse_pos, 
 			get_left_selected_block_type(the_core_widget),
 			ur_action_to_push );
@@ -647,11 +644,11 @@ void editing_manager::handle_placing_le_during_mouse_press
 	
 	else if (current_tabbed_widget_is_for_16x16_sprites)
 	{
-		ur_action_to_push.the_action_type = at_draw_sprite;
+		ur_action_to_push.the_action_type = at_place_sprite;
 		
 		//cout << "the_sprite_16x16_selector_widget_is_enabled!\n";
 		
-		draw_single_16x16_sprite_and_record_ur_stuff
+		place_single_16x16_sprite_and_record_ur_stuff
 			( the_sublevel, block_grid_coords_of_mouse_pos,
 			get_left_selected_16x16_sprite_type(the_core_widget),
 			ur_action_to_push );
@@ -659,11 +656,11 @@ void editing_manager::handle_placing_le_during_mouse_press
 	
 	else if (current_tabbed_widget_is_for_16x32_sprites)
 	{
-		ur_action_to_push.the_action_type = at_draw_sprite;
+		ur_action_to_push.the_action_type = at_place_sprite;
 		
 		//cout << "the_sprite_16x32_selector_widget_is_enabled!\n";
 		
-		draw_single_16x32_sprite_and_record_ur_stuff
+		place_single_16x32_sprite_and_record_ur_stuff
 			( the_sublevel, block_grid_coords_of_mouse_pos,
 			get_left_selected_16x32_sprite_type(the_core_widget),
 			ur_action_to_push );
@@ -851,13 +848,13 @@ void editing_manager::handle_placing_le_during_mouse_move
 		}
 		else
 		{
-			draw_single_block_and_record_ur_stuff( the_sublevel,
+			place_single_block_and_record_ur_stuff( the_sublevel,
 				block_grid_coords_of_mouse_pos, the_block_type,
 				ur_action_to_push );
 		}
 		
 		// This needs to be recorded for undo and redo stuff
-		draw_block_line( the_core_widget,
+		place_block_line( the_core_widget,
 			block_grid_coords_of_prev_mouse_pos,
 			block_grid_coords_of_mouse_pos, the_block_type,
 			ur_action_to_push );
@@ -924,9 +921,9 @@ void editing_manager::handle_placing_le_during_mouse_release
 	//	<< ur_action_to_push.the_action_type << endl;
 	
 	
-	auto func_for_drawing_blocks = [&]() -> void
+	auto func_for_placeing_blocks = [&]() -> void
 	{
-		//cout << "func_for_drawing_blocks()\n";
+		//cout << "func_for_placeing_blocks()\n";
 		
 		//cout << "Here's prev_block_map:  \n";
 		//
@@ -943,9 +940,9 @@ void editing_manager::handle_placing_le_during_mouse_release
 		ur_stack.add_action(ur_action_to_push);
 	};
 	
-	auto func_for_drawing_sprite = [&]() -> void
+	auto func_for_placeing_sprite = [&]() -> void
 	{
-		//cout << "func_for_drawing_sprite()\n";
+		//cout << "func_for_placeing_sprite()\n";
 		
 		sprite_init_param_group_with_size& curr_sprite_ipgws
 			= ur_action_to_push.curr_sprite_ipgws;
@@ -972,12 +969,12 @@ void editing_manager::handle_placing_le_during_mouse_release
 	
 	switch ( ur_action_to_push.the_action_type )
 	{
-		case at_draw_blocks:
-			func_for_drawing_blocks();
+		case at_place_blocks:
+			func_for_placeing_blocks();
 			break;
 		
-		case at_draw_sprite:
-			func_for_drawing_sprite();
+		case at_place_sprite:
+			func_for_placeing_sprite();
 			break;
 		
 		default:
@@ -1053,7 +1050,7 @@ void editing_manager::get_a_few_types_of_mouse_pos
 
 
 // Editing functions to activate upon mouse events
-void editing_manager::draw_single_block_and_record_ur_stuff
+void editing_manager::place_single_block_and_record_ur_stuff
 	( block& the_block_in_sublevel, const vec2_s32& block_grid_coord,
 	const block_type& the_block_type,
 	undo_and_redo_action& ur_action_to_push )
@@ -1077,13 +1074,13 @@ void editing_manager::draw_single_block_and_record_ur_stuff
 		ur_action_to_push.curr_block_map[block_grid_coord].type
 			= the_block_type;
 		
-		// Start drawing blocks, possibly just one
+		// Start placing blocks, possibly just one
 		the_block_in_sublevel.type = the_block_type;
 	}
 }
 
 
-void editing_manager::draw_block_line
+void editing_manager::place_block_line
 	( level_editor_core_widget* the_core_widget, 
 	const sf::Vector2i& pos_0, const sf::Vector2i& pos_1, 
 	block_type the_block_type, undo_and_redo_action& ur_action_to_push )
@@ -1137,7 +1134,7 @@ void editing_manager::draw_block_line
 	{
 		//the_sublevel->uncompressed_block_data_vec_2d
 		//	[(u32)block_coord.y][(u32)block_coord.x].type = the_block_type;
-		draw_single_block_and_record_ur_stuff( the_sublevel, 
+		place_single_block_and_record_ur_stuff( the_sublevel, 
 			vec2_s32( block_coord.x, block_coord.y ), the_block_type, 
 			ur_action_to_push );
 	}
@@ -1169,7 +1166,7 @@ void editing_manager::draw_block_line
 				//the_sublevel->uncompressed_block_data_vec_2d
 				//	[(u32)block_coord.y][(u32)block_coord.x].type 
 				//	= the_block_type;
-				draw_single_block_and_record_ur_stuff( the_sublevel, 
+				place_single_block_and_record_ur_stuff( the_sublevel, 
 					vec2_s32( block_coord.x, block_coord.y ), 
 					the_block_type, ur_action_to_push );
 			}
@@ -1202,7 +1199,7 @@ void editing_manager::draw_block_line
 				//the_sublevel->uncompressed_block_data_vec_2d
 				//	[(u32)block_coord.y][(u32)block_coord.x].type 
 				//	= the_block_type;
-				draw_single_block_and_record_ur_stuff( the_sublevel, 
+				place_single_block_and_record_ur_stuff( the_sublevel, 
 					vec2_s32( block_coord.x, block_coord.y ), 
 					the_block_type, ur_action_to_push );
 			}
@@ -1211,7 +1208,7 @@ void editing_manager::draw_block_line
 	
 }
 
-void editing_manager::draw_single_16x16_sprite_and_record_ur_stuff
+void editing_manager::place_single_16x16_sprite_and_record_ur_stuff
 	( sublevel* the_sublevel, const vec2_s32& block_grid_coord, 
 	const sprite_type& the_sprite_type,
 	undo_and_redo_action& ur_action_to_push )
@@ -1253,7 +1250,7 @@ void editing_manager::draw_single_16x16_sprite_and_record_ur_stuff
 	}
 }
 
-void editing_manager::draw_single_16x32_sprite_and_record_ur_stuff
+void editing_manager::place_single_16x32_sprite_and_record_ur_stuff
 	( sublevel* the_sublevel, const vec2_s32& block_grid_coord, 
 	const sprite_type& the_sprite_type,
 	undo_and_redo_action& ur_action_to_push )
@@ -1342,7 +1339,7 @@ void editing_manager::paste_copied_selection_contents
 	vec2<double> visible_block_grid_size_2d = the_sfml_canvas_widget
 		->get_basic_visible_block_grid_size_2d(visible_rect);
 	
-	// this is so that sprites larger than 16x16 pixels will be drawn
+	// This is so that sprites larger than 16x16 pixels will be placed
 	// if their starting position is offscreen but part of them still
 	// is on screen.
 	--visible_block_grid_start_pos.x;

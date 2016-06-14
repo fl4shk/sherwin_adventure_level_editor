@@ -57,8 +57,8 @@ enum rect_selection_layer { rsl_blocks, rsl_sprites };
 // This corresponds to undo/redo stuff.
 enum action_type 
 { 
-	at_draw_blocks, 
-	at_draw_sprite, 
+	at_place_blocks, 
+	at_place_sprite, 
 	
 	//at_erase_sprites, 
 	

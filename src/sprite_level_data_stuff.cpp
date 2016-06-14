@@ -46,6 +46,10 @@ adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16
 		origin_block_grid_pos( (s32)origin_block_grid_x_coord, 
 			(s32)origin_block_grid_y_coord );
 	
+	
+	// It would certainly be nice if I could use an X macro for this, but
+	// no, they are too different to do that in an easy way.
+	
 	if ( up_left_block_grid_pos.x < 0 || up_left_block_grid_pos.y < 0 )
 	{
 		//up_left_block_grid_pos = { -1, -1 };
@@ -153,6 +157,11 @@ adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32
 			(s32)origin_block_grid_y_coord + 1 ),
 		down_block_grid_pos( (s32)origin_block_grid_x_coord,
 			(s32)origin_block_grid_y_coord + 1 );
+	
+	
+	
+	// It would certainly be nice if I could use an X macro for this, but
+	// no, they are too different to do that in an easy way.
 	
 	if ( up_left_block_grid_pos.x < 0 || up_left_block_grid_pos.y < 0 )
 	{

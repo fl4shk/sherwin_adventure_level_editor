@@ -238,8 +238,14 @@ class sublevel;
 // [ ][X]
 
 
-// These classes could easily be derived from a base class.
 
+
+
+// These classes could easily be derived from a base class.  
+
+// Also, their names could probably stand to be much shorter.  I really
+// need to do a better job of naming things.
+ 
 class adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16
 {
 public:		// variables
@@ -259,6 +265,51 @@ public:		// functions
 	adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16
 		( sublevel& the_sublevel, u32 origin_block_grid_x_coord, 
 		u32 origin_block_grid_y_coord );
+	
+	inline bool overlaps_up_left() const
+	{
+		if ( up_left_ptr != NULL )
+		{
+			if ( up_left_ptr->size_2d.x > 16 
+				&& up_left_ptr->size_2d.y > 16 )
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	inline bool overlaps_up() const
+	{
+		if ( up_ptr != NULL )
+		{
+			if ( up_ptr->size_2d.y > 16 )
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	inline bool overlaps_left() const
+	{
+		if ( left_ptr != NULL )
+		{
+			if ( left_ptr->size_2d.x > 16 )
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	//inline bool overlaps_origin() const
+	//{
+	//	return true;
+	//}
 	
 	bool can_add_sprite();
 	
@@ -295,6 +346,61 @@ public:		// functions
 	adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32
 		( sublevel& the_sublevel, u32 origin_block_grid_x_coord, 
 		u32 origin_block_grid_y_coord );
+	
+	
+	inline bool overlaps_up_left() const
+	{
+		if ( up_left_ptr != NULL )
+		{
+			if ( up_left_ptr->size_2d.x > 16 
+				&& up_left_ptr->size_2d.y > 16 )
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	inline bool overlaps_up() const
+	{
+		if ( up_ptr != NULL )
+		{
+			if ( up_ptr->size_2d.y > 16 )
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	inline bool overlaps_left() const
+	{
+		if ( left_ptr != NULL )
+		{
+			if ( left_ptr->size_2d.x > 16 )
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	inline bool overlaps_down_left() const
+	{
+		if ( down_left_ptr != NULL )
+		{
+			if ( down_left_ptr->size_2d.x > 16 )
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	
 	
 	bool can_add_sprite();

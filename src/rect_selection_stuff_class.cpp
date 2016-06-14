@@ -345,6 +345,162 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 	//}
 	
 	
+	auto shared_sprite_handling_func = [&]( const vec2_s32& block_grid_pos,
+		const sprite_init_param_group_with_size& the_old_sprite_ipgws ) 
+		-> void
+	{
+		sprite_init_param_group_with_size& the_new_sprite_ipgws 
+			= the_sublevel->sprite_ipgws_vec_2d
+			.at(block_grid_pos.y).at(block_grid_pos.x);
+		
+		
+		// These three nested lambda functions have, uh, weird names, which
+		// is an interesting coincidence.
+		auto say_that_size_2d_y_is_weird = []() -> void
+		{
+			cout << "shared_sprite_handling_func():  weird issue where "
+				<< "the_old_sprite_ipgws.size_2d.y is neither 16 or 32.\n";
+		};
+		auto say_that_size_2d_x_is_weird = []() -> void
+		{
+			cout << "shared_sprite_handling_func():  weird issue where "
+				<< "the_old_sprite_ipgws.size_2d.x is neither 16 or 32.\n";
+		};
+		auto say_that_size_2d_combo_is_weird = []() -> void
+		{
+			cout << "shared_sprite_handling_func():  weird issue where "
+				<< "the_old_sprite_ipgws.size_2d.x == 32 and "
+				<< "the_old_sprite_ipgws.size_2d.y == 16.\n";
+		};
+		
+		if ( the_old_sprite_ipgws.type != st_default )
+		{
+			the_new_sprite_ipgws = the_old_sprite_ipgws;
+			
+			// Don't forget to update the intial block grid
+			// coordinates, since the_new_sprite_ipgws is at a
+			// different location from the_old_sprite_ipgws.
+			the_new_sprite_ipgws.initial_block_grid_x_coord
+				= block_grid_pos.x;
+			the_new_sprite_ipgws.initial_block_grid_y_coord
+				= block_grid_pos.y;
+			
+			if ( the_old_sprite_ipgws.size_2d.x == 16 )
+			{
+				// 16x16
+				if ( the_old_sprite_ipgws.size_2d.y == 16 )
+				{
+					adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16
+						ptr_group( *the_sublevel, block_grid_pos.x,
+						block_grid_pos.y );
+					
+					// Erase sprites overlapped by the moved or pasted
+					// sprite
+					if ( ptr_group.overlaps_up_left() )
+					{
+						*ptr_group.up_left_ptr
+							= sprite_init_param_group_with_size();
+					}
+					
+					if ( ptr_group.overlaps_up() )
+					{
+						*ptr_group.up_ptr 
+							= sprite_init_param_group_with_size();
+					}
+					
+					if ( ptr_group.overlaps_left() )
+					{
+						*ptr_group.left_ptr
+							= sprite_init_param_group_with_size();
+					}
+					
+				}
+				
+				// 16x32
+				else if ( the_old_sprite_ipgws.size_2d.y == 32 )
+				{
+					adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32
+						ptr_group( *the_sublevel, block_grid_pos.x,
+						block_grid_pos.y );
+					
+					// Erase sprites overlapped by the moved or pasted
+					// sprite
+					if ( ptr_group.overlaps_up_left() )
+					{
+						*ptr_group.up_left_ptr
+							= sprite_init_param_group_with_size();
+					}
+					
+					if ( ptr_group.overlaps_up() )
+					{
+						*ptr_group.up_ptr 
+							= sprite_init_param_group_with_size();
+					}
+					
+					if ( ptr_group.overlaps_left() )
+					{
+						*ptr_group.left_ptr
+							= sprite_init_param_group_with_size();
+					}
+					
+					if ( ptr_group.overlaps_down_left() )
+					{
+						*ptr_group.down_left_ptr
+							= sprite_init_param_group_with_size();
+					}
+					
+					if ( ptr_group.down_ptr != NULL )
+					{
+						*ptr_group.down_ptr
+							= sprite_init_param_group_with_size();
+					}
+				}
+				
+				// Invalid size_2d
+				else
+				{
+					say_that_size_2d_y_is_weird();
+				}
+			}
+			else if ( the_old_sprite_ipgws.size_2d.x == 32 )
+			{
+				// 32x16, which isn't allowed
+				if ( the_old_sprite_ipgws.size_2d.y == 16 )
+				{
+					say_that_size_2d_combo_is_weird();
+				}
+				
+				// 32x32
+				else if ( the_old_sprite_ipgws.size_2d.y == 32 )
+				{
+					//adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32
+					//	ptr_group( *the_sublevel, block_grid_pos.x,
+					//	block_grid_pos.y );
+					
+					cout << "Not yet fully implemented:  "
+						<< "adj_sprite_ipgws_ptr_group_for_placing"
+						<< "_sprite_32x32\n";
+				}
+				
+				// Invalid size_2d
+				else
+				{
+					say_that_size_2d_y_is_weird();
+				}
+			}
+			else
+			{
+				say_that_size_2d_x_is_weird();
+			}
+		}
+		//// Erase sprites even when there's not one in the specific slot
+		//else //if ( the_old_sprite_ipgws.type == st_default )
+		//{
+		//	the_new_sprite_ipgws = sprite_init_param_group_with_size();
+		//}
+	};
+	
+	
 	// Blocks were moved, but not pasted
 	if ( selection_layer == rsl_blocks && !get_selection_was_pasted() )
 	{
@@ -463,31 +619,13 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 					continue;
 				}
 				
-				sprite_init_param_group_with_size& the_sprite_ipgws
+				const sprite_init_param_group_with_size& 
+					the_pasted_sprite_ipgws
 					= moving_sprite_ipgws_vec_2d.at(j).at(i);
 				
-				sprite_init_param_group_with_size& the_new_sprite_ipgws 
-					= the_sublevel->sprite_ipgws_vec_2d
-					.at(block_grid_pos.y).at(block_grid_pos.x);
+				shared_sprite_handling_func( block_grid_pos,
+					the_pasted_sprite_ipgws );
 				
-				if ( the_sprite_ipgws.type != st_default )
-				{
-					the_new_sprite_ipgws = the_sprite_ipgws;
-					
-					// Don't forget to update the intial block grid
-					// coordinates, since the_new_sprite_ipgws is at a
-					// different location from the_sprite_ipgws.
-					the_new_sprite_ipgws.initial_block_grid_x_coord
-						= block_grid_pos.x;
-					the_new_sprite_ipgws.initial_block_grid_y_coord
-						= block_grid_pos.y;
-				}
-				// Don't allow overlapping sprites
-				else //if ( the_sprite_ipgws.type == st_default )
-				{
-					the_new_sprite_ipgws 
-						= sprite_init_param_group_with_size();
-				}
 			}
 		}
 	}
@@ -502,39 +640,18 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 				vec2_s32 block_grid_pos( selection_rect.left + i,
 					selection_rect.top + j );
 				
-				
 				if ( !the_sublevel->contains_block_grid_pos
 					(block_grid_pos) )
 				{
 					continue;
 				}
 				
-				sprite_init_param_group_with_size& the_sprite_ipgws
+				const sprite_init_param_group_with_size& 
+					the_pasted_sprite_ipgws 
 					= copied_sprite_ipgws_vec_2d.at(j).at(i);
 				
-				
-				sprite_init_param_group_with_size& the_new_sprite_ipgws 
-					= the_sublevel->sprite_ipgws_vec_2d
-					.at(block_grid_pos.y).at(block_grid_pos.x);
-				
-				if ( the_sprite_ipgws.type != st_default )
-				{
-					the_new_sprite_ipgws = the_sprite_ipgws;
-					
-					// Don't forget to update the intial block grid
-					// coordinates, since the_new_sprite_ipgws is at a
-					// different location from the_sprite_ipgws.
-					the_new_sprite_ipgws.initial_block_grid_x_coord
-						= block_grid_pos.x;
-					the_new_sprite_ipgws.initial_block_grid_y_coord
-						= block_grid_pos.y;
-				}
-				// Don't allow overlapping sprites
-				else //if ( the_sprite_ipgws.type == st_default )
-				{
-					the_new_sprite_ipgws 
-						= sprite_init_param_group_with_size();
-				}
+				shared_sprite_handling_func( block_grid_pos,
+					the_pasted_sprite_ipgws );
 			}
 		}
 	}
@@ -570,10 +687,23 @@ void rect_selection_stuff::copy_selection_contents()
 					( selection_rect_before_moving.left + i,
 					selection_rect_before_moving.top + j );
 				
-				copied_block_vec_2d.at(j).push_back( the_sublevel
-					->uncompressed_block_data_vec_2d
-					.at((u32)original_block_grid_pos.y)
-					.at((u32)original_block_grid_pos.x) );
+				if ( the_sublevel->contains_block_grid_pos
+					(original_block_grid_pos) )
+				{
+					copied_block_vec_2d.at(j).push_back( the_sublevel
+						->uncompressed_block_data_vec_2d
+						.at((u32)original_block_grid_pos.y)
+						.at((u32)original_block_grid_pos.x) );
+				}
+				else //if ( !the_sublevel->contains_block_grid_pos
+					//(original_block_grid_pos) )
+				{
+					copied_block_vec_2d.at(j).push_back(block());
+				}
+				
+				cout << i << ", " << j << ";  "
+					<< the_sublevel->contains_block_grid_pos
+					(original_block_grid_pos) << endl;
 			}
 		}
 	}
@@ -596,13 +726,33 @@ void rect_selection_stuff::copy_selection_contents()
 					->sprite_ipgws_vec_2d
 					.at((u32)original_block_grid_pos.y)
 					.at((u32)original_block_grid_pos.x) );
+				
+				if ( the_sublevel->contains_block_grid_pos
+					(original_block_grid_pos) )
+				{
+					copied_sprite_ipgws_vec_2d.at(j)
+						.push_back( the_sublevel->sprite_ipgws_vec_2d
+						.at((u32)original_block_grid_pos.y)
+						.at((u32)original_block_grid_pos.x) );
+				}
+				else //if ( !the_sublevel->contains_block_grid_pos
+					//(original_block_grid_pos) )
+				{
+					copied_sprite_ipgws_vec_2d.at(j)
+						.push_back(sprite_init_param_group_with_size());
+				}
+				
+				cout << i << ", " << j << ";  "
+					<< the_sublevel->contains_block_grid_pos
+					(original_block_grid_pos) << endl;
 			}
 		}
 	}
 	
-	
 }
 
+
+// This function doesn't actually affect the_sublevel directly
 void rect_selection_stuff::paste_copied_selection_contents
 	( const vec2_s32& n_starting_block_grid_coords )
 {

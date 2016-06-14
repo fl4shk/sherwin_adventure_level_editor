@@ -178,13 +178,13 @@ protected:		// functions
 	}
 	
 	
-	void draw_single_block_and_record_ur_stuff
+	void place_single_block_and_record_ur_stuff
 		( block& the_block_in_sublevel, const vec2_s32& block_grid_coord,
 		const block_type& the_block_type,
 		undo_and_redo_action& ur_action_to_push );
 	
 	// A wrapper
-	inline void draw_single_block_and_record_ur_stuff
+	inline void place_single_block_and_record_ur_stuff
 		( sublevel* the_sublevel, const vec2_s32& block_grid_coord,
 		const block_type& the_block_type,
 		undo_and_redo_action& ur_action_to_push )
@@ -193,39 +193,41 @@ protected:		// functions
 			= the_sublevel->uncompressed_block_data_vec_2d
 			.at((u32)block_grid_coord.y).at((u32)block_grid_coord.x);
 		
-		draw_single_block_and_record_ur_stuff( the_block_in_sublevel,
+		place_single_block_and_record_ur_stuff( the_block_in_sublevel,
 			block_grid_coord, the_block_type, ur_action_to_push );
 	}
 	
 	
-	// This uses a purely integer-based line drawing algorithm.  The
-	// algorithm was originally used for drawing lines of pixels for a very
+	// This uses a purely integer-based block line placing algorithm.  The
+	// algorithm was originally used for placing lines of pixels for a very
 	// basic 3D software rasterizer I wrote for the GBA.  That code was
 	// never published anywhere, since the software rasterizer kind of
 	// sucked.  Perhaps I will put it up on GitHub at some point.
-	void draw_block_line( level_editor_core_widget* the_core_widget, 
+	void place_block_line( level_editor_core_widget* the_core_widget, 
 		const sf::Vector2i& pos_0, const sf::Vector2i& pos_1, 
 		block_type the_block_type, 
 		undo_and_redo_action& ur_action_to_push );
 	
 	// A wrapper
-	inline void draw_block_line( level_editor_core_widget* the_core_widget, 
+	inline void place_block_line
+		( level_editor_core_widget* the_core_widget, 
 		const vec2_s32& pos_0, const vec2_s32& pos_1, 
 		block_type the_block_type, 
 		undo_and_redo_action& ur_action_to_push )
 	{
-		draw_block_line( the_core_widget, sf::Vector2i( pos_0.x, pos_0.y ),
+		place_block_line( the_core_widget, 
+			sf::Vector2i( pos_0.x, pos_0.y ),
 			sf::Vector2i( pos_1.x, pos_1.y ), the_block_type,
 			ur_action_to_push );
 	}
 	
 	
-	void draw_single_16x16_sprite_and_record_ur_stuff
+	void place_single_16x16_sprite_and_record_ur_stuff
 		( sublevel* the_sublevel, const vec2_s32& block_grid_coord, 
 		const sprite_type& the_sprite_type,
 		undo_and_redo_action& ur_action_to_push );
 	
-	void draw_single_16x32_sprite_and_record_ur_stuff
+	void place_single_16x32_sprite_and_record_ur_stuff
 		( sublevel* the_sublevel, const vec2_s32& block_grid_coord, 
 		const sprite_type& the_sprite_type,
 		undo_and_redo_action& ur_action_to_push );
