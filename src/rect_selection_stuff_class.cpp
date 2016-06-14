@@ -150,18 +150,17 @@ void rect_selection_stuff::stop_creating_selection()
 	sf::IntRect&& selection_rect_before_moving 
 		= get_selection_rect_before_moving();
 	
-
 	
 	// The reason these copies happen is that the_sublevel can be resized
 	// (in particular, made smaller in either horizontally or vertically)
 	// while keeping the_rect_selection_stuff active.
 	if ( selection_layer == rsl_blocks )
 	{
-		moving_blocks_vec_2d.clear();
+		moving_block_vec_2d.clear();
 		
 		for ( s32 j=0; j<selection_rect.height; ++j )
 		{
-			moving_blocks_vec_2d.push_back(vector<block>());
+			moving_block_vec_2d.push_back(vector<block>());
 			
 			for ( s32 i=0; i<selection_rect.width; ++i )
 			{
@@ -172,7 +171,7 @@ void rect_selection_stuff::stop_creating_selection()
 				if ( !the_sublevel->contains_block_grid_pos
 					(original_block_grid_pos) )
 				{
-					//moving_blocks_vec_2d.at(j).push_back(block());
+					//moving_block_vec_2d.at(j).push_back(block());
 					continue;
 				}
 				
@@ -181,7 +180,7 @@ void rect_selection_stuff::stop_creating_selection()
 					.at((u32)original_block_grid_pos.y)
 					.at((u32)original_block_grid_pos.x);
 				
-				moving_blocks_vec_2d.at(j).push_back(the_block);
+				moving_block_vec_2d.at(j).push_back(the_block);
 				
 			}
 		}
@@ -377,15 +376,16 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 				vec2_s32 block_grid_pos( selection_rect.left + i,
 					selection_rect.top + j );
 				
-				if ( !the_sublevel->contains_block_grid_pos
-					(block_grid_pos) )
+				if ( !the_sublevel->contains_block_grid_pos(block_grid_pos) 
+					|| (u32)j >= moving_block_vec_2d.size()
+					|| (u32)i >= moving_block_vec_2d.back().size() )
 				{
 					continue;
 				}
 				
 				the_sublevel->uncompressed_block_data_vec_2d
 					.at(block_grid_pos.y).at(block_grid_pos.x)
-					= moving_blocks_vec_2d.at(j).at(i);
+					= moving_block_vec_2d.at(j).at(i);
 			}
 		}
 	}
@@ -401,14 +401,16 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 					selection_rect.top + j );
 				
 				if ( !the_sublevel->contains_block_grid_pos
-					(block_grid_pos) )
+					(block_grid_pos) 
+					|| (u32)j >= copied_block_vec_2d.size() 
+					|| (u32)i >= copied_block_vec_2d.back().size() )
 				{
 					continue;
 				}
 				
 				the_sublevel->uncompressed_block_data_vec_2d
 					.at(block_grid_pos.y).at(block_grid_pos.x)
-					= copied_blocks_vec_2d.at(j).at(i);
+					= copied_block_vec_2d.at(j).at(i);
 			}
 		}
 	}
@@ -448,8 +450,9 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 				vec2_s32 block_grid_pos( selection_rect.left + i,
 					selection_rect.top + j );
 				
-				if ( !the_sublevel->contains_block_grid_pos
-					(block_grid_pos) )
+				if ( !the_sublevel->contains_block_grid_pos(block_grid_pos) 
+					|| (u32)j >= moving_sprite_ipgws_vec_2d.size() 
+					|| (u32)i >= moving_sprite_ipgws_vec_2d.back().size() )
 				{
 					continue;
 				}
@@ -495,7 +498,9 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 				
 				
 				if ( !the_sublevel->contains_block_grid_pos
-					(block_grid_pos) )
+					(block_grid_pos) 
+					|| (u32)j >= copied_sprite_ipgws_vec_2d.size() 
+					|| (u32)i >= copied_sprite_ipgws_vec_2d.back().size() )
 				{
 					continue;
 				}
@@ -549,11 +554,11 @@ void rect_selection_stuff::copy_selection_contents()
 	
 	if ( original_layer_of_pasted_selection == rsl_blocks )
 	{
-		copied_blocks_vec_2d.clear();
+		copied_block_vec_2d.clear();
 		
 		for ( s32 j=0; j<selection_rect.height; ++j )
 		{
-			copied_blocks_vec_2d.push_back(vector<block>());
+			copied_block_vec_2d.push_back(vector<block>());
 			
 			for ( s32 i=0; i<selection_rect.width; ++i )
 			{
@@ -561,7 +566,7 @@ void rect_selection_stuff::copy_selection_contents()
 					( selection_rect_before_moving.left + i,
 					selection_rect_before_moving.top + j );
 				
-				copied_blocks_vec_2d.at(j).push_back( the_sublevel
+				copied_block_vec_2d.at(j).push_back( the_sublevel
 					->uncompressed_block_data_vec_2d
 					.at((u32)original_block_grid_pos.y)
 					.at((u32)original_block_grid_pos.x) );
@@ -598,7 +603,7 @@ void rect_selection_stuff::paste_copied_selection_contents
 	( const vec2_s32& n_starting_block_grid_coords )
 {
 	if ( original_layer_of_pasted_selection == rsl_blocks 
-		&& copied_blocks_vec_2d.size() == 0 )
+		&& copied_block_vec_2d.size() == 0 )
 	{
 		return;
 	}
@@ -622,8 +627,8 @@ void rect_selection_stuff::paste_copied_selection_contents
 	
 	if ( original_layer_of_pasted_selection == rsl_blocks )
 	{
-		selection_rect.width = copied_blocks_vec_2d.at(0).size();
-		selection_rect.height = copied_blocks_vec_2d.size();
+		selection_rect.width = copied_block_vec_2d.at(0).size();
+		selection_rect.height = copied_block_vec_2d.size();
 	}
 	else if ( original_layer_of_pasted_selection == rsl_sprites )
 	{

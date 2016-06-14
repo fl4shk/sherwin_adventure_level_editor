@@ -483,32 +483,35 @@ void level_editor_sfml_canvas_widget::update_visible_area()
 	//canvas_render_texture.clear(sf::Color::Cyan);
 	
 	
-	const vec2_s32& rs_starting_block_grid_coords
-		= the_rect_selection_stuff.starting_block_grid_coords;
-	const vec2_s32& rs_ending_block_grid_coords
-		= the_rect_selection_stuff.ending_block_grid_coords;
+	//const vec2_s32& rs_starting_block_grid_coords
+	//	= the_rect_selection_stuff.starting_block_grid_coords;
+	//const vec2_s32& rs_ending_block_grid_coords
+	//	= the_rect_selection_stuff.ending_block_grid_coords;
+	//
+	//const sf::IntRect& selection_rect 
+	//	= the_rect_selection_stuff.selection_rect;
 	
-	const sf::IntRect& selection_rect 
-		= the_rect_selection_stuff.selection_rect;
 	
+	//const vec2_s32& rs_starting_block_grid_coords_before_moving
+	//	= the_rect_selection_stuff
+	//	.starting_block_grid_coords_before_moving;
+	//const vec2_s32& rs_ending_block_grid_coords_before_moving
+	//	= the_rect_selection_stuff
+	//	.ending_block_grid_coords_before_moving;
+	//
+	//const sf::IntRect selection_rect_before_moving
+	//	( rs_starting_block_grid_coords_before_moving.x,
+	//	
+	//	rs_starting_block_grid_coords_before_moving.y,
+	//	
+	//	( rs_ending_block_grid_coords_before_moving.x 
+	//	- rs_starting_block_grid_coords_before_moving.x + 1 ),
+	//	
+	//	( rs_ending_block_grid_coords_before_moving.y
+	//	- rs_starting_block_grid_coords_before_moving.y + 1 ) );
 	
-	const vec2_s32& rs_starting_block_grid_coords_before_moving
-		= the_rect_selection_stuff
-		.starting_block_grid_coords_before_moving;
-	const vec2_s32& rs_ending_block_grid_coords_before_moving
-		= the_rect_selection_stuff
-		.ending_block_grid_coords_before_moving;
-	
-	const sf::IntRect selection_rect_before_moving
-		( rs_starting_block_grid_coords_before_moving.x,
-		
-		rs_starting_block_grid_coords_before_moving.y,
-		
-		( rs_ending_block_grid_coords_before_moving.x 
-		- rs_starting_block_grid_coords_before_moving.x + 1 ),
-		
-		( rs_ending_block_grid_coords_before_moving.y
-		- rs_starting_block_grid_coords_before_moving.y + 1 ) );
+	sf::IntRect&& selection_rect_before_moving 
+		= the_rect_selection_stuff.get_selection_rect_before_moving();
 	
 	
 	vec2<double> visible_block_grid_start_pos 
@@ -732,22 +735,32 @@ void level_editor_sfml_canvas_widget::draw_visible_blocks
 					if ( the_rect_selection_stuff
 						.selection_still_being_created )
 					{
-						vec2_u32 original_block_grid_pos
+						vec2_s32 original_block_grid_pos
 							( selection_rect_before_moving.left + i,
 							selection_rect_before_moving.top + j );
 						
-						draw_block( &(the_sublevel
-							->uncompressed_block_data_vec_2d
-							.at(original_block_grid_pos.y)
-							.at(original_block_grid_pos.x)), 
-							block_grid_pos );
+						if ( the_sublevel->contains_block_grid_pos
+							(original_block_grid_pos) )
+						{
+							draw_block( &(the_sublevel
+								->uncompressed_block_data_vec_2d
+								.at(original_block_grid_pos.y)
+								.at(original_block_grid_pos.x)), 
+								block_grid_pos );
+						}
 					}
 					else //if ( !the_rect_selection_stuff
 						//.selection_still_being_created )
 					{
-						draw_block( &(the_rect_selection_stuff
-							.moving_blocks_vec_2d.at(j).at(i)), 
-							block_grid_pos );
+						if ( (u32)j < the_rect_selection_stuff
+							.moving_block_vec_2d.size() 
+							&& (u32)i < the_rect_selection_stuff
+							.moving_block_vec_2d.back().size() )
+						{
+							draw_block( &(the_rect_selection_stuff
+								.moving_block_vec_2d.at(j).at(i)), 
+								block_grid_pos );
+						}
 					}
 				}
 			}
@@ -765,11 +778,14 @@ void level_editor_sfml_canvas_widget::draw_visible_blocks
 				vec2_s32 block_grid_pos( selection_rect.left + i,
 					selection_rect.top + j );
 				
-				if ( the_sublevel->contains_block_grid_pos
-					(block_grid_pos) )
+				if ( the_sublevel->contains_block_grid_pos(block_grid_pos) 
+					&& (u32)j < the_rect_selection_stuff
+					.copied_block_vec_2d.size() 
+					&& (u32)i < the_rect_selection_stuff
+					.copied_block_vec_2d.back().size() )
 				{
 					draw_block( &(the_rect_selection_stuff
-						.copied_blocks_vec_2d.at(j).at(i)), 
+						.copied_block_vec_2d.at(j).at(i)), 
 						block_grid_pos );
 				}
 			}
@@ -986,22 +1002,33 @@ void level_editor_sfml_canvas_widget::draw_visible_16x32_sprites
 						if ( the_rect_selection_stuff
 							.selection_still_being_created )
 						{
-							vec2_u32 original_block_grid_pos
+							vec2_s32 original_block_grid_pos
 								( selection_rect_before_moving.left + i,
 								selection_rect_before_moving.top + j );
 							
-							draw_16x32_sprite
-								( &(the_sublevel->sprite_ipgws_vec_2d
-								.at(original_block_grid_pos.y)
-								.at(original_block_grid_pos.x)), 
-								block_grid_pos );
+							if ( the_sublevel->contains_block_grid_pos
+								(original_block_grid_pos) )
+							{
+								draw_16x32_sprite
+									( &(the_sublevel->sprite_ipgws_vec_2d
+									.at(original_block_grid_pos.y)
+									.at(original_block_grid_pos.x)), 
+									block_grid_pos );
+							}
 						}
 						else //if ( !the_rect_selection_stuff
 							//.selection_still_being_created )
 						{
-							draw_16x32_sprite( &(the_rect_selection_stuff
-								.moving_sprite_ipgws_vec_2d.at(j).at(i)), 
-								block_grid_pos );
+							if ( (u32)j < the_rect_selection_stuff
+								.moving_sprite_ipgws_vec_2d.size() 
+								&& (u32)i < the_rect_selection_stuff
+								.moving_sprite_ipgws_vec_2d.back().size() )
+							{
+								draw_16x32_sprite
+									( &(the_rect_selection_stuff
+									.moving_sprite_ipgws_vec_2d
+									.at(j).at(i)), block_grid_pos );
+							}
 						}
 					}
 				}
@@ -1021,7 +1048,11 @@ void level_editor_sfml_canvas_widget::draw_visible_16x32_sprites
 					
 					
 					if ( the_sublevel->contains_block_grid_pos
-						(block_grid_pos) )
+						(block_grid_pos) 
+						&& (u32)j < the_rect_selection_stuff
+						.copied_sprite_ipgws_vec_2d.size() 
+						&& (u32)i < the_rect_selection_stuff
+						.copied_sprite_ipgws_vec_2d.back().size() )
 					{
 						draw_16x32_sprite( &( the_rect_selection_stuff
 							.copied_sprite_ipgws_vec_2d.at(j).at(i)),
@@ -1159,22 +1190,33 @@ void level_editor_sfml_canvas_widget::draw_visible_16x16_sprites
 						if ( the_rect_selection_stuff
 							.selection_still_being_created )
 						{
-							vec2_u32 original_block_grid_pos
+							vec2_s32 original_block_grid_pos
 								( selection_rect_before_moving.left + i,
 								selection_rect_before_moving.top + j );
 							
-							draw_16x16_sprite
-								( &(the_sublevel->sprite_ipgws_vec_2d
-								.at(original_block_grid_pos.y)
-								.at(original_block_grid_pos.x)),
-								block_grid_pos );
+							if ( the_sublevel->contains_block_grid_pos
+								(original_block_grid_pos) )
+							{
+								draw_16x16_sprite
+									( &(the_sublevel->sprite_ipgws_vec_2d
+									.at(original_block_grid_pos.y)
+									.at(original_block_grid_pos.x)),
+									block_grid_pos );
+							}
 						}
 						else //if ( the_rect_selection_stuff
 							//.selection_still_being_created )
 						{
-							draw_16x16_sprite( &(the_rect_selection_stuff
-								.moving_sprite_ipgws_vec_2d.at(j).at(i)), 
-								block_grid_pos );
+							if ( (u32)j < the_rect_selection_stuff
+								.moving_sprite_ipgws_vec_2d.size() 
+								&& (u32)i < the_rect_selection_stuff
+								.moving_sprite_ipgws_vec_2d.back().size() )
+							{
+								draw_16x16_sprite
+									( &(the_rect_selection_stuff
+									.moving_sprite_ipgws_vec_2d
+									.at(j).at(i)), block_grid_pos );
+							}
 						}
 					}
 				}
@@ -1194,7 +1236,11 @@ void level_editor_sfml_canvas_widget::draw_visible_16x16_sprites
 					
 					
 					if ( the_sublevel->contains_block_grid_pos
-						(block_grid_pos) )
+						(block_grid_pos) 
+						&& (u32)j < the_rect_selection_stuff
+						.copied_sprite_ipgws_vec_2d.size() 
+						&& (u32)i < the_rect_selection_stuff
+						.copied_sprite_ipgws_vec_2d.back().size() )
 					{
 						draw_16x16_sprite( &( the_rect_selection_stuff
 							.copied_sprite_ipgws_vec_2d.at(j).at(i)),

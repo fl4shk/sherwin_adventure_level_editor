@@ -523,65 +523,130 @@ void editing_manager::finalize_movement_of_rect_selection_contents
 	( level_editor_core_widget* the_core_widget,
 	rect_selection_stuff& the_rect_selection_stuff )
 {
-	//sublevel* the_sublevel = the_core_widget->the_sublevel;
-	//
-	//sf::IntRect&& selection_rect_before_moving 
-	//	= the_rect_selection_stuff.get_selection_rect_before_moving();
-	//const sf::IntRect& selection_rect 
-	//	= the_rect_selection_stuff.selection_rect;
-	//
-	//rect_selection_layer selection_layer 
-	//	= the_rect_selection_stuff.get_selection_layer();
-	//rect_selection_layer original_layer_of_pasted_selection
-	//	= the_rect_selection_stuff
-	//	.get_original_layer_of_pasted_selection();
-	//bool single_sprite_selected 
-	//	= the_rect_selection_stuff.get_single_sprite_selected();
-	//bool selection_was_pasted 
-	//	= the_rect_selection_stuff.get_selection_was_pasted();
-	//
-	//
-	//
-	//
-	//if ( single_sprite_selected )
-	//{
-	//	return;
-	//}
-	//
-	//
-	//// If a selection was not pasted, but not moved, don't update the undo
-	//// and redo stuff.
-	//if ( selection_rect == selection_rect_before_moving 
-	//	&& !selection_was_pasted )
-	//{
-	//	return;
-	//}
-	//
-	//undo_and_redo_stuff& ur_stuff 
-	//	= get_or_create_ur_stuff(the_core_widget);
-	//
-	//// Blocks were moved, but not pasted
-	//if ( selection_layer == rsl_blocks && !selection_was_pasted )
-	//{
-	//}
-	//// Blocks were pasted
-	//else if ( original_layer_of_pasted_selection == rsl_blocks 
-	//	&& selection_was_pasted )
-	//{
-	//	
-	//}
-	//// Sprites were moved, but not pasted
-	//else if ( selection_layer == rsl_sprites && selection_was_pasted )
-	//{
-	//}
-	//// Sprites were pasted
-	//else if ( original_layer_of_pasted_selection == rsl_sprites 
-	//	&& selection_was_pasted )
-	//{
-	//	
-	//}
-	//
-	//
+	sublevel* the_sublevel = the_core_widget->the_sublevel;
+	
+	sf::IntRect&& selection_rect_before_moving 
+		= the_rect_selection_stuff.get_selection_rect_before_moving();
+	const sf::IntRect& selection_rect 
+		= the_rect_selection_stuff.selection_rect;
+	
+	rect_selection_layer selection_layer 
+		= the_rect_selection_stuff.get_selection_layer();
+	rect_selection_layer original_layer_of_pasted_selection
+		= the_rect_selection_stuff
+		.get_original_layer_of_pasted_selection();
+	bool single_sprite_selected 
+		= the_rect_selection_stuff.get_single_sprite_selected();
+	bool selection_was_pasted 
+		= the_rect_selection_stuff.get_selection_was_pasted();
+	
+	
+	
+	
+	if ( single_sprite_selected )
+	{
+		return;
+	}
+	
+	
+	// If a selection was not pasted, but not moved, don't update the undo
+	// and redo stuff.
+	if ( selection_rect == selection_rect_before_moving 
+		&& !selection_was_pasted )
+	{
+		return;
+	}
+	
+	undo_and_redo_stuff& ur_stuff 
+		= get_or_create_ur_stuff(the_core_widget);
+	undo_and_redo_action& ur_action_to_push = ur_stuff.ur_action_to_push;
+	
+	// Blocks were moved, but not pasted
+	if ( selection_layer == rsl_blocks && !selection_was_pasted )
+	{
+		ur_action_to_push.the_action_type 
+			= at_finish_moving_non_pasted_blocks;
+		
+		ur_action_to_push.replaced_block_vec_2d.clear();
+		ur_action_to_push.moved_block_vec_2d 
+			= the_rect_selection_stuff.moving_block_vec_2d;
+		
+		
+		ur_action_to_push.moved_rs_starting_top_left_pos 
+			= vec2_s32( selection_rect_before_moving.left,
+			selection_rect_before_moving.top );
+		
+		ur_action_to_push.moved_rs_ending_top_left_pos 
+			= vec2_s32( selection_rect.left, selection_rect.top );
+		
+		
+		// Fill up ur_action_to_push.replaced_block_vec_2d
+		for ( s32 j=0; j<selection_rect.height; ++j )
+		{
+			ur_action_to_push.replaced_block_vec_2d.push_back
+				(vector<block>());
+			
+			for ( s32 i=0; i<selection_rect.width; ++i )
+			{
+				vec2_s32 original_block_grid_pos
+					( selection_rect_before_moving.left + i,
+					selection_rect_before_moving.top + j );
+				
+				if ( !the_sublevel->contains_block_grid_pos
+					(original_block_grid_pos) )
+				{
+					continue;
+				}
+				
+				const block& the_block = the_sublevel
+					->uncompressed_block_data_vec_2d
+					.at((u32)original_block_grid_pos.y)
+					.at((u32)original_block_grid_pos.x);
+				
+				ur_action_to_push.replaced_block_vec_2d.at(j)
+					.push_back(the_block);
+				
+			}
+		}
+		
+		cout << "editing_manager"
+			<< "::finalize_movement_of_rect_selection_contents()\n";
+		
+		cout << "selection_rect.width:  " << selection_rect.width
+			<< "; selection_rect.height:  " << selection_rect.height
+			<< "; selection_rect_before_moving.width:  "
+			<< selection_rect_before_moving.width
+			<< "; selection_rect_before_moving.height:  "
+			<< selection_rect_before_moving.height << endl;
+		
+		
+		
+	} // Blocks were pasted
+	else if ( original_layer_of_pasted_selection == rsl_blocks 
+		&& selection_was_pasted )
+	{
+		
+	}
+	// Sprites were moved, but not pasted
+	else if ( selection_layer == rsl_sprites && selection_was_pasted )
+	{
+		ur_action_to_push.moved_rs_starting_top_left_pos 
+			= vec2_s32( selection_rect_before_moving.left,
+			selection_rect_before_moving.top );
+		
+		ur_action_to_push.moved_rs_ending_top_left_pos 
+			= vec2_s32( selection_rect.left, selection_rect.top );
+		
+		
+	}
+	// Sprites were pasted
+	else if ( original_layer_of_pasted_selection == rsl_sprites 
+		&& selection_was_pasted )
+	{
+		
+	}
+	
+	
 	the_rect_selection_stuff.finalize_movement_of_selection_contents();
 }
 

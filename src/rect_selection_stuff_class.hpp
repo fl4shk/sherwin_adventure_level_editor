@@ -112,12 +112,12 @@ public:		// variables
 	
 	
 	// Stuff to move
-	vector< vector<block> > moving_blocks_vec_2d;
+	vector< vector<block> > moving_block_vec_2d;
 	vector< vector<sprite_init_param_group_with_size> >
 		moving_sprite_ipgws_vec_2d;
 	
 	// Stuff to paste
-	vector< vector<block> > copied_blocks_vec_2d;
+	vector< vector<block> > copied_block_vec_2d;
 	vector< vector<sprite_init_param_group_with_size> > 
 		copied_sprite_ipgws_vec_2d;
 	
