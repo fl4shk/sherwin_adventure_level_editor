@@ -752,15 +752,9 @@ void level_editor_sfml_canvas_widget::draw_visible_blocks
 					else //if ( !the_rect_selection_stuff
 						//.selection_still_being_created )
 					{
-						if ( (u32)j < the_rect_selection_stuff
-							.moving_block_vec_2d.size() 
-							&& (u32)i < the_rect_selection_stuff
-							.moving_block_vec_2d.back().size() )
-						{
-							draw_block( &(the_rect_selection_stuff
-								.moving_block_vec_2d.at(j).at(i)), 
-								block_grid_pos );
-						}
+						draw_block( &(the_rect_selection_stuff
+							.moving_block_vec_2d.at(j).at(i)), 
+							block_grid_pos );
 					}
 				}
 			}
@@ -778,11 +772,8 @@ void level_editor_sfml_canvas_widget::draw_visible_blocks
 				vec2_s32 block_grid_pos( selection_rect.left + i,
 					selection_rect.top + j );
 				
-				if ( the_sublevel->contains_block_grid_pos(block_grid_pos) 
-					&& (u32)j < the_rect_selection_stuff
-					.copied_block_vec_2d.size() 
-					&& (u32)i < the_rect_selection_stuff
-					.copied_block_vec_2d.back().size() )
+				if ( the_sublevel->contains_block_grid_pos
+					(block_grid_pos) )
 				{
 					draw_block( &(the_rect_selection_stuff
 						.copied_block_vec_2d.at(j).at(i)), 
@@ -1019,16 +1010,9 @@ void level_editor_sfml_canvas_widget::draw_visible_16x32_sprites
 						else //if ( !the_rect_selection_stuff
 							//.selection_still_being_created )
 						{
-							if ( (u32)j < the_rect_selection_stuff
-								.moving_sprite_ipgws_vec_2d.size() 
-								&& (u32)i < the_rect_selection_stuff
-								.moving_sprite_ipgws_vec_2d.back().size() )
-							{
-								draw_16x32_sprite
-									( &(the_rect_selection_stuff
-									.moving_sprite_ipgws_vec_2d
-									.at(j).at(i)), block_grid_pos );
-							}
+							draw_16x32_sprite( &(the_rect_selection_stuff
+								.moving_sprite_ipgws_vec_2d
+								.at(j).at(i)), block_grid_pos );
 						}
 					}
 				}
@@ -1046,13 +1030,8 @@ void level_editor_sfml_canvas_widget::draw_visible_16x32_sprites
 					vec2_s32 block_grid_pos( selection_rect.left + i,
 						selection_rect.top + j );
 					
-					
 					if ( the_sublevel->contains_block_grid_pos
-						(block_grid_pos) 
-						&& (u32)j < the_rect_selection_stuff
-						.copied_sprite_ipgws_vec_2d.size() 
-						&& (u32)i < the_rect_selection_stuff
-						.copied_sprite_ipgws_vec_2d.back().size() )
+						(block_grid_pos) )
 					{
 						draw_16x32_sprite( &( the_rect_selection_stuff
 							.copied_sprite_ipgws_vec_2d.at(j).at(i)),
@@ -1207,16 +1186,10 @@ void level_editor_sfml_canvas_widget::draw_visible_16x16_sprites
 						else //if ( the_rect_selection_stuff
 							//.selection_still_being_created )
 						{
-							if ( (u32)j < the_rect_selection_stuff
-								.moving_sprite_ipgws_vec_2d.size() 
-								&& (u32)i < the_rect_selection_stuff
-								.moving_sprite_ipgws_vec_2d.back().size() )
-							{
-								draw_16x16_sprite
-									( &(the_rect_selection_stuff
-									.moving_sprite_ipgws_vec_2d
-									.at(j).at(i)), block_grid_pos );
-							}
+							draw_16x16_sprite
+								( &(the_rect_selection_stuff
+								.moving_sprite_ipgws_vec_2d
+								.at(j).at(i)), block_grid_pos );
 						}
 					}
 				}
@@ -1236,11 +1209,7 @@ void level_editor_sfml_canvas_widget::draw_visible_16x16_sprites
 					
 					
 					if ( the_sublevel->contains_block_grid_pos
-						(block_grid_pos) 
-						&& (u32)j < the_rect_selection_stuff
-						.copied_sprite_ipgws_vec_2d.size() 
-						&& (u32)i < the_rect_selection_stuff
-						.copied_sprite_ipgws_vec_2d.back().size() )
+						(block_grid_pos) )
 					{
 						draw_16x16_sprite( &( the_rect_selection_stuff
 							.copied_sprite_ipgws_vec_2d.at(j).at(i)),
