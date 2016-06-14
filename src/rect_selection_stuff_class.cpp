@@ -722,11 +722,6 @@ void rect_selection_stuff::copy_selection_contents()
 					( selection_rect_before_moving.left + i,
 					selection_rect_before_moving.top + j );
 				
-				copied_sprite_ipgws_vec_2d.at(j).push_back( the_sublevel
-					->sprite_ipgws_vec_2d
-					.at((u32)original_block_grid_pos.y)
-					.at((u32)original_block_grid_pos.x) );
-				
 				if ( the_sublevel->contains_block_grid_pos
 					(original_block_grid_pos) )
 				{

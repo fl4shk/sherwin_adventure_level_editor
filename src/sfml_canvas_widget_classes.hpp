@@ -347,9 +347,14 @@ protected:		// functions
 	// Functions for preparing for drawing level elements
 	void prepare_for_drawing_blocks
 		( sf::Sprite& sprite_for_drawing_level_elements );
-	void prepare_for_drawing_16x32_sprites
+	void prepare_for_drawing_16x32_sprites_part_1
 		( sf::Sprite& sprite_for_drawing_level_elements );
-	void prepare_for_drawing_16x16_sprites
+	void prepare_for_drawing_16x16_sprites_part_1
+		( sf::Sprite& sprite_for_drawing_level_elements );
+	
+	void prepare_for_drawing_16x32_sprites_part_2
+		( sf::Sprite& sprite_for_drawing_level_elements );
+	void prepare_for_drawing_16x16_sprites_part_2
 		( sf::Sprite& sprite_for_drawing_level_elements );
 	
 	
@@ -369,13 +374,32 @@ protected:		// functions
 		sprite_init_param_group_with_size* the_sprite_ipgws,
 		const vec2_s32& block_grid_pos );
 	
-	void draw_visible_16x32_sprites
+	
+	// Draw sprites that are NOT inside the rectangular selection, if there
+	// is one, but NOT the ones that have been MOVED if the rectangular
+	// selection was not pasted
+	void draw_visible_16x32_sprites_part_1
 		( sf::Sprite& sprite_for_drawing_level_elements,
 		const vec2<double>& visible_block_grid_start_pos,
 		const vec2<double>& visible_block_grid_size_2d,
 		const sf::IntRect& selection_rect_before_moving );
 	
-	void draw_visible_16x16_sprites
+	void draw_visible_16x16_sprites_part_1
+		( sf::Sprite& sprite_for_drawing_level_elements,
+		const vec2<double>& visible_block_grid_start_pos,
+		const vec2<double>& visible_block_grid_size_2d,
+		const sf::IntRect& selection_rect_before_moving );
+	
+	
+	// Draw sprites that ARE inside of the rectangular selection, if there
+	// is one
+	void draw_visible_16x32_sprites_part_2
+		( sf::Sprite& sprite_for_drawing_level_elements,
+		const vec2<double>& visible_block_grid_start_pos,
+		const vec2<double>& visible_block_grid_size_2d,
+		const sf::IntRect& selection_rect_before_moving );
+	
+	void draw_visible_16x16_sprites_part_2
 		( sf::Sprite& sprite_for_drawing_level_elements,
 		const vec2<double>& visible_block_grid_start_pos,
 		const vec2<double>& visible_block_grid_size_2d,

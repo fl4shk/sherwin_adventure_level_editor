@@ -455,7 +455,8 @@ void level_editor_sfml_canvas_widget::prepare_for_drawing_blocks
 	num_drawn_blocks = 0;
 }
 
-void level_editor_sfml_canvas_widget::prepare_for_drawing_16x32_sprites
+void level_editor_sfml_canvas_widget
+	::prepare_for_drawing_16x32_sprites_part_1
 	( sf::Sprite& sprite_for_drawing_level_elements )
 {
 	sprite_for_drawing_level_elements.setTexture
@@ -464,7 +465,8 @@ void level_editor_sfml_canvas_widget::prepare_for_drawing_16x32_sprites
 	num_drawn_16x32_sprites = 0;
 }
 
-void level_editor_sfml_canvas_widget::prepare_for_drawing_16x16_sprites
+void level_editor_sfml_canvas_widget
+	::prepare_for_drawing_16x16_sprites_part_1
 	( sf::Sprite& sprite_for_drawing_level_elements )
 {
 	sprite_for_drawing_level_elements.setTexture
@@ -472,6 +474,26 @@ void level_editor_sfml_canvas_widget::prepare_for_drawing_16x16_sprites
 		->get_level_element_gfx_raw_texture());
 	num_drawn_16x16_sprites = 0;
 }
+
+
+void level_editor_sfml_canvas_widget
+	::prepare_for_drawing_16x32_sprites_part_2
+	( sf::Sprite& sprite_for_drawing_level_elements )
+{
+	sprite_for_drawing_level_elements.setTexture
+		(the_sprite_16x32_selector_core_widget
+		->get_level_element_gfx_raw_texture());
+}
+void level_editor_sfml_canvas_widget
+	::prepare_for_drawing_16x16_sprites_part_2
+	( sf::Sprite& sprite_for_drawing_level_elements )
+{
+	sprite_for_drawing_level_elements.setTexture
+		(the_sprite_16x16_selector_core_widget
+		->get_level_element_gfx_raw_texture());
+}
+
+
 
 
 void level_editor_sfml_canvas_widget::update_visible_area()
@@ -571,13 +593,24 @@ void level_editor_sfml_canvas_widget::update_visible_area()
 		visible_block_grid_start_pos, visible_block_grid_size_2d,
 		selection_rect_before_moving );
 	
-	// Draw 16x32 sprites
-	draw_visible_16x32_sprites( sprite_for_drawing_level_elements,
+	// Draw 16x32 sprites, part 1
+	draw_visible_16x32_sprites_part_1( sprite_for_drawing_level_elements,
 		visible_block_grid_start_pos, visible_block_grid_size_2d,
 		selection_rect_before_moving );
 	
-	// Draw 16x16 sprites
-	draw_visible_16x16_sprites( sprite_for_drawing_level_elements,
+	// Draw 16x16 sprites, part 1
+	draw_visible_16x16_sprites_part_1( sprite_for_drawing_level_elements,
+		visible_block_grid_start_pos, visible_block_grid_size_2d,
+		selection_rect_before_moving );
+	
+	
+	// Draw 16x32 sprites, part 2
+	draw_visible_16x32_sprites_part_2( sprite_for_drawing_level_elements,
+		visible_block_grid_start_pos, visible_block_grid_size_2d,
+		selection_rect_before_moving );
+	
+	// Draw 16x16 sprites, part 2
+	draw_visible_16x16_sprites_part_2( sprite_for_drawing_level_elements,
 		visible_block_grid_start_pos, visible_block_grid_size_2d,
 		selection_rect_before_moving );
 	
@@ -860,7 +893,7 @@ void level_editor_sfml_canvas_widget::draw_sprite_shared_code
 	}
 }
 
-void level_editor_sfml_canvas_widget::draw_visible_16x32_sprites
+void level_editor_sfml_canvas_widget::draw_visible_16x32_sprites_part_1
 	( sf::Sprite& sprite_for_drawing_level_elements,
 	const vec2<double>& visible_block_grid_start_pos,
 	const vec2<double>& visible_block_grid_size_2d,
@@ -869,7 +902,8 @@ void level_editor_sfml_canvas_widget::draw_visible_16x32_sprites
 	const sf::IntRect& selection_rect 
 		= the_rect_selection_stuff.selection_rect;
 	
-	prepare_for_drawing_16x32_sprites(sprite_for_drawing_level_elements);
+	prepare_for_drawing_16x32_sprites_part_1
+		(sprite_for_drawing_level_elements);
 	
 	auto draw_16x32_sprite = [&]
 		( sprite_init_param_group_with_size* the_sprite_ipgws,
@@ -967,83 +1001,10 @@ void level_editor_sfml_canvas_widget::draw_visible_16x32_sprites
 	//cout << endl;
 	
 	
-	// Draw sprites within the selection rect if the selection WAS pasted.
-	if ( the_rect_selection_stuff.get_enabled()
-		&& !the_rect_selection_stuff.single_sprite_selected)
-	{
-		if ( the_rect_selection_stuff.selection_layer == rsl_blocks 
-			&& !the_rect_selection_stuff.selection_was_pasted )
-		{
-		}
-		else if ( the_rect_selection_stuff.selection_layer == rsl_sprites 
-			&& !the_rect_selection_stuff.selection_was_pasted )
-		{
-			for ( s32 j=0; j<selection_rect_before_moving.height; ++j )
-			{
-				for ( s32 i=0; i<selection_rect_before_moving.width; ++i )
-				{
-					vec2_s32 block_grid_pos( selection_rect.left + i,
-						selection_rect.top + j );
-					
-					
-					
-					if ( the_sublevel->contains_block_grid_pos
-						(block_grid_pos) )
-					{
-						if ( the_rect_selection_stuff
-							.selection_still_being_created )
-						{
-							vec2_s32 original_block_grid_pos
-								( selection_rect_before_moving.left + i,
-								selection_rect_before_moving.top + j );
-							
-							if ( the_sublevel->contains_block_grid_pos
-								(original_block_grid_pos) )
-							{
-								draw_16x32_sprite
-									( &(the_sublevel->sprite_ipgws_vec_2d
-									.at(original_block_grid_pos.y)
-									.at(original_block_grid_pos.x)), 
-									block_grid_pos );
-							}
-						}
-						else //if ( !the_rect_selection_stuff
-							//.selection_still_being_created )
-						{
-							draw_16x32_sprite( &(the_rect_selection_stuff
-								.moving_sprite_ipgws_vec_2d
-								.at(j).at(i)), block_grid_pos );
-						}
-					}
-				}
-			}
-		}
-		else if 
-			( the_rect_selection_stuff.original_layer_of_pasted_selection
-			== rsl_sprites 
-			&& the_rect_selection_stuff.selection_was_pasted )
-		{
-			for ( s32 j=0; j<selection_rect.height; ++j )
-			{
-				for ( s32 i=0; i<selection_rect.width; ++i )
-				{
-					vec2_s32 block_grid_pos( selection_rect.left + i,
-						selection_rect.top + j );
-					
-					if ( the_sublevel->contains_block_grid_pos
-						(block_grid_pos) )
-					{
-						draw_16x32_sprite( &( the_rect_selection_stuff
-							.copied_sprite_ipgws_vec_2d.at(j).at(i)),
-							block_grid_pos );
-					}
-				}
-			}
-		}
-	}
+	
 }
 
-void level_editor_sfml_canvas_widget::draw_visible_16x16_sprites
+void level_editor_sfml_canvas_widget::draw_visible_16x16_sprites_part_1
 	( sf::Sprite& sprite_for_drawing_level_elements,
 	const vec2<double>& visible_block_grid_start_pos,
 	const vec2<double>& visible_block_grid_size_2d,
@@ -1052,7 +1013,8 @@ void level_editor_sfml_canvas_widget::draw_visible_16x16_sprites
 	const sf::IntRect& selection_rect 
 		= the_rect_selection_stuff.selection_rect;
 	
-	prepare_for_drawing_16x16_sprites(sprite_for_drawing_level_elements);
+	prepare_for_drawing_16x16_sprites_part_1
+		(sprite_for_drawing_level_elements);
 	
 	auto draw_16x16_sprite = [&]
 		( sprite_init_param_group_with_size* the_sprite_ipgws,
@@ -1142,6 +1104,157 @@ void level_editor_sfml_canvas_widget::draw_visible_16x16_sprites
 	//cout << num_drawn_16x16_sprites << endl;
 	//cout << endl;
 	
+	
+}
+
+void level_editor_sfml_canvas_widget::draw_visible_16x32_sprites_part_2
+	( sf::Sprite& sprite_for_drawing_level_elements,
+	const vec2<double>& visible_block_grid_start_pos,
+	const vec2<double>& visible_block_grid_size_2d,
+	const sf::IntRect& selection_rect_before_moving )
+{
+	const sf::IntRect& selection_rect 
+		= the_rect_selection_stuff.selection_rect;
+	
+	prepare_for_drawing_16x32_sprites_part_2
+		(sprite_for_drawing_level_elements);
+	
+	auto draw_16x32_sprite = [&]
+		( sprite_init_param_group_with_size* the_sprite_ipgws,
+		const vec2_s32& block_grid_pos ) -> void
+	{
+		if ( the_sprite_ipgws->type != st_default 
+			&& the_sprite_ipgws->size_2d.x == 16
+			&& the_sprite_ipgws->size_2d.y == 32 )
+		{
+			sprite_for_drawing_level_elements.setTextureRect
+				( the_sprite_16x32_selector_core_widget
+				->get_texture_rect_of_other_index
+				(the_sprite_ipgws->type) );
+			
+			draw_sprite_shared_code( sprite_for_drawing_level_elements, 
+				the_sprite_ipgws, block_grid_pos );
+			
+			++num_drawn_16x32_sprites;
+			
+			//cout << endl;
+		}
+	};
+	
+	// Draw sprites within the selection rect if the selection WAS pasted.
+	if ( the_rect_selection_stuff.get_enabled()
+		&& !the_rect_selection_stuff.single_sprite_selected)
+	{
+		if ( the_rect_selection_stuff.selection_layer == rsl_blocks 
+			&& !the_rect_selection_stuff.selection_was_pasted )
+		{
+		}
+		else if ( the_rect_selection_stuff.selection_layer == rsl_sprites 
+			&& !the_rect_selection_stuff.selection_was_pasted )
+		{
+			for ( s32 j=0; j<selection_rect_before_moving.height; ++j )
+			{
+				for ( s32 i=0; i<selection_rect_before_moving.width; ++i )
+				{
+					vec2_s32 block_grid_pos( selection_rect.left + i,
+						selection_rect.top + j );
+					
+					
+					
+					if ( the_sublevel->contains_block_grid_pos
+						(block_grid_pos) )
+					{
+						if ( the_rect_selection_stuff
+							.selection_still_being_created )
+						{
+							vec2_s32 original_block_grid_pos
+								( selection_rect_before_moving.left + i,
+								selection_rect_before_moving.top + j );
+							
+							if ( the_sublevel->contains_block_grid_pos
+								(original_block_grid_pos) )
+							{
+								draw_16x32_sprite
+									( &(the_sublevel->sprite_ipgws_vec_2d
+									.at(original_block_grid_pos.y)
+									.at(original_block_grid_pos.x)), 
+									block_grid_pos );
+							}
+						}
+						else //if ( !the_rect_selection_stuff
+							//.selection_still_being_created )
+						{
+							draw_16x32_sprite( &(the_rect_selection_stuff
+								.moving_sprite_ipgws_vec_2d
+								.at(j).at(i)), block_grid_pos );
+						}
+					}
+				}
+			}
+		}
+		else if 
+			( the_rect_selection_stuff.original_layer_of_pasted_selection
+			== rsl_sprites 
+			&& the_rect_selection_stuff.selection_was_pasted )
+		{
+			for ( s32 j=0; j<selection_rect.height; ++j )
+			{
+				for ( s32 i=0; i<selection_rect.width; ++i )
+				{
+					vec2_s32 block_grid_pos( selection_rect.left + i,
+						selection_rect.top + j );
+					
+					if ( the_sublevel->contains_block_grid_pos
+						(block_grid_pos) )
+					{
+						draw_16x32_sprite( &( the_rect_selection_stuff
+							.copied_sprite_ipgws_vec_2d.at(j).at(i)),
+							block_grid_pos );
+					}
+				}
+			}
+		}
+	}
+}
+
+
+void level_editor_sfml_canvas_widget::draw_visible_16x16_sprites_part_2
+	( sf::Sprite& sprite_for_drawing_level_elements,
+	const vec2<double>& visible_block_grid_start_pos,
+	const vec2<double>& visible_block_grid_size_2d,
+	const sf::IntRect& selection_rect_before_moving )
+{
+	const sf::IntRect& selection_rect 
+		= the_rect_selection_stuff.selection_rect;
+	
+	prepare_for_drawing_16x16_sprites_part_2
+		(sprite_for_drawing_level_elements);
+	
+	auto draw_16x16_sprite = [&]
+		( sprite_init_param_group_with_size* the_sprite_ipgws,
+		const vec2_s32& block_grid_pos ) -> void
+	{
+		if ( the_sprite_ipgws->type != st_default 
+			&& the_sprite_ipgws->size_2d.x == 16
+			&& the_sprite_ipgws->size_2d.y == 16 )
+		{
+			sprite_for_drawing_level_elements.setTextureRect
+				( the_sprite_16x16_selector_core_widget
+				->get_texture_rect_of_other_index
+				(the_sprite_ipgws->type) );
+			
+			
+			draw_sprite_shared_code( sprite_for_drawing_level_elements, 
+				the_sprite_ipgws, block_grid_pos );
+			
+			
+			++num_drawn_16x16_sprites;
+			
+			//cout << endl;
+		}
+	};
+	
+	
 	if ( the_rect_selection_stuff.get_enabled()
 		&& !the_rect_selection_stuff.single_sprite_selected)
 	{
@@ -1219,9 +1332,7 @@ void level_editor_sfml_canvas_widget::draw_visible_16x16_sprites
 			}
 		}
 	}
-	
 }
-
 
 void level_editor_sfml_canvas_widget::on_update()
 {
