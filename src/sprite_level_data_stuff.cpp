@@ -84,7 +84,7 @@ void adj_sprite_ipgws_ptr_group_16x16::erase_overlapping_sprites()
 	#define macro_to_erase_overlapping_sprite(rel_pos) \
 		if ( overlaps_##rel_pos() ) \
 		{ \
-			*rel_pos##_ptr = sprite_init_param_group_with_size(); \
+			*rel_pos##_ptr = sprite_ipgws(); \
 		}
 	
 	list_of_16x16_sprite_pg_stuff(macro_to_erase_overlapping_sprite);
@@ -161,7 +161,7 @@ void adj_sprite_ipgws_ptr_group_16x32::erase_overlapping_sprites()
 	#define macro_to_erase_overlapping_sprite(rel_pos) \
 		if ( overlaps_##rel_pos() ) \
 		{ \
-			*rel_pos##_ptr = sprite_init_param_group_with_size(); \
+			*rel_pos##_ptr = sprite_ipgws(); \
 		}
 	
 	list_of_16x32_sprite_pg_stuff(macro_to_erase_overlapping_sprite);
@@ -248,7 +248,7 @@ void adj_sprite_ipgws_ptr_group_32x32::erase_overlapping_sprites()
 	#define macro_to_erase_overlapping_sprite(rel_pos) \
 		if ( overlaps_##rel_pos() ) \
 		{ \
-			*rel_pos##_ptr = sprite_init_param_group_with_size(); \
+			*rel_pos##_ptr = sprite_ipgws(); \
 		}
 	
 	list_of_32x32_sprite_pg_stuff(macro_to_erase_overlapping_sprite);

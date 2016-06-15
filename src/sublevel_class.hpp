@@ -95,12 +95,12 @@ public:		// variables
 	// case.
 	// Also note that COLUMNS are stored in the INNER VECTOR!  That means
 	// that this vector of vectors should be indexed as [y][x]!
-	vector< vector<sprite_init_param_group_with_size> > 
+	vector< vector<sprite_ipgws> > 
 		sprite_ipgws_vec_2d;
 	
 	
 	// sprite_ipgws_vec_for_xml can also have a variable size.
-	vector<sprite_init_param_group_with_size> sprite_ipgws_vec_for_xml;
+	vector<sprite_ipgws> sprite_ipgws_vec_for_xml;
 	
 	// sprite_ipg_vec_for_exporting can also have a variable size.
 	vector<sprite_init_param_group> sprite_ipg_vec_for_exporting;

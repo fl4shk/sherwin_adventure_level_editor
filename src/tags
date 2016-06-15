@@ -57,19 +57,19 @@ adj_sprite_ipgws_ptr_group_base::down_right_ptr	sprite_level_data_stuff.hpp	/^		
 adj_sprite_ipgws_ptr_group_base::erase_overlapping_sprites	sprite_level_data_stuff.hpp	/^	virtual void erase_overlapping_sprites() = 0;$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_base	access:public	signature:()
 adj_sprite_ipgws_ptr_group_base::left_ptr	sprite_level_data_stuff.hpp	/^		* left_ptr, * origin_ptr, * right_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
 adj_sprite_ipgws_ptr_group_base::origin_ptr	sprite_level_data_stuff.hpp	/^		* left_ptr, * origin_ptr, * right_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
-adj_sprite_ipgws_ptr_group_base::overlaps_down	sprite_level_data_stuff.hpp	/^	inline bool overlaps_down() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
-adj_sprite_ipgws_ptr_group_base::overlaps_down_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_down_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
-adj_sprite_ipgws_ptr_group_base::overlaps_down_right	sprite_level_data_stuff.hpp	/^	inline bool overlaps_down_right() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
-adj_sprite_ipgws_ptr_group_base::overlaps_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
-adj_sprite_ipgws_ptr_group_base::overlaps_origin	sprite_level_data_stuff.hpp	/^	inline bool overlaps_origin() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
-adj_sprite_ipgws_ptr_group_base::overlaps_right	sprite_level_data_stuff.hpp	/^	inline bool overlaps_right() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
-adj_sprite_ipgws_ptr_group_base::overlaps_up	sprite_level_data_stuff.hpp	/^	inline bool overlaps_up() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
-adj_sprite_ipgws_ptr_group_base::overlaps_up_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_up_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
-adj_sprite_ipgws_ptr_group_base::overlaps_up_right	sprite_level_data_stuff.hpp	/^	inline bool overlaps_up_right() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
+adj_sprite_ipgws_ptr_group_base::overlaps_down	sprite_level_data_stuff.hpp	/^	inline bool overlaps_down() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:public	signature:() const
+adj_sprite_ipgws_ptr_group_base::overlaps_down_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_down_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:public	signature:() const
+adj_sprite_ipgws_ptr_group_base::overlaps_down_right	sprite_level_data_stuff.hpp	/^	inline bool overlaps_down_right() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:public	signature:() const
+adj_sprite_ipgws_ptr_group_base::overlaps_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:public	signature:() const
+adj_sprite_ipgws_ptr_group_base::overlaps_origin	sprite_level_data_stuff.hpp	/^	inline bool overlaps_origin() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:public	signature:() const
+adj_sprite_ipgws_ptr_group_base::overlaps_right	sprite_level_data_stuff.hpp	/^	inline bool overlaps_right() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:public	signature:() const
+adj_sprite_ipgws_ptr_group_base::overlaps_up	sprite_level_data_stuff.hpp	/^	inline bool overlaps_up() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:public	signature:() const
+adj_sprite_ipgws_ptr_group_base::overlaps_up_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_up_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:public	signature:() const
+adj_sprite_ipgws_ptr_group_base::overlaps_up_right	sprite_level_data_stuff.hpp	/^	inline bool overlaps_up_right() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:public	signature:() const
 adj_sprite_ipgws_ptr_group_base::right_ptr	sprite_level_data_stuff.hpp	/^		* left_ptr, * origin_ptr, * right_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
-adj_sprite_ipgws_ptr_group_base::up_left_ptr	sprite_level_data_stuff.hpp	/^		* up_left_ptr, * up_ptr, * up_right_ptr,$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
-adj_sprite_ipgws_ptr_group_base::up_ptr	sprite_level_data_stuff.hpp	/^		* up_left_ptr, * up_ptr, * up_right_ptr,$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
-adj_sprite_ipgws_ptr_group_base::up_right_ptr	sprite_level_data_stuff.hpp	/^		* up_left_ptr, * up_ptr, * up_right_ptr,$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
+adj_sprite_ipgws_ptr_group_base::up_left_ptr	sprite_level_data_stuff.hpp	/^	sprite_ipgws * up_left_ptr, * up_ptr, * up_right_ptr,$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
+adj_sprite_ipgws_ptr_group_base::up_ptr	sprite_level_data_stuff.hpp	/^	sprite_ipgws * up_left_ptr, * up_ptr, * up_right_ptr,$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
+adj_sprite_ipgws_ptr_group_base::up_right_ptr	sprite_level_data_stuff.hpp	/^	sprite_ipgws * up_left_ptr, * up_ptr, * up_right_ptr,$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
 adj_sprite_ipgws_ptr_group_for_selecting_sprite	sprite_level_data_stuff.cpp	/^	::adj_sprite_ipgws_ptr_group_for_selecting_sprite$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_selecting_sprite	signature:( sublevel& the_sublevel, u32 mouse_pos_block_grid_x_coord, u32 mouse_pos_block_grid_y_coord )
 adj_sprite_ipgws_ptr_group_for_selecting_sprite	sprite_level_data_stuff.hpp	/^	adj_sprite_ipgws_ptr_group_for_selecting_sprite$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_for_selecting_sprite	access:public	signature:( sublevel& the_sublevel, u32 mouse_pos_block_grid_x_coord, u32 mouse_pos_block_grid_y_coord )
 adj_sprite_ipgws_ptr_group_for_selecting_sprite	sprite_level_data_stuff.hpp	/^	inline adj_sprite_ipgws_ptr_group_for_selecting_sprite()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_selecting_sprite	access:public	signature:()
@@ -80,8 +80,8 @@ adj_sprite_ipgws_ptr_group_for_selecting_sprite::adj_sprite_ipgws_ptr_group_for_
 adj_sprite_ipgws_ptr_group_for_selecting_sprite::down_left_ptr	sprite_level_data_stuff.hpp	/^		* down_left_ptr, * down_right_ptr, * origin_ptr;$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_selecting_sprite	access:public
 adj_sprite_ipgws_ptr_group_for_selecting_sprite::down_right_ptr	sprite_level_data_stuff.hpp	/^		* down_left_ptr, * down_right_ptr, * origin_ptr;$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_selecting_sprite	access:public
 adj_sprite_ipgws_ptr_group_for_selecting_sprite::origin_ptr	sprite_level_data_stuff.hpp	/^		* down_left_ptr, * down_right_ptr, * origin_ptr;$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_selecting_sprite	access:public
-adj_sprite_ipgws_ptr_group_for_selecting_sprite::up_left_ptr	sprite_level_data_stuff.hpp	/^	sprite_init_param_group_with_size * up_left_ptr, * up_right_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_selecting_sprite	access:public
-adj_sprite_ipgws_ptr_group_for_selecting_sprite::up_right_ptr	sprite_level_data_stuff.hpp	/^	sprite_init_param_group_with_size * up_left_ptr, * up_right_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_selecting_sprite	access:public
+adj_sprite_ipgws_ptr_group_for_selecting_sprite::up_left_ptr	sprite_level_data_stuff.hpp	/^	sprite_ipgws * up_left_ptr, * up_right_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_selecting_sprite	access:public
+adj_sprite_ipgws_ptr_group_for_selecting_sprite::up_right_ptr	sprite_level_data_stuff.hpp	/^	sprite_ipgws * up_left_ptr, * up_right_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_selecting_sprite	access:public
 apparent_view	sfml_canvas_widget_classes.hpp	/^	sf::View apparent_view;$/;"	kind:m	class:level_editor_sfml_canvas_widget	access:protected
 argv_copy	level_editor_widget_class.hpp	/^	vector<string>* argv_copy;$/;"	kind:m	class:level_editor_widget	access:public
 argv_copy	primary_widget_class.hpp	/^	vector<string> argv_copy;$/;"	kind:m	class:primary_widget	access:protected
@@ -204,23 +204,23 @@ closeEvent	primary_widget_class.hpp	/^	inline void closeEvent( QCloseEvent* even
 compressed_block_data_vec	sublevel_class.hpp	/^	vector<u32> compressed_block_data_vec;$/;"	kind:m	class:sublevel	access:public
 contains_block_grid_pos	sublevel_class.hpp	/^	inline bool contains_block_grid_pos$/;"	kind:f	class:sublevel	access:public	signature:( const sf::Vector2i& block_grid_pos ) const
 contains_block_grid_pos	sublevel_class.hpp	/^	inline bool contains_block_grid_pos( const vec2_s32& block_grid_pos )$/;"	kind:f	class:sublevel	access:public	signature:( const vec2_s32& block_grid_pos ) const
-continue_creating_selection	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::continue_creating_selection$/;"	kind:f	class:rect_selection_stuff	signature:( const vec2_s32& curr_block_grid_coords_of_mouse )
-continue_creating_selection	rect_selection_stuff_class.hpp	/^	void continue_creating_selection$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( const vec2_s32& curr_block_grid_coords_of_mouse )
-continue_moving_selection_contents	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::continue_moving_selection_contents$/;"	kind:f	class:rect_selection_stuff	signature:( const vec2_s32 curr_block_grid_coords_of_mouse )
-continue_moving_selection_contents	rect_selection_stuff_class.hpp	/^	void continue_moving_selection_contents$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( const vec2_s32 curr_block_grid_coords_of_mouse )
+continue_creating_rs	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::continue_creating_rs$/;"	kind:f	class:rect_selection_stuff	signature:( const vec2_s32& curr_block_grid_coords_of_mouse )
+continue_creating_rs	rect_selection_stuff_class.hpp	/^	void continue_creating_rs$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( const vec2_s32& curr_block_grid_coords_of_mouse )
+continue_moving_rs_contents	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::continue_moving_rs_contents$/;"	kind:f	class:rect_selection_stuff	signature:( const vec2_s32 curr_block_grid_coords_of_mouse )
+continue_moving_rs_contents	rect_selection_stuff_class.hpp	/^	void continue_moving_rs_contents$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( const vec2_s32 curr_block_grid_coords_of_mouse )
 convert_range	misc_funcs.hpp	/^inline type convert_range( type val_old, type min_old, type max_old, $/;"	kind:f	signature:( type val_old, type min_old, type max_old, type min_new, type max_new )
 copied_block_vec_2d	rect_selection_stuff_class.hpp	/^	vector< vector<block> > copied_block_vec_2d;$/;"	kind:m	class:rect_selection_stuff	access:public
 copied_sprite_ipgws_vec_2d	rect_selection_stuff_class.hpp	/^		copied_sprite_ipgws_vec_2d;$/;"	kind:m	class:rect_selection_stuff	access:public
-copy_selection_contents	editing_manager_class.cpp	/^void editing_manager::copy_selection_contents$/;"	kind:f	class:editing_manager	signature:( rect_selection_stuff& the_rect_selection_stuff )
-copy_selection_contents	editing_manager_class.hpp	/^	void copy_selection_contents$/;"	kind:p	class:editing_manager	access:protected	signature:( rect_selection_stuff& the_rect_selection_stuff )
-copy_selection_contents	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::copy_selection_contents()$/;"	kind:f	class:rect_selection_stuff	signature:()
-copy_selection_contents	rect_selection_stuff_class.hpp	/^	void copy_selection_contents();$/;"	kind:p	class:rect_selection_stuff	access:public	signature:()
+copy_rs_contents	editing_manager_class.cpp	/^void editing_manager::copy_rs_contents$/;"	kind:f	class:editing_manager	signature:( rect_selection_stuff& the_rect_selection_stuff )
+copy_rs_contents	editing_manager_class.hpp	/^	void copy_rs_contents$/;"	kind:p	class:editing_manager	access:protected	signature:( rect_selection_stuff& the_rect_selection_stuff )
+copy_rs_contents	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::copy_rs_contents()$/;"	kind:f	class:rect_selection_stuff	signature:()
+copy_rs_contents	rect_selection_stuff_class.hpp	/^	void copy_rs_contents();$/;"	kind:p	class:rect_selection_stuff	access:public	signature:()
 core_widget_scroll_area_vec	level_editor_widget_class.hpp	/^	vector< unique_ptr<QScrollArea> > core_widget_scroll_area_vec;$/;"	kind:m	class:level_editor_widget	access:public
 core_widgets_tab_widget	level_editor_widget_class.hpp	/^	unique_ptr<QTabWidget> core_widgets_tab_widget;$/;"	kind:m	class:level_editor_widget	access:public
 create_sublevel_properties_widget	level_editor_widget_class.cpp	/^void level_editor_widget::create_sublevel_properties_widget()$/;"	kind:f	class:level_editor_widget	signature:()
 create_sublevel_properties_widget	level_editor_widget_class.hpp	/^	void create_sublevel_properties_widget();$/;"	kind:p	class:level_editor_widget	access:public	signature:()
 curr_block_map	undo_and_redo_stack_class.hpp	/^	map< vec2_s32, block > prev_block_map, curr_block_map;$/;"	kind:m	class:undo_and_redo_action	access:public
-curr_sprite_ipgws	undo_and_redo_stack_class.hpp	/^	sprite_init_param_group_with_size prev_sprite_ipgws, curr_sprite_ipgws;$/;"	kind:m	class:undo_and_redo_action	access:public
+curr_sprite_ipgws	undo_and_redo_stack_class.hpp	/^	sprite_ipgws prev_sprite_ipgws, curr_sprite_ipgws;$/;"	kind:m	class:undo_and_redo_action	access:public
 current_position	level_editor_core_widget_class.hpp	/^	QPoint current_position;$/;"	kind:m	class:level_editor_core_widget	access:public
 current_size	level_editor_core_widget_class.hpp	/^	QSize current_size;$/;"	kind:m	class:level_editor_core_widget	access:public
 data	fixed24p8_class.hpp	/^	s32 data;$/;"	kind:m	class:fixed24p8	access:public
@@ -260,8 +260,8 @@ draw_mode_icon_file_name	primary_widget_class.hpp	/^	static const QString laugh_
 draw_mode_tool_button	mouse_mode_button_group_widget_class.hpp	/^	unique_ptr<QToolButton> draw_mode_tool_button,$/;"	kind:m	class:mouse_mode_button_group_widget	access:public
 draw_mode_tool_button_action	mouse_mode_button_group_widget_class.hpp	/^	QAction* draw_mode_tool_button_action, $/;"	kind:m	class:mouse_mode_button_group_widget	access:public
 draw_mode_tool_button_action	primary_widget_class.hpp	/^	QAction * draw_mode_tool_button_action,$/;"	kind:m	class:primary_widget	access:protected
-draw_sprite_shared_code	sfml_canvas_widget_classes.cpp	/^void level_editor_sfml_canvas_widget::draw_sprite_shared_code$/;"	kind:f	class:level_editor_sfml_canvas_widget	signature:( sf::Sprite& sprite_for_drawing_level_elements, sprite_init_param_group_with_size* the_sprite_ipgws, const vec2_s32& block_grid_pos )
-draw_sprite_shared_code	sfml_canvas_widget_classes.hpp	/^	void draw_sprite_shared_code$/;"	kind:p	class:level_editor_sfml_canvas_widget	access:protected	signature:( sf::Sprite& sprite_for_drawing_level_elements, sprite_init_param_group_with_size* the_sprite_ipgws, const vec2_s32& block_grid_pos )
+draw_sprite_shared_code	sfml_canvas_widget_classes.cpp	/^void level_editor_sfml_canvas_widget::draw_sprite_shared_code$/;"	kind:f	class:level_editor_sfml_canvas_widget	signature:( sf::Sprite& sprite_for_drawing_level_elements, sprite_ipgws* the_sprite_ipgws, const vec2_s32& block_grid_pos )
+draw_sprite_shared_code	sfml_canvas_widget_classes.hpp	/^	void draw_sprite_shared_code$/;"	kind:p	class:level_editor_sfml_canvas_widget	access:protected	signature:( sf::Sprite& sprite_for_drawing_level_elements, sprite_ipgws* the_sprite_ipgws, const vec2_s32& block_grid_pos )
 draw_visible_16x16_sprites_part_1	sfml_canvas_widget_classes.cpp	/^void level_editor_sfml_canvas_widget::draw_visible_16x16_sprites_part_1$/;"	kind:f	class:level_editor_sfml_canvas_widget	signature:( sf::Sprite& sprite_for_drawing_level_elements, const vec2<double>& visible_block_grid_start_pos, const vec2<double>& visible_block_grid_size_2d, const sf::IntRect& selection_rect_before_moving )
 draw_visible_16x16_sprites_part_1	sfml_canvas_widget_classes.hpp	/^	void draw_visible_16x16_sprites_part_1$/;"	kind:p	class:level_editor_sfml_canvas_widget	access:protected	signature:( sf::Sprite& sprite_for_drawing_level_elements, const vec2<double>& visible_block_grid_start_pos, const vec2<double>& visible_block_grid_size_2d, const sf::IntRect& selection_rect_before_moving )
 draw_visible_16x16_sprites_part_2	sfml_canvas_widget_classes.cpp	/^void level_editor_sfml_canvas_widget::draw_visible_16x16_sprites_part_2$/;"	kind:f	class:level_editor_sfml_canvas_widget	signature:( sf::Sprite& sprite_for_drawing_level_elements, const vec2<double>& visible_block_grid_start_pos, const vec2<double>& visible_block_grid_size_2d, const sf::IntRect& selection_rect_before_moving )
@@ -279,11 +279,11 @@ edit_menu_level_properties_action	primary_widget_class.hpp	/^		edit_menu_level_p
 edit_menu_sublevel_properties_action	primary_widget_class.hpp	/^	unique_ptr<QAction> edit_menu_sublevel_properties_action,$/;"	kind:m	class:primary_widget	access:protected
 editing_manager	editing_manager_class.hpp	/^	inline editing_manager() : the_level_editor_widget(NULL)$/;"	kind:f	class:editing_manager	access:public	signature:()
 editing_manager	editing_manager_class.hpp	/^class editing_manager$/;"	kind:c
-editing_manager::copy_selection_contents	editing_manager_class.cpp	/^void editing_manager::copy_selection_contents$/;"	kind:f	class:editing_manager	signature:( rect_selection_stuff& the_rect_selection_stuff )
-editing_manager::copy_selection_contents	editing_manager_class.hpp	/^	void copy_selection_contents$/;"	kind:p	class:editing_manager	access:protected	signature:( rect_selection_stuff& the_rect_selection_stuff )
+editing_manager::copy_rs_contents	editing_manager_class.cpp	/^void editing_manager::copy_rs_contents$/;"	kind:f	class:editing_manager	signature:( rect_selection_stuff& the_rect_selection_stuff )
+editing_manager::copy_rs_contents	editing_manager_class.hpp	/^	void copy_rs_contents$/;"	kind:p	class:editing_manager	access:protected	signature:( rect_selection_stuff& the_rect_selection_stuff )
 editing_manager::editing_manager	editing_manager_class.hpp	/^	inline editing_manager() : the_level_editor_widget(NULL)$/;"	kind:f	class:editing_manager	access:public	signature:()
-editing_manager::finalize_movement_of_rect_selection_contents	editing_manager_class.cpp	/^void editing_manager::finalize_movement_of_rect_selection_contents$/;"	kind:f	class:editing_manager	signature:( level_editor_core_widget* the_core_widget, rect_selection_stuff& the_rect_selection_stuff )
-editing_manager::finalize_movement_of_rect_selection_contents	editing_manager_class.hpp	/^	void finalize_movement_of_rect_selection_contents$/;"	kind:p	class:editing_manager	access:public	signature:( level_editor_core_widget* the_core_widget, rect_selection_stuff& the_rect_selection_stuff )
+editing_manager::finalize_movement_of_rs_contents	editing_manager_class.cpp	/^void editing_manager::finalize_movement_of_rs_contents$/;"	kind:f	class:editing_manager	signature:( level_editor_core_widget* the_core_widget, rect_selection_stuff& the_rect_selection_stuff )
+editing_manager::finalize_movement_of_rs_contents	editing_manager_class.hpp	/^	void finalize_movement_of_rs_contents$/;"	kind:p	class:editing_manager	access:public	signature:( level_editor_core_widget* the_core_widget, rect_selection_stuff& the_rect_selection_stuff )
 editing_manager::get_a_few_types_of_mouse_pos	editing_manager_class.cpp	/^void editing_manager::get_a_few_types_of_mouse_pos$/;"	kind:f	class:editing_manager	signature:( level_editor_sfml_canvas_widget* the_sfml_canvas_widget, sf::Vector2i& ret_mouse_pos_in_canvas_widget_coords, sf::Vector2f& ret_mouse_pos_in_canvas_coords, vec2_s32& ret_block_grid_coords_of_mouse_pos )
 editing_manager::get_a_few_types_of_mouse_pos	editing_manager_class.hpp	/^	void get_a_few_types_of_mouse_pos$/;"	kind:p	class:editing_manager	access:protected	signature:( level_editor_sfml_canvas_widget* the_sfml_canvas_widget, sf::Vector2i& ret_mouse_pos_in_canvas_widget_coords, sf::Vector2f& ret_mouse_pos_in_canvas_coords, vec2_s32& ret_block_grid_coords_of_mouse_pos )
 editing_manager::get_left_selected_16x16_sprite_type	editing_manager_class.hpp	/^	inline sprite_type get_left_selected_16x16_sprite_type$/;"	kind:f	class:editing_manager	access:protected	signature:( level_editor_core_widget* the_core_widget ) const
@@ -306,12 +306,12 @@ editing_manager::handle_placing_le_during_mouse_press	editing_manager_class.cpp	
 editing_manager::handle_placing_le_during_mouse_press	editing_manager_class.hpp	/^	void handle_placing_le_during_mouse_press$/;"	kind:p	class:editing_manager	access:protected	signature:( level_editor_core_widget* the_core_widget, const vec2_s32& block_grid_coords_of_mouse_pos, bool current_tabbed_widget_is_for_blocks, bool current_tabbed_widget_is_for_16x16_sprites, bool current_tabbed_widget_is_for_16x32_sprites )
 editing_manager::handle_placing_le_during_mouse_release	editing_manager_class.cpp	/^void editing_manager::handle_placing_le_during_mouse_release$/;"	kind:f	class:editing_manager	signature:( level_editor_core_widget* the_core_widget )
 editing_manager::handle_placing_le_during_mouse_release	editing_manager_class.hpp	/^	void handle_placing_le_during_mouse_release$/;"	kind:p	class:editing_manager	access:protected	signature:( level_editor_core_widget* the_core_widget )
-editing_manager::handle_rect_selection_during_mouse_move	editing_manager_class.cpp	/^void editing_manager::handle_rect_selection_during_mouse_move$/;"	kind:f	class:editing_manager	signature:( level_editor_core_widget* the_core_widget, const vec2_s32& block_grid_coords_of_mouse_pos )
-editing_manager::handle_rect_selection_during_mouse_move	editing_manager_class.hpp	/^	void handle_rect_selection_during_mouse_move$/;"	kind:p	class:editing_manager	access:protected	signature:( level_editor_core_widget* the_core_widget, const vec2_s32& block_grid_coords_of_mouse_pos )
-editing_manager::handle_rect_selection_during_mouse_press	editing_manager_class.cpp	/^void editing_manager::handle_rect_selection_during_mouse_press$/;"	kind:f	class:editing_manager	signature:( level_editor_core_widget* the_core_widget, const vec2_s32& block_grid_coords_of_mouse_pos, bool current_tabbed_widget_is_for_blocks, bool current_tabbed_widget_is_for_16x16_sprites, bool current_tabbed_widget_is_for_16x32_sprites )
-editing_manager::handle_rect_selection_during_mouse_press	editing_manager_class.hpp	/^	void handle_rect_selection_during_mouse_press$/;"	kind:p	class:editing_manager	access:protected	signature:( level_editor_core_widget* the_core_widget, const vec2_s32& block_grid_coords_of_mouse_pos, bool current_tabbed_widget_is_for_blocks, bool current_tabbed_widget_is_for_16x16_sprites, bool current_tabbed_widget_is_for_16x32_sprites )
-editing_manager::handle_rect_selection_during_mouse_release	editing_manager_class.cpp	/^void editing_manager::handle_rect_selection_during_mouse_release$/;"	kind:f	class:editing_manager	signature:( level_editor_core_widget* the_core_widget )
-editing_manager::handle_rect_selection_during_mouse_release	editing_manager_class.hpp	/^	void handle_rect_selection_during_mouse_release$/;"	kind:p	class:editing_manager	access:protected	signature:( level_editor_core_widget* the_core_widget )
+editing_manager::handle_rs_during_mouse_move	editing_manager_class.cpp	/^void editing_manager::handle_rs_during_mouse_move$/;"	kind:f	class:editing_manager	signature:( level_editor_core_widget* the_core_widget, const vec2_s32& block_grid_coords_of_mouse_pos )
+editing_manager::handle_rs_during_mouse_move	editing_manager_class.hpp	/^	void handle_rs_during_mouse_move$/;"	kind:p	class:editing_manager	access:protected	signature:( level_editor_core_widget* the_core_widget, const vec2_s32& block_grid_coords_of_mouse_pos )
+editing_manager::handle_rs_during_mouse_press	editing_manager_class.cpp	/^void editing_manager::handle_rs_during_mouse_press$/;"	kind:f	class:editing_manager	signature:( level_editor_core_widget* the_core_widget, const vec2_s32& block_grid_coords_of_mouse_pos, bool current_tabbed_widget_is_for_blocks, bool current_tabbed_widget_is_for_16x16_sprites, bool current_tabbed_widget_is_for_16x32_sprites )
+editing_manager::handle_rs_during_mouse_press	editing_manager_class.hpp	/^	void handle_rs_during_mouse_press$/;"	kind:p	class:editing_manager	access:protected	signature:( level_editor_core_widget* the_core_widget, const vec2_s32& block_grid_coords_of_mouse_pos, bool current_tabbed_widget_is_for_blocks, bool current_tabbed_widget_is_for_16x16_sprites, bool current_tabbed_widget_is_for_16x32_sprites )
+editing_manager::handle_rs_during_mouse_release	editing_manager_class.cpp	/^void editing_manager::handle_rs_during_mouse_release$/;"	kind:f	class:editing_manager	signature:( level_editor_core_widget* the_core_widget )
+editing_manager::handle_rs_during_mouse_release	editing_manager_class.hpp	/^	void handle_rs_during_mouse_release$/;"	kind:p	class:editing_manager	access:protected	signature:( level_editor_core_widget* the_core_widget )
 editing_manager::handle_selecting_single_sprite_during_mouse_move	editing_manager_class.cpp	/^void editing_manager::handle_selecting_single_sprite_during_mouse_move$/;"	kind:f	class:editing_manager	signature:( level_editor_core_widget* the_core_widget )
 editing_manager::handle_selecting_single_sprite_during_mouse_move	editing_manager_class.hpp	/^	void handle_selecting_single_sprite_during_mouse_move$/;"	kind:p	class:editing_manager	access:protected	signature:( level_editor_core_widget* the_core_widget )
 editing_manager::handle_selecting_single_sprite_during_mouse_press	editing_manager_class.cpp	/^void editing_manager::handle_selecting_single_sprite_during_mouse_press$/;"	kind:f	class:editing_manager	signature:( level_editor_core_widget* the_core_widget )
@@ -326,8 +326,8 @@ editing_manager::mouse_press_event	editing_manager_class.cpp	/^void editing_mana
 editing_manager::mouse_press_event	editing_manager_class.hpp	/^	void mouse_press_event( level_editor_core_widget* the_core_widget, $/;"	kind:p	class:editing_manager	access:public	signature:( level_editor_core_widget* the_core_widget, QMouseEvent* event )
 editing_manager::mouse_release_event	editing_manager_class.cpp	/^void editing_manager::mouse_release_event$/;"	kind:f	class:editing_manager	signature:( level_editor_core_widget* the_core_widget, QMouseEvent* event )
 editing_manager::mouse_release_event	editing_manager_class.hpp	/^	void mouse_release_event( level_editor_core_widget* the_core_widget, $/;"	kind:p	class:editing_manager	access:public	signature:( level_editor_core_widget* the_core_widget, QMouseEvent* event )
-editing_manager::paste_copied_selection_contents	editing_manager_class.cpp	/^void editing_manager::paste_copied_selection_contents$/;"	kind:f	class:editing_manager	signature:( level_editor_core_widget* the_core_widget, rect_selection_stuff& the_rect_selection_stuff )
-editing_manager::paste_copied_selection_contents	editing_manager_class.hpp	/^	void paste_copied_selection_contents$/;"	kind:p	class:editing_manager	access:protected	signature:( level_editor_core_widget* the_core_widget, rect_selection_stuff& the_rect_selection_stuff )
+editing_manager::paste_copied_rs_contents	editing_manager_class.cpp	/^void editing_manager::paste_copied_rs_contents$/;"	kind:f	class:editing_manager	signature:( level_editor_core_widget* the_core_widget, rect_selection_stuff& the_rect_selection_stuff )
+editing_manager::paste_copied_rs_contents	editing_manager_class.hpp	/^	void paste_copied_rs_contents$/;"	kind:p	class:editing_manager	access:protected	signature:( level_editor_core_widget* the_core_widget, rect_selection_stuff& the_rect_selection_stuff )
 editing_manager::place_block_line	editing_manager_class.cpp	/^void editing_manager::place_block_line$/;"	kind:f	class:editing_manager	signature:( level_editor_core_widget* the_core_widget, const sf::Vector2i& pos_0, const sf::Vector2i& pos_1, block_type the_block_type, undo_and_redo_action& ur_action_to_push )
 editing_manager::place_block_line	editing_manager_class.hpp	/^	inline void place_block_line$/;"	kind:f	class:editing_manager	access:protected	signature:( level_editor_core_widget* the_core_widget, const vec2_s32& pos_0, const vec2_s32& pos_1, block_type the_block_type, undo_and_redo_action& ur_action_to_push )
 editing_manager::place_block_line	editing_manager_class.hpp	/^	void place_block_line( level_editor_core_widget* the_core_widget, $/;"	kind:p	class:editing_manager	access:protected	signature:( level_editor_core_widget* the_core_widget, const sf::Vector2i& pos_0, const sf::Vector2i& pos_1, block_type the_block_type, undo_and_redo_action& ur_action_to_push )
@@ -343,8 +343,8 @@ editing_manager::the_level_editor_widget	editing_manager_class.hpp	/^	level_edit
 editing_manager::ur_stuff_map	editing_manager_class.hpp	/^	map< level_editor_core_widget*, undo_and_redo_stuff > ur_stuff_map;$/;"	kind:m	class:editing_manager	access:protected
 editing_manager_class_hpp	editing_manager_class.hpp	20;"	kind:d
 enable_block_grid	sfml_canvas_widget_classes.hpp	/^	inline void enable_block_grid()$/;"	kind:f	class:level_editor_sfml_canvas_widget	access:public	signature:()
-enable_single_sprite_selection	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::enable_single_sprite_selection$/;"	kind:f	class:rect_selection_stuff	signature:( sprite_init_param_group_with_size* n_selected_sprite_ipgws )
-enable_single_sprite_selection	rect_selection_stuff_class.hpp	/^	void enable_single_sprite_selection$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( sprite_init_param_group_with_size* n_selected_sprite_ipgws )
+enable_single_sprite_selection	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::enable_single_sprite_selection$/;"	kind:f	class:rect_selection_stuff	signature:( sprite_ipgws* n_selected_sprite_ipgws )
+enable_single_sprite_selection	rect_selection_stuff_class.hpp	/^	void enable_single_sprite_selection$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( sprite_ipgws* n_selected_sprite_ipgws )
 enabled	rect_selection_stuff_class.hpp	/^	bool enabled, mouse_released;$/;"	kind:m	class:rect_selection_stuff	access:public
 enabled	sfml_canvas_widget_classes.hpp	/^		bool enabled;$/;"	kind:m	struct:level_editor_sfml_canvas_widget::__anon1	access:public
 ending_block_grid_coords	rect_selection_stuff_class.hpp	/^	vec2_s32 ending_block_grid_coords;$/;"	kind:m	class:rect_selection_stuff	access:public
@@ -376,10 +376,10 @@ file_menu_open_action	primary_widget_class.hpp	/^	unique_ptr<QAction> file_menu_
 file_menu_quit_action	primary_widget_class.hpp	/^		file_menu_quit_action;$/;"	kind:m	class:primary_widget	access:protected
 file_menu_save_action	primary_widget_class.hpp	/^		file_menu_save_action, file_menu_save_as_action, $/;"	kind:m	class:primary_widget	access:protected
 file_menu_save_as_action	primary_widget_class.hpp	/^		file_menu_save_action, file_menu_save_as_action, $/;"	kind:m	class:primary_widget	access:protected
-finalize_movement_of_rect_selection_contents	editing_manager_class.cpp	/^void editing_manager::finalize_movement_of_rect_selection_contents$/;"	kind:f	class:editing_manager	signature:( level_editor_core_widget* the_core_widget, rect_selection_stuff& the_rect_selection_stuff )
-finalize_movement_of_rect_selection_contents	editing_manager_class.hpp	/^	void finalize_movement_of_rect_selection_contents$/;"	kind:p	class:editing_manager	access:public	signature:( level_editor_core_widget* the_core_widget, rect_selection_stuff& the_rect_selection_stuff )
-finalize_movement_of_selection_contents	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::finalize_movement_of_selection_contents()$/;"	kind:f	class:rect_selection_stuff	signature:()
-finalize_movement_of_selection_contents	rect_selection_stuff_class.hpp	/^	void finalize_movement_of_selection_contents();$/;"	kind:p	class:rect_selection_stuff	access:public	signature:()
+finalize_movement_of_rs_contents	editing_manager_class.cpp	/^void editing_manager::finalize_movement_of_rs_contents$/;"	kind:f	class:editing_manager	signature:( level_editor_core_widget* the_core_widget, rect_selection_stuff& the_rect_selection_stuff )
+finalize_movement_of_rs_contents	editing_manager_class.hpp	/^	void finalize_movement_of_rs_contents$/;"	kind:p	class:editing_manager	access:public	signature:( level_editor_core_widget* the_core_widget, rect_selection_stuff& the_rect_selection_stuff )
+finalize_rs_movement	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::finalize_rs_movement()$/;"	kind:f	class:rect_selection_stuff	signature:()
+finalize_rs_movement	rect_selection_stuff_class.hpp	/^	void finalize_rs_movement();$/;"	kind:p	class:rect_selection_stuff	access:public	signature:()
 fixed24p8	fixed24p8_class.hpp	/^	inline fixed24p8( s32 s_data )$/;"	kind:f	class:fixed24p8	access:public	signature:( s32 s_data )
 fixed24p8	fixed24p8_class.hpp	/^	inline fixed24p8( s32 whole_part, u8 frac_part )$/;"	kind:f	class:fixed24p8	access:public	signature:( s32 whole_part, u8 frac_part )
 fixed24p8	fixed24p8_class.hpp	/^	inline fixed24p8()$/;"	kind:f	class:fixed24p8	access:public	signature:()
@@ -545,12 +545,12 @@ handle_placing_le_during_mouse_press	editing_manager_class.cpp	/^void editing_ma
 handle_placing_le_during_mouse_press	editing_manager_class.hpp	/^	void handle_placing_le_during_mouse_press$/;"	kind:p	class:editing_manager	access:protected	signature:( level_editor_core_widget* the_core_widget, const vec2_s32& block_grid_coords_of_mouse_pos, bool current_tabbed_widget_is_for_blocks, bool current_tabbed_widget_is_for_16x16_sprites, bool current_tabbed_widget_is_for_16x32_sprites )
 handle_placing_le_during_mouse_release	editing_manager_class.cpp	/^void editing_manager::handle_placing_le_during_mouse_release$/;"	kind:f	class:editing_manager	signature:( level_editor_core_widget* the_core_widget )
 handle_placing_le_during_mouse_release	editing_manager_class.hpp	/^	void handle_placing_le_during_mouse_release$/;"	kind:p	class:editing_manager	access:protected	signature:( level_editor_core_widget* the_core_widget )
-handle_rect_selection_during_mouse_move	editing_manager_class.cpp	/^void editing_manager::handle_rect_selection_during_mouse_move$/;"	kind:f	class:editing_manager	signature:( level_editor_core_widget* the_core_widget, const vec2_s32& block_grid_coords_of_mouse_pos )
-handle_rect_selection_during_mouse_move	editing_manager_class.hpp	/^	void handle_rect_selection_during_mouse_move$/;"	kind:p	class:editing_manager	access:protected	signature:( level_editor_core_widget* the_core_widget, const vec2_s32& block_grid_coords_of_mouse_pos )
-handle_rect_selection_during_mouse_press	editing_manager_class.cpp	/^void editing_manager::handle_rect_selection_during_mouse_press$/;"	kind:f	class:editing_manager	signature:( level_editor_core_widget* the_core_widget, const vec2_s32& block_grid_coords_of_mouse_pos, bool current_tabbed_widget_is_for_blocks, bool current_tabbed_widget_is_for_16x16_sprites, bool current_tabbed_widget_is_for_16x32_sprites )
-handle_rect_selection_during_mouse_press	editing_manager_class.hpp	/^	void handle_rect_selection_during_mouse_press$/;"	kind:p	class:editing_manager	access:protected	signature:( level_editor_core_widget* the_core_widget, const vec2_s32& block_grid_coords_of_mouse_pos, bool current_tabbed_widget_is_for_blocks, bool current_tabbed_widget_is_for_16x16_sprites, bool current_tabbed_widget_is_for_16x32_sprites )
-handle_rect_selection_during_mouse_release	editing_manager_class.cpp	/^void editing_manager::handle_rect_selection_during_mouse_release$/;"	kind:f	class:editing_manager	signature:( level_editor_core_widget* the_core_widget )
-handle_rect_selection_during_mouse_release	editing_manager_class.hpp	/^	void handle_rect_selection_during_mouse_release$/;"	kind:p	class:editing_manager	access:protected	signature:( level_editor_core_widget* the_core_widget )
+handle_rs_during_mouse_move	editing_manager_class.cpp	/^void editing_manager::handle_rs_during_mouse_move$/;"	kind:f	class:editing_manager	signature:( level_editor_core_widget* the_core_widget, const vec2_s32& block_grid_coords_of_mouse_pos )
+handle_rs_during_mouse_move	editing_manager_class.hpp	/^	void handle_rs_during_mouse_move$/;"	kind:p	class:editing_manager	access:protected	signature:( level_editor_core_widget* the_core_widget, const vec2_s32& block_grid_coords_of_mouse_pos )
+handle_rs_during_mouse_press	editing_manager_class.cpp	/^void editing_manager::handle_rs_during_mouse_press$/;"	kind:f	class:editing_manager	signature:( level_editor_core_widget* the_core_widget, const vec2_s32& block_grid_coords_of_mouse_pos, bool current_tabbed_widget_is_for_blocks, bool current_tabbed_widget_is_for_16x16_sprites, bool current_tabbed_widget_is_for_16x32_sprites )
+handle_rs_during_mouse_press	editing_manager_class.hpp	/^	void handle_rs_during_mouse_press$/;"	kind:p	class:editing_manager	access:protected	signature:( level_editor_core_widget* the_core_widget, const vec2_s32& block_grid_coords_of_mouse_pos, bool current_tabbed_widget_is_for_blocks, bool current_tabbed_widget_is_for_16x16_sprites, bool current_tabbed_widget_is_for_16x32_sprites )
+handle_rs_during_mouse_release	editing_manager_class.cpp	/^void editing_manager::handle_rs_during_mouse_release$/;"	kind:f	class:editing_manager	signature:( level_editor_core_widget* the_core_widget )
+handle_rs_during_mouse_release	editing_manager_class.hpp	/^	void handle_rs_during_mouse_release$/;"	kind:p	class:editing_manager	access:protected	signature:( level_editor_core_widget* the_core_widget )
 handle_selecting_single_sprite_during_mouse_move	editing_manager_class.cpp	/^void editing_manager::handle_selecting_single_sprite_during_mouse_move$/;"	kind:f	class:editing_manager	signature:( level_editor_core_widget* the_core_widget )
 handle_selecting_single_sprite_during_mouse_move	editing_manager_class.hpp	/^	void handle_selecting_single_sprite_during_mouse_move$/;"	kind:p	class:editing_manager	access:protected	signature:( level_editor_core_widget* the_core_widget )
 handle_selecting_single_sprite_during_mouse_press	editing_manager_class.cpp	/^void editing_manager::handle_selecting_single_sprite_during_mouse_press$/;"	kind:f	class:editing_manager	signature:( level_editor_core_widget* the_core_widget )
@@ -688,8 +688,8 @@ level_editor_sfml_canvas_widget::door_number_gfx_raw_texture	sfml_canvas_widget_
 level_editor_sfml_canvas_widget::door_number_gfx_slot_height	sfml_canvas_widget_classes.hpp	/^		door_number_gfx_slot_height = 16,$/;"	kind:m	class:level_editor_sfml_canvas_widget	access:protected
 level_editor_sfml_canvas_widget::door_number_gfx_slot_width	sfml_canvas_widget_classes.hpp	/^	static constexpr u32 door_number_gfx_slot_width = 16,$/;"	kind:m	class:level_editor_sfml_canvas_widget	access:protected
 level_editor_sfml_canvas_widget::door_number_sprite	sfml_canvas_widget_classes.hpp	/^	sf::Sprite door_number_sprite;$/;"	kind:m	class:level_editor_sfml_canvas_widget	access:protected
-level_editor_sfml_canvas_widget::draw_sprite_shared_code	sfml_canvas_widget_classes.cpp	/^void level_editor_sfml_canvas_widget::draw_sprite_shared_code$/;"	kind:f	class:level_editor_sfml_canvas_widget	signature:( sf::Sprite& sprite_for_drawing_level_elements, sprite_init_param_group_with_size* the_sprite_ipgws, const vec2_s32& block_grid_pos )
-level_editor_sfml_canvas_widget::draw_sprite_shared_code	sfml_canvas_widget_classes.hpp	/^	void draw_sprite_shared_code$/;"	kind:p	class:level_editor_sfml_canvas_widget	access:protected	signature:( sf::Sprite& sprite_for_drawing_level_elements, sprite_init_param_group_with_size* the_sprite_ipgws, const vec2_s32& block_grid_pos )
+level_editor_sfml_canvas_widget::draw_sprite_shared_code	sfml_canvas_widget_classes.cpp	/^void level_editor_sfml_canvas_widget::draw_sprite_shared_code$/;"	kind:f	class:level_editor_sfml_canvas_widget	signature:( sf::Sprite& sprite_for_drawing_level_elements, sprite_ipgws* the_sprite_ipgws, const vec2_s32& block_grid_pos )
+level_editor_sfml_canvas_widget::draw_sprite_shared_code	sfml_canvas_widget_classes.hpp	/^	void draw_sprite_shared_code$/;"	kind:p	class:level_editor_sfml_canvas_widget	access:protected	signature:( sf::Sprite& sprite_for_drawing_level_elements, sprite_ipgws* the_sprite_ipgws, const vec2_s32& block_grid_pos )
 level_editor_sfml_canvas_widget::draw_visible_16x16_sprites_part_1	sfml_canvas_widget_classes.cpp	/^void level_editor_sfml_canvas_widget::draw_visible_16x16_sprites_part_1$/;"	kind:f	class:level_editor_sfml_canvas_widget	signature:( sf::Sprite& sprite_for_drawing_level_elements, const vec2<double>& visible_block_grid_start_pos, const vec2<double>& visible_block_grid_size_2d, const sf::IntRect& selection_rect_before_moving )
 level_editor_sfml_canvas_widget::draw_visible_16x16_sprites_part_1	sfml_canvas_widget_classes.hpp	/^	void draw_visible_16x16_sprites_part_1$/;"	kind:p	class:level_editor_sfml_canvas_widget	access:protected	signature:( sf::Sprite& sprite_for_drawing_level_elements, const vec2<double>& visible_block_grid_start_pos, const vec2<double>& visible_block_grid_size_2d, const sf::IntRect& selection_rect_before_moving )
 level_editor_sfml_canvas_widget::draw_visible_16x16_sprites_part_2	sfml_canvas_widget_classes.cpp	/^void level_editor_sfml_canvas_widget::draw_visible_16x16_sprites_part_2$/;"	kind:f	class:level_editor_sfml_canvas_widget	signature:( sf::Sprite& sprite_for_drawing_level_elements, const vec2<double>& visible_block_grid_start_pos, const vec2<double>& visible_block_grid_size_2d, const sf::IntRect& selection_rect_before_moving )
@@ -931,12 +931,12 @@ level_element_selector_core_widget_base_class_hpp	level_element_selector_core_wi
 level_element_selectors_tab_widget	level_editor_core_widget_class.hpp	/^	QTabWidget* level_element_selectors_tab_widget;$/;"	kind:m	class:level_editor_core_widget	access:public
 level_element_selectors_tab_widget	level_editor_widget_class.hpp	/^	unique_ptr<QTabWidget> level_element_selectors_tab_widget;$/;"	kind:m	class:level_editor_widget	access:public
 level_file_name	level_editor_core_widget_class.hpp	/^	string level_file_name;$/;"	kind:m	class:level_editor_core_widget	access:public
-list_of_16x16_sprite_pg_stuff	sprite_level_data_stuff.hpp	217;"	kind:d
-list_of_16x16_sprite_pg_stuff_no_origin	sprite_level_data_stuff.hpp	220;"	kind:d
-list_of_16x32_sprite_pg_stuff	sprite_level_data_stuff.hpp	224;"	kind:d
-list_of_16x32_sprite_pg_stuff_no_origin	sprite_level_data_stuff.hpp	228;"	kind:d
-list_of_32x32_sprite_pg_stuff	sprite_level_data_stuff.hpp	233;"	kind:d
-list_of_32x32_sprite_pg_stuff_no_origin	sprite_level_data_stuff.hpp	237;"	kind:d
+list_of_16x16_sprite_pg_stuff	sprite_level_data_stuff.hpp	220;"	kind:d
+list_of_16x16_sprite_pg_stuff_no_origin	sprite_level_data_stuff.hpp	223;"	kind:d
+list_of_16x32_sprite_pg_stuff	sprite_level_data_stuff.hpp	227;"	kind:d
+list_of_16x32_sprite_pg_stuff_no_origin	sprite_level_data_stuff.hpp	231;"	kind:d
+list_of_32x32_sprite_pg_stuff	sprite_level_data_stuff.hpp	236;"	kind:d
+list_of_32x32_sprite_pg_stuff_no_origin	sprite_level_data_stuff.hpp	240;"	kind:d
 list_of_level_element_widget_name_prefixes	level_editor_core_widget_class.hpp	66;"	kind:d
 macro_to_erase_overlapping_sprite	sprite_level_data_stuff.cpp	161;"	kind:d	file:
 macro_to_erase_overlapping_sprite	sprite_level_data_stuff.cpp	248;"	kind:d	file:
@@ -997,7 +997,7 @@ mouse_released	rect_selection_stuff_class.hpp	/^	bool enabled, mouse_released;$/
 moved_block_vec_2d	undo_and_redo_stack_class.hpp	/^	vector< vector<block> > replaced_block_vec_2d, moved_block_vec_2d;$/;"	kind:m	class:undo_and_redo_action	access:public
 moved_rs_ending_top_left_pos	undo_and_redo_stack_class.hpp	/^	vec2_s32 moved_rs_starting_top_left_pos, moved_rs_ending_top_left_pos;$/;"	kind:m	class:undo_and_redo_action	access:public
 moved_rs_starting_top_left_pos	undo_and_redo_stack_class.hpp	/^	vec2_s32 moved_rs_starting_top_left_pos, moved_rs_ending_top_left_pos;$/;"	kind:m	class:undo_and_redo_action	access:public
-moved_sprite_ipgws_vec_2d	undo_and_redo_stack_class.hpp	/^		replaced_sprite_ipgws_vec_2d, moved_sprite_ipgws_vec_2d;$/;"	kind:m	class:undo_and_redo_action	access:public
+moved_sprite_ipgws_set_2d	undo_and_redo_stack_class.hpp	/^		replaced_sprite_ipgws_set_2d, moved_sprite_ipgws_set_2d;$/;"	kind:m	class:undo_and_redo_action	access:public
 moving	rect_selection_stuff_class.hpp	/^	bool moving;$/;"	kind:m	class:rect_selection_stuff	access:public
 moving_block_vec_2d	rect_selection_stuff_class.hpp	/^	vector< vector<block> > moving_block_vec_2d;$/;"	kind:m	class:rect_selection_stuff	access:public
 moving_sprite_ipgws_vec_2d	rect_selection_stuff_class.hpp	/^		moving_sprite_ipgws_vec_2d;$/;"	kind:m	class:rect_selection_stuff	access:public
@@ -1030,25 +1030,25 @@ operator +	vec2_class.hpp	/^	inline vec2<type> operator + ( const vec2<type>& to
 operator +=	vec2_class.hpp	/^	inline vec2<type>& operator += ( const vec2<type>& to_add )$/;"	kind:f	class:vec2	access:public	signature:( const vec2<type>& to_add )
 operator -	vec2_class.hpp	/^	inline vec2<type> operator - ( const vec2<type>& to_sub ) const$/;"	kind:f	class:vec2	access:public	signature:( const vec2<type>& to_sub ) const
 operator -=	vec2_class.hpp	/^	inline vec2<type>& operator -= ( const vec2<type>& to_sub )$/;"	kind:f	class:vec2	access:public	signature:( const vec2<type>& to_sub )
-operator <	sprite_level_data_stuff.hpp	/^	inline bool operator < ( const sprite_init_param_group& other ) const$/;"	kind:f	class:sprite_init_param_group	access:public	signature:( const sprite_init_param_group& other ) const
+operator <	sprite_level_data_stuff.hpp	/^	virtual inline bool operator < $/;"	kind:f	class:sprite_init_param_group	access:public	signature:( const sprite_init_param_group& other ) const
 operator <	vec2_class.hpp	/^	inline bool operator < ( const vec2<type>& to_cmp ) const$/;"	kind:f	class:vec2	access:public	signature:( const vec2<type>& to_cmp ) const
 operator =	array_2d_helper_class.hpp	/^	void operator = ( array_2d_helper<type>& to_copy )$/;"	kind:f	class:array_2d_helper	access:public	signature:( array_2d_helper<type>& to_copy )
 operator =	sprite_level_data_stuff.hpp	/^	inline sprite_init_param_group& operator = $/;"	kind:f	class:sprite_init_param_group	access:public	signature:( const sprite_init_param_group& to_copy )
-operator =	sprite_level_data_stuff.hpp	/^	inline sprite_init_param_group_with_size& operator = $/;"	kind:f	class:sprite_init_param_group_with_size	access:public	signature:( const sprite_init_param_group_with_size& to_copy )
+operator =	sprite_level_data_stuff.hpp	/^	inline sprite_ipgws& operator = $/;"	kind:f	class:sprite_ipgws	access:public	signature:( const sprite_ipgws& to_copy )
 operator =	vec2_class.hpp	/^	inline vec2<type>& operator = ( const vec2<type>& to_copy )$/;"	kind:f	class:vec2	access:public	signature:( const vec2<type>& to_copy )
 operator ==	vec2_class.hpp	/^	inline bool operator == ( const vec2<type>& to_cmp ) const$/;"	kind:f	class:vec2	access:public	signature:( const vec2<type>& to_cmp ) const
 origin_ptr	sprite_level_data_stuff.hpp	/^		* down_left_ptr, * down_right_ptr, * origin_ptr;$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_selecting_sprite	access:public
 origin_ptr	sprite_level_data_stuff.hpp	/^		* left_ptr, * origin_ptr, * right_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
 original_layer_of_pasted_selection	rect_selection_stuff_class.hpp	/^	rect_selection_layer original_layer_of_pasted_selection;$/;"	kind:m	class:rect_selection_stuff	access:public
-overlaps_down	sprite_level_data_stuff.hpp	/^	inline bool overlaps_down() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
-overlaps_down_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_down_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
-overlaps_down_right	sprite_level_data_stuff.hpp	/^	inline bool overlaps_down_right() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
-overlaps_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
-overlaps_origin	sprite_level_data_stuff.hpp	/^	inline bool overlaps_origin() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
-overlaps_right	sprite_level_data_stuff.hpp	/^	inline bool overlaps_right() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
-overlaps_up	sprite_level_data_stuff.hpp	/^	inline bool overlaps_up() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
-overlaps_up_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_up_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
-overlaps_up_right	sprite_level_data_stuff.hpp	/^	inline bool overlaps_up_right() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
+overlaps_down	sprite_level_data_stuff.hpp	/^	inline bool overlaps_down() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:public	signature:() const
+overlaps_down_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_down_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:public	signature:() const
+overlaps_down_right	sprite_level_data_stuff.hpp	/^	inline bool overlaps_down_right() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:public	signature:() const
+overlaps_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:public	signature:() const
+overlaps_origin	sprite_level_data_stuff.hpp	/^	inline bool overlaps_origin() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:public	signature:() const
+overlaps_right	sprite_level_data_stuff.hpp	/^	inline bool overlaps_right() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:public	signature:() const
+overlaps_up	sprite_level_data_stuff.hpp	/^	inline bool overlaps_up() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:public	signature:() const
+overlaps_up_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_up_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:public	signature:() const
+overlaps_up_right	sprite_level_data_stuff.hpp	/^	inline bool overlaps_up_right() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:public	signature:() const
 paintEngine	sfml_canvas_widget_classes.cpp	/^QPaintEngine* sfml_canvas_widget_base::paintEngine() const$/;"	kind:f	class:sfml_canvas_widget_base	signature:() const
 paintEngine	sfml_canvas_widget_classes.hpp	/^	virtual QPaintEngine* paintEngine() const;$/;"	kind:p	class:sfml_canvas_widget_base	access:protected	signature:() const
 paintEvent	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget_base::paintEvent( QPaintEvent* event )$/;"	kind:f	class:sfml_canvas_widget_base	signature:( QPaintEvent* event )
@@ -1060,10 +1060,10 @@ parent	mouse_mode_button_group_widget_class.hpp	/^	QWidget* parent;$/;"	kind:m	c
 parent	sfml_canvas_widget_classes.hpp	/^	QWidget* parent;$/;"	kind:m	class:sfml_canvas_widget_base	access:public
 parent	sprite_16x16_selector_widget_class.hpp	/^	QWidget* parent;$/;"	kind:m	class:sprite_16x16_selector_widget	access:public
 parent	sprite_16x32_selector_widget_class.hpp	/^	QWidget* parent;$/;"	kind:m	class:sprite_16x32_selector_widget	access:public
-paste_copied_selection_contents	editing_manager_class.cpp	/^void editing_manager::paste_copied_selection_contents$/;"	kind:f	class:editing_manager	signature:( level_editor_core_widget* the_core_widget, rect_selection_stuff& the_rect_selection_stuff )
-paste_copied_selection_contents	editing_manager_class.hpp	/^	void paste_copied_selection_contents$/;"	kind:p	class:editing_manager	access:protected	signature:( level_editor_core_widget* the_core_widget, rect_selection_stuff& the_rect_selection_stuff )
-paste_copied_selection_contents	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::paste_copied_selection_contents$/;"	kind:f	class:rect_selection_stuff	signature:( const vec2_s32& n_starting_block_grid_coords )
-paste_copied_selection_contents	rect_selection_stuff_class.hpp	/^	void paste_copied_selection_contents$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( const vec2_s32& n_starting_block_grid_coords )
+paste_copied_rs_contents	editing_manager_class.cpp	/^void editing_manager::paste_copied_rs_contents$/;"	kind:f	class:editing_manager	signature:( level_editor_core_widget* the_core_widget, rect_selection_stuff& the_rect_selection_stuff )
+paste_copied_rs_contents	editing_manager_class.hpp	/^	void paste_copied_rs_contents$/;"	kind:p	class:editing_manager	access:protected	signature:( level_editor_core_widget* the_core_widget, rect_selection_stuff& the_rect_selection_stuff )
+paste_copied_rs_contents	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::paste_copied_rs_contents$/;"	kind:f	class:rect_selection_stuff	signature:( const vec2_s32& n_starting_block_grid_coords )
+paste_copied_rs_contents	rect_selection_stuff_class.hpp	/^	void paste_copied_rs_contents$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( const vec2_s32& n_starting_block_grid_coords )
 persistent_block_data_array_size	block_stuff.hpp	/^	constexpr u32 persistent_block_data_array_size = 2048;$/;"	kind:m	namespace:block_stuff
 persistent_data_index	block_stuff.hpp	/^	u16 persistent_data_index;$/;"	kind:m	class:block	access:public
 place_block_line	editing_manager_class.cpp	/^void editing_manager::place_block_line$/;"	kind:f	class:editing_manager	signature:( level_editor_core_widget* the_core_widget, const sf::Vector2i& pos_0, const sf::Vector2i& pos_1, block_type the_block_type, undo_and_redo_action& ur_action_to_push )
@@ -1090,7 +1090,7 @@ prepare_for_drawing_blocks_part_1	sfml_canvas_widget_classes.hpp	/^	void prepare
 prepare_for_drawing_blocks_part_2	sfml_canvas_widget_classes.cpp	/^void level_editor_sfml_canvas_widget::prepare_for_drawing_blocks_part_2$/;"	kind:f	class:level_editor_sfml_canvas_widget	signature:( sf::Sprite& sprite_for_drawing_level_elements )
 prepare_for_drawing_blocks_part_2	sfml_canvas_widget_classes.hpp	/^	void prepare_for_drawing_blocks_part_2$/;"	kind:p	class:level_editor_sfml_canvas_widget	access:protected	signature:( sf::Sprite& sprite_for_drawing_level_elements )
 prev_block_map	undo_and_redo_stack_class.hpp	/^	map< vec2_s32, block > prev_block_map, curr_block_map;$/;"	kind:m	class:undo_and_redo_action	access:public
-prev_sprite_ipgws	undo_and_redo_stack_class.hpp	/^	sprite_init_param_group_with_size prev_sprite_ipgws, curr_sprite_ipgws;$/;"	kind:m	class:undo_and_redo_action	access:public
+prev_sprite_ipgws	undo_and_redo_stack_class.hpp	/^	sprite_ipgws prev_sprite_ipgws, curr_sprite_ipgws;$/;"	kind:m	class:undo_and_redo_action	access:public
 primary_widget	primary_widget_class.cpp	/^primary_widget::primary_widget( vector<string>& s_argv_copy, $/;"	kind:f	class:primary_widget	signature:( vector<string>& s_argv_copy, QWidget* parent )
 primary_widget	primary_widget_class.hpp	/^	primary_widget( vector<string>& s_argv_copy, QWidget* parent = 0 );$/;"	kind:p	class:primary_widget	access:public	signature:( vector<string>& s_argv_copy, QWidget* parent = 0 )
 primary_widget	primary_widget_class.hpp	/^class primary_widget : public QMainWindow$/;"	kind:c	inherits:QMainWindow
@@ -1146,22 +1146,22 @@ rect_selection_stuff	rect_selection_stuff_class.hpp	/^	inline rect_selection_stu
 rect_selection_stuff	rect_selection_stuff_class.hpp	/^	inline rect_selection_stuff()$/;"	kind:f	class:rect_selection_stuff	access:public	signature:()
 rect_selection_stuff	rect_selection_stuff_class.hpp	/^class rect_selection_stuff$/;"	kind:c
 rect_selection_stuff::clicked_location_in_rect	rect_selection_stuff_class.hpp	/^	vec2_s32 clicked_location_in_rect;$/;"	kind:m	class:rect_selection_stuff	access:public
-rect_selection_stuff::continue_creating_selection	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::continue_creating_selection$/;"	kind:f	class:rect_selection_stuff	signature:( const vec2_s32& curr_block_grid_coords_of_mouse )
-rect_selection_stuff::continue_creating_selection	rect_selection_stuff_class.hpp	/^	void continue_creating_selection$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( const vec2_s32& curr_block_grid_coords_of_mouse )
-rect_selection_stuff::continue_moving_selection_contents	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::continue_moving_selection_contents$/;"	kind:f	class:rect_selection_stuff	signature:( const vec2_s32 curr_block_grid_coords_of_mouse )
-rect_selection_stuff::continue_moving_selection_contents	rect_selection_stuff_class.hpp	/^	void continue_moving_selection_contents$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( const vec2_s32 curr_block_grid_coords_of_mouse )
+rect_selection_stuff::continue_creating_rs	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::continue_creating_rs$/;"	kind:f	class:rect_selection_stuff	signature:( const vec2_s32& curr_block_grid_coords_of_mouse )
+rect_selection_stuff::continue_creating_rs	rect_selection_stuff_class.hpp	/^	void continue_creating_rs$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( const vec2_s32& curr_block_grid_coords_of_mouse )
+rect_selection_stuff::continue_moving_rs_contents	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::continue_moving_rs_contents$/;"	kind:f	class:rect_selection_stuff	signature:( const vec2_s32 curr_block_grid_coords_of_mouse )
+rect_selection_stuff::continue_moving_rs_contents	rect_selection_stuff_class.hpp	/^	void continue_moving_rs_contents$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( const vec2_s32 curr_block_grid_coords_of_mouse )
 rect_selection_stuff::copied_block_vec_2d	rect_selection_stuff_class.hpp	/^	vector< vector<block> > copied_block_vec_2d;$/;"	kind:m	class:rect_selection_stuff	access:public
 rect_selection_stuff::copied_sprite_ipgws_vec_2d	rect_selection_stuff_class.hpp	/^		copied_sprite_ipgws_vec_2d;$/;"	kind:m	class:rect_selection_stuff	access:public
-rect_selection_stuff::copy_selection_contents	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::copy_selection_contents()$/;"	kind:f	class:rect_selection_stuff	signature:()
-rect_selection_stuff::copy_selection_contents	rect_selection_stuff_class.hpp	/^	void copy_selection_contents();$/;"	kind:p	class:rect_selection_stuff	access:public	signature:()
+rect_selection_stuff::copy_rs_contents	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::copy_rs_contents()$/;"	kind:f	class:rect_selection_stuff	signature:()
+rect_selection_stuff::copy_rs_contents	rect_selection_stuff_class.hpp	/^	void copy_rs_contents();$/;"	kind:p	class:rect_selection_stuff	access:public	signature:()
 rect_selection_stuff::disable_selection	rect_selection_stuff_class.hpp	/^	inline void disable_selection()$/;"	kind:f	class:rect_selection_stuff	access:public	signature:()
-rect_selection_stuff::enable_single_sprite_selection	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::enable_single_sprite_selection$/;"	kind:f	class:rect_selection_stuff	signature:( sprite_init_param_group_with_size* n_selected_sprite_ipgws )
-rect_selection_stuff::enable_single_sprite_selection	rect_selection_stuff_class.hpp	/^	void enable_single_sprite_selection$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( sprite_init_param_group_with_size* n_selected_sprite_ipgws )
+rect_selection_stuff::enable_single_sprite_selection	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::enable_single_sprite_selection$/;"	kind:f	class:rect_selection_stuff	signature:( sprite_ipgws* n_selected_sprite_ipgws )
+rect_selection_stuff::enable_single_sprite_selection	rect_selection_stuff_class.hpp	/^	void enable_single_sprite_selection$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( sprite_ipgws* n_selected_sprite_ipgws )
 rect_selection_stuff::enabled	rect_selection_stuff_class.hpp	/^	bool enabled, mouse_released;$/;"	kind:m	class:rect_selection_stuff	access:public
 rect_selection_stuff::ending_block_grid_coords	rect_selection_stuff_class.hpp	/^	vec2_s32 ending_block_grid_coords;$/;"	kind:m	class:rect_selection_stuff	access:public
 rect_selection_stuff::ending_block_grid_coords_before_moving	rect_selection_stuff_class.hpp	/^	vec2_s32 ending_block_grid_coords_before_moving;$/;"	kind:m	class:rect_selection_stuff	access:public
-rect_selection_stuff::finalize_movement_of_selection_contents	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::finalize_movement_of_selection_contents()$/;"	kind:f	class:rect_selection_stuff	signature:()
-rect_selection_stuff::finalize_movement_of_selection_contents	rect_selection_stuff_class.hpp	/^	void finalize_movement_of_selection_contents();$/;"	kind:p	class:rect_selection_stuff	access:public	signature:()
+rect_selection_stuff::finalize_rs_movement	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::finalize_rs_movement()$/;"	kind:f	class:rect_selection_stuff	signature:()
+rect_selection_stuff::finalize_rs_movement	rect_selection_stuff_class.hpp	/^	void finalize_rs_movement();$/;"	kind:p	class:rect_selection_stuff	access:public	signature:()
 rect_selection_stuff::get_enabled	rect_selection_stuff_class.hpp	/^	inline bool get_enabled() const$/;"	kind:f	class:rect_selection_stuff	access:public	signature:() const
 rect_selection_stuff::get_mouse_released	rect_selection_stuff_class.hpp	/^	inline bool get_mouse_released() const$/;"	kind:f	class:rect_selection_stuff	access:public	signature:() const
 rect_selection_stuff::get_moving	rect_selection_stuff_class.hpp	/^	inline bool get_moving() const$/;"	kind:f	class:rect_selection_stuff	access:public	signature:() const
@@ -1178,10 +1178,14 @@ rect_selection_stuff::moving	rect_selection_stuff_class.hpp	/^	bool moving;$/;"	
 rect_selection_stuff::moving_block_vec_2d	rect_selection_stuff_class.hpp	/^	vector< vector<block> > moving_block_vec_2d;$/;"	kind:m	class:rect_selection_stuff	access:public
 rect_selection_stuff::moving_sprite_ipgws_vec_2d	rect_selection_stuff_class.hpp	/^		moving_sprite_ipgws_vec_2d;$/;"	kind:m	class:rect_selection_stuff	access:public
 rect_selection_stuff::original_layer_of_pasted_selection	rect_selection_stuff_class.hpp	/^	rect_selection_layer original_layer_of_pasted_selection;$/;"	kind:m	class:rect_selection_stuff	access:public
-rect_selection_stuff::paste_copied_selection_contents	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::paste_copied_selection_contents$/;"	kind:f	class:rect_selection_stuff	signature:( const vec2_s32& n_starting_block_grid_coords )
-rect_selection_stuff::paste_copied_selection_contents	rect_selection_stuff_class.hpp	/^	void paste_copied_selection_contents$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( const vec2_s32& n_starting_block_grid_coords )
+rect_selection_stuff::paste_copied_rs_contents	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::paste_copied_rs_contents$/;"	kind:f	class:rect_selection_stuff	signature:( const vec2_s32& n_starting_block_grid_coords )
+rect_selection_stuff::paste_copied_rs_contents	rect_selection_stuff_class.hpp	/^	void paste_copied_rs_contents$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( const vec2_s32& n_starting_block_grid_coords )
 rect_selection_stuff::rect_selection_stuff	rect_selection_stuff_class.hpp	/^	inline rect_selection_stuff$/;"	kind:f	class:rect_selection_stuff	access:public	signature:( const rect_selection_stuff& s_rect_selection_stuff )
 rect_selection_stuff::rect_selection_stuff	rect_selection_stuff_class.hpp	/^	inline rect_selection_stuff()$/;"	kind:f	class:rect_selection_stuff	access:public	signature:()
+rect_selection_stuff::rs_movement_finalization_block_shared_code	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::rs_movement_finalization_block_shared_code$/;"	kind:f	class:rect_selection_stuff	signature:( vector< vector<block> >& the_other_block_vec_2d )
+rect_selection_stuff::rs_movement_finalization_block_shared_code	rect_selection_stuff_class.hpp	/^	void rs_movement_finalization_block_shared_code$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( vector< vector<block> >& the_other_block_vec_2d )
+rect_selection_stuff::rs_movement_finalization_sprite_shared_code	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::rs_movement_finalization_sprite_shared_code$/;"	kind:f	class:rect_selection_stuff	signature:( vector< vector<sprite_ipgws> >& the_other_sprite_ipgws_vec_2d )
+rect_selection_stuff::rs_movement_finalization_sprite_shared_code	rect_selection_stuff_class.hpp	/^	void rs_movement_finalization_sprite_shared_code$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( vector< vector<sprite_ipgws> >& the_other_sprite_ipgws_vec_2d )
 rect_selection_stuff::selection_image	rect_selection_stuff_class.hpp	/^	shared_ptr<sf::Image> selection_image;$/;"	kind:m	class:rect_selection_stuff	access:public
 rect_selection_stuff::selection_layer	rect_selection_stuff_class.hpp	/^	rect_selection_layer selection_layer;$/;"	kind:m	class:rect_selection_stuff	access:public
 rect_selection_stuff::selection_rect	rect_selection_stuff_class.hpp	/^	sf::IntRect selection_rect;$/;"	kind:m	class:rect_selection_stuff	access:public
@@ -1190,30 +1194,34 @@ rect_selection_stuff::selection_still_being_created	rect_selection_stuff_class.h
 rect_selection_stuff::selection_texture	rect_selection_stuff_class.hpp	/^	shared_ptr<sf::Texture> selection_texture;$/;"	kind:m	class:rect_selection_stuff	access:public
 rect_selection_stuff::selection_was_pasted	rect_selection_stuff_class.hpp	/^	bool selection_was_pasted;$/;"	kind:m	class:rect_selection_stuff	access:public
 rect_selection_stuff::single_sprite_selected	rect_selection_stuff_class.hpp	/^	bool single_sprite_selected;$/;"	kind:m	class:rect_selection_stuff	access:public
-rect_selection_stuff::start_creating_selection	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::start_creating_selection$/;"	kind:f	class:rect_selection_stuff	signature:( const vec2_s32& n_starting_block_grid_coords_of_mouse, rect_selection_layer n_selection_layer )
-rect_selection_stuff::start_creating_selection	rect_selection_stuff_class.hpp	/^	void start_creating_selection$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( const vec2_s32& n_starting_block_grid_coords_of_mouse, rect_selection_layer n_selection_layer )
-rect_selection_stuff::start_moving_selection_contents	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::start_moving_selection_contents$/;"	kind:f	class:rect_selection_stuff	signature:( const vec2_s32 n_clicked_location_in_rect )
-rect_selection_stuff::start_moving_selection_contents	rect_selection_stuff_class.hpp	/^	void start_moving_selection_contents$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( const vec2_s32 n_clicked_location_in_rect )
+rect_selection_stuff::start_creating_rs	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::start_creating_rs$/;"	kind:f	class:rect_selection_stuff	signature:( const vec2_s32& n_starting_block_grid_coords_of_mouse, rect_selection_layer n_selection_layer )
+rect_selection_stuff::start_creating_rs	rect_selection_stuff_class.hpp	/^	void start_creating_rs$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( const vec2_s32& n_starting_block_grid_coords_of_mouse, rect_selection_layer n_selection_layer )
+rect_selection_stuff::start_moving_rs_contents	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::start_moving_rs_contents$/;"	kind:f	class:rect_selection_stuff	signature:( const vec2_s32 n_clicked_location_in_rect )
+rect_selection_stuff::start_moving_rs_contents	rect_selection_stuff_class.hpp	/^	void start_moving_rs_contents$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( const vec2_s32 n_clicked_location_in_rect )
 rect_selection_stuff::starting_block_grid_coords	rect_selection_stuff_class.hpp	/^	vec2_s32 starting_block_grid_coords;$/;"	kind:m	class:rect_selection_stuff	access:public
 rect_selection_stuff::starting_block_grid_coords_before_moving	rect_selection_stuff_class.hpp	/^	vec2_s32 starting_block_grid_coords_before_moving;$/;"	kind:m	class:rect_selection_stuff	access:public
 rect_selection_stuff::starting_block_grid_coords_of_mouse	rect_selection_stuff_class.hpp	/^	vec2_s32 starting_block_grid_coords_of_mouse;$/;"	kind:m	class:rect_selection_stuff	access:public
-rect_selection_stuff::stop_creating_selection	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::stop_creating_selection()$/;"	kind:f	class:rect_selection_stuff	signature:()
-rect_selection_stuff::stop_creating_selection	rect_selection_stuff_class.hpp	/^	void stop_creating_selection();$/;"	kind:p	class:rect_selection_stuff	access:public	signature:()
-rect_selection_stuff::stop_moving_selection_contents	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::stop_moving_selection_contents()$/;"	kind:f	class:rect_selection_stuff	signature:()
-rect_selection_stuff::stop_moving_selection_contents	rect_selection_stuff_class.hpp	/^	void stop_moving_selection_contents();$/;"	kind:p	class:rect_selection_stuff	access:public	signature:()
+rect_selection_stuff::stop_creating_rs	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::stop_creating_rs()$/;"	kind:f	class:rect_selection_stuff	signature:()
+rect_selection_stuff::stop_creating_rs	rect_selection_stuff_class.hpp	/^	void stop_creating_rs();$/;"	kind:p	class:rect_selection_stuff	access:public	signature:()
+rect_selection_stuff::stop_moving_rs_contents	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::stop_moving_rs_contents()$/;"	kind:f	class:rect_selection_stuff	signature:()
+rect_selection_stuff::stop_moving_rs_contents	rect_selection_stuff_class.hpp	/^	void stop_moving_rs_contents();$/;"	kind:p	class:rect_selection_stuff	access:public	signature:()
 rect_selection_stuff::the_sublevel	rect_selection_stuff_class.hpp	/^	sublevel* the_sublevel;$/;"	kind:m	class:rect_selection_stuff	access:public
 rect_selection_stuff_class_hpp	rect_selection_stuff_class.hpp	21;"	kind:d
 redo	undo_and_redo_stack_class.hpp	/^	bool redo(  );$/;"	kind:p	class:undo_and_redo_stack	access:public	signature:( )
 reject	sublevel_properties_widget_class.cpp	/^void sublevel_properties_widget::reject()$/;"	kind:f	class:sublevel_properties_widget	signature:()
 reject	sublevel_properties_widget_class.hpp	/^	void reject();$/;"	kind:p	class:sublevel_properties_widget	access:protected	signature:()
 replaced_block_vec_2d	undo_and_redo_stack_class.hpp	/^	vector< vector<block> > replaced_block_vec_2d, moved_block_vec_2d;$/;"	kind:m	class:undo_and_redo_action	access:public
-replaced_sprite_ipgws_vec_2d	undo_and_redo_stack_class.hpp	/^		replaced_sprite_ipgws_vec_2d, moved_sprite_ipgws_vec_2d;$/;"	kind:m	class:undo_and_redo_action	access:public
+replaced_sprite_ipgws_set_2d	undo_and_redo_stack_class.hpp	/^		replaced_sprite_ipgws_set_2d, moved_sprite_ipgws_set_2d;$/;"	kind:m	class:undo_and_redo_action	access:public
 resize	sublevel_class.hpp	/^	inline void resize( const vec2_u32& n_real_size_2d )$/;"	kind:f	class:sublevel	access:public	signature:( const vec2_u32& n_real_size_2d )
 right_current_level_element_index	level_element_selector_core_widget_base_class.hpp	/^	u32 left_current_level_element_index, right_current_level_element_index;$/;"	kind:m	class:level_element_selector_core_widget_base	access:protected
 right_mouse_button_pressed	level_editor_core_widget_class.hpp	/^	void right_mouse_button_pressed();$/;"	kind:p	class:level_editor_core_widget	access:protected	signature:()
 right_ptr	sprite_level_data_stuff.hpp	/^		* left_ptr, * origin_ptr, * right_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
 round_to_int	fixed24p8_class.hpp	/^	inline s32 round_to_int() const;$/;"	kind:p	class:fixed24p8	access:public	signature:() const
 round_to_int	fixed24p8_class.hpp	/^inline s32 fixed24p8::round_to_int() const$/;"	kind:f	class:fixed24p8	signature:() const
+rs_movement_finalization_block_shared_code	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::rs_movement_finalization_block_shared_code$/;"	kind:f	class:rect_selection_stuff	signature:( vector< vector<block> >& the_other_block_vec_2d )
+rs_movement_finalization_block_shared_code	rect_selection_stuff_class.hpp	/^	void rs_movement_finalization_block_shared_code$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( vector< vector<block> >& the_other_block_vec_2d )
+rs_movement_finalization_sprite_shared_code	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::rs_movement_finalization_sprite_shared_code$/;"	kind:f	class:rect_selection_stuff	signature:( vector< vector<sprite_ipgws> >& the_other_sprite_ipgws_vec_2d )
+rs_movement_finalization_sprite_shared_code	rect_selection_stuff_class.hpp	/^	void rs_movement_finalization_sprite_shared_code$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( vector< vector<sprite_ipgws> >& the_other_sprite_ipgws_vec_2d )
 rsl_blocks	misc_types.hpp	/^enum rect_selection_layer { rsl_blocks, rsl_sprites };$/;"	kind:e	enum:rect_selection_layer
 rsl_sprites	misc_types.hpp	/^enum rect_selection_layer { rsl_blocks, rsl_sprites };$/;"	kind:e	enum:rect_selection_layer
 s16	misc_types.hpp	/^typedef uint16_t u16; typedef int16_t s16;$/;"	kind:t
@@ -1233,7 +1241,7 @@ scroll_area	sfml_canvas_widget_classes.hpp	/^	QScrollArea* scroll_area;$/;"	kind
 scroll_area	sprite_16x16_selector_widget_class.hpp	/^	QScrollArea* scroll_area;$/;"	kind:m	class:sprite_16x16_selector_widget	access:public
 scroll_area	sprite_16x32_selector_widget_class.hpp	/^	QScrollArea* scroll_area;$/;"	kind:m	class:sprite_16x32_selector_widget	access:public
 selected_level_element_sprite	level_element_selector_core_widget_base_class.hpp	/^	sf::Sprite selected_level_element_sprite;$/;"	kind:m	class:level_element_selector_core_widget_base	access:protected
-selected_sprite_ipgws	sprite_properties_widget_class.hpp	/^	sprite_init_param_group_with_size* selected_sprite_ipgws;$/;"	kind:m	class:sprite_properties_widget	access:public
+selected_sprite_ipgws	sprite_properties_widget_class.hpp	/^	sprite_ipgws* selected_sprite_ipgws;$/;"	kind:m	class:sprite_properties_widget	access:public
 selection_image	rect_selection_stuff_class.hpp	/^	shared_ptr<sf::Image> selection_image;$/;"	kind:m	class:rect_selection_stuff	access:public
 selection_layer	rect_selection_stuff_class.hpp	/^	rect_selection_layer selection_layer;$/;"	kind:m	class:rect_selection_stuff	access:public
 selection_rect	rect_selection_stuff_class.hpp	/^	sf::IntRect selection_rect;$/;"	kind:m	class:rect_selection_stuff	access:public
@@ -1297,7 +1305,7 @@ show_vertical_scroll_bar_stuff	level_editor_widget_class.hpp	/^	void show_vertic
 single_sprite_selected	rect_selection_stuff_class.hpp	/^	bool single_sprite_selected;$/;"	kind:m	class:rect_selection_stuff	access:public
 size	array_2d_helper_class.hpp	/^	u32 size;$/;"	kind:m	class:array_2d_helper	access:protected
 size_2d	array_2d_helper_class.hpp	/^	vec2_u32 size_2d;$/;"	kind:m	class:array_2d_helper	access:protected
-size_2d	sprite_level_data_stuff.hpp	/^	vec2_u32 size_2d;$/;"	kind:m	class:sprite_init_param_group_with_size	access:public
+size_2d	sprite_level_data_stuff.hpp	/^	vec2_u32 size_2d;$/;"	kind:m	class:sprite_ipgws	access:public
 size_2d	sublevel_class.hpp	/^	vec2_u32 size_2d;$/;"	kind:m	class:sublevel	access:public
 sle_blank	sublevel_entrance_class.hpp	/^	sle_blank,$/;"	kind:e	enum:sublevel_entrance_type
 sle_count	sublevel_entrance_class.hpp	/^	sle_count,$/;"	kind:e	enum:sublevel_entrance_type
@@ -1393,33 +1401,33 @@ sprite_init_param_group::extra_param_3	sprite_level_data_stuff.hpp	/^	u32 extra_
 sprite_init_param_group::facing_right	sprite_level_data_stuff.hpp	/^	bool facing_right;$/;"	kind:m	class:sprite_init_param_group	access:public
 sprite_init_param_group::initial_block_grid_x_coord	sprite_level_data_stuff.hpp	/^	u32 initial_block_grid_x_coord;$/;"	kind:m	class:sprite_init_param_group	access:public
 sprite_init_param_group::initial_block_grid_y_coord	sprite_level_data_stuff.hpp	/^	u32 initial_block_grid_y_coord;$/;"	kind:m	class:sprite_init_param_group	access:public
-sprite_init_param_group::operator <	sprite_level_data_stuff.hpp	/^	inline bool operator < ( const sprite_init_param_group& other ) const$/;"	kind:f	class:sprite_init_param_group	access:public	signature:( const sprite_init_param_group& other ) const
+sprite_init_param_group::operator <	sprite_level_data_stuff.hpp	/^	virtual inline bool operator < $/;"	kind:f	class:sprite_init_param_group	access:public	signature:( const sprite_init_param_group& other ) const
 sprite_init_param_group::operator =	sprite_level_data_stuff.hpp	/^	inline sprite_init_param_group& operator = $/;"	kind:f	class:sprite_init_param_group	access:public	signature:( const sprite_init_param_group& to_copy )
 sprite_init_param_group::spawn_state	sprite_level_data_stuff.hpp	/^	sprite_spawn_state spawn_state;$/;"	kind:m	class:sprite_init_param_group	access:public
 sprite_init_param_group::sprite_init_param_group	sprite_level_data_stuff.hpp	/^	inline sprite_init_param_group$/;"	kind:f	class:sprite_init_param_group	access:public	signature:( const sprite_init_param_group& to_copy )
 sprite_init_param_group::sprite_init_param_group	sprite_level_data_stuff.hpp	/^	inline sprite_init_param_group( const sprite_type& s_type, $/;"	kind:f	class:sprite_init_param_group	access:public	signature:( const sprite_type& s_type, u32 s_initial_block_grid_x_coord, u32 s_initial_block_grid_y_coord, bool s_facing_right, u32 s_extra_param_0, u32 s_extra_param_1, u32 s_extra_param_2, u32 s_extra_param_3, const sprite_spawn_state& s_spawn_state )
 sprite_init_param_group::sprite_init_param_group	sprite_level_data_stuff.hpp	/^	inline sprite_init_param_group() : type(st_default),$/;"	kind:f	class:sprite_init_param_group	access:public	signature:()
 sprite_init_param_group::type	sprite_level_data_stuff.hpp	/^	sprite_type type;$/;"	kind:m	class:sprite_init_param_group	access:public
-sprite_init_param_group_with_size	sprite_level_data_stuff.hpp	/^	inline sprite_init_param_group_with_size$/;"	kind:f	class:sprite_init_param_group_with_size	access:public	signature:( const sprite_init_param_group_with_size& to_copy )
-sprite_init_param_group_with_size	sprite_level_data_stuff.hpp	/^	inline sprite_init_param_group_with_size( const sprite_type& s_type, $/;"	kind:f	class:sprite_init_param_group_with_size	access:public	signature:( const sprite_type& s_type, u32 s_initial_block_grid_x_coord, u32 s_initial_block_grid_y_coord, bool s_facing_right, u32 s_extra_param_0, u32 s_extra_param_1, u32 s_extra_param_2, u32 s_extra_param_3, const sprite_spawn_state& s_spawn_state, const vec2_u32& s_size_2d )
-sprite_init_param_group_with_size	sprite_level_data_stuff.hpp	/^	inline sprite_init_param_group_with_size() : sprite_init_param_group(),$/;"	kind:f	class:sprite_init_param_group_with_size	access:public	signature:()
-sprite_init_param_group_with_size	sprite_level_data_stuff.hpp	/^class sprite_init_param_group_with_size : public sprite_init_param_group$/;"	kind:c	inherits:sprite_init_param_group
-sprite_init_param_group_with_size::operator =	sprite_level_data_stuff.hpp	/^	inline sprite_init_param_group_with_size& operator = $/;"	kind:f	class:sprite_init_param_group_with_size	access:public	signature:( const sprite_init_param_group_with_size& to_copy )
-sprite_init_param_group_with_size::size_2d	sprite_level_data_stuff.hpp	/^	vec2_u32 size_2d;$/;"	kind:m	class:sprite_init_param_group_with_size	access:public
-sprite_init_param_group_with_size::sprite_init_param_group_with_size	sprite_level_data_stuff.hpp	/^	inline sprite_init_param_group_with_size$/;"	kind:f	class:sprite_init_param_group_with_size	access:public	signature:( const sprite_init_param_group_with_size& to_copy )
-sprite_init_param_group_with_size::sprite_init_param_group_with_size	sprite_level_data_stuff.hpp	/^	inline sprite_init_param_group_with_size( const sprite_type& s_type, $/;"	kind:f	class:sprite_init_param_group_with_size	access:public	signature:( const sprite_type& s_type, u32 s_initial_block_grid_x_coord, u32 s_initial_block_grid_y_coord, bool s_facing_right, u32 s_extra_param_0, u32 s_extra_param_1, u32 s_extra_param_2, u32 s_extra_param_3, const sprite_spawn_state& s_spawn_state, const vec2_u32& s_size_2d )
-sprite_init_param_group_with_size::sprite_init_param_group_with_size	sprite_level_data_stuff.hpp	/^	inline sprite_init_param_group_with_size() : sprite_init_param_group(),$/;"	kind:f	class:sprite_init_param_group_with_size	access:public	signature:()
 sprite_ipg_vec_for_exporting	sublevel_class.hpp	/^	vector<sprite_init_param_group> sprite_ipg_vec_for_exporting;$/;"	kind:m	class:sublevel	access:public
+sprite_ipgws	sprite_level_data_stuff.hpp	/^	inline sprite_ipgws$/;"	kind:f	class:sprite_ipgws	access:public	signature:( const sprite_ipgws& to_copy )
+sprite_ipgws	sprite_level_data_stuff.hpp	/^	inline sprite_ipgws( const sprite_type& s_type, $/;"	kind:f	class:sprite_ipgws	access:public	signature:( const sprite_type& s_type, u32 s_initial_block_grid_x_coord, u32 s_initial_block_grid_y_coord, bool s_facing_right, u32 s_extra_param_0, u32 s_extra_param_1, u32 s_extra_param_2, u32 s_extra_param_3, const sprite_spawn_state& s_spawn_state, const vec2_u32& s_size_2d )
+sprite_ipgws	sprite_level_data_stuff.hpp	/^	inline sprite_ipgws() : sprite_init_param_group(),$/;"	kind:f	class:sprite_ipgws	access:public	signature:()
+sprite_ipgws	sprite_level_data_stuff.hpp	/^class sprite_ipgws : public sprite_init_param_group$/;"	kind:c	inherits:sprite_init_param_group
+sprite_ipgws::operator =	sprite_level_data_stuff.hpp	/^	inline sprite_ipgws& operator = $/;"	kind:f	class:sprite_ipgws	access:public	signature:( const sprite_ipgws& to_copy )
+sprite_ipgws::size_2d	sprite_level_data_stuff.hpp	/^	vec2_u32 size_2d;$/;"	kind:m	class:sprite_ipgws	access:public
+sprite_ipgws::sprite_ipgws	sprite_level_data_stuff.hpp	/^	inline sprite_ipgws$/;"	kind:f	class:sprite_ipgws	access:public	signature:( const sprite_ipgws& to_copy )
+sprite_ipgws::sprite_ipgws	sprite_level_data_stuff.hpp	/^	inline sprite_ipgws( const sprite_type& s_type, $/;"	kind:f	class:sprite_ipgws	access:public	signature:( const sprite_type& s_type, u32 s_initial_block_grid_x_coord, u32 s_initial_block_grid_y_coord, bool s_facing_right, u32 s_extra_param_0, u32 s_extra_param_1, u32 s_extra_param_2, u32 s_extra_param_3, const sprite_spawn_state& s_spawn_state, const vec2_u32& s_size_2d )
+sprite_ipgws::sprite_ipgws	sprite_level_data_stuff.hpp	/^	inline sprite_ipgws() : sprite_init_param_group(),$/;"	kind:f	class:sprite_ipgws	access:public	signature:()
 sprite_ipgws_vec_2d	sublevel_class.hpp	/^		sprite_ipgws_vec_2d;$/;"	kind:m	class:sublevel	access:public
-sprite_ipgws_vec_for_xml	sublevel_class.hpp	/^	vector<sprite_init_param_group_with_size> sprite_ipgws_vec_for_xml;$/;"	kind:m	class:sublevel	access:public
+sprite_ipgws_vec_for_xml	sublevel_class.hpp	/^	vector<sprite_ipgws> sprite_ipgws_vec_for_xml;$/;"	kind:m	class:sublevel	access:public
 sprite_level_data_stuff_hpp	sprite_level_data_stuff.hpp	22;"	kind:d
 sprite_no_longer_selected	level_editor_core_widget_class.hpp	/^	void sprite_no_longer_selected();$/;"	kind:p	class:level_editor_core_widget	access:protected	signature:()
 sprite_properties_mode_icon_file_name	primary_widget_class.hpp	/^		sprite_properties_mode_icon_file_name, $/;"	kind:m	class:primary_widget	access:public
 sprite_properties_mode_tool_button	mouse_mode_button_group_widget_class.hpp	/^		sprite_properties_mode_tool_button,$/;"	kind:m	class:mouse_mode_button_group_widget	access:public
 sprite_properties_mode_tool_button_action	mouse_mode_button_group_widget_class.hpp	/^		* sprite_properties_mode_tool_button_action,$/;"	kind:m	class:mouse_mode_button_group_widget	access:public
 sprite_properties_mode_tool_button_action	primary_widget_class.hpp	/^		* sprite_properties_mode_tool_button_action,$/;"	kind:m	class:primary_widget	access:protected
-sprite_properties_widget	sprite_properties_widget_class.cpp	/^sprite_properties_widget::sprite_properties_widget( QWidget* s_parent,$/;"	kind:f	class:sprite_properties_widget	signature:( QWidget* s_parent, sprite_init_param_group_with_size* s_selected_sprite_ipgws )
-sprite_properties_widget	sprite_properties_widget_class.hpp	/^	sprite_properties_widget( QWidget* s_parent,$/;"	kind:p	class:sprite_properties_widget	access:public	signature:( QWidget* s_parent, sprite_init_param_group_with_size* s_selected_sprite_ipgws )
+sprite_properties_widget	sprite_properties_widget_class.cpp	/^sprite_properties_widget::sprite_properties_widget( QWidget* s_parent,$/;"	kind:f	class:sprite_properties_widget	signature:( QWidget* s_parent, sprite_ipgws* s_selected_sprite_ipgws )
+sprite_properties_widget	sprite_properties_widget_class.hpp	/^	sprite_properties_widget( QWidget* s_parent,$/;"	kind:p	class:sprite_properties_widget	access:public	signature:( QWidget* s_parent, sprite_ipgws* s_selected_sprite_ipgws )
 sprite_properties_widget	sprite_properties_widget_class.hpp	/^class sprite_properties_widget : public QWidget$/;"	kind:c	inherits:QWidget
 sprite_properties_widget::door_sprite_destination_sublevel_entrance_index_changed	sprite_properties_widget_class.cpp	/^	::door_sprite_destination_sublevel_entrance_index_changed$/;"	kind:f	class:sprite_properties_widget	signature:( int n_sublevel_entrance_index )
 sprite_properties_widget::door_sprite_destination_sublevel_entrance_index_changed	sprite_properties_widget_class.hpp	/^	void door_sprite_destination_sublevel_entrance_index_changed$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:( int n_sublevel_entrance_index )
@@ -1455,9 +1463,9 @@ sprite_properties_widget::group_box_label_vec	sprite_properties_widget_class.hpp
 sprite_properties_widget::group_box_spinbox_vec	sprite_properties_widget_class.hpp	/^	vector< unique_ptr<QSpinBox> > group_box_spinbox_vec;$/;"	kind:m	class:sprite_properties_widget	access:public
 sprite_properties_widget::init	sprite_properties_widget_class.cpp	/^void sprite_properties_widget::init()$/;"	kind:f	class:sprite_properties_widget	signature:()
 sprite_properties_widget::init	sprite_properties_widget_class.hpp	/^	void init();$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:()
-sprite_properties_widget::selected_sprite_ipgws	sprite_properties_widget_class.hpp	/^	sprite_init_param_group_with_size* selected_sprite_ipgws;$/;"	kind:m	class:sprite_properties_widget	access:public
-sprite_properties_widget::sprite_properties_widget	sprite_properties_widget_class.cpp	/^sprite_properties_widget::sprite_properties_widget( QWidget* s_parent,$/;"	kind:f	class:sprite_properties_widget	signature:( QWidget* s_parent, sprite_init_param_group_with_size* s_selected_sprite_ipgws )
-sprite_properties_widget::sprite_properties_widget	sprite_properties_widget_class.hpp	/^	sprite_properties_widget( QWidget* s_parent,$/;"	kind:p	class:sprite_properties_widget	access:public	signature:( QWidget* s_parent, sprite_init_param_group_with_size* s_selected_sprite_ipgws )
+sprite_properties_widget::selected_sprite_ipgws	sprite_properties_widget_class.hpp	/^	sprite_ipgws* selected_sprite_ipgws;$/;"	kind:m	class:sprite_properties_widget	access:public
+sprite_properties_widget::sprite_properties_widget	sprite_properties_widget_class.cpp	/^sprite_properties_widget::sprite_properties_widget( QWidget* s_parent,$/;"	kind:f	class:sprite_properties_widget	signature:( QWidget* s_parent, sprite_ipgws* s_selected_sprite_ipgws )
+sprite_properties_widget::sprite_properties_widget	sprite_properties_widget_class.hpp	/^	sprite_properties_widget( QWidget* s_parent,$/;"	kind:p	class:sprite_properties_widget	access:public	signature:( QWidget* s_parent, sprite_ipgws* s_selected_sprite_ipgws )
 sprite_properties_widget_class_hpp	sprite_properties_widget_class.hpp	21;"	kind:d
 sprite_properties_widget_enabled_vec	level_editor_widget_class.hpp	/^	vector<u32> sprite_properties_widget_enabled_vec;$/;"	kind:m	class:level_editor_widget	access:public
 sprite_spawn_state	sprite_level_data_stuff.hpp	/^enum sprite_spawn_state$/;"	kind:g
@@ -1488,17 +1496,17 @@ st_snow_golem	sprite_type_stuff.hpp	/^	st_snow_golem,$/;"	kind:e	enum:sprite_typ
 st_unknown_str	sprite_type_stuff.cpp	/^const string sprite_type_helper::st_unknown_str = string("st_unknown");$/;"	kind:m	class:sprite_type_helper	file:
 st_unknown_str	sprite_type_stuff.hpp	/^	static const string st_unknown_str;$/;"	kind:m	class:sprite_type_helper	access:public
 st_waffle	sprite_type_stuff.hpp	/^	st_waffle,$/;"	kind:e	enum:sprite_type
-start_creating_selection	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::start_creating_selection$/;"	kind:f	class:rect_selection_stuff	signature:( const vec2_s32& n_starting_block_grid_coords_of_mouse, rect_selection_layer n_selection_layer )
-start_creating_selection	rect_selection_stuff_class.hpp	/^	void start_creating_selection$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( const vec2_s32& n_starting_block_grid_coords_of_mouse, rect_selection_layer n_selection_layer )
-start_moving_selection_contents	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::start_moving_selection_contents$/;"	kind:f	class:rect_selection_stuff	signature:( const vec2_s32 n_clicked_location_in_rect )
-start_moving_selection_contents	rect_selection_stuff_class.hpp	/^	void start_moving_selection_contents$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( const vec2_s32 n_clicked_location_in_rect )
+start_creating_rs	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::start_creating_rs$/;"	kind:f	class:rect_selection_stuff	signature:( const vec2_s32& n_starting_block_grid_coords_of_mouse, rect_selection_layer n_selection_layer )
+start_creating_rs	rect_selection_stuff_class.hpp	/^	void start_creating_rs$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( const vec2_s32& n_starting_block_grid_coords_of_mouse, rect_selection_layer n_selection_layer )
+start_moving_rs_contents	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::start_moving_rs_contents$/;"	kind:f	class:rect_selection_stuff	signature:( const vec2_s32 n_clicked_location_in_rect )
+start_moving_rs_contents	rect_selection_stuff_class.hpp	/^	void start_moving_rs_contents$/;"	kind:p	class:rect_selection_stuff	access:public	signature:( const vec2_s32 n_clicked_location_in_rect )
 starting_block_grid_coords	rect_selection_stuff_class.hpp	/^	vec2_s32 starting_block_grid_coords;$/;"	kind:m	class:rect_selection_stuff	access:public
 starting_block_grid_coords_before_moving	rect_selection_stuff_class.hpp	/^	vec2_s32 starting_block_grid_coords_before_moving;$/;"	kind:m	class:rect_selection_stuff	access:public
 starting_block_grid_coords_of_mouse	rect_selection_stuff_class.hpp	/^	vec2_s32 starting_block_grid_coords_of_mouse;$/;"	kind:m	class:rect_selection_stuff	access:public
-stop_creating_selection	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::stop_creating_selection()$/;"	kind:f	class:rect_selection_stuff	signature:()
-stop_creating_selection	rect_selection_stuff_class.hpp	/^	void stop_creating_selection();$/;"	kind:p	class:rect_selection_stuff	access:public	signature:()
-stop_moving_selection_contents	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::stop_moving_selection_contents()$/;"	kind:f	class:rect_selection_stuff	signature:()
-stop_moving_selection_contents	rect_selection_stuff_class.hpp	/^	void stop_moving_selection_contents();$/;"	kind:p	class:rect_selection_stuff	access:public	signature:()
+stop_creating_rs	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::stop_creating_rs()$/;"	kind:f	class:rect_selection_stuff	signature:()
+stop_creating_rs	rect_selection_stuff_class.hpp	/^	void stop_creating_rs();$/;"	kind:p	class:rect_selection_stuff	access:public	signature:()
+stop_moving_rs_contents	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::stop_moving_rs_contents()$/;"	kind:f	class:rect_selection_stuff	signature:()
+stop_moving_rs_contents	rect_selection_stuff_class.hpp	/^	void stop_moving_rs_contents();$/;"	kind:p	class:rect_selection_stuff	access:public	signature:()
 sublevel	sublevel_class.cpp	/^sublevel::sublevel( const vec2_u32& s_real_size_2d )$/;"	kind:f	class:sublevel	signature:( const vec2_u32& s_real_size_2d )
 sublevel	sublevel_class.hpp	/^	inline sublevel() : sublevel(max_size_2d)$/;"	kind:f	class:sublevel	access:public	signature:()
 sublevel	sublevel_class.hpp	/^	sublevel( const vec2_u32& s_real_size_2d );$/;"	kind:p	class:sublevel	access:public	signature:( const vec2_u32& s_real_size_2d )
@@ -1522,7 +1530,7 @@ sublevel::resize	sublevel_class.hpp	/^	inline void resize( const vec2_u32& n_rea
 sublevel::size_2d	sublevel_class.hpp	/^	vec2_u32 size_2d;$/;"	kind:m	class:sublevel	access:public
 sublevel::sprite_ipg_vec_for_exporting	sublevel_class.hpp	/^	vector<sprite_init_param_group> sprite_ipg_vec_for_exporting;$/;"	kind:m	class:sublevel	access:public
 sublevel::sprite_ipgws_vec_2d	sublevel_class.hpp	/^		sprite_ipgws_vec_2d;$/;"	kind:m	class:sublevel	access:public
-sublevel::sprite_ipgws_vec_for_xml	sublevel_class.hpp	/^	vector<sprite_init_param_group_with_size> sprite_ipgws_vec_for_xml;$/;"	kind:m	class:sublevel	access:public
+sublevel::sprite_ipgws_vec_for_xml	sublevel_class.hpp	/^	vector<sprite_ipgws> sprite_ipgws_vec_for_xml;$/;"	kind:m	class:sublevel	access:public
 sublevel::sublevel	sublevel_class.cpp	/^sublevel::sublevel( const vec2_u32& s_real_size_2d )$/;"	kind:f	class:sublevel	signature:( const vec2_u32& s_real_size_2d )
 sublevel::sublevel	sublevel_class.hpp	/^	inline sublevel() : sublevel(max_size_2d)$/;"	kind:f	class:sublevel	access:public	signature:()
 sublevel::sublevel	sublevel_class.hpp	/^	sublevel( const vec2_u32& s_real_size_2d );$/;"	kind:p	class:sublevel	access:public	signature:( const vec2_u32& s_real_size_2d )
@@ -1622,17 +1630,17 @@ undo_and_redo_action	undo_and_redo_stack_class.hpp	/^	inline undo_and_redo_actio
 undo_and_redo_action	undo_and_redo_stack_class.hpp	/^	undo_and_redo_action( const undo_and_redo_action& to_copy );$/;"	kind:p	class:undo_and_redo_action	access:public	signature:( const undo_and_redo_action& to_copy )
 undo_and_redo_action	undo_and_redo_stack_class.hpp	/^class undo_and_redo_action$/;"	kind:c
 undo_and_redo_action::curr_block_map	undo_and_redo_stack_class.hpp	/^	map< vec2_s32, block > prev_block_map, curr_block_map;$/;"	kind:m	class:undo_and_redo_action	access:public
-undo_and_redo_action::curr_sprite_ipgws	undo_and_redo_stack_class.hpp	/^	sprite_init_param_group_with_size prev_sprite_ipgws, curr_sprite_ipgws;$/;"	kind:m	class:undo_and_redo_action	access:public
+undo_and_redo_action::curr_sprite_ipgws	undo_and_redo_stack_class.hpp	/^	sprite_ipgws prev_sprite_ipgws, curr_sprite_ipgws;$/;"	kind:m	class:undo_and_redo_action	access:public
 undo_and_redo_action::debug_print	undo_and_redo_stack_class.cpp	/^void undo_and_redo_action::debug_print()$/;"	kind:f	class:undo_and_redo_action	signature:()
 undo_and_redo_action::debug_print	undo_and_redo_stack_class.hpp	/^	void debug_print();$/;"	kind:p	class:undo_and_redo_action	access:public	signature:()
 undo_and_redo_action::moved_block_vec_2d	undo_and_redo_stack_class.hpp	/^	vector< vector<block> > replaced_block_vec_2d, moved_block_vec_2d;$/;"	kind:m	class:undo_and_redo_action	access:public
 undo_and_redo_action::moved_rs_ending_top_left_pos	undo_and_redo_stack_class.hpp	/^	vec2_s32 moved_rs_starting_top_left_pos, moved_rs_ending_top_left_pos;$/;"	kind:m	class:undo_and_redo_action	access:public
 undo_and_redo_action::moved_rs_starting_top_left_pos	undo_and_redo_stack_class.hpp	/^	vec2_s32 moved_rs_starting_top_left_pos, moved_rs_ending_top_left_pos;$/;"	kind:m	class:undo_and_redo_action	access:public
-undo_and_redo_action::moved_sprite_ipgws_vec_2d	undo_and_redo_stack_class.hpp	/^		replaced_sprite_ipgws_vec_2d, moved_sprite_ipgws_vec_2d;$/;"	kind:m	class:undo_and_redo_action	access:public
+undo_and_redo_action::moved_sprite_ipgws_set_2d	undo_and_redo_stack_class.hpp	/^		replaced_sprite_ipgws_set_2d, moved_sprite_ipgws_set_2d;$/;"	kind:m	class:undo_and_redo_action	access:public
 undo_and_redo_action::prev_block_map	undo_and_redo_stack_class.hpp	/^	map< vec2_s32, block > prev_block_map, curr_block_map;$/;"	kind:m	class:undo_and_redo_action	access:public
-undo_and_redo_action::prev_sprite_ipgws	undo_and_redo_stack_class.hpp	/^	sprite_init_param_group_with_size prev_sprite_ipgws, curr_sprite_ipgws;$/;"	kind:m	class:undo_and_redo_action	access:public
+undo_and_redo_action::prev_sprite_ipgws	undo_and_redo_stack_class.hpp	/^	sprite_ipgws prev_sprite_ipgws, curr_sprite_ipgws;$/;"	kind:m	class:undo_and_redo_action	access:public
 undo_and_redo_action::replaced_block_vec_2d	undo_and_redo_stack_class.hpp	/^	vector< vector<block> > replaced_block_vec_2d, moved_block_vec_2d;$/;"	kind:m	class:undo_and_redo_action	access:public
-undo_and_redo_action::replaced_sprite_ipgws_vec_2d	undo_and_redo_stack_class.hpp	/^		replaced_sprite_ipgws_vec_2d, moved_sprite_ipgws_vec_2d;$/;"	kind:m	class:undo_and_redo_action	access:public
+undo_and_redo_action::replaced_sprite_ipgws_set_2d	undo_and_redo_stack_class.hpp	/^		replaced_sprite_ipgws_set_2d, moved_sprite_ipgws_set_2d;$/;"	kind:m	class:undo_and_redo_action	access:public
 undo_and_redo_action::the_action_type	undo_and_redo_stack_class.hpp	/^	action_type the_action_type;$/;"	kind:m	class:undo_and_redo_action	access:public
 undo_and_redo_action::undo_and_redo_action	undo_and_redo_stack_class.cpp	/^undo_and_redo_action::undo_and_redo_action$/;"	kind:f	class:undo_and_redo_action	signature:( const undo_and_redo_action& to_copy )
 undo_and_redo_action::undo_and_redo_action	undo_and_redo_stack_class.hpp	/^	inline undo_and_redo_action() : the_action_type(at_unknown),$/;"	kind:f	class:undo_and_redo_action	access:public	signature:()
@@ -1660,11 +1668,11 @@ undo_and_redo_stuff	undo_and_redo_stack_class.hpp	/^struct undo_and_redo_stuff$/
 undo_and_redo_stuff::ur_action_to_push	undo_and_redo_stack_class.hpp	/^	undo_and_redo_action ur_action_to_push;$/;"	kind:m	struct:undo_and_redo_stuff	access:public
 undo_and_redo_stuff::ur_stack	undo_and_redo_stack_class.hpp	/^	undo_and_redo_stack ur_stack;$/;"	kind:m	struct:undo_and_redo_stuff	access:public
 unzoomed_size_2d	sfml_canvas_widget_classes.hpp	/^	QSize unzoomed_size_2d;$/;"	kind:m	class:level_editor_sfml_canvas_widget	access:protected
-up_left_ptr	sprite_level_data_stuff.hpp	/^		* up_left_ptr, * up_ptr, * up_right_ptr,$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
-up_left_ptr	sprite_level_data_stuff.hpp	/^	sprite_init_param_group_with_size * up_left_ptr, * up_right_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_selecting_sprite	access:public
-up_ptr	sprite_level_data_stuff.hpp	/^		* up_left_ptr, * up_ptr, * up_right_ptr,$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
-up_right_ptr	sprite_level_data_stuff.hpp	/^		* up_left_ptr, * up_ptr, * up_right_ptr,$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
-up_right_ptr	sprite_level_data_stuff.hpp	/^	sprite_init_param_group_with_size * up_left_ptr, * up_right_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_selecting_sprite	access:public
+up_left_ptr	sprite_level_data_stuff.hpp	/^	sprite_ipgws * up_left_ptr, * up_ptr, * up_right_ptr,$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
+up_left_ptr	sprite_level_data_stuff.hpp	/^	sprite_ipgws * up_left_ptr, * up_right_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_selecting_sprite	access:public
+up_ptr	sprite_level_data_stuff.hpp	/^	sprite_ipgws * up_left_ptr, * up_ptr, * up_right_ptr,$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
+up_right_ptr	sprite_level_data_stuff.hpp	/^	sprite_ipgws * up_left_ptr, * up_ptr, * up_right_ptr,$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
+up_right_ptr	sprite_level_data_stuff.hpp	/^	sprite_ipgws * up_left_ptr, * up_right_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_selecting_sprite	access:public
 update_visible_area	sfml_canvas_widget_classes.cpp	/^void level_editor_sfml_canvas_widget::update_visible_area()$/;"	kind:f	class:level_editor_sfml_canvas_widget	signature:()
 update_visible_area	sfml_canvas_widget_classes.hpp	/^	void update_visible_area();$/;"	kind:p	class:level_editor_sfml_canvas_widget	access:protected	signature:()
 ur_action_to_push	undo_and_redo_stack_class.hpp	/^	undo_and_redo_action ur_action_to_push;$/;"	kind:m	struct:undo_and_redo_stuff	access:public

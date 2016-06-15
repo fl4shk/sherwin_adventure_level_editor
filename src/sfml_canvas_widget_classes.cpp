@@ -757,7 +757,7 @@ void level_editor_sfml_canvas_widget::draw_visible_blocks_part_1
 
 void level_editor_sfml_canvas_widget::draw_sprite_shared_code
 	( sf::Sprite& sprite_for_drawing_level_elements,
-	sprite_init_param_group_with_size* the_sprite_ipgws,
+	sprite_ipgws* the_sprite_ipgws,
 	const vec2_s32& block_grid_pos )
 {
 	if (!the_sprite_ipgws->facing_right)
@@ -843,7 +843,7 @@ void level_editor_sfml_canvas_widget::draw_visible_16x32_sprites_part_1
 		(sprite_for_drawing_level_elements);
 	
 	auto draw_16x32_sprite = [&]
-		( sprite_init_param_group_with_size* the_sprite_ipgws,
+		( sprite_ipgws* the_sprite_ipgws,
 		const vec2_s32& block_grid_pos ) -> void
 	{
 		if ( the_sprite_ipgws->type != st_default 
@@ -892,11 +892,11 @@ void level_editor_sfml_canvas_widget::draw_visible_16x32_sprites_part_1
 				( block_grid_pos.x, block_grid_pos.y );
 			
 			
-			sprite_init_param_group_with_size* the_sprite_ipgws
+			sprite_ipgws* the_sprite_ipgws
 				= &( the_sublevel->sprite_ipgws_vec_2d
 				.at((u32)block_grid_pos.y).at((u32)block_grid_pos.x) );
 			
-			sprite_init_param_group_with_size default_sprite_ipgws;
+			sprite_ipgws default_sprite_ipgws;
 			
 			if ( the_rect_selection_stuff.selection_layer == rsl_blocks )
 			{
@@ -954,7 +954,7 @@ void level_editor_sfml_canvas_widget::draw_visible_16x16_sprites_part_1
 		(sprite_for_drawing_level_elements);
 	
 	auto draw_16x16_sprite = [&]
-		( sprite_init_param_group_with_size* the_sprite_ipgws,
+		( sprite_ipgws* the_sprite_ipgws,
 		const vec2_s32& block_grid_pos ) -> void
 	{
 		if ( the_sprite_ipgws->type != st_default 
@@ -1000,11 +1000,11 @@ void level_editor_sfml_canvas_widget::draw_visible_16x16_sprites_part_1
 				( block_grid_pos.x, block_grid_pos.y );
 			
 			
-			sprite_init_param_group_with_size* the_sprite_ipgws
+			sprite_ipgws* the_sprite_ipgws
 				= &( the_sublevel->sprite_ipgws_vec_2d
 				.at((u32)block_grid_pos.y).at((u32)block_grid_pos.x) );
 			
-			sprite_init_param_group_with_size default_sprite_ipgws;
+			sprite_ipgws default_sprite_ipgws;
 			
 			if ( the_rect_selection_stuff.selection_layer == rsl_blocks )
 			{
@@ -1172,7 +1172,7 @@ void level_editor_sfml_canvas_widget::draw_visible_16x32_sprites_part_2
 		(sprite_for_drawing_level_elements);
 	
 	auto draw_16x32_sprite = [&]
-		( sprite_init_param_group_with_size* the_sprite_ipgws,
+		( sprite_ipgws* the_sprite_ipgws,
 		const vec2_s32& block_grid_pos ) -> void
 	{
 		if ( the_sprite_ipgws->type != st_default 
@@ -1283,7 +1283,7 @@ void level_editor_sfml_canvas_widget::draw_visible_16x16_sprites_part_2
 		(sprite_for_drawing_level_elements);
 	
 	auto draw_16x16_sprite = [&]
-		( sprite_init_param_group_with_size* the_sprite_ipgws,
+		( sprite_ipgws* the_sprite_ipgws,
 		const vec2_s32& block_grid_pos ) -> void
 	{
 		if ( the_sprite_ipgws->type != st_default 

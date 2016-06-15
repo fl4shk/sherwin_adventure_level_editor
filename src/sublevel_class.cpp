@@ -43,13 +43,13 @@ void sublevel::init( const vec2_u32& s_real_size_2d )
 	{
 		uncompressed_block_data_vec_2d.push_back( vector<block>() );
 		sprite_ipgws_vec_2d.push_back
-			( vector<sprite_init_param_group_with_size>() );
+			( vector<sprite_ipgws>() );
 		
 		for ( u32 i=0; i<size_2d.x; ++i )
 		{
 			uncompressed_block_data_vec_2d[j].push_back( block() );
 			sprite_ipgws_vec_2d[j].push_back
-				( sprite_init_param_group_with_size() );
+				( sprite_ipgws() );
 		}
 	}
 }

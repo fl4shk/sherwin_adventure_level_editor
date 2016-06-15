@@ -48,8 +48,8 @@ public:		// variables
 	
 	
 	// Stuff for drawing a single sprite or modifying a sprite.
-	// prev_sprite_ipgws is used for when a sprite is modified.
-	sprite_init_param_group_with_size prev_sprite_ipgws, curr_sprite_ipgws;
+	// prev_sprite_ipgws is used for when a single sprite is modified.
+	sprite_ipgws prev_sprite_ipgws, curr_sprite_ipgws;
 	
 	
 	
@@ -64,15 +64,17 @@ public:		// variables
 	// The blocks that were replaced, and the blocks that were moved
 	vector< vector<block> > replaced_block_vec_2d, moved_block_vec_2d;
 	
+	
 	// The sprites that were replaced, and the sprites that were moved
-	vector< vector<sprite_init_param_group_with_size> >
-		replaced_sprite_ipgws_vec_2d, moved_sprite_ipgws_vec_2d;
+	//vector< vector<sprite_ipgws> >
+	set<sprite_ipgws>
+		replaced_sprite_ipgws_set_2d, moved_sprite_ipgws_set_2d;
 	
 	
 	
 public:		// functions
 	inline undo_and_redo_action() : the_action_type(at_unknown),
-		curr_sprite_ipgws(sprite_init_param_group_with_size())
+		curr_sprite_ipgws(sprite_ipgws())
 	{
 	}
 	// copy constructor

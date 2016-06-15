@@ -77,7 +77,7 @@ void editing_manager::key_press_event( QKeyEvent* event )
 	//{
 	//	if ( the_rect_selection_stuff.get_enabled() )
 	//	{
-	//		finalize_movement_of_rect_selection_contents( the_core_widget,
+	//		finalize_movement_of_rs_contents( the_core_widget,
 	//			the_rect_selection_stuff );
 	//	}
 	//	
@@ -89,7 +89,7 @@ void editing_manager::key_press_event( QKeyEvent* event )
 	//{
 	//	if ( the_rect_selection_stuff.get_enabled() )
 	//	{
-	//		finalize_movement_of_rect_selection_contents( the_core_widget,
+	//		finalize_movement_of_rs_contents( the_core_widget,
 	//			the_rect_selection_stuff );
 	//	}
 	//	
@@ -109,12 +109,12 @@ void editing_manager::key_press_event( QKeyEvent* event )
 	{
 		//cout << "Copying selection contents\n";
 		
-		copy_selection_contents(the_rect_selection_stuff);
+		copy_rs_contents(the_rect_selection_stuff);
 	}
 	else if ( event->key() == Qt::Key_V 
 		&& the_core_widget->the_mouse_mode == mm_rect_selection )
 	{
-		paste_copied_selection_contents( the_core_widget,
+		paste_copied_rs_contents( the_core_widget,
 			the_rect_selection_stuff );
 	}
 }
@@ -180,7 +180,7 @@ void editing_manager::mouse_press_event
 	//	.at((u32)block_grid_coords_of_mouse_pos.y)
 	//	.at((u32)block_grid_coords_of_mouse_pos.x);
 	//
-	//sprite_init_param_group_with_size& the_sprite_ipgws_at_mouse_pos
+	//sprite_ipgws& the_sprite_ipgws_at_mouse_pos
 	//	= the_sublevel->sprite_ipgws_vec_2d
 	//	.at((u32)block_grid_coords_of_mouse_pos.y)
 	//	.at((u32)block_grid_coords_of_mouse_pos.x);
@@ -221,7 +221,7 @@ void editing_manager::mouse_press_event
 				&& the_rect_selection_stuff.get_enabled()
 				&& the_rect_selection_stuff.get_mouse_released() )
 			{
-				finalize_movement_of_rect_selection_contents
+				finalize_movement_of_rs_contents
 					( the_core_widget, the_rect_selection_stuff );
 			}
 			
@@ -237,7 +237,7 @@ void editing_manager::mouse_press_event
 			&& the_rect_selection_stuff.get_enabled()
 			&& the_rect_selection_stuff.get_mouse_released() )
 		{
-			finalize_movement_of_rect_selection_contents( the_core_widget, 
+			finalize_movement_of_rs_contents( the_core_widget, 
 				the_rect_selection_stuff );
 		}
 		//cout << "else\n";
@@ -274,7 +274,7 @@ void editing_manager::mouse_press_event
 				break;
 			
 			case mm_rect_selection:
-				handle_rect_selection_during_mouse_press( the_core_widget,
+				handle_rs_during_mouse_press( the_core_widget,
 					block_grid_coords_of_mouse_pos,
 					current_tabbed_widget_is_for_blocks,
 					current_tabbed_widget_is_for_16x16_sprites,
@@ -397,7 +397,7 @@ void editing_manager::mouse_move_event
 				break;
 			
 			case mm_rect_selection:
-				handle_rect_selection_during_mouse_move( the_core_widget,
+				handle_rs_during_mouse_move( the_core_widget,
 					block_grid_coords_of_mouse_pos );
 				break;
 			
@@ -484,7 +484,7 @@ void editing_manager::mouse_release_event
 			break;
 		
 		case mm_rect_selection:
-			handle_rect_selection_during_mouse_release
+			handle_rs_during_mouse_release
 				(the_core_widget);
 			break;
 		
@@ -515,9 +515,7 @@ void editing_manager::mouse_release_event
 
 
 
-// This function needs to eventually handle undo and redo, which is why a
-// level_editor_core_widget is passed to this function.
-void editing_manager::finalize_movement_of_rect_selection_contents
+void editing_manager::finalize_movement_of_rs_contents
 	( level_editor_core_widget* the_core_widget,
 	rect_selection_stuff& the_rect_selection_stuff )
 {
@@ -579,7 +577,7 @@ void editing_manager::finalize_movement_of_rect_selection_contents
 	}
 	
 	
-	the_rect_selection_stuff.finalize_movement_of_selection_contents();
+	the_rect_selection_stuff.finalize_rs_movement();
 }
 
 
@@ -610,7 +608,7 @@ void editing_manager::handle_placing_le_during_mouse_press
 		.at((u32)block_grid_coords_of_mouse_pos.y)
 		.at((u32)block_grid_coords_of_mouse_pos.x);
 	
-	sprite_init_param_group_with_size& the_sprite_ipgws_at_mouse_pos
+	sprite_ipgws& the_sprite_ipgws_at_mouse_pos
 		= the_sublevel->sprite_ipgws_vec_2d
 		.at((u32)block_grid_coords_of_mouse_pos.y)
 		.at((u32)block_grid_coords_of_mouse_pos.x);
@@ -618,7 +616,7 @@ void editing_manager::handle_placing_le_during_mouse_press
 	if ( the_rect_selection_stuff.get_enabled() 
 		&& the_rect_selection_stuff.get_mouse_released() )
 	{
-		finalize_movement_of_rect_selection_contents( the_core_widget, 
+		finalize_movement_of_rs_contents( the_core_widget, 
 			the_rect_selection_stuff );
 	}
 	
@@ -698,7 +696,7 @@ void editing_manager::handle_selecting_single_sprite_during_mouse_press
 			if ( the_rect_selection_stuff.get_enabled()
 				&& the_rect_selection_stuff.get_mouse_released() )
 			{
-				finalize_movement_of_rect_selection_contents
+				finalize_movement_of_rs_contents
 					( the_core_widget, the_rect_selection_stuff );
 			}
 			
@@ -717,8 +715,8 @@ void editing_manager::handle_selecting_single_sprite_during_mouse_press
 		if ( the_rect_selection_stuff .get_enabled()
 			&& the_rect_selection_stuff.get_mouse_released() )
 		{
-			finalize_movement_of_rect_selection_contents
-				( the_core_widget, the_rect_selection_stuff );
+			finalize_movement_of_rs_contents( the_core_widget, 
+				the_rect_selection_stuff );
 		}
 		
 		
@@ -729,7 +727,7 @@ void editing_manager::handle_selecting_single_sprite_during_mouse_press
 		return;
 	}
 	
-	sprite_init_param_group_with_size* clicked_sprite_ipgws 
+	sprite_ipgws* clicked_sprite_ipgws 
 		= the_sprite_selection_ptr_group.origin_ptr;
 	
 	the_rect_selection_stuff.enable_single_sprite_selection
@@ -740,7 +738,7 @@ void editing_manager::handle_selecting_single_sprite_during_mouse_press
 	
 }
 
-void editing_manager::handle_rect_selection_during_mouse_press
+void editing_manager::handle_rs_during_mouse_press
 	( level_editor_core_widget* the_core_widget,
 	const vec2_s32& block_grid_coords_of_mouse_pos,
 	bool current_tabbed_widget_is_for_blocks,
@@ -771,20 +769,20 @@ void editing_manager::handle_rect_selection_during_mouse_press
 		if ( the_rect_selection_stuff.get_enabled()
 			&& the_rect_selection_stuff.get_mouse_released() )
 		{
-			finalize_movement_of_rect_selection_contents
+			finalize_movement_of_rs_contents
 				( the_core_widget, the_rect_selection_stuff );
 		}
 		
 		// Create a new rectangular selection
 		if (current_tabbed_widget_is_for_blocks)
 		{
-			the_rect_selection_stuff.start_creating_selection
+			the_rect_selection_stuff.start_creating_rs
 				( block_grid_coords_of_mouse_pos, rsl_blocks );
 		}
 		else if ( current_tabbed_widget_is_for_16x16_sprites 
 			|| current_tabbed_widget_is_for_16x32_sprites )
 		{
-			the_rect_selection_stuff.start_creating_selection
+			the_rect_selection_stuff.start_creating_rs
 				( block_grid_coords_of_mouse_pos, rsl_sprites );
 		}
 	}
@@ -800,7 +798,7 @@ void editing_manager::handle_rect_selection_during_mouse_press
 		
 		// Prepare for the mouse to be dragged such that the rect
 		// selection and its contents can be dragged
-		the_rect_selection_stuff.start_moving_selection_contents
+		the_rect_selection_stuff.start_moving_rs_contents
 			(clicked_location_in_rect);
 	}
 	
@@ -877,7 +875,7 @@ void editing_manager::handle_selecting_single_sprite_during_mouse_move
 	
 }
 
-void editing_manager::handle_rect_selection_during_mouse_move
+void editing_manager::handle_rs_during_mouse_move
 	( level_editor_core_widget* the_core_widget,
 	const vec2_s32& block_grid_coords_of_mouse_pos )
 {
@@ -891,12 +889,12 @@ void editing_manager::handle_rect_selection_during_mouse_move
 	// undo/redo.
 	if ( !the_rect_selection_stuff.get_moving() )
 	{
-		the_rect_selection_stuff.continue_creating_selection
+		the_rect_selection_stuff.continue_creating_rs
 			(block_grid_coords_of_mouse_pos);
 	}
 	else //if ( the_rect_selection_stuff.get_moving() )
 	{
-		the_rect_selection_stuff.continue_moving_selection_contents
+		the_rect_selection_stuff.continue_moving_rs_contents
 			(block_grid_coords_of_mouse_pos);
 	}
 	
@@ -944,7 +942,7 @@ void editing_manager::handle_placing_le_during_mouse_release
 	{
 		//cout << "func_for_placeing_sprite()\n";
 		
-		sprite_init_param_group_with_size& curr_sprite_ipgws
+		sprite_ipgws& curr_sprite_ipgws
 			= ur_action_to_push.curr_sprite_ipgws;
 		
 		if ( curr_sprite_ipgws.type <= st_default 
@@ -995,7 +993,7 @@ void editing_manager::handle_selecting_single_sprite_during_mouse_release
 	
 }
 
-void editing_manager::handle_rect_selection_during_mouse_release
+void editing_manager::handle_rs_during_mouse_release
 	( level_editor_core_widget* the_core_widget )
 {
 	rect_selection_stuff& the_rect_selection_stuff = the_core_widget
@@ -1003,11 +1001,11 @@ void editing_manager::handle_rect_selection_during_mouse_release
 	
 	if ( !the_rect_selection_stuff.get_moving() )
 	{
-		the_rect_selection_stuff.stop_creating_selection();
+		the_rect_selection_stuff.stop_creating_rs();
 	}
 	else //if ( the_rect_selection_stuff.get_moving() )
 	{
-		the_rect_selection_stuff.stop_moving_selection_contents();
+		the_rect_selection_stuff.stop_moving_rs_contents();
 	}
 	
 	// I can't remember why I did this.
@@ -1218,7 +1216,7 @@ void editing_manager::place_single_16x16_sprite_and_record_ur_stuff
 		return;
 	}
 	
-	sprite_init_param_group_with_size& the_sprite_ipgws_in_sublevel
+	sprite_ipgws& the_sprite_ipgws_in_sublevel
 		= the_sublevel->sprite_ipgws_vec_2d
 		.at((u32)block_grid_coord.y).at((u32)block_grid_coord.x);
 	
@@ -1226,7 +1224,7 @@ void editing_manager::place_single_16x16_sprite_and_record_ur_stuff
 	{
 		
 		//the_sprite_ipgws_at_mouse_pos 
-		//	= sprite_init_param_group_with_size();
+		//	= sprite_ipgws();
 		
 		// Create a new 16x16 sprite
 		the_sprite_ipgws_in_sublevel.type = the_sprite_type;
@@ -1260,7 +1258,7 @@ void editing_manager::place_single_16x32_sprite_and_record_ur_stuff
 		return;
 	}
 	
-	sprite_init_param_group_with_size& the_sprite_ipgws_in_sublevel
+	sprite_ipgws& the_sprite_ipgws_in_sublevel
 		= the_sublevel->sprite_ipgws_vec_2d
 		.at((u32)block_grid_coord.y).at((u32)block_grid_coord.x);
 	
@@ -1300,14 +1298,14 @@ void editing_manager::place_single_16x32_sprite_and_record_ur_stuff
 
 // Editing functions to activate upon key press.  These are meant to
 // actually 
-void editing_manager::copy_selection_contents
+void editing_manager::copy_rs_contents
 	( rect_selection_stuff& the_rect_selection_stuff )
 {
-	the_rect_selection_stuff.copy_selection_contents();
+	the_rect_selection_stuff.copy_rs_contents();
 }
 
 
-void editing_manager::paste_copied_selection_contents
+void editing_manager::paste_copied_rs_contents
 	( level_editor_core_widget* the_core_widget,
 	rect_selection_stuff& the_rect_selection_stuff )
 {
@@ -1318,7 +1316,7 @@ void editing_manager::paste_copied_selection_contents
 	
 	if ( the_rect_selection_stuff.get_enabled() )
 	{
-		finalize_movement_of_rect_selection_contents( the_core_widget,
+		finalize_movement_of_rs_contents( the_core_widget,
 			the_rect_selection_stuff );
 	}
 	
@@ -1400,12 +1398,12 @@ void editing_manager::paste_copied_selection_contents
 		( block_grid_coords_of_mouse_pos.x, 
 		block_grid_coords_of_mouse_pos.y ) )
 	{
-		the_rect_selection_stuff.paste_copied_selection_contents
+		the_rect_selection_stuff.paste_copied_rs_contents
 			(block_grid_coords_of_mouse_pos);
 	}
 	//else
 	//{
-	//	the_rect_selection_stuff.paste_copied_selection_contents( vec2_s32
+	//	the_rect_selection_stuff.paste_copied_rs_contents( vec2_s32
 	//		( visible_block_grid_start_pos.x, 
 	//		visible_block_grid_start_pos.y ) );
 	//}

@@ -113,12 +113,12 @@ public:		// variables
 	
 	// Stuff to move
 	vector< vector<block> > moving_block_vec_2d;
-	vector< vector<sprite_init_param_group_with_size> >
+	vector< vector<sprite_ipgws> >
 		moving_sprite_ipgws_vec_2d;
 	
 	// Stuff to paste
 	vector< vector<block> > copied_block_vec_2d;
-	vector< vector<sprite_init_param_group_with_size> > 
+	vector< vector<sprite_ipgws> > 
 		copied_sprite_ipgws_vec_2d;
 	
 	
@@ -149,7 +149,7 @@ public:		// functions
 	{
 		return single_sprite_selected;
 	}
-	inline sprite_init_param_group_with_size*
+	inline sprite_ipgws*
 		get_single_selected_sprite_ipgws()
 	{
 		return &( the_sublevel->sprite_ipgws_vec_2d.at(selection_rect.top)
@@ -192,19 +192,19 @@ public:		// functions
 	//	selection_rect = n_selection_rect;
 	//}
 	
-	void start_creating_selection
+	void start_creating_rs
 		( const vec2_s32& n_starting_block_grid_coords_of_mouse, 
 		rect_selection_layer n_selection_layer );
-	void continue_creating_selection
+	void continue_creating_rs
 		( const vec2_s32& curr_block_grid_coords_of_mouse );
-	void stop_creating_selection();
+	void stop_creating_rs();
 	
 	// Stuff for moving the rectangular selection's contents.
-	void start_moving_selection_contents
+	void start_moving_rs_contents
 		( const vec2_s32 n_clicked_location_in_rect );
-	void continue_moving_selection_contents
+	void continue_moving_rs_contents
 		( const vec2_s32 curr_block_grid_coords_of_mouse );
-	void stop_moving_selection_contents();
+	void stop_moving_rs_contents();
 	
 	// 
 	inline sf::IntRect get_selection_rect_before_moving() const
@@ -227,17 +227,22 @@ public:		// functions
 		return selection_rect_before_moving;
 	}
 	
-	void finalize_movement_of_selection_contents();
+	void finalize_rs_movement();
+	
+	void rs_movement_finalization_block_shared_code
+		( vector< vector<block> >& the_other_block_vec_2d );
+	void rs_movement_finalization_sprite_shared_code
+		( vector< vector<sprite_ipgws> >& the_other_sprite_ipgws_vec_2d );
 	
 	
 	// Copy/paste stuff
-	void copy_selection_contents();
-	void paste_copied_selection_contents
+	void copy_rs_contents();
+	void paste_copied_rs_contents
 		( const vec2_s32& n_starting_block_grid_coords );
 	
 	
 	void enable_single_sprite_selection
-		( sprite_init_param_group_with_size* n_selected_sprite_ipgws );
+		( sprite_ipgws* n_selected_sprite_ipgws );
 	
 	inline void disable_selection()
 	{

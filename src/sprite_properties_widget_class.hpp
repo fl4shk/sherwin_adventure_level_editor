@@ -37,7 +37,7 @@ public:		// variables
 	unique_ptr<QGridLayout> grid_layout;
 	
 	// A pointer to the sprite level data instance.
-	sprite_init_param_group_with_size* selected_sprite_ipgws;
+	sprite_ipgws* selected_sprite_ipgws;
 	
 	
 	// This is used for picking the facing_right value of
@@ -60,7 +60,7 @@ public:		// variables
 	
 public:		// functions
 	sprite_properties_widget( QWidget* s_parent,
-		sprite_init_param_group_with_size* s_selected_sprite_ipgws );
+		sprite_ipgws* s_selected_sprite_ipgws );
 	
 	
 protected:		// functions

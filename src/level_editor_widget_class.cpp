@@ -396,7 +396,7 @@ bool level_editor_widget::open_level_core_func
 			sprite_node;
 			sprite_node=sprite_node.next_sibling() )
 		{
-			sprite_init_param_group_with_size to_push;
+			sprite_ipgws to_push;
 			
 			for ( xml_attribute attr=sprite_node.first_attribute();
 				attr;
@@ -453,16 +453,16 @@ bool level_editor_widget::open_level_core_func
 		for ( u32 j=0; j<the_sublevel.real_size_2d.y; ++j )
 		{
 			the_sublevel.sprite_ipgws_vec_2d.push_back
-				(vector<sprite_init_param_group_with_size>());
+				(vector<sprite_ipgws>());
 			for ( u32 i=0; i<the_sublevel.real_size_2d.x; ++i )
 			{
 				the_sublevel.sprite_ipgws_vec_2d.at(j).push_back
-					(sprite_init_param_group_with_size());
+					(sprite_ipgws());
 			}
 		}
 		
 		
-		for ( sprite_init_param_group_with_size& the_sprite_ipgws
+		for ( sprite_ipgws& the_sprite_ipgws
 			: the_sublevel.sprite_ipgws_vec_for_xml )
 		{
 			the_sublevel.sprite_ipgws_vec_2d
@@ -654,7 +654,7 @@ void level_editor_widget::save_level_as_core_func
 				
 				
 				// Also build sprite_ipg_vec.
-				sprite_init_param_group_with_size& the_sprite_ipgws
+				sprite_ipgws& the_sprite_ipgws
 					= the_sublevel.sprite_ipgws_vec_2d.at(j).at(i);
 				
 				if ( the_sprite_ipgws.type != st_default )
@@ -673,13 +673,13 @@ void level_editor_widget::save_level_as_core_func
 		xml_node sprites_parent_node = sublevel_node.append_child
 			("sprites");
 		
-		//for ( sprite_init_param_group_with_size& the_sprite_ipgws
+		//for ( sprite_ipgws& the_sprite_ipgws
 		//	: the_sublevel.sprite_ipgws_vec_for_xml )
 		for ( u32 i=0; 
 			i<the_sublevel.sprite_ipgws_vec_for_xml.size(); 
 			++i )
 		{
-			sprite_init_param_group_with_size& the_sprite_ipgws
+			sprite_ipgws& the_sprite_ipgws
 				= the_sublevel.sprite_ipgws_vec_for_xml.at(i);
 			
 			stringstream number_sstm;
@@ -791,7 +791,7 @@ void level_editor_widget::switch_mouse_mode_to_place_level_elements()
 	
 	if ( the_rect_selection_stuff.get_enabled() )
 	{
-		the_editing_manager->finalize_movement_of_rect_selection_contents
+		the_editing_manager->finalize_movement_of_rs_contents
 			( the_core_widget, the_rect_selection_stuff );
 	}
 	
@@ -837,7 +837,7 @@ void level_editor_widget::switch_mouse_mode_to_select_single_sprite()
 	
 	if ( the_rect_selection_stuff.get_enabled() )
 	{
-		the_editing_manager->finalize_movement_of_rect_selection_contents
+		the_editing_manager->finalize_movement_of_rs_contents
 			( the_core_widget, the_rect_selection_stuff );
 	}
 	

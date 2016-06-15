@@ -121,7 +121,8 @@ public:		// functions
 	// std::forward_list::sort() method.  The sorting is to be done based
 	// on the initial_block_grid_x_coord parameter, followed by the
 	// initial_block_grid_y_coord parameter.
-	inline bool operator < ( const sprite_init_param_group& other ) const
+	virtual inline bool operator < 
+		( const sprite_init_param_group& other ) const
 	{
 		if ( initial_block_grid_x_coord 
 			< other.initial_block_grid_x_coord)
@@ -140,6 +141,7 @@ public:		// functions
 		//		< other.initial_block_grid_y_coord );
 		//}
 		
+		
 		return ( initial_block_grid_y_coord 
 			< other.initial_block_grid_y_coord );
 	}
@@ -147,19 +149,20 @@ public:		// functions
 	
 } __attribute__((aligned(4)));
 
-class sprite_init_param_group_with_size : public sprite_init_param_group
+// This is a sprite_init_param_group with size
+class sprite_ipgws : public sprite_init_param_group
 {
 public:		// variables
 	vec2_u32 size_2d;
 	
 public:		// functions
-	inline sprite_init_param_group_with_size() : sprite_init_param_group(),
+	inline sprite_ipgws() : sprite_init_param_group(),
 		size_2d(vec2_u32())
 	{
 	}
 	
-	inline sprite_init_param_group_with_size
-		( const sprite_init_param_group_with_size& to_copy )
+	inline sprite_ipgws
+		( const sprite_ipgws& to_copy )
 		: sprite_init_param_group( to_copy.type,
 		to_copy.initial_block_grid_x_coord,
 		to_copy.initial_block_grid_y_coord, to_copy.facing_right,
@@ -170,7 +173,7 @@ public:		// functions
 	}
 	
 	
-	inline sprite_init_param_group_with_size( const sprite_type& s_type, 
+	inline sprite_ipgws( const sprite_type& s_type, 
 		u32 s_initial_block_grid_x_coord, u32 s_initial_block_grid_y_coord,
 		bool s_facing_right, u32 s_extra_param_0, u32 s_extra_param_1,
 		u32 s_extra_param_2, u32 s_extra_param_3, 
@@ -183,8 +186,8 @@ public:		// functions
 	{
 	}
 	
-	inline sprite_init_param_group_with_size& operator = 
-		( const sprite_init_param_group_with_size& to_copy )
+	inline sprite_ipgws& operator = 
+		( const sprite_ipgws& to_copy )
 	{
 		sprite_init_param_group::operator = ( sprite_init_param_group
 			( to_copy.type, to_copy.initial_block_grid_x_coord, 
@@ -247,8 +250,7 @@ public:		// variables
 	// The TOP LEFT block grid coordinate INTERSECTED BY THE SPRITE is
 	// considered to be the origin.  In this case, the origin is the in the
 	// CENTER of the checked block grid coordinates.
-	sprite_init_param_group_with_size 
-		* up_left_ptr, * up_ptr, * up_right_ptr,
+	sprite_ipgws * up_left_ptr, * up_ptr, * up_right_ptr,
 		* left_ptr, * origin_ptr, * right_ptr, 
 		* down_left_ptr, * down_ptr, * down_right_ptr;
 	
@@ -263,7 +265,7 @@ public:		// functions
 	virtual bool can_add_sprite() = 0;
 	virtual void erase_overlapping_sprites() = 0;
 	
-protected:		// functions
+	
 	inline bool overlaps_up_left() const
 	{
 		if ( up_left_ptr != NULL )
@@ -386,7 +388,7 @@ protected:		// functions
 // block grid coordinates.  Only one sprite should be permitted per block
 // grid coordinate.  These classes are intended to be used to help
 // overwrite data in a sublevel's 2D vector of
-// sprite_init_param_group_with_size.
+// sprite_ipgws.
 
 // "adj" is short for "adjacent"
 
@@ -496,7 +498,7 @@ class adj_sprite_ipgws_ptr_group_for_selecting_sprite
 {
 public:		// variables
 	// origin_ptr is a pointer to whichever sprite was actually clicked
-	sprite_init_param_group_with_size * up_left_ptr, * up_right_ptr, 
+	sprite_ipgws * up_left_ptr, * up_right_ptr, 
 		* down_left_ptr, * down_right_ptr, * origin_ptr;
 	
 	

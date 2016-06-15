@@ -20,7 +20,7 @@
 #include "sublevel_class.hpp"
 #include "sfml_canvas_widget_classes.hpp"
 
-void rect_selection_stuff::start_creating_selection
+void rect_selection_stuff::start_creating_rs
 	( const vec2_s32& n_starting_block_grid_coords_of_mouse, 
 	rect_selection_layer n_selection_layer )
 {
@@ -56,7 +56,7 @@ void rect_selection_stuff::start_creating_selection
 	ending_block_grid_coords_before_moving = ending_block_grid_coords;
 }
 
-void rect_selection_stuff::continue_creating_selection
+void rect_selection_stuff::continue_creating_rs
 	( const vec2_s32& curr_block_grid_coords_of_mouse )
 {
 	//cout << "continue_rect_selection()\n";
@@ -137,7 +137,7 @@ void rect_selection_stuff::continue_creating_selection
 	ending_block_grid_coords_before_moving = ending_block_grid_coords;
 }
 
-void rect_selection_stuff::stop_creating_selection()
+void rect_selection_stuff::stop_creating_rs()
 {
 	selection_still_being_created = false;
 	
@@ -192,8 +192,7 @@ void rect_selection_stuff::stop_creating_selection()
 		
 		for ( s32 j=0; j<selection_rect.height; ++j )
 		{
-			moving_sprite_ipgws_vec_2d.push_back
-				(vector<sprite_init_param_group_with_size>());
+			moving_sprite_ipgws_vec_2d.push_back(vector<sprite_ipgws>());
 			
 			for ( s32 i=0; i<selection_rect.width; ++i )
 			{
@@ -205,12 +204,12 @@ void rect_selection_stuff::stop_creating_selection()
 					(original_block_grid_pos) )
 				{
 					moving_sprite_ipgws_vec_2d.at(j)
-						.push_back(sprite_init_param_group_with_size());
+						.push_back(sprite_ipgws());
 					continue;
 				}
 				
-				sprite_init_param_group_with_size the_sprite_ipgws 
-					= the_sublevel->sprite_ipgws_vec_2d
+				sprite_ipgws the_sprite_ipgws = the_sublevel
+					->sprite_ipgws_vec_2d
 					.at((u32)original_block_grid_pos.y)
 					.at((u32)original_block_grid_pos.x);
 				
@@ -224,7 +223,7 @@ void rect_selection_stuff::stop_creating_selection()
 
 
 
-void rect_selection_stuff::start_moving_selection_contents
+void rect_selection_stuff::start_moving_rs_contents
 	( const vec2_s32 n_clicked_location_in_rect )
 {
 	//cout << "start_moving_rect_selection_contents()\n";
@@ -243,7 +242,7 @@ void rect_selection_stuff::start_moving_selection_contents
 	
 }
 
-void rect_selection_stuff::continue_moving_selection_contents
+void rect_selection_stuff::continue_moving_rs_contents
 	( const vec2_s32 curr_block_grid_coords_of_mouse )
 {
 	//cout << "continue_moving_rect_selection_contents()\n";
@@ -310,22 +309,22 @@ void rect_selection_stuff::continue_moving_selection_contents
 	
 }
 
-void rect_selection_stuff::stop_moving_selection_contents()
+void rect_selection_stuff::stop_moving_rs_contents()
 {
-	//cout << "stop_moving_rect_selection_contents()\n"; 
+	//cout << "stop_moving_rect_rs_contents()\n"; 
 	mouse_released = true;
 	moving = false;
 	
 }
 
 
-void rect_selection_stuff::finalize_movement_of_selection_contents()
+void rect_selection_stuff::finalize_rs_movement()
 {
-	//cout << "finalize_movement_of_rect_selection_contents()\n";
+	//cout << "finalize_rs_movement()\n";
 	
 	//disable_rect_selection();
 	//disable_selection();
-
+	
 	////if ( get_rect_selection_single_sprite_selected() )
 	//if ( get_single_sprite_selected() )
 	//{
@@ -345,35 +344,138 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 	//}
 	
 	
-	auto shared_sprite_handling_func = [&]( const vec2_s32& block_grid_pos,
-		const sprite_init_param_group_with_size& the_other_sprite_ipgws ) 
-		-> void
+	// Blocks were moved, but not pasted
+	if ( selection_layer == rsl_blocks && !get_selection_was_pasted() )
 	{
-		sprite_init_param_group_with_size& the_new_sprite_ipgws 
+		for ( s32 j=0; j<selection_rect.height; ++j )
+		{
+			for ( s32 i=0; i<selection_rect.width; ++i )
+			{
+				vec2_s32 original_block_grid_pos
+					( selection_rect_before_moving.left + i,
+					selection_rect_before_moving.top + j );
+				
+				if ( !the_sublevel->contains_block_grid_pos
+					(original_block_grid_pos) )
+				{
+					continue;
+				}
+				
+				block& the_block = the_sublevel
+					->uncompressed_block_data_vec_2d
+					.at((u32)original_block_grid_pos.y)
+					.at((u32)original_block_grid_pos.x);
+				
+				// Delete the data of the_block.
+				the_block = block();
+			}
+		}
+		
+		
+		rs_movement_finalization_block_shared_code(moving_block_vec_2d);
+	}
+	// Blocks were pasted
+	else if ( original_layer_of_pasted_selection == rsl_blocks 
+		&& get_selection_was_pasted() )
+	{
+		rs_movement_finalization_block_shared_code(copied_block_vec_2d);
+	}
+	
+	// Sprites were moved, but not pasted
+	else if ( selection_layer == rsl_sprites 
+		&& !get_selection_was_pasted() )
+	{
+		for ( s32 j=0; j<selection_rect.height; ++j )
+		{
+			for ( s32 i=0; i<selection_rect.width; ++i )
+			{
+				vec2_s32 original_block_grid_pos
+					( selection_rect_before_moving.left + i,
+					selection_rect_before_moving.top + j );
+				
+				if ( !the_sublevel->contains_block_grid_pos
+					(original_block_grid_pos) )
+				{
+					continue;
+				}
+				
+				sprite_ipgws& the_sprite_ipgws 
+					= the_sublevel->sprite_ipgws_vec_2d
+					.at((u32)original_block_grid_pos.y)
+					.at((u32)original_block_grid_pos.x);
+				
+				// Delete the data of the_sprite_ipgws.
+				the_sprite_ipgws = sprite_ipgws();
+			}
+		}
+		
+		rs_movement_finalization_sprite_shared_code
+			(moving_sprite_ipgws_vec_2d);
+	}
+	// Sprites were pasted
+	else if ( original_layer_of_pasted_selection == rsl_sprites 
+		&& get_selection_was_pasted() )
+	{
+		rs_movement_finalization_sprite_shared_code
+			(copied_sprite_ipgws_vec_2d);
+	}
+	
+}
+
+void rect_selection_stuff::rs_movement_finalization_block_shared_code
+	( vector< vector<block> >& the_other_block_vec_2d )
+{
+	for ( s32 j=0; j<selection_rect.height; ++j )
+	{
+		for ( s32 i=0; i<selection_rect.width; ++i )
+		{
+			vec2_s32 block_grid_pos( selection_rect.left + i,
+				selection_rect.top + j );
+			
+			if ( !the_sublevel->contains_block_grid_pos
+				(block_grid_pos) )
+			{
+				//cout << "j, i == " << j << ", " << i << endl;
+				continue;
+			}
+			
+			the_sublevel->uncompressed_block_data_vec_2d
+				.at(block_grid_pos.y).at(block_grid_pos.x)
+				= the_other_block_vec_2d.at(j).at(i);
+		}
+	}
+}
+
+void rect_selection_stuff::rs_movement_finalization_sprite_shared_code
+	( vector< vector<sprite_ipgws> >& the_other_sprite_ipgws_vec_2d )
+{
+	// These three nested lambda functions have, uh, weird names, which
+	// is an interesting coincidence.
+	auto say_that_size_2d_y_is_weird = []() -> void
+	{
+		cout << "rs_movement_finalization_sprite_shared_code():  weird "
+			<< "issue where the_other_sprite_ipgws.size_2d.y is neither "
+			<< "16 or 32.\n";
+	};
+	auto say_that_size_2d_x_is_weird = []() -> void
+	{
+		cout << "rs_movement_finalization_sprite_shared_code():  weird "
+			<< "issue where the_other_sprite_ipgws.size_2d.x is neither "
+			<< "16 or 32.\n";
+	};
+	auto say_that_size_2d_combo_is_weird = []() -> void
+	{
+		cout << "rs_movement_finalization_sprite_shared_code():  weird "
+			<< "issue where the_other_sprite_ipgws.size_2d.x == 32 and "
+			<< "the_other_sprite_ipgws.size_2d.y == 16.\n";
+	};
+	
+	auto single_sprite_handler = [&] ( const vec2_s32& block_grid_pos, 
+		const sprite_ipgws& the_other_sprite_ipgws ) -> void
+	{
+		sprite_ipgws& the_new_sprite_ipgws 
 			= the_sublevel->sprite_ipgws_vec_2d
 			.at(block_grid_pos.y).at(block_grid_pos.x);
-		
-		
-		// These three nested lambda functions have, uh, weird names, which
-		// is an interesting coincidence.
-		auto say_that_size_2d_y_is_weird = []() -> void
-		{
-			cout << "shared_sprite_handling_func():  weird issue where "
-				<< "the_other_sprite_ipgws.size_2d.y is neither 16 or "
-				<< "32.\n";
-		};
-		auto say_that_size_2d_x_is_weird = []() -> void
-		{
-			cout << "shared_sprite_handling_func():  weird issue where "
-				<< "the_other_sprite_ipgws.size_2d.x is neither 16 or "
-				<< "32.\n";
-		};
-		auto say_that_size_2d_combo_is_weird = []() -> void
-		{
-			cout << "shared_sprite_handling_func():  weird issue where "
-				<< "the_other_sprite_ipgws.size_2d.x == 32 and "
-				<< "the_other_sprite_ipgws.size_2d.y == 16.\n";
-		};
 		
 		if ( the_other_sprite_ipgws.type != st_default )
 		{
@@ -453,171 +555,36 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 		//// Erase sprites even when there's not one in the specific slot
 		//else //if ( the_other_sprite_ipgws.type == st_default )
 		//{
-		//	the_new_sprite_ipgws = sprite_init_param_group_with_size();
+		//	the_new_sprite_ipgws = sprite_ipgws();
 		//}
 	};
 	
 	
-	// Blocks were moved, but not pasted
-	if ( selection_layer == rsl_blocks && !get_selection_was_pasted() )
+	for ( s32 j=0; j<selection_rect.height; ++j )
 	{
-		for ( s32 j=0; j<selection_rect.height; ++j )
+		for ( s32 i=0; i<selection_rect.width; ++i )
 		{
-			for ( s32 i=0; i<selection_rect.width; ++i )
+			vec2_s32 block_grid_pos( selection_rect.left + i,
+				selection_rect.top + j );
+			
+			if ( !the_sublevel->contains_block_grid_pos
+				(block_grid_pos) )
 			{
-				vec2_s32 original_block_grid_pos
-					( selection_rect_before_moving.left + i,
-					selection_rect_before_moving.top + j );
-				
-				if ( !the_sublevel->contains_block_grid_pos
-					(original_block_grid_pos) )
-				{
-					continue;
-				}
-				
-				block& the_block = the_sublevel
-					->uncompressed_block_data_vec_2d
-					.at((u32)original_block_grid_pos.y)
-					.at((u32)original_block_grid_pos.x);
-				
-				// Delete the data of the_block.
-				the_block = block();
+				continue;
 			}
-		}
-		
-		
-		//cout << "moving_block_vec_2d.size() == "
-		//	<< moving_block_vec_2d.size()
-		//	<< "; moving_block_vec_2d.back().size() == "
-		//	<< moving_block_vec_2d.back().size() << endl;
-		
-		for ( s32 j=0; j<selection_rect.height; ++j )
-		{
-			for ( s32 i=0; i<selection_rect.width; ++i )
-			{
-				vec2_s32 block_grid_pos( selection_rect.left + i,
-					selection_rect.top + j );
-				
-				if ( !the_sublevel->contains_block_grid_pos
-					(block_grid_pos) )
-				{
-					//cout << "j, i == " << j << ", " << i << endl;
-					continue;
-				}
-				
-				the_sublevel->uncompressed_block_data_vec_2d
-					.at(block_grid_pos.y).at(block_grid_pos.x)
-					= moving_block_vec_2d.at(j).at(i);
-			}
+			
+			const sprite_ipgws& the_other_sprite_ipgws 
+				= the_other_sprite_ipgws_vec_2d.at(j).at(i);
+			
+			single_sprite_handler( block_grid_pos,
+				the_other_sprite_ipgws );
 		}
 	}
-	// Blocks were pasted
-	else if ( original_layer_of_pasted_selection == rsl_blocks 
-		&& get_selection_was_pasted() )
-	{
-		for ( s32 j=0; j<selection_rect.height; ++j )
-		{
-			for ( s32 i=0; i<selection_rect.width; ++i )
-			{
-				vec2_s32 block_grid_pos( selection_rect.left + i,
-					selection_rect.top + j );
-				
-				if ( !the_sublevel->contains_block_grid_pos
-					(block_grid_pos) )
-				{
-					continue;
-				}
-				
-				the_sublevel->uncompressed_block_data_vec_2d
-					.at(block_grid_pos.y).at(block_grid_pos.x)
-					= copied_block_vec_2d.at(j).at(i);
-			}
-		}
-	}
-	
-	// Sprites were moved, but not pasted
-	else if ( selection_layer == rsl_sprites 
-		&& !get_selection_was_pasted() )
-	{
-		for ( s32 j=0; j<selection_rect.height; ++j )
-		{
-			for ( s32 i=0; i<selection_rect.width; ++i )
-			{
-				vec2_s32 original_block_grid_pos
-					( selection_rect_before_moving.left + i,
-					selection_rect_before_moving.top + j );
-				
-				if ( !the_sublevel->contains_block_grid_pos
-					(original_block_grid_pos) )
-				{
-					continue;
-				}
-				
-				sprite_init_param_group_with_size& the_sprite_ipgws 
-					= the_sublevel->sprite_ipgws_vec_2d
-					.at((u32)original_block_grid_pos.y)
-					.at((u32)original_block_grid_pos.x);
-				
-				// Delete the data of the_sprite_ipgws.
-				the_sprite_ipgws = sprite_init_param_group_with_size();
-			}
-		}
-		
-		for ( s32 j=0; j<selection_rect.height; ++j )
-		{
-			for ( s32 i=0; i<selection_rect.width; ++i )
-			{
-				vec2_s32 block_grid_pos( selection_rect.left + i,
-					selection_rect.top + j );
-				
-				if ( !the_sublevel->contains_block_grid_pos
-					(block_grid_pos) )
-				{
-					continue;
-				}
-				
-				const sprite_init_param_group_with_size& 
-					the_pasted_sprite_ipgws
-					= moving_sprite_ipgws_vec_2d.at(j).at(i);
-				
-				shared_sprite_handling_func( block_grid_pos,
-					the_pasted_sprite_ipgws );
-				
-			}
-		}
-	}
-	// Sprites were pasted
-	else if ( original_layer_of_pasted_selection == rsl_sprites 
-		&& get_selection_was_pasted() )
-	{
-		for ( s32 j=0; j<selection_rect.height; ++j )
-		{
-			for ( s32 i=0; i<selection_rect.width; ++i )
-			{
-				vec2_s32 block_grid_pos( selection_rect.left + i,
-					selection_rect.top + j );
-				
-				if ( !the_sublevel->contains_block_grid_pos
-					(block_grid_pos) )
-				{
-					continue;
-				}
-				
-				const sprite_init_param_group_with_size& 
-					the_pasted_sprite_ipgws 
-					= copied_sprite_ipgws_vec_2d.at(j).at(i);
-				
-				shared_sprite_handling_func( block_grid_pos,
-					the_pasted_sprite_ipgws );
-			}
-		}
-	}
-	
 }
 
 
 // Copy/paste stuff
-void rect_selection_stuff::copy_selection_contents()
+void rect_selection_stuff::copy_rs_contents()
 {
 	if ( !get_enabled() || get_single_sprite_selected() )
 	{
@@ -650,7 +617,7 @@ void rect_selection_stuff::copy_selection_contents()
 			else //if ( copy_sprites )
 			{
 				copied_sprite_ipgws_vec_2d.push_back
-					(vector<sprite_init_param_group_with_size>());
+					(vector<sprite_ipgws>());
 			}
 			
 			for ( s32 i=0; i<selection_rect.width; ++i )
@@ -687,7 +654,7 @@ void rect_selection_stuff::copy_selection_contents()
 					else //if ( copy_sprites )
 					{
 						copied_sprite_ipgws_vec_2d.at(j).push_back
-							(sprite_init_param_group_with_size());
+							(sprite_ipgws());
 					}
 				}
 				
@@ -711,7 +678,7 @@ void rect_selection_stuff::copy_selection_contents()
 
 
 // This function doesn't actually affect the_sublevel directly
-void rect_selection_stuff::paste_copied_selection_contents
+void rect_selection_stuff::paste_copied_rs_contents
 	( const vec2_s32& n_starting_block_grid_coords )
 {
 	if ( original_layer_of_pasted_selection == rsl_blocks 
@@ -759,7 +726,7 @@ void rect_selection_stuff::paste_copied_selection_contents
 
 
 void rect_selection_stuff::enable_single_sprite_selection
-	( sprite_init_param_group_with_size* n_selected_sprite_ipgws )
+	( sprite_ipgws* n_selected_sprite_ipgws )
 {
 	enabled = true;
 	

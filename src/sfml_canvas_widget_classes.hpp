@@ -376,7 +376,7 @@ protected:		// functions
 	
 	void draw_sprite_shared_code
 		( sf::Sprite& sprite_for_drawing_level_elements,
-		sprite_init_param_group_with_size* the_sprite_ipgws,
+		sprite_ipgws* the_sprite_ipgws,
 		const vec2_s32& block_grid_pos );
 	
 	

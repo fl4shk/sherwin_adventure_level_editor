@@ -23,7 +23,7 @@
 
 
 sprite_properties_widget::sprite_properties_widget( QWidget* s_parent,
-	sprite_init_param_group_with_size* s_selected_sprite_ipgws )
+	sprite_ipgws* s_selected_sprite_ipgws )
 	: QWidget(s_parent), selected_sprite_ipgws(s_selected_sprite_ipgws)
 {
 	init();

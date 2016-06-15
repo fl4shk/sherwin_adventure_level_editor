@@ -74,7 +74,7 @@ public:		// functions
 	// Editing actions that have been made into their own functions so
 	// that the_editing_manager can handle them.
 	
-	void finalize_movement_of_rect_selection_contents
+	void finalize_movement_of_rs_contents
 		( level_editor_core_widget* the_core_widget,
 		rect_selection_stuff& the_rect_selection_stuff );
 	
@@ -96,7 +96,7 @@ protected:		// functions
 		const vec2_s32& block_grid_coords_of_mouse_pos );
 	void handle_selecting_single_sprite_during_mouse_press
 		( level_editor_core_widget* the_core_widget );
-	void handle_rect_selection_during_mouse_press
+	void handle_rs_during_mouse_press
 		( level_editor_core_widget* the_core_widget,
 		const vec2_s32& block_grid_coords_of_mouse_pos,
 		bool current_tabbed_widget_is_for_blocks,
@@ -114,7 +114,7 @@ protected:		// functions
 		const vec2_s32& block_grid_coords_of_mouse_pos );
 	void handle_selecting_single_sprite_during_mouse_move
 		( level_editor_core_widget* the_core_widget );
-	void handle_rect_selection_during_mouse_move
+	void handle_rs_during_mouse_move
 		( level_editor_core_widget* the_core_widget,
 		const vec2_s32& block_grid_coords_of_mouse_pos );
 	
@@ -127,7 +127,7 @@ protected:		// functions
 		( level_editor_core_widget* the_core_widget );
 	void handle_selecting_single_sprite_during_mouse_release
 		( level_editor_core_widget* the_core_widget );
-	void handle_rect_selection_during_mouse_release
+	void handle_rs_during_mouse_release
 		( level_editor_core_widget* the_core_widget );
 	
 	
@@ -236,9 +236,9 @@ protected:		// functions
 	
 	// Editing functions to activate upon key press.  These are meant to
 	// actually 
-	void copy_selection_contents
+	void copy_rs_contents
 		( rect_selection_stuff& the_rect_selection_stuff );
-	void paste_copied_selection_contents
+	void paste_copied_rs_contents
 		( level_editor_core_widget* the_core_widget,
 		rect_selection_stuff& the_rect_selection_stuff );
 	

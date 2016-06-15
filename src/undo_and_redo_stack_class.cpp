@@ -29,8 +29,8 @@ undo_and_redo_action::undo_and_redo_action
 	moved_rs_ending_top_left_pos(to_copy.moved_rs_ending_top_left_pos),
 	replaced_block_vec_2d(to_copy.replaced_block_vec_2d),
 	moved_block_vec_2d(to_copy.moved_block_vec_2d),
-	replaced_sprite_ipgws_vec_2d(to_copy.replaced_sprite_ipgws_vec_2d),
-	moved_sprite_ipgws_vec_2d(to_copy.moved_sprite_ipgws_vec_2d)
+	replaced_sprite_ipgws_set_2d(to_copy.replaced_sprite_ipgws_set_2d),
+	moved_sprite_ipgws_set_2d(to_copy.moved_sprite_ipgws_set_2d)
 {
 }
 
