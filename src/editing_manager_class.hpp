@@ -37,7 +37,8 @@ protected:		// variables
 	//vector< unique_ptr<level_editor_widget> >* the_core_widget_vec;
 	
 	
-	map< level_editor_core_widget*, undo_and_redo_stuff > ur_stuff_map;
+	unordered_map< level_editor_core_widget*, undo_and_redo_stuff >
+		ur_stuff_umap;
 	
 	
 	

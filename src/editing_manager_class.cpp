@@ -584,7 +584,7 @@ void editing_manager::finalize_movement_of_rs_contents
 undo_and_redo_stuff& editing_manager::get_or_create_ur_stuff
 	( level_editor_core_widget* the_core_widget )
 {
-	return get_or_create_map_value( ur_stuff_map, the_core_widget );
+	return get_or_create_umap_value( ur_stuff_umap, the_core_widget );
 }
 
 
@@ -1053,23 +1053,23 @@ void editing_manager::place_single_block_and_record_ur_stuff
 	const block_type& the_block_type,
 	undo_and_redo_action& ur_action_to_push )
 {
-	auto pbm_iter = ur_action_to_push.prev_block_map.find
+	auto pbm_iter = ur_action_to_push.prev_block_umap.find
 		(block_grid_coord);
-	auto cbm_iter = ur_action_to_push.curr_block_map.find
+	auto cbm_iter = ur_action_to_push.curr_block_umap.find
 		(block_grid_coord);
 	
 	
 	// Prevent overwriting the previous data within the same action
-	if ( pbm_iter == ur_action_to_push.prev_block_map.end() )
+	if ( pbm_iter == ur_action_to_push.prev_block_umap.end() )
 	{
-		ur_action_to_push.prev_block_map[block_grid_coord]
+		ur_action_to_push.prev_block_umap[block_grid_coord]
 			= the_block_in_sublevel;
 	}
 	
-	if ( cbm_iter == ur_action_to_push.curr_block_map.end() )
+	if ( cbm_iter == ur_action_to_push.curr_block_umap.end() )
 	{
-		ur_action_to_push.curr_block_map[block_grid_coord] = block();
-		ur_action_to_push.curr_block_map[block_grid_coord].type
+		ur_action_to_push.curr_block_umap[block_grid_coord] = block();
+		ur_action_to_push.curr_block_umap[block_grid_coord].type
 			= the_block_type;
 		
 		// Start placing blocks, possibly just one

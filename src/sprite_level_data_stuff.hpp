@@ -204,6 +204,25 @@ public:		// functions
 	
 } __attribute__((aligned(4)));
 
+// needed for undo_and_redo_action's unordered_set<sprite_ipgws>'s
+namespace std
+{
+	template <>
+	struct hash<sprite_ipgws>
+	{
+		size_t operator () ( const sprite_ipgws& to_hash ) const
+		{
+			const size_t hash_block_grid_coord_x
+				( hash<u32>()(to_hash.initial_block_grid_x_coord) );
+			const size_t hash_block_grid_coord_y
+				( hash<u32>()(to_hash.initial_block_grid_y_coord) );
+			
+			return hash_block_grid_coord_x 
+				^ ( hash_block_grid_coord_y << 1);
+		}
+	};
+}
+
 
 // Note:  for st_door, extra_param_0 is used to designate the destination
 // sublevel_entrance index, and extra_param_1 is used to designate the

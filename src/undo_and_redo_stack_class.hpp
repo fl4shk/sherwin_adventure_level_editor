@@ -33,7 +33,9 @@ public:		// variables
 	action_type the_action_type;
 	
 	
-	// Stuff for drawing blocks.
+	
+	// Stuff for drawing blocks, moving blocks without pasting them, and
+	// pasting blocks.
 	
 	// How this works is that when blocks are overwritten, keep track of
 	// what the blocks were before, and what they were replaced with.  This
@@ -42,9 +44,9 @@ public:		// variables
 	// selection of blocks, and pasting a copied rectangular selection of
 	// blocks.
 	
-	// use std::map so that there are no duplicates (there really don't
-	// need to be any).
-	map< vec2_s32, block > prev_block_map, curr_block_map;
+	// use std::unordered_map so that there are no duplicates (there really
+	// don't need to be any).
+	unordered_map< vec2_s32, block > prev_block_umap, curr_block_umap;
 	
 	
 	// Stuff for drawing a single sprite or modifying a sprite.
@@ -66,9 +68,8 @@ public:		// variables
 	
 	
 	// The sprites that were replaced, and the sprites that were moved
-	//vector< vector<sprite_ipgws> >
-	set<sprite_ipgws>
-		replaced_sprite_ipgws_set_2d, moved_sprite_ipgws_set_2d;
+	unordered_set<sprite_ipgws>
+		replaced_sprite_ipgws_uset_2d, moved_sprite_ipgws_uset_2d;
 	
 	
 	

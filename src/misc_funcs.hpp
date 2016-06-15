@@ -56,17 +56,17 @@ inline type convert_range( type val_old, type min_old, type max_old,
 
 // insert_or_assign() from C++17 would be helpful here
 template< typename key, typename type >
-inline type& get_or_create_map_value( map< key, type >& the_map, 
-	const key& the_key )
+inline type& get_or_create_umap_value
+	( unordered_map< key, type >& the_umap, const key& the_key )
 {
-	auto iter = the_map.find(the_key);
+	auto iter = the_umap.find(the_key);
 	
-	if ( iter == the_map.end() )
+	if ( iter == the_umap.end() )
 	{
-		the_map[the_key] = type();
+		the_umap[the_key] = type();
 	}
 	
-	return the_map[the_key];
+	return the_umap[the_key];
 }
 
 

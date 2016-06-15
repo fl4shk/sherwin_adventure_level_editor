@@ -24,6 +24,8 @@
 #include "misc_types.hpp"
 #include "fixed24p8_class.hpp"
 
+#include <functional>
+
 
 template< typename type >
 class vec2
@@ -228,6 +230,21 @@ typedef vec2<fixed24p8> vec2_f24p8;
 */
 
 
+// needed for undo_and_redo_action's unordered_map< vec2_s32, block >'s
+namespace std
+{
+	template<>
+	struct hash<vec2_s32>
+	{
+		size_t operator () ( const vec2_s32& to_hash ) const
+		{
+			const size_t hash_x( hash<s32>()(to_hash.x) );
+			const size_t hash_y( hash<s32>()(to_hash.y) );
+			
+			return hash_x ^ ( hash_y << 1 );
+		}
+	};
+}
 
 
 
