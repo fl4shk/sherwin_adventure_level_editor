@@ -20,8 +20,7 @@
 #include "sprite_level_data_stuff.hpp"
 #include "sublevel_class.hpp"
 
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16
-	::adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16
+adj_sprite_ipgws_ptr_group_16x16::adj_sprite_ipgws_ptr_group_16x16
 	( sublevel& the_sublevel, u32 origin_block_grid_x_coord, 
 	u32 origin_block_grid_y_coord )
 {
@@ -50,11 +49,6 @@ adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16
 	// This doesn't include the origin since it was already assigned.
 	// Also, this isn't as efficient as it used to be, with the benefit of
 	// fewer lines in this file (and possibly more clarity).
-	#define list_of_16x16_sprite_rel_positions(macro) \
-		macro(up_left) macro(up) \
-		macro(left) 
-	
-	
 	#define assign_rel_pos_ptr(rel_pos) \
 		if ( !the_sublevel.contains_block_grid_pos \
 			(rel_pos##_block_grid_pos) ) \
@@ -68,13 +62,12 @@ adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16
 				.at(rel_pos##_block_grid_pos.x); \
 		}
 	
-	list_of_16x16_sprite_rel_positions(assign_rel_pos_ptr)
+	list_of_16x16_sprite_pg_stuff_no_origin(assign_rel_pos_ptr)
 	#undef assign_rel_pos_ptr
-	#undef list_of_16x16_sprite_rel_positions
 	
 }
 
-bool adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16::can_add_sprite()
+bool adj_sprite_ipgws_ptr_group_16x16::can_add_sprite()
 {
 	// Don't let existing sprites be overwritten.
 	if ( overlaps_up_left() || overlaps_up() || overlaps_left() 
@@ -86,8 +79,18 @@ bool adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16::can_add_sprite()
 	return true;
 }
 
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32
-	::adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32
+void adj_sprite_ipgws_ptr_group_16x16::erase_overlapping_sprites()
+{
+	#define macro_to_erase_overlapping_sprite(rel_pos) \
+		if ( overlaps_##rel_pos() ) \
+		{ \
+			*rel_pos##_ptr = sprite_init_param_group_with_size(); \
+		}
+	
+	list_of_16x16_sprite_pg_stuff(macro_to_erase_overlapping_sprite);
+}
+
+adj_sprite_ipgws_ptr_group_16x32::adj_sprite_ipgws_ptr_group_16x32
 	( sublevel& the_sublevel, u32 origin_block_grid_x_coord, 
 	u32 origin_block_grid_y_coord )
 {
@@ -123,11 +126,6 @@ adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32
 	// This doesn't include the origin since it was already assigned.
 	// Also, this isn't as efficient as it used to be, with the benefit of
 	// fewer lines in this file (and possibly more clarity).
-	#define list_of_16x32_sprite_rel_positions(macro) \
-		macro(up_left) macro(up) \
-		macro(left) \
-		macro(down_left) macro(down)
-	
 	#define assign_rel_pos_ptr(rel_pos) \
 		if ( !the_sublevel.contains_block_grid_pos \
 			(rel_pos##_block_grid_pos) ) \
@@ -141,13 +139,12 @@ adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32
 				.at(rel_pos##_block_grid_pos.x); \
 		}
 	
-	list_of_16x32_sprite_rel_positions(assign_rel_pos_ptr)
+	list_of_16x32_sprite_pg_stuff_no_origin(assign_rel_pos_ptr)
 	#undef assign_rel_pos_ptr
-	#undef list_of_16x32_sprite_rel_positions
 	
 }
 
-bool adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32::can_add_sprite()
+bool adj_sprite_ipgws_ptr_group_16x32::can_add_sprite()
 {
 	// Don't let existing sprites be overwritten.
 	if ( overlaps_up_left() || overlaps_up() || overlaps_left() 
@@ -159,9 +156,20 @@ bool adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32::can_add_sprite()
 	return true;
 }
 
+void adj_sprite_ipgws_ptr_group_16x32::erase_overlapping_sprites()
+{
+	#define macro_to_erase_overlapping_sprite(rel_pos) \
+		if ( overlaps_##rel_pos() ) \
+		{ \
+			*rel_pos##_ptr = sprite_init_param_group_with_size(); \
+		}
+	
+	list_of_16x32_sprite_pg_stuff(macro_to_erase_overlapping_sprite);
+}
 
-adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32
-	::adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32
+
+
+adj_sprite_ipgws_ptr_group_32x32::adj_sprite_ipgws_ptr_group_32x32
 	( sublevel& the_sublevel, u32 origin_block_grid_x_coord, 
 	u32 origin_block_grid_y_coord )
 {
@@ -202,12 +210,6 @@ adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32
 	// This doesn't include the origin since it was already assigned.
 	// Also, this isn't as efficient as it used to be, with the benefit of
 	// fewer lines in this file (and possibly more clarity).
-	#define list_of_32x32_sprite_rel_positions(macro) \
-		macro(up_left) macro(up) macro(up_right) \
-		macro(left) macro(right) \
-		macro(down_left) macro(down) macro(down_right)
-	
-	
 	#define assign_rel_pos_ptr(rel_pos) \
 		if ( !the_sublevel.contains_block_grid_pos \
 			(rel_pos##_block_grid_pos) ) \
@@ -221,14 +223,13 @@ adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32
 				.at(rel_pos##_block_grid_pos.x); \
 		}
 	
-	list_of_32x32_sprite_rel_positions(assign_rel_pos_ptr)
+	list_of_32x32_sprite_pg_stuff_no_origin(assign_rel_pos_ptr)
 	#undef assign_rel_pos_ptr
-	#undef list_of_32x32_sprite_rel_positions
 	
 	
 }
 
-bool adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32::can_add_sprite()
+bool adj_sprite_ipgws_ptr_group_32x32::can_add_sprite()
 {
 	// Don't let existing sprites be overwritten.
 	if ( overlaps_up_left() || overlaps_up() || overlaps_up_right()
@@ -241,6 +242,18 @@ bool adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32::can_add_sprite()
 	
 	return true;
 }
+
+void adj_sprite_ipgws_ptr_group_32x32::erase_overlapping_sprites()
+{
+	#define macro_to_erase_overlapping_sprite(rel_pos) \
+		if ( overlaps_##rel_pos() ) \
+		{ \
+			*rel_pos##_ptr = sprite_init_param_group_with_size(); \
+		}
+	
+	list_of_32x32_sprite_pg_stuff(macro_to_erase_overlapping_sprite);
+}
+
 
 
 adj_sprite_ipgws_ptr_group_for_selecting_sprite

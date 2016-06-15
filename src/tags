@@ -14,71 +14,62 @@ action_type	misc_types.hpp	/^enum action_type $/;"	kind:g
 action_vec	undo_and_redo_stack_class.hpp	/^	vector<undo_and_redo_action> action_vec;$/;"	kind:m	class:undo_and_redo_stack	access:protected
 add_action	undo_and_redo_stack_class.cpp	/^void undo_and_redo_stack::add_action$/;"	kind:f	class:undo_and_redo_stack	signature:( const undo_and_redo_action& the_action )
 add_action	undo_and_redo_stack_class.hpp	/^	void add_action( const undo_and_redo_action& the_action );$/;"	kind:p	class:undo_and_redo_stack	access:public	signature:( const undo_and_redo_action& the_action )
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	sprite_level_data_stuff.cpp	/^	::adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	signature:( sublevel& the_sublevel, u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	sprite_level_data_stuff.hpp	/^	adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	access:public	signature:( sublevel& the_sublevel, u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	sprite_level_data_stuff.hpp	/^	inline adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	access:public	signature:()
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	sprite_level_data_stuff.hpp	/^class adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16$/;"	kind:c
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16::adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	sprite_level_data_stuff.cpp	/^	::adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	signature:( sublevel& the_sublevel, u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16::adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	sprite_level_data_stuff.hpp	/^	adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	access:public	signature:( sublevel& the_sublevel, u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16::adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	sprite_level_data_stuff.hpp	/^	inline adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	access:public	signature:()
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16::can_add_sprite	sprite_level_data_stuff.cpp	/^bool adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16::can_add_sprite()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	signature:()
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16::can_add_sprite	sprite_level_data_stuff.hpp	/^	bool can_add_sprite();$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	access:public	signature:()
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16::left_ptr	sprite_level_data_stuff.hpp	/^		* left_ptr, * origin_ptr;$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	access:public
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16::origin_ptr	sprite_level_data_stuff.hpp	/^		* left_ptr, * origin_ptr;$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	access:public
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16::overlaps_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	access:public	signature:() const
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16::overlaps_origin	sprite_level_data_stuff.hpp	/^	inline bool overlaps_origin() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	access:public	signature:() const
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16::overlaps_up	sprite_level_data_stuff.hpp	/^	inline bool overlaps_up() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	access:public	signature:() const
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16::overlaps_up_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_up_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	access:public	signature:() const
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16::up_left_ptr	sprite_level_data_stuff.hpp	/^	sprite_init_param_group_with_size * up_left_ptr, * up_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	access:public
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16::up_ptr	sprite_level_data_stuff.hpp	/^	sprite_init_param_group_with_size * up_left_ptr, * up_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	access:public
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	sprite_level_data_stuff.cpp	/^	::adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	signature:( sublevel& the_sublevel, u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	sprite_level_data_stuff.hpp	/^	adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	access:public	signature:( sublevel& the_sublevel, u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	sprite_level_data_stuff.hpp	/^	inline adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	access:public	signature:()
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	sprite_level_data_stuff.hpp	/^class adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32$/;"	kind:c
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32::adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	sprite_level_data_stuff.cpp	/^	::adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	signature:( sublevel& the_sublevel, u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32::adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	sprite_level_data_stuff.hpp	/^	adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	access:public	signature:( sublevel& the_sublevel, u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32::adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	sprite_level_data_stuff.hpp	/^	inline adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	access:public	signature:()
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32::can_add_sprite	sprite_level_data_stuff.cpp	/^bool adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32::can_add_sprite()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	signature:()
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32::can_add_sprite	sprite_level_data_stuff.hpp	/^	bool can_add_sprite();$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	access:public	signature:()
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32::down_left_ptr	sprite_level_data_stuff.hpp	/^		* down_left_ptr, * down_ptr;$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	access:public
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32::down_ptr	sprite_level_data_stuff.hpp	/^		* down_left_ptr, * down_ptr;$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	access:public
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32::left_ptr	sprite_level_data_stuff.hpp	/^		* left_ptr, * origin_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	access:public
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32::origin_ptr	sprite_level_data_stuff.hpp	/^		* left_ptr, * origin_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	access:public
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32::overlaps_down	sprite_level_data_stuff.hpp	/^	inline bool overlaps_down() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	access:public	signature:() const
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32::overlaps_down_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_down_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	access:public	signature:() const
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32::overlaps_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	access:public	signature:() const
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32::overlaps_origin	sprite_level_data_stuff.hpp	/^	inline bool overlaps_origin() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	access:public	signature:() const
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32::overlaps_up	sprite_level_data_stuff.hpp	/^	inline bool overlaps_up() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	access:public	signature:() const
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32::overlaps_up_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_up_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	access:public	signature:() const
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32::up_left_ptr	sprite_level_data_stuff.hpp	/^	sprite_init_param_group_with_size * up_left_ptr, * up_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	access:public
-adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32::up_ptr	sprite_level_data_stuff.hpp	/^	sprite_init_param_group_with_size * up_left_ptr, * up_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	access:public
-adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	sprite_level_data_stuff.cpp	/^	::adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	signature:( sublevel& the_sublevel, u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
-adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	sprite_level_data_stuff.hpp	/^	adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public	signature:( sublevel& the_sublevel, u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
-adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	sprite_level_data_stuff.hpp	/^	inline adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32() $/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public	signature:()
-adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	sprite_level_data_stuff.hpp	/^class adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32$/;"	kind:c
-adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32::adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	sprite_level_data_stuff.cpp	/^	::adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	signature:( sublevel& the_sublevel, u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
-adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32::adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	sprite_level_data_stuff.hpp	/^	adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public	signature:( sublevel& the_sublevel, u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
-adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32::adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	sprite_level_data_stuff.hpp	/^	inline adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32() $/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public	signature:()
-adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32::can_add_sprite	sprite_level_data_stuff.cpp	/^bool adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32::can_add_sprite()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	signature:()
-adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32::can_add_sprite	sprite_level_data_stuff.hpp	/^	bool can_add_sprite();$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public	signature:()
-adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32::down_left_ptr	sprite_level_data_stuff.hpp	/^		* down_left_ptr, * down_ptr, * down_right_ptr;$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public
-adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32::down_ptr	sprite_level_data_stuff.hpp	/^		* down_left_ptr, * down_ptr, * down_right_ptr;$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public
-adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32::down_right_ptr	sprite_level_data_stuff.hpp	/^		* down_left_ptr, * down_ptr, * down_right_ptr;$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public
-adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32::left_ptr	sprite_level_data_stuff.hpp	/^		* left_ptr, * origin_ptr, * right_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public
-adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32::origin_ptr	sprite_level_data_stuff.hpp	/^		* left_ptr, * origin_ptr, * right_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public
-adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32::overlaps_down	sprite_level_data_stuff.hpp	/^	inline bool overlaps_down() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public	signature:() const
-adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32::overlaps_down_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_down_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public	signature:() const
-adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32::overlaps_down_right	sprite_level_data_stuff.hpp	/^	inline bool overlaps_down_right() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public	signature:() const
-adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32::overlaps_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public	signature:() const
-adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32::overlaps_origin	sprite_level_data_stuff.hpp	/^	inline bool overlaps_origin() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public	signature:() const
-adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32::overlaps_right	sprite_level_data_stuff.hpp	/^	inline bool overlaps_right() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public	signature:() const
-adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32::overlaps_up	sprite_level_data_stuff.hpp	/^	inline bool overlaps_up() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public	signature:() const
-adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32::overlaps_up_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_up_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public	signature:() const
-adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32::overlaps_up_right	sprite_level_data_stuff.hpp	/^	inline bool overlaps_up_right() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public	signature:() const
-adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32::right_ptr	sprite_level_data_stuff.hpp	/^		* left_ptr, * origin_ptr, * right_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public
-adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32::up_left_ptr	sprite_level_data_stuff.hpp	/^		* up_left_ptr, * up_ptr, * up_right_ptr,$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public
-adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32::up_ptr	sprite_level_data_stuff.hpp	/^		* up_left_ptr, * up_ptr, * up_right_ptr,$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public
-adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32::up_right_ptr	sprite_level_data_stuff.hpp	/^		* up_left_ptr, * up_ptr, * up_right_ptr,$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public
+adj_sprite_ipgws_ptr_group_16x16	sprite_level_data_stuff.cpp	/^adj_sprite_ipgws_ptr_group_16x16::adj_sprite_ipgws_ptr_group_16x16$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_16x16	signature:( sublevel& the_sublevel, u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
+adj_sprite_ipgws_ptr_group_16x16	sprite_level_data_stuff.hpp	/^	adj_sprite_ipgws_ptr_group_16x16( sublevel& the_sublevel, $/;"	kind:p	class:adj_sprite_ipgws_ptr_group_16x16	access:public	signature:( sublevel& the_sublevel, u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
+adj_sprite_ipgws_ptr_group_16x16	sprite_level_data_stuff.hpp	/^	inline adj_sprite_ipgws_ptr_group_16x16()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_16x16	access:public	signature:()
+adj_sprite_ipgws_ptr_group_16x16	sprite_level_data_stuff.hpp	/^class adj_sprite_ipgws_ptr_group_16x16$/;"	kind:c	inherits:adj_sprite_ipgws_ptr_group_base
+adj_sprite_ipgws_ptr_group_16x16::adj_sprite_ipgws_ptr_group_16x16	sprite_level_data_stuff.cpp	/^adj_sprite_ipgws_ptr_group_16x16::adj_sprite_ipgws_ptr_group_16x16$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_16x16	signature:( sublevel& the_sublevel, u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
+adj_sprite_ipgws_ptr_group_16x16::adj_sprite_ipgws_ptr_group_16x16	sprite_level_data_stuff.hpp	/^	adj_sprite_ipgws_ptr_group_16x16( sublevel& the_sublevel, $/;"	kind:p	class:adj_sprite_ipgws_ptr_group_16x16	access:public	signature:( sublevel& the_sublevel, u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
+adj_sprite_ipgws_ptr_group_16x16::adj_sprite_ipgws_ptr_group_16x16	sprite_level_data_stuff.hpp	/^	inline adj_sprite_ipgws_ptr_group_16x16()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_16x16	access:public	signature:()
+adj_sprite_ipgws_ptr_group_16x16::can_add_sprite	sprite_level_data_stuff.cpp	/^bool adj_sprite_ipgws_ptr_group_16x16::can_add_sprite()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_16x16	signature:()
+adj_sprite_ipgws_ptr_group_16x16::can_add_sprite	sprite_level_data_stuff.hpp	/^	virtual bool can_add_sprite();$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_16x16	access:public	signature:()
+adj_sprite_ipgws_ptr_group_16x16::erase_overlapping_sprites	sprite_level_data_stuff.cpp	/^void adj_sprite_ipgws_ptr_group_16x16::erase_overlapping_sprites()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_16x16	signature:()
+adj_sprite_ipgws_ptr_group_16x16::erase_overlapping_sprites	sprite_level_data_stuff.hpp	/^	virtual void erase_overlapping_sprites();$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_16x16	access:public	signature:()
+adj_sprite_ipgws_ptr_group_16x32	sprite_level_data_stuff.cpp	/^adj_sprite_ipgws_ptr_group_16x32::adj_sprite_ipgws_ptr_group_16x32$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_16x32	signature:( sublevel& the_sublevel, u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
+adj_sprite_ipgws_ptr_group_16x32	sprite_level_data_stuff.hpp	/^	adj_sprite_ipgws_ptr_group_16x32( sublevel& the_sublevel, $/;"	kind:p	class:adj_sprite_ipgws_ptr_group_16x32	access:public	signature:( sublevel& the_sublevel, u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
+adj_sprite_ipgws_ptr_group_16x32	sprite_level_data_stuff.hpp	/^	inline adj_sprite_ipgws_ptr_group_16x32()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_16x32	access:public	signature:()
+adj_sprite_ipgws_ptr_group_16x32	sprite_level_data_stuff.hpp	/^class adj_sprite_ipgws_ptr_group_16x32 $/;"	kind:c	inherits:adj_sprite_ipgws_ptr_group_base
+adj_sprite_ipgws_ptr_group_16x32::adj_sprite_ipgws_ptr_group_16x32	sprite_level_data_stuff.cpp	/^adj_sprite_ipgws_ptr_group_16x32::adj_sprite_ipgws_ptr_group_16x32$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_16x32	signature:( sublevel& the_sublevel, u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
+adj_sprite_ipgws_ptr_group_16x32::adj_sprite_ipgws_ptr_group_16x32	sprite_level_data_stuff.hpp	/^	adj_sprite_ipgws_ptr_group_16x32( sublevel& the_sublevel, $/;"	kind:p	class:adj_sprite_ipgws_ptr_group_16x32	access:public	signature:( sublevel& the_sublevel, u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
+adj_sprite_ipgws_ptr_group_16x32::adj_sprite_ipgws_ptr_group_16x32	sprite_level_data_stuff.hpp	/^	inline adj_sprite_ipgws_ptr_group_16x32()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_16x32	access:public	signature:()
+adj_sprite_ipgws_ptr_group_16x32::can_add_sprite	sprite_level_data_stuff.cpp	/^bool adj_sprite_ipgws_ptr_group_16x32::can_add_sprite()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_16x32	signature:()
+adj_sprite_ipgws_ptr_group_16x32::can_add_sprite	sprite_level_data_stuff.hpp	/^	virtual bool can_add_sprite();$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_16x32	access:public	signature:()
+adj_sprite_ipgws_ptr_group_16x32::erase_overlapping_sprites	sprite_level_data_stuff.cpp	/^void adj_sprite_ipgws_ptr_group_16x32::erase_overlapping_sprites()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_16x32	signature:()
+adj_sprite_ipgws_ptr_group_16x32::erase_overlapping_sprites	sprite_level_data_stuff.hpp	/^	virtual void erase_overlapping_sprites();$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_16x32	access:public	signature:()
+adj_sprite_ipgws_ptr_group_32x32	sprite_level_data_stuff.cpp	/^adj_sprite_ipgws_ptr_group_32x32::adj_sprite_ipgws_ptr_group_32x32$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_32x32	signature:( sublevel& the_sublevel, u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
+adj_sprite_ipgws_ptr_group_32x32	sprite_level_data_stuff.hpp	/^	adj_sprite_ipgws_ptr_group_32x32( sublevel& the_sublevel, $/;"	kind:p	class:adj_sprite_ipgws_ptr_group_32x32	access:public	signature:( sublevel& the_sublevel, u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
+adj_sprite_ipgws_ptr_group_32x32	sprite_level_data_stuff.hpp	/^	inline adj_sprite_ipgws_ptr_group_32x32() $/;"	kind:f	class:adj_sprite_ipgws_ptr_group_32x32	access:public	signature:()
+adj_sprite_ipgws_ptr_group_32x32	sprite_level_data_stuff.hpp	/^class adj_sprite_ipgws_ptr_group_32x32$/;"	kind:c	inherits:adj_sprite_ipgws_ptr_group_base
+adj_sprite_ipgws_ptr_group_32x32::adj_sprite_ipgws_ptr_group_32x32	sprite_level_data_stuff.cpp	/^adj_sprite_ipgws_ptr_group_32x32::adj_sprite_ipgws_ptr_group_32x32$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_32x32	signature:( sublevel& the_sublevel, u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
+adj_sprite_ipgws_ptr_group_32x32::adj_sprite_ipgws_ptr_group_32x32	sprite_level_data_stuff.hpp	/^	adj_sprite_ipgws_ptr_group_32x32( sublevel& the_sublevel, $/;"	kind:p	class:adj_sprite_ipgws_ptr_group_32x32	access:public	signature:( sublevel& the_sublevel, u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord )
+adj_sprite_ipgws_ptr_group_32x32::adj_sprite_ipgws_ptr_group_32x32	sprite_level_data_stuff.hpp	/^	inline adj_sprite_ipgws_ptr_group_32x32() $/;"	kind:f	class:adj_sprite_ipgws_ptr_group_32x32	access:public	signature:()
+adj_sprite_ipgws_ptr_group_32x32::can_add_sprite	sprite_level_data_stuff.cpp	/^bool adj_sprite_ipgws_ptr_group_32x32::can_add_sprite()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_32x32	signature:()
+adj_sprite_ipgws_ptr_group_32x32::can_add_sprite	sprite_level_data_stuff.hpp	/^	virtual bool can_add_sprite();$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_32x32	access:public	signature:()
+adj_sprite_ipgws_ptr_group_32x32::erase_overlapping_sprites	sprite_level_data_stuff.cpp	/^void adj_sprite_ipgws_ptr_group_32x32::erase_overlapping_sprites()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_32x32	signature:()
+adj_sprite_ipgws_ptr_group_32x32::erase_overlapping_sprites	sprite_level_data_stuff.hpp	/^	virtual void erase_overlapping_sprites();$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_32x32	access:public	signature:()
+adj_sprite_ipgws_ptr_group_base	sprite_level_data_stuff.hpp	/^	inline adj_sprite_ipgws_ptr_group_base() $/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:public	signature:()
+adj_sprite_ipgws_ptr_group_base	sprite_level_data_stuff.hpp	/^class adj_sprite_ipgws_ptr_group_base$/;"	kind:c
+adj_sprite_ipgws_ptr_group_base::adj_sprite_ipgws_ptr_group_base	sprite_level_data_stuff.hpp	/^	inline adj_sprite_ipgws_ptr_group_base() $/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:public	signature:()
+adj_sprite_ipgws_ptr_group_base::can_add_sprite	sprite_level_data_stuff.hpp	/^	virtual bool can_add_sprite() = 0;$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_base	access:public	signature:()
+adj_sprite_ipgws_ptr_group_base::down_left_ptr	sprite_level_data_stuff.hpp	/^		* down_left_ptr, * down_ptr, * down_right_ptr;$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
+adj_sprite_ipgws_ptr_group_base::down_ptr	sprite_level_data_stuff.hpp	/^		* down_left_ptr, * down_ptr, * down_right_ptr;$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
+adj_sprite_ipgws_ptr_group_base::down_right_ptr	sprite_level_data_stuff.hpp	/^		* down_left_ptr, * down_ptr, * down_right_ptr;$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
+adj_sprite_ipgws_ptr_group_base::erase_overlapping_sprites	sprite_level_data_stuff.hpp	/^	virtual void erase_overlapping_sprites() = 0;$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_base	access:public	signature:()
+adj_sprite_ipgws_ptr_group_base::left_ptr	sprite_level_data_stuff.hpp	/^		* left_ptr, * origin_ptr, * right_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
+adj_sprite_ipgws_ptr_group_base::origin_ptr	sprite_level_data_stuff.hpp	/^		* left_ptr, * origin_ptr, * right_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
+adj_sprite_ipgws_ptr_group_base::overlaps_down	sprite_level_data_stuff.hpp	/^	inline bool overlaps_down() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
+adj_sprite_ipgws_ptr_group_base::overlaps_down_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_down_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
+adj_sprite_ipgws_ptr_group_base::overlaps_down_right	sprite_level_data_stuff.hpp	/^	inline bool overlaps_down_right() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
+adj_sprite_ipgws_ptr_group_base::overlaps_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
+adj_sprite_ipgws_ptr_group_base::overlaps_origin	sprite_level_data_stuff.hpp	/^	inline bool overlaps_origin() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
+adj_sprite_ipgws_ptr_group_base::overlaps_right	sprite_level_data_stuff.hpp	/^	inline bool overlaps_right() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
+adj_sprite_ipgws_ptr_group_base::overlaps_up	sprite_level_data_stuff.hpp	/^	inline bool overlaps_up() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
+adj_sprite_ipgws_ptr_group_base::overlaps_up_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_up_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
+adj_sprite_ipgws_ptr_group_base::overlaps_up_right	sprite_level_data_stuff.hpp	/^	inline bool overlaps_up_right() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
+adj_sprite_ipgws_ptr_group_base::right_ptr	sprite_level_data_stuff.hpp	/^		* left_ptr, * origin_ptr, * right_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
+adj_sprite_ipgws_ptr_group_base::up_left_ptr	sprite_level_data_stuff.hpp	/^		* up_left_ptr, * up_ptr, * up_right_ptr,$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
+adj_sprite_ipgws_ptr_group_base::up_ptr	sprite_level_data_stuff.hpp	/^		* up_left_ptr, * up_ptr, * up_right_ptr,$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
+adj_sprite_ipgws_ptr_group_base::up_right_ptr	sprite_level_data_stuff.hpp	/^		* up_left_ptr, * up_ptr, * up_right_ptr,$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
 adj_sprite_ipgws_ptr_group_for_selecting_sprite	sprite_level_data_stuff.cpp	/^	::adj_sprite_ipgws_ptr_group_for_selecting_sprite$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_selecting_sprite	signature:( sublevel& the_sublevel, u32 mouse_pos_block_grid_x_coord, u32 mouse_pos_block_grid_y_coord )
 adj_sprite_ipgws_ptr_group_for_selecting_sprite	sprite_level_data_stuff.hpp	/^	adj_sprite_ipgws_ptr_group_for_selecting_sprite$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_for_selecting_sprite	access:public	signature:( sublevel& the_sublevel, u32 mouse_pos_block_grid_x_coord, u32 mouse_pos_block_grid_y_coord )
 adj_sprite_ipgws_ptr_group_for_selecting_sprite	sprite_level_data_stuff.hpp	/^	inline adj_sprite_ipgws_ptr_group_for_selecting_sprite()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_selecting_sprite	access:public	signature:()
@@ -112,12 +103,12 @@ array_2d_helper::size_2d	array_2d_helper_class.hpp	/^	vec2_u32 size_2d;$/;"	kind
 array_2d_helper::the_array	array_2d_helper_class.hpp	/^	type* the_array;$/;"	kind:m	class:array_2d_helper	access:public
 array_2d_helper::width	array_2d_helper_class.hpp	/^	u32 width() const$/;"	kind:f	class:array_2d_helper	access:public	signature:() const
 array_2d_helper_class_hpp	array_2d_helper_class.hpp	22;"	kind:d
-assign_rel_pos_ptr	sprite_level_data_stuff.cpp	131;"	kind:d	file:
-assign_rel_pos_ptr	sprite_level_data_stuff.cpp	145;"	kind:d	file:
-assign_rel_pos_ptr	sprite_level_data_stuff.cpp	211;"	kind:d	file:
-assign_rel_pos_ptr	sprite_level_data_stuff.cpp	225;"	kind:d	file:
-assign_rel_pos_ptr	sprite_level_data_stuff.cpp	58;"	kind:d	file:
-assign_rel_pos_ptr	sprite_level_data_stuff.cpp	72;"	kind:d	file:
+assign_rel_pos_ptr	sprite_level_data_stuff.cpp	129;"	kind:d	file:
+assign_rel_pos_ptr	sprite_level_data_stuff.cpp	143;"	kind:d	file:
+assign_rel_pos_ptr	sprite_level_data_stuff.cpp	213;"	kind:d	file:
+assign_rel_pos_ptr	sprite_level_data_stuff.cpp	227;"	kind:d	file:
+assign_rel_pos_ptr	sprite_level_data_stuff.cpp	52;"	kind:d	file:
+assign_rel_pos_ptr	sprite_level_data_stuff.cpp	66;"	kind:d	file:
 at_finish_moving_non_pasted_blocks	misc_types.hpp	/^	at_finish_moving_non_pasted_blocks, $/;"	kind:e	enum:action_type
 at_finish_moving_pasted_blocks	misc_types.hpp	/^	at_finish_moving_pasted_blocks,$/;"	kind:e	enum:action_type
 at_place_blocks	misc_types.hpp	/^	at_place_blocks, $/;"	kind:e	enum:action_type
@@ -200,12 +191,13 @@ bt_wood_with_st_ice_muffin	block_stuff.hpp	/^	bt_wood_with_st_ice_muffin,$/;"	ki
 bt_wood_with_st_muffin	block_stuff.hpp	/^	bt_wood_with_st_muffin,$/;"	kind:e	enum:block_type
 bt_wood_with_st_waffle	block_stuff.hpp	/^	bt_wood_with_st_waffle,$/;"	kind:e	enum:block_type
 button_group	mouse_mode_button_group_widget_class.hpp	/^	unique_ptr<QButtonGroup> button_group;$/;"	kind:m	class:mouse_mode_button_group_widget	access:public
-can_add_sprite	sprite_level_data_stuff.cpp	/^bool adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16::can_add_sprite()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	signature:()
-can_add_sprite	sprite_level_data_stuff.cpp	/^bool adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32::can_add_sprite()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	signature:()
-can_add_sprite	sprite_level_data_stuff.cpp	/^bool adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32::can_add_sprite()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	signature:()
-can_add_sprite	sprite_level_data_stuff.hpp	/^	bool can_add_sprite();$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	access:public	signature:()
-can_add_sprite	sprite_level_data_stuff.hpp	/^	bool can_add_sprite();$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	access:public	signature:()
-can_add_sprite	sprite_level_data_stuff.hpp	/^	bool can_add_sprite();$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public	signature:()
+can_add_sprite	sprite_level_data_stuff.cpp	/^bool adj_sprite_ipgws_ptr_group_16x16::can_add_sprite()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_16x16	signature:()
+can_add_sprite	sprite_level_data_stuff.cpp	/^bool adj_sprite_ipgws_ptr_group_16x32::can_add_sprite()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_16x32	signature:()
+can_add_sprite	sprite_level_data_stuff.cpp	/^bool adj_sprite_ipgws_ptr_group_32x32::can_add_sprite()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_32x32	signature:()
+can_add_sprite	sprite_level_data_stuff.hpp	/^	virtual bool can_add_sprite() = 0;$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_base	access:public	signature:()
+can_add_sprite	sprite_level_data_stuff.hpp	/^	virtual bool can_add_sprite();$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_16x16	access:public	signature:()
+can_add_sprite	sprite_level_data_stuff.hpp	/^	virtual bool can_add_sprite();$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_16x32	access:public	signature:()
+can_add_sprite	sprite_level_data_stuff.hpp	/^	virtual bool can_add_sprite();$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_32x32	access:public	signature:()
 cancel_button	sublevel_properties_widget_class.hpp	/^	unique_ptr<QPushButton> okay_button, cancel_button;$/;"	kind:m	class:sublevel_properties_widget	access:public
 clicked_location_in_rect	rect_selection_stuff_class.hpp	/^	vec2_s32 clicked_location_in_rect;$/;"	kind:m	class:rect_selection_stuff	access:public
 closeEvent	primary_widget_class.hpp	/^	inline void closeEvent( QCloseEvent* event )$/;"	kind:f	class:primary_widget	access:protected	signature:( QCloseEvent* event )
@@ -259,12 +251,10 @@ door_sprite_destination_sublevel_index_changed	sprite_properties_widget_class.cp
 door_sprite_destination_sublevel_index_changed	sprite_properties_widget_class.hpp	/^	void door_sprite_destination_sublevel_index_changed$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:( int n_sublevel_index )
 door_sprite_door_number_changed	sprite_properties_widget_class.cpp	/^void sprite_properties_widget::door_sprite_door_number_changed$/;"	kind:f	class:sprite_properties_widget	signature:( int n_door_number )
 door_sprite_door_number_changed	sprite_properties_widget_class.hpp	/^	void door_sprite_door_number_changed( int n_door_number );$/;"	kind:p	class:sprite_properties_widget	access:protected	signature:( int n_door_number )
-down_left_ptr	sprite_level_data_stuff.hpp	/^		* down_left_ptr, * down_ptr, * down_right_ptr;$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public
-down_left_ptr	sprite_level_data_stuff.hpp	/^		* down_left_ptr, * down_ptr;$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	access:public
+down_left_ptr	sprite_level_data_stuff.hpp	/^		* down_left_ptr, * down_ptr, * down_right_ptr;$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
 down_left_ptr	sprite_level_data_stuff.hpp	/^		* down_left_ptr, * down_right_ptr, * origin_ptr;$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_selecting_sprite	access:public
-down_ptr	sprite_level_data_stuff.hpp	/^		* down_left_ptr, * down_ptr, * down_right_ptr;$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public
-down_ptr	sprite_level_data_stuff.hpp	/^		* down_left_ptr, * down_ptr;$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	access:public
-down_right_ptr	sprite_level_data_stuff.hpp	/^		* down_left_ptr, * down_ptr, * down_right_ptr;$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public
+down_ptr	sprite_level_data_stuff.hpp	/^		* down_left_ptr, * down_ptr, * down_right_ptr;$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
+down_right_ptr	sprite_level_data_stuff.hpp	/^		* down_left_ptr, * down_ptr, * down_right_ptr;$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
 down_right_ptr	sprite_level_data_stuff.hpp	/^		* down_left_ptr, * down_right_ptr, * origin_ptr;$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_selecting_sprite	access:public
 draw_mode_icon_file_name	primary_widget_class.hpp	/^	static const QString laugh_icon_file_name, draw_mode_icon_file_name,$/;"	kind:m	class:primary_widget	access:public
 draw_mode_tool_button	mouse_mode_button_group_widget_class.hpp	/^	unique_ptr<QToolButton> draw_mode_tool_button,$/;"	kind:m	class:mouse_mode_button_group_widget	access:public
@@ -359,6 +349,13 @@ enabled	rect_selection_stuff_class.hpp	/^	bool enabled, mouse_released;$/;"	kind
 enabled	sfml_canvas_widget_classes.hpp	/^		bool enabled;$/;"	kind:m	struct:level_editor_sfml_canvas_widget::__anon1	access:public
 ending_block_grid_coords	rect_selection_stuff_class.hpp	/^	vec2_s32 ending_block_grid_coords;$/;"	kind:m	class:rect_selection_stuff	access:public
 ending_block_grid_coords_before_moving	rect_selection_stuff_class.hpp	/^	vec2_s32 ending_block_grid_coords_before_moving;$/;"	kind:m	class:rect_selection_stuff	access:public
+erase_overlapping_sprites	sprite_level_data_stuff.cpp	/^void adj_sprite_ipgws_ptr_group_16x16::erase_overlapping_sprites()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_16x16	signature:()
+erase_overlapping_sprites	sprite_level_data_stuff.cpp	/^void adj_sprite_ipgws_ptr_group_16x32::erase_overlapping_sprites()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_16x32	signature:()
+erase_overlapping_sprites	sprite_level_data_stuff.cpp	/^void adj_sprite_ipgws_ptr_group_32x32::erase_overlapping_sprites()$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_32x32	signature:()
+erase_overlapping_sprites	sprite_level_data_stuff.hpp	/^	virtual void erase_overlapping_sprites() = 0;$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_base	access:public	signature:()
+erase_overlapping_sprites	sprite_level_data_stuff.hpp	/^	virtual void erase_overlapping_sprites();$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_16x16	access:public	signature:()
+erase_overlapping_sprites	sprite_level_data_stuff.hpp	/^	virtual void erase_overlapping_sprites();$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_16x32	access:public	signature:()
+erase_overlapping_sprites	sprite_level_data_stuff.hpp	/^	virtual void erase_overlapping_sprites();$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_32x32	access:public	signature:()
 export_source	level_editor_widget_class.cpp	/^void level_editor_widget::export_source()$/;"	kind:f	class:level_editor_widget	signature:()
 export_source	level_editor_widget_class.hpp	/^	void export_source();$/;"	kind:p	class:level_editor_widget	access:public	signature:()
 export_source_as	level_editor_widget_class.cpp	/^void level_editor_widget::export_source_as()$/;"	kind:f	class:level_editor_widget	signature:()
@@ -604,9 +601,7 @@ layout	layout_widget_classes.hpp	/^	QHBoxLayout* layout;$/;"	kind:m	class:hbox_w
 layout	layout_widget_classes.hpp	/^	QVBoxLayout* layout;$/;"	kind:m	class:vbox_widget	access:public
 layout_widget_classes_hpp	layout_widget_classes.hpp	22;"	kind:d
 left_current_level_element_index	level_element_selector_core_widget_base_class.hpp	/^	u32 left_current_level_element_index, right_current_level_element_index;$/;"	kind:m	class:level_element_selector_core_widget_base	access:protected
-left_ptr	sprite_level_data_stuff.hpp	/^		* left_ptr, * origin_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	access:public
-left_ptr	sprite_level_data_stuff.hpp	/^		* left_ptr, * origin_ptr, * right_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public
-left_ptr	sprite_level_data_stuff.hpp	/^		* left_ptr, * origin_ptr;$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	access:public
+left_ptr	sprite_level_data_stuff.hpp	/^		* left_ptr, * origin_ptr, * right_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
 level	level_class.cpp	/^level::level( const vector<vec2_u32>& s_sublevel_size_2d_vec )$/;"	kind:f	class:level	signature:( const vector<vec2_u32>& s_sublevel_size_2d_vec )
 level	level_class.cpp	/^level::level( u32 s_num_sublevels, $/;"	kind:f	class:level	signature:( u32 s_num_sublevels, const vec2_u32& shared_sublevel_size_2d )
 level	level_class.hpp	/^	inline level( u32 s_num_sublevels ) $/;"	kind:f	class:level	access:public	signature:( u32 s_num_sublevels )
@@ -936,13 +931,16 @@ level_element_selector_core_widget_base_class_hpp	level_element_selector_core_wi
 level_element_selectors_tab_widget	level_editor_core_widget_class.hpp	/^	QTabWidget* level_element_selectors_tab_widget;$/;"	kind:m	class:level_editor_core_widget	access:public
 level_element_selectors_tab_widget	level_editor_widget_class.hpp	/^	unique_ptr<QTabWidget> level_element_selectors_tab_widget;$/;"	kind:m	class:level_editor_widget	access:public
 level_file_name	level_editor_core_widget_class.hpp	/^	string level_file_name;$/;"	kind:m	class:level_editor_core_widget	access:public
-list_of_16x16_sprite_rel_positions	sprite_level_data_stuff.cpp	53;"	kind:d	file:
-list_of_16x16_sprite_rel_positions	sprite_level_data_stuff.cpp	73;"	kind:d	file:
-list_of_16x32_sprite_rel_positions	sprite_level_data_stuff.cpp	126;"	kind:d	file:
-list_of_16x32_sprite_rel_positions	sprite_level_data_stuff.cpp	146;"	kind:d	file:
-list_of_32x32_sprite_rel_positions	sprite_level_data_stuff.cpp	205;"	kind:d	file:
-list_of_32x32_sprite_rel_positions	sprite_level_data_stuff.cpp	226;"	kind:d	file:
+list_of_16x16_sprite_pg_stuff	sprite_level_data_stuff.hpp	217;"	kind:d
+list_of_16x16_sprite_pg_stuff_no_origin	sprite_level_data_stuff.hpp	220;"	kind:d
+list_of_16x32_sprite_pg_stuff	sprite_level_data_stuff.hpp	224;"	kind:d
+list_of_16x32_sprite_pg_stuff_no_origin	sprite_level_data_stuff.hpp	228;"	kind:d
+list_of_32x32_sprite_pg_stuff	sprite_level_data_stuff.hpp	233;"	kind:d
+list_of_32x32_sprite_pg_stuff_no_origin	sprite_level_data_stuff.hpp	237;"	kind:d
 list_of_level_element_widget_name_prefixes	level_editor_core_widget_class.hpp	66;"	kind:d
+macro_to_erase_overlapping_sprite	sprite_level_data_stuff.cpp	161;"	kind:d	file:
+macro_to_erase_overlapping_sprite	sprite_level_data_stuff.cpp	248;"	kind:d	file:
+macro_to_erase_overlapping_sprite	sprite_level_data_stuff.cpp	84;"	kind:d	file:
 main	main.cpp	/^int main( int argc, char** argv )$/;"	kind:f	signature:( int argc, char** argv )
 max_num_blocks	sublevel_class.cpp	/^const u32 sublevel::max_num_blocks = max_size_2d.x * max_size_2d.y;$/;"	kind:m	class:sublevel	file:
 max_num_blocks	sublevel_class.hpp	/^	static const u32 max_num_blocks;$/;"	kind:m	class:sublevel	access:public
@@ -1040,29 +1038,17 @@ operator =	sprite_level_data_stuff.hpp	/^	inline sprite_init_param_group_with_si
 operator =	vec2_class.hpp	/^	inline vec2<type>& operator = ( const vec2<type>& to_copy )$/;"	kind:f	class:vec2	access:public	signature:( const vec2<type>& to_copy )
 operator ==	vec2_class.hpp	/^	inline bool operator == ( const vec2<type>& to_cmp ) const$/;"	kind:f	class:vec2	access:public	signature:( const vec2<type>& to_cmp ) const
 origin_ptr	sprite_level_data_stuff.hpp	/^		* down_left_ptr, * down_right_ptr, * origin_ptr;$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_selecting_sprite	access:public
-origin_ptr	sprite_level_data_stuff.hpp	/^		* left_ptr, * origin_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	access:public
-origin_ptr	sprite_level_data_stuff.hpp	/^		* left_ptr, * origin_ptr, * right_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public
-origin_ptr	sprite_level_data_stuff.hpp	/^		* left_ptr, * origin_ptr;$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	access:public
+origin_ptr	sprite_level_data_stuff.hpp	/^		* left_ptr, * origin_ptr, * right_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
 original_layer_of_pasted_selection	rect_selection_stuff_class.hpp	/^	rect_selection_layer original_layer_of_pasted_selection;$/;"	kind:m	class:rect_selection_stuff	access:public
-overlaps_down	sprite_level_data_stuff.hpp	/^	inline bool overlaps_down() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	access:public	signature:() const
-overlaps_down	sprite_level_data_stuff.hpp	/^	inline bool overlaps_down() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public	signature:() const
-overlaps_down_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_down_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	access:public	signature:() const
-overlaps_down_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_down_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public	signature:() const
-overlaps_down_right	sprite_level_data_stuff.hpp	/^	inline bool overlaps_down_right() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public	signature:() const
-overlaps_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	access:public	signature:() const
-overlaps_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	access:public	signature:() const
-overlaps_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public	signature:() const
-overlaps_origin	sprite_level_data_stuff.hpp	/^	inline bool overlaps_origin() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	access:public	signature:() const
-overlaps_origin	sprite_level_data_stuff.hpp	/^	inline bool overlaps_origin() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	access:public	signature:() const
-overlaps_origin	sprite_level_data_stuff.hpp	/^	inline bool overlaps_origin() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public	signature:() const
-overlaps_right	sprite_level_data_stuff.hpp	/^	inline bool overlaps_right() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public	signature:() const
-overlaps_up	sprite_level_data_stuff.hpp	/^	inline bool overlaps_up() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	access:public	signature:() const
-overlaps_up	sprite_level_data_stuff.hpp	/^	inline bool overlaps_up() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	access:public	signature:() const
-overlaps_up	sprite_level_data_stuff.hpp	/^	inline bool overlaps_up() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public	signature:() const
-overlaps_up_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_up_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	access:public	signature:() const
-overlaps_up_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_up_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	access:public	signature:() const
-overlaps_up_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_up_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public	signature:() const
-overlaps_up_right	sprite_level_data_stuff.hpp	/^	inline bool overlaps_up_right() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public	signature:() const
+overlaps_down	sprite_level_data_stuff.hpp	/^	inline bool overlaps_down() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
+overlaps_down_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_down_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
+overlaps_down_right	sprite_level_data_stuff.hpp	/^	inline bool overlaps_down_right() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
+overlaps_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
+overlaps_origin	sprite_level_data_stuff.hpp	/^	inline bool overlaps_origin() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
+overlaps_right	sprite_level_data_stuff.hpp	/^	inline bool overlaps_right() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
+overlaps_up	sprite_level_data_stuff.hpp	/^	inline bool overlaps_up() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
+overlaps_up_left	sprite_level_data_stuff.hpp	/^	inline bool overlaps_up_left() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
+overlaps_up_right	sprite_level_data_stuff.hpp	/^	inline bool overlaps_up_right() const$/;"	kind:f	class:adj_sprite_ipgws_ptr_group_base	access:protected	signature:() const
 paintEngine	sfml_canvas_widget_classes.cpp	/^QPaintEngine* sfml_canvas_widget_base::paintEngine() const$/;"	kind:f	class:sfml_canvas_widget_base	signature:() const
 paintEngine	sfml_canvas_widget_classes.hpp	/^	virtual QPaintEngine* paintEngine() const;$/;"	kind:p	class:sfml_canvas_widget_base	access:protected	signature:() const
 paintEvent	sfml_canvas_widget_classes.cpp	/^void sfml_canvas_widget_base::paintEvent( QPaintEvent* event )$/;"	kind:f	class:sfml_canvas_widget_base	signature:( QPaintEvent* event )
@@ -1225,7 +1211,7 @@ replaced_sprite_ipgws_vec_2d	undo_and_redo_stack_class.hpp	/^		replaced_sprite_i
 resize	sublevel_class.hpp	/^	inline void resize( const vec2_u32& n_real_size_2d )$/;"	kind:f	class:sublevel	access:public	signature:( const vec2_u32& n_real_size_2d )
 right_current_level_element_index	level_element_selector_core_widget_base_class.hpp	/^	u32 left_current_level_element_index, right_current_level_element_index;$/;"	kind:m	class:level_element_selector_core_widget_base	access:protected
 right_mouse_button_pressed	level_editor_core_widget_class.hpp	/^	void right_mouse_button_pressed();$/;"	kind:p	class:level_editor_core_widget	access:protected	signature:()
-right_ptr	sprite_level_data_stuff.hpp	/^		* left_ptr, * origin_ptr, * right_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public
+right_ptr	sprite_level_data_stuff.hpp	/^		* left_ptr, * origin_ptr, * right_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
 round_to_int	fixed24p8_class.hpp	/^	inline s32 round_to_int() const;$/;"	kind:p	class:fixed24p8	access:public	signature:() const
 round_to_int	fixed24p8_class.hpp	/^inline s32 fixed24p8::round_to_int() const$/;"	kind:f	class:fixed24p8	signature:() const
 rsl_blocks	misc_types.hpp	/^enum rect_selection_layer { rsl_blocks, rsl_sprites };$/;"	kind:e	enum:rect_selection_layer
@@ -1674,14 +1660,10 @@ undo_and_redo_stuff	undo_and_redo_stack_class.hpp	/^struct undo_and_redo_stuff$/
 undo_and_redo_stuff::ur_action_to_push	undo_and_redo_stack_class.hpp	/^	undo_and_redo_action ur_action_to_push;$/;"	kind:m	struct:undo_and_redo_stuff	access:public
 undo_and_redo_stuff::ur_stack	undo_and_redo_stack_class.hpp	/^	undo_and_redo_stack ur_stack;$/;"	kind:m	struct:undo_and_redo_stuff	access:public
 unzoomed_size_2d	sfml_canvas_widget_classes.hpp	/^	QSize unzoomed_size_2d;$/;"	kind:m	class:level_editor_sfml_canvas_widget	access:protected
-up_left_ptr	sprite_level_data_stuff.hpp	/^		* up_left_ptr, * up_ptr, * up_right_ptr,$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public
-up_left_ptr	sprite_level_data_stuff.hpp	/^	sprite_init_param_group_with_size * up_left_ptr, * up_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	access:public
-up_left_ptr	sprite_level_data_stuff.hpp	/^	sprite_init_param_group_with_size * up_left_ptr, * up_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	access:public
+up_left_ptr	sprite_level_data_stuff.hpp	/^		* up_left_ptr, * up_ptr, * up_right_ptr,$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
 up_left_ptr	sprite_level_data_stuff.hpp	/^	sprite_init_param_group_with_size * up_left_ptr, * up_right_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_selecting_sprite	access:public
-up_ptr	sprite_level_data_stuff.hpp	/^		* up_left_ptr, * up_ptr, * up_right_ptr,$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public
-up_ptr	sprite_level_data_stuff.hpp	/^	sprite_init_param_group_with_size * up_left_ptr, * up_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16	access:public
-up_ptr	sprite_level_data_stuff.hpp	/^	sprite_init_param_group_with_size * up_left_ptr, * up_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32	access:public
-up_right_ptr	sprite_level_data_stuff.hpp	/^		* up_left_ptr, * up_ptr, * up_right_ptr,$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32	access:public
+up_ptr	sprite_level_data_stuff.hpp	/^		* up_left_ptr, * up_ptr, * up_right_ptr,$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
+up_right_ptr	sprite_level_data_stuff.hpp	/^		* up_left_ptr, * up_ptr, * up_right_ptr,$/;"	kind:m	class:adj_sprite_ipgws_ptr_group_base	access:public
 up_right_ptr	sprite_level_data_stuff.hpp	/^	sprite_init_param_group_with_size * up_left_ptr, * up_right_ptr, $/;"	kind:m	class:adj_sprite_ipgws_ptr_group_for_selecting_sprite	access:public
 update_visible_area	sfml_canvas_widget_classes.cpp	/^void level_editor_sfml_canvas_widget::update_visible_area()$/;"	kind:f	class:level_editor_sfml_canvas_widget	signature:()
 update_visible_area	sfml_canvas_widget_classes.hpp	/^	void update_visible_area();$/;"	kind:p	class:level_editor_sfml_canvas_widget	access:protected	signature:()

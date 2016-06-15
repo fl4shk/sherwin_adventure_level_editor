@@ -213,244 +213,35 @@ public:		// functions
 class sublevel;
 
 
-// These go from top left to bottom right, and they are generated using
-// block grid coordinates.  Only one sprite should be permitted per block
-// grid coordinate.  These classes are intended to be used to help
-// overwrite data in a sublevel's 2D vector of
-// sprite_init_param_group_with_size.
 
-// "adj" is short for "adjacent"
+#define list_of_16x16_sprite_pg_stuff(macro) \
+	macro(up_left) macro(up) \
+	macro(left) macro(origin)
+#define list_of_16x16_sprite_pg_stuff_no_origin(macro) \
+	macro(up_left) macro(up) \
+	macro(left) 
 
-// Also, it is not necessary for EVERY adjacent position to be checked,
-// only the ones occupied by the sprite and the ones to the top and left of
-// the sprite.
+#define list_of_16x32_sprite_pg_stuff(macro) \
+	macro(up_left) macro(up) \
+	macro(left) macro(origin) \
+	macro(down_left) macro(down)
+#define list_of_16x32_sprite_pg_stuff_no_origin(macro) \
+	macro(up_left) macro(up) \
+	macro(left) \
+	macro(down_left) macro(down)
 
-// PLEASE set pointers to NULL if they represent a block grid coordinate
-// that is OUTSIDE THE SUBLEVEL.
-
-
-// This is used when it is necessary to determine whether a 16x16 sprite
-// can be placed, since only one sprite is allowed per block grid
-// coordinate.
-
-// Schematic, where X is the 16x16 sprite
-// [ ][ ]
-// [ ][X]
-
-
-
-
-
-// These classes could easily be derived from a base class.  
-
-// Also, their names could probably stand to be much shorter.  I really
-// need to do a better job of naming things.
- 
-class adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16
-{
-public:		// variables
-	// The TOP LEFT block grid coordinate INTERSECTED BY THE SPRITE is
-	// considered to be the origin.  In this particular case, there is only
-	// a single block grid coordinate occupied by the sprite.
-	sprite_init_param_group_with_size * up_left_ptr, * up_ptr, 
-		* left_ptr, * origin_ptr;
-	
-public:		// functions
-	inline adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16()
-		: up_left_ptr(NULL), up_ptr(NULL),
-		left_ptr(NULL), origin_ptr(NULL)
-	{
-	}
-	
-	adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16
-		( sublevel& the_sublevel, u32 origin_block_grid_x_coord, 
-		u32 origin_block_grid_y_coord );
-	
-	bool can_add_sprite();
-	
-	inline bool overlaps_up_left() const
-	{
-		if ( up_left_ptr != NULL )
-		{
-			if ( up_left_ptr->size_2d.x > 16 
-				&& up_left_ptr->size_2d.y > 16 )
-			{
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	inline bool overlaps_up() const
-	{
-		if ( up_ptr != NULL )
-		{
-			if ( up_ptr->size_2d.y > 16 )
-			{
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	inline bool overlaps_left() const
-	{
-		if ( left_ptr != NULL )
-		{
-			if ( left_ptr->size_2d.x > 16 )
-			{
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	inline bool overlaps_origin() const
-	{
-		if ( origin_ptr != NULL )
-		{
-			if ( origin_ptr->type != st_default )
-			{
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	
-};
+#define list_of_32x32_sprite_pg_stuff(macro) \
+	macro(up_left) macro(up) macro(up_right) \
+	macro(left) macro(origin) macro(right) \
+	macro(down_left) macro(down) macro(down_right)
+#define list_of_32x32_sprite_pg_stuff_no_origin(macro) \
+	macro(up_left) macro(up) macro(up_right) \
+	macro(left) macro(right) \
+	macro(down_left) macro(down) macro(down_right)
 
 
 
-// This is used when it is necessary to determine whether a 16x32 sprite
-// can be placed, since only one sprite is allowed per block grid
-// coordinate.
-
-// Schematic, where X is the 16x32 sprite
-// [ ][ ]
-// [ ][X]
-// [ ][X]
-
-class adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32
-{
-public:		// variables
-	// The TOP LEFT block grid coordinate INTERSECTED BY THE SPRITE is
-	// considered to be the origin.
-	sprite_init_param_group_with_size * up_left_ptr, * up_ptr, 
-		* left_ptr, * origin_ptr, 
-		* down_left_ptr, * down_ptr;
-	
-public:		// functions
-	inline adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32()
-		: up_left_ptr(NULL), up_ptr(NULL), 
-		left_ptr(NULL), origin_ptr(NULL), 
-		down_left_ptr(NULL), down_ptr(NULL)
-	{
-	}
-	
-	adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32
-		( sublevel& the_sublevel, u32 origin_block_grid_x_coord, 
-		u32 origin_block_grid_y_coord );
-	
-	bool can_add_sprite();
-	
-	inline bool overlaps_up_left() const
-	{
-		if ( up_left_ptr != NULL )
-		{
-			if ( up_left_ptr->size_2d.x > 16 
-				&& up_left_ptr->size_2d.y > 16 )
-			{
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	inline bool overlaps_up() const
-	{
-		if ( up_ptr != NULL )
-		{
-			if ( up_ptr->size_2d.y > 16 )
-			{
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	inline bool overlaps_left() const
-	{
-		if ( left_ptr != NULL )
-		{
-			if ( left_ptr->size_2d.x > 16 )
-			{
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	inline bool overlaps_origin() const
-	{
-		if ( origin_ptr != NULL )
-		{
-			if ( origin_ptr->type != st_default )
-			{
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	inline bool overlaps_down_left() const
-	{
-		if ( down_left_ptr != NULL )
-		{
-			if ( down_left_ptr->size_2d.x > 16 )
-			{
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	inline bool overlaps_down() const
-	{
-		if ( down_ptr != NULL )
-		{
-			if ( down_ptr->type != st_default )
-			{
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	
-};
-
-
-// This is used when it is necessary to determine whether a 32x32 sprite
-// can be placed, since only one sprite is allowed per block grid
-// coordinate.
-
-// Schematic, where X is the 32x32 sprite
-// [ ][ ][ ]
-// [ ][X][X]
-// [ ][X][X]
-
-class adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32
+class adj_sprite_ipgws_ptr_group_base
 {
 public:		// variables
 	// The TOP LEFT block grid coordinate INTERSECTED BY THE SPRITE is
@@ -462,19 +253,17 @@ public:		// variables
 		* down_left_ptr, * down_ptr, * down_right_ptr;
 	
 public:		// functions
-	inline adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32() 
+	inline adj_sprite_ipgws_ptr_group_base() 
 		: up_left_ptr(NULL), up_ptr(NULL), up_right_ptr(NULL),
 		left_ptr(NULL), origin_ptr(NULL), right_ptr(NULL), 
 		down_left_ptr(NULL), down_ptr(NULL), down_right_ptr(NULL)
 	{
 	}
 	
-	adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32
-		( sublevel& the_sublevel, u32 origin_block_grid_x_coord, 
-		u32 origin_block_grid_y_coord );
+	virtual bool can_add_sprite() = 0;
+	virtual void erase_overlapping_sprites() = 0;
 	
-	bool can_add_sprite();
-	
+protected:		// functions
 	inline bool overlaps_up_left() const
 	{
 		if ( up_left_ptr != NULL )
@@ -588,6 +377,105 @@ public:		// functions
 		
 		return false;
 	}
+	
+	
+};
+
+
+// These go from top left to bottom right, and they are generated using
+// block grid coordinates.  Only one sprite should be permitted per block
+// grid coordinate.  These classes are intended to be used to help
+// overwrite data in a sublevel's 2D vector of
+// sprite_init_param_group_with_size.
+
+// "adj" is short for "adjacent"
+
+// Also, it is not necessary for EVERY adjacent position to be checked,
+// only the ones occupied by the sprite and the ones to the top and left of
+// the sprite.
+
+// PLEASE set pointers to NULL if they represent a block grid coordinate
+// that is OUTSIDE THE SUBLEVEL.
+
+
+// This is used when it is necessary to determine whether a 16x16 sprite
+// can be placed, since only one sprite is allowed per block grid
+// coordinate.
+
+// Schematic, where X is the 16x16 sprite
+// [ ][ ]
+// [ ][X]
+
+
+class adj_sprite_ipgws_ptr_group_16x16
+	: public adj_sprite_ipgws_ptr_group_base
+{
+public:		// functions
+	inline adj_sprite_ipgws_ptr_group_16x16()
+		: adj_sprite_ipgws_ptr_group_base()
+	{
+	}
+	
+	adj_sprite_ipgws_ptr_group_16x16( sublevel& the_sublevel, 
+		u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord );
+	
+	virtual bool can_add_sprite();
+	virtual void erase_overlapping_sprites();
+	
+};
+
+
+
+// This is used when it is necessary to determine whether a 16x32 sprite
+// can be placed, since only one sprite is allowed per block grid
+// coordinate.
+
+// Schematic, where X is the 16x32 sprite
+// [ ][ ]
+// [ ][X]
+// [ ][X]
+
+class adj_sprite_ipgws_ptr_group_16x32 
+	: public adj_sprite_ipgws_ptr_group_base
+{
+public:		// functions
+	inline adj_sprite_ipgws_ptr_group_16x32()
+		: adj_sprite_ipgws_ptr_group_base()
+	{
+	}
+	
+	adj_sprite_ipgws_ptr_group_16x32( sublevel& the_sublevel, 
+		u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord );
+	
+	virtual bool can_add_sprite();
+	virtual void erase_overlapping_sprites();
+	
+};
+
+
+// This is used when it is necessary to determine whether a 32x32 sprite
+// can be placed, since only one sprite is allowed per block grid
+// coordinate.
+
+// Schematic, where X is the 32x32 sprite
+// [ ][ ][ ]
+// [ ][X][X]
+// [ ][X][X]
+
+class adj_sprite_ipgws_ptr_group_32x32
+	: public adj_sprite_ipgws_ptr_group_base
+{
+public:		// functions
+	inline adj_sprite_ipgws_ptr_group_32x32() 
+		: adj_sprite_ipgws_ptr_group_base()
+	{
+	}
+	
+	adj_sprite_ipgws_ptr_group_32x32( sublevel& the_sublevel, 
+		u32 origin_block_grid_x_coord, u32 origin_block_grid_y_coord );
+	
+	virtual bool can_add_sprite();
+	virtual void erase_overlapping_sprites();
 	
 	
 };

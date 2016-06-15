@@ -1241,8 +1241,8 @@ void editing_manager::place_single_16x16_sprite_and_record_ur_stuff
 		ur_action_to_push.curr_sprite_ipgws = the_sprite_ipgws_in_sublevel;
 	};
 	
-	adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16 the_ptr_group
-		( *the_sublevel, block_grid_coord.x, block_grid_coord.y );
+	adj_sprite_ipgws_ptr_group_16x16 the_ptr_group( *the_sublevel, 
+		block_grid_coord.x, block_grid_coord.y );
 	
 	if ( the_ptr_group.can_add_sprite() )
 	{
@@ -1285,8 +1285,8 @@ void editing_manager::place_single_16x32_sprite_and_record_ur_stuff
 		ur_action_to_push.curr_sprite_ipgws = the_sprite_ipgws_in_sublevel;
 	};
 	
-	adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32 the_ptr_group
-		( *the_sublevel, block_grid_coord.x, block_grid_coord.y );
+	adj_sprite_ipgws_ptr_group_16x32 the_ptr_group( *the_sublevel, 
+		block_grid_coord.x, block_grid_coord.y );
 	
 	
 	if ( the_ptr_group.can_add_sprite() )

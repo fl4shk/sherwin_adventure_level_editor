@@ -346,7 +346,7 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 	
 	
 	auto shared_sprite_handling_func = [&]( const vec2_s32& block_grid_pos,
-		const sprite_init_param_group_with_size& the_old_sprite_ipgws ) 
+		const sprite_init_param_group_with_size& the_other_sprite_ipgws ) 
 		-> void
 	{
 		sprite_init_param_group_with_size& the_new_sprite_ipgws 
@@ -359,101 +359,49 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 		auto say_that_size_2d_y_is_weird = []() -> void
 		{
 			cout << "shared_sprite_handling_func():  weird issue where "
-				<< "the_old_sprite_ipgws.size_2d.y is neither 16 or 32.\n";
+				<< "the_other_sprite_ipgws.size_2d.y is neither 16 or "
+				<< "32.\n";
 		};
 		auto say_that_size_2d_x_is_weird = []() -> void
 		{
 			cout << "shared_sprite_handling_func():  weird issue where "
-				<< "the_old_sprite_ipgws.size_2d.x is neither 16 or 32.\n";
+				<< "the_other_sprite_ipgws.size_2d.x is neither 16 or "
+				<< "32.\n";
 		};
 		auto say_that_size_2d_combo_is_weird = []() -> void
 		{
 			cout << "shared_sprite_handling_func():  weird issue where "
-				<< "the_old_sprite_ipgws.size_2d.x == 32 and "
-				<< "the_old_sprite_ipgws.size_2d.y == 16.\n";
+				<< "the_other_sprite_ipgws.size_2d.x == 32 and "
+				<< "the_other_sprite_ipgws.size_2d.y == 16.\n";
 		};
 		
-		if ( the_old_sprite_ipgws.type != st_default )
+		if ( the_other_sprite_ipgws.type != st_default )
 		{
-			the_new_sprite_ipgws = the_old_sprite_ipgws;
-			
-			// Don't forget to update the intial block grid
-			// coordinates, since the_new_sprite_ipgws is at a
-			// different location from the_old_sprite_ipgws.
-			the_new_sprite_ipgws.initial_block_grid_x_coord
-				= block_grid_pos.x;
-			the_new_sprite_ipgws.initial_block_grid_y_coord
-				= block_grid_pos.y;
-			
-			if ( the_old_sprite_ipgws.size_2d.x == 16 )
+			if ( the_other_sprite_ipgws.size_2d.x == 16 )
 			{
 				// 16x16
-				if ( the_old_sprite_ipgws.size_2d.y == 16 )
+				if ( the_other_sprite_ipgws.size_2d.y == 16 )
 				{
-					adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16
-						ptr_group( *the_sublevel, block_grid_pos.x,
+					adj_sprite_ipgws_ptr_group_16x16 ptr_group
+						( *the_sublevel, block_grid_pos.x,
 						block_grid_pos.y );
 					
 					// Erase sprites overlapped by the moved or pasted
 					// sprite
-					if ( ptr_group.overlaps_up_left() )
-					{
-						*ptr_group.up_left_ptr
-							= sprite_init_param_group_with_size();
-					}
-					
-					if ( ptr_group.overlaps_up() )
-					{
-						*ptr_group.up_ptr 
-							= sprite_init_param_group_with_size();
-					}
-					
-					if ( ptr_group.overlaps_left() )
-					{
-						*ptr_group.left_ptr
-							= sprite_init_param_group_with_size();
-					}
+					ptr_group.erase_overlapping_sprites();
 					
 				}
 				
 				// 16x32
-				else if ( the_old_sprite_ipgws.size_2d.y == 32 )
+				else if ( the_other_sprite_ipgws.size_2d.y == 32 )
 				{
-					adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32
-						ptr_group( *the_sublevel, block_grid_pos.x,
+					adj_sprite_ipgws_ptr_group_16x32 ptr_group
+						( *the_sublevel, block_grid_pos.x,
 						block_grid_pos.y );
 					
 					// Erase sprites overlapped by the moved or pasted
 					// sprite
-					if ( ptr_group.overlaps_up_left() )
-					{
-						*ptr_group.up_left_ptr
-							= sprite_init_param_group_with_size();
-					}
-					
-					if ( ptr_group.overlaps_up() )
-					{
-						*ptr_group.up_ptr 
-							= sprite_init_param_group_with_size();
-					}
-					
-					if ( ptr_group.overlaps_left() )
-					{
-						*ptr_group.left_ptr
-							= sprite_init_param_group_with_size();
-					}
-					
-					if ( ptr_group.overlaps_down_left() )
-					{
-						*ptr_group.down_left_ptr
-							= sprite_init_param_group_with_size();
-					}
-					
-					if ( ptr_group.down_ptr != NULL )
-					{
-						*ptr_group.down_ptr
-							= sprite_init_param_group_with_size();
-					}
+					ptr_group.erase_overlapping_sprites();
 				}
 				
 				// Invalid size_2d
@@ -462,24 +410,21 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 					say_that_size_2d_y_is_weird();
 				}
 			}
-			else if ( the_old_sprite_ipgws.size_2d.x == 32 )
+			else if ( the_other_sprite_ipgws.size_2d.x == 32 )
 			{
 				// 32x16, which isn't allowed
-				if ( the_old_sprite_ipgws.size_2d.y == 16 )
+				if ( the_other_sprite_ipgws.size_2d.y == 16 )
 				{
 					say_that_size_2d_combo_is_weird();
 				}
 				
 				// 32x32
-				else if ( the_old_sprite_ipgws.size_2d.y == 32 )
+				else if ( the_other_sprite_ipgws.size_2d.y == 32 )
 				{
-					//adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32
-					//	ptr_group( *the_sublevel, block_grid_pos.x,
-					//	block_grid_pos.y );
-					
-					cout << "Not yet fully implemented:  "
-						<< "adj_sprite_ipgws_ptr_group_for_placing"
-						<< "_sprite_32x32\n";
+					adj_sprite_ipgws_ptr_group_32x32 ptr_group
+						( *the_sublevel, block_grid_pos.x,
+						block_grid_pos.y );
+					ptr_group.erase_overlapping_sprites();
 				}
 				
 				// Invalid size_2d
@@ -492,9 +437,21 @@ void rect_selection_stuff::finalize_movement_of_selection_contents()
 			{
 				say_that_size_2d_x_is_weird();
 			}
+			
+			
+			the_new_sprite_ipgws = the_other_sprite_ipgws;
+			
+			// Don't forget to update the intial block grid
+			// coordinates, since the_new_sprite_ipgws is at a
+			// different location from the_other_sprite_ipgws.
+			the_new_sprite_ipgws.initial_block_grid_x_coord
+				= block_grid_pos.x;
+			the_new_sprite_ipgws.initial_block_grid_y_coord
+				= block_grid_pos.y;
+			
 		}
 		//// Erase sprites even when there's not one in the specific slot
-		//else //if ( the_old_sprite_ipgws.type == st_default )
+		//else //if ( the_other_sprite_ipgws.type == st_default )
 		//{
 		//	the_new_sprite_ipgws = sprite_init_param_group_with_size();
 		//}
@@ -701,9 +658,9 @@ void rect_selection_stuff::copy_selection_contents()
 					copied_block_vec_2d.at(j).push_back(block());
 				}
 				
-				cout << i << ", " << j << ";  "
-					<< the_sublevel->contains_block_grid_pos
-					(original_block_grid_pos) << endl;
+				//cout << i << ", " << j << ";  "
+				//	<< the_sublevel->contains_block_grid_pos
+				//	(original_block_grid_pos) << endl;
 			}
 		}
 	}
@@ -737,9 +694,9 @@ void rect_selection_stuff::copy_selection_contents()
 						.push_back(sprite_init_param_group_with_size());
 				}
 				
-				cout << i << ", " << j << ";  "
-					<< the_sublevel->contains_block_grid_pos
-					(original_block_grid_pos) << endl;
+				//cout << i << ", " << j << ";  "
+				//	<< the_sublevel->contains_block_grid_pos
+				//	(original_block_grid_pos) << endl;
 			}
 		}
 	}
