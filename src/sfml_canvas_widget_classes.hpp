@@ -345,13 +345,15 @@ protected:		// functions
 	
 	
 	// Functions for preparing for drawing level elements
-	void prepare_for_drawing_blocks
+	void prepare_for_drawing_blocks_part_1
 		( sf::Sprite& sprite_for_drawing_level_elements );
 	void prepare_for_drawing_16x32_sprites_part_1
 		( sf::Sprite& sprite_for_drawing_level_elements );
 	void prepare_for_drawing_16x16_sprites_part_1
 		( sf::Sprite& sprite_for_drawing_level_elements );
 	
+	void prepare_for_drawing_blocks_part_2
+		( sf::Sprite& sprite_for_drawing_level_elements );
 	void prepare_for_drawing_16x32_sprites_part_2
 		( sf::Sprite& sprite_for_drawing_level_elements );
 	void prepare_for_drawing_16x16_sprites_part_2
@@ -362,7 +364,10 @@ protected:		// functions
 	void update_visible_area();
 	
 	
-	void draw_visible_blocks
+	// Draw blocks that are NOT inside the rectangular selection, if there
+	// is one, but NOT the ones that have been MOVED if the rectangular
+	// selection was not pasted
+	void draw_visible_blocks_part_1
 		( sf::Sprite& sprite_for_drawing_level_elements,
 		const vec2<double>& visible_block_grid_start_pos,
 		const vec2<double>& visible_block_grid_size_2d,
@@ -391,8 +396,14 @@ protected:		// functions
 		const sf::IntRect& selection_rect_before_moving );
 	
 	
-	// Draw sprites that ARE inside of the rectangular selection, if there
-	// is one
+	// Draw level elements that ARE inside of the rectangular selection, if
+	// there is one
+	void draw_visible_blocks_part_2
+		( sf::Sprite& sprite_for_drawing_level_elements,
+		const vec2<double>& visible_block_grid_start_pos,
+		const vec2<double>& visible_block_grid_size_2d,
+		const sf::IntRect& selection_rect_before_moving );
+	
 	void draw_visible_16x32_sprites_part_2
 		( sf::Sprite& sprite_for_drawing_level_elements,
 		const vec2<double>& visible_block_grid_start_pos,
