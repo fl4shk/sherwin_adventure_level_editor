@@ -47,80 +47,40 @@ adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16
 			(s32)origin_block_grid_y_coord );
 	
 	
-	// It would certainly be nice if I could use an X macro for this, but
-	// no, they are too different to do that in an easy way.
-	
-	if ( up_left_block_grid_pos.x < 0 || up_left_block_grid_pos.y < 0 )
-	{
-		//up_left_block_grid_pos = { -1, -1 };
-		up_left_ptr = NULL;
-	}
-	else
-	{
-		up_left_ptr = &the_sublevel.sprite_ipgws_vec_2d
-			.at(up_left_block_grid_pos.y).at(up_left_block_grid_pos.x);
-	}
-	
-	if ( up_block_grid_pos.y < 0 )
-	{
-		//up_block_grid_pos = { -1, -1 };
-		up_ptr = NULL;
-	}
-	else
-	{
-		up_ptr = &the_sublevel.sprite_ipgws_vec_2d
-			.at(up_block_grid_pos.y).at(up_block_grid_pos.x);
-	}
+	// This doesn't include the origin since it was already assigned.
+	// Also, this isn't as efficient as it used to be, with the benefit of
+	// fewer lines in this file (and possibly more clarity).
+	#define list_of_16x16_sprite_rel_positions(macro) \
+		macro(up_left) macro(up) \
+		macro(left) 
 	
 	
-	if ( left_block_grid_pos.x < 0 )
-	{
-		//left_block_grid_pos = { -1, -1 };
-		left_ptr = NULL;
-	}
-	else
-	{
-		left_ptr = &the_sublevel.sprite_ipgws_vec_2d
-			.at(left_block_grid_pos.y).at(left_block_grid_pos.x);
-	}
+	#define assign_rel_pos_ptr(rel_pos) \
+		if ( !the_sublevel.contains_block_grid_pos \
+			(rel_pos##_block_grid_pos) ) \
+		{ \
+			rel_pos##_ptr = NULL; \
+		} \
+		else \
+		{ \
+			rel_pos##_ptr = &the_sublevel.sprite_ipgws_vec_2d \
+				.at(rel_pos##_block_grid_pos.y) \
+				.at(rel_pos##_block_grid_pos.x); \
+		}
 	
+	list_of_16x16_sprite_rel_positions(assign_rel_pos_ptr)
+	#undef assign_rel_pos_ptr
+	#undef list_of_16x16_sprite_rel_positions
 	
 }
 
 bool adj_sprite_ipgws_ptr_group_for_placing_sprite_16x16::can_add_sprite()
 {
 	// Don't let existing sprites be overwritten.
-	if ( up_left_ptr != NULL )
+	if ( overlaps_up_left() || overlaps_up() || overlaps_left() 
+		|| overlaps_origin() )
 	{
-		if ( up_left_ptr->size_2d.x > 16 && up_left_ptr->size_2d.y > 16 )
-		{
-			return false;
-		}
-	}
-	
-	if ( up_ptr != NULL )
-	{
-		if ( up_ptr->size_2d.y > 16 )
-		{
-			return false;
-		}
-	}
-	
-	
-	if ( left_ptr != NULL )
-	{
-		if ( left_ptr->size_2d.x > 16 )
-		{
-			return false;
-		}
-	}
-	
-	if ( origin_ptr != NULL )
-	{
-		if ( origin_ptr->type != st_default )
-		{
-			return false;
-		}
+		return false;
 	}
 	
 	return true;
@@ -160,121 +120,40 @@ adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32
 	
 	
 	
-	// It would certainly be nice if I could use an X macro for this, but
-	// no, they are too different to do that in an easy way.
+	// This doesn't include the origin since it was already assigned.
+	// Also, this isn't as efficient as it used to be, with the benefit of
+	// fewer lines in this file (and possibly more clarity).
+	#define list_of_16x32_sprite_rel_positions(macro) \
+		macro(up_left) macro(up) \
+		macro(left) \
+		macro(down_left) macro(down)
 	
-	if ( up_left_block_grid_pos.x < 0 || up_left_block_grid_pos.y < 0 )
-	{
-		//up_left_block_grid_pos = { -1, -1 };
-		up_left_ptr = NULL;
-	}
-	else
-	{
-		up_left_ptr = &the_sublevel.sprite_ipgws_vec_2d
-			.at(up_left_block_grid_pos.y).at(up_left_block_grid_pos.x);
-	}
+	#define assign_rel_pos_ptr(rel_pos) \
+		if ( !the_sublevel.contains_block_grid_pos \
+			(rel_pos##_block_grid_pos) ) \
+		{ \
+			rel_pos##_ptr = NULL; \
+		} \
+		else \
+		{ \
+			rel_pos##_ptr = &the_sublevel.sprite_ipgws_vec_2d \
+				.at(rel_pos##_block_grid_pos.y) \
+				.at(rel_pos##_block_grid_pos.x); \
+		}
 	
-	if ( up_block_grid_pos.y < 0 )
-	{
-		//up_block_grid_pos = { -1, -1 };
-		up_ptr = NULL;
-	}
-	else
-	{
-		up_ptr = &the_sublevel.sprite_ipgws_vec_2d
-			.at(up_block_grid_pos.y).at(up_block_grid_pos.x);
-	}
-	
-	
-	if ( left_block_grid_pos.x < 0 )
-	{
-		//left_block_grid_pos = { -1, -1 };
-		left_ptr = NULL;
-	}
-	else
-	{
-		left_ptr = &the_sublevel.sprite_ipgws_vec_2d
-			.at(left_block_grid_pos.y).at(left_block_grid_pos.x);
-	}
-	
-	
-	if ( down_left_block_grid_pos.x < 0 
-		|| down_left_block_grid_pos.y >= (s32)the_sublevel.real_size_2d.y )
-	{
-		//down_left_block_grid_pos = { -1, -1 };
-		down_left_ptr = NULL;
-	}
-	else
-	{
-		down_left_ptr = &the_sublevel.sprite_ipgws_vec_2d
-			.at(down_left_block_grid_pos.y).at(down_left_block_grid_pos.x);
-	}
-	
-	if ( down_block_grid_pos.y >= (s32)the_sublevel.real_size_2d.y )
-	{
-		//down_block_grid_pos = { -1, -1 };
-		down_ptr = NULL;
-	}
-	else
-	{
-		down_ptr = &the_sublevel.sprite_ipgws_vec_2d
-			.at(down_block_grid_pos.y).at(down_block_grid_pos.x);
-	}
-	
+	list_of_16x32_sprite_rel_positions(assign_rel_pos_ptr)
+	#undef assign_rel_pos_ptr
+	#undef list_of_16x32_sprite_rel_positions
 	
 }
 
 bool adj_sprite_ipgws_ptr_group_for_placing_sprite_16x32::can_add_sprite()
 {
 	// Don't let existing sprites be overwritten.
-	if ( up_left_ptr != NULL )
+	if ( overlaps_up_left() || overlaps_up() || overlaps_left() 
+		|| overlaps_origin() || overlaps_down_left() || overlaps_down() )
 	{
-		if ( up_left_ptr->size_2d.x > 16 && up_left_ptr->size_2d.y > 16 )
-		{
-			return false;
-		}
-	}
-	
-	if ( up_ptr != NULL )
-	{
-		if ( up_ptr->size_2d.y > 16 )
-		{
-			return false;
-		}
-	}
-	
-	
-	if ( left_ptr != NULL )
-	{
-		if ( left_ptr->size_2d.x > 16 )
-		{
-			return false;
-		}
-	}
-	
-	if ( origin_ptr != NULL )
-	{
-		if ( origin_ptr->type != st_default )
-		{
-			return false;
-		}
-	}
-	
-	
-	if ( down_left_ptr != NULL )
-	{
-		if ( down_left_ptr->size_2d.x > 16 )
-		{
-			return false;
-		}
-	}
-	
-	if ( down_ptr != NULL )
-	{
-		if ( down_ptr->type != st_default )
-		{
-			return false;
-		}
+		return false;
 	}
 	
 	return true;
@@ -319,103 +198,49 @@ adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32
 		down_right_block_grid_pos( (s32)origin_block_grid_x_coord + 1,
 			(s32)origin_block_grid_y_coord + 1 );
 	
-	if ( up_left_block_grid_pos.x < 0 || up_left_block_grid_pos.y < 0 )
-	{
-		//up_left_block_grid_pos = { -1, -1 };
-		up_left_ptr = NULL;
-	}
-	else
-	{
-		up_left_ptr = &the_sublevel.sprite_ipgws_vec_2d
-			.at(up_left_block_grid_pos.y).at(up_left_block_grid_pos.x);
-	}
 	
-	if ( up_block_grid_pos.y < 0 )
-	{
-		//up_block_grid_pos = { -1, -1 };
-		up_ptr = NULL;
-	}
-	else
-	{
-		up_ptr = &the_sublevel.sprite_ipgws_vec_2d
-			.at(up_block_grid_pos.y).at(up_block_grid_pos.x);
-	}
-	
-	if ( up_right_block_grid_pos.x >= (s32)the_sublevel.real_size_2d.x 
-		|| up_right_block_grid_pos.y < 0 )
-	{
-		//up_right_block_grid_pos = { -1, -1 };
-		up_right_ptr = NULL;
-	}
-	else
-	{
-		up_right_ptr = &the_sublevel.sprite_ipgws_vec_2d
-			.at(up_right_block_grid_pos.y).at(up_right_block_grid_pos.x);
-	}
+	// This doesn't include the origin since it was already assigned.
+	// Also, this isn't as efficient as it used to be, with the benefit of
+	// fewer lines in this file (and possibly more clarity).
+	#define list_of_32x32_sprite_rel_positions(macro) \
+		macro(up_left) macro(up) macro(up_right) \
+		macro(left) macro(right) \
+		macro(down_left) macro(down) macro(down_right)
 	
 	
-	if ( left_block_grid_pos.x < 0 )
-	{
-		//left_block_grid_pos = { -1, -1 };
-		left_ptr = NULL;
-	}
-	else
-	{
-		left_ptr = &the_sublevel.sprite_ipgws_vec_2d
-			.at(left_block_grid_pos.y).at(left_block_grid_pos.x);
-	}
+	#define assign_rel_pos_ptr(rel_pos) \
+		if ( !the_sublevel.contains_block_grid_pos \
+			(rel_pos##_block_grid_pos) ) \
+		{ \
+			rel_pos##_ptr = NULL; \
+		} \
+		else \
+		{ \
+			rel_pos##_ptr = &the_sublevel.sprite_ipgws_vec_2d \
+				.at(rel_pos##_block_grid_pos.y) \
+				.at(rel_pos##_block_grid_pos.x); \
+		}
 	
-	if ( right_block_grid_pos.x >= (s32)the_sublevel.real_size_2d.x )
-	{
-		//right_block_grid_pos = { -1, -1 };
-		right_ptr = NULL;
-	}
-	else
-	{
-		right_ptr = &the_sublevel.sprite_ipgws_vec_2d
-			.at(right_block_grid_pos.y).at(right_block_grid_pos.x);
-	}
+	list_of_32x32_sprite_rel_positions(assign_rel_pos_ptr)
+	#undef assign_rel_pos_ptr
+	#undef list_of_32x32_sprite_rel_positions
 	
-	
-	if ( down_left_block_grid_pos.x < 0 
-		|| down_left_block_grid_pos.y >= (s32)the_sublevel.real_size_2d.y )
-	{
-		//down_left_block_grid_pos = { -1, -1 };
-		down_left_ptr = NULL;
-	}
-	else
-	{
-		down_left_ptr = &the_sublevel.sprite_ipgws_vec_2d
-			.at(down_left_block_grid_pos.y).at(down_left_block_grid_pos.x);
-	}
-	
-	if ( down_block_grid_pos.y >= (s32)the_sublevel.real_size_2d.y )
-	{
-		//down_block_grid_pos = { -1, -1 };
-		down_ptr = NULL;
-	}
-	else
-	{
-		down_ptr = &the_sublevel.sprite_ipgws_vec_2d
-			.at(down_block_grid_pos.y).at(down_block_grid_pos.x);
-	}
-	
-	if ( down_right_block_grid_pos.x >= (s32)the_sublevel.real_size_2d.x 
-		|| down_right_block_grid_pos.y 
-		>= (s32)the_sublevel.real_size_2d.y )
-	{
-		//down_right_block_grid_pos = { -1, -1 };
-		down_right_ptr = NULL;
-	}
-	else
-	{
-		down_right_ptr = &the_sublevel.sprite_ipgws_vec_2d
-			.at(down_right_block_grid_pos.y)
-			.at(down_right_block_grid_pos.x);
-	}
 	
 }
 
+bool adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32::can_add_sprite()
+{
+	// Don't let existing sprites be overwritten.
+	if ( overlaps_up_left() || overlaps_up() || overlaps_up_right()
+		|| overlaps_left() || overlaps_origin() || overlaps_right()
+		|| overlaps_down_left() || overlaps_down() 
+		|| overlaps_down_right() )
+	{
+		return false;
+	}
+	
+	return true;
+}
 
 
 adj_sprite_ipgws_ptr_group_for_selecting_sprite

@@ -266,6 +266,8 @@ public:		// functions
 		( sublevel& the_sublevel, u32 origin_block_grid_x_coord, 
 		u32 origin_block_grid_y_coord );
 	
+	bool can_add_sprite();
+	
 	inline bool overlaps_up_left() const
 	{
 		if ( up_left_ptr != NULL )
@@ -306,12 +308,19 @@ public:		// functions
 		return false;
 	}
 	
-	//inline bool overlaps_origin() const
-	//{
-	//	return true;
-	//}
+	inline bool overlaps_origin() const
+	{
+		if ( origin_ptr != NULL )
+		{
+			if ( origin_ptr->type != st_default )
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
 	
-	bool can_add_sprite();
 	
 };
 
@@ -347,6 +356,7 @@ public:		// functions
 		( sublevel& the_sublevel, u32 origin_block_grid_x_coord, 
 		u32 origin_block_grid_y_coord );
 	
+	bool can_add_sprite();
 	
 	inline bool overlaps_up_left() const
 	{
@@ -388,6 +398,19 @@ public:		// functions
 		return false;
 	}
 	
+	inline bool overlaps_origin() const
+	{
+		if ( origin_ptr != NULL )
+		{
+			if ( origin_ptr->type != st_default )
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	inline bool overlaps_down_left() const
 	{
 		if ( down_left_ptr != NULL )
@@ -401,9 +424,20 @@ public:		// functions
 		return false;
 	}
 	
+	inline bool overlaps_down() const
+	{
+		if ( down_ptr != NULL )
+		{
+			if ( down_ptr->type != st_default )
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
 	
 	
-	bool can_add_sprite();
 };
 
 
@@ -438,6 +472,123 @@ public:		// functions
 	adj_sprite_ipgws_ptr_group_for_placing_sprite_32x32
 		( sublevel& the_sublevel, u32 origin_block_grid_x_coord, 
 		u32 origin_block_grid_y_coord );
+	
+	bool can_add_sprite();
+	
+	inline bool overlaps_up_left() const
+	{
+		if ( up_left_ptr != NULL )
+		{
+			if ( up_left_ptr->size_2d.x > 16 
+				&& up_left_ptr->size_2d.y > 16 )
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	inline bool overlaps_up() const
+	{
+		if ( up_ptr != NULL )
+		{
+			if ( up_ptr->size_2d.y > 16 )
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	inline bool overlaps_up_right() const
+	{
+		if ( up_right_ptr != NULL )
+		{
+			if ( up_right_ptr->size_2d.y > 16 )
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	
+	inline bool overlaps_left() const
+	{
+		if ( left_ptr != NULL )
+		{
+			if ( left_ptr->size_2d.x > 16 )
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	inline bool overlaps_origin() const
+	{
+		if ( origin_ptr != NULL )
+		{
+			if ( origin_ptr->type != st_default )
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	inline bool overlaps_right() const
+	{
+		if ( right_ptr != NULL )
+		{
+			if ( right_ptr->type != st_default )
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	
+	inline bool overlaps_down_left() const
+	{
+		if ( down_left_ptr != NULL )
+		{
+			if ( down_left_ptr->size_2d.x > 16 )
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	inline bool overlaps_down() const
+	{
+		if ( down_ptr != NULL )
+		{
+			if ( down_ptr->type != st_default )
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	inline bool overlaps_down_right() const
+	{
+		if ( down_right_ptr != NULL )
+		{
+			if ( down_right_ptr->type != st_default )
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	
 };
 
