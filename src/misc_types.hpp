@@ -74,7 +74,7 @@ enum action_type
 	// elements that GOT REPLACED, WHERE the moved level elements
 	// ORIGINALLY WERE, and WHAT the moved level elements are.
 	at_finish_moving_non_pasted_blocks, 
-	//at_finish_moving_non_pasted_sprites, 
+	at_finish_moving_non_pasted_sprites, 
 	
 	
 	
@@ -85,7 +85,7 @@ enum action_type
 	// possible for the source sublevel to change in various ways without
 	// affecting the destination sublevel.
 	at_finish_moving_pasted_blocks,
-	//at_finish_moving_pasted_sprites,
+	at_finish_moving_pasted_sprites,
 	
 	
 	// Resizing the sublevel primarily affects undo and redo in a few

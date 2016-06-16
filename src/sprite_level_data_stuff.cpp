@@ -20,6 +20,22 @@
 #include "sprite_level_data_stuff.hpp"
 #include "sublevel_class.hpp"
 
+namespace std
+{
+	size_t hash<sprite_ipgws>::operator () ( const sprite_ipgws& to_hash ) 
+		const
+	{
+		const size_t hash_block_grid_coord_x
+			( hash<u32>()(to_hash.initial_block_grid_x_coord) );
+		const size_t hash_block_grid_coord_y
+			( hash<u32>()(to_hash.initial_block_grid_y_coord) );
+		
+		return hash_block_grid_coord_x 
+			^ ( hash_block_grid_coord_y << 1 );
+	}
+}
+
+
 adj_sprite_ipgws_ptr_group_16x16::adj_sprite_ipgws_ptr_group_16x16
 	( sublevel& the_sublevel, u32 origin_block_grid_x_coord, 
 	u32 origin_block_grid_y_coord )
@@ -70,13 +86,8 @@ adj_sprite_ipgws_ptr_group_16x16::adj_sprite_ipgws_ptr_group_16x16
 bool adj_sprite_ipgws_ptr_group_16x16::can_add_sprite()
 {
 	// Don't let existing sprites be overwritten.
-	if ( overlaps_up_left() || overlaps_up() || overlaps_left() 
-		|| overlaps_origin() )
-	{
-		return false;
-	}
-	
-	return true;
+	return !( overlaps_up_left() || overlaps_up() || overlaps_left() 
+		|| overlaps_origin() );
 }
 
 void adj_sprite_ipgws_ptr_group_16x16::erase_overlapping_sprites()
@@ -147,13 +158,8 @@ adj_sprite_ipgws_ptr_group_16x32::adj_sprite_ipgws_ptr_group_16x32
 bool adj_sprite_ipgws_ptr_group_16x32::can_add_sprite()
 {
 	// Don't let existing sprites be overwritten.
-	if ( overlaps_up_left() || overlaps_up() || overlaps_left() 
-		|| overlaps_origin() || overlaps_down_left() || overlaps_down() )
-	{
-		return false;
-	}
-	
-	return true;
+	return !( overlaps_up_left() || overlaps_up() || overlaps_left() 
+		|| overlaps_origin() || overlaps_down_left() || overlaps_down() );
 }
 
 void adj_sprite_ipgws_ptr_group_16x32::erase_overlapping_sprites()
@@ -232,15 +238,10 @@ adj_sprite_ipgws_ptr_group_32x32::adj_sprite_ipgws_ptr_group_32x32
 bool adj_sprite_ipgws_ptr_group_32x32::can_add_sprite()
 {
 	// Don't let existing sprites be overwritten.
-	if ( overlaps_up_left() || overlaps_up() || overlaps_up_right()
+	return !( overlaps_up_left() || overlaps_up() || overlaps_up_right()
 		|| overlaps_left() || overlaps_origin() || overlaps_right()
 		|| overlaps_down_left() || overlaps_down() 
-		|| overlaps_down_right() )
-	{
-		return false;
-	}
-	
-	return true;
+		|| overlaps_down_right() );
 }
 
 void adj_sprite_ipgws_ptr_group_32x32::erase_overlapping_sprites()

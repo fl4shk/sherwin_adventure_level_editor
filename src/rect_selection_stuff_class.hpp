@@ -111,6 +111,8 @@ public:		// variables
 	bool selection_still_being_created;
 	
 	
+	// I'm not sure these need to be separated.  Perhaps I'll be not lazy
+	// at some point and change that.
 	// Stuff to move
 	vector< vector<block> > moving_block_vec_2d;
 	vector< vector<sprite_ipgws> >

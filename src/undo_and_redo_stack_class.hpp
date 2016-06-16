@@ -24,7 +24,7 @@
 #include "misc_includes.hpp"
 #include "block_stuff.hpp"
 #include "sprite_level_data_stuff.hpp"
-//#include "vec2_class.hpp"
+#include "vec2_class.hpp"
 
 
 class undo_and_redo_action
@@ -33,9 +33,10 @@ public:		// variables
 	action_type the_action_type;
 	
 	
+	bool test_bool;
 	
-	// Stuff for drawing blocks, moving blocks without pasting them, and
-	// pasting blocks.
+	// Stuff for drawing blocks, cutting blocks, moving blocks without
+	// pasting them, and pasting blocks.
 	
 	// How this works is that when blocks are overwritten, keep track of
 	// what the blocks were before, and what they were replaced with.  This
@@ -46,36 +47,31 @@ public:		// variables
 	
 	// use std::unordered_map so that there are no duplicates (there really
 	// don't need to be any).
-	unordered_map< vec2_s32, block > prev_block_umap, curr_block_umap;
+	unordered_map< vec2_s32, block > replaced_block_umap, new_block_umap;
 	
 	
-	// Stuff for drawing a single sprite or modifying a sprite.
-	// prev_sprite_ipgws is used for when a single sprite is modified.
-	sprite_ipgws prev_sprite_ipgws, curr_sprite_ipgws;
+	// Stuff for drawing or modifying a single sprite.
+	// prev_sprite_ipgws is only used for when a single sprite is modified.
+	sprite_ipgws old_sprite_ipgws, new_sprite_ipgws;
 	
 	
 	
 	// Stuff for moving blocks or sprites
 	
-	// The original top-left position of the moved rect selection, and the
-	// final top-left position of the moved rect selection.  These can not
-	// be negative as far as I know because the program doesn't allow
-	// moving a rectangular selection to negative coordinates.
-	vec2_s32 moved_rs_starting_top_left_pos, moved_rs_ending_top_left_pos;
-	
-	// The blocks that were replaced, and the blocks that were moved
-	vector< vector<block> > replaced_block_vec_2d, moved_block_vec_2d;
+	// The selection rect before it was moved
+	sf::IntRect selection_rect_before_moving;
 	
 	
-	// The sprites that were replaced, and the sprites that were moved
-	unordered_set<sprite_ipgws>
-		replaced_sprite_ipgws_uset_2d, moved_sprite_ipgws_uset_2d;
+	// The sprites that were replaced, and the sprites that were moved or
+	// pasted
+	unordered_set<sprite_ipgws> replaced_sprite_ipgws_uset_2d, 
+		new_sprite_ipgws_uset_2d;
 	
 	
 	
 public:		// functions
 	inline undo_and_redo_action() : the_action_type(at_unknown),
-		curr_sprite_ipgws(sprite_ipgws())
+		new_sprite_ipgws(sprite_ipgws())
 	{
 	}
 	// copy constructor

@@ -21,17 +21,18 @@
 
 undo_and_redo_action::undo_and_redo_action
 	( const undo_and_redo_action& to_copy )
-	: prev_block_umap(to_copy.prev_block_umap),
-	curr_block_umap(to_copy.curr_block_umap),
-	prev_sprite_ipgws(to_copy.prev_sprite_ipgws),
-	curr_sprite_ipgws(to_copy.curr_sprite_ipgws),
-	moved_rs_starting_top_left_pos(to_copy.moved_rs_starting_top_left_pos),
-	moved_rs_ending_top_left_pos(to_copy.moved_rs_ending_top_left_pos),
-	replaced_block_vec_2d(to_copy.replaced_block_vec_2d),
-	moved_block_vec_2d(to_copy.moved_block_vec_2d),
+	: the_action_type(to_copy.the_action_type),
+	test_bool(to_copy.test_bool),
+	replaced_block_umap(to_copy.replaced_block_umap),
+	new_block_umap(to_copy.new_block_umap),
+	old_sprite_ipgws(to_copy.old_sprite_ipgws),
+	new_sprite_ipgws(to_copy.new_sprite_ipgws),
+	selection_rect_before_moving(to_copy.selection_rect_before_moving),
 	replaced_sprite_ipgws_uset_2d(to_copy.replaced_sprite_ipgws_uset_2d),
-	moved_sprite_ipgws_uset_2d(to_copy.moved_sprite_ipgws_uset_2d)
+	new_sprite_ipgws_uset_2d(to_copy.new_sprite_ipgws_uset_2d)
 {
+	//cout << "in undo_and_redo_action( const undo_and_redo_action& "
+	//	<< "to_copy )\n";
 }
 
 //undo_and_redo_action::undo_and_redo_action
@@ -43,7 +44,7 @@ undo_and_redo_action::undo_and_redo_action
 
 undo_and_redo_action::~undo_and_redo_action()
 {
-	
+	//cout << "in ~undo_and_redo_action()\n";
 }
 
 void undo_and_redo_action::debug_print()

@@ -74,7 +74,6 @@ public:		// functions
 	
 	// Editing actions that have been made into their own functions so
 	// that the_editing_manager can handle them.
-	
 	void finalize_movement_of_rs_contents
 		( level_editor_core_widget* the_core_widget,
 		rect_selection_stuff& the_rect_selection_stuff );
@@ -244,6 +243,21 @@ protected:		// functions
 		rect_selection_stuff& the_rect_selection_stuff );
 	
 	
+	// Editing actions that have been made into their own functions so
+	// that the_editing_manager can handle them.
+	
+	void finalize_movement_of_rs_contents_block_ur_stuff
+		( level_editor_core_widget* the_core_widget, 
+		rect_selection_stuff& the_rect_selection_stuff, 
+		const sf::IntRect& selection_rect,
+		const sf::IntRect& selection_rect_before_moving,
+		bool rs_was_pasted );
+	void finalize_movement_of_rs_contents_sprite_ur_stuff
+		( level_editor_core_widget* the_core_widget, 
+		rect_selection_stuff& the_rect_selection_stuff, 
+		const sf::IntRect& selection_rect, 
+		const sf::IntRect& selection_rect_before_moving,
+		bool rs_was_pasted );
 	
 	
 	

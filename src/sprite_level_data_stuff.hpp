@@ -202,24 +202,31 @@ public:		// functions
 	}
 	
 	
+	inline bool operator == ( const sprite_ipgws& to_cmp ) const
+	{
+		return ( ( type == to_cmp.type ) 
+			&& ( initial_block_grid_x_coord 
+				== to_cmp.initial_block_grid_x_coord )
+			&& ( initial_block_grid_y_coord 
+				== to_cmp.initial_block_grid_y_coord )
+			&& ( facing_right == to_cmp.facing_right )
+			&& ( extra_param_0 == to_cmp.extra_param_0 )
+			&& ( extra_param_1 == to_cmp.extra_param_1 )
+			&& ( extra_param_2 == to_cmp.extra_param_2 )
+			&& ( extra_param_3 == to_cmp.extra_param_3 )
+			&& ( spawn_state == to_cmp.spawn_state )
+			&& ( size_2d == to_cmp.size_2d ) );
+	}
+	
 } __attribute__((aligned(4)));
 
 // needed for undo_and_redo_action's unordered_set<sprite_ipgws>'s
 namespace std
 {
-	template <>
+	template<>
 	struct hash<sprite_ipgws>
 	{
-		size_t operator () ( const sprite_ipgws& to_hash ) const
-		{
-			const size_t hash_block_grid_coord_x
-				( hash<u32>()(to_hash.initial_block_grid_x_coord) );
-			const size_t hash_block_grid_coord_y
-				( hash<u32>()(to_hash.initial_block_grid_y_coord) );
-			
-			return hash_block_grid_coord_x 
-				^ ( hash_block_grid_coord_y << 1);
-		}
+		size_t operator () ( const sprite_ipgws& to_hash ) const;
 	};
 }
 

@@ -16,3 +16,4 @@ pugixml_source/*.o
 pugixml_source/*.a
 *.dll
 wine_test/*
+vgcore*

@@ -371,7 +371,6 @@ void rect_selection_stuff::finalize_rs_movement()
 			}
 		}
 		
-		
 		rs_movement_finalization_block_shared_code(moving_block_vec_2d);
 	}
 	// Blocks were pasted
@@ -432,8 +431,7 @@ void rect_selection_stuff::rs_movement_finalization_block_shared_code
 			vec2_s32 block_grid_pos( selection_rect.left + i,
 				selection_rect.top + j );
 			
-			if ( !the_sublevel->contains_block_grid_pos
-				(block_grid_pos) )
+			if ( !the_sublevel->contains_block_grid_pos(block_grid_pos) )
 			{
 				//cout << "j, i == " << j << ", " << i << endl;
 				continue;
@@ -449,8 +447,8 @@ void rect_selection_stuff::rs_movement_finalization_block_shared_code
 void rect_selection_stuff::rs_movement_finalization_sprite_shared_code
 	( vector< vector<sprite_ipgws> >& the_other_sprite_ipgws_vec_2d )
 {
-	// These three nested lambda functions have, uh, weird names, which
-	// is an interesting coincidence.
+	// These three lambda functions have, uh, weird names, which is an
+	// interesting coincidence.
 	auto say_that_size_2d_y_is_weird = []() -> void
 	{
 		cout << "rs_movement_finalization_sprite_shared_code():  weird "
@@ -470,7 +468,7 @@ void rect_selection_stuff::rs_movement_finalization_sprite_shared_code
 			<< "the_other_sprite_ipgws.size_2d.y == 16.\n";
 	};
 	
-	auto single_sprite_handler = [&] ( const vec2_s32& block_grid_pos, 
+	auto single_sprite_handler = [&]( const vec2_s32& block_grid_pos, 
 		const sprite_ipgws& the_other_sprite_ipgws ) -> void
 	{
 		sprite_ipgws& the_new_sprite_ipgws 
@@ -526,6 +524,9 @@ void rect_selection_stuff::rs_movement_finalization_sprite_shared_code
 					adj_sprite_ipgws_ptr_group_32x32 ptr_group
 						( *the_sublevel, block_grid_pos.x,
 						block_grid_pos.y );
+					
+					// Erase sprites overlapped by the moved or pasted
+					// sprite
 					ptr_group.erase_overlapping_sprites();
 				}
 				
@@ -567,8 +568,7 @@ void rect_selection_stuff::rs_movement_finalization_sprite_shared_code
 			vec2_s32 block_grid_pos( selection_rect.left + i,
 				selection_rect.top + j );
 			
-			if ( !the_sublevel->contains_block_grid_pos
-				(block_grid_pos) )
+			if ( !the_sublevel->contains_block_grid_pos(block_grid_pos) )
 			{
 				continue;
 			}

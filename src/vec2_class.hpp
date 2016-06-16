@@ -236,13 +236,7 @@ namespace std
 	template<>
 	struct hash<vec2_s32>
 	{
-		size_t operator () ( const vec2_s32& to_hash ) const
-		{
-			const size_t hash_x( hash<s32>()(to_hash.x) );
-			const size_t hash_y( hash<s32>()(to_hash.y) );
-			
-			return hash_x ^ ( hash_y << 1 );
-		}
+		size_t operator () ( const vec2_s32& to_hash ) const;
 	};
 }
 
