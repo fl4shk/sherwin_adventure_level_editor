@@ -422,7 +422,7 @@ void rect_selection_stuff::finalize_rs_movement()
 }
 
 void rect_selection_stuff::rs_movement_finalization_block_shared_code
-	( vector< vector<block> >& the_other_block_vec_2d )
+	( vector< vector<block> >& the_block_vec_2d )
 {
 	for ( s32 j=0; j<selection_rect.height; ++j )
 	{
@@ -439,48 +439,48 @@ void rect_selection_stuff::rs_movement_finalization_block_shared_code
 			
 			the_sublevel->uncompressed_block_data_vec_2d
 				.at(block_grid_pos.y).at(block_grid_pos.x)
-				= the_other_block_vec_2d.at(j).at(i);
+				= the_block_vec_2d.at(j).at(i);
 		}
 	}
 }
 
 void rect_selection_stuff::rs_movement_finalization_sprite_shared_code
-	( vector< vector<sprite_ipgws> >& the_other_sprite_ipgws_vec_2d )
+	( vector< vector<sprite_ipgws> >& the_sprite_ipgws_vec_2d )
 {
 	// These three lambda functions have, uh, weird names, which is an
 	// interesting coincidence.
 	auto say_that_size_2d_y_is_weird = []() -> void
 	{
 		cout << "rs_movement_finalization_sprite_shared_code():  weird "
-			<< "issue where the_other_sprite_ipgws.size_2d.y is neither "
-			<< "16 or 32.\n";
+			<< "issue where the_old_sprite_ipgws.size_2d.y is neither 16 "
+			<< "nor 32.\n";
 	};
 	auto say_that_size_2d_x_is_weird = []() -> void
 	{
 		cout << "rs_movement_finalization_sprite_shared_code():  weird "
-			<< "issue where the_other_sprite_ipgws.size_2d.x is neither "
-			<< "16 or 32.\n";
+			<< "issue where the_old_sprite_ipgws.size_2d.x is neither 16 "
+			<< "nor 32.\n";
 	};
 	auto say_that_size_2d_combo_is_weird = []() -> void
 	{
 		cout << "rs_movement_finalization_sprite_shared_code():  weird "
-			<< "issue where the_other_sprite_ipgws.size_2d.x == 32 and "
-			<< "the_other_sprite_ipgws.size_2d.y == 16.\n";
+			<< "issue where the_old_sprite_ipgws.size_2d.x == 32 and "
+			<< "the_sprite_ipgws.size_2d.y == 16.\n";
 	};
 	
 	auto single_sprite_handler = [&]( const vec2_s32& block_grid_pos, 
-		const sprite_ipgws& the_other_sprite_ipgws ) -> void
+		const sprite_ipgws& the_old_sprite_ipgws ) -> void
 	{
 		sprite_ipgws& the_new_sprite_ipgws 
 			= the_sublevel->sprite_ipgws_vec_2d
 			.at(block_grid_pos.y).at(block_grid_pos.x);
 		
-		if ( the_other_sprite_ipgws.type != st_default )
+		if ( the_old_sprite_ipgws.type != st_default )
 		{
-			if ( the_other_sprite_ipgws.size_2d.x == 16 )
+			if ( the_old_sprite_ipgws.size_2d.x == 16 )
 			{
 				// 16x16
-				if ( the_other_sprite_ipgws.size_2d.y == 16 )
+				if ( the_old_sprite_ipgws.size_2d.y == 16 )
 				{
 					adj_sprite_ipgws_ptr_group_16x16 ptr_group
 						( *the_sublevel, block_grid_pos.x,
@@ -489,11 +489,10 @@ void rect_selection_stuff::rs_movement_finalization_sprite_shared_code
 					// Erase sprites overlapped by the moved or pasted
 					// sprite
 					ptr_group.erase_overlapping_sprites();
-					
 				}
 				
 				// 16x32
-				else if ( the_other_sprite_ipgws.size_2d.y == 32 )
+				else if ( the_old_sprite_ipgws.size_2d.y == 32 )
 				{
 					adj_sprite_ipgws_ptr_group_16x32 ptr_group
 						( *the_sublevel, block_grid_pos.x,
@@ -510,16 +509,16 @@ void rect_selection_stuff::rs_movement_finalization_sprite_shared_code
 					say_that_size_2d_y_is_weird();
 				}
 			}
-			else if ( the_other_sprite_ipgws.size_2d.x == 32 )
+			else if ( the_old_sprite_ipgws.size_2d.x == 32 )
 			{
 				// 32x16, which isn't allowed
-				if ( the_other_sprite_ipgws.size_2d.y == 16 )
+				if ( the_old_sprite_ipgws.size_2d.y == 16 )
 				{
 					say_that_size_2d_combo_is_weird();
 				}
 				
 				// 32x32
-				else if ( the_other_sprite_ipgws.size_2d.y == 32 )
+				else if ( the_old_sprite_ipgws.size_2d.y == 32 )
 				{
 					adj_sprite_ipgws_ptr_group_32x32 ptr_group
 						( *the_sublevel, block_grid_pos.x,
@@ -542,11 +541,11 @@ void rect_selection_stuff::rs_movement_finalization_sprite_shared_code
 			}
 			
 			
-			the_new_sprite_ipgws = the_other_sprite_ipgws;
+			the_new_sprite_ipgws = the_old_sprite_ipgws;
 			
 			// Don't forget to update the intial block grid
 			// coordinates, since the_new_sprite_ipgws is at a
-			// different location from the_other_sprite_ipgws.
+			// different location from the_old_sprite_ipgws.
 			the_new_sprite_ipgws.initial_block_grid_x_coord
 				= block_grid_pos.x;
 			the_new_sprite_ipgws.initial_block_grid_y_coord
@@ -554,7 +553,7 @@ void rect_selection_stuff::rs_movement_finalization_sprite_shared_code
 			
 		}
 		//// Erase sprites even when there's not one in the specific slot
-		//else //if ( the_other_sprite_ipgws.type == st_default )
+		//else //if ( the_old_sprite_ipgws.type == st_default )
 		//{
 		//	the_new_sprite_ipgws = sprite_ipgws();
 		//}
@@ -573,11 +572,10 @@ void rect_selection_stuff::rs_movement_finalization_sprite_shared_code
 				continue;
 			}
 			
-			const sprite_ipgws& the_other_sprite_ipgws 
-				= the_other_sprite_ipgws_vec_2d.at(j).at(i);
+			const sprite_ipgws& the_sprite_ipgws 
+				= the_sprite_ipgws_vec_2d.at(j).at(i);
 			
-			single_sprite_handler( block_grid_pos,
-				the_other_sprite_ipgws );
+			single_sprite_handler( block_grid_pos, the_sprite_ipgws );
 		}
 	}
 }
@@ -638,8 +636,8 @@ void rect_selection_stuff::copy_rs_contents()
 					}
 					else //if ( copy_sprites )
 					{
-						copied_sprite_ipgws_vec_2d.at(j).push_back
-							( the_sublevel->sprite_ipgws_vec_2d
+						copied_sprite_ipgws_vec_2d.at(j)
+							.push_back( the_sublevel->sprite_ipgws_vec_2d
 							.at((u32)original_block_grid_pos.y)
 							.at((u32)original_block_grid_pos.x) );
 					}
@@ -653,8 +651,8 @@ void rect_selection_stuff::copy_rs_contents()
 					}
 					else //if ( copy_sprites )
 					{
-						copied_sprite_ipgws_vec_2d.at(j).push_back
-							(sprite_ipgws());
+						copied_sprite_ipgws_vec_2d.at(j)
+							.push_back(sprite_ipgws());
 					}
 				}
 				
@@ -665,10 +663,12 @@ void rect_selection_stuff::copy_rs_contents()
 		}
 	};
 	
+	//if ( selection_layer == rsl_blocks )
 	if ( original_layer_of_pasted_selection == rsl_blocks )
 	{
 		shared_copying_code(false);
 	}
+	//else if ( selection_layer == rsl_sprites )
 	else if ( original_layer_of_pasted_selection == rsl_sprites )
 	{
 		shared_copying_code(true);

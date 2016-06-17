@@ -177,13 +177,13 @@ void editing_manager::mouse_press_event
 	
 	//block& the_block_at_mouse_pos 
 	//	= the_sublevel->uncompressed_block_data_vec_2d
-	//	.at((u32)block_grid_coords_of_mouse_pos.y)
-	//	.at((u32)block_grid_coords_of_mouse_pos.x);
+	//	.at(block_grid_coords_of_mouse_pos.y)
+	//	.at(block_grid_coords_of_mouse_pos.x);
 	//
 	//sprite_ipgws& the_sprite_ipgws_at_mouse_pos
 	//	= the_sublevel->sprite_ipgws_vec_2d
-	//	.at((u32)block_grid_coords_of_mouse_pos.y)
-	//	.at((u32)block_grid_coords_of_mouse_pos.x);
+	//	.at(block_grid_coords_of_mouse_pos.y)
+	//	.at(block_grid_coords_of_mouse_pos.x);
 	
 	
 	bool current_tabbed_widget_is_for_blocks 
@@ -612,15 +612,15 @@ void editing_manager::finalize_movement_of_rs_contents
 			selection_rect_before_moving, false );
 		
 		
-		//cout << "Blocks that were replaced by a moved but not pasted "
-		//	<< "rect selection:  \n";
-		//show_replaced_block_umap();
-		//
-		//cout << "\nBlocks in a rect selection that were moved but not "
-		//	<< "pasted:  \n";
-		//show_new_block_umap();
-		//
-		//cout << endl;
+		cout << "Blocks that were replaced by a moved but not pasted "
+			<< "rect selection:  \n";
+		show_replaced_block_umap();
+		
+		cout << "\nBlocks in a rect selection that were moved but not "
+			<< "pasted:  \n";
+		show_new_block_umap();
+		
+		cout << endl;
 	}
 	// Blocks were pasted
 	else if ( original_layer_of_pasted_selection == rsl_blocks 
@@ -631,14 +631,14 @@ void editing_manager::finalize_movement_of_rs_contents
 			selection_rect_before_moving, true );
 		
 		
-		//cout << "Blocks that were replaced by a pasted rect selection:  "
-		//	<< endl;
-		//show_replaced_block_umap();
-		//
-		//cout << "\nBlocks in a rect selection that were pasted:  \n";
-		//show_new_block_umap();
-		//
-		//cout << endl;
+		cout << "Blocks that were replaced by a pasted rect selection:  "
+			<< endl;
+		show_replaced_block_umap();
+		
+		cout << "\nBlocks in a rect selection that were pasted:  \n";
+		show_new_block_umap();
+		
+		cout << endl;
 	}
 	// Sprites were moved, but not pasted
 	else if ( selection_layer == rsl_sprites && !selection_was_pasted )
@@ -724,13 +724,13 @@ void editing_manager::handle_placing_le_during_mouse_press
 	
 	block& the_block_at_mouse_pos 
 		= the_sublevel->uncompressed_block_data_vec_2d
-		.at((u32)block_grid_coords_of_mouse_pos.y)
-		.at((u32)block_grid_coords_of_mouse_pos.x);
+		.at(block_grid_coords_of_mouse_pos.y)
+		.at(block_grid_coords_of_mouse_pos.x);
 	
 	sprite_ipgws& the_sprite_ipgws_at_mouse_pos
 		= the_sublevel->sprite_ipgws_vec_2d
-		.at((u32)block_grid_coords_of_mouse_pos.y)
-		.at((u32)block_grid_coords_of_mouse_pos.x);
+		.at(block_grid_coords_of_mouse_pos.y)
+		.at(block_grid_coords_of_mouse_pos.x);
 	
 	if ( the_rect_selection_stuff.get_enabled() 
 		&& the_rect_selection_stuff.get_mouse_released() )
@@ -1243,14 +1243,14 @@ void editing_manager::place_block_line
 	
 	//if ( point_is_in_image(pixel_coord) )
 	//{
-	//	canvas_image->setPixel( (u32)pixel_coord.x, (u32)pixel_coord.y, 
+	//	canvas_image->setPixel( pixel_coord.x, pixel_coord.y, 
 	//		color );
 	//}
 	
 	if ( the_sublevel->contains_block_grid_pos(block_coord) )
 	{
 		//the_sublevel->uncompressed_block_data_vec_2d
-		//	[(u32)block_coord.y][(u32)block_coord.x].type = the_block_type;
+		//	[block_coord.y][block_coord.x].type = the_block_type;
 		place_single_block_and_record_ur_stuff( the_sublevel, 
 			vec2_s32( block_coord.x, block_coord.y ), the_block_type, 
 			ur_action_to_push );
@@ -1274,14 +1274,14 @@ void editing_manager::place_block_line
 			
 			//if ( point_is_in_image(pixel_coord) )
 			//{
-			//	canvas_image->setPixel( (u32)pixel_coord.x, 
-			//		(u32)pixel_coord.y, color );
+			//	canvas_image->setPixel( pixel_coord.x, 
+			//		pixel_coord.y, color );
 			//}
 			
 			if ( the_sublevel->contains_block_grid_pos(block_coord) )
 			{
 				//the_sublevel->uncompressed_block_data_vec_2d
-				//	[(u32)block_coord.y][(u32)block_coord.x].type 
+				//	[block_coord.y][block_coord.x].type 
 				//	= the_block_type;
 				place_single_block_and_record_ur_stuff( the_sublevel, 
 					vec2_s32( block_coord.x, block_coord.y ), 
@@ -1307,14 +1307,14 @@ void editing_manager::place_block_line
 			
 			//if ( point_is_in_image(pixel_coord) )
 			//{
-			//	canvas_image->setPixel( (u32)pixel_coord.x, 
-			//		(u32)pixel_coord.y, color );
+			//	canvas_image->setPixel( pixel_coord.x, 
+			//		pixel_coord.y, color );
 			//}
 			
 			if ( the_sublevel->contains_block_grid_pos(block_coord) )
 			{
 				//the_sublevel->uncompressed_block_data_vec_2d
-				//	[(u32)block_coord.y][(u32)block_coord.x].type 
+				//	[block_coord.y][block_coord.x].type 
 				//	= the_block_type;
 				place_single_block_and_record_ur_stuff( the_sublevel, 
 					vec2_s32( block_coord.x, block_coord.y ), 
@@ -1337,7 +1337,7 @@ void editing_manager::place_single_16x16_sprite_and_record_ur_stuff
 	
 	sprite_ipgws& the_sprite_ipgws_in_sublevel
 		= the_sublevel->sprite_ipgws_vec_2d
-		.at((u32)block_grid_coord.y).at((u32)block_grid_coord.x);
+		.at(block_grid_coord.y).at(block_grid_coord.x);
 	
 	auto add_sprite_and_record_ur_stuff = [&]() -> void
 	{
@@ -1379,7 +1379,7 @@ void editing_manager::place_single_16x32_sprite_and_record_ur_stuff
 	
 	sprite_ipgws& the_sprite_ipgws_in_sublevel
 		= the_sublevel->sprite_ipgws_vec_2d
-		.at((u32)block_grid_coord.y).at((u32)block_grid_coord.x);
+		.at(block_grid_coord.y).at(block_grid_coord.x);
 	
 	auto add_sprite_and_record_ur_stuff = [&]() -> void
 	{
@@ -1556,8 +1556,6 @@ void editing_manager::finalize_movement_of_rs_contents_block_ur_stuff
 			= at_finish_moving_pasted_blocks;
 	}
 	
-	
-	
 	for ( s32 j=0; j<selection_rect.height; ++j )
 	{
 		for ( s32 i=0; i<selection_rect.width; ++i )
@@ -1574,21 +1572,20 @@ void editing_manager::finalize_movement_of_rs_contents_block_ur_stuff
 			{
 				ur_action_to_push.replaced_block_umap[block_grid_pos]
 					= the_sublevel->uncompressed_block_data_vec_2d
-					.at((u32)block_grid_pos.y).at((u32)block_grid_pos.x);
+					.at(block_grid_pos.y).at(block_grid_pos.x);
 			}
 			
-			// If the selection was moved but not pasted
 			if ( !rs_was_pasted )
 			{
 				ur_action_to_push.new_block_umap[block_grid_pos]
 					= the_rect_selection_stuff.moving_block_vec_2d
-					.at((u32)j).at((u32)i);
+					.at(j).at(i);
 			}
 			else //if ( rs_was_pasted )
 			{
 				ur_action_to_push.new_block_umap[block_grid_pos]
 					= the_rect_selection_stuff.copied_block_vec_2d
-					.at((u32)j).at((u32)i);
+					.at(j).at(i);
 			}
 		}
 	}
@@ -1628,66 +1625,55 @@ void editing_manager::finalize_movement_of_rs_contents_sprite_ur_stuff
 	// interesting coincidence.
 	auto say_that_size_2d_y_is_weird = []() -> void
 	{
-		cout << "rs_movement_finalization_sprite_shared_code():  weird "
-			<< "issue where the_other_sprite_ipgws->size_2d.y is neither "
+		cout << "finalize_movement_of_rs_contents_sprite_ur_stuff():  "
+			<< "weird issue where the_sprite_ipgws.size_2d.y is neither "
 			<< "16 or 32.\n";
 	};
 	auto say_that_size_2d_x_is_weird = []() -> void
 	{
-		cout << "rs_movement_finalization_sprite_shared_code():  weird "
-			<< "issue where the_other_sprite_ipgws->size_2d.x is neither "
+		cout << "finalize_movement_of_rs_contents_sprite_ur_stuff():  "
+			<< "weird issue where the_sprite_ipgws.size_2d.x is neither "
 			<< "16 or 32.\n";
 	};
 	auto say_that_size_2d_combo_is_weird = []() -> void
 	{
-		cout << "rs_movement_finalization_sprite_shared_code():  weird "
-			<< "issue where the_other_sprite_ipgws->size_2d.x == 32 and "
-			<< "the_other_sprite_ipgws->size_2d.y == 16.\n";
+		cout << "finalize_movement_of_rs_contents_sprite_ur_stuff():  "
+			<< "weird issue where the_sprite_ipgws.size_2d.x == 32 and "
+			<< "the_sprite_ipgws->size_2d.y == 16.\n";
 	};
 	
 	auto single_sprite_handler = [&]( const vec2_s32& block_grid_pos,
 		s32 j, s32 i ) -> void
 	{
-		sprite_ipgws* the_other_sprite_ipgws = NULL;
+		sprite_ipgws the_sprite_ipgws;
 		
-		// If the selection was moved but not pasted
 		if ( !rs_was_pasted )
 		{
-			the_other_sprite_ipgws 
-				= &(the_rect_selection_stuff.moving_sprite_ipgws_vec_2d
-				.at((u32)j).at((u32)i));
+			the_sprite_ipgws = the_rect_selection_stuff
+				.moving_sprite_ipgws_vec_2d.at(j).at(i);
 		}
 		else //if ( rs_was_pasted )
 		{
-			the_other_sprite_ipgws 
-				= &(the_rect_selection_stuff.copied_sprite_ipgws_vec_2d
-				.at((u32)j).at((u32)i));
+			the_sprite_ipgws = the_rect_selection_stuff
+				.copied_sprite_ipgws_vec_2d.at(j).at(i);
 		}
 		
-		if ( the_other_sprite_ipgws->type == st_default )
+		if ( the_sprite_ipgws.type == st_default )
 		{
 			//cout << "wow\n";
 			return;
 		}
 		
-		// If the selection was moved but not pasted
-		if ( !rs_was_pasted )
-		{
-			ur_action_to_push.new_sprite_ipgws_uset_2d
-				.insert(the_rect_selection_stuff
-				.moving_sprite_ipgws_vec_2d.at((u32)j).at((u32)i));
-		}
-		else //if ( rs_was_pasted )
-		{
-			ur_action_to_push.new_sprite_ipgws_uset_2d
-				.insert(the_rect_selection_stuff
-				.copied_sprite_ipgws_vec_2d.at((u32)j).at((u32)i));
-		}
+		the_sprite_ipgws.initial_block_grid_x_coord = block_grid_pos.x;
+		the_sprite_ipgws.initial_block_grid_y_coord = block_grid_pos.y;
 		
-		if ( the_other_sprite_ipgws->size_2d.x == 16 )
+		ur_action_to_push.new_sprite_ipgws_uset_2d
+			.insert(the_sprite_ipgws);
+		
+		if ( the_sprite_ipgws.size_2d.x == 16 )
 		{
 			// 16x16
-			if ( the_other_sprite_ipgws->size_2d.y == 16 )
+			if ( the_sprite_ipgws.size_2d.y == 16 )
 			{
 				adj_sprite_ipgws_ptr_group_16x16 ptr_group( *the_sublevel, 
 					block_grid_pos.x, block_grid_pos.y );
@@ -1705,7 +1691,7 @@ void editing_manager::finalize_movement_of_rs_contents_sprite_ur_stuff
 			}
 			
 			// 16x32
-			else if ( the_other_sprite_ipgws->size_2d.y == 32 )
+			else if ( the_sprite_ipgws.size_2d.y == 32 )
 			{
 				adj_sprite_ipgws_ptr_group_16x32 ptr_group( *the_sublevel, 
 					block_grid_pos.x, block_grid_pos.y );
@@ -1728,16 +1714,16 @@ void editing_manager::finalize_movement_of_rs_contents_sprite_ur_stuff
 				say_that_size_2d_y_is_weird();
 			}
 		}
-		else if ( the_other_sprite_ipgws->size_2d.x == 32 )
+		else if ( the_sprite_ipgws.size_2d.x == 32 )
 		{
 			// 32x16, which isn't allowed
-			if ( the_other_sprite_ipgws->size_2d.y == 16 )
+			if ( the_sprite_ipgws.size_2d.y == 16 )
 			{
 				say_that_size_2d_combo_is_weird();
 			}
 			
 			// 32x32
-			else if ( the_other_sprite_ipgws->size_2d.y == 32 )
+			else if ( the_sprite_ipgws.size_2d.y == 32 )
 			{
 				adj_sprite_ipgws_ptr_group_32x32 ptr_group( *the_sublevel, 
 					block_grid_pos.x, block_grid_pos.y );
@@ -1773,8 +1759,6 @@ void editing_manager::finalize_movement_of_rs_contents_sprite_ur_stuff
 		{
 			vec2_s32 block_grid_pos( selection_rect.left + i,
 				selection_rect.top +j );
-			
-			//sprite_ipgws
 			
 			if ( !the_sublevel->contains_block_grid_pos(block_grid_pos) )
 			{

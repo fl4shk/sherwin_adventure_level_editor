@@ -111,17 +111,18 @@ public:		// variables
 	bool selection_still_being_created;
 	
 	
-	// I'm not sure these need to be separated.  Perhaps I'll be not lazy
-	// at some point and change that.
 	// Stuff to move
 	vector< vector<block> > moving_block_vec_2d;
-	vector< vector<sprite_ipgws> >
-		moving_sprite_ipgws_vec_2d;
+	vector< vector<sprite_ipgws> > moving_sprite_ipgws_vec_2d;
 	
 	// Stuff to paste
 	vector< vector<block> > copied_block_vec_2d;
-	vector< vector<sprite_ipgws> > 
-		copied_sprite_ipgws_vec_2d;
+	vector< vector<sprite_ipgws> > copied_sprite_ipgws_vec_2d;
+	
+	
+	//// Stuff to either move or paste
+	//vector< vector<block> > backed_up_block_vec_2d;
+	//vector< vector<sprite_ipgws> > backed_up_sprite_ipgws_vec_2d;
 	
 	
 public:		// functions
@@ -232,9 +233,9 @@ public:		// functions
 	void finalize_rs_movement();
 	
 	void rs_movement_finalization_block_shared_code
-		( vector< vector<block> >& the_other_block_vec_2d );
+		( vector< vector<block> >& the_block_vec_2d );
 	void rs_movement_finalization_sprite_shared_code
-		( vector< vector<sprite_ipgws> >& the_other_sprite_ipgws_vec_2d );
+		( vector< vector<sprite_ipgws> >& the_sprite_ipgws_vec_2d );
 	
 	
 	// Copy/paste stuff
