@@ -193,6 +193,12 @@ namespace block_stuff
 			+ "_compressed_block_data.bin";
 	}
 	
+	inline bool block_type_exists( block_type the_block_type )
+	{
+		return ( ( the_block_type >= 0 ) 
+			&& ( the_block_type < bt_count ) );
+	}
+	
 	
 }
 

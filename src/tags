@@ -143,6 +143,7 @@ block_selector_widget::the_core_widget	block_selector_widget_class.hpp	/^	block_
 block_selector_widget_class_hpp	block_selector_widget_class.hpp	22;"	kind:d
 block_stuff	block_stuff.cpp	/^namespace block_stuff$/;"	kind:n	file:
 block_stuff	block_stuff.hpp	/^namespace block_stuff$/;"	kind:n
+block_stuff::block_type_exists	block_stuff.hpp	/^	inline bool block_type_exists( block_type the_block_type )$/;"	kind:f	namespace:block_stuff	signature:( block_type the_block_type )
 block_stuff::bt_has_persistent_data	block_stuff.hpp	/^	inline bool bt_has_persistent_data( block_type the_block_type )$/;"	kind:f	namespace:block_stuff	signature:( block_type the_block_type )
 block_stuff::bt_name_and_has_persistent_data_vec	block_stuff.cpp	/^	vector< pair< string, bool > > bt_name_and_has_persistent_data_vec$/;"	kind:m	namespace:block_stuff	file:
 block_stuff::bt_unknown_str	block_stuff.cpp	/^	const string bt_unknown_str = string("bt_unknown");$/;"	kind:m	namespace:block_stuff	file:
@@ -153,6 +154,7 @@ block_stuff::get_uncompressed_block_data_file_name	block_stuff.hpp	/^	inline con
 block_stuff::persistent_block_data_array_size	block_stuff.hpp	/^	constexpr u32 persistent_block_data_array_size = 2048;$/;"	kind:m	namespace:block_stuff
 block_stuff_hpp	block_stuff.hpp	22;"	kind:d
 block_type	block_stuff.hpp	/^enum block_type$/;"	kind:g
+block_type_exists	block_stuff.hpp	/^	inline bool block_type_exists( block_type the_block_type )$/;"	kind:f	namespace:block_stuff	signature:( block_type the_block_type )
 bt_air	block_stuff.hpp	/^	bt_air,$/;"	kind:e	enum:block_type
 bt_count	block_stuff.hpp	/^	bt_count,$/;"	kind:e	enum:block_type
 bt_dirt_bottom_left	block_stuff.hpp	/^	bt_dirt_bottom_left,$/;"	kind:e	enum:block_type
@@ -1248,12 +1250,12 @@ save_level_as	level_editor_widget_class.hpp	/^	void save_level_as();$/;"	kind:p	
 save_level_as_core_func	level_editor_widget_class.cpp	/^void level_editor_widget::save_level_as_core_func$/;"	kind:f	class:level_editor_widget	signature:( const string& output_file_name )
 save_level_as_core_func	level_editor_widget_class.hpp	/^	void save_level_as_core_func( const string& output_file_name );$/;"	kind:p	class:level_editor_widget	access:protected	signature:( const string& output_file_name )
 save_level_core_func	level_editor_widget_class.hpp	/^	inline void save_level_core_func()$/;"	kind:f	class:level_editor_widget	access:protected	signature:()
-save_replaced_sprites	editing_manager_class.cpp	1681;"	kind:d	file:
-save_replaced_sprites	editing_manager_class.cpp	1690;"	kind:d	file:
-save_replaced_sprites	editing_manager_class.cpp	1699;"	kind:d	file:
-save_replaced_sprites	editing_manager_class.cpp	1708;"	kind:d	file:
-save_replaced_sprites	editing_manager_class.cpp	1731;"	kind:d	file:
-save_replaced_sprites	editing_manager_class.cpp	1740;"	kind:d	file:
+save_replaced_sprites	editing_manager_class.cpp	1691;"	kind:d	file:
+save_replaced_sprites	editing_manager_class.cpp	1700;"	kind:d	file:
+save_replaced_sprites	editing_manager_class.cpp	1709;"	kind:d	file:
+save_replaced_sprites	editing_manager_class.cpp	1718;"	kind:d	file:
+save_replaced_sprites	editing_manager_class.cpp	1741;"	kind:d	file:
+save_replaced_sprites	editing_manager_class.cpp	1750;"	kind:d	file:
 scale_factor	sfml_canvas_widget_classes.hpp	/^	u32 scale_factor;$/;"	kind:m	class:level_editor_sfml_canvas_widget	access:public
 scroll_area	block_selector_widget_class.hpp	/^	QScrollArea* scroll_area;$/;"	kind:m	class:block_selector_widget	access:public
 scroll_area	sfml_canvas_widget_classes.hpp	/^	QScrollArea* scroll_area;$/;"	kind:m	class:level_editor_sfml_canvas_widget	access:protected
@@ -1491,9 +1493,11 @@ sprite_properties_widget_class_hpp	sprite_properties_widget_class.hpp	21;"	kind:
 sprite_properties_widget_enabled_vec	level_editor_widget_class.hpp	/^	vector<u32> sprite_properties_widget_enabled_vec;$/;"	kind:m	class:level_editor_widget	access:public
 sprite_spawn_state	sprite_level_data_stuff.hpp	/^enum sprite_spawn_state$/;"	kind:g
 sprite_type	sprite_type_stuff.hpp	/^enum sprite_type$/;"	kind:g
+sprite_type_exists	sprite_type_stuff.hpp	/^	static inline bool sprite_type_exists( sprite_type the_sprite_type )$/;"	kind:f	class:sprite_type_helper	access:public	signature:( sprite_type the_sprite_type )
 sprite_type_helper	sprite_type_stuff.hpp	/^class sprite_type_helper$/;"	kind:c
 sprite_type_helper::get_st_name	sprite_type_stuff.hpp	/^	static inline const string& get_st_name( sprite_type the_sprite_type )$/;"	kind:f	class:sprite_type_helper	access:public	signature:( sprite_type the_sprite_type )
 sprite_type_helper::get_st_name_debug	sprite_type_stuff.hpp	/^	static inline const string& get_st_name_debug$/;"	kind:f	class:sprite_type_helper	access:public	signature:( sprite_type the_sprite_type )
+sprite_type_helper::sprite_type_exists	sprite_type_stuff.hpp	/^	static inline bool sprite_type_exists( sprite_type the_sprite_type )$/;"	kind:f	class:sprite_type_helper	access:public	signature:( sprite_type the_sprite_type )
 sprite_type_helper::st_name_vec	sprite_type_stuff.cpp	/^vector<string> sprite_type_helper::st_name_vec $/;"	kind:m	class:sprite_type_helper	file:
 sprite_type_helper::st_name_vec	sprite_type_stuff.hpp	/^	static vector<string> st_name_vec;$/;"	kind:m	class:sprite_type_helper	access:public
 sprite_type_helper::st_unknown_str	sprite_type_stuff.cpp	/^const string sprite_type_helper::st_unknown_str = string("st_unknown");$/;"	kind:m	class:sprite_type_helper	file:

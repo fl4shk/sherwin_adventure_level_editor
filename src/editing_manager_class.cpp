@@ -612,15 +612,15 @@ void editing_manager::finalize_movement_of_rs_contents
 			selection_rect_before_moving, false );
 		
 		
-		cout << "Blocks that were replaced by a moved but not pasted "
-			<< "rect selection:  \n";
-		show_replaced_block_umap();
-		
-		cout << "\nBlocks in a rect selection that were moved but not "
-			<< "pasted:  \n";
-		show_new_block_umap();
-		
-		cout << endl;
+		//cout << "Blocks that were replaced by a moved but not pasted "
+		//	<< "rect selection:  \n";
+		//show_replaced_block_umap();
+		//
+		//cout << "\nBlocks in a rect selection that were moved but not "
+		//	<< "pasted:  \n";
+		//show_new_block_umap();
+		//
+		//cout << endl;
 	}
 	// Blocks were pasted
 	else if ( original_layer_of_pasted_selection == rsl_blocks 
@@ -631,14 +631,14 @@ void editing_manager::finalize_movement_of_rs_contents
 			selection_rect_before_moving, true );
 		
 		
-		cout << "Blocks that were replaced by a pasted rect selection:  "
-			<< endl;
-		show_replaced_block_umap();
-		
-		cout << "\nBlocks in a rect selection that were pasted:  \n";
-		show_new_block_umap();
-		
-		cout << endl;
+		//cout << "Blocks that were replaced by a pasted rect selection:  "
+		//	<< endl;
+		//show_replaced_block_umap();
+		//
+		//cout << "\nBlocks in a rect selection that were pasted:  \n";
+		//show_new_block_umap();
+		//
+		//cout << endl;
 	}
 	// Sprites were moved, but not pasted
 	else if ( selection_layer == rsl_sprites && !selection_was_pasted )
@@ -648,15 +648,15 @@ void editing_manager::finalize_movement_of_rs_contents
 			selection_rect_before_moving, false );
 		
 		
-		cout << "Sprites that were replaced by a moved but not pasted "
-			<< "rect selection:  \n";
-		show_replaced_sprite_ipgws_uset_2d();
-		
-		cout << "\nSprites in a rect selection that were moved but not "
-			<< "pasted:  \n";
-		show_new_sprite_ipgws_uset_2d();
-		
-		cout << endl;
+		//cout << "Sprites that were replaced by a moved but not pasted "
+		//	<< "rect selection:  \n";
+		//show_replaced_sprite_ipgws_uset_2d();
+		//
+		//cout << "\nSprites in a rect selection that were moved but not "
+		//	<< "pasted:  \n";
+		//show_new_sprite_ipgws_uset_2d();
+		//
+		//cout << endl;
 	}
 	// Sprites were pasted
 	else if ( original_layer_of_pasted_selection == rsl_sprites 
@@ -667,14 +667,14 @@ void editing_manager::finalize_movement_of_rs_contents
 			selection_rect_before_moving, true );
 		
 		
-		cout << "Sprites that were replaced by a pasted rect selection:  "
-			<< endl;
-		show_replaced_sprite_ipgws_uset_2d();
-		
-		cout << "\nSprites in a rect selection that were pasted:  \n";
-		show_new_sprite_ipgws_uset_2d();
-		
-		cout << endl;
+		//cout << "Sprites that were replaced by a pasted rect selection:  "
+		//	<< endl;
+		//show_replaced_sprite_ipgws_uset_2d();
+		//
+		//cout << "\nSprites in a rect selection that were pasted:  \n";
+		//show_new_sprite_ipgws_uset_2d();
+		//
+		//cout << endl;
 	}
 	else
 	{
@@ -1172,6 +1172,11 @@ void editing_manager::place_single_block_and_record_ur_stuff
 	const block_type& the_block_type,
 	undo_and_redo_action& ur_action_to_push )
 {
+	if ( !block_stuff::block_type_exists(the_block_type) )
+	{
+		return;
+	}
+	
 	auto rbum_iter = ur_action_to_push.replaced_block_umap.find
 		(block_grid_coord);
 	auto nbum_iter = ur_action_to_push.new_block_umap.find
@@ -1202,6 +1207,11 @@ void editing_manager::place_block_line
 	const sf::Vector2i& pos_0, const sf::Vector2i& pos_1, 
 	block_type the_block_type, undo_and_redo_action& ur_action_to_push )
 {
+	if ( !block_stuff::block_type_exists(the_block_type) )
+	{
+		return;
+	}
+	
 	level_editor_sfml_canvas_widget* the_sfml_canvas_widget
 		= the_core_widget->the_sfml_canvas_widget.get();
 	sublevel* the_sublevel = the_core_widget->the_sublevel;
@@ -1330,7 +1340,7 @@ void editing_manager::place_single_16x16_sprite_and_record_ur_stuff
 	const sprite_type& the_sprite_type,
 	undo_and_redo_action& ur_action_to_push )
 {
-	if ( the_sprite_type <= st_default || the_sprite_type >= st_count )
+	if ( !sprite_type_helper::sprite_type_exists(the_sprite_type) )
 	{
 		return;
 	}
@@ -1372,7 +1382,7 @@ void editing_manager::place_single_16x32_sprite_and_record_ur_stuff
 	const sprite_type& the_sprite_type,
 	undo_and_redo_action& ur_action_to_push )
 {
-	if ( the_sprite_type <= st_default || the_sprite_type >= st_count )
+	if ( !sprite_type_helper::sprite_type_exists(the_sprite_type) )
 	{
 		return;
 	}

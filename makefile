@@ -32,8 +32,8 @@ ifdef DEBUG
 	#BASE_FLAGS=-Wall -Og -g $(DEFINES)
 	BASE_FLAGS=-Wall -O0 -g $(DEFINES)
 else
-	#BASE_FLAGS=-Wall -O3 -march=native -mtune=native $(DEFINES)
-	BASE_FLAGS=-Wall -O3 $(DEFINES)
+	#BASE_FLAGS=-Wall -O2 -march=native -mtune=native $(DEFINES)
+	BASE_FLAGS=-Wall -O2 $(DEFINES)
 endif
 
 

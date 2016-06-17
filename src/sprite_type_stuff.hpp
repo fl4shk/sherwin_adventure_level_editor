@@ -95,6 +95,12 @@ public:		// functions
 		return st_name_vec.at(the_sprite_type);
 	}
 	
+	static inline bool sprite_type_exists( sprite_type the_sprite_type )
+	{
+		return ( ( the_sprite_type >= 0 )
+			&& ( the_sprite_type < st_count ) );
+	}
+	
 };
 
 
