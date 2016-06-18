@@ -76,8 +76,9 @@ void level_element_selector_core_widget_base::shared_constructor_code
 	//	( other_num_level_elements_per_row * other_slot_outer_width, 
 	//	other_num_level_elements_per_column * other_slot_outer_height );
 	level_element_palette_render_texture.create
-		( other_num_level_elements_per_row * other_slot_outer_width, 
-		other_num_level_elements_per_column * other_slot_outer_height );
+		( other_num_level_elements_per_row * other_slot_outer_width + 1, 
+		other_num_level_elements_per_column * other_slot_outer_height 
+		+ 1 );
 	
 	
 	level_element_palette_render_texture.clear(sf::Color::White);
@@ -87,11 +88,12 @@ void level_element_selector_core_widget_base::shared_constructor_code
 	
 	
 	// These are needed to make it so that this widget actually shows up.
-	full_resize( QSize( level_element_palette_render_texture.getSize().x,
+	full_resize( QSize
+		( level_element_palette_render_texture.getSize().x,
 		level_element_palette_render_texture.getSize().y ) );
-	//set_min_max_sizes( QSize
-	//	( level_element_palette_render_texture.getSize().x, 
-	//	level_element_palette_render_texture.getSize().y ) );
+	set_min_max_sizes( QSize
+		( level_element_palette_render_texture.getSize().x, 
+		level_element_palette_render_texture.getSize().y ) );
 	
 	
 	//slot_outer_usual_image.create( slot_outer_width, slot_outer_height, 
@@ -212,7 +214,8 @@ void level_element_selector_core_widget_base
 {
 	//cout << "level_element_palette_render_texture:  " 
 	//	<< level_element_palette_render_texture.setActive(true) << endl;
-	level_element_palette_render_texture.clear(sf::Color::Green);
+	//level_element_palette_render_texture.clear(sf::Color::Green);
+	level_element_palette_render_texture.clear(sf::Color::Cyan);
 	
 	u32 num_level_elements_per_column 
 		= get_num_level_elements_per_column(),

@@ -47,13 +47,13 @@ block_selector_widget::block_selector_widget( QWidget* s_parent,
 	//setSizePolicy( QSizePolicy::Maximum, QSizePolicy::Maximum );
 	
 	setMinimumSize( QSize( the_core_widget
-		->get_level_element_palette_render_texture().getSize().x + 1,
+		->get_level_element_palette_render_texture().getSize().x,
 		the_core_widget->get_level_element_palette_render_texture()
-		.getSize().y + 1 ) );
+		.getSize().y ) );
 	setMaximumSize( QSize( the_core_widget
-		->get_level_element_palette_render_texture().getSize().x + 1,
+		->get_level_element_palette_render_texture().getSize().x,
 		the_core_widget->get_level_element_palette_render_texture()
-		.getSize().y + 1 ) );
+		.getSize().y ) );
 }
 
 
