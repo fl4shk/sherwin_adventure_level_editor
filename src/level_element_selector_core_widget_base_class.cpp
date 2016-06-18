@@ -156,6 +156,12 @@ void level_element_selector_core_widget_base::shared_constructor_code
 	
 }
 
+bool level_element_selector_core_widget_base::level_element_index_is_valid
+	( u32 level_element_index ) const
+{
+	return ( level_element_index 
+		< get_num_level_elements_per_palette() );
+}
 
 void level_element_selector_core_widget_base::mousePressEvent
 	( QMouseEvent* event )
@@ -175,8 +181,8 @@ void level_element_selector_core_widget_base::mousePressEvent
 		
 		//cout << n_left_current_level_element_index << "\n\n";
 		
-		if ( n_left_current_level_element_index 
-			< get_num_level_elements_per_palette() )
+		if ( level_element_index_is_valid
+			(n_left_current_level_element_index) )
 		{
 			set_left_current_level_element_index
 				(n_left_current_level_element_index);
@@ -190,8 +196,8 @@ void level_element_selector_core_widget_base::mousePressEvent
 		
 		//cout << n_right_current_level_element_index << "\n\n";
 		
-		if ( n_right_current_level_element_index 
-			< get_num_level_elements_per_palette() )
+		if ( level_element_index_is_valid
+			(n_right_current_level_element_index) )
 		{
 			set_right_current_level_element_index
 				(n_right_current_level_element_index);

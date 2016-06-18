@@ -132,6 +132,8 @@ block_selector_core_widget	block_selector_core_widget_class.hpp	/^	block_selecto
 block_selector_core_widget	block_selector_core_widget_class.hpp	/^class block_selector_core_widget $/;"	kind:c	inherits:level_element_selector_core_widget_base
 block_selector_core_widget::block_selector_core_widget	block_selector_core_widget_class.cpp	/^block_selector_core_widget::block_selector_core_widget$/;"	kind:f	class:block_selector_core_widget	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size )
 block_selector_core_widget::block_selector_core_widget	block_selector_core_widget_class.hpp	/^	block_selector_core_widget( QWidget* s_parent, $/;"	kind:p	class:block_selector_core_widget	access:public	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size )
+block_selector_core_widget::level_element_index_is_valid	block_selector_core_widget_class.cpp	/^bool block_selector_core_widget::level_element_index_is_valid$/;"	kind:f	class:block_selector_core_widget	signature:( u32 level_element_index ) const
+block_selector_core_widget::level_element_index_is_valid	block_selector_core_widget_class.hpp	/^	virtual bool level_element_index_is_valid( u32 level_element_index )$/;"	kind:p	class:block_selector_core_widget	access:protected	signature:( u32 level_element_index ) const
 block_selector_core_widget_class_hpp	block_selector_core_widget_class.hpp	22;"	kind:d
 block_selector_widget	block_selector_widget_class.cpp	/^block_selector_widget::block_selector_widget( QWidget* s_parent,$/;"	kind:f	class:block_selector_widget	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size )
 block_selector_widget	block_selector_widget_class.hpp	/^	block_selector_widget( QWidget* s_parent, $/;"	kind:p	class:block_selector_widget	access:public	signature:( QWidget* s_parent, const QPoint& s_position, const QSize& s_size )
@@ -870,6 +872,14 @@ level_element_gfx_file_name	sprite_16x32_selector_core_widget_class.cpp	/^const 
 level_element_gfx_file_name	sprite_16x32_selector_core_widget_class.hpp	/^	static const string level_element_gfx_file_name;$/;"	kind:m	class:sprite_16x32_selector_core_widget	access:public
 level_element_gfx_raw_image	level_element_selector_core_widget_base_class.hpp	/^	sf::Image level_element_gfx_raw_image;$/;"	kind:m	class:level_element_selector_core_widget_base	access:protected
 level_element_gfx_raw_texture	level_element_selector_core_widget_base_class.hpp	/^	sf::Texture level_element_gfx_raw_texture;$/;"	kind:m	class:level_element_selector_core_widget_base	access:protected
+level_element_index_is_valid	block_selector_core_widget_class.cpp	/^bool block_selector_core_widget::level_element_index_is_valid$/;"	kind:f	class:block_selector_core_widget	signature:( u32 level_element_index ) const
+level_element_index_is_valid	block_selector_core_widget_class.hpp	/^	virtual bool level_element_index_is_valid( u32 level_element_index )$/;"	kind:p	class:block_selector_core_widget	access:protected	signature:( u32 level_element_index ) const
+level_element_index_is_valid	level_element_selector_core_widget_base_class.cpp	/^bool level_element_selector_core_widget_base::level_element_index_is_valid$/;"	kind:f	class:level_element_selector_core_widget_base	signature:( u32 level_element_index ) const
+level_element_index_is_valid	level_element_selector_core_widget_base_class.hpp	/^	virtual bool level_element_index_is_valid( u32 level_element_index ) $/;"	kind:p	class:level_element_selector_core_widget_base	access:protected	signature:( u32 level_element_index ) const
+level_element_index_is_valid	sprite_16x16_selector_core_widget_class.cpp	/^bool sprite_16x16_selector_core_widget::level_element_index_is_valid$/;"	kind:f	class:sprite_16x16_selector_core_widget	signature:( u32 level_element_index ) const
+level_element_index_is_valid	sprite_16x16_selector_core_widget_class.hpp	/^	virtual bool level_element_index_is_valid( u32 level_element_index )$/;"	kind:p	class:sprite_16x16_selector_core_widget	access:protected	signature:( u32 level_element_index ) const
+level_element_index_is_valid	sprite_16x32_selector_core_widget_class.cpp	/^bool sprite_16x32_selector_core_widget::level_element_index_is_valid$/;"	kind:f	class:sprite_16x32_selector_core_widget	signature:( u32 level_element_index ) const
+level_element_index_is_valid	sprite_16x32_selector_core_widget_class.hpp	/^	virtual bool level_element_index_is_valid( u32 level_element_index )$/;"	kind:p	class:sprite_16x32_selector_core_widget	access:protected	signature:( u32 level_element_index ) const
 level_element_palette_modified_recently	level_element_selector_core_widget_base_class.hpp	/^	bool level_element_palette_modified_recently;$/;"	kind:m	class:level_element_selector_core_widget_base	access:protected
 level_element_palette_render_texture	level_element_selector_core_widget_base_class.hpp	/^	sf::RenderTexture level_element_palette_render_texture;$/;"	kind:m	class:level_element_selector_core_widget_base	access:protected
 level_element_palette_sprite	level_element_selector_core_widget_base_class.hpp	/^	sf::Sprite level_element_palette_sprite;$/;"	kind:m	class:level_element_selector_core_widget_base	access:protected
@@ -910,6 +920,8 @@ level_element_selector_core_widget_base::level_element_gfx_file_name	level_eleme
 level_element_selector_core_widget_base::level_element_gfx_file_name	level_element_selector_core_widget_base_class.hpp	/^	static const string level_element_gfx_file_name;$/;"	kind:m	class:level_element_selector_core_widget_base	access:protected
 level_element_selector_core_widget_base::level_element_gfx_raw_image	level_element_selector_core_widget_base_class.hpp	/^	sf::Image level_element_gfx_raw_image;$/;"	kind:m	class:level_element_selector_core_widget_base	access:protected
 level_element_selector_core_widget_base::level_element_gfx_raw_texture	level_element_selector_core_widget_base_class.hpp	/^	sf::Texture level_element_gfx_raw_texture;$/;"	kind:m	class:level_element_selector_core_widget_base	access:protected
+level_element_selector_core_widget_base::level_element_index_is_valid	level_element_selector_core_widget_base_class.cpp	/^bool level_element_selector_core_widget_base::level_element_index_is_valid$/;"	kind:f	class:level_element_selector_core_widget_base	signature:( u32 level_element_index ) const
+level_element_selector_core_widget_base::level_element_index_is_valid	level_element_selector_core_widget_base_class.hpp	/^	virtual bool level_element_index_is_valid( u32 level_element_index ) $/;"	kind:p	class:level_element_selector_core_widget_base	access:protected	signature:( u32 level_element_index ) const
 level_element_selector_core_widget_base::level_element_palette_modified_recently	level_element_selector_core_widget_base_class.hpp	/^	bool level_element_palette_modified_recently;$/;"	kind:m	class:level_element_selector_core_widget_base	access:protected
 level_element_selector_core_widget_base::level_element_palette_render_texture	level_element_selector_core_widget_base_class.hpp	/^	sf::RenderTexture level_element_palette_render_texture;$/;"	kind:m	class:level_element_selector_core_widget_base	access:protected
 level_element_selector_core_widget_base::level_element_palette_sprite	level_element_selector_core_widget_base_class.hpp	/^	sf::Sprite level_element_palette_sprite;$/;"	kind:m	class:level_element_selector_core_widget_base	access:protected
@@ -1255,12 +1267,12 @@ save_level_as	level_editor_widget_class.hpp	/^	void save_level_as();$/;"	kind:p	
 save_level_as_core_func	level_editor_widget_class.cpp	/^void level_editor_widget::save_level_as_core_func$/;"	kind:f	class:level_editor_widget	signature:( const string& output_file_name )
 save_level_as_core_func	level_editor_widget_class.hpp	/^	void save_level_as_core_func( const string& output_file_name );$/;"	kind:p	class:level_editor_widget	access:protected	signature:( const string& output_file_name )
 save_level_core_func	level_editor_widget_class.hpp	/^	inline void save_level_core_func()$/;"	kind:f	class:level_editor_widget	access:protected	signature:()
-save_replaced_sprites	editing_manager_class.cpp	1698;"	kind:d	file:
-save_replaced_sprites	editing_manager_class.cpp	1707;"	kind:d	file:
-save_replaced_sprites	editing_manager_class.cpp	1716;"	kind:d	file:
-save_replaced_sprites	editing_manager_class.cpp	1725;"	kind:d	file:
-save_replaced_sprites	editing_manager_class.cpp	1748;"	kind:d	file:
-save_replaced_sprites	editing_manager_class.cpp	1757;"	kind:d	file:
+save_replaced_sprites	editing_manager_class.cpp	1697;"	kind:d	file:
+save_replaced_sprites	editing_manager_class.cpp	1706;"	kind:d	file:
+save_replaced_sprites	editing_manager_class.cpp	1715;"	kind:d	file:
+save_replaced_sprites	editing_manager_class.cpp	1724;"	kind:d	file:
+save_replaced_sprites	editing_manager_class.cpp	1747;"	kind:d	file:
+save_replaced_sprites	editing_manager_class.cpp	1756;"	kind:d	file:
 scale_factor	sfml_canvas_widget_classes.hpp	/^	u32 scale_factor;$/;"	kind:m	class:level_editor_sfml_canvas_widget	access:public
 scroll_area	block_selector_widget_class.hpp	/^	QScrollArea* scroll_area;$/;"	kind:m	class:block_selector_widget	access:public
 scroll_area	sfml_canvas_widget_classes.hpp	/^	QScrollArea* scroll_area;$/;"	kind:m	class:level_editor_sfml_canvas_widget	access:protected
@@ -1375,6 +1387,8 @@ sprite_16x16_selector_core_widget::get_slot_outer_height	sprite_16x16_selector_c
 sprite_16x16_selector_core_widget::get_slot_outer_width	sprite_16x16_selector_core_widget_class.hpp	/^	virtual inline u32 get_slot_outer_width() const$/;"	kind:f	class:sprite_16x16_selector_core_widget	access:public	signature:() const
 sprite_16x16_selector_core_widget::level_element_gfx_file_name	sprite_16x16_selector_core_widget_class.cpp	/^const string sprite_16x16_selector_core_widget::level_element_gfx_file_name $/;"	kind:m	class:sprite_16x16_selector_core_widget	file:
 sprite_16x16_selector_core_widget::level_element_gfx_file_name	sprite_16x16_selector_core_widget_class.hpp	/^	static const string level_element_gfx_file_name;$/;"	kind:m	class:sprite_16x16_selector_core_widget	access:public
+sprite_16x16_selector_core_widget::level_element_index_is_valid	sprite_16x16_selector_core_widget_class.cpp	/^bool sprite_16x16_selector_core_widget::level_element_index_is_valid$/;"	kind:f	class:sprite_16x16_selector_core_widget	signature:( u32 level_element_index ) const
+sprite_16x16_selector_core_widget::level_element_index_is_valid	sprite_16x16_selector_core_widget_class.hpp	/^	virtual bool level_element_index_is_valid( u32 level_element_index )$/;"	kind:p	class:sprite_16x16_selector_core_widget	access:protected	signature:( u32 level_element_index ) const
 sprite_16x16_selector_core_widget::slot_inner_height	sprite_16x16_selector_core_widget_class.hpp	/^	static constexpr u32 slot_inner_width = 16, slot_inner_height = 16, $/;"	kind:m	class:sprite_16x16_selector_core_widget	access:public
 sprite_16x16_selector_core_widget::slot_inner_width	sprite_16x16_selector_core_widget_class.hpp	/^	static constexpr u32 slot_inner_width = 16, slot_inner_height = 16, $/;"	kind:m	class:sprite_16x16_selector_core_widget	access:public
 sprite_16x16_selector_core_widget::slot_outer_height	sprite_16x16_selector_core_widget_class.hpp	/^		slot_outer_height = slot_inner_height + 2;$/;"	kind:m	class:sprite_16x16_selector_core_widget	access:public
@@ -1401,6 +1415,8 @@ sprite_16x32_selector_core_widget::get_slot_outer_height	sprite_16x32_selector_c
 sprite_16x32_selector_core_widget::get_slot_outer_width	sprite_16x32_selector_core_widget_class.hpp	/^	virtual inline u32 get_slot_outer_width() const$/;"	kind:f	class:sprite_16x32_selector_core_widget	access:public	signature:() const
 sprite_16x32_selector_core_widget::level_element_gfx_file_name	sprite_16x32_selector_core_widget_class.cpp	/^const string sprite_16x32_selector_core_widget::level_element_gfx_file_name $/;"	kind:m	class:sprite_16x32_selector_core_widget	file:
 sprite_16x32_selector_core_widget::level_element_gfx_file_name	sprite_16x32_selector_core_widget_class.hpp	/^	static const string level_element_gfx_file_name;$/;"	kind:m	class:sprite_16x32_selector_core_widget	access:public
+sprite_16x32_selector_core_widget::level_element_index_is_valid	sprite_16x32_selector_core_widget_class.cpp	/^bool sprite_16x32_selector_core_widget::level_element_index_is_valid$/;"	kind:f	class:sprite_16x32_selector_core_widget	signature:( u32 level_element_index ) const
+sprite_16x32_selector_core_widget::level_element_index_is_valid	sprite_16x32_selector_core_widget_class.hpp	/^	virtual bool level_element_index_is_valid( u32 level_element_index )$/;"	kind:p	class:sprite_16x32_selector_core_widget	access:protected	signature:( u32 level_element_index ) const
 sprite_16x32_selector_core_widget::slot_inner_height	sprite_16x32_selector_core_widget_class.hpp	/^	static constexpr u32 slot_inner_width = 16, slot_inner_height = 32, $/;"	kind:m	class:sprite_16x32_selector_core_widget	access:public
 sprite_16x32_selector_core_widget::slot_inner_width	sprite_16x32_selector_core_widget_class.hpp	/^	static constexpr u32 slot_inner_width = 16, slot_inner_height = 32, $/;"	kind:m	class:sprite_16x32_selector_core_widget	access:public
 sprite_16x32_selector_core_widget::slot_outer_height	sprite_16x32_selector_core_widget_class.hpp	/^		slot_outer_height = slot_inner_height + 2;$/;"	kind:m	class:sprite_16x32_selector_core_widget	access:public

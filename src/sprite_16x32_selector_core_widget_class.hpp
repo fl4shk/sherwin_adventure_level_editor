@@ -67,6 +67,9 @@ public:		// functions
 	}
 	
 protected:		// stuffs
+	virtual bool level_element_index_is_valid( u32 level_element_index )
+		const;
+	
 	friend class sprite_16x32_selector_widget;
 	
 	

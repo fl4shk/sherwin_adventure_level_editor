@@ -27,4 +27,8 @@ block_selector_core_widget::block_selector_core_widget
 {
 }
 
-
+bool block_selector_core_widget::level_element_index_is_valid
+	( u32 level_element_index ) const
+{
+	return block_stuff::block_type_exists((block_type)level_element_index);
+}

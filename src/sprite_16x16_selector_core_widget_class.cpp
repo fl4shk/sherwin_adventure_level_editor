@@ -32,4 +32,10 @@ sprite_16x16_selector_core_widget::sprite_16x16_selector_core_widget
 {
 }
 
+bool sprite_16x16_selector_core_widget::level_element_index_is_valid
+	( u32 level_element_index ) const
+{
+	return sprite_type_helper::sprite_type_exists
+		((sprite_type)level_element_index);
+}
 

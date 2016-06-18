@@ -36,6 +36,9 @@ public:		// functions
 		const QPoint& s_position, const QSize& s_size ) ;
 	
 protected:		// stuffs
+	virtual bool level_element_index_is_valid( u32 level_element_index )
+		const;
+	
 	friend class block_selector_widget;
 	
 	

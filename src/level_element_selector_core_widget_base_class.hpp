@@ -107,9 +107,15 @@ public:		// functions
 		u32 num_level_elements_per_palette 
 			= get_num_level_elements_per_palette();
 		
+		//left_current_level_element_index 
+		//	= ( n_left_current_level_element_index 
+		//	< num_level_elements_per_palette ) 
+		//	? n_left_current_level_element_index 
+		//	: ( num_level_elements_per_palette - 1 );
+		
 		left_current_level_element_index 
-			= ( n_left_current_level_element_index 
-			< num_level_elements_per_palette ) 
+			= ( level_element_index_is_valid
+			(n_left_current_level_element_index) ) 
 			? n_left_current_level_element_index 
 			: ( num_level_elements_per_palette - 1 );
 	}
@@ -160,13 +166,21 @@ public:		// functions
 		u32 num_level_elements_per_palette 
 			= get_num_level_elements_per_palette();
 		
+		//right_current_level_element_index 
+		//	= ( n_right_current_level_element_index 
+		//	< num_level_elements_per_palette ) 
+		//	? n_right_current_level_element_index 
+		//	: ( num_level_elements_per_palette - 1 );
+		
 		right_current_level_element_index 
-			= ( n_right_current_level_element_index 
-			< num_level_elements_per_palette ) 
+			= ( level_element_index_is_valid
+			(n_right_current_level_element_index) ) 
 			? n_right_current_level_element_index 
 			: ( num_level_elements_per_palette - 1 );
 	}
 	
+	
+	// This function's name is too long
 	inline u32 
 		level_element_selection_coords_to_current_level_element_index
 		( const sf::Vector2i& pos_in_level_element_selection_coords )
@@ -275,6 +289,9 @@ public:		// functions
 	
 	
 protected:		// functions
+	virtual bool level_element_index_is_valid( u32 level_element_index ) 
+		const;
+	
 	virtual void mousePressEvent( QMouseEvent* event );
 	
 	//void generate_palette_render_texture();

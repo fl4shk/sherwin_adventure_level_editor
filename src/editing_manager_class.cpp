@@ -211,8 +211,7 @@ void editing_manager::mouse_press_event
 		block_grid_coords_of_mouse_pos.x, 
 		block_grid_coords_of_mouse_pos.y );
 	
-	if ( ( event->buttons() & Qt::LeftButton )
-		&& !left_mouse_button_down )
+	if ( ( event->buttons() & Qt::LeftButton ) && !left_mouse_button_down )
 	{
 		left_mouse_button_down = true;
 		
@@ -300,7 +299,7 @@ void editing_manager::mouse_press_event
 		
 		////emit right_mouse_button_pressed();
 		//the_core_widget->do_emit_right_mouse_button_pressed();
-		cout << "Right mouse button pressed\n";
+		//cout << "Right mouse button pressed\n";
 	}
 	
 }
@@ -410,7 +409,7 @@ void editing_manager::mouse_move_event
 	}
 	if ( right_mouse_button_down )
 	{
-		cout << "Right mouse button held while mouse moves\n";
+		//cout << "Right mouse button held while mouse moves\n";
 		//emit right_mouse_button_pressed();
 	}
 	
@@ -516,7 +515,7 @@ void editing_manager::mouse_release_event
 	{
 		right_mouse_button_down = false;
 		
-		cout << "Right mouse button released\n";
+		//cout << "Right mouse button released\n";
 	}
 }
 
