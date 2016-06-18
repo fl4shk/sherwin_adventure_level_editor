@@ -62,7 +62,7 @@ enum action_type
 	
 	//at_erase_sprites, 
 	
-	//at_modify_sprite, 
+	at_modify_sprite, 
 	
 	
 	//at_cut_blocks, 

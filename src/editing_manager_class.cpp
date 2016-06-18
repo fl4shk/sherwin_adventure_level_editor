@@ -211,45 +211,44 @@ void editing_manager::mouse_press_event
 		block_grid_coords_of_mouse_pos.x, 
 		block_grid_coords_of_mouse_pos.y );
 	
-	
-	if ( the_sprite_selection_ptr_group.origin_ptr != NULL )
+	if ( ( event->buttons() & Qt::LeftButton )
+		&& !left_mouse_button_down )
 	{
-		if ( the_sprite_selection_ptr_group.origin_ptr->type 
-			== st_default )
+		left_mouse_button_down = true;
+		
+		
+		if ( the_sprite_selection_ptr_group.origin_ptr != NULL )
+		{
+			if ( the_sprite_selection_ptr_group.origin_ptr->type 
+				== st_default )
+			{
+				if ( the_rect_selection_stuff.get_single_sprite_selected()
+					&& the_rect_selection_stuff.get_enabled()
+					&& the_rect_selection_stuff.get_mouse_released() )
+				{
+					finalize_movement_of_rs_contents
+						( the_core_widget, the_rect_selection_stuff );
+				}
+				
+				//cout << "st_default\n";
+				the_core_widget->do_emit_sprite_no_longer_selected();
+			}
+		}
+		// I am not sure this will ever be the case, mainly because mouse
+		// pressing is I think always(?) inside the_core_widget.
+		else 
 		{
 			if ( the_rect_selection_stuff.get_single_sprite_selected()
 				&& the_rect_selection_stuff.get_enabled()
 				&& the_rect_selection_stuff.get_mouse_released() )
 			{
-				finalize_movement_of_rs_contents
-					( the_core_widget, the_rect_selection_stuff );
+				finalize_movement_of_rs_contents( the_core_widget, 
+					the_rect_selection_stuff );
 			}
-			
-			//cout << "st_default\n";
+			//cout << "else\n";
 			the_core_widget->do_emit_sprite_no_longer_selected();
 		}
-	}
-	// I am not sure this will ever be the case, mainly because mouse
-	// pressing is I think always(?) inside the_core_widget.
-	else 
-	{
-		if ( the_rect_selection_stuff.get_single_sprite_selected()
-			&& the_rect_selection_stuff.get_enabled()
-			&& the_rect_selection_stuff.get_mouse_released() )
-		{
-			finalize_movement_of_rs_contents( the_core_widget, 
-				the_rect_selection_stuff );
-		}
-		//cout << "else\n";
-		the_core_widget->do_emit_sprite_no_longer_selected();
-	}
-	
-	
-	
-	bool do_activate_ur_action = true;
-	
-	if ( event->buttons() == Qt::LeftButton )
-	{
+		
 		//cout << block_grid_coords_of_mouse_pos.x << ", "
 		//	<< block_grid_coords_of_mouse_pos.y << endl;
 		
@@ -282,8 +281,6 @@ void editing_manager::mouse_press_event
 				break;
 			
 			default:
-				do_activate_ur_action = false;
-				
 				cout << "Darn it.  I don't know what enum value "
 					<< "the_mouse_mode is supposed to represent right "
 					<< "now.  Note to the programmer:  there is a bug of "
@@ -291,23 +288,21 @@ void editing_manager::mouse_press_event
 				break;
 		}
 		
+		//prev_mouse_pos = event->pos();
+		block_grid_coords_of_prev_mouse_pos 
+			= block_grid_coords_of_mouse_pos;
+		
 	}
-	else if ( event->buttons() == Qt::RightButton )
+	else if ( ( event->buttons() & Qt::RightButton )
+		&& !right_mouse_button_down )
 	{
+		right_mouse_button_down = true;
 		
 		////emit right_mouse_button_pressed();
 		//the_core_widget->do_emit_right_mouse_button_pressed();
+		cout << "Right mouse button pressed\n";
 	}
 	
-	
-	//prev_mouse_pos = event->pos();
-	block_grid_coords_of_prev_mouse_pos = block_grid_coords_of_mouse_pos;
-	
-	if ( do_activate_ur_action )
-	{
-		undo_and_redo_stuff& ur_stuff = get_or_create_ur_stuff
-			(the_core_widget);
-	}
 }
 
 
@@ -373,7 +368,7 @@ void editing_manager::mouse_move_event
 	//{
 	//};
 	
-	if ( event->buttons() & Qt::LeftButton )
+	if ( left_mouse_button_down )
 	{
 		//cout << block_grid_coords_of_mouse_pos.x << ", "
 		//	<< block_grid_coords_of_mouse_pos.y << endl;
@@ -409,16 +404,17 @@ void editing_manager::mouse_move_event
 				break;
 		}
 		
+		//prev_mouse_pos = event->pos();
+		block_grid_coords_of_prev_mouse_pos 
+			= block_grid_coords_of_mouse_pos;
 	}
-	else if ( event->buttons() & Qt::RightButton )
+	if ( right_mouse_button_down )
 	{
-		
+		cout << "Right mouse button held while mouse moves\n";
 		//emit right_mouse_button_pressed();
 	}
 	
 	
-	//prev_mouse_pos = event->pos();
-	block_grid_coords_of_prev_mouse_pos = block_grid_coords_of_mouse_pos;
 }
 
 void editing_manager::mouse_release_event
@@ -466,50 +462,61 @@ void editing_manager::mouse_release_event
 	
 	bool do_update_ur_stuff = true;
 	
-	switch (the_mouse_mode)
+	if ( left_mouse_button_down )
 	{
-		case mm_place_level_elements:
-			handle_placing_le_during_mouse_release
-				(the_core_widget);
-			break;
-		
-		case mm_erase_sprites:
-			handle_erasing_sprites_during_mouse_release
-				(the_core_widget);
-			break;
-		
-		case mm_select_single_sprite:
-			handle_selecting_single_sprite_during_mouse_release
-				(the_core_widget);
-			break;
-		
-		case mm_rect_selection:
-			handle_rs_during_mouse_release
-				(the_core_widget);
-			break;
-		
-		default:
-			do_update_ur_stuff = false;
+		left_mouse_button_down = false;
+		switch (the_mouse_mode)
+		{
+			case mm_place_level_elements:
+				handle_placing_le_during_mouse_release
+					(the_core_widget);
+				break;
 			
-			cout << "Darn it.  I don't know what enum value "
-				<< "the_mouse_mode is supposed to represent right "
-				<< "now.  Note to the programmer:  there is a bug of "
-				<< "some sort!\n";
-			break;
-	}
-	
-	
-	//prev_mouse_pos = event->pos();
-	block_grid_coords_of_prev_mouse_pos = block_grid_coords_of_mouse_pos;
-	
-	
-	if ( do_update_ur_stuff )
-	{
-		undo_and_redo_stuff& ur_stuff = get_or_create_ur_stuff
-			(the_core_widget);
+			case mm_erase_sprites:
+				handle_erasing_sprites_during_mouse_release
+					(the_core_widget);
+				break;
+			
+			case mm_select_single_sprite:
+				handle_selecting_single_sprite_during_mouse_release
+					(the_core_widget);
+				break;
+			
+			case mm_rect_selection:
+				handle_rs_during_mouse_release
+					(the_core_widget);
+				break;
+			
+			default:
+				do_update_ur_stuff = false;
+				
+				cout << "Darn it.  I don't know what enum value "
+					<< "the_mouse_mode is supposed to represent right "
+					<< "now.  Note to the programmer:  there is a bug of "
+					<< "some sort!\n";
+				break;
+		}
 		
-		// Clear ur_action_to_push
-		ur_stuff.ur_action_to_push = undo_and_redo_action();
+		
+		//prev_mouse_pos = event->pos();
+		block_grid_coords_of_prev_mouse_pos 
+			= block_grid_coords_of_mouse_pos;
+		
+		
+		if ( do_update_ur_stuff )
+		{
+			undo_and_redo_stuff& ur_stuff = get_or_create_ur_stuff
+				(the_core_widget);
+			
+			// Clear ur_action_to_push
+			ur_stuff.ur_action_to_push = undo_and_redo_action();
+		}
+	}
+	if ( right_mouse_button_down )
+	{
+		right_mouse_button_down = false;
+		
+		cout << "Right mouse button released\n";
 	}
 }
 

@@ -346,6 +346,9 @@ bool level_editor_widget::open_level_core_func
 		
 		u32 j = 0; 
 		
+		
+		// Interestingly, I forgot that I had used any loops other than for
+		// loops in this program.  That's cool, I guess.
 		while ( getline( block_data_sstm, line, '\n' ) )
 		{
 			if ( j >= the_sublevel.real_size_2d.y )

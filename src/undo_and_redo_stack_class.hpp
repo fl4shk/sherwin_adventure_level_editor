@@ -33,7 +33,7 @@ public:		// variables
 	action_type the_action_type;
 	
 	
-	bool test_bool;
+	//bool test_bool;
 	
 	// Stuff for drawing blocks, cutting blocks, moving blocks without
 	// pasting them, and pasting blocks.

@@ -40,6 +40,7 @@ protected:		// variables
 	unordered_map< level_editor_core_widget*, undo_and_redo_stuff >
 		ur_stuff_umap;
 	
+	bool left_mouse_button_down, right_mouse_button_down;
 	
 	
 public:		// functions
