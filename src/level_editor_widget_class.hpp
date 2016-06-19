@@ -87,13 +87,15 @@ public:		// variables
 	
 	
 	//bool sprite_properties_widget_enabled;
-	vector<u32> sprite_properties_widget_enabled_vec;
+	
+	//vector<u32> sprite_properties_widget_enabled_vec;
+	//vector<sprite_ipgws> selected_sprite_ipgws_before_modification_vec;
+	vector<sprite_pw_extras> sprite_pw_extras_vec;
 	
 	//sprite_properties_widget* the_sprite_properties_widget;
 	unique_ptr<sprite_properties_widget> the_sprite_properties_widget;
 	
-	unique_ptr<sublevel_properties_widget> 
-		the_sublevel_properties_widget;
+	unique_ptr<sublevel_properties_widget> the_sublevel_properties_widget;
 	
 	
 	editing_manager* the_editing_manager;

@@ -30,7 +30,8 @@ ifdef DEBUG
 	
 	#BASE_FLAGS=-Wall -Og -g -march=native -mtune=native $(DEFINES)
 	#BASE_FLAGS=-Wall -Og -g $(DEFINES)
-	BASE_FLAGS=-Wall -O0 -g $(DEFINES)
+	#BASE_FLAGS=-Wall -O0 -g $(DEFINES)
+	BASE_FLAGS=-Wall -g $(DEFINES)
 else
 	#BASE_FLAGS=-Wall -O2 -march=native -mtune=native $(DEFINES)
 	BASE_FLAGS=-Wall -O2 $(DEFINES)
@@ -59,20 +60,20 @@ ifeq ($(OS),Windows_NT)
 		-lpugixml -Wl,-Bdynamic `pkg-config --libs Qt5Core Qt5Gui \
 		Qt5Widgets` -lsfml-graphics -lsfml-window -lsfml-system
 else
-	# Uncomment these if you want the pkg-config results to be "cached" 
-	# for the current run of make.  This may cause a problem if the 
-	# directories of any libraries change, and a new build is done without 
-	# doing make clean first.  Oh, and this appears to be specific to GNU 
-	# Make as well.  GNU Make is definitely the best version of Make :^).
-	CXX_FLAGS+=$(shell pkg-config --cflags Qt5Core Qt5Gui Qt5Widgets \
-		sfml-window sfml-graphics) -fPIC
-	LD_FLAGS+=$(shell pkg-config --libs Qt5Core Qt5Gui Qt5Widgets \
-		sfml-window sfml-graphics) -lpugixml
+	## Uncomment these if you want the pkg-config results to be "cached" 
+	## for the current run of make.  This may cause a problem if the 
+	## directories of any libraries change, and a new build is done without 
+	## doing make clean first.  Oh, and this appears to be specific to GNU 
+	## Make as well.  GNU Make is definitely the best version of Make :^).
+	#CXX_FLAGS+=$(shell pkg-config --cflags Qt5Core Qt5Gui Qt5Widgets \
+	#	sfml-window sfml-graphics) -fPIC
+	#LD_FLAGS+=$(shell pkg-config --libs Qt5Core Qt5Gui Qt5Widgets \
+	#	sfml-window sfml-graphics) -lpugixml
 	
-	#CXX_FLAGS+=`pkg-config --cflags Qt5Core Qt5Gui Qt5Widgets \
-	#	sfml-window sfml-graphics` -fPIC
-	#LD_FLAGS+=-lpugixml `pkg-config --libs Qt5Core Qt5Gui Qt5Widgets` \
-	#	-lsfml-graphics -lsfml-window -lsfml-system
+	CXX_FLAGS+=`pkg-config --cflags Qt5Core Qt5Gui Qt5Widgets \
+		sfml-window sfml-graphics` -fPIC
+	LD_FLAGS+=-lpugixml `pkg-config --libs Qt5Core Qt5Gui Qt5Widgets` \
+		-lsfml-graphics -lsfml-window -lsfml-system
 endif
 
 

@@ -40,11 +40,16 @@ protected:		// variables
 	unordered_map< level_editor_core_widget*, undo_and_redo_stuff >
 		ur_stuff_umap;
 	
+	
+	
+	// These are used to deal with multiple mouse buttons possibly being
+	// down or up during mouse events
 	bool left_mouse_button_down, right_mouse_button_down;
 	
 	
 public:		// functions
-	inline editing_manager() : the_level_editor_widget(NULL)
+	inline editing_manager() : the_level_editor_widget(NULL),
+		left_mouse_button_down(false), right_mouse_button_down(false)
 	{
 	}
 	
@@ -79,10 +84,16 @@ public:		// functions
 		( level_editor_core_widget* the_core_widget,
 		rect_selection_stuff& the_rect_selection_stuff );
 	
+	void finalize_sprite_properties_modification
+		( level_editor_core_widget* the_core_widget,
+		const sprite_pw_extras& the_sprite_pw_extras,
+		const sprite_ipgws& the_new_sprite_ipgws );
+	
 	
 protected:		// functions
 	undo_and_redo_stuff& get_or_create_ur_stuff
 		( level_editor_core_widget* the_core_widget );
+	
 	
 	// Mouse press handler functions.  These were once lambda functions,
 	// but not any more.
@@ -246,7 +257,6 @@ protected:		// functions
 	
 	// Editing actions that have been made into their own functions so
 	// that the_editing_manager can handle them.
-	
 	void finalize_movement_of_rs_contents_block_ur_stuff
 		( level_editor_core_widget* the_core_widget, 
 		rect_selection_stuff& the_rect_selection_stuff, 
@@ -261,10 +271,14 @@ protected:		// functions
 		bool rs_was_pasted );
 	
 	
+	// Sprite properties stuff
+	
+	
 	
 	friend class level_editor_widget;
 	friend class level_editor_core_widget;
 	friend class level_editor_sfml_canvas_widget;
+	friend class sprite_properties_widget;
 	
 };
 

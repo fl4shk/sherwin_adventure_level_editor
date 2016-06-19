@@ -20,18 +20,64 @@
 #include "sprite_level_data_stuff.hpp"
 #include "sublevel_class.hpp"
 
+bool sprite_ipgws::operator == ( const sprite_ipgws& to_cmp ) const
+{
+	return ( ( type == to_cmp.type ) 
+		&& ( initial_block_grid_x_coord 
+			== to_cmp.initial_block_grid_x_coord )
+		&& ( initial_block_grid_y_coord 
+			== to_cmp.initial_block_grid_y_coord )
+		&& ( facing_right == to_cmp.facing_right )
+		&& ( extra_param_0 == to_cmp.extra_param_0 )
+		&& ( extra_param_1 == to_cmp.extra_param_1 )
+		&& ( extra_param_2 == to_cmp.extra_param_2 )
+		&& ( extra_param_3 == to_cmp.extra_param_3 )
+		&& ( spawn_state == to_cmp.spawn_state )
+		&& ( size_2d == to_cmp.size_2d ) );
+}
+
 namespace std
 {
 	size_t hash<sprite_ipgws>::operator () ( const sprite_ipgws& to_hash ) 
 		const
 	{
-		const size_t hash_block_grid_coord_x
+		size_t hash_block_grid_coord_x
 			( hash<u32>()(to_hash.initial_block_grid_x_coord) );
-		const size_t hash_block_grid_coord_y
+		size_t hash_block_grid_coord_y
 			( hash<u32>()(to_hash.initial_block_grid_y_coord) );
+		size_t hash_facing_right
+			( hash<bool>()(to_hash.facing_right) );
+		size_t hash_extra_param_0
+			( hash<u32>()(to_hash.extra_param_0) );
+		size_t hash_extra_param_1
+			( hash<u32>()(to_hash.extra_param_1) );
+		size_t hash_extra_param_2
+			( hash<u32>()(to_hash.extra_param_2) );
+		size_t hash_extra_param_3
+			( hash<u32>()(to_hash.extra_param_3) );
+		size_t hash_spawn_state
+			( hash<sprite_spawn_state>()(to_hash.spawn_state) );
+		size_t hash_size_2d_x
+			( hash<u32>()(to_hash.size_2d.x) );
+		size_t hash_size_2d_y
+			( hash<u32>()(to_hash.size_2d.y) );
 		
-		return hash_block_grid_coord_x 
-			^ ( hash_block_grid_coord_y << 1 );
+		const u32 hash_arr_size = 10; 
+		size_t hash_arr[hash_arr_size] = { hash_block_grid_coord_x,
+			hash_block_grid_coord_y, hash_facing_right, hash_extra_param_0,
+			hash_extra_param_1, hash_extra_param_2, hash_extra_param_3,
+			hash_spawn_state, hash_size_2d_x, hash_size_2d_y };
+		
+		size_t ret = hash_arr[0];
+		
+		for ( u32 i=1; i<hash_arr_size-1; ++i )
+		{
+			ret = ( ret ^ ( hash_arr[i] << 1 ) ) >> 1;
+		}
+		
+		ret = ret ^ ( hash_arr[hash_arr_size-1] << 1 );
+		
+		return ret;
 	}
 }
 

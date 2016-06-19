@@ -30,6 +30,7 @@ sprite_properties_widget::sprite_properties_widget( QWidget* s_parent,
 }
 
 
+
 void sprite_properties_widget::init()
 {
 	grid_layout.reset(new QGridLayout);

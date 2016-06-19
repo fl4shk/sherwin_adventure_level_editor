@@ -23,9 +23,9 @@
 
 #include "misc_includes.hpp"
 #include "block_stuff.hpp"
-#include "sprite_level_data_stuff.hpp"
 #include "vec2_class.hpp"
 
+class sprite_ipgws;
 
 class undo_and_redo_action
 {
@@ -62,18 +62,18 @@ public:		// variables
 	sf::IntRect selection_rect_before_moving;
 	
 	
-	// The sprites that were replaced, and the sprites that were moved or
+	// The sprites that were moved (with their original
+	// initial_block_grid_x_coord and initial_block_grid_y_coord), the
+	// sprites that were replaced, and the sprites that were moved or
 	// pasted
-	unordered_set<sprite_ipgws> replaced_sprite_ipgws_uset_2d, 
-		new_sprite_ipgws_uset_2d;
+	unordered_set<sprite_ipgws> not_yet_moved_sprite_ipgws_uset, 
+		replaced_sprite_ipgws_uset, new_sprite_ipgws_uset;
 	
-	
+	//unordered_set<sprite_ipgws> test_sprite_ipgws_uset;
 	
 public:		// functions
-	inline undo_and_redo_action() : the_action_type(at_unknown),
-		new_sprite_ipgws(sprite_ipgws())
-	{
-	}
+	undo_and_redo_action();
+	
 	// copy constructor
 	undo_and_redo_action( const undo_and_redo_action& to_copy );
 	

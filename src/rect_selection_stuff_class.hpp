@@ -126,7 +126,7 @@ public:		// variables
 	
 	
 public:		// functions
-	inline rect_selection_stuff()
+	inline rect_selection_stuff() : mouse_released(true)
 	{
 	}
 	

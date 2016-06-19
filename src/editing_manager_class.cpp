@@ -197,23 +197,22 @@ void editing_manager::mouse_press_event
 		== the_sprite_16x32_selector_widget );
 	
 	
-	//adj_sprite_ipgws_ptr_group_for_selecting_sprite
-	//	the_sprite_selection_ptr_group( *the_core_widget->the_sublevel,
-	//	block_grid_coords_of_mouse_pos.x, 
-	//	block_grid_coords_of_mouse_pos.y );
 	
-	
-	
-	
-	the_sprite_selection_ptr_group 
-		= adj_sprite_ipgws_ptr_group_for_selecting_sprite
-		( *the_core_widget->the_sublevel, 
-		block_grid_coords_of_mouse_pos.x, 
-		block_grid_coords_of_mouse_pos.y );
-	
-	if ( ( event->buttons() & Qt::LeftButton ) && !left_mouse_button_down )
+	if ( ( event->buttons() & Qt::LeftButton ) 
+		&& !left_mouse_button_down )
 	{
 		left_mouse_button_down = true;
+		
+		//adj_sprite_ipgws_ptr_group_for_selecting_sprite
+		//	the_sprite_selection_ptr_group( *the_core_widget->the_sublevel,
+		//	block_grid_coords_of_mouse_pos.x, 
+		//	block_grid_coords_of_mouse_pos.y );
+		
+		the_sprite_selection_ptr_group 
+			= adj_sprite_ipgws_ptr_group_for_selecting_sprite
+			( *the_core_widget->the_sublevel, 
+			block_grid_coords_of_mouse_pos.x, 
+			block_grid_coords_of_mouse_pos.y );
 		
 		
 		if ( the_sprite_selection_ptr_group.origin_ptr != NULL )
@@ -292,7 +291,7 @@ void editing_manager::mouse_press_event
 			= block_grid_coords_of_mouse_pos;
 		
 	}
-	else if ( ( event->buttons() & Qt::RightButton )
+	if ( ( event->buttons() & Qt::RightButton ) 
 		&& !right_mouse_button_down )
 	{
 		right_mouse_button_down = true;
@@ -548,6 +547,7 @@ void editing_manager::finalize_movement_of_rs_contents
 	
 	if ( single_sprite_selected )
 	{
+		the_core_widget->do_emit_sprite_no_longer_selected();
 		return;
 	}
 	
@@ -585,27 +585,41 @@ void editing_manager::finalize_movement_of_rs_contents
 		}
 	};
 	
-	auto show_replaced_sprite_ipgws_uset_2d = [&]() -> void
+	
+	
+	auto show_not_yet_moved_sprite_ipgws_uset = [&]() -> void
 	{
-		for ( const sprite_ipgws& rsius_iter 
-			: ur_action_to_push.replaced_sprite_ipgws_uset_2d )
+		for ( const sprite_ipgws& the_sprite_ipgws
+			: ur_action_to_push.not_yet_moved_sprite_ipgws_uset )
 		{
-			cout << rsius_iter.initial_block_grid_x_coord << ", "
-				<< rsius_iter.initial_block_grid_y_coord << ";  "
-				<< sprite_type_helper::get_st_name_debug(rsius_iter.type)
-				<< endl;
+			cout << the_sprite_ipgws.initial_block_grid_x_coord << ", "
+				<< the_sprite_ipgws.initial_block_grid_y_coord << ";  "
+				<< sprite_type_helper
+				::get_st_name_debug(the_sprite_ipgws.type) << endl;
 		}
 	};
 	
-	auto show_new_sprite_ipgws_uset_2d = [&]() -> void
+	auto show_replaced_sprite_ipgws_uset = [&]() -> void
 	{
-		for ( const sprite_ipgws& nsius_iter 
-			: ur_action_to_push.new_sprite_ipgws_uset_2d )
+		for ( const sprite_ipgws& the_sprite_ipgws 
+			: ur_action_to_push.replaced_sprite_ipgws_uset )
 		{
-			cout << nsius_iter.initial_block_grid_x_coord << ", "
-				<< nsius_iter.initial_block_grid_y_coord << ";  "
-				<< sprite_type_helper::get_st_name_debug(nsius_iter.type)
-				<< endl;
+			cout << the_sprite_ipgws.initial_block_grid_x_coord << ", "
+				<< the_sprite_ipgws.initial_block_grid_y_coord << ";  "
+				<< sprite_type_helper
+				::get_st_name_debug(the_sprite_ipgws.type) << endl;
+		}
+	};
+	
+	auto show_new_sprite_ipgws_uset = [&]() -> void
+	{
+		for ( const sprite_ipgws& the_sprite_ipgws 
+			: ur_action_to_push.new_sprite_ipgws_uset )
+		{
+			cout << the_sprite_ipgws.initial_block_grid_x_coord << ", "
+				<< the_sprite_ipgws.initial_block_grid_y_coord << ";  "
+				<< sprite_type_helper
+				::get_st_name_debug(the_sprite_ipgws.type) << endl;
 		}
 	};
 	
@@ -618,15 +632,15 @@ void editing_manager::finalize_movement_of_rs_contents
 			selection_rect_before_moving, false );
 		
 		
-		//cout << "Blocks that were replaced by a moved but not pasted "
-		//	<< "rect selection:  \n";
-		//show_replaced_block_umap();
-		//
-		//cout << "\nBlocks in a rect selection that were moved but not "
-		//	<< "pasted:  \n";
-		//show_new_block_umap();
-		//
-		//cout << endl;
+		cout << "Blocks that were replaced by a moved but not pasted "
+			<< "rect selection:  \n";
+		show_replaced_block_umap();
+		
+		cout << "\nBlocks in a rect selection that were moved but not "
+			<< "pasted:  \n";
+		show_new_block_umap();
+		
+		cout << endl;
 	}
 	// Blocks were pasted
 	else if ( original_layer_of_pasted_selection == rsl_blocks 
@@ -637,14 +651,14 @@ void editing_manager::finalize_movement_of_rs_contents
 			selection_rect_before_moving, true );
 		
 		
-		//cout << "Blocks that were replaced by a pasted rect selection:  "
-		//	<< endl;
-		//show_replaced_block_umap();
-		//
-		//cout << "\nBlocks in a rect selection that were pasted:  \n";
-		//show_new_block_umap();
-		//
-		//cout << endl;
+		cout << "Blocks that were replaced by a pasted rect selection:  "
+			<< endl;
+		show_replaced_block_umap();
+		
+		cout << "\nBlocks in a rect selection that were pasted:  \n";
+		show_new_block_umap();
+		
+		cout << endl;
 	}
 	// Sprites were moved, but not pasted
 	else if ( selection_layer == rsl_sprites && !selection_was_pasted )
@@ -654,15 +668,19 @@ void editing_manager::finalize_movement_of_rs_contents
 			selection_rect_before_moving, false );
 		
 		
-		//cout << "Sprites that were replaced by a moved but not pasted "
-		//	<< "rect selection:  \n";
-		//show_replaced_sprite_ipgws_uset_2d();
-		//
-		//cout << "\nSprites in a rect selection that were moved but not "
-		//	<< "pasted:  \n";
-		//show_new_sprite_ipgws_uset_2d();
-		//
-		//cout << endl;
+		cout << "Sprites in a not-pasted rect selection before moving:  "
+			<< "\n";
+		show_not_yet_moved_sprite_ipgws_uset();
+		
+		cout << "Sprites that were replaced by a moved but not pasted "
+			<< "rect selection:  \n";
+		show_replaced_sprite_ipgws_uset();
+		
+		cout << "\nSprites in a rect selection that were moved but not "
+			<< "pasted:  \n";
+		show_new_sprite_ipgws_uset();
+		
+		cout << endl;
 	}
 	// Sprites were pasted
 	else if ( original_layer_of_pasted_selection == rsl_sprites 
@@ -673,14 +691,14 @@ void editing_manager::finalize_movement_of_rs_contents
 			selection_rect_before_moving, true );
 		
 		
-		//cout << "Sprites that were replaced by a pasted rect selection:  "
-		//	<< endl;
-		//show_replaced_sprite_ipgws_uset_2d();
-		//
-		//cout << "\nSprites in a rect selection that were pasted:  \n";
-		//show_new_sprite_ipgws_uset_2d();
-		//
-		//cout << endl;
+		cout << "Sprites that were replaced by a pasted rect selection:  "
+			<< endl;
+		show_replaced_sprite_ipgws_uset();
+		
+		cout << "\nSprites in a rect selection that were pasted:  \n";
+		show_new_sprite_ipgws_uset();
+		
+		cout << endl;
 	}
 	else
 	{
@@ -703,6 +721,51 @@ void editing_manager::finalize_movement_of_rs_contents
 	}
 	
 	the_rect_selection_stuff.finalize_rs_movement();
+}
+
+void editing_manager::finalize_sprite_properties_modification
+	( level_editor_core_widget* the_core_widget,
+	const sprite_pw_extras& the_sprite_pw_extras,
+	const sprite_ipgws& the_new_sprite_ipgws )
+{
+	if ( !the_sprite_pw_extras.enabled )
+	{
+		return;
+	}
+	
+	undo_and_redo_stuff& ur_stuff 
+		= get_or_create_ur_stuff(the_core_widget);
+	
+	undo_and_redo_action& ur_action_to_push = ur_stuff.ur_action_to_push;
+	
+	ur_action_to_push.the_action_type = at_modify_sprite;
+	ur_action_to_push.old_sprite_ipgws 
+		= the_sprite_pw_extras.backed_up_selected_sprite_ipgws;
+	ur_action_to_push.new_sprite_ipgws = the_new_sprite_ipgws;
+	
+	
+	auto show_sprite_stuff = [&]( const sprite_ipgws& the_sprite_ipgws )
+		-> void
+	{
+		cout << the_sprite_ipgws.facing_right << "; "
+			<< the_sprite_ipgws.extra_param_0 << ", "
+			<< the_sprite_ipgws.extra_param_1 << ", "
+			<< the_sprite_ipgws.extra_param_2 << ", "
+			<< the_sprite_ipgws.extra_param_3 << endl;
+	};
+	
+	cout << "ur_action_to_push.old_sprite_ipgws stuff:  \n";
+	show_sprite_stuff(ur_action_to_push.old_sprite_ipgws);
+	
+	cout << "ur_action_to_push.new_sprite_ipgws stuff:  \n";
+	show_sprite_stuff(ur_action_to_push.new_sprite_ipgws);
+	
+	cout << endl;
+	
+	
+	ur_stuff.ur_stack.add_action(ur_action_to_push);
+	
+	ur_action_to_push = undo_and_redo_action();
 }
 
 
@@ -879,6 +942,29 @@ void editing_manager::handle_rs_during_mouse_press
 		= the_rect_selection_stuff.get_selection_rect().contains
 		( block_grid_coords_of_mouse_pos.x, 
 		block_grid_coords_of_mouse_pos.y );
+	
+	
+	//adj_sprite_ipgws_ptr_group_for_selecting_sprite& 
+	//	the_sprite_selection_ptr_group 
+	//	= the_core_widget->the_sprite_selection_ptr_group; 
+	
+	//if ( the_sprite_selection_ptr_group.origin_ptr != NULL )
+	//{
+	//	if ( the_sprite_selection_ptr_group.origin_ptr->type 
+	//		== st_default )
+	//	{
+	//		if ( the_rect_selection_stuff.get_single_sprite_selected()
+	//			&& the_rect_selection_stuff.get_enabled()
+	//			&& the_rect_selection_stuff.get_mouse_released() )
+	//		{
+	//			finalize_movement_of_rs_contents
+	//				( the_core_widget, the_rect_selection_stuff );
+	//		}
+	//		
+	//		//cout << "st_default\n";
+	//		the_core_widget->do_emit_sprite_no_longer_selected();
+	//	}
+	//}
 	
 	
 	// If the rect selection is currently not enabled, or if the rect
@@ -1551,6 +1637,11 @@ void editing_manager::finalize_movement_of_rs_contents_block_ur_stuff
 	const sf::IntRect& selection_rect, 
 	const sf::IntRect& selection_rect_before_moving, bool rs_was_pasted )
 {
+	//if ( the_core_widget->the_mouse_mode == mm_select_single_sprite )
+	//{
+	//	return;
+	//}
+	
 	sublevel* the_sublevel = the_core_widget->the_sublevel;
 	
 	undo_and_redo_stuff& ur_stuff 
@@ -1615,6 +1706,11 @@ void editing_manager::finalize_movement_of_rs_contents_sprite_ur_stuff
 	const sf::IntRect& selection_rect, 
 	const sf::IntRect& selection_rect_before_moving, bool rs_was_pasted )
 {
+	//if ( the_core_widget->the_mouse_mode == mm_select_single_sprite )
+	//{
+	//	return;
+	//}
+	
 	sublevel* the_sublevel = the_core_widget->the_sublevel;
 	
 	undo_and_redo_stuff& ur_stuff 
@@ -1683,8 +1779,7 @@ void editing_manager::finalize_movement_of_rs_contents_sprite_ur_stuff
 		the_sprite_ipgws.initial_block_grid_x_coord = block_grid_pos.x;
 		the_sprite_ipgws.initial_block_grid_y_coord = block_grid_pos.y;
 		
-		ur_action_to_push.new_sprite_ipgws_uset_2d
-			.insert(the_sprite_ipgws);
+		ur_action_to_push.new_sprite_ipgws_uset.insert(the_sprite_ipgws);
 		
 		if ( the_sprite_ipgws.size_2d.x == 16 )
 		{
@@ -1697,7 +1792,7 @@ void editing_manager::finalize_movement_of_rs_contents_sprite_ur_stuff
 				#define save_replaced_sprites(rel_pos) \
 					if ( ptr_group.overlaps_##rel_pos() ) \
 					{ \
-						ur_action_to_push.replaced_sprite_ipgws_uset_2d \
+						ur_action_to_push.replaced_sprite_ipgws_uset \
 							.insert(*ptr_group.rel_pos##_ptr); \
 					}
 				
@@ -1715,7 +1810,7 @@ void editing_manager::finalize_movement_of_rs_contents_sprite_ur_stuff
 				#define save_replaced_sprites(rel_pos) \
 					if ( ptr_group.overlaps_##rel_pos() ) \
 					{ \
-						ur_action_to_push.replaced_sprite_ipgws_uset_2d \
+						ur_action_to_push.replaced_sprite_ipgws_uset \
 							.insert(*ptr_group.rel_pos##_ptr); \
 					}
 				
@@ -1747,7 +1842,7 @@ void editing_manager::finalize_movement_of_rs_contents_sprite_ur_stuff
 				#define save_replaced_sprites(rel_pos) \
 					if ( ptr_group.overlaps_##rel_pos() ) \
 					{ \
-						ur_action_to_push.replaced_sprite_ipgws_uset_2d \
+						ur_action_to_push.replaced_sprite_ipgws_uset \
 							.insert(*ptr_group.rel_pos##_ptr); \
 					}
 				
@@ -1778,7 +1873,7 @@ void editing_manager::finalize_movement_of_rs_contents_sprite_ur_stuff
 			
 			if ( !the_sublevel->contains_block_grid_pos(block_grid_pos) )
 			{
-				//ur_action_to_push.replaced_sprite_ipgws_uset_2d
+				//ur_action_to_push.replaced_sprite_ipgws_uset
 				//	.insert(sprite_ipgws());
 				continue;
 			}

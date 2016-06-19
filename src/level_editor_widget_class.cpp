@@ -94,7 +94,8 @@ level_editor_widget::level_editor_widget
 		core_widgets_tab_widget->addTab
 			( core_widget_scroll_area_vec.front().get(), "Sublevel 0" );
 		
-		sprite_properties_widget_enabled_vec.push_back(false);
+		//sprite_properties_widget_enabled_vec.push_back(false);
+		sprite_pw_extras_vec.push_back(sprite_pw_extras());
 	}
 	else //if ( argv_copy->size() == 3 )
 	{
@@ -214,8 +215,14 @@ void level_editor_widget::modify_sprite_properties_widget_at_tab_switch()
 		return;
 	}
 	
-	if ( sprite_properties_widget_enabled_vec.empty() )
+	//if ( sprite_properties_widget_enabled_vec.empty() )
+	//{
+	//	return;
+	//}
+	if ( sprite_pw_extras_vec.empty() )
 	{
+		cout << "switching sublevel tabs:  sprite_pw_extras_vec.empty() "
+			<< "== true\n";
 		return;
 	}
 	
@@ -230,8 +237,10 @@ void level_editor_widget::modify_sprite_properties_widget_at_tab_switch()
 	}
 	
 	
-	u32& sprite_properties_widget_enabled 
-		= sprite_properties_widget_enabled_vec.at(curr_tab_index);
+	//u32& sprite_properties_widget_enabled 
+	//	= sprite_properties_widget_enabled_vec.at(curr_tab_index);
+	bool& sprite_properties_widget_enabled
+		= sprite_pw_extras_vec.at(curr_tab_index).enabled;
 	
 	// If the_sprite_properties_widget was previously enabled for the tab
 	// to which we are switching, then re-generate it.
@@ -290,7 +299,8 @@ bool level_editor_widget::open_level_core_func
 	core_widgets_tab_widget->clear();
 	the_level.sublevel_vec.clear();
 	
-	sprite_properties_widget_enabled_vec.clear();
+	//sprite_properties_widget_enabled_vec.clear();
+	sprite_pw_extras_vec.clear();
 	
 	
 	
@@ -588,7 +598,8 @@ bool level_editor_widget::open_level_core_func
 	
 	for ( u32 i=0; i<real_num_sublevels; ++i )
 	{
-		sprite_properties_widget_enabled_vec.push_back(false);
+		//sprite_properties_widget_enabled_vec.push_back(false);
+		sprite_pw_extras_vec.push_back(sprite_pw_extras());
 	}
 	
 	
@@ -877,6 +888,12 @@ void level_editor_widget::switch_mouse_mode_to_rect_selection()
 	rect_selection_stuff& the_rect_selection_stuff
 		= the_sfml_canvas_widget->the_rect_selection_stuff;
 	
+	if ( the_rect_selection_stuff.get_enabled() )
+	{
+		the_editing_manager->finalize_movement_of_rs_contents
+			( the_core_widget, the_rect_selection_stuff );
+	}
+	
 	the_core_widget->the_mouse_mode = mm_rect_selection;
 	
 	cout << "Current mouse mode:  rect_selection\n";
@@ -890,8 +907,15 @@ void level_editor_widget::show_sprite_properties_widget()
 	
 	s32 curr_tab_index = get_curr_level_editor_core_widget_index();
 	
-	u32& sprite_properties_widget_enabled 
-		= sprite_properties_widget_enabled_vec.at(curr_tab_index);
+	//u32& sprite_properties_widget_enabled 
+	//	= sprite_properties_widget_enabled_vec.at(curr_tab_index);
+	
+	sprite_pw_extras& the_sprite_pw_extras
+		= sprite_pw_extras_vec.at(curr_tab_index);
+	bool& sprite_properties_widget_enabled
+		= the_sprite_pw_extras.enabled;
+	sprite_ipgws& backed_up_selected_sprite_ipgws 
+		= the_sprite_pw_extras.backed_up_selected_sprite_ipgws;
 	
 	sprite_properties_widget_enabled = true;
 	
@@ -899,8 +923,13 @@ void level_editor_widget::show_sprite_properties_widget()
 		.at(curr_tab_index)->the_sfml_canvas_widget
 		->the_rect_selection_stuff;
 	
+	sprite_ipgws* the_single_selected_sprite_ipgws
+		= the_rect_selection_stuff.get_single_selected_sprite_ipgws();
+	
+	backed_up_selected_sprite_ipgws = *the_single_selected_sprite_ipgws;
+	
 	the_sprite_properties_widget.reset(new sprite_properties_widget( this,
-		the_rect_selection_stuff.get_single_selected_sprite_ipgws() ));
+		the_single_selected_sprite_ipgws ));
 	
 	
 	vert_splitter->addWidget(the_sprite_properties_widget.get());
@@ -910,15 +939,29 @@ void level_editor_widget::hide_sprite_properties_widget()
 {
 	s32 curr_tab_index = get_curr_level_editor_core_widget_index();
 	
-	u32& sprite_properties_widget_enabled 
-		= sprite_properties_widget_enabled_vec.at(curr_tab_index);
+	//u32& sprite_properties_widget_enabled 
+	//	= sprite_properties_widget_enabled_vec.at(curr_tab_index);
+	//bool& sprite_properties_widget_enabled
+	//	= sprite_pw_extras_vec.at(curr_tab_index).enabled;
+	
+	sprite_pw_extras& the_sprite_pw_extras
+		= sprite_pw_extras_vec.at(curr_tab_index);
+	bool& sprite_properties_widget_enabled
+		= the_sprite_pw_extras.enabled;
+	//sprite_ipgws& backed_up_selected_sprite_ipgws
+	//	= the_sprite_pw_extras.backed_up_selected_sprite_ipgws;
 	
 	if (sprite_properties_widget_enabled)
 	{
-		sprite_properties_widget_enabled = false;
-		
 		if ( the_sprite_properties_widget.get() != NULL )
 		{
+			// finalize_sprite_properties_modification() comes before
+			// disabling the_sprite_properties_widget
+			the_editing_manager->finalize_sprite_properties_modification
+				( the_core_widget_vec.at(curr_tab_index).get(),
+				the_sprite_pw_extras, 
+				*(the_sprite_properties_widget->selected_sprite_ipgws) );
+			
 			//cout << "the_sprite_properties_widget.get() != NULL\n";
 			//vbox_layout->removeWidget(the_sprite_properties_widget.get());
 			
@@ -926,6 +969,13 @@ void level_editor_widget::hide_sprite_properties_widget()
 			
 			the_sprite_properties_widget.reset(NULL);
 		}
+		else
+		{
+			cout << "hide_sprite_properties_widget():  "
+				<< "the_sprite_properties_widget.get() == NULL\n";
+		}
+		
+		sprite_properties_widget_enabled = false;
 	}
 }
 
@@ -1179,7 +1229,7 @@ void level_editor_widget::export_source_as()
 
 void level_editor_widget::switch_mouse_mode( int button_id )
 {
-	cout << "Hey, connect() to switch_mouse_mode() worked!\n";
+	//cout << "Hey, connect() to switch_mouse_mode() worked!\n";
 	
 	switch (button_id)
 	{

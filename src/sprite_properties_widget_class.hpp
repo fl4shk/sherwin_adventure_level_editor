@@ -57,15 +57,13 @@ public:		// variables
 	
 	
 	
-	
 public:		// functions
-	sprite_properties_widget( QWidget* s_parent,
+	sprite_properties_widget( QWidget* s_parent, 
 		sprite_ipgws* s_selected_sprite_ipgws );
 	
 	
 protected:		// functions
 	
-	// A copy constructor... maybe.
 	void init();
 	
 	
@@ -116,6 +114,33 @@ protected slots:		// slots
 	// extra_param_2
 	void door_sprite_door_number_changed( int n_door_number );
 	
+	
+};
+
+// sprite_properties_widget extras used in the level_editor_widget and
+// editing_manager classes
+class sprite_pw_extras
+{
+public:		// variables
+	
+	// Whether a sprite_properties_widget is enabled
+	bool enabled;
+	
+	// The selected_sprite_ipgws before it was modified
+	sprite_ipgws backed_up_selected_sprite_ipgws;
+	
+public:		// functions
+	inline sprite_pw_extras() : enabled(false),
+		backed_up_selected_sprite_ipgws(sprite_ipgws())
+	{
+	}
+	
+	inline sprite_pw_extras( const sprite_pw_extras& to_copy )
+		: enabled(to_copy.enabled),
+		backed_up_selected_sprite_ipgws
+			(to_copy.backed_up_selected_sprite_ipgws)
+	{
+	}
 };
 
 

@@ -325,23 +325,23 @@ void rect_selection_stuff::finalize_rs_movement()
 	//disable_rect_selection();
 	//disable_selection();
 	
-	////if ( get_rect_selection_single_sprite_selected() )
-	//if ( get_single_sprite_selected() )
-	//{
-	//	return;
-	//}
-	//
-	////const sf::IntRect& selection_rect 
-	////	= selection_rect;
+	//if ( get_rect_selection_single_sprite_selected() )
+	if ( get_single_sprite_selected() )
+	{
+		return;
+	}
+	
+	//const sf::IntRect& selection_rect 
+	//	= selection_rect;
 	
 	sf::IntRect&& selection_rect_before_moving 
 		= get_selection_rect_before_moving();
 	
-	//if ( selection_rect == selection_rect_before_moving 
-	//	&& !get_selection_was_pasted() )
-	//{
-	//	return;
-	//}
+	if ( selection_rect == selection_rect_before_moving 
+		&& !get_selection_was_pasted() )
+	{
+		return;
+	}
 	
 	
 	// Blocks were moved, but not pasted
@@ -418,6 +418,7 @@ void rect_selection_stuff::finalize_rs_movement()
 		rs_movement_finalization_sprite_shared_code
 			(copied_sprite_ipgws_vec_2d);
 	}
+	
 	
 }
 

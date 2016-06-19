@@ -186,37 +186,23 @@ public:		// functions
 	{
 	}
 	
-	inline sprite_ipgws& operator = 
-		( const sprite_ipgws& to_copy )
-	{
-		sprite_init_param_group::operator = ( sprite_init_param_group
-			( to_copy.type, to_copy.initial_block_grid_x_coord, 
-			to_copy.initial_block_grid_y_coord, to_copy.facing_right,
-			to_copy.extra_param_0, to_copy.extra_param_1,
-			to_copy.extra_param_2, to_copy.extra_param_3,
-			to_copy.spawn_state ) );
-		
-		size_2d = to_copy.size_2d;
-		
-		return *this;
-	}
+	//inline sprite_ipgws& operator = 
+	//	( const sprite_ipgws& to_copy )
+	//{
+	//	sprite_init_param_group::operator = ( sprite_init_param_group
+	//		( to_copy.type, to_copy.initial_block_grid_x_coord, 
+	//		to_copy.initial_block_grid_y_coord, to_copy.facing_right,
+	//		to_copy.extra_param_0, to_copy.extra_param_1,
+	//		to_copy.extra_param_2, to_copy.extra_param_3,
+	//		to_copy.spawn_state ) );
+	//	
+	//	size_2d = to_copy.size_2d;
+	//	
+	//	return *this;
+	//}
 	
 	
-	inline bool operator == ( const sprite_ipgws& to_cmp ) const
-	{
-		return ( ( type == to_cmp.type ) 
-			&& ( initial_block_grid_x_coord 
-				== to_cmp.initial_block_grid_x_coord )
-			&& ( initial_block_grid_y_coord 
-				== to_cmp.initial_block_grid_y_coord )
-			&& ( facing_right == to_cmp.facing_right )
-			&& ( extra_param_0 == to_cmp.extra_param_0 )
-			&& ( extra_param_1 == to_cmp.extra_param_1 )
-			&& ( extra_param_2 == to_cmp.extra_param_2 )
-			&& ( extra_param_3 == to_cmp.extra_param_3 )
-			&& ( spawn_state == to_cmp.spawn_state )
-			&& ( size_2d == to_cmp.size_2d ) );
-	}
+	bool operator == ( const sprite_ipgws& to_cmp ) const;
 	
 } __attribute__((aligned(4)));
 
