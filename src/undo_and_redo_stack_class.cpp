@@ -34,8 +34,7 @@ undo_and_redo_action::undo_and_redo_action
 	old_sprite_ipgws(to_copy.old_sprite_ipgws),
 	new_sprite_ipgws(to_copy.new_sprite_ipgws),
 	selection_rect_before_moving(to_copy.selection_rect_before_moving),
-	not_yet_moved_sprite_ipgws_uset
-		(to_copy.not_yet_moved_sprite_ipgws_uset),
+	old_sprite_ipgws_uset(to_copy.old_sprite_ipgws_uset),
 	replaced_sprite_ipgws_uset(to_copy.replaced_sprite_ipgws_uset),
 	new_sprite_ipgws_uset(to_copy.new_sprite_ipgws_uset)
 {

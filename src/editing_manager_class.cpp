@@ -587,10 +587,10 @@ void editing_manager::finalize_movement_of_rs_contents
 	
 	
 	
-	auto show_not_yet_moved_sprite_ipgws_uset = [&]() -> void
+	auto show_old_sprite_ipgws_uset = [&]() -> void
 	{
 		for ( const sprite_ipgws& the_sprite_ipgws
-			: ur_action_to_push.not_yet_moved_sprite_ipgws_uset )
+			: ur_action_to_push.old_sprite_ipgws_uset )
 		{
 			cout << the_sprite_ipgws.initial_block_grid_x_coord << ", "
 				<< the_sprite_ipgws.initial_block_grid_y_coord << ";  "
@@ -640,7 +640,7 @@ void editing_manager::finalize_movement_of_rs_contents
 			<< "pasted:  \n";
 		show_new_block_umap();
 		
-		cout << endl;
+		cout << "\n\n";
 	}
 	// Blocks were pasted
 	else if ( original_layer_of_pasted_selection == rsl_blocks 
@@ -658,7 +658,7 @@ void editing_manager::finalize_movement_of_rs_contents
 		cout << "\nBlocks in a rect selection that were pasted:  \n";
 		show_new_block_umap();
 		
-		cout << endl;
+		cout << "\n\n";
 	}
 	// Sprites were moved, but not pasted
 	else if ( selection_layer == rsl_sprites && !selection_was_pasted )
@@ -670,9 +670,9 @@ void editing_manager::finalize_movement_of_rs_contents
 		
 		cout << "Sprites in a not-pasted rect selection before moving:  "
 			<< "\n";
-		show_not_yet_moved_sprite_ipgws_uset();
+		show_old_sprite_ipgws_uset();
 		
-		cout << "Sprites that were replaced by a moved but not pasted "
+		cout << "\nSprites that were replaced by a moved but not pasted "
 			<< "rect selection:  \n";
 		show_replaced_sprite_ipgws_uset();
 		
@@ -680,7 +680,7 @@ void editing_manager::finalize_movement_of_rs_contents
 			<< "pasted:  \n";
 		show_new_sprite_ipgws_uset();
 		
-		cout << endl;
+		cout << "\n\n";
 	}
 	// Sprites were pasted
 	else if ( original_layer_of_pasted_selection == rsl_sprites 
@@ -698,7 +698,7 @@ void editing_manager::finalize_movement_of_rs_contents
 		cout << "\nSprites in a rect selection that were pasted:  \n";
 		show_new_sprite_ipgws_uset();
 		
-		cout << endl;
+		cout << "\n\n";
 	}
 	else
 	{
@@ -1776,6 +1776,20 @@ void editing_manager::finalize_movement_of_rs_contents_sprite_ur_stuff
 			return;
 		}
 		
+		
+		if ( !rs_was_pasted )
+		{
+			ur_action_to_push.old_sprite_ipgws_uset
+				.insert(the_sprite_ipgws);
+		}
+		
+		if ( !the_sublevel->contains_block_grid_pos(block_grid_pos) )
+		{
+			//ur_action_to_push.replaced_sprite_ipgws_uset
+			//	.insert(sprite_ipgws());
+			return;
+		}
+		
 		the_sprite_ipgws.initial_block_grid_x_coord = block_grid_pos.x;
 		the_sprite_ipgws.initial_block_grid_y_coord = block_grid_pos.y;
 		
@@ -1871,12 +1885,6 @@ void editing_manager::finalize_movement_of_rs_contents_sprite_ur_stuff
 			vec2_s32 block_grid_pos( selection_rect.left + i,
 				selection_rect.top +j );
 			
-			if ( !the_sublevel->contains_block_grid_pos(block_grid_pos) )
-			{
-				//ur_action_to_push.replaced_sprite_ipgws_uset
-				//	.insert(sprite_ipgws());
-				continue;
-			}
 			
 			single_sprite_handler( block_grid_pos, j, i );
 		}

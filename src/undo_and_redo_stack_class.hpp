@@ -66,7 +66,7 @@ public:		// variables
 	// initial_block_grid_x_coord and initial_block_grid_y_coord), the
 	// sprites that were replaced, and the sprites that were moved or
 	// pasted
-	unordered_set<sprite_ipgws> not_yet_moved_sprite_ipgws_uset, 
+	unordered_set<sprite_ipgws> old_sprite_ipgws_uset, 
 		replaced_sprite_ipgws_uset, new_sprite_ipgws_uset;
 	
 	//unordered_set<sprite_ipgws> test_sprite_ipgws_uset;
