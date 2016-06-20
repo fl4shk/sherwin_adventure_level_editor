@@ -1071,6 +1071,7 @@ void level_editor_widget::create_sublevel_properties_widget()
 	//sublevel& the_sublevel = the_level.sublevel_vec.at(curr_tab_index);
 	sublevel* the_sublevel = the_core_widget->the_sublevel;
 	
+	const sublevel the_sublevel_before_modification = *the_sublevel;
 	
 	vec2_u32 prev_real_size_2d = the_sublevel->real_size_2d;
 	
@@ -1125,6 +1126,9 @@ void level_editor_widget::create_sublevel_properties_widget()
 	// Restore the_rect_selection_stuff.
 	the_core_widget->the_sfml_canvas_widget->the_rect_selection_stuff
 		= the_rect_selection_stuff;
+	
+	the_editing_manager->record_sublevel_properties_modification_ur_stuff
+		( the_core_widget, the_sublevel_before_modification );
 	
 	
 	the_core_widget->init_tab_stuff

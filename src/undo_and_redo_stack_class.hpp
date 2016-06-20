@@ -50,6 +50,10 @@ public:		// variables
 	
 	// old_block_umap consists of blocks that were moved but not pasted,
 	// with their original locations
+	
+	// Also note that old_block_umap is used to keep track of removed
+	// blocks when a sublevel is resized and shrunk horizontally,
+	// vertically, or both
 	unordered_map< vec2_s32, block > old_block_umap, replaced_block_umap, 
 		new_block_umap;
 	
@@ -69,11 +73,20 @@ public:		// variables
 	// The sprites that were moved (with their original
 	// initial_block_grid_x_coord and initial_block_grid_y_coord), the
 	// sprites that were replaced, and the sprites that were moved or
-	// pasted
+	// pasted.  
+	// Also note that old_sprite_ipgws_uset is used to keep track of
+	// removed sprite_ipgws's when a sublevel is resized and shrunk
+	// horizontally, vertically, or both
 	unordered_set<sprite_ipgws> old_sprite_ipgws_uset, 
 		replaced_sprite_ipgws_uset, new_sprite_ipgws_uset;
 	
 	//unordered_set<sprite_ipgws> test_sprite_ipgws_uset;
+	
+	// The old size of a resized sublevel, and the new size of a resized
+	// sublevel
+	vec2_u32 old_real_size_2d, new_real_size_2d;
+	
+	
 	
 public:		// functions
 	undo_and_redo_action();

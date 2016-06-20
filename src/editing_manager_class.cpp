@@ -318,9 +318,9 @@ void editing_manager::mouse_move_event
 	block_selector_widget* the_block_selector_widget 
 		= the_core_widget->the_block_selector_widget; 
 	
-	adj_sprite_ipgws_ptr_group_for_selecting_sprite& 
-		the_sprite_selection_ptr_group 
-		= the_core_widget->the_sprite_selection_ptr_group; 
+	//adj_sprite_ipgws_ptr_group_for_selecting_sprite& 
+	//	the_sprite_selection_ptr_group 
+	//	= the_core_widget->the_sprite_selection_ptr_group; 
 	
 	mouse_mode& the_mouse_mode = the_core_widget->the_mouse_mode; 
 	vec2_s32& block_grid_coords_of_prev_mouse_pos = the_core_widget 
@@ -566,73 +566,73 @@ void editing_manager::finalize_movement_of_rs_contents
 	undo_and_redo_action& ur_action_to_push = ur_stuff.ur_action_to_push;
 	
 	
-	auto show_old_block_umap = [&]() -> void
-	{
-		for ( auto obum_iter : ur_action_to_push.old_block_umap )
-		{
-			cout << obum_iter.first.x << ", " << obum_iter.first.y 
-				<< ";  " << block_stuff::get_bt_name_debug
-				((block_type)obum_iter.second.type) << endl;
-		}
-	};
-	
-	auto show_replaced_block_umap = [&]() -> void
-	{
-		for ( auto rbum_iter : ur_action_to_push.replaced_block_umap )
-		{
-			cout << rbum_iter.first.x << ", " << rbum_iter.first.y 
-				<< ";  " << block_stuff::get_bt_name_debug
-				((block_type)rbum_iter.second.type) << endl;
-		}
-	};
-	
-	auto show_new_block_umap = [&]() -> void
-	{
-		for ( auto nbum_iter : ur_action_to_push.new_block_umap )
-		{
-			cout << nbum_iter.first.x << ", " << nbum_iter.first.y 
-				<< ";  " << block_stuff::get_bt_name_debug
-				((block_type)nbum_iter.second.type) << endl;
-		}
-	};
-	
-	
-	
-	auto show_old_sprite_ipgws_uset = [&]() -> void
-	{
-		for ( const sprite_ipgws& the_sprite_ipgws
-			: ur_action_to_push.old_sprite_ipgws_uset )
-		{
-			cout << the_sprite_ipgws.initial_block_grid_x_coord << ", "
-				<< the_sprite_ipgws.initial_block_grid_y_coord << ";  "
-				<< sprite_type_helper
-				::get_st_name_debug(the_sprite_ipgws.type) << endl;
-		}
-	};
-	
-	auto show_replaced_sprite_ipgws_uset = [&]() -> void
-	{
-		for ( const sprite_ipgws& the_sprite_ipgws 
-			: ur_action_to_push.replaced_sprite_ipgws_uset )
-		{
-			cout << the_sprite_ipgws.initial_block_grid_x_coord << ", "
-				<< the_sprite_ipgws.initial_block_grid_y_coord << ";  "
-				<< sprite_type_helper
-				::get_st_name_debug(the_sprite_ipgws.type) << endl;
-		}
-	};
-	
-	auto show_new_sprite_ipgws_uset = [&]() -> void
-	{
-		for ( const sprite_ipgws& the_sprite_ipgws 
-			: ur_action_to_push.new_sprite_ipgws_uset )
-		{
-			cout << the_sprite_ipgws.initial_block_grid_x_coord << ", "
-				<< the_sprite_ipgws.initial_block_grid_y_coord << ";  "
-				<< sprite_type_helper
-				::get_st_name_debug(the_sprite_ipgws.type) << endl;
-		}
-	};
+	//auto show_old_block_umap = [&]() -> void
+	//{
+	//	for ( auto obum_iter : ur_action_to_push.old_block_umap )
+	//	{
+	//		cout << obum_iter.first.x << ", " << obum_iter.first.y 
+	//			<< ";  " << block_stuff::get_bt_name_debug
+	//			((block_type)obum_iter.second.type) << endl;
+	//	}
+	//};
+	//
+	//auto show_replaced_block_umap = [&]() -> void
+	//{
+	//	for ( auto rbum_iter : ur_action_to_push.replaced_block_umap )
+	//	{
+	//		cout << rbum_iter.first.x << ", " << rbum_iter.first.y 
+	//			<< ";  " << block_stuff::get_bt_name_debug
+	//			((block_type)rbum_iter.second.type) << endl;
+	//	}
+	//};
+	//
+	//auto show_new_block_umap = [&]() -> void
+	//{
+	//	for ( auto nbum_iter : ur_action_to_push.new_block_umap )
+	//	{
+	//		cout << nbum_iter.first.x << ", " << nbum_iter.first.y 
+	//			<< ";  " << block_stuff::get_bt_name_debug
+	//			((block_type)nbum_iter.second.type) << endl;
+	//	}
+	//};
+	//
+	//
+	//
+	//auto show_old_sprite_ipgws_uset = [&]() -> void
+	//{
+	//	for ( const sprite_ipgws& the_sprite_ipgws
+	//		: ur_action_to_push.old_sprite_ipgws_uset )
+	//	{
+	//		cout << the_sprite_ipgws.initial_block_grid_x_coord << ", "
+	//			<< the_sprite_ipgws.initial_block_grid_y_coord << ";  "
+	//			<< sprite_type_helper
+	//			::get_st_name_debug(the_sprite_ipgws.type) << endl;
+	//	}
+	//};
+	//
+	//auto show_replaced_sprite_ipgws_uset = [&]() -> void
+	//{
+	//	for ( const sprite_ipgws& the_sprite_ipgws 
+	//		: ur_action_to_push.replaced_sprite_ipgws_uset )
+	//	{
+	//		cout << the_sprite_ipgws.initial_block_grid_x_coord << ", "
+	//			<< the_sprite_ipgws.initial_block_grid_y_coord << ";  "
+	//			<< sprite_type_helper
+	//			::get_st_name_debug(the_sprite_ipgws.type) << endl;
+	//	}
+	//};
+	//
+	//auto show_new_sprite_ipgws_uset = [&]() -> void
+	//{
+	//	for ( const sprite_ipgws& the_sprite_ipgws 
+	//		: ur_action_to_push.new_sprite_ipgws_uset )
+	//	{
+	//		cout << the_sprite_ipgws.initial_block_grid_x_coord << ", "
+	//			<< the_sprite_ipgws.initial_block_grid_y_coord << ";  "
+	//			<< sprite_type_helper
+	//			::get_st_name_debug(the_sprite_ipgws.type) << endl;
+	//	}
+	//};
 	
 	
 	// Blocks were moved, but not pasted
@@ -729,9 +729,9 @@ void editing_manager::finalize_movement_of_rs_contents
 	
 	if ( do_update_ur_stuff )
 	{
-		ur_stuff.ur_stack.add_action(ur_stuff.ur_action_to_push);
+		ur_stuff.ur_stack.add_action(ur_action_to_push);
 		
-		ur_stuff.ur_action_to_push = undo_and_redo_action();
+		ur_action_to_push = undo_and_redo_action();
 	}
 	
 	the_rect_selection_stuff.finalize_rs_movement();
@@ -758,29 +758,259 @@ void editing_manager::finalize_sprite_properties_modification
 	ur_action_to_push.new_sprite_ipgws = the_new_sprite_ipgws;
 	
 	
-	auto show_sprite_stuff = [&]( const sprite_ipgws& the_sprite_ipgws )
-		-> void
-	{
-		cout << the_sprite_ipgws.facing_right << "; "
-			<< the_sprite_ipgws.extra_param_0 << ", "
-			<< the_sprite_ipgws.extra_param_1 << ", "
-			<< the_sprite_ipgws.extra_param_2 << ", "
-			<< the_sprite_ipgws.extra_param_3 << endl;
-	};
-	
-	cout << "ur_action_to_push.old_sprite_ipgws stuff:  \n";
-	show_sprite_stuff(ur_action_to_push.old_sprite_ipgws);
-	
-	cout << "ur_action_to_push.new_sprite_ipgws stuff:  \n";
-	show_sprite_stuff(ur_action_to_push.new_sprite_ipgws);
-	
-	cout << endl;
+	//auto show_sprite_stuff = [&]( const sprite_ipgws& the_sprite_ipgws )
+	//	-> void
+	//{
+	//	cout << the_sprite_ipgws.facing_right << "; "
+	//		<< the_sprite_ipgws.extra_param_0 << ", "
+	//		<< the_sprite_ipgws.extra_param_1 << ", "
+	//		<< the_sprite_ipgws.extra_param_2 << ", "
+	//		<< the_sprite_ipgws.extra_param_3 << endl;
+	//};
+	//
+	//cout << "ur_action_to_push.old_sprite_ipgws stuff:  \n";
+	//show_sprite_stuff(ur_action_to_push.old_sprite_ipgws);
+	//
+	//cout << "ur_action_to_push.new_sprite_ipgws stuff:  \n";
+	//show_sprite_stuff(ur_action_to_push.new_sprite_ipgws);
+	//
+	//cout << "\n\n";
 	
 	
 	ur_stuff.ur_stack.add_action(ur_action_to_push);
 	
 	ur_action_to_push = undo_and_redo_action();
 }
+
+void editing_manager::record_sublevel_properties_modification_ur_stuff
+	( level_editor_core_widget* the_core_widget,
+	const sublevel& the_sublevel_before_modification )
+{
+	sublevel* the_sublevel = the_core_widget->the_sublevel;
+	
+	undo_and_redo_stuff& ur_stuff 
+		= get_or_create_ur_stuff(the_core_widget);
+	
+	undo_and_redo_action& ur_action_to_push = ur_stuff.ur_action_to_push;
+	
+	const vec2_u32& temp_old_real_size_2d 
+		= the_sublevel_before_modification.real_size_2d;
+	const vec2_u32& temp_new_real_size_2d = the_sublevel->real_size_2d;
+	
+	vec2_u32& old_real_size_2d = ur_action_to_push.old_real_size_2d;
+	vec2_u32& new_real_size_2d = ur_action_to_push.new_real_size_2d;
+	
+	
+	// Double protection against adding ur_stuff.undo_and_redo_action to
+	// ur_stuff.ur_stack
+	if ( temp_old_real_size_2d == temp_new_real_size_2d )
+	{
+		return;
+	}
+	
+	
+	ur_action_to_push.the_action_type = at_resize_sublevel;
+	
+	old_real_size_2d = temp_old_real_size_2d;
+	new_real_size_2d = temp_new_real_size_2d;
+	
+	auto show_width_stuff = [&]() -> void
+	{
+		cout << "old width == " << old_real_size_2d.x << ";  "
+			<< "new width == " << new_real_size_2d.x << ";  "
+			<< "old width - new width == " 
+			<< ( old_real_size_2d.x - new_real_size_2d.x )
+			<< "\n";
+	};
+	
+	auto show_height_stuff = [&]() -> void
+	{
+		cout << "old height == " << old_real_size_2d.y << ";  "
+			<< "new height == " << new_real_size_2d.y << ";  "
+			<< "old height - new height == " 
+			<< ( old_real_size_2d.y - new_real_size_2d.y )
+			<< "\n";
+	};
+	
+	
+	
+	// 
+	auto record_removed_les_shared_code = [&]( u32 i, u32 j ) -> void
+	{
+		//cout << "i, j == " << i << ", " << j << endl;
+		
+		vec2_s32 block_grid_pos( (s32)i, (s32)j );
+		
+		const block& the_old_block 
+			= the_sublevel_before_modification
+			.uncompressed_block_data_vec_2d.at(j).at(i);
+		const sprite_ipgws& the_old_sprite_ipgws
+			= the_sublevel_before_modification.sprite_ipgws_vec_2d
+			.at(j).at(i);
+		
+		size_t num_copies_of_the_old_block = ur_action_to_push
+			.old_block_umap.count(block_grid_pos);
+		size_t num_copies_of_the_old_sprite_ipgws = ur_action_to_push
+			.old_sprite_ipgws_uset.count(the_old_sprite_ipgws);
+		
+		//cout << "num_copies_of_the_old_block == "
+		//	<< num_copies_of_the_old_block << ";  "
+		//	<< "num_copies_of_the_old_sprite_ipgws == "
+		//	<< num_copies_of_the_old_sprite_ipgws << endl;
+		
+		// Block stuff
+		if ( num_copies_of_the_old_block == 0 )
+		{
+			ur_action_to_push.old_block_umap[block_grid_pos]
+				= the_old_block;
+		}
+		
+		if ( num_copies_of_the_old_sprite_ipgws == 0 
+			&& the_old_sprite_ipgws.type != st_default )
+		{
+			ur_action_to_push.old_sprite_ipgws_uset
+				.insert(the_old_sprite_ipgws);
+		}
+		
+		//cout << endl;
+	};
+	
+	auto record_removed_les_width_stuff = [&]() -> void
+	{
+		for ( u32 i=new_real_size_2d.x; i<old_real_size_2d.x; ++i )
+		{
+			//cout << "i==" << i << endl;
+			//cout << "j==";
+			for ( u32 j=0; j<old_real_size_2d.x; ++j )
+			{
+				//ur_action_to_push.old_block_umap
+				//cout << j << ", ";
+				
+				record_removed_les_shared_code( i, j );
+			}
+			//cout << endl;
+		}
+		//cout << "\n\n";
+	};
+	
+	auto record_removed_les_height_stuff = [&]() -> void
+	{
+		for ( u32 j=new_real_size_2d.y; j<old_real_size_2d.y; ++j )
+		{
+			//cout << "j==" << j << endl;
+			//cout << "i==";
+			for ( u32 i=0; i<old_real_size_2d.x; ++i )
+			{
+				//ur_action_to_push.old_block_umap
+				//cout << i << ", ";
+				
+				record_removed_les_shared_code( i, j );
+			}
+			//cout << endl;
+		}
+		//cout << "\n\n";
+	};
+	
+	// Larger width
+	if ( new_real_size_2d.x > old_real_size_2d.x )
+	{
+		// Larger height
+		if ( new_real_size_2d.y > old_real_size_2d.y )
+		{
+			cout << "new width > old width and new height > old height\n";
+		}
+		// Smaller height
+		else if ( new_real_size_2d.y < old_real_size_2d.y )
+		{
+			cout << "new width > old width and new height < old height\n";
+			
+			show_height_stuff();
+			cout << endl;
+			
+			
+			// Record the removed level elements
+			record_removed_les_height_stuff();
+		}
+		// Same height
+		else // if ( new_real_size_2d.y == old_real_size_2d.y )
+		{
+			cout << "new width > old width and new height == old height\n";
+		}
+	}
+	// Smaller width
+	else if ( new_real_size_2d.x < old_real_size_2d.x )
+	{
+		// Larger height
+		if ( new_real_size_2d.y > old_real_size_2d.y )
+		{
+			cout << "new width < old width and new height > old height\n";
+			
+			show_width_stuff();
+			cout << endl;
+			
+			
+			// Record the removed level elements
+			record_removed_les_width_stuff();
+		}
+		// Smaller height
+		else if ( new_real_size_2d.y < old_real_size_2d.y )
+		{
+			cout << "new width < old width and new height < old height\n";
+			
+			show_width_stuff();
+			show_height_stuff();
+			cout << endl;
+			
+			
+			// Record the removed level elements
+			record_removed_les_width_stuff();
+			record_removed_les_height_stuff();
+		}
+		// Same height
+		else // if ( new_real_size_2d.y == old_real_size_2d.y )
+		{
+			cout << "new width < old width and new height == old height\n";
+			
+			show_width_stuff();
+			cout << endl;
+			
+			
+			// Record the removed level elements
+			record_removed_les_width_stuff();
+		}
+	}
+	// Same width
+	else // if ( new_real_size_2d.x == old_real_size_2d.x )
+	{
+		// Larger height
+		if ( new_real_size_2d.y > old_real_size_2d.y )
+		{
+			cout << "new width == old width and new height > old height\n";
+		}
+		// Smaller height
+		else if ( new_real_size_2d.y < old_real_size_2d.y )
+		{
+			cout << "new width == old width and new height < old height\n";
+			
+			show_height_stuff();
+			cout << endl;
+			
+			
+			// Record the removed level elements
+			record_removed_les_height_stuff();
+		}
+		// Same height
+		else // if ( new_real_size_2d.y == old_real_size_2d.y )
+		{
+			cout << "Well, this shouldn't be happening.\n";
+		}
+	}
+	
+	
+	ur_stuff.ur_stack.add_action(ur_action_to_push);
+	ur_action_to_push = undo_and_redo_action();
+}
+
 
 
 undo_and_redo_stuff& editing_manager::get_or_create_ur_stuff
@@ -810,10 +1040,10 @@ void editing_manager::handle_placing_le_during_mouse_press
 		.at(block_grid_coords_of_mouse_pos.y)
 		.at(block_grid_coords_of_mouse_pos.x);
 	
-	sprite_ipgws& the_sprite_ipgws_at_mouse_pos
-		= the_sublevel->sprite_ipgws_vec_2d
-		.at(block_grid_coords_of_mouse_pos.y)
-		.at(block_grid_coords_of_mouse_pos.x);
+	//sprite_ipgws& the_sprite_ipgws_at_mouse_pos
+	//	= the_sublevel->sprite_ipgws_vec_2d
+	//	.at(block_grid_coords_of_mouse_pos.y)
+	//	.at(block_grid_coords_of_mouse_pos.x);
 	
 	if ( the_rect_selection_stuff.get_enabled() 
 		&& the_rect_selection_stuff.get_mouse_released() )
@@ -1135,7 +1365,7 @@ void editing_manager::handle_placing_le_during_mouse_release
 {
 	undo_and_redo_stuff& ur_stuff = get_or_create_ur_stuff
 		(the_core_widget);
-	undo_and_redo_stack& ur_stack = ur_stuff.ur_stack;
+	//undo_and_redo_stack& ur_stack = ur_stuff.ur_stack;
 	undo_and_redo_action& ur_action_to_push = ur_stuff.ur_action_to_push;
 	
 	
@@ -1160,7 +1390,7 @@ void editing_manager::handle_placing_le_during_mouse_release
 		//
 		//cout << endl;
 		
-		ur_stuff.ur_stack.add_action(ur_stuff.ur_action_to_push);
+		ur_stuff.ur_stack.add_action(ur_action_to_push);
 	};
 	
 	auto func_for_placing_sprite = [&]() -> void
@@ -1187,7 +1417,7 @@ void editing_manager::handle_placing_le_during_mouse_release
 		//	<< ", " << new_sprite_ipgws.extra_param_2
 		//	<< ", " << new_sprite_ipgws.extra_param_3 << endl;
 		
-		ur_stuff.ur_stack.add_action(ur_stuff.ur_action_to_push);
+		ur_stuff.ur_stack.add_action(ur_action_to_push);
 	};
 	
 	switch ( ur_action_to_push.the_action_type )

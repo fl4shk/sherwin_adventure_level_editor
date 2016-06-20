@@ -89,6 +89,10 @@ public:		// functions
 		const sprite_pw_extras& the_sprite_pw_extras,
 		const sprite_ipgws& the_new_sprite_ipgws );
 	
+	void record_sublevel_properties_modification_ur_stuff
+		( level_editor_core_widget* the_core_widget,
+		const sublevel& the_sublevel_before_modification );
+	
 	
 protected:		// functions
 	undo_and_redo_stuff& get_or_create_ur_stuff
