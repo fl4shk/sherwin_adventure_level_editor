@@ -29,6 +29,7 @@ undo_and_redo_action::undo_and_redo_action() : the_action_type(at_unknown),
 undo_and_redo_action::undo_and_redo_action
 	( const undo_and_redo_action& to_copy )
 	: the_action_type(to_copy.the_action_type),
+	old_block_umap(to_copy.old_block_umap),
 	replaced_block_umap(to_copy.replaced_block_umap),
 	new_block_umap(to_copy.new_block_umap),
 	old_sprite_ipgws(to_copy.old_sprite_ipgws),

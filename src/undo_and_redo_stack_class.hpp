@@ -47,7 +47,11 @@ public:		// variables
 	
 	// use std::unordered_map so that there are no duplicates (there really
 	// don't need to be any).
-	unordered_map< vec2_s32, block > replaced_block_umap, new_block_umap;
+	
+	// old_block_umap consists of blocks that were moved but not pasted,
+	// with their original locations
+	unordered_map< vec2_s32, block > old_block_umap, replaced_block_umap, 
+		new_block_umap;
 	
 	
 	// Stuff for drawing or modifying a single sprite.

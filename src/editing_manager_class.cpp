@@ -565,6 +565,17 @@ void editing_manager::finalize_movement_of_rs_contents
 		= get_or_create_ur_stuff(the_core_widget);
 	undo_and_redo_action& ur_action_to_push = ur_stuff.ur_action_to_push;
 	
+	
+	auto show_old_block_umap = [&]() -> void
+	{
+		for ( auto obum_iter : ur_action_to_push.old_block_umap )
+		{
+			cout << obum_iter.first.x << ", " << obum_iter.first.y 
+				<< ";  " << block_stuff::get_bt_name_debug
+				((block_type)obum_iter.second.type) << endl;
+		}
+	};
+	
 	auto show_replaced_block_umap = [&]() -> void
 	{
 		for ( auto rbum_iter : ur_action_to_push.replaced_block_umap )
@@ -631,16 +642,19 @@ void editing_manager::finalize_movement_of_rs_contents
 			( the_core_widget, the_rect_selection_stuff, selection_rect, 
 			selection_rect_before_moving, false );
 		
-		
-		cout << "Blocks that were replaced by a moved but not pasted "
-			<< "rect selection:  \n";
-		show_replaced_block_umap();
-		
-		cout << "\nBlocks in a rect selection that were moved but not "
-			<< "pasted:  \n";
-		show_new_block_umap();
-		
-		cout << "\n\n";
+		//cout << "Blocks in a not-pasted rect selection before moving:  "
+		//	<< "\n";
+		//show_old_block_umap();
+		//
+		//cout << "\nBlocks that were replaced by a moved but not pasted "
+		//	<< "rect selection:  \n";
+		//show_replaced_block_umap();
+		//
+		//cout << "\nBlocks in a rect selection that were moved but not "
+		//	<< "pasted:  \n";
+		//show_new_block_umap();
+		//
+		//cout << "\n\n";
 	}
 	// Blocks were pasted
 	else if ( original_layer_of_pasted_selection == rsl_blocks 
@@ -651,14 +665,14 @@ void editing_manager::finalize_movement_of_rs_contents
 			selection_rect_before_moving, true );
 		
 		
-		cout << "Blocks that were replaced by a pasted rect selection:  "
-			<< endl;
-		show_replaced_block_umap();
-		
-		cout << "\nBlocks in a rect selection that were pasted:  \n";
-		show_new_block_umap();
-		
-		cout << "\n\n";
+		//cout << "Blocks that were replaced by a pasted rect selection:  "
+		//	<< endl;
+		//show_replaced_block_umap();
+		//
+		//cout << "\nBlocks in a rect selection that were pasted:  \n";
+		//show_new_block_umap();
+		//
+		//cout << "\n\n";
 	}
 	// Sprites were moved, but not pasted
 	else if ( selection_layer == rsl_sprites && !selection_was_pasted )
@@ -668,19 +682,19 @@ void editing_manager::finalize_movement_of_rs_contents
 			selection_rect_before_moving, false );
 		
 		
-		cout << "Sprites in a not-pasted rect selection before moving:  "
-			<< "\n";
-		show_old_sprite_ipgws_uset();
-		
-		cout << "\nSprites that were replaced by a moved but not pasted "
-			<< "rect selection:  \n";
-		show_replaced_sprite_ipgws_uset();
-		
-		cout << "\nSprites in a rect selection that were moved but not "
-			<< "pasted:  \n";
-		show_new_sprite_ipgws_uset();
-		
-		cout << "\n\n";
+		//cout << "Sprites in a not-pasted rect selection before moving:  "
+		//	<< "\n";
+		//show_old_sprite_ipgws_uset();
+		//
+		//cout << "\nSprites that were replaced by a moved but not pasted "
+		//	<< "rect selection:  \n";
+		//show_replaced_sprite_ipgws_uset();
+		//
+		//cout << "\nSprites in a rect selection that were moved but not "
+		//	<< "pasted:  \n";
+		//show_new_sprite_ipgws_uset();
+		//
+		//cout << "\n\n";
 	}
 	// Sprites were pasted
 	else if ( original_layer_of_pasted_selection == rsl_sprites 
@@ -691,14 +705,14 @@ void editing_manager::finalize_movement_of_rs_contents
 			selection_rect_before_moving, true );
 		
 		
-		cout << "Sprites that were replaced by a pasted rect selection:  "
-			<< endl;
-		show_replaced_sprite_ipgws_uset();
-		
-		cout << "\nSprites in a rect selection that were pasted:  \n";
-		show_new_sprite_ipgws_uset();
-		
-		cout << "\n\n";
+		//cout << "Sprites that were replaced by a pasted rect selection:  "
+		//	<< endl;
+		//show_replaced_sprite_ipgws_uset();
+		//
+		//cout << "\nSprites in a rect selection that were pasted:  \n";
+		//show_new_sprite_ipgws_uset();
+		//
+		//cout << "\n\n";
 	}
 	else
 	{
@@ -1684,9 +1698,18 @@ void editing_manager::finalize_movement_of_rs_contents_block_ur_stuff
 			
 			if ( !rs_was_pasted )
 			{
+				vec2_s32 original_block_grid_pos
+					( selection_rect_before_moving.left + i,
+					selection_rect_before_moving.top + j );
+				
+				const block& the_block = the_rect_selection_stuff
+					.moving_block_vec_2d.at(j).at(i);
+				
+				ur_action_to_push.old_block_umap[original_block_grid_pos]
+					= the_block;
+				
 				ur_action_to_push.new_block_umap[block_grid_pos]
-					= the_rect_selection_stuff.moving_block_vec_2d
-					.at(j).at(i);
+					= the_block;
 			}
 			else //if ( rs_was_pasted )
 			{

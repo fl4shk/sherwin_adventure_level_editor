@@ -1031,7 +1031,7 @@ mouse_released	rect_selection_stuff_class.hpp	/^	bool enabled, mouse_released;$/
 moving	rect_selection_stuff_class.hpp	/^	bool moving;$/;"	kind:m	class:rect_selection_stuff	access:public
 moving_block_vec_2d	rect_selection_stuff_class.hpp	/^	vector< vector<block> > moving_block_vec_2d;$/;"	kind:m	class:rect_selection_stuff	access:public
 moving_sprite_ipgws_vec_2d	rect_selection_stuff_class.hpp	/^	vector< vector<sprite_ipgws> > moving_sprite_ipgws_vec_2d;$/;"	kind:m	class:rect_selection_stuff	access:public
-new_block_umap	undo_and_redo_stack_class.hpp	/^	unordered_map< vec2_s32, block > replaced_block_umap, new_block_umap;$/;"	kind:m	class:undo_and_redo_action	access:public
+new_block_umap	undo_and_redo_stack_class.hpp	/^		new_block_umap;$/;"	kind:m	class:undo_and_redo_action	access:public
 new_sprite_ipgws	undo_and_redo_stack_class.hpp	/^	sprite_ipgws old_sprite_ipgws, new_sprite_ipgws;$/;"	kind:m	class:undo_and_redo_action	access:public
 new_sprite_ipgws_uset	undo_and_redo_stack_class.hpp	/^		replaced_sprite_ipgws_uset, new_sprite_ipgws_uset;$/;"	kind:m	class:undo_and_redo_action	access:public
 next_action_index	undo_and_redo_stack_class.hpp	/^	u64 next_action_index;$/;"	kind:m	class:undo_and_redo_stack	access:protected
@@ -1041,6 +1041,7 @@ num_drawn_blocks	sfml_canvas_widget_classes.hpp	/^	u32 num_drawn_blocks, num_dra
 num_pixels_per_block_column	sfml_canvas_widget_classes.hpp	/^		num_pixels_per_block_column = 16;$/;"	kind:m	class:level_editor_sfml_canvas_widget	access:public
 num_pixels_per_block_row	sfml_canvas_widget_classes.hpp	/^	static constexpr u32 num_pixels_per_block_row = 16,$/;"	kind:m	class:level_editor_sfml_canvas_widget	access:public
 okay_button	sublevel_properties_widget_class.hpp	/^	unique_ptr<QPushButton> okay_button, cancel_button;$/;"	kind:m	class:sublevel_properties_widget	access:public
+old_block_umap	undo_and_redo_stack_class.hpp	/^	unordered_map< vec2_s32, block > old_block_umap, replaced_block_umap, $/;"	kind:m	class:undo_and_redo_action	access:public
 old_sprite_ipgws	undo_and_redo_stack_class.hpp	/^	sprite_ipgws old_sprite_ipgws, new_sprite_ipgws;$/;"	kind:m	class:undo_and_redo_action	access:public
 old_sprite_ipgws_uset	undo_and_redo_stack_class.hpp	/^	unordered_set<sprite_ipgws> old_sprite_ipgws_uset, $/;"	kind:m	class:undo_and_redo_action	access:public
 on_init	level_element_selector_core_widget_base_class.hpp	/^	inline virtual void on_init()$/;"	kind:f	class:level_element_selector_core_widget_base	access:protected	signature:()
@@ -1248,7 +1249,7 @@ rect_selection_stuff_class_hpp	rect_selection_stuff_class.hpp	21;"	kind:d
 redo	undo_and_redo_stack_class.hpp	/^	bool redo(  );$/;"	kind:p	class:undo_and_redo_stack	access:public	signature:( )
 reject	sublevel_properties_widget_class.cpp	/^void sublevel_properties_widget::reject()$/;"	kind:f	class:sublevel_properties_widget	signature:()
 reject	sublevel_properties_widget_class.hpp	/^	void reject();$/;"	kind:p	class:sublevel_properties_widget	access:protected	signature:()
-replaced_block_umap	undo_and_redo_stack_class.hpp	/^	unordered_map< vec2_s32, block > replaced_block_umap, new_block_umap;$/;"	kind:m	class:undo_and_redo_action	access:public
+replaced_block_umap	undo_and_redo_stack_class.hpp	/^	unordered_map< vec2_s32, block > old_block_umap, replaced_block_umap, $/;"	kind:m	class:undo_and_redo_action	access:public
 replaced_sprite_ipgws_uset	undo_and_redo_stack_class.hpp	/^		replaced_sprite_ipgws_uset, new_sprite_ipgws_uset;$/;"	kind:m	class:undo_and_redo_action	access:public
 resize	sublevel_class.hpp	/^	inline void resize( const vec2_u32& n_real_size_2d )$/;"	kind:f	class:sublevel	access:public	signature:( const vec2_u32& n_real_size_2d )
 right_current_level_element_index	level_element_selector_core_widget_base_class.hpp	/^	u32 left_current_level_element_index, right_current_level_element_index;$/;"	kind:m	class:level_element_selector_core_widget_base	access:protected
@@ -1274,12 +1275,12 @@ save_level_as	level_editor_widget_class.hpp	/^	void save_level_as();$/;"	kind:p	
 save_level_as_core_func	level_editor_widget_class.cpp	/^void level_editor_widget::save_level_as_core_func$/;"	kind:f	class:level_editor_widget	signature:( const string& output_file_name )
 save_level_as_core_func	level_editor_widget_class.hpp	/^	void save_level_as_core_func( const string& output_file_name );$/;"	kind:p	class:level_editor_widget	access:protected	signature:( const string& output_file_name )
 save_level_core_func	level_editor_widget_class.hpp	/^	inline void save_level_core_func()$/;"	kind:f	class:level_editor_widget	access:protected	signature:()
-save_replaced_sprites	editing_manager_class.cpp	1806;"	kind:d	file:
-save_replaced_sprites	editing_manager_class.cpp	1815;"	kind:d	file:
-save_replaced_sprites	editing_manager_class.cpp	1824;"	kind:d	file:
-save_replaced_sprites	editing_manager_class.cpp	1833;"	kind:d	file:
+save_replaced_sprites	editing_manager_class.cpp	1829;"	kind:d	file:
+save_replaced_sprites	editing_manager_class.cpp	1838;"	kind:d	file:
+save_replaced_sprites	editing_manager_class.cpp	1847;"	kind:d	file:
 save_replaced_sprites	editing_manager_class.cpp	1856;"	kind:d	file:
-save_replaced_sprites	editing_manager_class.cpp	1865;"	kind:d	file:
+save_replaced_sprites	editing_manager_class.cpp	1879;"	kind:d	file:
+save_replaced_sprites	editing_manager_class.cpp	1888;"	kind:d	file:
 scale_factor	sfml_canvas_widget_classes.hpp	/^	u32 scale_factor;$/;"	kind:m	class:level_editor_sfml_canvas_widget	access:public
 scroll_area	block_selector_widget_class.hpp	/^	QScrollArea* scroll_area;$/;"	kind:m	class:block_selector_widget	access:public
 scroll_area	sfml_canvas_widget_classes.hpp	/^	QScrollArea* scroll_area;$/;"	kind:m	class:level_editor_sfml_canvas_widget	access:protected
@@ -1702,12 +1703,13 @@ undo_and_redo_action	undo_and_redo_stack_class.hpp	/^	undo_and_redo_action();$/;
 undo_and_redo_action	undo_and_redo_stack_class.hpp	/^class undo_and_redo_action$/;"	kind:c
 undo_and_redo_action::debug_print	undo_and_redo_stack_class.cpp	/^void undo_and_redo_action::debug_print()$/;"	kind:f	class:undo_and_redo_action	signature:()
 undo_and_redo_action::debug_print	undo_and_redo_stack_class.hpp	/^	void debug_print();$/;"	kind:p	class:undo_and_redo_action	access:public	signature:()
-undo_and_redo_action::new_block_umap	undo_and_redo_stack_class.hpp	/^	unordered_map< vec2_s32, block > replaced_block_umap, new_block_umap;$/;"	kind:m	class:undo_and_redo_action	access:public
+undo_and_redo_action::new_block_umap	undo_and_redo_stack_class.hpp	/^		new_block_umap;$/;"	kind:m	class:undo_and_redo_action	access:public
 undo_and_redo_action::new_sprite_ipgws	undo_and_redo_stack_class.hpp	/^	sprite_ipgws old_sprite_ipgws, new_sprite_ipgws;$/;"	kind:m	class:undo_and_redo_action	access:public
 undo_and_redo_action::new_sprite_ipgws_uset	undo_and_redo_stack_class.hpp	/^		replaced_sprite_ipgws_uset, new_sprite_ipgws_uset;$/;"	kind:m	class:undo_and_redo_action	access:public
+undo_and_redo_action::old_block_umap	undo_and_redo_stack_class.hpp	/^	unordered_map< vec2_s32, block > old_block_umap, replaced_block_umap, $/;"	kind:m	class:undo_and_redo_action	access:public
 undo_and_redo_action::old_sprite_ipgws	undo_and_redo_stack_class.hpp	/^	sprite_ipgws old_sprite_ipgws, new_sprite_ipgws;$/;"	kind:m	class:undo_and_redo_action	access:public
 undo_and_redo_action::old_sprite_ipgws_uset	undo_and_redo_stack_class.hpp	/^	unordered_set<sprite_ipgws> old_sprite_ipgws_uset, $/;"	kind:m	class:undo_and_redo_action	access:public
-undo_and_redo_action::replaced_block_umap	undo_and_redo_stack_class.hpp	/^	unordered_map< vec2_s32, block > replaced_block_umap, new_block_umap;$/;"	kind:m	class:undo_and_redo_action	access:public
+undo_and_redo_action::replaced_block_umap	undo_and_redo_stack_class.hpp	/^	unordered_map< vec2_s32, block > old_block_umap, replaced_block_umap, $/;"	kind:m	class:undo_and_redo_action	access:public
 undo_and_redo_action::replaced_sprite_ipgws_uset	undo_and_redo_stack_class.hpp	/^		replaced_sprite_ipgws_uset, new_sprite_ipgws_uset;$/;"	kind:m	class:undo_and_redo_action	access:public
 undo_and_redo_action::selection_rect_before_moving	undo_and_redo_stack_class.hpp	/^	sf::IntRect selection_rect_before_moving;$/;"	kind:m	class:undo_and_redo_action	access:public
 undo_and_redo_action::the_action_type	undo_and_redo_stack_class.hpp	/^	action_type the_action_type;$/;"	kind:m	class:undo_and_redo_action	access:public
