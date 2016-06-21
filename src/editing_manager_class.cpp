@@ -567,6 +567,7 @@ void editing_manager::finalize_movement_of_rs_contents
 	if ( selection_rect == selection_rect_before_moving 
 		&& !selection_was_pasted )
 	{
+		cout << "returning when single_sprite_selected == false\n";
 		return;
 	}
 	
@@ -577,73 +578,67 @@ void editing_manager::finalize_movement_of_rs_contents
 	undo_and_redo_action& ur_action_to_push = ur_stuff.ur_action_to_push;
 	
 	
-	//auto show_old_block_umap = [&]() -> void
-	//{
-	//	for ( auto obum_iter : ur_action_to_push.old_block_umap )
-	//	{
-	//		cout << obum_iter.first.x << ", " << obum_iter.first.y 
-	//			<< ";  " << block_stuff::get_bt_name_debug
-	//			((block_type)obum_iter.second.type) << endl;
-	//	}
-	//};
-	//
-	//auto show_replaced_block_umap = [&]() -> void
-	//{
-	//	for ( auto rbum_iter : ur_action_to_push.replaced_block_umap )
-	//	{
-	//		cout << rbum_iter.first.x << ", " << rbum_iter.first.y 
-	//			<< ";  " << block_stuff::get_bt_name_debug
-	//			((block_type)rbum_iter.second.type) << endl;
-	//	}
-	//};
-	//
-	//auto show_new_block_umap = [&]() -> void
-	//{
-	//	for ( auto nbum_iter : ur_action_to_push.new_block_umap )
-	//	{
-	//		cout << nbum_iter.first.x << ", " << nbum_iter.first.y 
-	//			<< ";  " << block_stuff::get_bt_name_debug
-	//			((block_type)nbum_iter.second.type) << endl;
-	//	}
-	//};
-	//
-	//
-	//
-	//auto show_old_sprite_ipgws_uset = [&]() -> void
-	//{
-	//	for ( const sprite_ipgws& the_sprite_ipgws
-	//		: ur_action_to_push.old_sprite_ipgws_uset )
-	//	{
-	//		cout << the_sprite_ipgws.initial_block_grid_x_coord << ", "
-	//			<< the_sprite_ipgws.initial_block_grid_y_coord << ";  "
-	//			<< sprite_type_helper
-	//			::get_st_name_debug(the_sprite_ipgws.type) << endl;
-	//	}
-	//};
-	//
-	//auto show_replaced_sprite_ipgws_uset = [&]() -> void
-	//{
-	//	for ( const sprite_ipgws& the_sprite_ipgws 
-	//		: ur_action_to_push.replaced_sprite_ipgws_uset )
-	//	{
-	//		cout << the_sprite_ipgws.initial_block_grid_x_coord << ", "
-	//			<< the_sprite_ipgws.initial_block_grid_y_coord << ";  "
-	//			<< sprite_type_helper
-	//			::get_st_name_debug(the_sprite_ipgws.type) << endl;
-	//	}
-	//};
-	//
-	//auto show_new_sprite_ipgws_uset = [&]() -> void
-	//{
-	//	for ( const sprite_ipgws& the_sprite_ipgws 
-	//		: ur_action_to_push.new_sprite_ipgws_uset )
-	//	{
-	//		cout << the_sprite_ipgws.initial_block_grid_x_coord << ", "
-	//			<< the_sprite_ipgws.initial_block_grid_y_coord << ";  "
-	//			<< sprite_type_helper
-	//			::get_st_name_debug(the_sprite_ipgws.type) << endl;
-	//	}
-	//};
+	auto show_old_block_umap = [&]() -> void
+	{
+		for ( auto obum_iter : ur_action_to_push.old_block_umap )
+		{
+			cout << obum_iter.first.x << ", " << obum_iter.first.y 
+				<< ";  " << block_stuff::get_bt_name_debug
+				((block_type)obum_iter.second.type) << endl;
+		}
+	};
+	
+	auto show_replaced_block_umap = [&]() -> void
+	{
+		for ( auto rbum_iter : ur_action_to_push.replaced_block_umap )
+		{
+			cout << rbum_iter.first.x << ", " << rbum_iter.first.y 
+				<< ";  " << block_stuff::get_bt_name_debug
+				((block_type)rbum_iter.second.type) << endl;
+		}
+	};
+	
+	auto show_new_block_umap = [&]() -> void
+	{
+		for ( auto nbum_iter : ur_action_to_push.new_block_umap )
+		{
+			cout << nbum_iter.first.x << ", " << nbum_iter.first.y 
+				<< ";  " << block_stuff::get_bt_name_debug
+				((block_type)nbum_iter.second.type) << endl;
+		}
+	};
+	
+	
+	
+	auto show_old_sprite_ipgws_umap = [&]() -> void
+	{
+		for ( auto iter : ur_action_to_push.old_sprite_ipgws_umap )
+		{
+			cout << iter.first.x << ", " << iter.first.y << ";  " 
+				<< sprite_type_helper::get_st_name_debug
+				((sprite_type)iter.second.type) << endl;
+		}
+	};
+	
+	auto show_replaced_sprite_ipgws_umap = [&]() -> void
+	{
+		for ( auto iter : ur_action_to_push.replaced_sprite_ipgws_umap )
+		{
+			cout << iter.first.x << ", " << iter.first.y << ";  " 
+				<< sprite_type_helper::get_st_name_debug 
+				((sprite_type)iter.second.type) << endl;
+		}
+	};
+	
+	auto show_new_sprite_ipgws_umap = [&]() -> void
+	{
+		for ( auto iter : ur_action_to_push.new_sprite_ipgws_umap )
+		{
+			cout << iter.first.x << ", " << iter.first.y << ";  " 
+				<< sprite_type_helper::get_st_name_debug
+				((sprite_type)iter.second.type) << endl;
+		}
+	};
 	
 	
 	// Blocks were moved, but not pasted
@@ -695,15 +690,15 @@ void editing_manager::finalize_movement_of_rs_contents
 		
 		//cout << "Sprites in a not-pasted rect selection before moving:  "
 		//	<< "\n";
-		//show_old_sprite_ipgws_uset();
+		//show_old_sprite_ipgws_umap();
 		//
 		//cout << "\nSprites that were replaced by a moved but not pasted "
 		//	<< "rect selection:  \n";
-		//show_replaced_sprite_ipgws_uset();
+		//show_replaced_sprite_ipgws_umap();
 		//
 		//cout << "\nSprites in a rect selection that were moved but not "
 		//	<< "pasted:  \n";
-		//show_new_sprite_ipgws_uset();
+		//show_new_sprite_ipgws_umap();
 		//
 		//cout << "\n\n";
 	}
@@ -718,10 +713,10 @@ void editing_manager::finalize_movement_of_rs_contents
 		
 		//cout << "Sprites that were replaced by a pasted rect selection:  "
 		//	<< endl;
-		//show_replaced_sprite_ipgws_uset();
+		//show_replaced_sprite_ipgws_umap();
 		//
 		//cout << "\nSprites in a rect selection that were pasted:  \n";
-		//show_new_sprite_ipgws_uset();
+		//show_new_sprite_ipgws_umap();
 		//
 		//cout << "\n\n";
 	}
@@ -870,7 +865,7 @@ void editing_manager::record_sublevel_properties_modification_ur_stuff
 		size_t num_copies_of_the_old_block = ur_action_to_push
 			.old_block_umap.count(block_grid_pos);
 		size_t num_copies_of_the_old_sprite_ipgws = ur_action_to_push
-			.old_sprite_ipgws_uset.count(the_old_sprite_ipgws);
+			.old_sprite_ipgws_umap.count(block_grid_pos);
 		
 		//cout << "num_copies_of_the_old_block == "
 		//	<< num_copies_of_the_old_block << ";  "
@@ -887,8 +882,8 @@ void editing_manager::record_sublevel_properties_modification_ur_stuff
 		if ( num_copies_of_the_old_sprite_ipgws == 0 
 			&& the_old_sprite_ipgws.type != st_default )
 		{
-			ur_action_to_push.old_sprite_ipgws_uset
-				.insert(the_old_sprite_ipgws);
+			ur_action_to_push.old_sprite_ipgws_umap[block_grid_pos]
+				= the_old_sprite_ipgws;
 		}
 		
 		//cout << endl;
@@ -1912,19 +1907,13 @@ bool editing_manager::undo( level_editor_core_widget* the_core_widget )
 	rect_selection_stuff& the_rect_selection_stuff = the_core_widget
 		->the_sfml_canvas_widget->the_rect_selection_stuff;
 	
-	
-	the_rect_selection_stuff.disable_selection();
-	//if ( the_rect_selection_stuff.get_single_sprite_selected() )
-	//{
-	//	the_rect_selection_stuff.finalize_rs_movement();
-	//	
-	//	//the_core_widget->do_emit_sprite_no_longer_selected();
-	//}
-	//else
-	//{
-	//	the_rect_selection_stuff.disable_selection();
-	//}
-	
+	if ( the_rect_selection_stuff.get_enabled() 
+		&& !the_rect_selection_stuff.get_single_sprite_selected() )
+	{
+		finalize_movement_of_rs_contents( the_core_widget,
+			the_rect_selection_stuff );
+		return false;
+	}
 	
 	
 	cout << "Hey, don't forget about finalize_undo()!\n";
@@ -1978,19 +1967,68 @@ bool editing_manager::undo( level_editor_core_widget* the_core_widget )
 	}
 	else if ( the_action_type == at_finish_moving_non_pasted_blocks )
 	{
+		for ( auto rbum_iter : curr_ur_action.replaced_block_umap )
+		{
+			const vec2_s32& block_grid_pos = rbum_iter.first;
+			const block& the_block = rbum_iter.second;
+			
+			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
+				= the_block;
+		}
 		
+		for ( auto obum_iter : curr_ur_action.old_block_umap )
+		{
+			const vec2_s32& block_grid_pos = obum_iter.first;
+			const block& the_block = obum_iter.second;
+			
+			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
+				= the_block;
+		}
 	}
 	else if ( the_action_type == at_finish_moving_non_pasted_sprites )
 	{
+		for ( auto iter : curr_ur_action.replaced_sprite_ipgws_umap )
+		{
+			const vec2_s32& block_grid_pos = iter.first;
+			const sprite_ipgws& the_sprite_ipgws = iter.second;
+			
+			the_sublevel
+				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
+				= the_sprite_ipgws;
+		}
 		
+		for ( auto iter : curr_ur_action.old_sprite_ipgws_umap )
+		{
+			const vec2_s32& block_grid_pos = iter.first;
+			const sprite_ipgws& the_sprite_ipgws = iter.second;
+			
+			the_sublevel
+				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
+				= the_sprite_ipgws;
+		}
 	}
 	else if ( the_action_type == at_finish_moving_pasted_blocks )
 	{
-		
+		for ( auto rbum_iter : curr_ur_action.replaced_block_umap )
+		{
+			const vec2_s32& block_grid_pos = rbum_iter.first;
+			const block& the_block = rbum_iter.second;
+			
+			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
+				= the_block;
+		}
 	}
 	else if ( the_action_type == at_finish_moving_pasted_sprites )
 	{
-		
+		for ( auto iter : curr_ur_action.replaced_sprite_ipgws_umap )
+		{
+			const vec2_s32& block_grid_pos = iter.first;
+			const sprite_ipgws& the_sprite_ipgws = iter.second;
+			
+			the_sublevel
+				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
+				= the_sprite_ipgws;
+		}
 	}
 	else if ( the_action_type == at_resize_sublevel )
 	{
@@ -2208,18 +2246,25 @@ void editing_manager::finalize_movement_of_rs_contents_sprite_ur_stuff
 				.copied_sprite_ipgws_vec_2d.at(j).at(i);
 		}
 		
-		if ( the_sprite_ipgws.type == st_default )
-		{
-			//cout << "wow\n";
-			return;
-		}
-		
-		
 		if ( !rs_was_pasted )
 		{
-			ur_action_to_push.old_sprite_ipgws_uset
-				.insert(the_sprite_ipgws);
+			//vec2_s32 original_block_grid_pos
+			//	( the_sprite_ipgws.initial_block_grid_x_coord, 
+			//	the_sprite_ipgws.initial_block_grid_y_coord );
+			vec2_s32 original_block_grid_pos
+				( selection_rect_before_moving.left + i, 
+				selection_rect_before_moving.top + j );
+			
+			ur_action_to_push
+				.old_sprite_ipgws_umap[original_block_grid_pos] 
+				= the_sprite_ipgws;
 		}
+		
+		//if ( the_sprite_ipgws.type == st_default )
+		//{
+		//	//cout << "wow\n";
+		//	return;
+		//}
 		
 		if ( !the_sublevel->contains_block_grid_pos(block_grid_pos) )
 		{
@@ -2231,7 +2276,22 @@ void editing_manager::finalize_movement_of_rs_contents_sprite_ur_stuff
 		the_sprite_ipgws.initial_block_grid_x_coord = block_grid_pos.x;
 		the_sprite_ipgws.initial_block_grid_y_coord = block_grid_pos.y;
 		
-		ur_action_to_push.new_sprite_ipgws_uset.insert(the_sprite_ipgws);
+		//ur_action_to_push.new_sprite_ipgws_uset.insert(the_sprite_ipgws);
+		//ur_action_to_push.new_sprite_ipgws_uset.insert(the_sprite_ipgws);
+		
+		ur_action_to_push.new_sprite_ipgws_umap[block_grid_pos] 
+			= the_sprite_ipgws;
+		
+		const sprite_ipgws& the_replaced_sprite_ipgws = the_sublevel
+			->get_sprite_ipgws_at_block_grid_pos(block_grid_pos);
+		
+		if ( the_replaced_sprite_ipgws.type == st_default )
+		{
+			ur_action_to_push.replaced_sprite_ipgws_umap[block_grid_pos]
+				= the_replaced_sprite_ipgws;
+			
+			return;
+		}
 		
 		if ( the_sprite_ipgws.size_2d.x == 16 )
 		{
@@ -2244,8 +2304,9 @@ void editing_manager::finalize_movement_of_rs_contents_sprite_ur_stuff
 				#define save_replaced_sprites(rel_pos) \
 					if ( ptr_group.overlaps_##rel_pos() ) \
 					{ \
-						ur_action_to_push.replaced_sprite_ipgws_uset \
-							.insert(*ptr_group.rel_pos##_ptr); \
+						ur_action_to_push \
+							.replaced_sprite_ipgws_umap[block_grid_pos] \
+							= *ptr_group.rel_pos##_ptr; \
 					}
 				
 				list_of_16x16_sprite_pg_stuff(save_replaced_sprites);
@@ -2262,8 +2323,9 @@ void editing_manager::finalize_movement_of_rs_contents_sprite_ur_stuff
 				#define save_replaced_sprites(rel_pos) \
 					if ( ptr_group.overlaps_##rel_pos() ) \
 					{ \
-						ur_action_to_push.replaced_sprite_ipgws_uset \
-							.insert(*ptr_group.rel_pos##_ptr); \
+						ur_action_to_push \
+							.replaced_sprite_ipgws_umap[block_grid_pos] \
+							= *ptr_group.rel_pos##_ptr; \
 					}
 				
 				list_of_16x32_sprite_pg_stuff(save_replaced_sprites);
@@ -2294,8 +2356,9 @@ void editing_manager::finalize_movement_of_rs_contents_sprite_ur_stuff
 				#define save_replaced_sprites(rel_pos) \
 					if ( ptr_group.overlaps_##rel_pos() ) \
 					{ \
-						ur_action_to_push.replaced_sprite_ipgws_uset \
-							.insert(*ptr_group.rel_pos##_ptr); \
+						ur_action_to_push \
+							.replaced_sprite_ipgws_umap[block_grid_pos] \
+							= *ptr_group.rel_pos##_ptr; \
 					}
 				
 				list_of_32x32_sprite_pg_stuff(save_replaced_sprites);

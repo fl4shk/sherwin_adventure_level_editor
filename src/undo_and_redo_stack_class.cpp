@@ -35,9 +35,9 @@ undo_and_redo_action::undo_and_redo_action
 	old_sprite_ipgws(to_copy.old_sprite_ipgws),
 	new_sprite_ipgws(to_copy.new_sprite_ipgws),
 	selection_rect_before_moving(to_copy.selection_rect_before_moving),
-	old_sprite_ipgws_uset(to_copy.old_sprite_ipgws_uset),
-	replaced_sprite_ipgws_uset(to_copy.replaced_sprite_ipgws_uset),
-	new_sprite_ipgws_uset(to_copy.new_sprite_ipgws_uset)
+	old_sprite_ipgws_umap(to_copy.old_sprite_ipgws_umap),
+	replaced_sprite_ipgws_umap(to_copy.replaced_sprite_ipgws_umap),
+	new_sprite_ipgws_umap(to_copy.new_sprite_ipgws_umap)
 {
 	//cout << "in undo_and_redo_action( const undo_and_redo_action& "
 	//	<< "to_copy )\n";
