@@ -206,6 +206,10 @@ can_add_sprite	sprite_level_data_stuff.hpp	/^	virtual bool can_add_sprite() = 0;
 can_add_sprite	sprite_level_data_stuff.hpp	/^	virtual bool can_add_sprite();$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_16x16	access:public	signature:()
 can_add_sprite	sprite_level_data_stuff.hpp	/^	virtual bool can_add_sprite();$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_16x32	access:public	signature:()
 can_add_sprite	sprite_level_data_stuff.hpp	/^	virtual bool can_add_sprite();$/;"	kind:p	class:adj_sprite_ipgws_ptr_group_32x32	access:public	signature:()
+can_redo	undo_and_redo_stack_class.cpp	/^bool undo_and_redo_stack::can_redo() const$/;"	kind:f	class:undo_and_redo_stack	signature:() const
+can_redo	undo_and_redo_stack_class.hpp	/^	bool can_redo() const;$/;"	kind:p	class:undo_and_redo_stack	access:public	signature:() const
+can_undo	undo_and_redo_stack_class.cpp	/^bool undo_and_redo_stack::can_undo() const$/;"	kind:f	class:undo_and_redo_stack	signature:() const
+can_undo	undo_and_redo_stack_class.hpp	/^	bool can_undo() const;$/;"	kind:p	class:undo_and_redo_stack	access:public	signature:() const
 cancel_button	sublevel_properties_widget_class.hpp	/^	unique_ptr<QPushButton> okay_button, cancel_button;$/;"	kind:m	class:sublevel_properties_widget	access:public
 clicked_location_in_rect	rect_selection_stuff_class.hpp	/^	vec2_s32 clicked_location_in_rect;$/;"	kind:m	class:rect_selection_stuff	access:public
 closeEvent	primary_widget_class.hpp	/^	inline void closeEvent( QCloseEvent* event )$/;"	kind:f	class:primary_widget	access:protected	signature:( QCloseEvent* event )
@@ -227,7 +231,6 @@ core_widget_scroll_area_vec	level_editor_widget_class.hpp	/^	vector< unique_ptr<
 core_widgets_tab_widget	level_editor_widget_class.hpp	/^	unique_ptr<QTabWidget> core_widgets_tab_widget;$/;"	kind:m	class:level_editor_widget	access:public
 create_sublevel_properties_widget	level_editor_widget_class.cpp	/^void level_editor_widget::create_sublevel_properties_widget()$/;"	kind:f	class:level_editor_widget	signature:()
 create_sublevel_properties_widget	level_editor_widget_class.hpp	/^	void create_sublevel_properties_widget();$/;"	kind:p	class:level_editor_widget	access:public	signature:()
-curr_action_index	undo_and_redo_stack_class.hpp	/^	u64 curr_action_index;$/;"	kind:m	class:undo_and_redo_stack	access:protected
 current_position	level_editor_core_widget_class.hpp	/^	QPoint current_position;$/;"	kind:m	class:level_editor_core_widget	access:public
 current_size	level_editor_core_widget_class.hpp	/^	QSize current_size;$/;"	kind:m	class:level_editor_core_widget	access:public
 data	fixed24p8_class.hpp	/^	s32 data;$/;"	kind:m	class:fixed24p8	access:public
@@ -471,6 +474,7 @@ get_apparent_view	sfml_canvas_widget_classes.cpp	/^const sf::View& level_editor_
 get_apparent_view	sfml_canvas_widget_classes.hpp	/^	const sf::View& get_apparent_view();$/;"	kind:p	class:level_editor_sfml_canvas_widget	access:public	signature:()
 get_basic_visible_block_grid_size_2d	sfml_canvas_widget_classes.hpp	/^	inline vec2<double> get_basic_visible_block_grid_size_2d$/;"	kind:f	class:level_editor_sfml_canvas_widget	access:public	signature:( const sf::FloatRect& visible_rect ) const
 get_basic_visible_block_grid_start_pos	sfml_canvas_widget_classes.hpp	/^	inline vec2<double> get_basic_visible_block_grid_start_pos$/;"	kind:f	class:level_editor_sfml_canvas_widget	access:public	signature:( const sf::FloatRect& visible_rect ) const
+get_block_at_block_grid_pos	sublevel_class.hpp	/^	inline block& get_block_at_block_grid_pos$/;"	kind:f	class:sublevel	access:public	signature:( const vec2_s32& block_grid_pos )
 get_block_grid_enabled	sfml_canvas_widget_classes.hpp	/^	inline bool get_block_grid_enabled() const$/;"	kind:f	class:level_editor_sfml_canvas_widget	access:public	signature:() const
 get_block_type	block_stuff.hpp	/^	inline block_type get_block_type() const$/;"	kind:f	class:block	access:public	signature:() const
 get_bt_name	block_stuff.hpp	/^	inline const string& get_bt_name( block_type the_block_type )$/;"	kind:f	namespace:block_stuff	signature:( block_type the_block_type )
@@ -478,8 +482,8 @@ get_bt_name_debug	block_stuff.hpp	/^	inline const string& get_bt_name_debug( blo
 get_compressed_block_data_file_name	block_stuff.hpp	/^	inline const string get_compressed_block_data_file_name$/;"	kind:f	namespace:block_stuff	signature:( const string& output_dirname, const string& output_basename )
 get_curr_action	undo_and_redo_stack_class.cpp	/^undo_and_redo_action& undo_and_redo_stack::get_curr_action()$/;"	kind:f	class:undo_and_redo_stack	signature:()
 get_curr_action	undo_and_redo_stack_class.hpp	/^	undo_and_redo_action& get_curr_action();$/;"	kind:p	class:undo_and_redo_stack	access:public	signature:()
-get_curr_action_index	undo_and_redo_stack_class.cpp	/^u64 undo_and_redo_stack::get_curr_action_index() const$/;"	kind:f	class:undo_and_redo_stack	signature:() const
-get_curr_action_index	undo_and_redo_stack_class.hpp	/^	u64 get_curr_action_index() const;$/;"	kind:p	class:undo_and_redo_stack	access:protected	signature:() const
+get_curr_action_index	undo_and_redo_stack_class.cpp	/^s64 undo_and_redo_stack::get_curr_action_index() const$/;"	kind:f	class:undo_and_redo_stack	signature:() const
+get_curr_action_index	undo_and_redo_stack_class.hpp	/^	s64 get_curr_action_index() const;$/;"	kind:p	class:undo_and_redo_stack	access:protected	signature:() const
 get_curr_level_editor_core_widget	level_editor_widget_class.hpp	/^	inline level_editor_core_widget* get_curr_level_editor_core_widget()$/;"	kind:f	class:level_editor_widget	access:public	signature:()
 get_curr_level_editor_core_widget_index	level_editor_widget_class.hpp	/^	inline s32 get_curr_level_editor_core_widget_index()$/;"	kind:f	class:level_editor_widget	access:public	signature:()
 get_curr_sublevel	level_editor_widget_class.hpp	/^	inline sublevel& get_curr_sublevel()$/;"	kind:f	class:level_editor_widget	access:public	signature:()
@@ -504,8 +508,8 @@ get_mouse_released	rect_selection_stuff_class.hpp	/^	inline bool get_mouse_relea
 get_moving	rect_selection_stuff_class.hpp	/^	inline bool get_moving() const$/;"	kind:f	class:rect_selection_stuff	access:public	signature:() const
 get_next_action	undo_and_redo_stack_class.cpp	/^undo_and_redo_action& undo_and_redo_stack::get_next_action()$/;"	kind:f	class:undo_and_redo_stack	signature:()
 get_next_action	undo_and_redo_stack_class.hpp	/^	undo_and_redo_action& get_next_action();$/;"	kind:p	class:undo_and_redo_stack	access:public	signature:()
-get_next_action_index	undo_and_redo_stack_class.cpp	/^u64 undo_and_redo_stack::get_next_action_index() const$/;"	kind:f	class:undo_and_redo_stack	signature:() const
-get_next_action_index	undo_and_redo_stack_class.hpp	/^	u64 get_next_action_index() const;$/;"	kind:p	class:undo_and_redo_stack	access:protected	signature:() const
+get_next_action_index	undo_and_redo_stack_class.cpp	/^s64 undo_and_redo_stack::get_next_action_index() const$/;"	kind:f	class:undo_and_redo_stack	signature:() const
+get_next_action_index	undo_and_redo_stack_class.hpp	/^	s64 get_next_action_index() const;$/;"	kind:p	class:undo_and_redo_stack	access:protected	signature:() const
 get_num_level_elements_per_column	level_element_selector_core_widget_base_class.hpp	/^	inline u32 get_num_level_elements_per_column$/;"	kind:f	class:level_element_selector_core_widget_base	access:public	signature:( u32 other_slot_inner_height ) const
 get_num_level_elements_per_column	level_element_selector_core_widget_base_class.hpp	/^	inline u32 get_num_level_elements_per_column() const$/;"	kind:f	class:level_element_selector_core_widget_base	access:public	signature:() const
 get_num_level_elements_per_palette	level_element_selector_core_widget_base_class.hpp	/^	inline u32 get_num_level_elements_per_palette() const$/;"	kind:f	class:level_element_selector_core_widget_base	access:public	signature:() const
@@ -541,6 +545,7 @@ get_slot_outer_height	sprite_16x32_selector_core_widget_class.hpp	/^	virtual inl
 get_slot_outer_width	level_element_selector_core_widget_base_class.hpp	/^	virtual inline u32 get_slot_outer_width() const$/;"	kind:f	class:level_element_selector_core_widget_base	access:public	signature:() const
 get_slot_outer_width	sprite_16x16_selector_core_widget_class.hpp	/^	virtual inline u32 get_slot_outer_width() const$/;"	kind:f	class:sprite_16x16_selector_core_widget	access:public	signature:() const
 get_slot_outer_width	sprite_16x32_selector_core_widget_class.hpp	/^	virtual inline u32 get_slot_outer_width() const$/;"	kind:f	class:sprite_16x32_selector_core_widget	access:public	signature:() const
+get_sprite_ipgws_at_block_grid_pos	sublevel_class.hpp	/^	inline sprite_ipgws& get_sprite_ipgws_at_block_grid_pos$/;"	kind:f	class:sublevel	access:public	signature:( const vec2_s32& block_grid_pos )
 get_st_name	sprite_type_stuff.hpp	/^	static inline const string& get_st_name( sprite_type the_sprite_type )$/;"	kind:f	class:sprite_type_helper	access:public	signature:( sprite_type the_sprite_type )
 get_st_name_debug	sprite_type_stuff.hpp	/^	static inline const string& get_st_name_debug$/;"	kind:f	class:sprite_type_helper	access:public	signature:( sprite_type the_sprite_type )
 get_starting_block_grid_coords	rect_selection_stuff_class.hpp	/^	inline const vec2_s32& get_starting_block_grid_coords()$/;"	kind:f	class:rect_selection_stuff	access:public	signature:() const
@@ -1050,6 +1055,7 @@ new_block_umap	undo_and_redo_stack_class.hpp	/^		new_block_umap;$/;"	kind:m	clas
 new_real_size_2d	undo_and_redo_stack_class.hpp	/^	vec2_u32 old_real_size_2d, new_real_size_2d;$/;"	kind:m	class:undo_and_redo_action	access:public
 new_sprite_ipgws	undo_and_redo_stack_class.hpp	/^	sprite_ipgws old_sprite_ipgws, new_sprite_ipgws;$/;"	kind:m	class:undo_and_redo_action	access:public
 new_sprite_ipgws_uset	undo_and_redo_stack_class.hpp	/^		replaced_sprite_ipgws_uset, new_sprite_ipgws_uset;$/;"	kind:m	class:undo_and_redo_action	access:public
+next_action_index	undo_and_redo_stack_class.hpp	/^	s64 next_action_index;$/;"	kind:m	class:undo_and_redo_stack	access:protected
 num_drawn_16x16_sprites	sfml_canvas_widget_classes.hpp	/^	u32 num_drawn_blocks, num_drawn_16x32_sprites, num_drawn_16x16_sprites;$/;"	kind:m	class:level_editor_sfml_canvas_widget	access:protected
 num_drawn_16x32_sprites	sfml_canvas_widget_classes.hpp	/^	u32 num_drawn_blocks, num_drawn_16x32_sprites, num_drawn_16x16_sprites;$/;"	kind:m	class:level_editor_sfml_canvas_widget	access:protected
 num_drawn_blocks	sfml_canvas_widget_classes.hpp	/^	u32 num_drawn_blocks, num_drawn_16x32_sprites, num_drawn_16x16_sprites;$/;"	kind:m	class:level_editor_sfml_canvas_widget	access:protected
@@ -1294,12 +1300,12 @@ save_level_as	level_editor_widget_class.hpp	/^	void save_level_as();$/;"	kind:p	
 save_level_as_core_func	level_editor_widget_class.cpp	/^void level_editor_widget::save_level_as_core_func$/;"	kind:f	class:level_editor_widget	signature:( const string& output_file_name )
 save_level_as_core_func	level_editor_widget_class.hpp	/^	void save_level_as_core_func( const string& output_file_name );$/;"	kind:p	class:level_editor_widget	access:protected	signature:( const string& output_file_name )
 save_level_core_func	level_editor_widget_class.hpp	/^	inline void save_level_core_func()$/;"	kind:f	class:level_editor_widget	access:protected	signature:()
-save_replaced_sprites	editing_manager_class.cpp	2196;"	kind:d	file:
-save_replaced_sprites	editing_manager_class.cpp	2205;"	kind:d	file:
-save_replaced_sprites	editing_manager_class.cpp	2214;"	kind:d	file:
-save_replaced_sprites	editing_manager_class.cpp	2223;"	kind:d	file:
-save_replaced_sprites	editing_manager_class.cpp	2246;"	kind:d	file:
-save_replaced_sprites	editing_manager_class.cpp	2255;"	kind:d	file:
+save_replaced_sprites	editing_manager_class.cpp	2244;"	kind:d	file:
+save_replaced_sprites	editing_manager_class.cpp	2253;"	kind:d	file:
+save_replaced_sprites	editing_manager_class.cpp	2262;"	kind:d	file:
+save_replaced_sprites	editing_manager_class.cpp	2271;"	kind:d	file:
+save_replaced_sprites	editing_manager_class.cpp	2294;"	kind:d	file:
+save_replaced_sprites	editing_manager_class.cpp	2303;"	kind:d	file:
 scale_factor	sfml_canvas_widget_classes.hpp	/^	u32 scale_factor;$/;"	kind:m	class:level_editor_sfml_canvas_widget	access:public
 scroll_area	block_selector_widget_class.hpp	/^	QScrollArea* scroll_area;$/;"	kind:m	class:block_selector_widget	access:public
 scroll_area	sfml_canvas_widget_classes.hpp	/^	QScrollArea* scroll_area;$/;"	kind:m	class:level_editor_sfml_canvas_widget	access:protected
@@ -1315,12 +1321,12 @@ selection_sprite	rect_selection_stuff_class.hpp	/^	shared_ptr<sf::Sprite> select
 selection_still_being_created	rect_selection_stuff_class.hpp	/^	bool selection_still_being_created;$/;"	kind:m	class:rect_selection_stuff	access:public
 selection_texture	rect_selection_stuff_class.hpp	/^	shared_ptr<sf::Texture> selection_texture;$/;"	kind:m	class:rect_selection_stuff	access:public
 selection_was_pasted	rect_selection_stuff_class.hpp	/^	bool selection_was_pasted;$/;"	kind:m	class:rect_selection_stuff	access:public
-set_curr_action_index	undo_and_redo_stack_class.cpp	/^void undo_and_redo_stack::set_curr_action_index( u64 n_curr_action_index )$/;"	kind:f	class:undo_and_redo_stack	signature:( u64 n_curr_action_index )
-set_curr_action_index	undo_and_redo_stack_class.hpp	/^	void set_curr_action_index( u64 n_curr_action_index );$/;"	kind:p	class:undo_and_redo_stack	access:protected	signature:( u64 n_curr_action_index )
+set_curr_action_index	undo_and_redo_stack_class.cpp	/^void undo_and_redo_stack::set_curr_action_index( s64 n_curr_action_index )$/;"	kind:f	class:undo_and_redo_stack	signature:( s64 n_curr_action_index )
+set_curr_action_index	undo_and_redo_stack_class.hpp	/^	void set_curr_action_index( s64 n_curr_action_index );$/;"	kind:p	class:undo_and_redo_stack	access:protected	signature:( s64 n_curr_action_index )
 set_left_current_level_element_index	level_element_selector_core_widget_base_class.hpp	/^	inline void set_left_current_level_element_index$/;"	kind:f	class:level_element_selector_core_widget_base	access:public	signature:( u32 n_left_current_level_element_index )
 set_min_max_sizes	sfml_canvas_widget_classes.hpp	/^	inline void set_min_max_sizes( const QSize& n_size )$/;"	kind:f	class:sfml_canvas_widget_base	access:protected	signature:( const QSize& n_size )
-set_next_action_index	undo_and_redo_stack_class.cpp	/^void undo_and_redo_stack::set_next_action_index( u64 n_next_action_index )$/;"	kind:f	class:undo_and_redo_stack	signature:( u64 n_next_action_index )
-set_next_action_index	undo_and_redo_stack_class.hpp	/^	void set_next_action_index( u64 n_next_action_index );$/;"	kind:p	class:undo_and_redo_stack	access:protected	signature:( u64 n_next_action_index )
+set_next_action_index	undo_and_redo_stack_class.cpp	/^void undo_and_redo_stack::set_next_action_index( s64 n_next_action_index )$/;"	kind:f	class:undo_and_redo_stack	signature:( s64 n_next_action_index )
+set_next_action_index	undo_and_redo_stack_class.hpp	/^	void set_next_action_index( s64 n_next_action_index );$/;"	kind:p	class:undo_and_redo_stack	access:protected	signature:( s64 n_next_action_index )
 set_right_current_level_element_index	level_element_selector_core_widget_base_class.hpp	/^	inline void set_right_current_level_element_index$/;"	kind:f	class:level_element_selector_core_widget_base	access:public	signature:( u32 n_right_current_level_element_index )
 set_scroll_area	sfml_canvas_widget_classes.hpp	/^	inline void set_scroll_area( QScrollArea* n_scroll_area )$/;"	kind:f	class:level_editor_sfml_canvas_widget	access:public	signature:( QScrollArea* n_scroll_area )
 set_the_block_selector_core_widget	sfml_canvas_widget_classes.cpp	/^void level_editor_sfml_canvas_widget::set_the_block_selector_core_widget$/;"	kind:f	class:level_editor_sfml_canvas_widget	signature:( block_selector_core_widget* n_the_block_selector_core_widget )
@@ -1610,6 +1616,8 @@ sublevel::contains_block_grid_pos	sublevel_class.hpp	/^	inline bool contains_blo
 sublevel::contains_block_grid_pos	sublevel_class.hpp	/^	inline bool contains_block_grid_pos( const vec2_s32& block_grid_pos )$/;"	kind:f	class:sublevel	access:public	signature:( const vec2_s32& block_grid_pos ) const
 sublevel::generate_compressed_block_data_vec	sublevel_class.cpp	/^void sublevel::generate_compressed_block_data_vec$/;"	kind:f	class:sublevel	signature:( const string& output_dirname, const string& output_basename )
 sublevel::generate_compressed_block_data_vec	sublevel_class.hpp	/^	void generate_compressed_block_data_vec( const string& output_dirname,$/;"	kind:p	class:sublevel	access:public	signature:( const string& output_dirname, const string& output_basename )
+sublevel::get_block_at_block_grid_pos	sublevel_class.hpp	/^	inline block& get_block_at_block_grid_pos$/;"	kind:f	class:sublevel	access:public	signature:( const vec2_s32& block_grid_pos )
+sublevel::get_sprite_ipgws_at_block_grid_pos	sublevel_class.hpp	/^	inline sprite_ipgws& get_sprite_ipgws_at_block_grid_pos$/;"	kind:f	class:sublevel	access:public	signature:( const vec2_s32& block_grid_pos )
 sublevel::init	sublevel_class.cpp	/^void sublevel::init( const vec2_u32& s_real_size_2d )$/;"	kind:f	class:sublevel	signature:( const vec2_u32& s_real_size_2d )
 sublevel::init	sublevel_class.hpp	/^	void init( const vec2_u32& s_real_size_2d );$/;"	kind:p	class:sublevel	access:public	signature:( const vec2_u32& s_real_size_2d )
 sublevel::max_num_blocks	sublevel_class.cpp	/^const u32 sublevel::max_num_blocks = max_size_2d.x * max_size_2d.y;$/;"	kind:m	class:sublevel	file:
@@ -1751,7 +1759,10 @@ undo_and_redo_stack	undo_and_redo_stack_class.hpp	/^class undo_and_redo_stack$/;
 undo_and_redo_stack::action_vec	undo_and_redo_stack_class.hpp	/^	vector<undo_and_redo_action> action_vec;$/;"	kind:m	class:undo_and_redo_stack	access:protected
 undo_and_redo_stack::add_action	undo_and_redo_stack_class.cpp	/^void undo_and_redo_stack::add_action$/;"	kind:f	class:undo_and_redo_stack	signature:( const undo_and_redo_action& the_action )
 undo_and_redo_stack::add_action	undo_and_redo_stack_class.hpp	/^	void add_action( const undo_and_redo_action& the_action );$/;"	kind:p	class:undo_and_redo_stack	access:public	signature:( const undo_and_redo_action& the_action )
-undo_and_redo_stack::curr_action_index	undo_and_redo_stack_class.hpp	/^	u64 curr_action_index;$/;"	kind:m	class:undo_and_redo_stack	access:protected
+undo_and_redo_stack::can_redo	undo_and_redo_stack_class.cpp	/^bool undo_and_redo_stack::can_redo() const$/;"	kind:f	class:undo_and_redo_stack	signature:() const
+undo_and_redo_stack::can_redo	undo_and_redo_stack_class.hpp	/^	bool can_redo() const;$/;"	kind:p	class:undo_and_redo_stack	access:public	signature:() const
+undo_and_redo_stack::can_undo	undo_and_redo_stack_class.cpp	/^bool undo_and_redo_stack::can_undo() const$/;"	kind:f	class:undo_and_redo_stack	signature:() const
+undo_and_redo_stack::can_undo	undo_and_redo_stack_class.hpp	/^	bool can_undo() const;$/;"	kind:p	class:undo_and_redo_stack	access:public	signature:() const
 undo_and_redo_stack::debug_print	undo_and_redo_stack_class.hpp	/^	void debug_print();$/;"	kind:p	class:undo_and_redo_stack	access:public	signature:()
 undo_and_redo_stack::finalize_redo	undo_and_redo_stack_class.cpp	/^bool undo_and_redo_stack::finalize_redo()$/;"	kind:f	class:undo_and_redo_stack	signature:()
 undo_and_redo_stack::finalize_redo	undo_and_redo_stack_class.hpp	/^	bool finalize_redo();$/;"	kind:p	class:undo_and_redo_stack	access:public	signature:()
@@ -1759,16 +1770,17 @@ undo_and_redo_stack::finalize_undo	undo_and_redo_stack_class.cpp	/^bool undo_and
 undo_and_redo_stack::finalize_undo	undo_and_redo_stack_class.hpp	/^	bool finalize_undo();$/;"	kind:p	class:undo_and_redo_stack	access:public	signature:()
 undo_and_redo_stack::get_curr_action	undo_and_redo_stack_class.cpp	/^undo_and_redo_action& undo_and_redo_stack::get_curr_action()$/;"	kind:f	class:undo_and_redo_stack	signature:()
 undo_and_redo_stack::get_curr_action	undo_and_redo_stack_class.hpp	/^	undo_and_redo_action& get_curr_action();$/;"	kind:p	class:undo_and_redo_stack	access:public	signature:()
-undo_and_redo_stack::get_curr_action_index	undo_and_redo_stack_class.cpp	/^u64 undo_and_redo_stack::get_curr_action_index() const$/;"	kind:f	class:undo_and_redo_stack	signature:() const
-undo_and_redo_stack::get_curr_action_index	undo_and_redo_stack_class.hpp	/^	u64 get_curr_action_index() const;$/;"	kind:p	class:undo_and_redo_stack	access:protected	signature:() const
+undo_and_redo_stack::get_curr_action_index	undo_and_redo_stack_class.cpp	/^s64 undo_and_redo_stack::get_curr_action_index() const$/;"	kind:f	class:undo_and_redo_stack	signature:() const
+undo_and_redo_stack::get_curr_action_index	undo_and_redo_stack_class.hpp	/^	s64 get_curr_action_index() const;$/;"	kind:p	class:undo_and_redo_stack	access:protected	signature:() const
 undo_and_redo_stack::get_next_action	undo_and_redo_stack_class.cpp	/^undo_and_redo_action& undo_and_redo_stack::get_next_action()$/;"	kind:f	class:undo_and_redo_stack	signature:()
 undo_and_redo_stack::get_next_action	undo_and_redo_stack_class.hpp	/^	undo_and_redo_action& get_next_action();$/;"	kind:p	class:undo_and_redo_stack	access:public	signature:()
-undo_and_redo_stack::get_next_action_index	undo_and_redo_stack_class.cpp	/^u64 undo_and_redo_stack::get_next_action_index() const$/;"	kind:f	class:undo_and_redo_stack	signature:() const
-undo_and_redo_stack::get_next_action_index	undo_and_redo_stack_class.hpp	/^	u64 get_next_action_index() const;$/;"	kind:p	class:undo_and_redo_stack	access:protected	signature:() const
-undo_and_redo_stack::set_curr_action_index	undo_and_redo_stack_class.cpp	/^void undo_and_redo_stack::set_curr_action_index( u64 n_curr_action_index )$/;"	kind:f	class:undo_and_redo_stack	signature:( u64 n_curr_action_index )
-undo_and_redo_stack::set_curr_action_index	undo_and_redo_stack_class.hpp	/^	void set_curr_action_index( u64 n_curr_action_index );$/;"	kind:p	class:undo_and_redo_stack	access:protected	signature:( u64 n_curr_action_index )
-undo_and_redo_stack::set_next_action_index	undo_and_redo_stack_class.cpp	/^void undo_and_redo_stack::set_next_action_index( u64 n_next_action_index )$/;"	kind:f	class:undo_and_redo_stack	signature:( u64 n_next_action_index )
-undo_and_redo_stack::set_next_action_index	undo_and_redo_stack_class.hpp	/^	void set_next_action_index( u64 n_next_action_index );$/;"	kind:p	class:undo_and_redo_stack	access:protected	signature:( u64 n_next_action_index )
+undo_and_redo_stack::get_next_action_index	undo_and_redo_stack_class.cpp	/^s64 undo_and_redo_stack::get_next_action_index() const$/;"	kind:f	class:undo_and_redo_stack	signature:() const
+undo_and_redo_stack::get_next_action_index	undo_and_redo_stack_class.hpp	/^	s64 get_next_action_index() const;$/;"	kind:p	class:undo_and_redo_stack	access:protected	signature:() const
+undo_and_redo_stack::next_action_index	undo_and_redo_stack_class.hpp	/^	s64 next_action_index;$/;"	kind:m	class:undo_and_redo_stack	access:protected
+undo_and_redo_stack::set_curr_action_index	undo_and_redo_stack_class.cpp	/^void undo_and_redo_stack::set_curr_action_index( s64 n_curr_action_index )$/;"	kind:f	class:undo_and_redo_stack	signature:( s64 n_curr_action_index )
+undo_and_redo_stack::set_curr_action_index	undo_and_redo_stack_class.hpp	/^	void set_curr_action_index( s64 n_curr_action_index );$/;"	kind:p	class:undo_and_redo_stack	access:protected	signature:( s64 n_curr_action_index )
+undo_and_redo_stack::set_next_action_index	undo_and_redo_stack_class.cpp	/^void undo_and_redo_stack::set_next_action_index( s64 n_next_action_index )$/;"	kind:f	class:undo_and_redo_stack	signature:( s64 n_next_action_index )
+undo_and_redo_stack::set_next_action_index	undo_and_redo_stack_class.hpp	/^	void set_next_action_index( s64 n_next_action_index );$/;"	kind:p	class:undo_and_redo_stack	access:protected	signature:( s64 n_next_action_index )
 undo_and_redo_stack::undo_and_redo_stack	undo_and_redo_stack_class.cpp	/^undo_and_redo_stack::undo_and_redo_stack()$/;"	kind:f	class:undo_and_redo_stack	signature:()
 undo_and_redo_stack::undo_and_redo_stack	undo_and_redo_stack_class.hpp	/^	undo_and_redo_stack();$/;"	kind:p	class:undo_and_redo_stack	access:public	signature:()
 undo_and_redo_stack_class_hpp	undo_and_redo_stack_class.hpp	21;"	kind:d

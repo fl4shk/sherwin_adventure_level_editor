@@ -323,7 +323,7 @@ void rect_selection_stuff::finalize_rs_movement()
 	//cout << "finalize_rs_movement()\n";
 	
 	//disable_rect_selection();
-	//disable_selection();
+	disable_selection();
 	
 	//if ( get_rect_selection_single_sprite_selected() )
 	if ( get_single_sprite_selected() )
@@ -438,8 +438,10 @@ void rect_selection_stuff::rs_movement_finalization_block_shared_code
 				continue;
 			}
 			
-			the_sublevel->uncompressed_block_data_vec_2d
-				.at(block_grid_pos.y).at(block_grid_pos.x)
+			//the_sublevel->uncompressed_block_data_vec_2d
+			//	.at(block_grid_pos.y).at(block_grid_pos.x)
+			//	= the_block_vec_2d.at(j).at(i);
+			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
 				= the_block_vec_2d.at(j).at(i);
 		}
 	}
@@ -472,9 +474,11 @@ void rect_selection_stuff::rs_movement_finalization_sprite_shared_code
 	auto single_sprite_handler = [&]( const vec2_s32& block_grid_pos, 
 		const sprite_ipgws& the_old_sprite_ipgws ) -> void
 	{
-		sprite_ipgws& the_new_sprite_ipgws 
-			= the_sublevel->sprite_ipgws_vec_2d
-			.at(block_grid_pos.y).at(block_grid_pos.x);
+		//sprite_ipgws& the_new_sprite_ipgws 
+		//	= the_sublevel->sprite_ipgws_vec_2d
+		//	.at(block_grid_pos.y).at(block_grid_pos.x);
+		sprite_ipgws& the_new_sprite_ipgws = the_sublevel
+			->get_sprite_ipgws_at_block_grid_pos(block_grid_pos);
 		
 		if ( the_old_sprite_ipgws.type != st_default )
 		{

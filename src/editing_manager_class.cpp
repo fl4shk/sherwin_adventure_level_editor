@@ -119,11 +119,15 @@ void editing_manager::key_press_event( QKeyEvent* event )
 	}
 	else if ( event->key() == Qt::Key_Z )
 	{
-		undo(the_core_widget);
+		bool undo_result = undo(the_core_widget);
+		
+		cout << "undo_result:  " << undo_result << endl;
 	}
 	else if ( event->key() == Qt::Key_Y )
 	{
-		redo(the_core_widget);
+		bool redo_result = redo(the_core_widget);
+		
+		cout << "redo_result:  " << redo_result << endl;
 	}
 	
 	
@@ -185,15 +189,12 @@ void editing_manager::mouse_press_event
 	}
 	
 	
-	//block& the_block_at_mouse_pos 
-	//	= the_sublevel->uncompressed_block_data_vec_2d
-	//	.at(block_grid_coords_of_mouse_pos.y)
-	//	.at(block_grid_coords_of_mouse_pos.x);
-	//
-	//sprite_ipgws& the_sprite_ipgws_at_mouse_pos
-	//	= the_sublevel->sprite_ipgws_vec_2d
-	//	.at(block_grid_coords_of_mouse_pos.y)
-	//	.at(block_grid_coords_of_mouse_pos.x);
+	//block& the_block_at_mouse_pos = the_sublevel
+	//	->get_block_at_block_grid_pos(block_grid_coords_of_mouse_pos);
+	
+	//sprite_ipgws& the_sprite_ipgws_at_mouse_pos = the_sublevel
+	//	->get_sprite_ipgws_at_block_grid_pos
+	//	(block_grid_coords_of_mouse_pos);
 	
 	
 	bool current_tabbed_widget_is_for_blocks 
@@ -757,10 +758,18 @@ void editing_manager::finalize_sprite_properties_modification
 		return;
 	}
 	
+	if ( the_sprite_pw_extras.backed_up_selected_sprite_ipgws
+		== the_new_sprite_ipgws )
+	{
+		cout << "no change in the sprite_ipgws\n";
+		return;
+	}
+	
 	undo_and_redo_stuff& ur_stuff 
 		= get_or_create_ur_stuff(the_core_widget);
 	
 	undo_and_redo_action& ur_action_to_push = ur_stuff.ur_action_to_push;
+	
 	
 	ur_action_to_push.the_action_type = at_modify_sprite;
 	ur_action_to_push.old_sprite_ipgws 
@@ -1045,15 +1054,12 @@ void editing_manager::handle_placing_le_during_mouse_press
 	
 	sublevel* the_sublevel = the_sfml_canvas_widget->the_sublevel;
 	
-	block& the_block_at_mouse_pos 
-		= the_sublevel->uncompressed_block_data_vec_2d
-		.at(block_grid_coords_of_mouse_pos.y)
-		.at(block_grid_coords_of_mouse_pos.x);
+	block& the_block_at_mouse_pos = the_sublevel
+		->get_block_at_block_grid_pos(block_grid_coords_of_mouse_pos);
 	
-	//sprite_ipgws& the_sprite_ipgws_at_mouse_pos
-	//	= the_sublevel->sprite_ipgws_vec_2d
-	//	.at(block_grid_coords_of_mouse_pos.y)
-	//	.at(block_grid_coords_of_mouse_pos.x);
+	//sprite_ipgws& the_sprite_ipgws_at_mouse_pos = the_sublevel
+	//	->get_sprite_ipgws_at_block_grid_pos
+	//	(block_grid_coords_of_mouse_pos);
 	
 	if ( the_rect_selection_stuff.get_enabled() 
 		&& the_rect_selection_stuff.get_mouse_released() )
@@ -1130,6 +1136,8 @@ void editing_manager::handle_selecting_single_sprite_during_mouse_press
 		the_sprite_selection_ptr_group = the_core_widget
 		->the_sprite_selection_ptr_group;
 	
+	the_core_widget->do_emit_sprite_no_longer_selected();
+	
 	if ( the_sprite_selection_ptr_group.origin_ptr != NULL )
 	{
 		if ( the_sprite_selection_ptr_group.origin_ptr->type 
@@ -1147,9 +1155,9 @@ void editing_manager::handle_selecting_single_sprite_during_mouse_press
 			return;
 		}
 	}
-	// I am not sure this will ever be the case, mainly because the
-	// "outer" function only activates when the mouse is clicked inside
-	// of the level_editor_core_widget
+	// I am not sure this will ever be the case, mainly because the calling
+	// function only activates when the mouse is clicked inside of the
+	// level_editor_core_widget
 	else 
 	{
 		//the_sfml_canvas_widget->disable_rect_selection();
@@ -1165,7 +1173,7 @@ void editing_manager::handle_selecting_single_sprite_during_mouse_press
 		//cout << "else\n";
 		
 		//emit sprite_no_longer_selected();
-		the_core_widget->do_emit_sprite_no_longer_selected();
+		//the_core_widget->do_emit_sprite_no_longer_selected();
 		return;
 	}
 	
@@ -1691,9 +1699,8 @@ void editing_manager::place_single_16x16_sprite_and_record_ur_stuff
 		return;
 	}
 	
-	sprite_ipgws& the_sprite_ipgws_in_sublevel
-		= the_sublevel->sprite_ipgws_vec_2d
-		.at(block_grid_coord.y).at(block_grid_coord.x);
+	sprite_ipgws& the_sprite_ipgws_in_sublevel = the_sublevel
+		->get_sprite_ipgws_at_block_grid_pos(block_grid_coord);
 	
 	auto add_sprite_and_record_ur_stuff = [&]() -> void
 	{
@@ -1733,9 +1740,8 @@ void editing_manager::place_single_16x32_sprite_and_record_ur_stuff
 		return;
 	}
 	
-	sprite_ipgws& the_sprite_ipgws_in_sublevel
-		= the_sublevel->sprite_ipgws_vec_2d
-		.at(block_grid_coord.y).at(block_grid_coord.x);
+	sprite_ipgws& the_sprite_ipgws_in_sublevel = the_sublevel
+		->get_sprite_ipgws_at_block_grid_pos(block_grid_coord);
 	
 	auto add_sprite_and_record_ur_stuff = [&]() -> void
 	{
@@ -1889,14 +1895,36 @@ bool editing_manager::undo( level_editor_core_widget* the_core_widget )
 {
 	undo_and_redo_stuff& ur_stuff 
 		= get_or_create_ur_stuff(the_core_widget);
-	undo_and_redo_action& curr_ur_action
-		= ur_stuff.ur_stack.get_curr_action();
+	
+	undo_and_redo_stack& ur_stack = ur_stuff.ur_stack;
+	
+	if ( !ur_stack.can_undo() )
+	{
+		return false;
+	}
+	
+	undo_and_redo_action& curr_ur_action = ur_stack.get_curr_action();
 	
 	const action_type& the_action_type = curr_ur_action.the_action_type;
 	
 	sublevel* the_sublevel = the_core_widget->the_sublevel;
 	
-	the_core_widget->do_emit_sprite_no_longer_selected();
+	rect_selection_stuff& the_rect_selection_stuff = the_core_widget
+		->the_sfml_canvas_widget->the_rect_selection_stuff;
+	
+	
+	the_rect_selection_stuff.disable_selection();
+	//if ( the_rect_selection_stuff.get_single_sprite_selected() )
+	//{
+	//	the_rect_selection_stuff.finalize_rs_movement();
+	//	
+	//	//the_core_widget->do_emit_sprite_no_longer_selected();
+	//}
+	//else
+	//{
+	//	the_rect_selection_stuff.disable_selection();
+	//}
+	
 	
 	
 	cout << "Hey, don't forget about finalize_undo()!\n";
@@ -1912,8 +1940,8 @@ bool editing_manager::undo( level_editor_core_widget* the_core_widget )
 			const vec2_s32& block_grid_pos = iter.first;
 			const block& the_replaced_block = iter.second;
 			
-			the_sublevel->uncompressed_block_data_vec_2d
-				.at(block_grid_pos.y).at(block_grid_pos.x)
+			
+			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
 				= the_replaced_block;
 		}
 	}
@@ -1927,13 +1955,26 @@ bool editing_manager::undo( level_editor_core_widget* the_core_widget )
 			new_sprite_ipgws.initial_block_grid_y_coord );
 			
 		
-		the_sublevel->sprite_ipgws_vec_2d
-			.at(block_grid_pos.y).at(block_grid_pos.x)
-			= sprite_ipgws();
+		the_sublevel->get_sprite_ipgws_at_block_grid_pos
+			(block_grid_pos) = sprite_ipgws();
 	}
 	else if ( the_action_type == at_modify_sprite )
 	{
+		const sprite_ipgws& old_sprite_ipgws 
+			= curr_ur_action.old_sprite_ipgws;
+		const vec2_s32 block_grid_pos
+			( old_sprite_ipgws.initial_block_grid_x_coord, 
+			old_sprite_ipgws.initial_block_grid_y_coord );
 		
+		sprite_ipgws* the_sprite_ipgws = &(the_sublevel
+			->get_sprite_ipgws_at_block_grid_pos(block_grid_pos));
+		
+		*the_sprite_ipgws = old_sprite_ipgws;
+		
+		the_rect_selection_stuff.enable_single_sprite_selection
+			(the_sprite_ipgws);
+		
+		the_core_widget->do_emit_sprite_was_selected();
 	}
 	else if ( the_action_type == at_finish_moving_non_pasted_blocks )
 	{
@@ -1957,7 +1998,7 @@ bool editing_manager::undo( level_editor_core_widget* the_core_widget )
 	}
 	
 	
-	ur_stuff.ur_stack.finalize_undo();
+	ur_stack.finalize_undo();
 	
 	return true;
 }
@@ -1967,10 +2008,17 @@ bool editing_manager::redo( level_editor_core_widget* the_core_widget )
 	undo_and_redo_stuff& ur_stuff 
 		= get_or_create_ur_stuff(the_core_widget);
 	
-	undo_and_redo_action& curr_ur_action
-		= ur_stuff.ur_stack.get_curr_action();
+	undo_and_redo_stack& ur_stack = ur_stuff.ur_stack;
 	
-	const action_type& the_action_type = curr_ur_action.the_action_type;
+	if ( !ur_stack.can_redo() )
+	{
+		return false;
+	}
+	
+	
+	undo_and_redo_action& next_ur_action = ur_stack.get_next_action();
+	
+	const action_type& the_action_type = next_ur_action.the_action_type;
 	
 	cout << "Hey, don't forget about finalize_redo()!\n";
 	
@@ -2059,8 +2107,8 @@ void editing_manager::finalize_movement_of_rs_contents_block_ur_stuff
 			else
 			{
 				ur_action_to_push.replaced_block_umap[block_grid_pos]
-					= the_sublevel->uncompressed_block_data_vec_2d
-					.at(block_grid_pos.y).at(block_grid_pos.x);
+					= the_sublevel
+					->get_block_at_block_grid_pos(block_grid_pos);
 			}
 			
 			if ( !rs_was_pasted )

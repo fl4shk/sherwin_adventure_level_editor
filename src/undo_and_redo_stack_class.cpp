@@ -63,7 +63,17 @@ void undo_and_redo_action::debug_print()
 undo_and_redo_stack::undo_and_redo_stack()
 {
 	action_vec.clear();
-	curr_action_index = 0;
+	next_action_index = 0;
+}
+
+bool undo_and_redo_stack::can_undo() const
+{
+	return get_curr_action_index() >= 0;
+}
+
+bool undo_and_redo_stack::can_redo() const
+{
+	return get_curr_action_index() < action_vec.size();
 }
 
 
@@ -87,7 +97,8 @@ void undo_and_redo_stack::add_action
 	// the size of action_vec.
 	
 	// Check whether undo has been done recently.  
-	if ( get_next_action_index() == action_vec.size() )
+	//if ( get_next_action_index() == action_vec.size() )
+	if ( !can_redo() )
 	{
 		//cout << "if\n";
 		
@@ -95,7 +106,8 @@ void undo_and_redo_stack::add_action
 	}
 	
 	// If not, then replace all the stuff after
-	else //if ( get_next_action_index() < action_vec.size() )
+	//else //if ( get_next_action_index() < action_vec.size() )
+	else //if ( can_redo() )
 	{
 		//cout << "else\n";
 		
@@ -106,7 +118,7 @@ void undo_and_redo_stack::add_action
 		action_vec.push_back(the_action);
 	}
 	
-	++curr_action_index;
+	++next_action_index;
 }
 
 
@@ -121,33 +133,33 @@ bool undo_and_redo_stack::finalize_redo()
 
 
 
-u64 undo_and_redo_stack::get_curr_action_index() const
+s64 undo_and_redo_stack::get_curr_action_index() const
 {
-	return curr_action_index;
+	return next_action_index - 1;
 }
-void undo_and_redo_stack::set_curr_action_index( u64 n_curr_action_index )
+void undo_and_redo_stack::set_curr_action_index( s64 n_curr_action_index )
 {
-	if ( n_curr_action_index < 0 )
+	set_next_action_index( n_curr_action_index + 1 );
+}
+
+s64 undo_and_redo_stack::get_next_action_index() const
+{
+	return next_action_index;
+}
+void undo_and_redo_stack::set_next_action_index( s64 n_next_action_index )
+{
+	if ( n_next_action_index < 1 )
 	{
-		curr_action_index = 0;
+		next_action_index = 1;
 	}
-	else if ( n_curr_action_index >= action_vec.size() )
+	else if ( n_next_action_index > action_vec.size() )
 	{
-		curr_action_index = action_vec.size() - 1;
+		next_action_index = action_vec.size();
 	}
 	else
 	{
-		curr_action_index = n_curr_action_index;
+		next_action_index = n_next_action_index;
 	}
-}
-
-u64 undo_and_redo_stack::get_next_action_index() const
-{
-	return curr_action_index + 1;
-}
-void undo_and_redo_stack::set_next_action_index( u64 n_next_action_index )
-{
-	set_curr_action_index( n_next_action_index - 1 );
 }
 
 

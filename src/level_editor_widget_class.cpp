@@ -937,6 +937,8 @@ void level_editor_widget::show_sprite_properties_widget()
 
 void level_editor_widget::hide_sprite_properties_widget()
 {
+	//cout << "hide_sprite_properties_widget()\n";
+	
 	s32 curr_tab_index = get_curr_level_editor_core_widget_index();
 	
 	//u32& sprite_properties_widget_enabled 
@@ -951,8 +953,13 @@ void level_editor_widget::hide_sprite_properties_widget()
 	//sprite_ipgws& backed_up_selected_sprite_ipgws
 	//	= the_sprite_pw_extras.backed_up_selected_sprite_ipgws;
 	
+	
+	//cout << "sprite_properties_widget_enabled:  "
+	//	<< sprite_properties_widget_enabled << endl;
+	
 	if (sprite_properties_widget_enabled)
 	{
+		
 		if ( the_sprite_properties_widget.get() != NULL )
 		{
 			// finalize_sprite_properties_modification() comes before

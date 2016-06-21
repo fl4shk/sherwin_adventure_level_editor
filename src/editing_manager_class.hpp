@@ -205,9 +205,11 @@ protected:		// functions
 		const block_type& the_block_type,
 		undo_and_redo_action& ur_action_to_push )
 	{
+		//block& the_block_in_sublevel
+		//	= the_sublevel->uncompressed_block_data_vec_2d
+		//	.at((u32)block_grid_coord.y).at((u32)block_grid_coord.x);
 		block& the_block_in_sublevel
-			= the_sublevel->uncompressed_block_data_vec_2d
-			.at((u32)block_grid_coord.y).at((u32)block_grid_coord.x);
+			= the_sublevel->get_block_at_block_grid_pos(block_grid_coord);
 		
 		place_single_block_and_record_ur_stuff( the_block_in_sublevel,
 			block_grid_coord, the_block_type, ur_action_to_push );

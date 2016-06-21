@@ -130,10 +130,6 @@ public:		// functions
 		}
 	}
 	
-	void generate_compressed_block_data_vec( const string& output_dirname,
-		const string& output_basename );
-	
-	
 	inline bool contains_block_grid_pos
 		( const sf::Vector2i& block_grid_pos ) const
 	{
@@ -148,6 +144,25 @@ public:		// functions
 		return contains_block_grid_pos( sf::Vector2i( block_grid_pos.x,
 			block_grid_pos.y ) );
 	}
+	
+	inline block& get_block_at_block_grid_pos
+		( const vec2_s32& block_grid_pos )
+	{
+		return uncompressed_block_data_vec_2d
+			.at(block_grid_pos.y).at(block_grid_pos.x);
+	}
+	inline sprite_ipgws& get_sprite_ipgws_at_block_grid_pos
+		( const vec2_s32& block_grid_pos )
+	{
+		return sprite_ipgws_vec_2d
+			.at(block_grid_pos.y).at(block_grid_pos.x);
+	}
+	
+	void generate_compressed_block_data_vec( const string& output_dirname,
+		const string& output_basename );
+	
+	
+	
 	
 protected:		// functions
 	void write_uncompressed_block_data_to_file

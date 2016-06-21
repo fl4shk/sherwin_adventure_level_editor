@@ -701,9 +701,11 @@ void level_editor_sfml_canvas_widget::draw_visible_blocks_part_1
 				continue;
 			}
 			
+			//block* the_block = &( the_sublevel
+			//	->uncompressed_block_data_vec_2d.at((u32)block_grid_pos.y)
+			//	.at((u32)block_grid_pos.x) );
 			block* the_block = &( the_sublevel
-				->uncompressed_block_data_vec_2d.at((u32)block_grid_pos.y)
-				.at((u32)block_grid_pos.x) );
+				->get_block_at_block_grid_pos(block_grid_pos) );
 			
 			//if ( the_block->type != bt_air )
 			//{
@@ -892,9 +894,11 @@ void level_editor_sfml_canvas_widget::draw_visible_16x32_sprites_part_1
 				( block_grid_pos.x, block_grid_pos.y );
 			
 			
-			sprite_ipgws* the_sprite_ipgws
-				= &( the_sublevel->sprite_ipgws_vec_2d
-				.at((u32)block_grid_pos.y).at((u32)block_grid_pos.x) );
+			//sprite_ipgws* the_sprite_ipgws
+			//	= &( the_sublevel->sprite_ipgws_vec_2d
+			//	.at((u32)block_grid_pos.y).at((u32)block_grid_pos.x) );
+			sprite_ipgws* the_sprite_ipgws = &( the_sublevel
+				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos) );
 			
 			sprite_ipgws default_sprite_ipgws;
 			
@@ -1000,9 +1004,11 @@ void level_editor_sfml_canvas_widget::draw_visible_16x16_sprites_part_1
 				( block_grid_pos.x, block_grid_pos.y );
 			
 			
-			sprite_ipgws* the_sprite_ipgws
-				= &( the_sublevel->sprite_ipgws_vec_2d
-				.at((u32)block_grid_pos.y).at((u32)block_grid_pos.x) );
+			//sprite_ipgws* the_sprite_ipgws
+			//	= &( the_sublevel->sprite_ipgws_vec_2d
+			//	.at((u32)block_grid_pos.y).at((u32)block_grid_pos.x) );
+			sprite_ipgws* the_sprite_ipgws = &( the_sublevel
+				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos) );
 			
 			sprite_ipgws default_sprite_ipgws;
 			
@@ -1115,10 +1121,14 @@ void level_editor_sfml_canvas_widget::draw_visible_blocks_part_2
 						if ( the_sublevel->contains_block_grid_pos
 							(original_block_grid_pos) )
 						{
+							//draw_block( &(the_sublevel
+							//	->uncompressed_block_data_vec_2d
+							//	.at(original_block_grid_pos.y)
+							//	.at(original_block_grid_pos.x)), 
+							//	block_grid_pos );
 							draw_block( &(the_sublevel
-								->uncompressed_block_data_vec_2d
-								.at(original_block_grid_pos.y)
-								.at(original_block_grid_pos.x)), 
+								->get_block_at_block_grid_pos
+								(original_block_grid_pos)), 
 								block_grid_pos );
 						}
 					}
@@ -1227,10 +1237,14 @@ void level_editor_sfml_canvas_widget::draw_visible_16x32_sprites_part_2
 							if ( the_sublevel->contains_block_grid_pos
 								(original_block_grid_pos) )
 							{
-								draw_16x32_sprite
-									( &(the_sublevel->sprite_ipgws_vec_2d
-									.at(original_block_grid_pos.y)
-									.at(original_block_grid_pos.x)), 
+								//draw_16x32_sprite
+								//	( &(the_sublevel->sprite_ipgws_vec_2d
+								//	.at(original_block_grid_pos.y)
+								//	.at(original_block_grid_pos.x)), 
+								//	block_grid_pos );
+								draw_16x32_sprite( &(the_sublevel
+									->get_sprite_ipgws_at_block_grid_pos
+									(original_block_grid_pos)), 
 									block_grid_pos );
 							}
 						}
@@ -1344,10 +1358,14 @@ void level_editor_sfml_canvas_widget::draw_visible_16x16_sprites_part_2
 							if ( the_sublevel->contains_block_grid_pos
 								(original_block_grid_pos) )
 							{
-								draw_16x16_sprite
-									( &(the_sublevel->sprite_ipgws_vec_2d
-									.at(original_block_grid_pos.y)
-									.at(original_block_grid_pos.x)),
+								//draw_16x16_sprite
+								//	( &(the_sublevel->sprite_ipgws_vec_2d
+								//	.at(original_block_grid_pos.y)
+								//	.at(original_block_grid_pos.x)),
+								//	block_grid_pos );
+								draw_16x16_sprite( &(the_sublevel
+									->get_sprite_ipgws_at_block_grid_pos
+									(original_block_grid_pos)),
 									block_grid_pos );
 							}
 						}

@@ -110,12 +110,16 @@ class undo_and_redo_stack
 protected:		// variables
 	vector<undo_and_redo_action> action_vec;
 	
-	// A u64 can only represent so many different actions, so over time
+	// A s64 can only represent so many different actions, so over time
 	// perhaps this could be a source of an error :/
-	u64 curr_action_index;
+	s64 next_action_index;
 	
 public:		// functions
 	undo_and_redo_stack();
+	
+	
+	bool can_undo() const;
+	bool can_redo() const;
 	
 	
 	
@@ -144,12 +148,13 @@ public:		// functions
 	bool finalize_redo();
 	
 	
-protected:		// functions
-	u64 get_curr_action_index() const;
-	void set_curr_action_index( u64 n_curr_action_index );
 	
-	u64 get_next_action_index() const;
-	void set_next_action_index( u64 n_next_action_index );
+protected:		// functions
+	s64 get_curr_action_index() const;
+	void set_curr_action_index( s64 n_curr_action_index );
+	
+	s64 get_next_action_index() const;
+	void set_next_action_index( s64 n_next_action_index );
 	
 };
 
