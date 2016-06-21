@@ -63,61 +63,91 @@ void undo_and_redo_action::debug_print()
 undo_and_redo_stack::undo_and_redo_stack()
 {
 	action_vec.clear();
-	next_action_index = 0;
+	curr_action_index = 0;
 }
 
-
-u64 undo_and_redo_stack::get_next_action_index() const
-{
-	return next_action_index;
-}
 
 undo_and_redo_action& undo_and_redo_stack::get_curr_action()
 {
+	return action_vec.at(get_curr_action_index());
+}
+undo_and_redo_action& undo_and_redo_stack::get_next_action()
+{
 	return action_vec.at(get_next_action_index());
 }
-
 
 void undo_and_redo_stack::add_action
 	( const undo_and_redo_action& the_action )
 {
 	//cout << "add_action()\n";
-	//cout << "next_action_index:  " << next_action_index << endl;
+	//cout << "curr_action_index:  " << get_curr_action_index() << endl;
 	//cout << "action_vec.size():  " << action_vec.size() << endl;
 	
-	// Check whether undo has been done recently.
-	if ( next_action_index == action_vec.size() )
+	// Undo has NOT been done recently if the next_action_index is equal to
+	// the size of action_vec.
+	
+	// Check whether undo has been done recently.  
+	if ( get_next_action_index() == action_vec.size() )
 	{
 		//cout << "if\n";
+		
 		action_vec.push_back(the_action);
 	}
 	
 	// If not, then replace all the stuff after
-	else //if ( next_action_index < action_vec.size() - 1 )
+	else //if ( get_next_action_index() < action_vec.size() )
 	{
 		//cout << "else\n";
-		action_vec.resize( next_action_index + 1 );
+		
+		//action_vec.resize(get_next_action_index());
+		
+		// action_vec's size should be the same as the number of actions
+		action_vec.resize( get_curr_action_index() + 1 );
 		action_vec.push_back(the_action);
 	}
 	
-	++next_action_index;
+	++curr_action_index;
 }
 
 
-//bool undo_and_redo_stack::undo()
-//{
-//	if ( next_action_index > 0 )
-//	{
-//		--next_action_index;
-//	}
-//}
-//
-//bool undo_and_redo_stack::redo()
-//{
-//	if ( next_action_index < action_vec.size() - 1 )
-//	{
-//		++next_action_index;
-//	}
-//}
+bool undo_and_redo_stack::finalize_undo()
+{
+	set_curr_action_index( get_curr_action_index() - 1 );
+}
+bool undo_and_redo_stack::finalize_redo()
+{
+	set_curr_action_index( get_curr_action_index() + 1 );
+}
+
+
+
+u64 undo_and_redo_stack::get_curr_action_index() const
+{
+	return curr_action_index;
+}
+void undo_and_redo_stack::set_curr_action_index( u64 n_curr_action_index )
+{
+	if ( n_curr_action_index < 0 )
+	{
+		curr_action_index = 0;
+	}
+	else if ( n_curr_action_index >= action_vec.size() )
+	{
+		curr_action_index = action_vec.size() - 1;
+	}
+	else
+	{
+		curr_action_index = n_curr_action_index;
+	}
+}
+
+u64 undo_and_redo_stack::get_next_action_index() const
+{
+	return curr_action_index + 1;
+}
+void undo_and_redo_stack::set_next_action_index( u64 n_next_action_index )
+{
+	set_curr_action_index( n_next_action_index - 1 );
+}
 
 

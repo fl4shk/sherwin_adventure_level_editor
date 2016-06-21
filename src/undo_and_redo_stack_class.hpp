@@ -59,7 +59,7 @@ public:		// variables
 	
 	
 	// Stuff for drawing or modifying a single sprite.
-	// prev_sprite_ipgws is only used for when a single sprite is modified.
+	// old_sprite_ipgws is only used for when a single sprite is modified.
 	sprite_ipgws old_sprite_ipgws, new_sprite_ipgws;
 	
 	
@@ -112,16 +112,21 @@ protected:		// variables
 	
 	// A u64 can only represent so many different actions, so over time
 	// perhaps this could be a source of an error :/
-	u64 next_action_index;
+	u64 curr_action_index;
 	
 public:		// functions
 	undo_and_redo_stack();
 	
 	
-	// This is just for good measure.
-	u64 get_next_action_index() const;
 	
+	
+	// get_curr_action() is used by undo-related code (including code
+	// outside this class)
 	undo_and_redo_action& get_curr_action();
+	
+	// get_curr_action() is used by redo-related code (including code
+	// outside this class)
+	undo_and_redo_action& get_next_action();
 	
 	
 	// If not at the end of action_vec, this chops off everything after the
@@ -131,12 +136,20 @@ public:		// functions
 	
 	void debug_print();
 	
-	// Only one undo or redo at a time.  Returns whether the undo or redo
-	// was successful, which is probably only useful for debugging
-	// purposes.
-	bool undo(  );
-	bool redo(  );
+	//// Only one undo or redo at a time.  Returns whether the undo or redo
+	//// was successful, which is probably only useful for debugging
+	//// purposes.
 	
+	bool finalize_undo();
+	bool finalize_redo();
+	
+	
+protected:		// functions
+	u64 get_curr_action_index() const;
+	void set_curr_action_index( u64 n_curr_action_index );
+	
+	u64 get_next_action_index() const;
+	void set_next_action_index( u64 n_next_action_index );
 	
 };
 

@@ -258,6 +258,11 @@ protected:		// functions
 		( level_editor_core_widget* the_core_widget,
 		rect_selection_stuff& the_rect_selection_stuff );
 	
+	// Only one undo or redo at a time.  Returns whether the undo or redo
+	// was successful, which is probably only useful for debugging
+	bool undo( level_editor_core_widget* the_core_widget );
+	bool redo( level_editor_core_widget* the_core_widget );
+	
 	
 	// Editing actions that have been made into their own functions so
 	// that the_editing_manager can handle them.

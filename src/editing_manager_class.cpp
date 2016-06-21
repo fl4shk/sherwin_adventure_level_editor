@@ -55,7 +55,7 @@ void editing_manager::key_press_event( QKeyEvent* event )
 	{
 		the_core_widget->zoom_in();
 	}
-	else if ( event->key() == Qt::Key_Z )
+	else if ( event->key() == Qt::Key_S )
 	{
 		the_core_widget->zoom_out();
 	}
@@ -117,6 +117,16 @@ void editing_manager::key_press_event( QKeyEvent* event )
 		paste_copied_rs_contents( the_core_widget,
 			the_rect_selection_stuff );
 	}
+	else if ( event->key() == Qt::Key_Z )
+	{
+		undo(the_core_widget);
+	}
+	else if ( event->key() == Qt::Key_Y )
+	{
+		redo(the_core_widget);
+	}
+	
+	
 }
 
 
@@ -1872,6 +1882,133 @@ void editing_manager::paste_copied_rs_contents
 	//		( visible_block_grid_start_pos.x, 
 	//		visible_block_grid_start_pos.y ) );
 	//}
+}
+
+
+bool editing_manager::undo( level_editor_core_widget* the_core_widget )
+{
+	undo_and_redo_stuff& ur_stuff 
+		= get_or_create_ur_stuff(the_core_widget);
+	undo_and_redo_action& curr_ur_action
+		= ur_stuff.ur_stack.get_curr_action();
+	
+	const action_type& the_action_type = curr_ur_action.the_action_type;
+	
+	sublevel* the_sublevel = the_core_widget->the_sublevel;
+	
+	the_core_widget->do_emit_sprite_no_longer_selected();
+	
+	
+	cout << "Hey, don't forget about finalize_undo()!\n";
+	
+	if ( the_action_type == at_place_blocks )
+	{
+		// Since placing blocks only changes the same blocks that are
+		// replaced, it is only necessary to loop through the
+		// replaced_block_umap's contents
+		
+		for ( auto iter : curr_ur_action.replaced_block_umap )
+		{
+			const vec2_s32& block_grid_pos = iter.first;
+			const block& the_replaced_block = iter.second;
+			
+			the_sublevel->uncompressed_block_data_vec_2d
+				.at(block_grid_pos.y).at(block_grid_pos.x)
+				= the_replaced_block;
+		}
+	}
+	else if ( the_action_type == at_place_sprite )
+	{
+		const sprite_ipgws& new_sprite_ipgws
+			= curr_ur_action.new_sprite_ipgws;
+		
+		const vec2_s32 block_grid_pos
+			( new_sprite_ipgws.initial_block_grid_x_coord, 
+			new_sprite_ipgws.initial_block_grid_y_coord );
+			
+		
+		the_sublevel->sprite_ipgws_vec_2d
+			.at(block_grid_pos.y).at(block_grid_pos.x)
+			= sprite_ipgws();
+	}
+	else if ( the_action_type == at_modify_sprite )
+	{
+		
+	}
+	else if ( the_action_type == at_finish_moving_non_pasted_blocks )
+	{
+		
+	}
+	else if ( the_action_type == at_finish_moving_non_pasted_sprites )
+	{
+		
+	}
+	else if ( the_action_type == at_finish_moving_pasted_blocks )
+	{
+		
+	}
+	else if ( the_action_type == at_finish_moving_pasted_sprites )
+	{
+		
+	}
+	else if ( the_action_type == at_resize_sublevel )
+	{
+		
+	}
+	
+	
+	ur_stuff.ur_stack.finalize_undo();
+	
+	return true;
+}
+
+bool editing_manager::redo( level_editor_core_widget* the_core_widget )
+{
+	undo_and_redo_stuff& ur_stuff 
+		= get_or_create_ur_stuff(the_core_widget);
+	
+	undo_and_redo_action& curr_ur_action
+		= ur_stuff.ur_stack.get_curr_action();
+	
+	const action_type& the_action_type = curr_ur_action.the_action_type;
+	
+	cout << "Hey, don't forget about finalize_redo()!\n";
+	
+	if ( the_action_type == at_place_blocks )
+	{
+		
+	}
+	else if ( the_action_type == at_place_sprite )
+	{
+		
+	}
+	else if ( the_action_type == at_modify_sprite )
+	{
+		
+	}
+	else if ( the_action_type == at_finish_moving_non_pasted_blocks )
+	{
+		
+	}
+	else if ( the_action_type == at_finish_moving_non_pasted_sprites )
+	{
+		
+	}
+	else if ( the_action_type == at_finish_moving_pasted_blocks )
+	{
+		
+	}
+	else if ( the_action_type == at_finish_moving_pasted_sprites )
+	{
+		
+	}
+	else if ( the_action_type == at_resize_sublevel )
+	{
+		
+	}
+	
+	
+	return true;
 }
 
 
