@@ -900,6 +900,65 @@ void level_editor_widget::switch_mouse_mode_to_rect_selection()
 }
 
 
+void level_editor_widget::resize_the_sublevel_part_2
+	( level_editor_core_widget* the_core_widget, 
+	sublevel* the_sublevel,
+	const sublevel& the_sublevel_before_modification,
+	bool block_grid_was_enabled, u32 prev_scale_factor,
+	const rect_selection_stuff& copy_of_the_rect_selection_stuff, 
+	bool notify_the_editing_manager )
+{
+	the_core_widget->current_size = QSize( the_sublevel->real_size_2d.x
+		* level_editor_sfml_canvas_widget::num_pixels_per_block_column,
+		the_sublevel->real_size_2d.y 
+		* level_editor_sfml_canvas_widget::num_pixels_per_block_row );
+	
+	the_core_widget->move(the_core_widget->current_position);
+	the_core_widget->resize(the_core_widget->current_size);
+	
+	
+	the_core_widget->the_sfml_canvas_widget.reset
+		(new level_editor_sfml_canvas_widget( the_core_widget, 
+		the_core_widget->current_position,
+		the_core_widget->current_size ));
+	
+	
+	the_core_widget->the_sfml_canvas_widget->set_the_sublevel
+		(the_sublevel);
+	
+	// Restore the_rect_selection_stuff.
+	the_core_widget->the_sfml_canvas_widget->the_rect_selection_stuff
+		= copy_of_the_rect_selection_stuff;
+	
+	if (notify_the_editing_manager)
+	{
+		the_editing_manager
+			->record_sublevel_properties_modification_ur_stuff
+			( the_core_widget, the_sublevel_before_modification );
+	}
+	
+	
+	the_core_widget->init_tab_stuff
+		( level_element_selectors_tab_widget.get(),
+		the_block_selector_widget.get(),
+		the_sprite_16x16_selector_widget.get(),
+		the_sprite_16x32_selector_widget.get() );
+	
+	
+	if (block_grid_was_enabled)
+	{
+		the_core_widget->the_sfml_canvas_widget->enable_block_grid();
+	}
+	
+	while ( the_core_widget->the_sfml_canvas_widget->scale_factor 
+		< prev_scale_factor )
+	{
+		the_core_widget->zoom_in();
+	}
+	
+	
+}
+
 
 void level_editor_widget::show_sprite_properties_widget()
 {
@@ -1106,57 +1165,13 @@ void level_editor_widget::create_sublevel_properties_widget()
 		return;
 	}
 	
-	
-	the_core_widget->current_size = QSize( the_sublevel->real_size_2d.x
-		* level_editor_sfml_canvas_widget::num_pixels_per_block_column,
-		the_sublevel->real_size_2d.y 
-		* level_editor_sfml_canvas_widget::num_pixels_per_block_row );
-	
-	the_core_widget->move(the_core_widget->current_position);
-	the_core_widget->resize(the_core_widget->current_size);
-	
-	
 	// Make a backup of the_rect_selection_stuff
-	rect_selection_stuff the_rect_selection_stuff = the_core_widget
+	rect_selection_stuff copy_of_the_rect_selection_stuff = the_core_widget
 		->the_sfml_canvas_widget->the_rect_selection_stuff;
 	
-	
-	the_core_widget->the_sfml_canvas_widget.reset
-		(new level_editor_sfml_canvas_widget( the_core_widget, 
-		the_core_widget->current_position,
-		the_core_widget->current_size ));
-	
-	
-	the_core_widget->the_sfml_canvas_widget->set_the_sublevel
-		(the_sublevel);
-	
-	// Restore the_rect_selection_stuff.
-	the_core_widget->the_sfml_canvas_widget->the_rect_selection_stuff
-		= the_rect_selection_stuff;
-	
-	the_editing_manager->record_sublevel_properties_modification_ur_stuff
-		( the_core_widget, the_sublevel_before_modification );
-	
-	
-	the_core_widget->init_tab_stuff
-		( level_element_selectors_tab_widget.get(),
-		the_block_selector_widget.get(),
-		the_sprite_16x16_selector_widget.get(),
-		the_sprite_16x32_selector_widget.get() );
-	
-	
-	if (block_grid_was_enabled)
-	{
-		the_core_widget->the_sfml_canvas_widget->enable_block_grid();
-	}
-	
-	while ( the_core_widget->the_sfml_canvas_widget->scale_factor 
-		< prev_scale_factor )
-	{
-		the_core_widget->zoom_in();
-	}
-	
-	
+	resize_the_sublevel_part_2( the_core_widget, the_sublevel, 
+		the_sublevel_before_modification, block_grid_was_enabled,
+		prev_scale_factor, copy_of_the_rect_selection_stuff, true );
 }
 
 

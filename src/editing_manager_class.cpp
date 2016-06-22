@@ -578,67 +578,67 @@ void editing_manager::finalize_movement_of_rs_contents
 	undo_and_redo_action& ur_action_to_push = ur_stuff.ur_action_to_push;
 	
 	
-	auto show_old_block_umap = [&]() -> void
-	{
-		for ( auto obum_iter : ur_action_to_push.old_block_umap )
-		{
-			cout << obum_iter.first.x << ", " << obum_iter.first.y 
-				<< ";  " << block_stuff::get_bt_name_debug
-				((block_type)obum_iter.second.type) << endl;
-		}
-	};
-	
-	auto show_replaced_block_umap = [&]() -> void
-	{
-		for ( auto rbum_iter : ur_action_to_push.replaced_block_umap )
-		{
-			cout << rbum_iter.first.x << ", " << rbum_iter.first.y 
-				<< ";  " << block_stuff::get_bt_name_debug
-				((block_type)rbum_iter.second.type) << endl;
-		}
-	};
-	
-	auto show_new_block_umap = [&]() -> void
-	{
-		for ( auto nbum_iter : ur_action_to_push.new_block_umap )
-		{
-			cout << nbum_iter.first.x << ", " << nbum_iter.first.y 
-				<< ";  " << block_stuff::get_bt_name_debug
-				((block_type)nbum_iter.second.type) << endl;
-		}
-	};
-	
-	
-	
-	auto show_old_sprite_ipgws_umap = [&]() -> void
-	{
-		for ( auto iter : ur_action_to_push.old_sprite_ipgws_umap )
-		{
-			cout << iter.first.x << ", " << iter.first.y << ";  " 
-				<< sprite_type_helper::get_st_name_debug
-				((sprite_type)iter.second.type) << endl;
-		}
-	};
-	
-	auto show_replaced_sprite_ipgws_umap = [&]() -> void
-	{
-		for ( auto iter : ur_action_to_push.replaced_sprite_ipgws_umap )
-		{
-			cout << iter.first.x << ", " << iter.first.y << ";  " 
-				<< sprite_type_helper::get_st_name_debug 
-				((sprite_type)iter.second.type) << endl;
-		}
-	};
-	
-	auto show_new_sprite_ipgws_umap = [&]() -> void
-	{
-		for ( auto iter : ur_action_to_push.new_sprite_ipgws_umap )
-		{
-			cout << iter.first.x << ", " << iter.first.y << ";  " 
-				<< sprite_type_helper::get_st_name_debug
-				((sprite_type)iter.second.type) << endl;
-		}
-	};
+	//auto show_old_block_umap = [&]() -> void
+	//{
+	//	for ( auto obum_iter : ur_action_to_push.old_block_umap )
+	//	{
+	//		cout << obum_iter.first.x << ", " << obum_iter.first.y 
+	//			<< ";  " << block_stuff::get_bt_name_debug
+	//			((block_type)obum_iter.second.type) << endl;
+	//	}
+	//};
+	//
+	//auto show_replaced_block_umap = [&]() -> void
+	//{
+	//	for ( auto rbum_iter : ur_action_to_push.replaced_block_umap )
+	//	{
+	//		cout << rbum_iter.first.x << ", " << rbum_iter.first.y 
+	//			<< ";  " << block_stuff::get_bt_name_debug
+	//			((block_type)rbum_iter.second.type) << endl;
+	//	}
+	//};
+	//
+	//auto show_new_block_umap = [&]() -> void
+	//{
+	//	for ( auto nbum_iter : ur_action_to_push.new_block_umap )
+	//	{
+	//		cout << nbum_iter.first.x << ", " << nbum_iter.first.y 
+	//			<< ";  " << block_stuff::get_bt_name_debug
+	//			((block_type)nbum_iter.second.type) << endl;
+	//	}
+	//};
+	//
+	//
+	//
+	//auto show_old_sprite_ipgws_umap = [&]() -> void
+	//{
+	//	for ( auto iter : ur_action_to_push.old_sprite_ipgws_umap )
+	//	{
+	//		cout << iter.first.x << ", " << iter.first.y << ";  " 
+	//			<< sprite_type_helper::get_st_name_debug
+	//			((sprite_type)iter.second.type) << endl;
+	//	}
+	//};
+	//
+	//auto show_replaced_sprite_ipgws_umap = [&]() -> void
+	//{
+	//	for ( auto iter : ur_action_to_push.replaced_sprite_ipgws_umap )
+	//	{
+	//		cout << iter.first.x << ", " << iter.first.y << ";  " 
+	//			<< sprite_type_helper::get_st_name_debug 
+	//			((sprite_type)iter.second.type) << endl;
+	//	}
+	//};
+	//
+	//auto show_new_sprite_ipgws_umap = [&]() -> void
+	//{
+	//	for ( auto iter : ur_action_to_push.new_sprite_ipgws_umap )
+	//	{
+	//		cout << iter.first.x << ", " << iter.first.y << ";  " 
+	//			<< sprite_type_helper::get_st_name_debug
+	//			((sprite_type)iter.second.type) << endl;
+	//	}
+	//};
 	
 	
 	// Blocks were moved, but not pasted
@@ -855,12 +855,12 @@ void editing_manager::record_sublevel_properties_modification_ur_stuff
 		
 		vec2_s32 block_grid_pos( (s32)i, (s32)j );
 		
-		const block& the_old_block 
+		const block& the_old_block = the_sublevel_before_modification
+			.get_block_at_block_grid_pos(block_grid_pos);
+		const sprite_ipgws& the_old_sprite_ipgws 
 			= the_sublevel_before_modification
-			.uncompressed_block_data_vec_2d.at(j).at(i);
-		const sprite_ipgws& the_old_sprite_ipgws
-			= the_sublevel_before_modification.sprite_ipgws_vec_2d
-			.at(j).at(i);
+			.get_sprite_ipgws_at_block_grid_pos(block_grid_pos);
+			
 		
 		size_t num_copies_of_the_old_block = ur_action_to_push
 			.old_block_umap.count(block_grid_pos);
@@ -1240,18 +1240,20 @@ void editing_manager::handle_rs_during_mouse_press
 			finalize_movement_of_rs_contents
 				( the_core_widget, the_rect_selection_stuff );
 		}
-		
-		// Create a new rectangular selection
-		if (current_tabbed_widget_is_for_blocks)
+		else
 		{
-			the_rect_selection_stuff.start_creating_rs
-				( block_grid_coords_of_mouse_pos, rsl_blocks );
-		}
-		else if ( current_tabbed_widget_is_for_16x16_sprites 
-			|| current_tabbed_widget_is_for_16x32_sprites )
-		{
-			the_rect_selection_stuff.start_creating_rs
-				( block_grid_coords_of_mouse_pos, rsl_sprites );
+			// Create a new rectangular selection
+			if (current_tabbed_widget_is_for_blocks)
+			{
+				the_rect_selection_stuff.start_creating_rs
+					( block_grid_coords_of_mouse_pos, rsl_blocks );
+			}
+			else if ( current_tabbed_widget_is_for_16x16_sprites 
+				|| current_tabbed_widget_is_for_16x32_sprites )
+			{
+				the_rect_selection_stuff.start_creating_rs
+					( block_grid_coords_of_mouse_pos, rsl_sprites );
+			}
 		}
 	}
 	
@@ -1907,16 +1909,20 @@ bool editing_manager::undo( level_editor_core_widget* the_core_widget )
 	rect_selection_stuff& the_rect_selection_stuff = the_core_widget
 		->the_sfml_canvas_widget->the_rect_selection_stuff;
 	
-	if ( the_rect_selection_stuff.get_enabled() 
-		&& !the_rect_selection_stuff.get_single_sprite_selected() )
+	//if ( the_rect_selection_stuff.get_enabled() 
+	//	&& !the_rect_selection_stuff.get_single_sprite_selected() )
+	if ( the_rect_selection_stuff.get_enabled() )
 	{
-		finalize_movement_of_rs_contents( the_core_widget,
-			the_rect_selection_stuff );
+		//finalize_movement_of_rs_contents( the_core_widget,
+		//	the_rect_selection_stuff );
 		return false;
 	}
 	
 	
-	cout << "Hey, don't forget about finalize_undo()!\n";
+	//for ( u32 i=0; i<5; ++i )
+	//{
+	//	cout << "Hey, don't forget about finalize_redo()!\n";
+	//}
 	
 	if ( the_action_type == at_place_blocks )
 	{
@@ -2032,7 +2038,43 @@ bool editing_manager::undo( level_editor_core_widget* the_core_widget )
 	}
 	else if ( the_action_type == at_resize_sublevel )
 	{
+		vec2_u32& old_real_size_2d = curr_ur_action.old_real_size_2d;
+		vec2_u32& new_real_size_2d = curr_ur_action.new_real_size_2d;
 		
+		
+		const sublevel the_sublevel_before_modification = *the_sublevel;
+		vec2_u32 prev_real_size_2d = the_sublevel->real_size_2d;
+		bool block_grid_was_enabled = the_core_widget
+			->the_sfml_canvas_widget->get_block_grid_enabled();
+		u32 prev_scale_factor = the_core_widget->the_sfml_canvas_widget
+			->scale_factor;
+		rect_selection_stuff copy_of_the_rect_selection_stuff
+			= the_rect_selection_stuff;
+		
+		the_sublevel->resize(old_real_size_2d);
+		
+		the_level_editor_widget
+			->resize_the_sublevel_part_2( the_core_widget, the_sublevel, 
+			the_sublevel_before_modification, block_grid_was_enabled,
+			prev_scale_factor, copy_of_the_rect_selection_stuff, false );
+		
+		for ( auto iter : curr_ur_action.old_block_umap )
+		{
+			const vec2_s32& block_grid_pos = iter.first;
+			const block& the_backed_up_block = iter.second;
+			
+			the_sublevel->get_block_at_block_grid_pos(block_grid_pos) 
+				= the_backed_up_block;
+		}
+		for ( auto iter : curr_ur_action.old_sprite_ipgws_umap )
+		{
+			const vec2_s32& block_grid_pos = iter.first;
+			const sprite_ipgws& the_backed_up_sprite_ipgws = iter.second;
+			
+			the_sublevel
+				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
+				= the_backed_up_sprite_ipgws;
+		}
 	}
 	
 	
@@ -2058,7 +2100,10 @@ bool editing_manager::redo( level_editor_core_widget* the_core_widget )
 	
 	const action_type& the_action_type = next_ur_action.the_action_type;
 	
-	cout << "Hey, don't forget about finalize_redo()!\n";
+	for ( u32 i=0; i<5; ++i )
+	{
+		cout << "Hey, don't forget about finalize_redo()!\n";
+	}
 	
 	if ( the_action_type == at_place_blocks )
 	{
@@ -2093,6 +2138,7 @@ bool editing_manager::redo( level_editor_core_widget* the_core_widget )
 		
 	}
 	
+	//ur_stack.finalize_redo();
 	
 	return true;
 }

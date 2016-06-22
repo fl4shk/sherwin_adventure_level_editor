@@ -151,6 +151,19 @@ public:		// functions
 		return uncompressed_block_data_vec_2d
 			.at(block_grid_pos.y).at(block_grid_pos.x);
 	}
+	inline const block& get_block_at_block_grid_pos
+		( const vec2_s32& block_grid_pos ) const
+	{
+		return uncompressed_block_data_vec_2d
+			.at(block_grid_pos.y).at(block_grid_pos.x);
+	}
+	
+	inline const sprite_ipgws& get_sprite_ipgws_at_block_grid_pos
+		( const vec2_s32& block_grid_pos ) const
+	{
+		return sprite_ipgws_vec_2d
+			.at(block_grid_pos.y).at(block_grid_pos.x);
+	}
 	inline sprite_ipgws& get_sprite_ipgws_at_block_grid_pos
 		( const vec2_s32& block_grid_pos )
 	{

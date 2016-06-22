@@ -200,6 +200,14 @@ protected:		// functions
 	void switch_mouse_mode_to_rect_selection();
 	
 	
+	void resize_the_sublevel_part_2
+		( level_editor_core_widget* the_core_widget, 
+		sublevel* the_sublevel,
+		const sublevel& the_sublevel_before_modification,
+		bool block_grid_was_enabled, u32 prev_scale_factor,
+		const rect_selection_stuff& copy_of_the_rect_selection_stuff, 
+		bool notify_the_editing_manager );
+	
 protected slots:		// slots
 	void show_sprite_properties_widget();
 	void hide_sprite_properties_widget();

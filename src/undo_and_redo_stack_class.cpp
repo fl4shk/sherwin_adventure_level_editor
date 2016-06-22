@@ -28,19 +28,8 @@ undo_and_redo_action::undo_and_redo_action() : the_action_type(at_unknown),
 
 undo_and_redo_action::undo_and_redo_action
 	( const undo_and_redo_action& to_copy )
-	: the_action_type(to_copy.the_action_type),
-	old_block_umap(to_copy.old_block_umap),
-	replaced_block_umap(to_copy.replaced_block_umap),
-	new_block_umap(to_copy.new_block_umap),
-	old_sprite_ipgws(to_copy.old_sprite_ipgws),
-	new_sprite_ipgws(to_copy.new_sprite_ipgws),
-	selection_rect_before_moving(to_copy.selection_rect_before_moving),
-	old_sprite_ipgws_umap(to_copy.old_sprite_ipgws_umap),
-	replaced_sprite_ipgws_umap(to_copy.replaced_sprite_ipgws_umap),
-	new_sprite_ipgws_umap(to_copy.new_sprite_ipgws_umap)
 {
-	//cout << "in undo_and_redo_action( const undo_and_redo_action& "
-	//	<< "to_copy )\n";
+	*this = to_copy;
 }
 
 //undo_and_redo_action::undo_and_redo_action
@@ -68,12 +57,12 @@ undo_and_redo_stack::undo_and_redo_stack()
 
 bool undo_and_redo_stack::can_undo() const
 {
-	return get_curr_action_index() >= 0;
+	return get_next_action_index() > 0;
 }
 
 bool undo_and_redo_stack::can_redo() const
 {
-	return get_curr_action_index() < action_vec.size();
+	return get_next_action_index() < action_vec.size();
 }
 
 
@@ -148,9 +137,9 @@ s64 undo_and_redo_stack::get_next_action_index() const
 }
 void undo_and_redo_stack::set_next_action_index( s64 n_next_action_index )
 {
-	if ( n_next_action_index < 1 )
+	if ( n_next_action_index < 0 )
 	{
-		next_action_index = 1;
+		next_action_index = 0;
 	}
 	else if ( n_next_action_index > action_vec.size() )
 	{
