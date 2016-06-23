@@ -773,130 +773,52 @@ void level_editor_widget::export_source_as_core_func
 	
 }
 
-
-void level_editor_widget::switch_mouse_mode_to_place_level_elements()
+void level_editor_widget::switch_mouse_mode_shared_code
+	( const mouse_mode& n_the_mouse_mode,
+	const string& mouse_mode_suffix )
 {
-	cout << "Target mouse mode:  place_level_elements\n";
+	cout << "Target mouse mode:  mm_" << mouse_mode_suffix << endl;
 	
-	level_editor_core_widget* the_core_widget = NULL;
-	level_editor_sfml_canvas_widget* the_sfml_canvas_widget = NULL;
+	level_editor_core_widget* the_core_widget 
+		= get_curr_level_editor_core_widget
+		( string("switch_mouse_mode_to_") + mouse_mode_suffix );
 	
-	
-	s32 curr_tab_index = get_curr_level_editor_core_widget_index();
-	
-	if ( curr_tab_index != -1 )
-	{
-		the_core_widget = the_core_widget_vec.at(curr_tab_index).get();
-		the_sfml_canvas_widget = the_core_widget
-			->the_sfml_canvas_widget.get();
-	}
-	
-	if ( the_core_widget == NULL )
-	{
-		cout << "Weird bug in "
-			<< "switch_mouse_mode_to_place_level_elements():  "
-			<< "the_core_widget == NULL.\nExpect a segfault....\n";
-	}
-	
+	level_editor_sfml_canvas_widget* the_sfml_canvas_widget 
+		= the_core_widget->the_sfml_canvas_widget.get();
 	
 	rect_selection_stuff& the_rect_selection_stuff
 		= the_sfml_canvas_widget->the_rect_selection_stuff;
 	
 	
-	if ( the_rect_selection_stuff.get_enabled() )
-	{
-		the_editing_manager->finalize_movement_of_rs_contents
-			( the_core_widget, the_rect_selection_stuff );
-	}
+	the_editing_manager->finalize_movement_of_rs_contents
+		( the_core_widget, the_rect_selection_stuff );
 	
-	the_core_widget->the_mouse_mode = mm_place_level_elements;
+	the_core_widget->the_mouse_mode = n_the_mouse_mode;
 	
-	cout << "Current mouse mode:  place_level_elements\n";
+	cout << "Current mouse mode:  mm_" << mouse_mode_suffix << endl;
 }
 
-void level_editor_widget::switch_mouse_mode_to_erase_sprites()
+void level_editor_widget::switch_mouse_mode_to_place_level_elements()
 {
-	cout << "switch_mouse_mode_to_erase_sprites() is not yet "
+	switch_mouse_mode_shared_code( mm_place_level_elements, 
+		"place_level_elements" );
+}
+
+void level_editor_widget::switch_mouse_mode_to_erase_level_elements()
+{
+	cout << "switch_mouse_mode_to_erase_level_elements() is not yet "
 		<< "implemented other than showing this text.\n";
 }
 
 void level_editor_widget::switch_mouse_mode_to_select_single_sprite()
 {
-	cout << "Target mouse mode:  select_sprites\n";
-	
-	level_editor_core_widget* the_core_widget = NULL;
-	level_editor_sfml_canvas_widget* the_sfml_canvas_widget = NULL;
-	
-	
-	s32 curr_tab_index = get_curr_level_editor_core_widget_index();
-	
-	if ( curr_tab_index != -1 )
-	{
-		the_core_widget = the_core_widget_vec.at(curr_tab_index).get();
-		the_sfml_canvas_widget = the_core_widget
-			->the_sfml_canvas_widget.get();
-	}
-	
-	if ( the_core_widget == NULL )
-	{
-		cout << "Weird bug in "
-			<< "switch_mouse_mode_to_select_single_sprite():  "
-			<< "the_core_widget == NULL.\nExpect a segfault....\n";
-	}
-	
-	
-	rect_selection_stuff& the_rect_selection_stuff
-		= the_sfml_canvas_widget->the_rect_selection_stuff;
-	
-	
-	if ( the_rect_selection_stuff.get_enabled() )
-	{
-		the_editing_manager->finalize_movement_of_rs_contents
-			( the_core_widget, the_rect_selection_stuff );
-	}
-	
-	the_core_widget->the_mouse_mode = mm_select_single_sprite;
-	
-	
-	cout << "Current mouse mode:  select_sprites\n";
+	switch_mouse_mode_shared_code( mm_select_single_sprite,
+		"select_single_sprite" );
 }
 
 void level_editor_widget::switch_mouse_mode_to_rect_selection()
 {
-	cout << "Target mode:  rect_selection\n";
-	
-	level_editor_core_widget* the_core_widget = NULL;
-	level_editor_sfml_canvas_widget* the_sfml_canvas_widget = NULL;
-	
-	
-	s32 curr_tab_index = get_curr_level_editor_core_widget_index();
-	
-	if ( curr_tab_index != -1 )
-	{
-		the_core_widget = the_core_widget_vec.at(curr_tab_index).get();
-		the_sfml_canvas_widget = the_core_widget
-			->the_sfml_canvas_widget.get();
-	}
-	
-	if ( the_core_widget == NULL )
-	{
-		cout << "Weird bug in switch_mouse_mode_to_rect_selection():  "
-			<< "the_core_widget == NULL.\nExpect a segfault....\n";
-	}
-	
-	
-	rect_selection_stuff& the_rect_selection_stuff
-		= the_sfml_canvas_widget->the_rect_selection_stuff;
-	
-	if ( the_rect_selection_stuff.get_enabled() )
-	{
-		the_editing_manager->finalize_movement_of_rs_contents
-			( the_core_widget, the_rect_selection_stuff );
-	}
-	
-	the_core_widget->the_mouse_mode = mm_rect_selection;
-	
-	cout << "Current mouse mode:  rect_selection\n";
+	switch_mouse_mode_shared_code( mm_rect_selection, "rect_selection" );
 }
 
 
@@ -1256,6 +1178,8 @@ void level_editor_widget::export_source_as()
 void level_editor_widget::switch_mouse_mode( int button_id )
 {
 	//cout << "Hey, connect() to switch_mouse_mode() worked!\n";
+	
+	
 	
 	switch (button_id)
 	{

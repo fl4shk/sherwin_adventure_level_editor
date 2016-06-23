@@ -17,3 +17,5 @@ pugixml_source/*.a
 *.dll
 wine_test/*
 vgcore*
+*tags
+*.taghl

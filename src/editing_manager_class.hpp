@@ -124,7 +124,7 @@ protected:		// functions
 		bool current_tabbed_widget_is_for_blocks,
 		bool current_tabbed_widget_is_for_16x16_sprites,
 		bool current_tabbed_widget_is_for_16x32_sprites );
-	void handle_erasing_sprites_during_mouse_press
+	void handle_erasing_le_during_mouse_press
 		( level_editor_core_widget* the_core_widget,
 		const vec2_s32& block_grid_coords_of_mouse_pos );
 	void handle_selecting_single_sprite_during_mouse_press
@@ -142,7 +142,7 @@ protected:		// functions
 		( level_editor_core_widget* the_core_widget,
 		const vec2_s32& block_grid_coords_of_mouse_pos,
 		bool current_tabbed_widget_is_for_blocks );
-	void handle_erasing_sprites_during_mouse_move
+	void handle_erasing_le_during_mouse_move
 		( level_editor_core_widget* the_core_widget,
 		const vec2_s32& block_grid_coords_of_mouse_pos );
 	void handle_selecting_single_sprite_during_mouse_move
@@ -156,7 +156,7 @@ protected:		// functions
 	// but not any more.
 	void handle_placing_le_during_mouse_release
 		( level_editor_core_widget* the_core_widget );
-	void handle_erasing_sprites_during_mouse_release
+	void handle_erasing_le_during_mouse_release
 		( level_editor_core_widget* the_core_widget );
 	void handle_selecting_single_sprite_during_mouse_release
 		( level_editor_core_widget* the_core_widget );

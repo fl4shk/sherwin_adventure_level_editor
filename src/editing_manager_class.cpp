@@ -26,27 +26,11 @@ void editing_manager::key_press_event( QKeyEvent* event )
 {
 	// These probably ought to be in a toolbar of some sort, as well.
 	
-	level_editor_core_widget* the_core_widget = NULL;
-	level_editor_sfml_canvas_widget* the_sfml_canvas_widget = NULL;
+	level_editor_core_widget* the_core_widget = the_level_editor_widget
+		->get_curr_level_editor_core_widget("key_press_event");
 	
-	
-	s32 curr_tab_index = the_level_editor_widget
-		->get_curr_level_editor_core_widget_index();
-	
-	if ( curr_tab_index != -1 )
-	{
-		the_core_widget = get_the_core_widget_vec()
-			.at(curr_tab_index).get();
-		the_sfml_canvas_widget = the_core_widget
-			->the_sfml_canvas_widget.get();
-	}
-	
-	if ( the_core_widget == NULL )
-	{
-		cout << "Weird bug in key_press_event():  the_core_widget == "
-			<< "NULL.\nExpect a segfault....";
-	}
-	
+	level_editor_sfml_canvas_widget* the_sfml_canvas_widget 
+		= the_core_widget->the_sfml_canvas_widget.get();
 	
 	rect_selection_stuff& the_rect_selection_stuff
 		= the_sfml_canvas_widget->the_rect_selection_stuff;
@@ -272,8 +256,8 @@ void editing_manager::mouse_press_event
 					current_tabbed_widget_is_for_16x32_sprites );
 				break;
 			
-			case mm_erase_sprites:
-				handle_erasing_sprites_during_mouse_press( the_core_widget,
+			case mm_erase_level_elements:
+				handle_erasing_le_during_mouse_press( the_core_widget,
 					block_grid_coords_of_mouse_pos );
 				break;
 			
@@ -366,7 +350,7 @@ void editing_manager::mouse_move_event
 	//{
 	//};
 	//
-	//auto func_for_erasing_spritess = [&]() -> void
+	//auto func_for_erasing_level_elements = [&]() -> void
 	//{
 	//};
 	//
@@ -391,8 +375,8 @@ void editing_manager::mouse_move_event
 					current_tabbed_widget_is_for_blocks );
 				break;
 			
-			case mm_erase_sprites:
-				handle_erasing_sprites_during_mouse_move( the_core_widget,
+			case mm_erase_level_elements:
+				handle_erasing_le_during_mouse_move( the_core_widget,
 					block_grid_coords_of_mouse_pos );
 				break;
 			
@@ -455,7 +439,7 @@ void editing_manager::mouse_release_event
 	//{
 	//};
 	//
-	//auto func_for_erasing_spritess = [&]() -> void
+	//auto func_for_erasing_level_elements = [&]() -> void
 	//{
 	//};
 	//
@@ -482,8 +466,8 @@ void editing_manager::mouse_release_event
 					(the_core_widget);
 				break;
 			
-			case mm_erase_sprites:
-				handle_erasing_sprites_during_mouse_release
+			case mm_erase_level_elements:
+				handle_erasing_le_during_mouse_release
 					(the_core_widget);
 				break;
 			
@@ -1077,6 +1061,11 @@ void editing_manager::finalize_movement_of_rs_contents
 {
 	//sublevel* the_sublevel = the_core_widget->the_sublevel;
 	
+	if ( !the_rect_selection_stuff.get_enabled() )
+	{
+		return;
+	}
+	
 	const sf::IntRect& selection_rect 
 		= the_rect_selection_stuff.selection_rect;
 	sf::IntRect&& selection_rect_before_moving 
@@ -1651,7 +1640,7 @@ void editing_manager::handle_placing_le_during_mouse_press
 	
 }
 
-void editing_manager::handle_erasing_sprites_during_mouse_press
+void editing_manager::handle_erasing_le_during_mouse_press
 	( level_editor_core_widget* the_core_widget,
 	const vec2_s32& block_grid_coords_of_mouse_pos )
 {
@@ -1872,7 +1861,7 @@ void editing_manager::handle_placing_le_during_mouse_move
 	
 }
 
-void editing_manager::handle_erasing_sprites_during_mouse_move
+void editing_manager::handle_erasing_le_during_mouse_move
 	( level_editor_core_widget* the_core_widget,
 	const vec2_s32& block_grid_coords_of_mouse_pos )
 {
@@ -1991,7 +1980,7 @@ void editing_manager::handle_placing_le_during_mouse_release
 	}
 }
 
-void editing_manager::handle_erasing_sprites_during_mouse_release
+void editing_manager::handle_erasing_le_during_mouse_release
 	( level_editor_core_widget* the_core_widget )
 {
 	

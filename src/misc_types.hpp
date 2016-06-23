@@ -39,8 +39,8 @@ enum mouse_mode
 	// of just looking like bt_air.
 	mm_place_level_elements,
 	
-	// Erase sprites in particular
-	mm_erase_sprites, 
+	// Erase level elements.  Blocks are erased by placing 
+	mm_erase_level_elements, 
 	
 	// Select a single sprite to allow changing its properties
 	mm_select_single_sprite, 

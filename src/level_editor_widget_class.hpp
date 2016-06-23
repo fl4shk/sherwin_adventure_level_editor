@@ -132,7 +132,7 @@ public:		// functions
 	}
 	
 	inline level_editor_core_widget* get_curr_level_editor_core_widget
-		( const string& error_message )
+		( const string& calling_func_name )
 	{
 		s32 curr_tab_index = get_curr_level_editor_core_widget_index();
 		
@@ -140,13 +140,12 @@ public:		// functions
 		
 		if ( curr_tab_index != -1 )
 		{
-			the_core_widget = the_core_widget_vec
-				.at(curr_tab_index).get();
+			the_core_widget = the_core_widget_vec.at(curr_tab_index).get();
 		}
 		
 		if ( the_core_widget == NULL )
 		{
-			cout << "Weird bug in edit_menu_copy_rs_contents():  "
+			cout << "Weird bug in " << calling_func_name << "():  "
 				<< "the_core_widget == NULL.\nExpect a segfault....";
 		}
 		
@@ -216,8 +215,10 @@ protected:		// functions
 	void export_source_as_core_func( const string& output_file_name );
 	
 	
+	void switch_mouse_mode_shared_code( const mouse_mode& n_the_mouse_mode,
+		const string& mouse_mode_suffix );
 	void switch_mouse_mode_to_place_level_elements();
-	void switch_mouse_mode_to_erase_sprites();
+	void switch_mouse_mode_to_erase_level_elements();
 	void switch_mouse_mode_to_select_single_sprite();
 	void switch_mouse_mode_to_rect_selection();
 	
