@@ -119,15 +119,19 @@ void editing_manager::key_press_event( QKeyEvent* event )
 	}
 	else if ( event->key() == Qt::Key_Z )
 	{
-		bool undo_result = undo(the_core_widget);
+		//bool undo_result = undo(the_core_widget);
+		//
+		//cout << "undo_result:  " << undo_result << endl;
 		
-		cout << "undo_result:  " << undo_result << endl;
+		undo(the_core_widget);
 	}
 	else if ( event->key() == Qt::Key_Y )
 	{
-		bool redo_result = redo(the_core_widget);
+		//bool redo_result = redo(the_core_widget);
+		//
+		//cout << "redo_result:  " << redo_result << endl;
 		
-		cout << "redo_result:  " << redo_result << endl;
+		redo(the_core_widget);
 	}
 	
 	
@@ -756,7 +760,7 @@ void editing_manager::finalize_sprite_properties_modification
 	if ( the_sprite_pw_extras.backed_up_selected_sprite_ipgws
 		== the_new_sprite_ipgws )
 	{
-		cout << "no change in the sprite_ipgws\n";
+		//cout << "no change in the sprite_ipgws\n";
 		return;
 	}
 	
@@ -1909,14 +1913,23 @@ bool editing_manager::undo( level_editor_core_widget* the_core_widget )
 	rect_selection_stuff& the_rect_selection_stuff = the_core_widget
 		->the_sfml_canvas_widget->the_rect_selection_stuff;
 	
-	//if ( the_rect_selection_stuff.get_enabled() 
-	//	&& !the_rect_selection_stuff.get_single_sprite_selected() )
 	if ( the_rect_selection_stuff.get_enabled() )
 	{
-		//finalize_movement_of_rs_contents( the_core_widget,
-		//	the_rect_selection_stuff );
-		return false;
+		if ( !the_rect_selection_stuff.get_single_sprite_selected() )
+		{
+			//finalize_movement_of_rs_contents( the_core_widget,
+			//	the_rect_selection_stuff );
+			return false;
+		}
+		else //if ( the_rect_selection_stuff.get_single_sprite_selected() )
+		{
+			the_rect_selection_stuff.disable_selection();
+			
+			the_core_widget->do_emit_sprite_no_longer_selected();
+		}
 	}
+	
+	//the_core_widget->do_emit_sprite_no_longer_selected();
 	
 	
 	//for ( u32 i=0; i<5; ++i )
@@ -1935,7 +1948,6 @@ bool editing_manager::undo( level_editor_core_widget* the_core_widget )
 			const vec2_s32& block_grid_pos = iter.first;
 			const block& the_replaced_block = iter.second;
 			
-			
 			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
 				= the_replaced_block;
 		}
@@ -1948,7 +1960,6 @@ bool editing_manager::undo( level_editor_core_widget* the_core_widget )
 		const vec2_s32 block_grid_pos
 			( new_sprite_ipgws.initial_block_grid_x_coord, 
 			new_sprite_ipgws.initial_block_grid_y_coord );
-			
 		
 		the_sublevel->get_sprite_ipgws_at_block_grid_pos
 			(block_grid_pos) = sprite_ipgws();
@@ -2039,7 +2050,7 @@ bool editing_manager::undo( level_editor_core_widget* the_core_widget )
 	else if ( the_action_type == at_resize_sublevel )
 	{
 		vec2_u32& old_real_size_2d = curr_ur_action.old_real_size_2d;
-		vec2_u32& new_real_size_2d = curr_ur_action.new_real_size_2d;
+		//vec2_u32& new_real_size_2d = curr_ur_action.new_real_size_2d;
 		
 		
 		const sublevel the_sublevel_before_modification = *the_sublevel;
@@ -2095,50 +2106,202 @@ bool editing_manager::redo( level_editor_core_widget* the_core_widget )
 		return false;
 	}
 	
-	
 	undo_and_redo_action& next_ur_action = ur_stack.get_next_action();
 	
 	const action_type& the_action_type = next_ur_action.the_action_type;
 	
-	for ( u32 i=0; i<5; ++i )
+	sublevel* the_sublevel = the_core_widget->the_sublevel;
+	
+	rect_selection_stuff& the_rect_selection_stuff = the_core_widget
+		->the_sfml_canvas_widget->the_rect_selection_stuff;
+	
+	if ( the_rect_selection_stuff.get_enabled() )
 	{
-		cout << "Hey, don't forget about finalize_redo()!\n";
+		if ( !the_rect_selection_stuff.get_single_sprite_selected() )
+		{
+			//finalize_movement_of_rs_contents( the_core_widget,
+			//	the_rect_selection_stuff );
+			return false;
+		}
+		else //if ( the_rect_selection_stuff.get_single_sprite_selected() )
+		{
+			the_rect_selection_stuff.disable_selection();
+			
+			the_core_widget->do_emit_sprite_no_longer_selected();
+		}
 	}
+	
+	//the_core_widget->do_emit_sprite_no_longer_selected();
+	
+	
+	//for ( u32 i=0; i<5; ++i )
+	//{
+	//	cout << "Hey, don't forget about finalize_redo()!\n";
+	//}
 	
 	if ( the_action_type == at_place_blocks )
 	{
+		// Since placing blocks only changes the same blocks that are
+		// replaced, it is only necessary to loop through the
+		// new_block_umap's contents
 		
+		for ( auto iter : next_ur_action.new_block_umap )
+		{
+			const vec2_s32& block_grid_pos = iter.first;
+			const block& the_replaced_block = iter.second;
+			
+			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
+				= the_replaced_block;
+		}
 	}
 	else if ( the_action_type == at_place_sprite )
 	{
+		const sprite_ipgws& new_sprite_ipgws
+			= next_ur_action.new_sprite_ipgws;
 		
+		const vec2_s32 block_grid_pos
+			( new_sprite_ipgws.initial_block_grid_x_coord, 
+			new_sprite_ipgws.initial_block_grid_y_coord );
+		
+		the_sublevel->get_sprite_ipgws_at_block_grid_pos
+			(block_grid_pos) = new_sprite_ipgws;
 	}
 	else if ( the_action_type == at_modify_sprite )
 	{
+		const sprite_ipgws& new_sprite_ipgws 
+			= next_ur_action.new_sprite_ipgws;
+		const vec2_s32 block_grid_pos
+			( new_sprite_ipgws.initial_block_grid_x_coord, 
+			new_sprite_ipgws.initial_block_grid_y_coord );
 		
+		sprite_ipgws* the_sprite_ipgws = &(the_sublevel
+			->get_sprite_ipgws_at_block_grid_pos(block_grid_pos));
+		
+		*the_sprite_ipgws = new_sprite_ipgws;
+		
+		the_rect_selection_stuff.enable_single_sprite_selection
+			(the_sprite_ipgws);
+		
+		the_core_widget->do_emit_sprite_was_selected();
 	}
 	else if ( the_action_type == at_finish_moving_non_pasted_blocks )
 	{
+		for ( auto obum_iter : next_ur_action.old_block_umap )
+		{
+			const vec2_s32& block_grid_pos = obum_iter.first;
+			//const block& the_block = obum_iter.second;
+			
+			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
+				= block();
+		}
 		
+		for ( auto nbum_iter : next_ur_action.new_block_umap )
+		{
+			const vec2_s32& block_grid_pos = nbum_iter.first;
+			const block& the_block = nbum_iter.second;
+			
+			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
+				= the_block;
+		}
 	}
 	else if ( the_action_type == at_finish_moving_non_pasted_sprites )
 	{
+		for ( auto iter : next_ur_action.old_sprite_ipgws_umap )
+		{
+			const vec2_s32& block_grid_pos = iter.first;
+			//const sprite_ipgws& the_sprite_ipgws = iter.second;
+			
+			the_sublevel
+				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
+				= sprite_ipgws();
+		}
+		
+		for ( auto iter : next_ur_action.new_sprite_ipgws_umap )
+		{
+			const vec2_s32& block_grid_pos = iter.first;
+			const sprite_ipgws& the_sprite_ipgws = iter.second;
+			
+			the_sublevel
+				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
+				= the_sprite_ipgws;
+		}
 		
 	}
 	else if ( the_action_type == at_finish_moving_pasted_blocks )
 	{
-		
+		for ( auto nbum_iter : next_ur_action.new_block_umap )
+		{
+			const vec2_s32& block_grid_pos = nbum_iter.first;
+			const block& the_block = nbum_iter.second;
+			
+			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
+				= the_block;
+		}
 	}
 	else if ( the_action_type == at_finish_moving_pasted_sprites )
 	{
-		
+		for ( auto iter : next_ur_action.new_sprite_ipgws_umap )
+		{
+			const vec2_s32& block_grid_pos = iter.first;
+			const sprite_ipgws& the_sprite_ipgws = iter.second;
+			
+			the_sublevel
+				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
+				= the_sprite_ipgws;
+		}
 	}
 	else if ( the_action_type == at_resize_sublevel )
 	{
+		//vec2_u32& old_real_size_2d = next_ur_action.old_real_size_2d;
+		vec2_u32& new_real_size_2d = next_ur_action.new_real_size_2d;
 		
+		
+		const sublevel the_sublevel_before_modification = *the_sublevel;
+		vec2_u32 prev_real_size_2d = the_sublevel->real_size_2d;
+		bool block_grid_was_enabled = the_core_widget
+			->the_sfml_canvas_widget->get_block_grid_enabled();
+		u32 prev_scale_factor = the_core_widget->the_sfml_canvas_widget
+			->scale_factor;
+		rect_selection_stuff copy_of_the_rect_selection_stuff
+			= the_rect_selection_stuff;
+		
+		the_sublevel->resize(new_real_size_2d);
+		
+		the_level_editor_widget
+			->resize_the_sublevel_part_2( the_core_widget, the_sublevel, 
+			the_sublevel_before_modification, block_grid_was_enabled,
+			prev_scale_factor, copy_of_the_rect_selection_stuff, false );
+		
+		//u32 new_block_counter = 0;
+		//for ( auto iter : next_ur_action.new_block_umap )
+		//{
+		//	cout << "new_block_counter == " << new_block_counter << endl;
+		//	++new_block_counter;
+		//	
+		//	const vec2_s32& block_grid_pos = iter.first;
+		//	const block& the_backed_up_block = iter.second;
+		//	
+		//	the_sublevel->get_block_at_block_grid_pos(block_grid_pos) 
+		//		= the_backed_up_block;
+		//}
+		//
+		//u32 new_sprite_ipgws_counter = 0;
+		//for ( auto iter : next_ur_action.new_sprite_ipgws_umap )
+		//{
+		//	cout << "new_sprite_ipgws_counter == " 
+		//		<< new_sprite_ipgws_counter << endl;
+		//	++new_sprite_ipgws_counter;
+		//	
+		//	const vec2_s32& block_grid_pos = iter.first;
+		//	const sprite_ipgws& the_backed_up_sprite_ipgws = iter.second;
+		//	
+		//	the_sublevel
+		//		->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
+		//		= the_backed_up_sprite_ipgws;
+		//}
 	}
 	
-	//ur_stack.finalize_redo();
+	ur_stack.finalize_redo();
 	
 	return true;
 }
@@ -2328,6 +2491,10 @@ void editing_manager::finalize_movement_of_rs_contents_sprite_ur_stuff
 		ur_action_to_push.new_sprite_ipgws_umap[block_grid_pos] 
 			= the_sprite_ipgws;
 		
+		
+		
+		// If the_replaced_sprite_ipgws is a blank sprite_ipgws, then it is
+		// the only one that gets replaced by another sprite.
 		const sprite_ipgws& the_replaced_sprite_ipgws = the_sublevel
 			->get_sprite_ipgws_at_block_grid_pos(block_grid_pos);
 		

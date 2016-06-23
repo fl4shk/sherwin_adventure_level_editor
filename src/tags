@@ -1306,12 +1306,12 @@ save_level_as	level_editor_widget_class.hpp	/^	void save_level_as();$/;"	kind:p	
 save_level_as_core_func	level_editor_widget_class.cpp	/^void level_editor_widget::save_level_as_core_func$/;"	kind:f	class:level_editor_widget	signature:( const string& output_file_name )
 save_level_as_core_func	level_editor_widget_class.hpp	/^	void save_level_as_core_func( const string& output_file_name );$/;"	kind:p	class:level_editor_widget	access:protected	signature:( const string& output_file_name )
 save_level_core_func	level_editor_widget_class.hpp	/^	inline void save_level_core_func()$/;"	kind:f	class:level_editor_widget	access:protected	signature:()
-save_replaced_sprites	editing_manager_class.cpp	2350;"	kind:d	file:
-save_replaced_sprites	editing_manager_class.cpp	2360;"	kind:d	file:
-save_replaced_sprites	editing_manager_class.cpp	2369;"	kind:d	file:
-save_replaced_sprites	editing_manager_class.cpp	2379;"	kind:d	file:
-save_replaced_sprites	editing_manager_class.cpp	2402;"	kind:d	file:
-save_replaced_sprites	editing_manager_class.cpp	2412;"	kind:d	file:
+save_replaced_sprites	editing_manager_class.cpp	2517;"	kind:d	file:
+save_replaced_sprites	editing_manager_class.cpp	2527;"	kind:d	file:
+save_replaced_sprites	editing_manager_class.cpp	2536;"	kind:d	file:
+save_replaced_sprites	editing_manager_class.cpp	2546;"	kind:d	file:
+save_replaced_sprites	editing_manager_class.cpp	2569;"	kind:d	file:
+save_replaced_sprites	editing_manager_class.cpp	2579;"	kind:d	file:
 scale_factor	sfml_canvas_widget_classes.hpp	/^	u32 scale_factor;$/;"	kind:m	class:level_editor_sfml_canvas_widget	access:public
 scroll_area	block_selector_widget_class.hpp	/^	QScrollArea* scroll_area;$/;"	kind:m	class:block_selector_widget	access:public
 scroll_area	sfml_canvas_widget_classes.hpp	/^	QScrollArea* scroll_area;$/;"	kind:m	class:level_editor_sfml_canvas_widget	access:protected
