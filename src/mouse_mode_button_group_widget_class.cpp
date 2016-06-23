@@ -69,9 +69,9 @@ void mouse_mode_button_group_widget::generate_tool_buttons()
 	//sprite_properties_mode_tool_button->setMinimumSize(QSize( 32, 32 ));
 	//rect_selection_mode_tool_button->setMinimumSize(QSize( 32, 32 ));
 	
-	draw_mode_tool_button->setIconSize(QSize( 20, 20 ));
-	sprite_properties_mode_tool_button->setIconSize(QSize( 20, 20 ));
-	rect_selection_mode_tool_button->setIconSize(QSize( 20, 20 ));
+	draw_mode_tool_button->setIconSize(QSize( 32, 32 ));
+	sprite_properties_mode_tool_button->setIconSize(QSize( 32, 32 ));
+	rect_selection_mode_tool_button->setIconSize(QSize( 32, 32 ));
 	
 	draw_mode_tool_button_action->setCheckable(true);
 	sprite_properties_mode_tool_button_action->setCheckable(true);

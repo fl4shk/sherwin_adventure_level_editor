@@ -66,6 +66,12 @@ protected:		// variables
 	
 	// Toolbar Stuff
 	QToolBar* toolbar;
+	
+	//unique_ptr<QIcon> toolbar_laugh_icon,
+	//	toolbar_draw_mode_tool_button_icon,
+	//	toolbar_sprite_properties_mode_tool_button_icon,
+	//	toolbar_rect_selection_mode_tool_button_icon;
+	
 	QAction* toolbar_laugh_action;
 	
 	

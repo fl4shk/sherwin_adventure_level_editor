@@ -214,7 +214,14 @@ bool primary_widget::generate_toolbar()
 	}
 	
 	
+	//laugh_pixmap = laugh_pixmap.scaled( QSize( 32, 32 ) );
+	
+	
+	
 	toolbar = addToolBar("main toolbar");
+	
+	toolbar->setIconSize( QSize( 32, 32 ) );
+	
 	toolbar_laugh_action = toolbar->addAction( QIcon(laugh_pixmap), 
 		"Laugh" );
 	
