@@ -50,7 +50,6 @@ endif
 " Matches for file sprite_level_data_stuff.cpp:
 if (has_key(b:TagHighlightPrivate, "NormalisedPath") && b:TagHighlightPrivate["NormalisedPath"] == "sprite_level_data_stuff.cpp") || TagHighlight#Option#GetOption("IgnoreFileScope")
 	syn keyword CTagsDefinedName assign_rel_pos_ptr macro_to_erase_overlapping_sprite
-	syn keyword CTagsNamespace std
 	
 endif
 " Matches for file block_stuff.cpp:

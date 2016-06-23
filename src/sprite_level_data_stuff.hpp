@@ -206,15 +206,15 @@ public:		// functions
 	
 } __attribute__((aligned(4)));
 
-// needed for undo_and_redo_action's unordered_set<sprite_ipgws>'s
-namespace std
-{
-	template<>
-	struct hash<sprite_ipgws>
-	{
-		size_t operator () ( const sprite_ipgws& to_hash ) const;
-	};
-}
+//// needed for undo_and_redo_action's unordered_set<sprite_ipgws>'s
+//namespace std
+//{
+//	template<>
+//	struct hash<sprite_ipgws>
+//	{
+//		size_t operator () ( const sprite_ipgws& to_hash ) const;
+//	};
+//}
 
 
 // Note:  for st_door, extra_param_0 is used to designate the destination

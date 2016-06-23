@@ -602,7 +602,6 @@ handle_selecting_single_sprite_during_mouse_release	editing_manager_class.cpp	/^
 handle_selecting_single_sprite_during_mouse_release	editing_manager_class.hpp	/^	void handle_selecting_single_sprite_during_mouse_release$/;"	kind:p	class:editing_manager	access:protected	signature:( level_editor_core_widget* the_core_widget )
 handle_tab_switch	level_editor_widget_class.cpp	/^void level_editor_widget::handle_tab_switch( int n_index )$/;"	kind:f	class:level_editor_widget	signature:( int n_index )
 handle_tab_switch	level_editor_widget_class.hpp	/^	void handle_tab_switch( int n_index );$/;"	kind:p	class:level_editor_widget	access:protected	signature:( int n_index )
-hash	sprite_level_data_stuff.hpp	/^	struct hash<sprite_ipgws>$/;"	kind:s	namespace:std
 hash	vec2_class.hpp	/^	struct hash<vec2_s32>$/;"	kind:s	namespace:std
 hbox_layout	level_editor_widget_class.hpp	/^	unique_ptr<QHBoxLayout> hbox_layout;$/;"	kind:m	class:level_editor_widget	access:public
 hbox_layout	mouse_mode_button_group_widget_class.hpp	/^	unique_ptr<QHBoxLayout> hbox_layout;$/;"	kind:m	class:mouse_mode_button_group_widget	access:public
@@ -1085,8 +1084,6 @@ open_level	level_editor_widget_class.hpp	/^	void open_level();$/;"	kind:p	class:
 open_level_core_func	level_editor_widget_class.cpp	/^bool level_editor_widget::open_level_core_func$/;"	kind:f	class:level_editor_widget	signature:( const string& n_level_file_name )
 open_level_core_func	level_editor_widget_class.hpp	/^	bool open_level_core_func( const string& n_level_file_name );$/;"	kind:p	class:level_editor_widget	access:protected	signature:( const string& n_level_file_name )
 operator !=	vec2_class.hpp	/^	inline bool operator != ( const vec2<type>& to_cmp ) const$/;"	kind:f	class:vec2	access:public	signature:( const vec2<type>& to_cmp ) const
-operator ()	sprite_level_data_stuff.cpp	/^	size_t hash<sprite_ipgws>::operator () ( const sprite_ipgws& to_hash ) $/;"	kind:f	class:std::hash	signature:( const sprite_ipgws& to_hash ) const
-operator ()	sprite_level_data_stuff.hpp	/^		size_t operator () ( const sprite_ipgws& to_hash ) const;$/;"	kind:p	struct:std::hash	access:public	signature:( const sprite_ipgws& to_hash ) const
 operator ()	vec2_class.cpp	/^	size_t hash<vec2_s32>::operator () ( const vec2_s32& to_hash ) const$/;"	kind:f	class:std::hash	signature:( const vec2_s32& to_hash ) const
 operator ()	vec2_class.hpp	/^		size_t operator () ( const vec2_s32& to_hash ) const;$/;"	kind:p	struct:std::hash	access:public	signature:( const vec2_s32& to_hash ) const
 operator *	vec2_class.hpp	/^	inline vec2<type> operator * ( const type& scale ) const$/;"	kind:f	class:vec2	access:public	signature:( const type& scale ) const
@@ -1599,14 +1596,9 @@ start_moving_rs_contents	rect_selection_stuff_class.hpp	/^	void start_moving_rs_
 starting_block_grid_coords	rect_selection_stuff_class.hpp	/^	vec2_s32 starting_block_grid_coords;$/;"	kind:m	class:rect_selection_stuff	access:public
 starting_block_grid_coords_before_moving	rect_selection_stuff_class.hpp	/^	vec2_s32 starting_block_grid_coords_before_moving;$/;"	kind:m	class:rect_selection_stuff	access:public
 starting_block_grid_coords_of_mouse	rect_selection_stuff_class.hpp	/^	vec2_s32 starting_block_grid_coords_of_mouse;$/;"	kind:m	class:rect_selection_stuff	access:public
-std	sprite_level_data_stuff.cpp	/^namespace std$/;"	kind:n	file:
-std	sprite_level_data_stuff.hpp	/^namespace std$/;"	kind:n
 std	vec2_class.cpp	/^namespace std$/;"	kind:n	file:
 std	vec2_class.hpp	/^namespace std$/;"	kind:n
-std::hash	sprite_level_data_stuff.hpp	/^	struct hash<sprite_ipgws>$/;"	kind:s	namespace:std
 std::hash	vec2_class.hpp	/^	struct hash<vec2_s32>$/;"	kind:s	namespace:std
-std::hash::operator ()	sprite_level_data_stuff.cpp	/^	size_t hash<sprite_ipgws>::operator () ( const sprite_ipgws& to_hash ) $/;"	kind:f	class:std::hash	signature:( const sprite_ipgws& to_hash ) const
-std::hash::operator ()	sprite_level_data_stuff.hpp	/^		size_t operator () ( const sprite_ipgws& to_hash ) const;$/;"	kind:p	struct:std::hash	access:public	signature:( const sprite_ipgws& to_hash ) const
 std::hash::operator ()	vec2_class.cpp	/^	size_t hash<vec2_s32>::operator () ( const vec2_s32& to_hash ) const$/;"	kind:f	class:std::hash	signature:( const vec2_s32& to_hash ) const
 std::hash::operator ()	vec2_class.hpp	/^		size_t operator () ( const vec2_s32& to_hash ) const;$/;"	kind:p	struct:std::hash	access:public	signature:( const vec2_s32& to_hash ) const
 stop_creating_rs	rect_selection_stuff_class.cpp	/^void rect_selection_stuff::stop_creating_rs()$/;"	kind:f	class:rect_selection_stuff	signature:()

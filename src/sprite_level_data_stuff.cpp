@@ -36,50 +36,50 @@ bool sprite_ipgws::operator == ( const sprite_ipgws& to_cmp ) const
 		&& ( size_2d == to_cmp.size_2d ) );
 }
 
-namespace std
-{
-	size_t hash<sprite_ipgws>::operator () ( const sprite_ipgws& to_hash ) 
-		const
-	{
-		size_t hash_block_grid_coord_x
-			( hash<u32>()(to_hash.initial_block_grid_x_coord) );
-		size_t hash_block_grid_coord_y
-			( hash<u32>()(to_hash.initial_block_grid_y_coord) );
-		size_t hash_facing_right
-			( hash<bool>()(to_hash.facing_right) );
-		size_t hash_extra_param_0
-			( hash<u32>()(to_hash.extra_param_0) );
-		size_t hash_extra_param_1
-			( hash<u32>()(to_hash.extra_param_1) );
-		size_t hash_extra_param_2
-			( hash<u32>()(to_hash.extra_param_2) );
-		size_t hash_extra_param_3
-			( hash<u32>()(to_hash.extra_param_3) );
-		size_t hash_spawn_state
-			( hash<sprite_spawn_state>()(to_hash.spawn_state) );
-		size_t hash_size_2d_x
-			( hash<u32>()(to_hash.size_2d.x) );
-		size_t hash_size_2d_y
-			( hash<u32>()(to_hash.size_2d.y) );
-		
-		const u32 hash_arr_size = 10; 
-		size_t hash_arr[hash_arr_size] = { hash_block_grid_coord_x,
-			hash_block_grid_coord_y, hash_facing_right, hash_extra_param_0,
-			hash_extra_param_1, hash_extra_param_2, hash_extra_param_3,
-			hash_spawn_state, hash_size_2d_x, hash_size_2d_y };
-		
-		size_t ret = hash_arr[0];
-		
-		for ( u32 i=1; i<hash_arr_size-1; ++i )
-		{
-			ret = ( ret ^ ( hash_arr[i] << 1 ) ) >> 1;
-		}
-		
-		ret = ret ^ ( hash_arr[hash_arr_size-1] << 1 );
-		
-		return ret;
-	}
-}
+//namespace std
+//{
+//	size_t hash<sprite_ipgws>::operator () ( const sprite_ipgws& to_hash ) 
+//		const
+//	{
+//		size_t hash_block_grid_coord_x
+//			( hash<u32>()(to_hash.initial_block_grid_x_coord) );
+//		size_t hash_block_grid_coord_y
+//			( hash<u32>()(to_hash.initial_block_grid_y_coord) );
+//		size_t hash_facing_right
+//			( hash<bool>()(to_hash.facing_right) );
+//		size_t hash_extra_param_0
+//			( hash<u32>()(to_hash.extra_param_0) );
+//		size_t hash_extra_param_1
+//			( hash<u32>()(to_hash.extra_param_1) );
+//		size_t hash_extra_param_2
+//			( hash<u32>()(to_hash.extra_param_2) );
+//		size_t hash_extra_param_3
+//			( hash<u32>()(to_hash.extra_param_3) );
+//		size_t hash_spawn_state
+//			( hash<sprite_spawn_state>()(to_hash.spawn_state) );
+//		size_t hash_size_2d_x
+//			( hash<u32>()(to_hash.size_2d.x) );
+//		size_t hash_size_2d_y
+//			( hash<u32>()(to_hash.size_2d.y) );
+//		
+//		const u32 hash_arr_size = 10; 
+//		size_t hash_arr[hash_arr_size] = { hash_block_grid_coord_x,
+//			hash_block_grid_coord_y, hash_facing_right, hash_extra_param_0,
+//			hash_extra_param_1, hash_extra_param_2, hash_extra_param_3,
+//			hash_spawn_state, hash_size_2d_x, hash_size_2d_y };
+//		
+//		size_t ret = hash_arr[0];
+//		
+//		for ( u32 i=1; i<hash_arr_size-1; ++i )
+//		{
+//			ret = ( ret ^ ( hash_arr[i] << 1 ) ) >> 1;
+//		}
+//		
+//		ret = ret ^ ( hash_arr[hash_arr_size-1] << 1 );
+//		
+//		return ret;
+//	}
+//}
 
 
 adj_sprite_ipgws_ptr_group_16x16::adj_sprite_ipgws_ptr_group_16x16
