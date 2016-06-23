@@ -131,6 +131,28 @@ public:		// functions
 			.at(get_curr_level_editor_core_widget_index()).get();
 	}
 	
+	inline level_editor_core_widget* get_curr_level_editor_core_widget
+		( const string& error_message )
+	{
+		s32 curr_tab_index = get_curr_level_editor_core_widget_index();
+		
+		level_editor_core_widget* the_core_widget = NULL;
+		
+		if ( curr_tab_index != -1 )
+		{
+			the_core_widget = the_core_widget_vec
+				.at(curr_tab_index).get();
+		}
+		
+		if ( the_core_widget == NULL )
+		{
+			cout << "Weird bug in edit_menu_copy_rs_contents():  "
+				<< "the_core_widget == NULL.\nExpect a segfault....";
+		}
+		
+		return the_core_widget;
+	}
+	
 	
 	
 protected:		// functions

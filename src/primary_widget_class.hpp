@@ -52,11 +52,16 @@ protected:		// variables
 	// File Menu Actions
 	unique_ptr<QAction> file_menu_laugh_action, file_menu_open_action, 
 		file_menu_save_action, file_menu_save_as_action, 
+		
 		file_menu_quit_action;
 	
 	// Edit Menu Actions
-	unique_ptr<QAction> edit_menu_sublevel_properties_action,
-		edit_menu_level_properties_action;
+	unique_ptr<QAction> edit_menu_copy_rs_contents_action,
+		edit_menu_paste_copied_rs_contents_action, edit_menu_undo_action,
+		edit_menu_redo_action,
+		
+		edit_menu_sublevel_properties_action;
+		//edit_menu_level_properties_action;
 	
 	
 	// Toolbar Stuff
@@ -113,9 +118,17 @@ protected:		// functions
 	//}
 	
 protected slots:		// slots
-	void laugh();
-	void quit();
 	
+	// File Menu Slots
+	void file_menu_laugh();
+	void file_menu_quit();
+	
+	
+	// Edit Menu Slots
+	void edit_menu_copy_rs_contents();
+	void edit_menu_paste_copied_rs_contents();
+	void edit_menu_undo();
+	void edit_menu_redo();
 	
 };
 

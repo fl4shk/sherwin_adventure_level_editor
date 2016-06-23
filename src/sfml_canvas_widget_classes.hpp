@@ -431,6 +431,7 @@ protected:		// functions
 	friend class level_editor_core_widget;
 	friend class level_editor_widget;
 	friend class editing_manager;
+	friend class primary_widget;
 	
 };
 

@@ -103,16 +103,13 @@ void editing_manager::key_press_event( QKeyEvent* event )
 	//	
 	//	cout << "Current mouse mode:  rect_selection\n";
 	//}
-	else if ( event->key() == Qt::Key_C 
-		&& the_core_widget->the_mouse_mode == mm_rect_selection 
-		&& the_rect_selection_stuff.get_enabled() )
+	else if ( event->key() == Qt::Key_C )
 	{
 		//cout << "Copying selection contents\n";
 		
-		copy_rs_contents(the_rect_selection_stuff);
+		copy_rs_contents( the_core_widget, the_rect_selection_stuff );
 	}
-	else if ( event->key() == Qt::Key_V 
-		&& the_core_widget->the_mouse_mode == mm_rect_selection )
+	else if ( event->key() == Qt::Key_V )
 	{
 		paste_copied_rs_contents( the_core_widget,
 			the_rect_selection_stuff );
@@ -531,6 +528,545 @@ void editing_manager::mouse_release_event
 		
 		//cout << "Right mouse button released\n";
 	}
+}
+
+
+// Editing functions to activate upon key press (or when done from the
+// "Edit" menu).  These are meant to actually (I really don't remember what
+// was supposed to come next in this comment)
+void editing_manager::copy_rs_contents
+	( level_editor_core_widget* the_core_widget,
+	rect_selection_stuff& the_rect_selection_stuff )
+{
+	if ( the_core_widget->the_mouse_mode == mm_rect_selection
+		&& the_rect_selection_stuff.get_enabled() )
+	{
+		the_rect_selection_stuff.copy_rs_contents();
+	}
+}
+
+
+void editing_manager::paste_copied_rs_contents
+	( level_editor_core_widget* the_core_widget,
+	rect_selection_stuff& the_rect_selection_stuff )
+{
+	if ( the_core_widget->the_mouse_mode != mm_rect_selection )
+	{
+		return;
+	}
+	
+	level_editor_sfml_canvas_widget* the_sfml_canvas_widget
+		= the_core_widget->the_sfml_canvas_widget.get();
+	
+	sublevel* the_sublevel = the_core_widget->the_sublevel;
+	
+	if ( the_rect_selection_stuff.get_enabled() )
+	{
+		finalize_movement_of_rs_contents( the_core_widget,
+			the_rect_selection_stuff );
+	}
+	
+	//cout << "Pasting the copied selection contents\n";
+	
+	//the_rect_selection_stuff.paste_copied_selection_contents
+	//	( vec2_s32( 0, 0 ) );
+	
+	sf::FloatRect visible_rect 
+		= the_sfml_canvas_widget->get_visible_rect();
+	
+	//u32 scale_factor = the_sfml_canvas_widget->scale_factor;
+	
+	
+	
+	vec2<double> visible_block_grid_start_pos = the_sfml_canvas_widget
+		->get_basic_visible_block_grid_start_pos(visible_rect);
+	vec2<double> visible_block_grid_size_2d = the_sfml_canvas_widget
+		->get_basic_visible_block_grid_size_2d(visible_rect);
+	
+	// This is so that sprites larger than 16x16 pixels will be placed
+	// if their starting position is offscreen but part of them still
+	// is on screen.
+	--visible_block_grid_start_pos.x;
+	--visible_block_grid_start_pos.y;
+	
+	//cout << visible_block_grid_start_pos.x << ", "
+	//	<< visible_block_grid_start_pos.y << ", "
+	//	<< visible_block_grid_size_2d.x << ", "
+	//	<< visible_block_grid_size_2d.y << endl;
+	
+	++visible_block_grid_size_2d.x;
+	++visible_block_grid_size_2d.y;
+	
+	++visible_block_grid_size_2d.x;
+	++visible_block_grid_size_2d.y;
+	
+	if ( visible_block_grid_start_pos.x < 0 )
+	{
+		visible_block_grid_start_pos.x = 0;
+	}
+	if ( visible_block_grid_start_pos.y < 0 )
+	{
+		visible_block_grid_start_pos.y = 0;
+	}
+	
+	if ( ( visible_block_grid_start_pos.x + visible_block_grid_size_2d.x )
+		>= (s32)the_sublevel->real_size_2d.x )
+	{
+		visible_block_grid_size_2d.x = the_sublevel->real_size_2d.x
+			- visible_block_grid_start_pos.x;
+	}
+	if ( ( visible_block_grid_start_pos.y + visible_block_grid_size_2d.y )
+		>= (s32)the_sublevel->real_size_2d.y )
+	{
+		visible_block_grid_size_2d.y = the_sublevel->real_size_2d.y
+			- visible_block_grid_start_pos.y;
+	}
+	
+	
+	
+	// Paste at the location of the mouse.
+	sf::FloatRect visible_block_grid_rect
+		( visible_block_grid_start_pos.x,
+		visible_block_grid_start_pos.y,
+		visible_block_grid_size_2d.x, visible_block_grid_size_2d.y );
+	
+	sf::Vector2i mouse_pos_in_canvas_widget_coords;
+	sf::Vector2f mouse_pos_in_canvas_coords;
+	vec2_s32 block_grid_coords_of_mouse_pos;
+	
+	get_a_few_types_of_mouse_pos( the_sfml_canvas_widget,
+		mouse_pos_in_canvas_widget_coords, mouse_pos_in_canvas_coords,
+		block_grid_coords_of_mouse_pos );
+	
+	
+	if ( visible_block_grid_rect.contains
+		( block_grid_coords_of_mouse_pos.x, 
+		block_grid_coords_of_mouse_pos.y ) )
+	{
+		the_rect_selection_stuff.paste_copied_rs_contents
+			(block_grid_coords_of_mouse_pos);
+	}
+	//else
+	//{
+	//	the_rect_selection_stuff.paste_copied_rs_contents( vec2_s32
+	//		( visible_block_grid_start_pos.x, 
+	//		visible_block_grid_start_pos.y ) );
+	//}
+}
+
+
+bool editing_manager::undo( level_editor_core_widget* the_core_widget )
+{
+	undo_and_redo_stuff& ur_stuff 
+		= get_or_create_ur_stuff(the_core_widget);
+	
+	undo_and_redo_stack& ur_stack = ur_stuff.ur_stack;
+	
+	if ( !ur_stack.can_undo() )
+	{
+		return false;
+	}
+	
+	undo_and_redo_action& curr_ur_action = ur_stack.get_curr_action();
+	
+	const action_type& the_action_type = curr_ur_action.the_action_type;
+	
+	sublevel* the_sublevel = the_core_widget->the_sublevel;
+	
+	rect_selection_stuff& the_rect_selection_stuff = the_core_widget
+		->the_sfml_canvas_widget->the_rect_selection_stuff;
+	
+	if ( the_rect_selection_stuff.get_enabled() )
+	{
+		if ( !the_rect_selection_stuff.get_single_sprite_selected() )
+		{
+			//finalize_movement_of_rs_contents( the_core_widget,
+			//	the_rect_selection_stuff );
+			return false;
+		}
+		else //if ( the_rect_selection_stuff.get_single_sprite_selected() )
+		{
+			the_rect_selection_stuff.disable_selection();
+			
+			the_core_widget->do_emit_sprite_no_longer_selected();
+		}
+	}
+	
+	//the_core_widget->do_emit_sprite_no_longer_selected();
+	
+	
+	//for ( u32 i=0; i<5; ++i )
+	//{
+	//	cout << "Hey, don't forget about finalize_redo()!\n";
+	//}
+	
+	if ( the_action_type == at_place_blocks )
+	{
+		// Since placing blocks only changes the same blocks that are
+		// replaced, it is only necessary to loop through the
+		// replaced_block_umap's contents
+		
+		for ( auto iter : curr_ur_action.replaced_block_umap )
+		{
+			const vec2_s32& block_grid_pos = iter.first;
+			const block& the_replaced_block = iter.second;
+			
+			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
+				= the_replaced_block;
+		}
+	}
+	else if ( the_action_type == at_place_sprite )
+	{
+		const sprite_ipgws& new_sprite_ipgws
+			= curr_ur_action.new_sprite_ipgws;
+		
+		const vec2_s32 block_grid_pos
+			( new_sprite_ipgws.initial_block_grid_x_coord, 
+			new_sprite_ipgws.initial_block_grid_y_coord );
+		
+		the_sublevel->get_sprite_ipgws_at_block_grid_pos
+			(block_grid_pos) = sprite_ipgws();
+	}
+	else if ( the_action_type == at_modify_sprite )
+	{
+		const sprite_ipgws& old_sprite_ipgws 
+			= curr_ur_action.old_sprite_ipgws;
+		const vec2_s32 block_grid_pos
+			( old_sprite_ipgws.initial_block_grid_x_coord, 
+			old_sprite_ipgws.initial_block_grid_y_coord );
+		
+		sprite_ipgws* the_sprite_ipgws = &(the_sublevel
+			->get_sprite_ipgws_at_block_grid_pos(block_grid_pos));
+		
+		*the_sprite_ipgws = old_sprite_ipgws;
+		
+		the_rect_selection_stuff.enable_single_sprite_selection
+			(the_sprite_ipgws);
+		
+		the_core_widget->do_emit_sprite_was_selected();
+	}
+	else if ( the_action_type == at_finish_moving_non_pasted_blocks )
+	{
+		for ( auto rbum_iter : curr_ur_action.replaced_block_umap )
+		{
+			const vec2_s32& block_grid_pos = rbum_iter.first;
+			const block& the_block = rbum_iter.second;
+			
+			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
+				= the_block;
+		}
+		
+		for ( auto obum_iter : curr_ur_action.old_block_umap )
+		{
+			const vec2_s32& block_grid_pos = obum_iter.first;
+			const block& the_block = obum_iter.second;
+			
+			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
+				= the_block;
+		}
+	}
+	else if ( the_action_type == at_finish_moving_non_pasted_sprites )
+	{
+		for ( auto iter : curr_ur_action.replaced_sprite_ipgws_umap )
+		{
+			const vec2_s32& block_grid_pos = iter.first;
+			const sprite_ipgws& the_sprite_ipgws = iter.second;
+			
+			the_sublevel
+				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
+				= the_sprite_ipgws;
+		}
+		
+		for ( auto iter : curr_ur_action.old_sprite_ipgws_umap )
+		{
+			const vec2_s32& block_grid_pos = iter.first;
+			const sprite_ipgws& the_sprite_ipgws = iter.second;
+			
+			the_sublevel
+				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
+				= the_sprite_ipgws;
+		}
+	}
+	else if ( the_action_type == at_finish_moving_pasted_blocks )
+	{
+		for ( auto rbum_iter : curr_ur_action.replaced_block_umap )
+		{
+			const vec2_s32& block_grid_pos = rbum_iter.first;
+			const block& the_block = rbum_iter.second;
+			
+			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
+				= the_block;
+		}
+	}
+	else if ( the_action_type == at_finish_moving_pasted_sprites )
+	{
+		for ( auto iter : curr_ur_action.replaced_sprite_ipgws_umap )
+		{
+			const vec2_s32& block_grid_pos = iter.first;
+			const sprite_ipgws& the_sprite_ipgws = iter.second;
+			
+			the_sublevel
+				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
+				= the_sprite_ipgws;
+		}
+	}
+	else if ( the_action_type == at_resize_sublevel )
+	{
+		vec2_u32& old_real_size_2d = curr_ur_action.old_real_size_2d;
+		//vec2_u32& new_real_size_2d = curr_ur_action.new_real_size_2d;
+		
+		
+		const sublevel the_sublevel_before_modification = *the_sublevel;
+		vec2_u32 prev_real_size_2d = the_sublevel->real_size_2d;
+		bool block_grid_was_enabled = the_core_widget
+			->the_sfml_canvas_widget->get_block_grid_enabled();
+		u32 prev_scale_factor = the_core_widget->the_sfml_canvas_widget
+			->scale_factor;
+		rect_selection_stuff copy_of_the_rect_selection_stuff
+			= the_rect_selection_stuff;
+		
+		the_sublevel->resize(old_real_size_2d);
+		
+		the_level_editor_widget
+			->resize_the_sublevel_part_2( the_core_widget, the_sublevel, 
+			the_sublevel_before_modification, block_grid_was_enabled,
+			prev_scale_factor, copy_of_the_rect_selection_stuff, false );
+		
+		for ( auto iter : curr_ur_action.old_block_umap )
+		{
+			const vec2_s32& block_grid_pos = iter.first;
+			const block& the_backed_up_block = iter.second;
+			
+			the_sublevel->get_block_at_block_grid_pos(block_grid_pos) 
+				= the_backed_up_block;
+		}
+		for ( auto iter : curr_ur_action.old_sprite_ipgws_umap )
+		{
+			const vec2_s32& block_grid_pos = iter.first;
+			const sprite_ipgws& the_backed_up_sprite_ipgws = iter.second;
+			
+			the_sublevel
+				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
+				= the_backed_up_sprite_ipgws;
+		}
+	}
+	
+	
+	ur_stack.finalize_undo();
+	
+	return true;
+}
+
+bool editing_manager::redo( level_editor_core_widget* the_core_widget )
+{
+	undo_and_redo_stuff& ur_stuff 
+		= get_or_create_ur_stuff(the_core_widget);
+	
+	undo_and_redo_stack& ur_stack = ur_stuff.ur_stack;
+	
+	if ( !ur_stack.can_redo() )
+	{
+		return false;
+	}
+	
+	undo_and_redo_action& next_ur_action = ur_stack.get_next_action();
+	
+	const action_type& the_action_type = next_ur_action.the_action_type;
+	
+	sublevel* the_sublevel = the_core_widget->the_sublevel;
+	
+	rect_selection_stuff& the_rect_selection_stuff = the_core_widget
+		->the_sfml_canvas_widget->the_rect_selection_stuff;
+	
+	if ( the_rect_selection_stuff.get_enabled() )
+	{
+		if ( !the_rect_selection_stuff.get_single_sprite_selected() )
+		{
+			//finalize_movement_of_rs_contents( the_core_widget,
+			//	the_rect_selection_stuff );
+			return false;
+		}
+		else //if ( the_rect_selection_stuff.get_single_sprite_selected() )
+		{
+			the_rect_selection_stuff.disable_selection();
+			
+			the_core_widget->do_emit_sprite_no_longer_selected();
+		}
+	}
+	
+	//the_core_widget->do_emit_sprite_no_longer_selected();
+	
+	
+	//for ( u32 i=0; i<5; ++i )
+	//{
+	//	cout << "Hey, don't forget about finalize_redo()!\n";
+	//}
+	
+	if ( the_action_type == at_place_blocks )
+	{
+		// Since placing blocks only changes the same blocks that are
+		// replaced, it is only necessary to loop through the
+		// new_block_umap's contents
+		
+		for ( auto iter : next_ur_action.new_block_umap )
+		{
+			const vec2_s32& block_grid_pos = iter.first;
+			const block& the_replaced_block = iter.second;
+			
+			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
+				= the_replaced_block;
+		}
+	}
+	else if ( the_action_type == at_place_sprite )
+	{
+		const sprite_ipgws& new_sprite_ipgws
+			= next_ur_action.new_sprite_ipgws;
+		
+		const vec2_s32 block_grid_pos
+			( new_sprite_ipgws.initial_block_grid_x_coord, 
+			new_sprite_ipgws.initial_block_grid_y_coord );
+		
+		the_sublevel->get_sprite_ipgws_at_block_grid_pos
+			(block_grid_pos) = new_sprite_ipgws;
+	}
+	else if ( the_action_type == at_modify_sprite )
+	{
+		const sprite_ipgws& new_sprite_ipgws 
+			= next_ur_action.new_sprite_ipgws;
+		const vec2_s32 block_grid_pos
+			( new_sprite_ipgws.initial_block_grid_x_coord, 
+			new_sprite_ipgws.initial_block_grid_y_coord );
+		
+		sprite_ipgws* the_sprite_ipgws = &(the_sublevel
+			->get_sprite_ipgws_at_block_grid_pos(block_grid_pos));
+		
+		*the_sprite_ipgws = new_sprite_ipgws;
+		
+		the_rect_selection_stuff.enable_single_sprite_selection
+			(the_sprite_ipgws);
+		
+		the_core_widget->do_emit_sprite_was_selected();
+	}
+	else if ( the_action_type == at_finish_moving_non_pasted_blocks )
+	{
+		for ( auto obum_iter : next_ur_action.old_block_umap )
+		{
+			const vec2_s32& block_grid_pos = obum_iter.first;
+			//const block& the_block = obum_iter.second;
+			
+			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
+				= block();
+		}
+		
+		for ( auto nbum_iter : next_ur_action.new_block_umap )
+		{
+			const vec2_s32& block_grid_pos = nbum_iter.first;
+			const block& the_block = nbum_iter.second;
+			
+			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
+				= the_block;
+		}
+	}
+	else if ( the_action_type == at_finish_moving_non_pasted_sprites )
+	{
+		for ( auto iter : next_ur_action.old_sprite_ipgws_umap )
+		{
+			const vec2_s32& block_grid_pos = iter.first;
+			//const sprite_ipgws& the_sprite_ipgws = iter.second;
+			
+			the_sublevel
+				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
+				= sprite_ipgws();
+		}
+		
+		for ( auto iter : next_ur_action.new_sprite_ipgws_umap )
+		{
+			const vec2_s32& block_grid_pos = iter.first;
+			const sprite_ipgws& the_sprite_ipgws = iter.second;
+			
+			the_sublevel
+				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
+				= the_sprite_ipgws;
+		}
+		
+	}
+	else if ( the_action_type == at_finish_moving_pasted_blocks )
+	{
+		for ( auto nbum_iter : next_ur_action.new_block_umap )
+		{
+			const vec2_s32& block_grid_pos = nbum_iter.first;
+			const block& the_block = nbum_iter.second;
+			
+			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
+				= the_block;
+		}
+	}
+	else if ( the_action_type == at_finish_moving_pasted_sprites )
+	{
+		for ( auto iter : next_ur_action.new_sprite_ipgws_umap )
+		{
+			const vec2_s32& block_grid_pos = iter.first;
+			const sprite_ipgws& the_sprite_ipgws = iter.second;
+			
+			the_sublevel
+				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
+				= the_sprite_ipgws;
+		}
+	}
+	else if ( the_action_type == at_resize_sublevel )
+	{
+		//vec2_u32& old_real_size_2d = next_ur_action.old_real_size_2d;
+		vec2_u32& new_real_size_2d = next_ur_action.new_real_size_2d;
+		
+		
+		const sublevel the_sublevel_before_modification = *the_sublevel;
+		vec2_u32 prev_real_size_2d = the_sublevel->real_size_2d;
+		bool block_grid_was_enabled = the_core_widget
+			->the_sfml_canvas_widget->get_block_grid_enabled();
+		u32 prev_scale_factor = the_core_widget->the_sfml_canvas_widget
+			->scale_factor;
+		rect_selection_stuff copy_of_the_rect_selection_stuff
+			= the_rect_selection_stuff;
+		
+		the_sublevel->resize(new_real_size_2d);
+		
+		the_level_editor_widget
+			->resize_the_sublevel_part_2( the_core_widget, the_sublevel, 
+			the_sublevel_before_modification, block_grid_was_enabled,
+			prev_scale_factor, copy_of_the_rect_selection_stuff, false );
+		
+		//u32 new_block_counter = 0;
+		//for ( auto iter : next_ur_action.new_block_umap )
+		//{
+		//	cout << "new_block_counter == " << new_block_counter << endl;
+		//	++new_block_counter;
+		//	
+		//	const vec2_s32& block_grid_pos = iter.first;
+		//	const block& the_backed_up_block = iter.second;
+		//	
+		//	the_sublevel->get_block_at_block_grid_pos(block_grid_pos) 
+		//		= the_backed_up_block;
+		//}
+		//
+		//u32 new_sprite_ipgws_counter = 0;
+		//for ( auto iter : next_ur_action.new_sprite_ipgws_umap )
+		//{
+		//	cout << "new_sprite_ipgws_counter == " 
+		//		<< new_sprite_ipgws_counter << endl;
+		//	++new_sprite_ipgws_counter;
+		//	
+		//	const vec2_s32& block_grid_pos = iter.first;
+		//	const sprite_ipgws& the_backed_up_sprite_ipgws = iter.second;
+		//	
+		//	the_sublevel
+		//		->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
+		//		= the_backed_up_sprite_ipgws;
+		//}
+	}
+	
+	ur_stack.finalize_redo();
+	
+	return true;
 }
 
 
@@ -1774,536 +2310,6 @@ void editing_manager::place_single_16x32_sprite_and_record_ur_stuff
 		add_sprite_and_record_ur_stuff();
 	}
 	
-}
-
-
-
-// Editing functions to activate upon key press.  These are meant to
-// actually 
-void editing_manager::copy_rs_contents
-	( rect_selection_stuff& the_rect_selection_stuff )
-{
-	the_rect_selection_stuff.copy_rs_contents();
-}
-
-
-void editing_manager::paste_copied_rs_contents
-	( level_editor_core_widget* the_core_widget,
-	rect_selection_stuff& the_rect_selection_stuff )
-{
-	level_editor_sfml_canvas_widget* the_sfml_canvas_widget
-		= the_core_widget->the_sfml_canvas_widget.get();
-	
-	sublevel* the_sublevel = the_core_widget->the_sublevel;
-	
-	if ( the_rect_selection_stuff.get_enabled() )
-	{
-		finalize_movement_of_rs_contents( the_core_widget,
-			the_rect_selection_stuff );
-	}
-	
-	//cout << "Pasting the copied selection contents\n";
-	
-	//the_rect_selection_stuff.paste_copied_selection_contents
-	//	( vec2_s32( 0, 0 ) );
-	
-	sf::FloatRect visible_rect 
-		= the_sfml_canvas_widget->get_visible_rect();
-	
-	//u32 scale_factor = the_sfml_canvas_widget->scale_factor;
-	
-	
-	
-	vec2<double> visible_block_grid_start_pos = the_sfml_canvas_widget
-		->get_basic_visible_block_grid_start_pos(visible_rect);
-	vec2<double> visible_block_grid_size_2d = the_sfml_canvas_widget
-		->get_basic_visible_block_grid_size_2d(visible_rect);
-	
-	// This is so that sprites larger than 16x16 pixels will be placed
-	// if their starting position is offscreen but part of them still
-	// is on screen.
-	--visible_block_grid_start_pos.x;
-	--visible_block_grid_start_pos.y;
-	
-	//cout << visible_block_grid_start_pos.x << ", "
-	//	<< visible_block_grid_start_pos.y << ", "
-	//	<< visible_block_grid_size_2d.x << ", "
-	//	<< visible_block_grid_size_2d.y << endl;
-	
-	++visible_block_grid_size_2d.x;
-	++visible_block_grid_size_2d.y;
-	
-	++visible_block_grid_size_2d.x;
-	++visible_block_grid_size_2d.y;
-	
-	if ( visible_block_grid_start_pos.x < 0 )
-	{
-		visible_block_grid_start_pos.x = 0;
-	}
-	if ( visible_block_grid_start_pos.y < 0 )
-	{
-		visible_block_grid_start_pos.y = 0;
-	}
-	
-	if ( ( visible_block_grid_start_pos.x + visible_block_grid_size_2d.x )
-		>= (s32)the_sublevel->real_size_2d.x )
-	{
-		visible_block_grid_size_2d.x = the_sublevel->real_size_2d.x
-			- visible_block_grid_start_pos.x;
-	}
-	if ( ( visible_block_grid_start_pos.y + visible_block_grid_size_2d.y )
-		>= (s32)the_sublevel->real_size_2d.y )
-	{
-		visible_block_grid_size_2d.y = the_sublevel->real_size_2d.y
-			- visible_block_grid_start_pos.y;
-	}
-	
-	
-	
-	// Paste at the location of the mouse.
-	sf::FloatRect visible_block_grid_rect
-		( visible_block_grid_start_pos.x,
-		visible_block_grid_start_pos.y,
-		visible_block_grid_size_2d.x, visible_block_grid_size_2d.y );
-	
-	
-	sf::Vector2i mouse_pos_in_canvas_widget_coords;
-	sf::Vector2f mouse_pos_in_canvas_coords;
-	vec2_s32 block_grid_coords_of_mouse_pos;
-	
-	get_a_few_types_of_mouse_pos( the_sfml_canvas_widget,
-		mouse_pos_in_canvas_widget_coords, mouse_pos_in_canvas_coords,
-		block_grid_coords_of_mouse_pos );
-	
-	
-	if ( visible_block_grid_rect.contains
-		( block_grid_coords_of_mouse_pos.x, 
-		block_grid_coords_of_mouse_pos.y ) )
-	{
-		the_rect_selection_stuff.paste_copied_rs_contents
-			(block_grid_coords_of_mouse_pos);
-	}
-	//else
-	//{
-	//	the_rect_selection_stuff.paste_copied_rs_contents( vec2_s32
-	//		( visible_block_grid_start_pos.x, 
-	//		visible_block_grid_start_pos.y ) );
-	//}
-}
-
-
-bool editing_manager::undo( level_editor_core_widget* the_core_widget )
-{
-	undo_and_redo_stuff& ur_stuff 
-		= get_or_create_ur_stuff(the_core_widget);
-	
-	undo_and_redo_stack& ur_stack = ur_stuff.ur_stack;
-	
-	if ( !ur_stack.can_undo() )
-	{
-		return false;
-	}
-	
-	undo_and_redo_action& curr_ur_action = ur_stack.get_curr_action();
-	
-	const action_type& the_action_type = curr_ur_action.the_action_type;
-	
-	sublevel* the_sublevel = the_core_widget->the_sublevel;
-	
-	rect_selection_stuff& the_rect_selection_stuff = the_core_widget
-		->the_sfml_canvas_widget->the_rect_selection_stuff;
-	
-	if ( the_rect_selection_stuff.get_enabled() )
-	{
-		if ( !the_rect_selection_stuff.get_single_sprite_selected() )
-		{
-			//finalize_movement_of_rs_contents( the_core_widget,
-			//	the_rect_selection_stuff );
-			return false;
-		}
-		else //if ( the_rect_selection_stuff.get_single_sprite_selected() )
-		{
-			the_rect_selection_stuff.disable_selection();
-			
-			the_core_widget->do_emit_sprite_no_longer_selected();
-		}
-	}
-	
-	//the_core_widget->do_emit_sprite_no_longer_selected();
-	
-	
-	//for ( u32 i=0; i<5; ++i )
-	//{
-	//	cout << "Hey, don't forget about finalize_redo()!\n";
-	//}
-	
-	if ( the_action_type == at_place_blocks )
-	{
-		// Since placing blocks only changes the same blocks that are
-		// replaced, it is only necessary to loop through the
-		// replaced_block_umap's contents
-		
-		for ( auto iter : curr_ur_action.replaced_block_umap )
-		{
-			const vec2_s32& block_grid_pos = iter.first;
-			const block& the_replaced_block = iter.second;
-			
-			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
-				= the_replaced_block;
-		}
-	}
-	else if ( the_action_type == at_place_sprite )
-	{
-		const sprite_ipgws& new_sprite_ipgws
-			= curr_ur_action.new_sprite_ipgws;
-		
-		const vec2_s32 block_grid_pos
-			( new_sprite_ipgws.initial_block_grid_x_coord, 
-			new_sprite_ipgws.initial_block_grid_y_coord );
-		
-		the_sublevel->get_sprite_ipgws_at_block_grid_pos
-			(block_grid_pos) = sprite_ipgws();
-	}
-	else if ( the_action_type == at_modify_sprite )
-	{
-		const sprite_ipgws& old_sprite_ipgws 
-			= curr_ur_action.old_sprite_ipgws;
-		const vec2_s32 block_grid_pos
-			( old_sprite_ipgws.initial_block_grid_x_coord, 
-			old_sprite_ipgws.initial_block_grid_y_coord );
-		
-		sprite_ipgws* the_sprite_ipgws = &(the_sublevel
-			->get_sprite_ipgws_at_block_grid_pos(block_grid_pos));
-		
-		*the_sprite_ipgws = old_sprite_ipgws;
-		
-		the_rect_selection_stuff.enable_single_sprite_selection
-			(the_sprite_ipgws);
-		
-		the_core_widget->do_emit_sprite_was_selected();
-	}
-	else if ( the_action_type == at_finish_moving_non_pasted_blocks )
-	{
-		for ( auto rbum_iter : curr_ur_action.replaced_block_umap )
-		{
-			const vec2_s32& block_grid_pos = rbum_iter.first;
-			const block& the_block = rbum_iter.second;
-			
-			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
-				= the_block;
-		}
-		
-		for ( auto obum_iter : curr_ur_action.old_block_umap )
-		{
-			const vec2_s32& block_grid_pos = obum_iter.first;
-			const block& the_block = obum_iter.second;
-			
-			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
-				= the_block;
-		}
-	}
-	else if ( the_action_type == at_finish_moving_non_pasted_sprites )
-	{
-		for ( auto iter : curr_ur_action.replaced_sprite_ipgws_umap )
-		{
-			const vec2_s32& block_grid_pos = iter.first;
-			const sprite_ipgws& the_sprite_ipgws = iter.second;
-			
-			the_sublevel
-				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
-				= the_sprite_ipgws;
-		}
-		
-		for ( auto iter : curr_ur_action.old_sprite_ipgws_umap )
-		{
-			const vec2_s32& block_grid_pos = iter.first;
-			const sprite_ipgws& the_sprite_ipgws = iter.second;
-			
-			the_sublevel
-				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
-				= the_sprite_ipgws;
-		}
-	}
-	else if ( the_action_type == at_finish_moving_pasted_blocks )
-	{
-		for ( auto rbum_iter : curr_ur_action.replaced_block_umap )
-		{
-			const vec2_s32& block_grid_pos = rbum_iter.first;
-			const block& the_block = rbum_iter.second;
-			
-			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
-				= the_block;
-		}
-	}
-	else if ( the_action_type == at_finish_moving_pasted_sprites )
-	{
-		for ( auto iter : curr_ur_action.replaced_sprite_ipgws_umap )
-		{
-			const vec2_s32& block_grid_pos = iter.first;
-			const sprite_ipgws& the_sprite_ipgws = iter.second;
-			
-			the_sublevel
-				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
-				= the_sprite_ipgws;
-		}
-	}
-	else if ( the_action_type == at_resize_sublevel )
-	{
-		vec2_u32& old_real_size_2d = curr_ur_action.old_real_size_2d;
-		//vec2_u32& new_real_size_2d = curr_ur_action.new_real_size_2d;
-		
-		
-		const sublevel the_sublevel_before_modification = *the_sublevel;
-		vec2_u32 prev_real_size_2d = the_sublevel->real_size_2d;
-		bool block_grid_was_enabled = the_core_widget
-			->the_sfml_canvas_widget->get_block_grid_enabled();
-		u32 prev_scale_factor = the_core_widget->the_sfml_canvas_widget
-			->scale_factor;
-		rect_selection_stuff copy_of_the_rect_selection_stuff
-			= the_rect_selection_stuff;
-		
-		the_sublevel->resize(old_real_size_2d);
-		
-		the_level_editor_widget
-			->resize_the_sublevel_part_2( the_core_widget, the_sublevel, 
-			the_sublevel_before_modification, block_grid_was_enabled,
-			prev_scale_factor, copy_of_the_rect_selection_stuff, false );
-		
-		for ( auto iter : curr_ur_action.old_block_umap )
-		{
-			const vec2_s32& block_grid_pos = iter.first;
-			const block& the_backed_up_block = iter.second;
-			
-			the_sublevel->get_block_at_block_grid_pos(block_grid_pos) 
-				= the_backed_up_block;
-		}
-		for ( auto iter : curr_ur_action.old_sprite_ipgws_umap )
-		{
-			const vec2_s32& block_grid_pos = iter.first;
-			const sprite_ipgws& the_backed_up_sprite_ipgws = iter.second;
-			
-			the_sublevel
-				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
-				= the_backed_up_sprite_ipgws;
-		}
-	}
-	
-	
-	ur_stack.finalize_undo();
-	
-	return true;
-}
-
-bool editing_manager::redo( level_editor_core_widget* the_core_widget )
-{
-	undo_and_redo_stuff& ur_stuff 
-		= get_or_create_ur_stuff(the_core_widget);
-	
-	undo_and_redo_stack& ur_stack = ur_stuff.ur_stack;
-	
-	if ( !ur_stack.can_redo() )
-	{
-		return false;
-	}
-	
-	undo_and_redo_action& next_ur_action = ur_stack.get_next_action();
-	
-	const action_type& the_action_type = next_ur_action.the_action_type;
-	
-	sublevel* the_sublevel = the_core_widget->the_sublevel;
-	
-	rect_selection_stuff& the_rect_selection_stuff = the_core_widget
-		->the_sfml_canvas_widget->the_rect_selection_stuff;
-	
-	if ( the_rect_selection_stuff.get_enabled() )
-	{
-		if ( !the_rect_selection_stuff.get_single_sprite_selected() )
-		{
-			//finalize_movement_of_rs_contents( the_core_widget,
-			//	the_rect_selection_stuff );
-			return false;
-		}
-		else //if ( the_rect_selection_stuff.get_single_sprite_selected() )
-		{
-			the_rect_selection_stuff.disable_selection();
-			
-			the_core_widget->do_emit_sprite_no_longer_selected();
-		}
-	}
-	
-	//the_core_widget->do_emit_sprite_no_longer_selected();
-	
-	
-	//for ( u32 i=0; i<5; ++i )
-	//{
-	//	cout << "Hey, don't forget about finalize_redo()!\n";
-	//}
-	
-	if ( the_action_type == at_place_blocks )
-	{
-		// Since placing blocks only changes the same blocks that are
-		// replaced, it is only necessary to loop through the
-		// new_block_umap's contents
-		
-		for ( auto iter : next_ur_action.new_block_umap )
-		{
-			const vec2_s32& block_grid_pos = iter.first;
-			const block& the_replaced_block = iter.second;
-			
-			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
-				= the_replaced_block;
-		}
-	}
-	else if ( the_action_type == at_place_sprite )
-	{
-		const sprite_ipgws& new_sprite_ipgws
-			= next_ur_action.new_sprite_ipgws;
-		
-		const vec2_s32 block_grid_pos
-			( new_sprite_ipgws.initial_block_grid_x_coord, 
-			new_sprite_ipgws.initial_block_grid_y_coord );
-		
-		the_sublevel->get_sprite_ipgws_at_block_grid_pos
-			(block_grid_pos) = new_sprite_ipgws;
-	}
-	else if ( the_action_type == at_modify_sprite )
-	{
-		const sprite_ipgws& new_sprite_ipgws 
-			= next_ur_action.new_sprite_ipgws;
-		const vec2_s32 block_grid_pos
-			( new_sprite_ipgws.initial_block_grid_x_coord, 
-			new_sprite_ipgws.initial_block_grid_y_coord );
-		
-		sprite_ipgws* the_sprite_ipgws = &(the_sublevel
-			->get_sprite_ipgws_at_block_grid_pos(block_grid_pos));
-		
-		*the_sprite_ipgws = new_sprite_ipgws;
-		
-		the_rect_selection_stuff.enable_single_sprite_selection
-			(the_sprite_ipgws);
-		
-		the_core_widget->do_emit_sprite_was_selected();
-	}
-	else if ( the_action_type == at_finish_moving_non_pasted_blocks )
-	{
-		for ( auto obum_iter : next_ur_action.old_block_umap )
-		{
-			const vec2_s32& block_grid_pos = obum_iter.first;
-			//const block& the_block = obum_iter.second;
-			
-			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
-				= block();
-		}
-		
-		for ( auto nbum_iter : next_ur_action.new_block_umap )
-		{
-			const vec2_s32& block_grid_pos = nbum_iter.first;
-			const block& the_block = nbum_iter.second;
-			
-			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
-				= the_block;
-		}
-	}
-	else if ( the_action_type == at_finish_moving_non_pasted_sprites )
-	{
-		for ( auto iter : next_ur_action.old_sprite_ipgws_umap )
-		{
-			const vec2_s32& block_grid_pos = iter.first;
-			//const sprite_ipgws& the_sprite_ipgws = iter.second;
-			
-			the_sublevel
-				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
-				= sprite_ipgws();
-		}
-		
-		for ( auto iter : next_ur_action.new_sprite_ipgws_umap )
-		{
-			const vec2_s32& block_grid_pos = iter.first;
-			const sprite_ipgws& the_sprite_ipgws = iter.second;
-			
-			the_sublevel
-				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
-				= the_sprite_ipgws;
-		}
-		
-	}
-	else if ( the_action_type == at_finish_moving_pasted_blocks )
-	{
-		for ( auto nbum_iter : next_ur_action.new_block_umap )
-		{
-			const vec2_s32& block_grid_pos = nbum_iter.first;
-			const block& the_block = nbum_iter.second;
-			
-			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
-				= the_block;
-		}
-	}
-	else if ( the_action_type == at_finish_moving_pasted_sprites )
-	{
-		for ( auto iter : next_ur_action.new_sprite_ipgws_umap )
-		{
-			const vec2_s32& block_grid_pos = iter.first;
-			const sprite_ipgws& the_sprite_ipgws = iter.second;
-			
-			the_sublevel
-				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
-				= the_sprite_ipgws;
-		}
-	}
-	else if ( the_action_type == at_resize_sublevel )
-	{
-		//vec2_u32& old_real_size_2d = next_ur_action.old_real_size_2d;
-		vec2_u32& new_real_size_2d = next_ur_action.new_real_size_2d;
-		
-		
-		const sublevel the_sublevel_before_modification = *the_sublevel;
-		vec2_u32 prev_real_size_2d = the_sublevel->real_size_2d;
-		bool block_grid_was_enabled = the_core_widget
-			->the_sfml_canvas_widget->get_block_grid_enabled();
-		u32 prev_scale_factor = the_core_widget->the_sfml_canvas_widget
-			->scale_factor;
-		rect_selection_stuff copy_of_the_rect_selection_stuff
-			= the_rect_selection_stuff;
-		
-		the_sublevel->resize(new_real_size_2d);
-		
-		the_level_editor_widget
-			->resize_the_sublevel_part_2( the_core_widget, the_sublevel, 
-			the_sublevel_before_modification, block_grid_was_enabled,
-			prev_scale_factor, copy_of_the_rect_selection_stuff, false );
-		
-		//u32 new_block_counter = 0;
-		//for ( auto iter : next_ur_action.new_block_umap )
-		//{
-		//	cout << "new_block_counter == " << new_block_counter << endl;
-		//	++new_block_counter;
-		//	
-		//	const vec2_s32& block_grid_pos = iter.first;
-		//	const block& the_backed_up_block = iter.second;
-		//	
-		//	the_sublevel->get_block_at_block_grid_pos(block_grid_pos) 
-		//		= the_backed_up_block;
-		//}
-		//
-		//u32 new_sprite_ipgws_counter = 0;
-		//for ( auto iter : next_ur_action.new_sprite_ipgws_umap )
-		//{
-		//	cout << "new_sprite_ipgws_counter == " 
-		//		<< new_sprite_ipgws_counter << endl;
-		//	++new_sprite_ipgws_counter;
-		//	
-		//	const vec2_s32& block_grid_pos = iter.first;
-		//	const sprite_ipgws& the_backed_up_sprite_ipgws = iter.second;
-		//	
-		//	the_sublevel
-		//		->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
-		//		= the_backed_up_sprite_ipgws;
-		//}
-	}
-	
-	ur_stack.finalize_redo();
-	
-	return true;
 }
 
 

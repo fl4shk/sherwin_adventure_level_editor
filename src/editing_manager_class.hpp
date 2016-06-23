@@ -78,6 +78,23 @@ public:		// functions
 		QMouseEvent* event );
 	
 	
+	// Editing functions to activate upon key press (or when done from the
+	// "Edit" menu).  These are meant to actually (I really don't remember
+	// what was supposed to come next in this comment)
+	void copy_rs_contents
+		( level_editor_core_widget* the_core_widget,
+		rect_selection_stuff& the_rect_selection_stuff );
+	void paste_copied_rs_contents
+		( level_editor_core_widget* the_core_widget,
+		rect_selection_stuff& the_rect_selection_stuff );
+	
+	// Only one undo or redo at a time.  Returns whether the undo or redo
+	// was successful, which is probably only useful for debugging
+	bool undo( level_editor_core_widget* the_core_widget );
+	bool redo( level_editor_core_widget* the_core_widget );
+	
+	
+	
 	// Editing actions that have been made into their own functions so
 	// that the_editing_manager can handle them.
 	void finalize_movement_of_rs_contents
@@ -252,20 +269,6 @@ protected:		// functions
 	
 	
 	
-	// Editing functions to activate upon key press.  These are meant to
-	// actually 
-	void copy_rs_contents
-		( rect_selection_stuff& the_rect_selection_stuff );
-	void paste_copied_rs_contents
-		( level_editor_core_widget* the_core_widget,
-		rect_selection_stuff& the_rect_selection_stuff );
-	
-	// Only one undo or redo at a time.  Returns whether the undo or redo
-	// was successful, which is probably only useful for debugging
-	bool undo( level_editor_core_widget* the_core_widget );
-	bool redo( level_editor_core_widget* the_core_widget );
-	
-	
 	// Editing actions that have been made into their own functions so
 	// that the_editing_manager can handle them.
 	void finalize_movement_of_rs_contents_block_ur_stuff
@@ -286,9 +289,9 @@ protected:		// functions
 	
 	
 	
-	friend class level_editor_widget;
-	friend class level_editor_core_widget;
-	friend class level_editor_sfml_canvas_widget;
+	//friend class level_editor_widget;
+	//friend class level_editor_core_widget;
+	//friend class level_editor_sfml_canvas_widget;
 	friend class sprite_properties_widget;
 	
 };

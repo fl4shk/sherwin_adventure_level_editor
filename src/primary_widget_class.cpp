@@ -95,15 +95,27 @@ void primary_widget::generate_menus()
 	file_menu_quit_action.reset(new QAction( "&Quit", this ));
 	
 	// Generate the edit_menu actions.
+	edit_menu_copy_rs_contents_action.reset(new QAction
+		( "&Copy Selection (Keyboard Shortcut:  C)", this ));
+	edit_menu_paste_copied_rs_contents_action.reset(new QAction
+		( "&Paste Copied Selection (Keyboard Shortcut:  V)", this ));
+	edit_menu_undo_action.reset(new QAction
+		( "&Undo (Keyboard Shortcut:  Z)", this ));
+	edit_menu_redo_action.reset(new QAction
+		( "&Redo (Keyboard Shortcut:  Y)", this ));
+	
+	
 	edit_menu_sublevel_properties_action.reset(new QAction
 		( "&Sublevel Properties", this ));
 	//edit_menu_level_properties_action.reset(new QAction
 	//	( "&Level Properties", this ));
 	
 	
+	
+	
 	// Connect the file_menu actions to the slots.
 	connect( file_menu_laugh_action.get(), &QAction::triggered, this, 
-		&primary_widget::laugh );
+		&primary_widget::file_menu_laugh );
 	connect( file_menu_open_action.get(), &QAction::triggered,
 		the_central_widget.get(), &level_editor_widget::open_level );
 	connect( file_menu_save_action.get(), &QAction::triggered,
@@ -112,10 +124,20 @@ void primary_widget::generate_menus()
 		the_central_widget.get(), &level_editor_widget::save_level_as );
 	
 	connect( file_menu_quit_action.get(), &QAction::triggered, this, 
-		&primary_widget::quit );
+		&primary_widget::file_menu_quit );
 	
 	
 	// Connect the edit_menu actions to the slots.
+	connect( edit_menu_copy_rs_contents_action.get(), &QAction::triggered, 
+		this, &primary_widget::edit_menu_copy_rs_contents );
+	connect( edit_menu_paste_copied_rs_contents_action.get(), 
+		&QAction::triggered, this, 
+		&primary_widget::edit_menu_paste_copied_rs_contents );
+	connect( edit_menu_undo_action.get(), &QAction::triggered, this, 
+		&primary_widget::edit_menu_undo );
+	connect( edit_menu_redo_action.get(), &QAction::triggered, this, 
+		&primary_widget::edit_menu_redo );
+	
 	connect( edit_menu_sublevel_properties_action.get(), 
 		&QAction::triggered, the_central_widget.get(), 
 		&level_editor_widget::create_sublevel_properties_widget );
@@ -125,9 +147,13 @@ void primary_widget::generate_menus()
 	//	&primary_widget::create_level_properties_widget );
 	
 	
+	
+	
 	// Add the menus to the menu bar
 	file_menu = menuBar()->addMenu("&File");
 	edit_menu = menuBar()->addMenu("&Edit");
+	
+	
 	
 	
 	// Add the file_menu actions to the file_menu
@@ -140,6 +166,11 @@ void primary_widget::generate_menus()
 	
 	
 	// Add the edit_menu actions to the edit_menu
+	edit_menu->addAction(edit_menu_copy_rs_contents_action.get());
+	edit_menu->addAction(edit_menu_paste_copied_rs_contents_action.get());
+	edit_menu->addAction(edit_menu_undo_action.get());
+	edit_menu->addAction(edit_menu_redo_action.get());
+	edit_menu->addSeparator();
 	edit_menu->addAction(edit_menu_sublevel_properties_action.get());
 	//edit_menu->addAction(edit_menu_level_properties_action.get());
 }
@@ -188,7 +219,7 @@ bool primary_widget::generate_toolbar()
 		"Laugh" );
 	
 	connect( toolbar_laugh_action, &QAction::triggered, this,
-		&primary_widget::laugh );
+		&primary_widget::file_menu_laugh );
 	
 	toolbar->addSeparator();
 	
@@ -240,7 +271,9 @@ void primary_widget::generate_central_widget()
 	setCentralWidget(the_central_widget.get());
 }
 
-void primary_widget::laugh()
+
+// File Menu Slots
+void primary_widget::file_menu_laugh()
 {
 	cout << "AHAHAHAHA\n\n";
 	
@@ -312,12 +345,67 @@ void primary_widget::laugh()
 	
 }
 
-void primary_widget::quit()
+void primary_widget::file_menu_quit()
 {
 	quit_non_slot();
 }
 
 
 
+void primary_widget::edit_menu_copy_rs_contents()
+{
+	//cout << "edit_menu_copy_rs_contents()\n";
+	
+	level_editor_core_widget* the_core_widget 
+		= the_central_widget->get_curr_level_editor_core_widget
+		( string("Weird bug in edit_menu_copy_rs_contents():  ")
+		+ string("the_core_widget == NULL.\nExpect a segfault....") );
+	
+	rect_selection_stuff& the_rect_selection_stuff = the_core_widget
+		->the_sfml_canvas_widget->the_rect_selection_stuff;
+	
+	the_editing_manager->copy_rs_contents( the_core_widget, 
+		the_rect_selection_stuff );
+}
+
+void primary_widget::edit_menu_paste_copied_rs_contents()
+{
+	//cout << "edit_menu_paste_copied_rs_contents()\n";
+	
+	level_editor_core_widget* the_core_widget 
+		= the_central_widget->get_curr_level_editor_core_widget
+		( string("Weird bug in edit_menu_paste_copied_rs_contents():  ")
+		+ string("the_core_widget == NULL.\nExpect a segfault....") );
+	
+	rect_selection_stuff& the_rect_selection_stuff = the_core_widget
+		->the_sfml_canvas_widget->the_rect_selection_stuff;
+	
+	the_editing_manager->paste_copied_rs_contents( the_core_widget,
+		the_rect_selection_stuff );
+}
+
+void primary_widget::edit_menu_undo()
+{
+	//cout << "edit_menu_undo()\n";
+	
+	level_editor_core_widget* the_core_widget 
+		= the_central_widget->get_curr_level_editor_core_widget
+		( string("Weird bug in edit_menu_undo():  the_core_widget ")
+		+ string("== NULL.\nExpect a segfault....") );
+	
+	the_editing_manager->undo(the_core_widget);
+}
+
+void primary_widget::edit_menu_redo()
+{
+	//cout << "edit_menu_redo()\n";
+	
+	level_editor_core_widget* the_core_widget 
+		= the_central_widget->get_curr_level_editor_core_widget
+		( string("Weird bug in edit_menu_redo():  the_core_widget ")
+		+ string("== NULL.\nExpect a segfault....") );
+	
+	the_editing_manager->redo(the_core_widget);
+}
 
 
