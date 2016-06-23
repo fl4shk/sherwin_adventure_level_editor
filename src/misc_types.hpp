@@ -60,7 +60,8 @@ enum action_type
 	at_place_blocks, 
 	at_place_sprite, 
 	
-	//at_erase_sprites, 
+	// Use at_place_blocks for erasing blocks
+	at_erase_sprites, 
 	
 	at_modify_sprite, 
 	

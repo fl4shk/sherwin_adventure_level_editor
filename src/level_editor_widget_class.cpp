@@ -806,8 +806,10 @@ void level_editor_widget::switch_mouse_mode_to_place_level_elements()
 
 void level_editor_widget::switch_mouse_mode_to_erase_level_elements()
 {
-	cout << "switch_mouse_mode_to_erase_level_elements() is not yet "
-		<< "implemented other than showing this text.\n";
+	//cout << "switch_mouse_mode_to_erase_level_elements() is not yet "
+	//	<< "implemented other than showing this text.\n";
+	switch_mouse_mode_shared_code( mm_erase_level_elements,
+		"erase_level_elements" );
 }
 
 void level_editor_widget::switch_mouse_mode_to_select_single_sprite()
@@ -1188,10 +1190,14 @@ void level_editor_widget::switch_mouse_mode( int button_id )
 			break;
 		
 		case 1:
-			switch_mouse_mode_to_select_single_sprite();
+			switch_mouse_mode_to_erase_level_elements();
 			break;
 		
 		case 2:
+			switch_mouse_mode_to_select_single_sprite();
+			break;
+		
+		case 3:
 			switch_mouse_mode_to_rect_selection();
 	}
 }

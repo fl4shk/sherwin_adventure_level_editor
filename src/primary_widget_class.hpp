@@ -28,6 +28,49 @@
 #include "mouse_mode_button_group_widget_class.hpp"
 
 
+#define list_of_debug_tbt_suffixes_part_1(macro) \
+	macro(laugh)
+
+#define list_of_mm_switching_tbt_suffixes(macro) \
+	macro(draw_mode) macro(erase_mode) \
+	macro(sprite_properties_mode) macro(rect_selection_mode)
+
+
+#define list_of_tbt_suffixes(macro) \
+	list_of_debug_tbt_suffixes_part_1(macro) \
+	list_of_mm_switching_tbt_suffixes(macro)
+
+enum mm_toolbar_button_type
+{
+	#define mm_tbt_suffix_to_enum_value(suffix) \
+	mm_tbt_##suffix,
+	
+	list_of_mm_switching_tbt_suffixes(mm_tbt_suffix_to_enum_value)
+	
+	#undef mm_tbt_suffix_to_enum_value
+	
+	
+	// mm_tbt_count, the number of mm_toolbar_button_type's, is
+	// automatically updated by the compiler so long as it is the last
+	// entry in this enum.
+	mm_tbt_count,
+};
+
+enum toolbar_button_type
+{
+	#define tbt_suffix_to_enum_value(suffix) \
+	tbt_##suffix,
+	
+	list_of_tbt_suffixes(tbt_suffix_to_enum_value)
+	
+	#undef tbt_suffix_to_enum_value
+	
+	
+	// tbt_count, the number of toolbar_button_type's, is automatically
+	// updated by the compiler so long as it is the last entry in this
+	// enum.
+	tbt_count,
+};
 
 
 class primary_widget : public QMainWindow
@@ -36,9 +79,11 @@ class primary_widget : public QMainWindow
 	
 public:		// constants
 	// Toolbar Stuff
-	static const QString laugh_icon_file_name, draw_mode_icon_file_name,
-		sprite_properties_mode_icon_file_name, 
-		rect_selection_mode_icon_file_name;
+	//static const QString laugh_icon_file_name, draw_mode_icon_file_name,
+	//	erase_mode_icon_file_name, sprite_properties_mode_icon_file_name, 
+	//	rect_selection_mode_icon_file_name;
+	static const vector<QString> toolbar_icon_file_name_vec;
+	static const vector<QString> toolbar_action_text_vec;
 	
 	int test;
 	
@@ -67,21 +112,15 @@ protected:		// variables
 	// Toolbar Stuff
 	QToolBar* toolbar;
 	
-	//unique_ptr<QIcon> toolbar_laugh_icon,
-	//	toolbar_draw_mode_tool_button_icon,
-	//	toolbar_sprite_properties_mode_tool_button_icon,
-	//	toolbar_rect_selection_mode_tool_button_icon;
 	
-	QAction* toolbar_laugh_action;
-	
+	QAction* laugh_tool_button_action;
 	
 	// These are used with the_mouse_mode_button_group_widget.
-	//unique_ptr<QAction> draw_mode_tool_button_action,
-	//	sprite_properties_mode_tool_button_action,
-	//	rect_selection_mode_tool_button_action;
-	QAction * draw_mode_tool_button_action,
-		* sprite_properties_mode_tool_button_action,
-		* rect_selection_mode_tool_button_action;
+	//QAction * draw_mode_tool_button_action,
+	//	* erase_mode_tool_button_action,
+	//	* sprite_properties_mode_tool_button_action,
+	//	* rect_selection_mode_tool_button_action;
+	vector<QAction*> mm_switching_tool_button_action_vec;
 	
 	unique_ptr<mouse_mode_button_group_widget> 
 		the_mouse_mode_button_group_widget;

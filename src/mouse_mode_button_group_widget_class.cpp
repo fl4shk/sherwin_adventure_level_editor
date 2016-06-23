@@ -19,17 +19,12 @@
 
 #include "mouse_mode_button_group_widget_class.hpp"
 
+#include "primary_widget_class.hpp"
+
 mouse_mode_button_group_widget::mouse_mode_button_group_widget
 	( QWidget* s_parent, const QPoint& s_position, const QSize& s_size,
-	QAction* s_draw_mode_tool_button_action, 
-	QAction* s_sprite_properties_mode_tool_button_action,
-	QAction* s_rect_selection_mode_tool_button_action )
-	: QWidget(s_parent), parent(s_parent),
-	draw_mode_tool_button_action(s_draw_mode_tool_button_action),
-	sprite_properties_mode_tool_button_action
-	(s_sprite_properties_mode_tool_button_action),
-	rect_selection_mode_tool_button_action
-	(s_rect_selection_mode_tool_button_action)
+	vector<QAction*> & mm_switching_tool_button_action_vec )
+	: QWidget(s_parent), parent(s_parent)
 {
 	move(s_position);
 	resize(s_size);
@@ -45,51 +40,77 @@ mouse_mode_button_group_widget::mouse_mode_button_group_widget
 	
 	button_group.reset(new QButtonGroup);
 	
-	generate_tool_buttons();
+	generate_tool_buttons(mm_switching_tool_button_action_vec);
 	
 	hbox_layout->addWidget(group_box.get());
 }
 
 
-void mouse_mode_button_group_widget::generate_tool_buttons()
+void mouse_mode_button_group_widget::generate_tool_buttons
+	( vector<QAction*>& mm_switching_tool_button_action_vec )
 {
 	cout << "generate_tool_buttons()\n";
 	
-	draw_mode_tool_button.reset(new QToolButton);
-	sprite_properties_mode_tool_button.reset(new QToolButton);
-	rect_selection_mode_tool_button.reset(new QToolButton);
+	for ( int i=0; i<mm_tbt_count; ++i )
+	{
+		
+		tool_button_vec.push_back( unique_ptr<QToolButton>
+			(new QToolButton) );
+		
+		QAction* curr_tool_button_action 
+			= mm_switching_tool_button_action_vec.at(i);
+		
+		tool_button_vec.back()->setDefaultAction(curr_tool_button_action);
+		
+		//tool_button_vec.back()->setMinimumSize(QSize( 32, 32 ));
+		
+		tool_button_vec.back()->setIconSize(QSize( 32, 32 ));
+		
+		curr_tool_button_action->setCheckable(true);
+		
+		button_group->addButton( tool_button_vec.back().get(), i );
+		
+		if ( i == mm_tbt_draw_mode )
+		{
+			//tool_button_vec.back()->setChecked(true);
+			
+			curr_tool_button_action->setChecked(true);
+		}
+		
+		group_box_hbox_layout->addWidget(tool_button_vec.back().get());
+	}
 	
-	draw_mode_tool_button->setDefaultAction(draw_mode_tool_button_action);
-	sprite_properties_mode_tool_button->setDefaultAction
-		(sprite_properties_mode_tool_button_action);
-	rect_selection_mode_tool_button->setDefaultAction
-		(rect_selection_mode_tool_button_action);
-	
-	//draw_mode_tool_button->setMinimumSize(QSize( 32, 32 ));
-	//sprite_properties_mode_tool_button->setMinimumSize(QSize( 32, 32 ));
-	//rect_selection_mode_tool_button->setMinimumSize(QSize( 32, 32 ));
-	
-	draw_mode_tool_button->setIconSize(QSize( 32, 32 ));
-	sprite_properties_mode_tool_button->setIconSize(QSize( 32, 32 ));
-	rect_selection_mode_tool_button->setIconSize(QSize( 32, 32 ));
-	
-	draw_mode_tool_button_action->setCheckable(true);
-	sprite_properties_mode_tool_button_action->setCheckable(true);
-	rect_selection_mode_tool_button_action->setCheckable(true);
-	
-	button_group->addButton( draw_mode_tool_button.get(), 0 );
-	button_group->addButton( sprite_properties_mode_tool_button.get(), 1 );
-	button_group->addButton( rect_selection_mode_tool_button.get(), 2 );
-	
-	draw_mode_tool_button_action->setChecked(true);
-	
-	
-	
-	group_box_hbox_layout->addWidget(draw_mode_tool_button.get());
-	group_box_hbox_layout->addWidget
-		(sprite_properties_mode_tool_button.get());
-	group_box_hbox_layout->addWidget
-		(rect_selection_mode_tool_button.get());
+	//draw_mode_tool_button->setDefaultAction(draw_mode_tool_button_action);
+	//sprite_properties_mode_tool_button->setDefaultAction
+	//	(sprite_properties_mode_tool_button_action);
+	//rect_selection_mode_tool_button->setDefaultAction
+	//	(rect_selection_mode_tool_button_action);
+	//
+	////draw_mode_tool_button->setMinimumSize(QSize( 32, 32 ));
+	////sprite_properties_mode_tool_button->setMinimumSize(QSize( 32, 32 ));
+	////rect_selection_mode_tool_button->setMinimumSize(QSize( 32, 32 ));
+	//
+	//draw_mode_tool_button->setIconSize(QSize( 32, 32 ));
+	//sprite_properties_mode_tool_button->setIconSize(QSize( 32, 32 ));
+	//rect_selection_mode_tool_button->setIconSize(QSize( 32, 32 ));
+	//
+	//draw_mode_tool_button_action->setCheckable(true);
+	//sprite_properties_mode_tool_button_action->setCheckable(true);
+	//rect_selection_mode_tool_button_action->setCheckable(true);
+	//
+	//button_group->addButton( draw_mode_tool_button.get(), 0 );
+	//button_group->addButton( sprite_properties_mode_tool_button.get(), 1 );
+	//button_group->addButton( rect_selection_mode_tool_button.get(), 2 );
+	//
+	//draw_mode_tool_button_action->setChecked(true);
+	//
+	//
+	//
+	//group_box_hbox_layout->addWidget(draw_mode_tool_button.get());
+	//group_box_hbox_layout->addWidget
+	//	(sprite_properties_mode_tool_button.get());
+	//group_box_hbox_layout->addWidget
+	//	(rect_selection_mode_tool_button.get());
 	
 }
 

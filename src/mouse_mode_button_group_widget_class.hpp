@@ -39,27 +39,31 @@ public:		// variables
 	
 	
 	// The QToolButton's.
-	unique_ptr<QToolButton> draw_mode_tool_button,
-		sprite_properties_mode_tool_button,
-		rect_selection_mode_tool_button;
+	//unique_ptr<QToolButton> draw_mode_tool_button,
+	//	erase_mode_tool_button,
+	//	sprite_properties_mode_tool_button,
+	//	rect_selection_mode_tool_button;
+	
+	vector< unique_ptr<QToolButton> > tool_button_vec;
 	
 	
-	// These are owned by the primary_widget.
-	QAction* draw_mode_tool_button_action, 
-		* sprite_properties_mode_tool_button_action,
-		* rect_selection_mode_tool_button_action;
+	//// These are owned by the primary_widget.
+	//QAction* draw_mode_tool_button_action, 
+	//	* erase_mode_tool_button_action,
+	//	* sprite_properties_mode_tool_button_action,
+	//	* rect_selection_mode_tool_button_action;
+	
 	
 	
 public:		// functions
 	mouse_mode_button_group_widget( QWidget* s_parent, 
 		const QPoint& s_position, const QSize& s_size,
-		QAction* s_draw_mode_tool_button_action,
-		QAction* s_sprite_properties_mode_tool_button_action,
-		QAction* s_rect_selection_mode_tool_button_action );
+		vector<QAction*>& mm_switching_tool_button_action_vec );
 	
 	
 protected:		// functions
-	void generate_tool_buttons();
+	void generate_tool_buttons
+		( vector<QAction*>& mm_switching_tool_button_action_vec );
 	
 };
 

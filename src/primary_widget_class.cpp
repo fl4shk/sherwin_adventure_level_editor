@@ -20,14 +20,20 @@
 
 #include "primary_widget_class.hpp"
 
-const QString primary_widget::laugh_icon_file_name
-	("icons/laugh_icon_32x32.png"),
-	primary_widget::draw_mode_icon_file_name
-	("icons/draw_mode_icon_32x32.png"),
-	primary_widget::sprite_properties_mode_icon_file_name
-	("icons/sprite_properties_mode_icon_32x32.png"),
-	primary_widget::rect_selection_mode_icon_file_name
-	("icons/rect_selection_mode_icon_32x32.png");
+
+// I really like that this works
+#define single_toolbar_icon_file_name(suffix) \
+	QString("icons/" #suffix "_icon_32x32.png"),
+
+const vector<QString> primary_widget::toolbar_icon_file_name_vec
+	= { list_of_tbt_suffixes(single_toolbar_icon_file_name) };
+
+#undef single_toolbar_icon_file_name
+
+
+// This needs to be updated manually if more toolbar buttons are added!
+const vector<QString> primary_widget::toolbar_action_text_vec
+	= { "Laugh", "Draw", "Erase", "Sprite Properties", "Rect Selection" };
 
 
 
@@ -175,46 +181,33 @@ void primary_widget::generate_menus()
 	//edit_menu->addAction(edit_menu_level_properties_action.get());
 }
 
+
+
 bool primary_widget::generate_toolbar()
 {
-	QPixmap laugh_pixmap(laugh_icon_file_name),
-		draw_mode_pixmap(draw_mode_icon_file_name),
-		sprite_properties_mode_pixmap
-		(sprite_properties_mode_icon_file_name),
-		rect_selection_mode_pixmap(rect_selection_mode_icon_file_name);
+	//QPixmap laugh_pixmap(laugh_icon_file_name),
+	//	draw_mode_pixmap(draw_mode_icon_file_name),
+	//	erase_mode_pixmap(erase_mode_icon_file_name),
+	//	sprite_properties_mode_pixmap
+	//	(sprite_properties_mode_icon_file_name),
+	//	rect_selection_mode_pixmap(rect_selection_mode_icon_file_name);
 	
-	if ( laugh_pixmap.isNull() )
+	vector<QPixmap> toolbar_icon_pixmap_vec;
+	
+	for ( int the_tbt=0; the_tbt<tbt_count; ++the_tbt )
 	{
-		cout << "Unable to open " << laugh_icon_file_name.toStdString()
-			<< " for reading!  ";
-		return false;
+		const QString& the_icon_file_name 
+			= toolbar_icon_file_name_vec.at(the_tbt);
+		
+		toolbar_icon_pixmap_vec.push_back(QPixmap(the_icon_file_name));
+		
+		if ( toolbar_icon_pixmap_vec.back().isNull() )
+		{
+			cout << "Unable to open " << the_icon_file_name.toStdString()
+				<< " for reading!  ";
+			return false;
+		}
 	}
-	
-	if ( draw_mode_pixmap.isNull() )
-	{
-		cout << "Unable to open " << draw_mode_icon_file_name.toStdString()
-			<< " for reading!  ";
-		return false;
-	}
-	
-	if ( sprite_properties_mode_pixmap.isNull() )
-	{
-		cout << "Unable to open " 
-			<< sprite_properties_mode_icon_file_name.toStdString()
-			<< " for reading!  ";
-		return false;
-	}
-	
-	if ( rect_selection_mode_pixmap.isNull() )
-	{
-		cout << "Unable to open " 
-			<< rect_selection_mode_icon_file_name.toStdString()
-			<< " for reading!  ";
-		return false;
-	}
-	
-	
-	//laugh_pixmap = laugh_pixmap.scaled( QSize( 32, 32 ) );
 	
 	
 	
@@ -222,32 +215,58 @@ bool primary_widget::generate_toolbar()
 	
 	toolbar->setIconSize( QSize( 32, 32 ) );
 	
-	toolbar_laugh_action = toolbar->addAction( QIcon(laugh_pixmap), 
-		"Laugh" );
+	if ( toolbar_action_text_vec.size() != tbt_count )
+	{
+		cout << "Bug in program:  toolbar_action_text_vec.size() "
+			<< "!= tbt_count!  FL4SHK definitely NEEDS to edit "
+			<< "primary_widget::toolbar_action_text_vec!\n";
+	}
 	
-	connect( toolbar_laugh_action, &QAction::triggered, this,
-		&primary_widget::file_menu_laugh );
+	#define multi_equals_comparison(other_suffix) \
+		the_tbt == tbt_##other_suffix ||
 	
-	toolbar->addSeparator();
+	for ( int the_tbt=0; the_tbt<tbt_count; ++the_tbt )
+	{
+		const QPixmap& curr_icon_pixmap 
+			= toolbar_icon_pixmap_vec.at(the_tbt);
+		const QString& curr_action_text 
+			= toolbar_action_text_vec.at(the_tbt);
+		
+		
+		
+		//same_case_thing(list_of_debug_tbt_suffixes_part_1)
+		if ( list_of_debug_tbt_suffixes_part_1(multi_equals_comparison)
+			false )
+		{
+			cout << "laugh\n";
+			
+			laugh_tool_button_action 
+				= toolbar->addAction( QIcon(curr_icon_pixmap), 
+				curr_action_text );
+			connect( laugh_tool_button_action, &QAction::triggered, 
+				this, &primary_widget::file_menu_laugh );
+			toolbar->addSeparator();
+		}
+		
+		else if ( list_of_mm_switching_tbt_suffixes
+			(multi_equals_comparison) false )
+		{
+			//cout << the_tbt << endl;
+			
+			mm_switching_tool_button_action_vec
+				.push_back(new QAction( curr_action_text, this ));
+			mm_switching_tool_button_action_vec.back()
+				->setIcon(QIcon(curr_icon_pixmap));
+		}
+		
+		else
+		{
+			cout << "Uh oh!  There's a bug in "
+				<< "primary_widget::generate_toolbar()!\n";
+		}
+	}
 	
-	
-	//draw_mode_tool_button_action.reset(new QAction( "Draw", this ));
-	//sprite_properties_mode_tool_button_action.reset(new QAction
-	//	( "Sprite Properties", this ));
-	//rect_selection_mode_tool_button_action.reset(new QAction
-	//	( "Rect Selection", this ));
-	draw_mode_tool_button_action = new QAction( "Draw", this );
-	sprite_properties_mode_tool_button_action = new QAction
-		( "Sprite Properties", this );
-	rect_selection_mode_tool_button_action = new QAction
-		( "Rect Selection", this );
-	
-	draw_mode_tool_button_action->setIcon(QIcon(draw_mode_pixmap));
-	sprite_properties_mode_tool_button_action->setIcon(QIcon
-		(sprite_properties_mode_pixmap));
-	rect_selection_mode_tool_button_action->setIcon(QIcon
-		(rect_selection_mode_pixmap));
-	
+	#undef multi_equals_comparison
 	
 	
 	//the_mouse_mode_button_group_widget.reset
@@ -256,12 +275,26 @@ bool primary_widget::generate_toolbar()
 	//	sprite_properties_mode_tool_button_action.get(),
 	//	rect_selection_mode_tool_button_action.get() ));
 	
+	//the_mouse_mode_button_group_widget.reset
+	//	(new mouse_mode_button_group_widget( this, QPoint(), QSize(),
+	//	draw_mode_tool_button_action, erase_mode_tool_button_action,
+	//	sprite_properties_mode_tool_button_action,
+	//	rect_selection_mode_tool_button_action ));
+	
+	//the_mouse_mode_button_group_widget.reset
+	//	(new mouse_mode_button_group_widget( this, QPoint(), QSize(),
+	//	mm_switching_tool_button_action_vec.at(tbt_draw_mode 
+	//		- tbt_draw_mode),
+	//	mm_switching_tool_button_action_vec.at(tbt_erase_mode 
+	//		- tbt_draw_mode),
+	//	mm_switching_tool_button_action_vec.at(tbt_sprite_properties_mode
+	//		- tbt_draw_mode),
+	//	mm_switching_tool_button_action_vec.at(tbt_rect_selection_mode
+	//		- tbt_draw_mode) ));
 	
 	the_mouse_mode_button_group_widget.reset
 		(new mouse_mode_button_group_widget( this, QPoint(), QSize(),
-		draw_mode_tool_button_action,
-		sprite_properties_mode_tool_button_action,
-		rect_selection_mode_tool_button_action ));
+		mm_switching_tool_button_action_vec ));
 	
 	toolbar->addWidget(the_mouse_mode_button_group_widget.get());
 	

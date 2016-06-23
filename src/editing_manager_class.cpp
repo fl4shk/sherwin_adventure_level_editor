@@ -174,13 +174,6 @@ void editing_manager::mouse_press_event
 	}
 	
 	
-	//block& the_block_at_mouse_pos = the_sublevel
-	//	->get_block_at_block_grid_pos(block_grid_coords_of_mouse_pos);
-	
-	//sprite_ipgws& the_sprite_ipgws_at_mouse_pos = the_sublevel
-	//	->get_sprite_ipgws_at_block_grid_pos
-	//	(block_grid_coords_of_mouse_pos);
-	
 	
 	bool current_tabbed_widget_is_for_blocks 
 		= ( level_element_selectors_tab_widget->currentWidget()
@@ -258,7 +251,10 @@ void editing_manager::mouse_press_event
 			
 			case mm_erase_level_elements:
 				handle_erasing_le_during_mouse_press( the_core_widget,
-					block_grid_coords_of_mouse_pos );
+					block_grid_coords_of_mouse_pos,
+					current_tabbed_widget_is_for_blocks,
+					current_tabbed_widget_is_for_16x16_sprites,
+					current_tabbed_widget_is_for_16x32_sprites );
 				break;
 			
 			case mm_select_single_sprite:
@@ -313,6 +309,10 @@ void editing_manager::mouse_move_event
 	
 	block_selector_widget* the_block_selector_widget 
 		= the_core_widget->the_block_selector_widget; 
+	sprite_16x16_selector_widget* the_sprite_16x16_selector_widget 
+		= the_core_widget->the_sprite_16x16_selector_widget; 
+	sprite_16x32_selector_widget* the_sprite_16x32_selector_widget 
+		= the_core_widget->the_sprite_16x32_selector_widget; 
 	
 	//adj_sprite_ipgws_ptr_group_for_selecting_sprite& 
 	//	the_sprite_selection_ptr_group 
@@ -336,7 +336,12 @@ void editing_manager::mouse_move_event
 	bool current_tabbed_widget_is_for_blocks 
 		= ( level_element_selectors_tab_widget->currentWidget()
 		== the_block_selector_widget );
-	
+	bool current_tabbed_widget_is_for_16x16_sprites
+		= ( level_element_selectors_tab_widget->currentWidget()
+		== the_sprite_16x16_selector_widget );
+	bool current_tabbed_widget_is_for_16x32_sprites
+		= ( level_element_selectors_tab_widget->currentWidget()
+		== the_sprite_16x32_selector_widget );
 	
 	
 	//the_sprite_selection_ptr_group 
@@ -377,7 +382,10 @@ void editing_manager::mouse_move_event
 			
 			case mm_erase_level_elements:
 				handle_erasing_le_during_mouse_move( the_core_widget,
-					block_grid_coords_of_mouse_pos );
+					block_grid_coords_of_mouse_pos,
+					current_tabbed_widget_is_for_blocks,
+					current_tabbed_widget_is_for_16x16_sprites,
+					current_tabbed_widget_is_for_16x32_sprites );
 				break;
 			
 			case mm_select_single_sprite:
@@ -711,6 +719,18 @@ bool editing_manager::undo( level_editor_core_widget* the_core_widget )
 		the_sublevel->get_sprite_ipgws_at_block_grid_pos
 			(block_grid_pos) = sprite_ipgws();
 	}
+	else if ( the_action_type == at_erase_sprites )
+	{
+		for ( auto iter : curr_ur_action.old_sprite_ipgws_umap )
+		{
+			const vec2_s32& block_grid_pos = iter.first;
+			const sprite_ipgws& the_erased_sprite_ipgws = iter.second;
+			
+			the_sublevel
+				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
+				= the_erased_sprite_ipgws;
+		}
+	}
 	else if ( the_action_type == at_modify_sprite )
 	{
 		const sprite_ipgws& old_sprite_ipgws 
@@ -899,6 +919,18 @@ bool editing_manager::redo( level_editor_core_widget* the_core_widget )
 			
 			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
 				= the_replaced_block;
+		}
+	}
+	else if ( the_action_type == at_erase_sprites )
+	{
+		for ( auto iter : next_ur_action.old_sprite_ipgws_umap )
+		{
+			const vec2_s32& block_grid_pos = iter.first;
+			//const sprite_ipgws& the_erased_sprite_ipgws = iter.second;
+			
+			the_sublevel
+				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
+				= sprite_ipgws();
 		}
 	}
 	else if ( the_action_type == at_place_sprite )
@@ -1578,12 +1610,6 @@ void editing_manager::handle_placing_le_during_mouse_press
 	
 	sublevel* the_sublevel = the_sfml_canvas_widget->the_sublevel;
 	
-	block& the_block_at_mouse_pos = the_sublevel
-		->get_block_at_block_grid_pos(block_grid_coords_of_mouse_pos);
-	
-	//sprite_ipgws& the_sprite_ipgws_at_mouse_pos = the_sublevel
-	//	->get_sprite_ipgws_at_block_grid_pos
-	//	(block_grid_coords_of_mouse_pos);
 	
 	if ( the_rect_selection_stuff.get_enabled() 
 		&& the_rect_selection_stuff.get_mouse_released() )
@@ -1601,9 +1627,9 @@ void editing_manager::handle_placing_le_during_mouse_press
 	
 	if (current_tabbed_widget_is_for_blocks)
 	{
-		//cout << "the_block_selector_widget_is_enabled!\n";
+		block& the_block_at_mouse_pos = the_sublevel
+			->get_block_at_block_grid_pos(block_grid_coords_of_mouse_pos);
 		
-		//ur_action_to_push = undo_and_redo_action();
 		ur_action_to_push.the_action_type = at_place_blocks;
 		
 		place_single_block_and_record_ur_stuff( the_block_at_mouse_pos, 
@@ -1616,8 +1642,6 @@ void editing_manager::handle_placing_le_during_mouse_press
 	{
 		ur_action_to_push.the_action_type = at_place_sprite;
 		
-		//cout << "the_sprite_16x16_selector_widget_is_enabled!\n";
-		
 		place_single_16x16_sprite_and_record_ur_stuff
 			( the_sublevel, block_grid_coords_of_mouse_pos,
 			get_left_selected_16x16_sprite_type(the_core_widget),
@@ -1627,8 +1651,6 @@ void editing_manager::handle_placing_le_during_mouse_press
 	else if (current_tabbed_widget_is_for_16x32_sprites)
 	{
 		ur_action_to_push.the_action_type = at_place_sprite;
-		
-		//cout << "the_sprite_16x32_selector_widget_is_enabled!\n";
 		
 		place_single_16x32_sprite_and_record_ur_stuff
 			( the_sublevel, block_grid_coords_of_mouse_pos,
@@ -1642,8 +1664,56 @@ void editing_manager::handle_placing_le_during_mouse_press
 
 void editing_manager::handle_erasing_le_during_mouse_press
 	( level_editor_core_widget* the_core_widget,
-	const vec2_s32& block_grid_coords_of_mouse_pos )
+	const vec2_s32& block_grid_coords_of_mouse_pos,
+	bool current_tabbed_widget_is_for_blocks, 
+	bool current_tabbed_widget_is_for_16x16_sprites, 
+	bool current_tabbed_widget_is_for_16x32_sprites )
 {
+	level_editor_sfml_canvas_widget* the_sfml_canvas_widget 
+		= the_core_widget->the_sfml_canvas_widget.get();
+	rect_selection_stuff& the_rect_selection_stuff 
+		= the_sfml_canvas_widget->the_rect_selection_stuff;
+	
+	sublevel* the_sublevel = the_sfml_canvas_widget->the_sublevel;
+	
+	
+	if ( the_rect_selection_stuff.get_enabled() 
+		&& the_rect_selection_stuff.get_mouse_released() )
+	{
+		finalize_movement_of_rs_contents( the_core_widget, 
+			the_rect_selection_stuff );
+	}
+	
+	the_sfml_canvas_widget->modified_recently = true;
+	
+	
+	undo_and_redo_stuff& ur_stuff = get_or_create_ur_stuff
+		(the_core_widget);
+	undo_and_redo_action& ur_action_to_push = ur_stuff.ur_action_to_push;
+	
+	if (current_tabbed_widget_is_for_blocks)
+	{
+		block& the_block_at_mouse_pos = the_sublevel
+			->get_block_at_block_grid_pos(block_grid_coords_of_mouse_pos);
+		
+		// Use at_place_blocks for erasing blocks
+		ur_action_to_push.the_action_type = at_place_blocks;
+		
+		place_single_block_and_record_ur_stuff( the_block_at_mouse_pos, 
+			block_grid_coords_of_mouse_pos, bt_air, ur_action_to_push );
+	}
+	
+	else if ( current_tabbed_widget_is_for_16x16_sprites 
+		|| current_tabbed_widget_is_for_16x32_sprites )
+	{
+		ur_action_to_push.the_action_type = at_erase_sprites;
+		
+		erase_single_sprite_and_record_ur_stuff( the_sublevel,
+			block_grid_coords_of_mouse_pos, ur_action_to_push );
+	}
+	
+	
+	//cout << endl;
 	
 }
 
@@ -1833,8 +1903,6 @@ void editing_manager::handle_placing_le_during_mouse_move
 	
 	if (current_tabbed_widget_is_for_blocks)
 	{
-		//cout << "the_block_selector_widget_is_enabled!\n";
-		
 		block_type the_block_type = get_left_selected_block_type
 			(the_core_widget);
 		
@@ -1851,7 +1919,7 @@ void editing_manager::handle_placing_le_during_mouse_move
 		}
 		
 		// This needs to be recorded for undo and redo stuff
-		place_block_line( the_core_widget,
+		place_block_line_and_record_ur_stuff( the_core_widget,
 			block_grid_coords_of_prev_mouse_pos,
 			block_grid_coords_of_mouse_pos, the_block_type,
 			ur_action_to_push );
@@ -1863,9 +1931,69 @@ void editing_manager::handle_placing_le_during_mouse_move
 
 void editing_manager::handle_erasing_le_during_mouse_move
 	( level_editor_core_widget* the_core_widget,
-	const vec2_s32& block_grid_coords_of_mouse_pos )
+	const vec2_s32& block_grid_coords_of_mouse_pos,
+	bool current_tabbed_widget_is_for_blocks, 
+	bool current_tabbed_widget_is_for_16x16_sprites, 
+	bool current_tabbed_widget_is_for_16x32_sprites )
 {
+	level_editor_sfml_canvas_widget* the_sfml_canvas_widget
+		= the_core_widget->the_sfml_canvas_widget.get();
 	
+	sublevel* the_sublevel = the_core_widget->the_sublevel;
+	
+	vec2_s32& block_grid_coords_of_prev_mouse_pos = the_core_widget
+		->block_grid_coords_of_prev_mouse_pos;
+	
+	the_sfml_canvas_widget->modified_recently = true;
+	//cout << "placing level elements\n";
+	
+	undo_and_redo_stuff& ur_stuff = get_or_create_ur_stuff
+		(the_core_widget);
+	
+	undo_and_redo_action& ur_action_to_push = ur_stuff.ur_action_to_push;
+	
+	if (current_tabbed_widget_is_for_blocks)
+	{
+		block_type the_block_type = bt_air;
+		
+		if ( !the_sublevel->contains_block_grid_pos
+			(block_grid_coords_of_mouse_pos) )
+		{
+			//return;
+		}
+		else
+		{
+			place_single_block_and_record_ur_stuff( the_sublevel,
+				block_grid_coords_of_mouse_pos, the_block_type,
+				ur_action_to_push );
+		}
+		
+		// This needs to be recorded for undo and redo stuff
+		place_block_line_and_record_ur_stuff( the_core_widget,
+			block_grid_coords_of_prev_mouse_pos,
+			block_grid_coords_of_mouse_pos, the_block_type,
+			ur_action_to_push );
+	}
+	
+	else if ( current_tabbed_widget_is_for_16x16_sprites
+		|| current_tabbed_widget_is_for_16x32_sprites )
+	{
+		if ( !the_sublevel->contains_block_grid_pos
+			(block_grid_coords_of_mouse_pos) )
+		{
+			//return;
+		}
+		else
+		{
+			erase_single_sprite_and_record_ur_stuff( the_sublevel, 
+				block_grid_coords_of_mouse_pos, ur_action_to_push );
+		}
+		
+		// This needs to be recorded for undo and redo stuff
+		erase_sprite_ipgws_line_and_record_ur_stuff( the_core_widget,
+			block_grid_coords_of_prev_mouse_pos,
+			block_grid_coords_of_mouse_pos, ur_action_to_push );
+	}
 }
 
 void editing_manager::handle_selecting_single_sprite_during_mouse_move
@@ -1907,8 +2035,8 @@ void editing_manager::handle_rs_during_mouse_move
 void editing_manager::handle_placing_le_during_mouse_release
 	( level_editor_core_widget* the_core_widget )
 {
-	undo_and_redo_stuff& ur_stuff = get_or_create_ur_stuff
-		(the_core_widget);
+	undo_and_redo_stuff& ur_stuff 
+		= get_or_create_ur_stuff(the_core_widget);
 	//undo_and_redo_stack& ur_stack = ur_stuff.ur_stack;
 	undo_and_redo_action& ur_action_to_push = ur_stuff.ur_action_to_push;
 	
@@ -1944,8 +2072,9 @@ void editing_manager::handle_placing_le_during_mouse_release
 		sprite_ipgws& new_sprite_ipgws
 			= ur_action_to_push.new_sprite_ipgws;
 		
-		if ( new_sprite_ipgws.type <= st_default 
-			|| new_sprite_ipgws.type >= st_count )
+		if ( !sprite_type_helper
+			::sprite_type_exists(new_sprite_ipgws.type)
+			&& new_sprite_ipgws.type != st_default )
 		{
 			return;
 		}
@@ -1975,7 +2104,8 @@ void editing_manager::handle_placing_le_during_mouse_release
 			break;
 		
 		default:
-			cout << "Strange action_type.  Perhaps there's a bug?\n";
+			cout << "handle_placing_le_during_mouse_release():  Strange "
+				<< "action_type.  Perhaps there's a bug?\n";
 			break;
 	}
 }
@@ -1983,7 +2113,46 @@ void editing_manager::handle_placing_le_during_mouse_release
 void editing_manager::handle_erasing_le_during_mouse_release
 	( level_editor_core_widget* the_core_widget )
 {
+	undo_and_redo_stuff& ur_stuff 
+		= get_or_create_ur_stuff(the_core_widget);
+	//undo_and_redo_stack& ur_stack = ur_stuff.ur_stack;
+	undo_and_redo_action& ur_action_to_push = ur_stuff.ur_action_to_push;
 	
+	
+	//cout << "Done erasing level elements\n";
+	//cout << "Here's the action_type:  " 
+	//	<< ur_action_to_push.the_action_type << endl;
+	
+	
+	auto func_for_erasing_blocks = [&]() -> void
+	{
+		//cout << "func_for_erasing_blocks()\n";
+		
+		ur_stuff.ur_stack.add_action(ur_action_to_push);
+	};
+	
+	auto func_for_erasing_sprites = [&]() -> void
+	{
+		//cout << "func_for_erasing_sprites()\n";
+		
+		ur_stuff.ur_stack.add_action(ur_action_to_push);
+	};
+	
+	switch ( ur_action_to_push.the_action_type )
+	{
+		case at_place_blocks:
+			func_for_erasing_blocks();
+			break;
+		
+		case at_erase_sprites:
+			func_for_erasing_sprites();
+			break;
+		
+		default:
+			cout << "handle_erasing_le_during_mouse_release():  Strange "
+				<< "action_type.  Perhaps there's a bug?\n";
+			break;
+	}
 }
 
 void editing_manager::handle_selecting_single_sprite_during_mouse_release
@@ -2082,7 +2251,12 @@ void editing_manager::place_single_block_and_record_ur_stuff
 }
 
 
-void editing_manager::place_block_line
+// This uses a purely integer-based block line placing algorithm.  The
+// general algorithm was originally used for placing lines of pixels for a
+// very basic 3D software rasterizer I wrote for the GBA.  That code was
+// never published anywhere because it kind of sucked.  Perhaps I will put
+// it up on GitHub at some point.
+void editing_manager::place_block_line_and_record_ur_stuff
 	( level_editor_core_widget* the_core_widget, 
 	const sf::Vector2i& pos_0, const sf::Vector2i& pos_1, 
 	block_type the_block_type, undo_and_redo_action& ur_action_to_push )
@@ -2141,6 +2315,7 @@ void editing_manager::place_block_line
 	{
 		//the_sublevel->uncompressed_block_data_vec_2d
 		//	[block_coord.y][block_coord.x].type = the_block_type;
+		
 		place_single_block_and_record_ur_stuff( the_sublevel, 
 			vec2_s32( block_coord.x, block_coord.y ), the_block_type, 
 			ur_action_to_push );
@@ -2173,6 +2348,7 @@ void editing_manager::place_block_line
 				//the_sublevel->uncompressed_block_data_vec_2d
 				//	[block_coord.y][block_coord.x].type 
 				//	= the_block_type;
+				
 				place_single_block_and_record_ur_stuff( the_sublevel, 
 					vec2_s32( block_coord.x, block_coord.y ), 
 					the_block_type, ur_action_to_push );
@@ -2206,6 +2382,7 @@ void editing_manager::place_block_line
 				//the_sublevel->uncompressed_block_data_vec_2d
 				//	[block_coord.y][block_coord.x].type 
 				//	= the_block_type;
+				
 				place_single_block_and_record_ur_stuff( the_sublevel, 
 					vec2_s32( block_coord.x, block_coord.y ), 
 					the_block_type, ur_action_to_push );
@@ -2230,10 +2407,6 @@ void editing_manager::place_single_16x16_sprite_and_record_ur_stuff
 	
 	auto add_sprite_and_record_ur_stuff = [&]() -> void
 	{
-		
-		//the_sprite_ipgws_at_mouse_pos 
-		//	= sprite_ipgws();
-		
 		// Create a new 16x16 sprite
 		the_sprite_ipgws_in_sublevel.type = the_sprite_type;
 		
@@ -2299,6 +2472,195 @@ void editing_manager::place_single_16x32_sprite_and_record_ur_stuff
 		add_sprite_and_record_ur_stuff();
 	}
 	
+}
+
+
+void editing_manager::erase_single_sprite_and_record_ur_stuff
+	( sublevel* the_sublevel, const vec2_s32& block_grid_coord,
+	undo_and_redo_action& ur_action_to_push )
+{
+	adj_sprite_ipgws_ptr_group_16x16 the_ptr_group( *the_sublevel, 
+		block_grid_coord.x, block_grid_coord.y );
+	
+	u32 num_overlapping_sprites = 0;
+	
+	
+	sprite_ipgws * up_left_ptr = NULL, * up_ptr = NULL, * left_ptr = NULL, 
+		* origin_ptr = NULL, * overlapped_ptr = NULL;
+	
+	#define find_overlapping_sprites(prefix_or_suffix) \
+		if ( the_ptr_group.overlaps_##prefix_or_suffix() ) \
+		{ \
+			prefix_or_suffix##_ptr \
+				= the_ptr_group.prefix_or_suffix##_ptr; \
+			overlapped_ptr = prefix_or_suffix##_ptr; \
+			\
+			++num_overlapping_sprites; \
+		}
+	
+	list_of_16x16_sprite_pg_stuff(find_overlapping_sprites);
+	
+	#undef find_overlapping_sprites
+	
+	
+	if ( overlapped_ptr != NULL )
+	{
+		if ( num_overlapping_sprites > 1 )
+		{
+			cout << "Uh-oh!  In  editing_manager"
+				<< "::erase_single_sprite_and_record_ur_stuff():  "
+				<< "num_overlapping_sprites == " 
+				<< num_overlapping_sprites << ", which is greater than "
+				<< "1.\n";
+		}
+		else //if ( num_overlapping_sprites == 1 )
+		{
+			vec2_s32 overlapped_ptr_block_grid_coord
+				( overlapped_ptr->initial_block_grid_x_coord,
+				overlapped_ptr->initial_block_grid_y_coord );
+			
+			ur_action_to_push
+				.old_sprite_ipgws_umap[overlapped_ptr_block_grid_coord] 
+				= *overlapped_ptr;
+			
+			*overlapped_ptr = sprite_ipgws();
+		}
+	}
+	
+}
+
+// This uses a purely integer-based sprite_ipgws line erasing
+// algorithm.  The general algorithm was originally used for placing
+// lines of pixels for a very basic 3D software rasterizer I wrote for
+// the GBA.  That code was never published anywhere because it kind of
+// sucked.  Perhaps I will put it up on GitHub at some point.
+void editing_manager::erase_sprite_ipgws_line_and_record_ur_stuff
+	( level_editor_core_widget* the_core_widget, 
+	const sf::Vector2i& pos_0, const sf::Vector2i& pos_1, 
+	undo_and_redo_action& ur_action_to_push )
+{
+	level_editor_sfml_canvas_widget* the_sfml_canvas_widget
+		= the_core_widget->the_sfml_canvas_widget.get();
+	sublevel* the_sublevel = the_core_widget->the_sublevel;
+	
+	the_sfml_canvas_widget->modified_recently = true;
+	
+	sf::Vector2i delta, block_coord, offset;
+	
+	delta = sf::Vector2i( pos_1.x - pos_0.x, pos_1.y - pos_0.y );
+	
+	if ( delta.x < 0 )
+	{
+		delta.x = -delta.x;
+	}
+	if ( delta.y < 0 )
+	{
+		delta.y = -delta.y;
+	}
+	
+	block_coord = pos_0;
+	
+	if ( pos_0.x > pos_1.x )
+	{
+		offset.x = -1;
+	}
+	else
+	{
+		offset.x = 1;
+	}
+	
+	if ( pos_0.y > pos_1.y )
+	{
+		offset.y = -1;
+	}
+	else
+	{
+		offset.y = 1;
+	}
+	
+	//if ( point_is_in_image(pixel_coord) )
+	//{
+	//	canvas_image->setPixel( pixel_coord.x, pixel_coord.y, 
+	//		color );
+	//}
+	
+	if ( the_sublevel->contains_block_grid_pos(block_coord) )
+	{
+		//the_sublevel->uncompressed_block_data_vec_2d
+		//	[block_coord.y][block_coord.x].type = the_block_type;
+		
+		erase_single_sprite_and_record_ur_stuff( the_sublevel, 
+			vec2_s32( block_coord.x, block_coord.y ), ur_action_to_push );
+	}
+	
+	if ( delta.x > delta.y )
+	{
+		s32 error = delta.x >> 1;
+		
+		while ( block_coord.x != pos_1.x )
+		{
+			error -= delta.y;
+			
+			if ( error < 0 )
+			{
+				block_coord.y += offset.y;
+				error += delta.x;
+			}
+			
+			block_coord.x += offset.x;
+			
+			//if ( point_is_in_image(pixel_coord) )
+			//{
+			//	canvas_image->setPixel( pixel_coord.x, 
+			//		pixel_coord.y, color );
+			//}
+			
+			if ( the_sublevel->contains_block_grid_pos(block_coord) )
+			{
+				//the_sublevel->uncompressed_block_data_vec_2d
+				//	[block_coord.y][block_coord.x].type 
+				//	= the_block_type;
+				
+				erase_single_sprite_and_record_ur_stuff( the_sublevel,
+					vec2_s32( block_coord.x, block_coord.y ),
+					ur_action_to_push );
+			}
+		}
+	}
+	else
+	{
+		s32 error = delta.y >> 1;
+		
+		while ( block_coord.y != pos_1.y )
+		{
+			error -= delta.x;
+			
+			if ( error < 0 )
+			{
+				block_coord.x += offset.x;
+				error += delta.y;
+			}
+			
+			block_coord.y += offset.y;
+			
+			//if ( point_is_in_image(pixel_coord) )
+			//{
+			//	canvas_image->setPixel( pixel_coord.x, 
+			//		pixel_coord.y, color );
+			//}
+			
+			if ( the_sublevel->contains_block_grid_pos(block_coord) )
+			{
+				//the_sublevel->uncompressed_block_data_vec_2d
+				//	[block_coord.y][block_coord.x].type 
+				//	= the_block_type;
+				
+				erase_single_sprite_and_record_ur_stuff( the_sublevel,
+					vec2_s32( block_coord.x, block_coord.y ), 
+					ur_action_to_push );
+			}
+		}
+	}
 }
 
 

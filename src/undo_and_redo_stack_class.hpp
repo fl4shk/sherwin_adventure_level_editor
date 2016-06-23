@@ -77,8 +77,6 @@ public:		// variables
 	// Also note that old_sprite_ipgws_uset is used to keep track of
 	// removed sprite_ipgws's when a sublevel is resized and shrunk
 	// horizontally, vertically, or both
-	//unordered_set<sprite_ipgws> old_sprite_ipgws_uset, 
-	//	replaced_sprite_ipgws_uset, new_sprite_ipgws_uset;
 	
 	//unordered_set<sprite_ipgws> test_sprite_ipgws_uset;
 	unordered_map< vec2_s32, sprite_ipgws > old_sprite_ipgws_umap,

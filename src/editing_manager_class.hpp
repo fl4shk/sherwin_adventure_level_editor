@@ -126,7 +126,10 @@ protected:		// functions
 		bool current_tabbed_widget_is_for_16x32_sprites );
 	void handle_erasing_le_during_mouse_press
 		( level_editor_core_widget* the_core_widget,
-		const vec2_s32& block_grid_coords_of_mouse_pos );
+		const vec2_s32& block_grid_coords_of_mouse_pos,
+		bool current_tabbed_widget_is_for_blocks, 
+		bool current_tabbed_widget_is_for_16x16_sprites, 
+		bool current_tabbed_widget_is_for_16x32_sprites );
 	void handle_selecting_single_sprite_during_mouse_press
 		( level_editor_core_widget* the_core_widget );
 	void handle_rs_during_mouse_press
@@ -144,7 +147,10 @@ protected:		// functions
 		bool current_tabbed_widget_is_for_blocks );
 	void handle_erasing_le_during_mouse_move
 		( level_editor_core_widget* the_core_widget,
-		const vec2_s32& block_grid_coords_of_mouse_pos );
+		const vec2_s32& block_grid_coords_of_mouse_pos,
+		bool current_tabbed_widget_is_for_blocks, 
+		bool current_tabbed_widget_is_for_16x16_sprites, 
+		bool current_tabbed_widget_is_for_16x32_sprites );
 	void handle_selecting_single_sprite_during_mouse_move
 		( level_editor_core_widget* the_core_widget );
 	void handle_rs_during_mouse_move
@@ -234,27 +240,29 @@ protected:		// functions
 	
 	
 	// This uses a purely integer-based block line placing algorithm.  The
-	// algorithm was originally used for placing lines of pixels for a very
-	// basic 3D software rasterizer I wrote for the GBA.  That code was
-	// never published anywhere, since the software rasterizer kind of
-	// sucked.  Perhaps I will put it up on GitHub at some point.
-	void place_block_line( level_editor_core_widget* the_core_widget, 
+	// general algorithm was originally used for placing lines of pixels
+	// for a very basic 3D software rasterizer I wrote for the GBA.  That
+	// code was never published anywhere because it kind of sucked.
+	// Perhaps I will put it up on GitHub at some point.
+	void place_block_line_and_record_ur_stuff
+		( level_editor_core_widget* the_core_widget, 
 		const sf::Vector2i& pos_0, const sf::Vector2i& pos_1, 
 		block_type the_block_type, 
 		undo_and_redo_action& ur_action_to_push );
 	
 	// A wrapper
-	inline void place_block_line
+	inline void place_block_line_and_record_ur_stuff
 		( level_editor_core_widget* the_core_widget, 
 		const vec2_s32& pos_0, const vec2_s32& pos_1, 
 		block_type the_block_type, 
 		undo_and_redo_action& ur_action_to_push )
 	{
-		place_block_line( the_core_widget, 
+		place_block_line_and_record_ur_stuff( the_core_widget, 
 			sf::Vector2i( pos_0.x, pos_0.y ),
 			sf::Vector2i( pos_1.x, pos_1.y ), the_block_type,
 			ur_action_to_push );
 	}
+	
 	
 	
 	void place_single_16x16_sprite_and_record_ur_stuff
@@ -266,6 +274,32 @@ protected:		// functions
 		( sublevel* the_sublevel, const vec2_s32& block_grid_coord, 
 		const sprite_type& the_sprite_type,
 		undo_and_redo_action& ur_action_to_push );
+	
+	
+	void erase_single_sprite_and_record_ur_stuff
+		( sublevel* the_sublevel, const vec2_s32& block_grid_coord,
+		undo_and_redo_action& ur_action_to_push );
+	
+	// This uses a purely integer-based sprite_ipgws line erasing
+	// algorithm.  The general algorithm was originally used for placing
+	// lines of pixels for a very basic 3D software rasterizer I wrote for
+	// the GBA.  That code was never published anywhere because it kind of
+	// sucked.  Perhaps I will put it up on GitHub at some point.
+	void erase_sprite_ipgws_line_and_record_ur_stuff
+		( level_editor_core_widget* the_core_widget, 
+		const sf::Vector2i& pos_0, const sf::Vector2i& pos_1, 
+		undo_and_redo_action& ur_action_to_push );
+	
+	// A wrapper
+	inline void erase_sprite_ipgws_line_and_record_ur_stuff
+		( level_editor_core_widget* the_core_widget, 
+		const vec2_s32& pos_0, const vec2_s32& pos_1, 
+		undo_and_redo_action& ur_action_to_push )
+	{
+		erase_sprite_ipgws_line_and_record_ur_stuff( the_core_widget, 
+			sf::Vector2i( pos_0.x, pos_0.y ),
+			sf::Vector2i( pos_1.x, pos_1.y ), ur_action_to_push );
+	}
 	
 	
 	
