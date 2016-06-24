@@ -33,7 +33,8 @@ const vector<QString> primary_widget::toolbar_icon_file_name_vec
 
 // This needs to be updated manually if more toolbar buttons are added!
 const vector<QString> primary_widget::toolbar_action_text_vec
-	= { "Laugh", "Draw", "Erase", "Sprite Properties", "Rect Selection" };
+	= { "Laugh", "Draw", "Erase (Single Layer)", "Sprite Properties", 
+	"Rect Selection (Single Layer)" };
 
 
 
