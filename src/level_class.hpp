@@ -55,6 +55,13 @@ public:		// functions
 	//	return sublevel_vec.at(curr_sublevel_index);
 	//}
 	
+	
+	void generate_compressed_block_data_vectors
+		( const string& temp_output_dirname,
+		const string& temp_output_basename );
+	
+	void generate_sprite_ipgws_and_sle_stuff_for_exporting();
+	
 };
 
 

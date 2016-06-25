@@ -36,6 +36,8 @@
 using namespace std;
 
 
+class level;
+
 //// Here is a reference class for sublevels as they appear in the GBA-side
 ////code.
 //template< u32 compressed_block_data_size, u32 xsize, u32 ysize, 
@@ -102,7 +104,7 @@ public:		// variables
 	vector<sprite_ipgws> sprite_ipgws_vec_for_xml;
 	
 	// sprite_ipg_vec_for_exporting can also have a variable size.
-	vector<sprite_init_param_group> sprite_ipg_vec_for_exporting;
+	vector<sprite_ipgws> sprite_ipgws_vec_for_exporting;
 	
 	// Additionally, sublevel_entrance_vec can have a variable size.
 	vector<sublevel_entrance> sublevel_entrance_vec;
@@ -171,11 +173,6 @@ public:		// functions
 			.at(block_grid_pos.y).at(block_grid_pos.x);
 	}
 	
-	void generate_compressed_block_data_vec( const string& output_dirname,
-		const string& output_basename );
-	
-	
-	
 	
 protected:		// functions
 	void write_uncompressed_block_data_to_file
@@ -183,6 +180,8 @@ protected:		// functions
 	
 	void read_compressed_block_data_from_file
 		( const string& output_dirname, const string& output_basename );
+	
+	friend class level;
 };
 
 

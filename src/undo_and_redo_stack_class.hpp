@@ -144,8 +144,8 @@ public:		// functions
 	//// was successful, which is probably only useful for debugging
 	//// purposes.
 	
-	bool finalize_undo();
-	bool finalize_redo();
+	void finalize_undo();
+	void finalize_redo();
 	
 	
 	

@@ -112,9 +112,10 @@ void primary_widget::generate_menus()
 		( "&Redo (Keyboard Shortcut:  Y)", this ));
 	
 	
-	edit_menu_sublevel_properties_action.reset(new QAction
+	// Generate the level menu actions.
+	level_menu_sublevel_properties_action.reset(new QAction
 		( "&Sublevel Properties", this ));
-	//edit_menu_level_properties_action.reset(new QAction
+	//level_menu_level_properties_action.reset(new QAction
 	//	( "&Level Properties", this ));
 	
 	
@@ -145,11 +146,13 @@ void primary_widget::generate_menus()
 	connect( edit_menu_redo_action.get(), &QAction::triggered, this, 
 		&primary_widget::edit_menu_redo );
 	
-	connect( edit_menu_sublevel_properties_action.get(), 
+	
+	// Connect the level_menu actions to the slots.
+	connect( level_menu_sublevel_properties_action.get(), 
 		&QAction::triggered, the_central_widget.get(), 
 		&level_editor_widget::create_sublevel_properties_widget );
 	
-	//connect( edit_menu_level_properties_action.get(), 
+	//connect( level_menu_level_properties_action.get(), 
 	//	&QAction::triggered, this, 
 	//	&primary_widget::create_level_properties_widget );
 	
@@ -177,9 +180,11 @@ void primary_widget::generate_menus()
 	edit_menu->addAction(edit_menu_paste_copied_rs_contents_action.get());
 	edit_menu->addAction(edit_menu_undo_action.get());
 	edit_menu->addAction(edit_menu_redo_action.get());
-	edit_menu->addSeparator();
-	edit_menu->addAction(edit_menu_sublevel_properties_action.get());
-	//edit_menu->addAction(edit_menu_level_properties_action.get());
+	
+	
+	// Add the level_menu actions to the level_menu
+	level_menu->addAction(level_menu_sublevel_properties_action.get());
+	//level_menu->addAction(level_menu_level_properties_action.get());
 }
 
 

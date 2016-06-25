@@ -20,6 +20,9 @@
 #include "sprite_level_data_stuff.hpp"
 #include "sublevel_class.hpp"
 
+#include <iostream>
+
+
 bool sprite_ipgws::operator == ( const sprite_ipgws& to_cmp ) const
 {
 	return ( ( type == to_cmp.type ) 
@@ -35,6 +38,15 @@ bool sprite_ipgws::operator == ( const sprite_ipgws& to_cmp ) const
 		&& ( spawn_state == to_cmp.spawn_state )
 		&& ( size_2d == to_cmp.size_2d ) );
 }
+
+void sprite_ipgws::show_rejection_message() const
+{
+	cout << "The " << type << " sprite at the ("
+		<< initial_block_grid_x_coord << ", "
+		<< initial_block_grid_y_coord << ") coordinate has been "
+		<< "rejected!\n";
+}
+
 
 //namespace std
 //{

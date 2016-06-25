@@ -92,7 +92,7 @@ protected:		// variables
 	vector<string> argv_copy;
 	
 	// Menu Stuff
-	QMenu* file_menu, * edit_menu;
+	QMenu* file_menu, * edit_menu, * level_menu;
 	
 	// File Menu Actions
 	unique_ptr<QAction> file_menu_laugh_action, file_menu_open_action, 
@@ -103,10 +103,12 @@ protected:		// variables
 	// Edit Menu Actions
 	unique_ptr<QAction> edit_menu_copy_rs_contents_action,
 		edit_menu_paste_copied_rs_contents_action, edit_menu_undo_action,
-		edit_menu_redo_action,
-		
-		edit_menu_sublevel_properties_action;
-		//edit_menu_level_properties_action;
+		edit_menu_redo_action;
+	
+	// Level Menu Actions
+	unique_ptr<QAction> level_menu_sublevel_properties_action,
+		//level_menu_level_properties_action, 
+		level_menu_export_action;
 	
 	
 	// Toolbar Stuff

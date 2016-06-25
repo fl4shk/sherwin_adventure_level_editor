@@ -821,7 +821,7 @@ bool editing_manager::undo( level_editor_core_widget* the_core_widget )
 		
 		
 		const sublevel the_sublevel_before_modification = *the_sublevel;
-		vec2_u32 prev_real_size_2d = the_sublevel->real_size_2d;
+		//vec2_u32 prev_real_size_2d = the_sublevel->real_size_2d;
 		bool block_grid_was_enabled = the_core_widget
 			->the_sfml_canvas_widget->get_block_grid_enabled();
 		u32 prev_scale_factor = the_core_widget->the_sfml_canvas_widget
@@ -1036,7 +1036,7 @@ bool editing_manager::redo( level_editor_core_widget* the_core_widget )
 		
 		
 		const sublevel the_sublevel_before_modification = *the_sublevel;
-		vec2_u32 prev_real_size_2d = the_sublevel->real_size_2d;
+		//vec2_u32 prev_real_size_2d = the_sublevel->real_size_2d;
 		bool block_grid_was_enabled = the_core_widget
 			->the_sfml_canvas_widget->get_block_grid_enabled();
 		u32 prev_scale_factor = the_core_widget->the_sfml_canvas_widget

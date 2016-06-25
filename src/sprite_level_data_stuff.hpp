@@ -146,7 +146,6 @@ public:		// functions
 			< other.initial_block_grid_y_coord );
 	}
 	
-	
 } __attribute__((aligned(4)));
 
 // This is a sprite_init_param_group with size
@@ -203,6 +202,9 @@ public:		// functions
 	
 	
 	bool operator == ( const sprite_ipgws& to_cmp ) const;
+	
+	void show_rejection_message() const;
+	
 	
 } __attribute__((aligned(4)));
 

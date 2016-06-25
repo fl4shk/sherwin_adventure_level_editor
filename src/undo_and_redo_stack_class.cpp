@@ -62,7 +62,7 @@ bool undo_and_redo_stack::can_undo() const
 
 bool undo_and_redo_stack::can_redo() const
 {
-	return get_next_action_index() < action_vec.size();
+	return get_next_action_index() < (s64)action_vec.size();
 }
 
 
@@ -111,11 +111,11 @@ void undo_and_redo_stack::add_action
 }
 
 
-bool undo_and_redo_stack::finalize_undo()
+void undo_and_redo_stack::finalize_undo()
 {
 	set_curr_action_index( get_curr_action_index() - 1 );
 }
-bool undo_and_redo_stack::finalize_redo()
+void undo_and_redo_stack::finalize_redo()
 {
 	set_curr_action_index( get_curr_action_index() + 1 );
 }
@@ -141,7 +141,7 @@ void undo_and_redo_stack::set_next_action_index( s64 n_next_action_index )
 	{
 		next_action_index = 0;
 	}
-	else if ( n_next_action_index > action_vec.size() )
+	else if ( n_next_action_index > (s64)action_vec.size() )
 	{
 		next_action_index = action_vec.size();
 	}

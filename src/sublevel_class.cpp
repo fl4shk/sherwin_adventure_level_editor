@@ -55,38 +55,6 @@ void sublevel::init( const vec2_u32& s_real_size_2d )
 }
 
 
-void sublevel::generate_compressed_block_data_vec
-	( const string& output_dirname, const string& output_basename )
-{
-	write_uncompressed_block_data_to_file( output_dirname, 
-		output_basename );
-	
-	// Run gbalzss
-	const string gbalzss_command = "gbalzss e "
-		+ block_stuff::get_uncompressed_block_data_file_name
-		( output_dirname, output_basename ) + " "
-		+ block_stuff::get_compressed_block_data_file_name( output_dirname,
-			output_basename );
-	
-	cout << "Running this command:  " << gbalzss_command << endl;
-	if ( system(gbalzss_command.c_str()) != 0 )
-	{
-		cout << "There was an error running gbalzss!  Exiting....\n";
-		exit(1);
-	}
-	
-	read_compressed_block_data_from_file( output_dirname, output_basename );
-	
-	// Remove the temporary files
-	const string clean_up_command = "rm " 
-		+ block_stuff::get_uncompressed_block_data_file_name
-		( output_dirname, output_basename ) + " "
-		+ block_stuff::get_compressed_block_data_file_name( output_dirname,
-			output_basename );
-	
-	cout << "Running this command:  " << clean_up_command << endl;
-	system(clean_up_command.c_str());
-}
 
 void sublevel::write_uncompressed_block_data_to_file
 	( const string& output_dirname, const string& output_basename )
