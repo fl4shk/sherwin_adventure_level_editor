@@ -177,6 +177,9 @@ protected slots:		// slots
 	void edit_menu_undo();
 	void edit_menu_redo();
 	
+	
+	// Level Menu Slots
+	void level_menu_export();
 };
 
 

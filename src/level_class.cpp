@@ -108,6 +108,8 @@ void level::generate_sprite_ipgws_and_sle_stuff_for_exporting()
 {
 	// Sprites that are tied to a sublevel_entrance
 	sprite_ipgws the_player_at_starting_position;
+	
+	// As of this comment being written, these are all doors.
 	vector<sprite_ipgws> sprites_tied_to_sle_vec;
 	
 	bool found_player = false;

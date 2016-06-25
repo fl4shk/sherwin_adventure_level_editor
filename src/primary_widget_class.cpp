@@ -117,6 +117,7 @@ void primary_widget::generate_menus()
 		( "&Sublevel Properties", this ));
 	//level_menu_level_properties_action.reset(new QAction
 	//	( "&Level Properties", this ));
+	level_menu_export_action.reset(new QAction( "&Export Level", this ));
 	
 	
 	
@@ -151,10 +152,11 @@ void primary_widget::generate_menus()
 	connect( level_menu_sublevel_properties_action.get(), 
 		&QAction::triggered, the_central_widget.get(), 
 		&level_editor_widget::create_sublevel_properties_widget );
-	
 	//connect( level_menu_level_properties_action.get(), 
 	//	&QAction::triggered, this, 
 	//	&primary_widget::create_level_properties_widget );
+	connect( level_menu_export_action.get(), &QAction::triggered, this, 
+		&primary_widget::level_menu_export );
 	
 	
 	
@@ -162,6 +164,7 @@ void primary_widget::generate_menus()
 	// Add the menus to the menu bar
 	file_menu = menuBar()->addMenu("&File");
 	edit_menu = menuBar()->addMenu("&Edit");
+	level_menu = menuBar()->addMenu("&Level");
 	
 	
 	
@@ -185,6 +188,7 @@ void primary_widget::generate_menus()
 	// Add the level_menu actions to the level_menu
 	level_menu->addAction(level_menu_sublevel_properties_action.get());
 	//level_menu->addAction(level_menu_level_properties_action.get());
+	level_menu->addAction(level_menu_export_action.get());
 }
 
 
@@ -454,4 +458,10 @@ void primary_widget::edit_menu_redo()
 	the_editing_manager->redo(the_core_widget);
 }
 
+void primary_widget::level_menu_export()
+{
+	cout << "level_menu_export()\n";
+	
+	//the_central_widget->the_level;
+}
 

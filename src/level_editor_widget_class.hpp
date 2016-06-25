@@ -70,7 +70,8 @@ public:		// variables
 	
 	
 	// This variable has been moved from the level_editor_core_widget
-	// class, because more than one instance of the class will be made.
+	// class, because more than one instance of that class will be made
+	// (one per sublevel in particular).
 	level the_level;
 	
 	
