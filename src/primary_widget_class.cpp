@@ -36,6 +36,11 @@ const vector<QString> primary_widget::toolbar_action_text_vec
 	= { "Laugh", "Draw", "Erase (Single Layer)", "Sprite Properties", 
 	"Rect Selection (Single Layer)" };
 
+// This ALSO needs to be updated manually if more toolbar buttons are
+// added!
+const vector<QKeySequence> primary_widget::tool_button_shortcut_vec 
+	= { QKeySequence(Qt::Key_Q), QKeySequence(Qt::Key_W), 
+	QKeySequence(Qt::Key_E), QKeySequence(Qt::Key_R) };
 
 
 primary_widget::primary_widget( vector<string>& s_argv_copy, 
@@ -227,9 +232,11 @@ bool primary_widget::generate_toolbar()
 	
 	if ( toolbar_action_text_vec.size() != tbt_count )
 	{
-		cout << "Bug in program:  toolbar_action_text_vec.size() "
-			<< "!= tbt_count!  FL4SHK definitely NEEDS to edit "
-			<< "primary_widget::toolbar_action_text_vec!\n";
+		say_tool_related_vector_size_is_wrong("toolbar_action_text_vec");
+	}
+	if ( tool_button_shortcut_vec.size() != tbt_count )
+	{
+		say_tool_related_vector_size_is_wrong("tool_button_shortcut_vec");
 	}
 	
 	#define multi_equals_comparison(other_suffix) \

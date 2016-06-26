@@ -106,6 +106,8 @@ using namespace pugi;
 
 #include <QTabWidget>
 
+#include <QKeySequence>
+
 
 // SFML Stuff
 #include <SFML/Graphics.hpp>

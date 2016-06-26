@@ -21,6 +21,7 @@
 
 #include "primary_widget_class.hpp"
 
+
 mouse_mode_button_group_widget::mouse_mode_button_group_widget
 	( QWidget* s_parent, const QPoint& s_position, const QSize& s_size,
 	vector<QAction*> & mm_switching_tool_button_action_vec )
@@ -53,7 +54,6 @@ void mouse_mode_button_group_widget::generate_tool_buttons
 	
 	for ( int i=0; i<mm_tbt_count; ++i )
 	{
-		
 		tool_button_vec.push_back( unique_ptr<QToolButton>
 			(new QToolButton) );
 		
@@ -65,6 +65,9 @@ void mouse_mode_button_group_widget::generate_tool_buttons
 		//tool_button_vec.back()->setMinimumSize(QSize( 32, 32 ));
 		
 		tool_button_vec.back()->setIconSize(QSize( 32, 32 ));
+		
+		tool_button_vec.back()->setShortcut
+			( primary_widget::tool_button_shortcut_vec.at(i) );
 		
 		curr_tool_button_action->setCheckable(true);
 		

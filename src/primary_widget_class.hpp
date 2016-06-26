@@ -84,6 +84,7 @@ public:		// constants
 	//	rect_selection_mode_icon_file_name;
 	static const vector<QString> toolbar_icon_file_name_vec;
 	static const vector<QString> toolbar_action_text_vec;
+	static const vector<QKeySequence> tool_button_shortcut_vec;
 	
 	int test;
 	
@@ -168,6 +169,14 @@ protected:		// functions
 		const string& output_basename );
 	void generate_level_cpp_file( const string& output_dirname, 
 		const string& output_basename );
+	
+	inline void say_tool_related_vector_size_is_wrong
+		( const string& name_of_vector ) const
+	{
+		cout << "Bug in program:  " << name_of_vector << ".size() "
+			<< "!= tbt_count!  FL4SHK definitely NEEDS to edit "
+			<< "primary_widget::" << name_of_vector << "!\n";
+	}
 	
 protected slots:		// slots
 	
