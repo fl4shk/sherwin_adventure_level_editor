@@ -363,7 +363,209 @@ void primary_widget::generate_level_header_file
 void primary_widget::generate_level_cpp_file( const string& output_dirname, 
 	const string& output_basename )
 {
+	level& the_level = the_central_widget->the_level;
 	
+	fstream cpp_file( output_dirname + "/" + output_basename 
+		+ string(".thumb.cpp"), ios_base::out );
+	
+	cpp_file << "#include \"" << output_basename << ".hpp\"\n\n\n";
+	
+	//for ( tiled_sublevel& the_tiled_sublevel : tiled_sublevel_vec )
+	for ( u32 i=0; i<the_level.sublevel_vec.size(); ++i )
+	{
+		sublevel& the_sublevel = the_level.sublevel_vec.at(i);
+		
+		cpp_file << "const sublevel< "
+			<< the_sublevel.compressed_block_data_vec .size() << ", "
+			<< the_sublevel.real_size_2d.x << ", " 
+			<< the_sublevel.real_size_2d.y << ", "
+			<< the_sublevel.sprite_ipgws_vec_for_exporting.size() << ", "
+			<< the_sublevel.sublevel_entrance_vec.size()
+			<< " > " << output_basename << "_sublevel_" << i << "\n" 
+			<< "= {\n";
+		
+		
+		// Build the array of compressed block data
+		cpp_file << "\t{\n";
+		
+		u32 counter = 0;
+		
+		for ( u32& the_u32 
+			: the_sublevel.compressed_block_data_vec )
+		{
+			////cpp_file << hex << "\t\t0x" << *iter << dec << ",\n";
+			//cpp_file << hex << "\t\t0x" << the_u32 << dec << ",\n";
+			if ( counter % 4 == 0 )
+			{
+				cpp_file << "\t\t";
+			}
+			
+			//cpp_file << hex << "0x" << *iter << dec;
+			cpp_file << hex << "0x" << the_u32 << dec;
+			
+			if ( counter % 4 == 3 )
+			{
+				cpp_file << ",\n";
+			}
+			else
+			{
+				cpp_file << ", ";
+			}
+			
+			++counter;
+		}
+		
+		if ( counter % 4 != 0 )
+		{
+			cpp_file << "\n";
+		}
+		cpp_file << "\t},\n\t\n";
+		
+		
+		// Build the array of sprite_init_param_group's
+		cpp_file << "\t{\n";
+		
+		for ( sprite_ipgws& the_sprite_ipgws
+			: the_sublevel.sprite_ipgws_vec_for_exporting )
+		{
+			cpp_file << "\t\t{ ";
+			
+			if ( the_sprite_ipgws.type 
+				< sprite_type_helper::st_name_vec.size() )
+			{
+				cpp_file << sprite_type_helper::get_st_name
+					(the_sprite_ipgws.type);
+			}
+			else
+			{
+				// Print out a number if the_sprite_type doesn't have a
+				// corresponding string in sprite_type_helper::st_name_vec.
+				
+				cout << "Warning:  the_sprite_ipgws.type doesn't have a "
+					<< "corresponding string in sprite_type_helper "
+					<< "::st_name_vec!\n";
+				cpp_file << the_sprite_ipgws.type;
+			}
+			
+			cpp_file << ", " << the_sprite_ipgws.initial_block_grid_x_coord 
+				<< ", " << the_sprite_ipgws.initial_block_grid_y_coord 
+				<< ", " 
+				<< ( the_sprite_ipgws.facing_right ? "true" : "false" );
+			
+			
+			// This had to be changed to make the Sherwin's Adventure code
+			// compile with the OUTDATED version of arm-none-eabi- prefixed
+			// GCC and Binutils that are included in devkitARM
+			//// Don't clutter the sprite_init_param_group's that have only
+			//// zeroes as extra parameters.
+			//if ( !( the_sprite_ipgws.extra_param_0 == 0 
+			//	&& the_sprite_ipgws.extra_param_1 == 0
+			//	&& the_sprite_ipgws.extra_param_2 == 0 
+			//	&& the_sprite_ipgws.extra_param_3 == 0 ) )
+			//{
+			//	cpp_file << ", " << the_sprite_ipgws.extra_param_0 << ", " 
+			//		<< the_sprite_ipgws.extra_param_1 << ", " 
+			//		<< the_sprite_ipgws.extra_param_2 << ", " 
+			//		<< the_sprite_ipgws.extra_param_3;
+			//}
+			
+			//cpp_file << ", " << the_sprite_ipgws.extra_param_0 << ", " 
+			//	<< the_sprite_ipgws.extra_param_1 << ", " 
+			//	<< the_sprite_ipgws.extra_param_2 << ", " 
+			//	<< the_sprite_ipgws.extra_param_3;
+			
+			
+			//if ( the_sprite_ipgws.type == st_door )
+			//{
+			//	cpp_file << ", " << the_sprite_ipgws.extra_param_0 << ", ";
+			//	
+			//	////if ( the_sprite_ipgws
+			//	////	<< the_sprite_ipgws.extra_param_1 << ", ";
+			//	//if ( the_sprite_ipgws.extra_param_1 == (u32)-1 )
+			//	//{
+			//	//	//cout << "Found a sprite_init_param_group with -1 for "
+			//	//	//	<< "its extra_param_1!\n";
+			//	//	cpp_file << i;
+			//	//}
+			//	//else
+			//	//{
+			//	//	cpp_file << the_sprite_ipgws.extra_param_1;
+			//	//}
+			//	
+			//	cpp_file << the_sprite_ipgws.extra_param_1;
+			//	
+			//	
+			//	cpp_file << ", " << the_sprite_ipgws.extra_param_2 << ", " 
+			//		<< the_sprite_ipgws.extra_param_3;
+			//}
+			//else
+			//{
+			//	cpp_file << ", " << the_sprite_ipgws.extra_param_0 << ", " 
+			//		<< the_sprite_ipgws.extra_param_1 << ", " 
+			//		<< the_sprite_ipgws.extra_param_2 << ", " 
+			//		<< the_sprite_ipgws.extra_param_3;
+			//}
+			
+			cpp_file << ", " << the_sprite_ipgws.extra_param_0 << ", " 
+				<< the_sprite_ipgws.extra_param_1 << ", " 
+				<< the_sprite_ipgws.extra_param_2 << ", " 
+				<< the_sprite_ipgws.extra_param_3;
+			
+			cpp_file << " },\n";
+		}
+		
+		cpp_file << "\t},\n\t\n";
+		
+		// Build the array of sublevel_entrance's
+		cpp_file << "\t{\n";
+		
+		for ( sublevel_entrance& the_sle 
+			: the_sublevel.sublevel_entrance_vec )
+		{
+			cpp_file << "\t\t{ " << get_sle_name_debug(the_sle.type)
+				<< hex << ", vec2_f24p8( {0x" 
+				<< the_sle.in_sublevel_pos.x.data << "}, {0x" 
+				<< the_sle.in_sublevel_pos.y.data << "} ) },\n" << dec;
+		}
+		
+		cpp_file << "\t},\n";
+		
+		
+		cpp_file << "};\n\n\n";
+	}
+	
+	
+	cpp_file << "const level " << output_basename << " = level\n\t"
+		<< "( sublevel_pointer(" << output_basename << "_sublevel_0)";
+	
+	if ( the_level.sublevel_vec.size() == 1 )
+	{
+		cpp_file << " );\n";
+	}
+	else
+	{
+		cpp_file << ",\n";
+		
+		//for ( tiled_sublevel& the_tiled_sublevel : sublevel_vec )
+		for ( size_t i=1; i<the_level.sublevel_vec.size(); ++i )
+		{
+			cpp_file << "\tsublevel_pointer(" << output_basename 
+				<< "_sublevel_" << i << ")";
+			
+			if ( i == the_level.sublevel_vec.size() - 1 )
+			{
+				cpp_file << " );";
+			}
+			else
+			{
+				cpp_file << ",";
+			}
+			
+			cpp_file << "\n";
+		}
+	}
+	
+	cpp_file << "\n\n\n";
 }
 
 
@@ -540,6 +742,7 @@ void primary_widget::level_menu_export()
 	}
 	
 	generate_level_header_file( output_dirname, output_basename );
+	generate_level_cpp_file( output_dirname, output_basename );
 	
 }
 

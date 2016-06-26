@@ -19,3 +19,4 @@ wine_test/*
 vgcore*
 *tags
 *.taghl
+export/*
