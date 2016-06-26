@@ -19,6 +19,8 @@
 
 #include "level_class.hpp"
 
+#include <unordered_set>
+
 
 level::level( u32 s_num_sublevels, 
 	const vec2_u32& shared_sublevel_size_2d )
@@ -64,58 +66,58 @@ level::level( const vector<vec2_u32>& s_sublevel_size_2d_vec )
 }
 
 
-void level::generate_compressed_block_data_vectors
-	( const string& temp_output_dirname, 
-	const string& temp_output_basename )
+bool level::generate_compressed_block_data_vectors
+	( const string& output_dirname, const string& output_basename )
 {
 	// Run gbalzss
 	const string gbalzss_command = "gbalzss e "
 		+ block_stuff::get_uncompressed_block_data_file_name
-		( temp_output_dirname, temp_output_basename ) + " "
+		( output_dirname, output_basename ) + " "
 		+ block_stuff::get_compressed_block_data_file_name
-		( temp_output_dirname, temp_output_basename );
+		( output_dirname, output_basename );
 	
 	// Remove the temporary files
 	const string clean_up_command = "rm " 
 		+ block_stuff::get_uncompressed_block_data_file_name
-		( temp_output_dirname, temp_output_basename ) + " "
+		( output_dirname, output_basename ) + " "
 		+ block_stuff::get_compressed_block_data_file_name
-		( temp_output_dirname, temp_output_basename );
+		( output_dirname, output_basename );
 	
 	
 	for ( sublevel& the_sublevel : sublevel_vec )
 	{
-		the_sublevel.write_uncompressed_block_data_to_file
-			( temp_output_dirname, temp_output_basename );
+		the_sublevel.write_uncompressed_block_data_to_file( output_dirname, 
+			output_basename );
 		
 		cout << "Running this command:  " << gbalzss_command << endl;
 		if ( system(gbalzss_command.c_str()) != 0 )
 		{
-			cout << "There was an error running gbalzss!  Exiting....\n";
-			exit(1);
+			cout << "There was an error running gbalzss in "
+				<< "level::generate_compressed_block_data_vectors()!\n";
+			return false;
 		}
 		
-		the_sublevel.read_compressed_block_data_from_file
-			( temp_output_dirname, temp_output_basename );
+		the_sublevel.read_compressed_block_data_from_file( output_dirname, 
+			output_basename );
 		
 		cout << "Running this command:  " << clean_up_command << endl;
 		system(clean_up_command.c_str());
 	}
+	
+	return true;
 }
 
 
-void level::generate_sprite_ipgws_and_sle_stuff_for_exporting()
+bool level::generate_sprite_ipgws_and_sle_stuff_for_exporting()
 {
-	// Sprites that are tied to a sublevel_entrance
-	sprite_ipgws the_player_at_starting_position;
+	static constexpr u32 num_pixels_per_block_dim = 16;
 	
-	// As of this comment being written, these are all doors.
-	vector<sprite_ipgws> sprites_tied_to_sle_vec;
-	
+	sprite_ipgws the_player;
 	bool found_player = false;
 	
+	unordered_set<u32> curr_sublevel_door_numbers_uset;
 	
-	auto most_inner_loop_contents = [&]( u32 k, sublevel& the_sublevel, 
+	auto loop_contents = [&]( u32 k, sublevel& the_sublevel, 
 		const sprite_ipgws& the_sprite_ipgws ) -> void
 	{
 		if ( the_sprite_ipgws.type == st_default )
@@ -135,23 +137,43 @@ void level::generate_sprite_ipgws_and_sle_stuff_for_exporting()
 			{
 				found_player = true;
 				
-				the_player_at_starting_position = the_sprite_ipgws;
+				the_player = the_sprite_ipgws;
 			}
 			else if ( k == 0 && found_player )
 			{
-				cout << "Warning:  Multiple starting points found in "
-					<< "sublevel 0!\n";
+				cout << "Warning:  Multiple level starting positions "
+					<< "in sublevel 0!  Only the first one found will be "
+					<< "used.\n";
 				the_sprite_ipgws.show_rejection_message();
 			}
 			else if ( k != 0 )
 			{
-				cout << "Warning:  Level starting positions must be in "
+				cout << "Warning:  Level starting positions MUST be in "
 					<< "sublevel 0!\n";
 				the_sprite_ipgws.show_rejection_message();
 			}
 		}
 		else if ( the_sprite_ipgws.type == st_door )
 		{
+			if ( curr_sublevel_door_numbers_uset.count
+				(the_sprite_ipgws.extra_param_2) )
+			{
+				cout << "Warning:  Multiple st_door sprites with the same "
+					<< "number in the same sublevel are not permitted!\n";
+				the_sprite_ipgws.show_rejection_message();
+				return;
+			}
+			
+			vec2_f24p8 the_sprite_ipgws_starting_position_f24p8
+				( fixed24p8( the_sprite_ipgws.initial_block_grid_x_coord
+				* num_pixels_per_block_dim, 0 ), 
+				fixed24p8( the_sprite_ipgws.initial_block_grid_y_coord
+				* num_pixels_per_block_dim, 0 ) );
+			sublevel_entrance sle_to_push = { sle_from_door, 
+				the_sprite_ipgws_starting_position_f24p8 };
+			
+			the_sublevel.sublevel_entrance_vec.push_back(sle_to_push);
+			
 			the_sublevel.sprite_ipgws_vec_for_exporting.push_back
 				(the_sprite_ipgws);
 		}
@@ -168,16 +190,38 @@ void level::generate_sprite_ipgws_and_sle_stuff_for_exporting()
 		
 		the_sublevel.sprite_ipgws_vec_for_exporting.clear();
 		the_sublevel.sublevel_entrance_vec.clear();
+		curr_sublevel_door_numbers_uset.clear();
 		
 		for ( u32 j=0; j<the_sublevel.real_size_2d.y; ++j )
 		{
 			for ( u32 i=0; i<the_sublevel.real_size_2d.x; ++i )
 			{
-				most_inner_loop_contents( k, the_sublevel, the_sublevel
+				loop_contents( k, the_sublevel, the_sublevel
 					.sprite_ipgws_vec_2d.at(j).at(i) );
 			}
 		}
+		
+		if ( k == 0 && found_player )
+		{
+			vec2_f24p8 the_player_starting_position_f24p8
+				( fixed24p8( the_player.initial_block_grid_x_coord
+				* num_pixels_per_block_dim, 0 ), 
+				fixed24p8( the_player.initial_block_grid_y_coord
+				* num_pixels_per_block_dim, 0 ) );
+			sublevel_entrance sle_to_push = { sle_start_of_level, 
+				the_player_starting_position_f24p8 };
+			
+			the_sublevel.sublevel_entrance_vec.push_back(sle_to_push);
+		}
+		else if ( k == 0 && !found_player )
+		{
+			cout << "Error!  Sublevel 0 is REQUIRED to have an instance "
+				<< "of an st_player sprite!\n";
+			return false;
+		}
 	}
+	
+	return true;
 }
 
 

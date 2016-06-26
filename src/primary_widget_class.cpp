@@ -322,6 +322,51 @@ void primary_widget::generate_central_widget()
 }
 
 
+void primary_widget::generate_level_header_file
+	( const string& output_dirname, const string& output_basename )
+{
+	level& the_level = the_central_widget->the_level;
+	
+	fstream header_file( output_dirname + "/" + output_basename 
+		+ string(".hpp"), ios_base::out );
+	
+	header_file << "#ifndef " << output_basename << "_hpp\n"
+		<< "#define " << output_basename << "_hpp\n\n\n"
+		<< "#include \"../game_engine_stuff/level_stuff/"
+		<< "level_class.hpp\"\n"
+		<< "#include \"../game_engine_stuff/level_stuff/"
+		<< "sprite_level_data_stuff.hpp\"\n";
+	
+	header_file << "\n\n";
+	
+	for ( u32 i=0; i<the_level.sublevel_vec.size(); ++i )
+	{
+		sublevel& the_sublevel = the_level.sublevel_vec.at(i);
+		
+		header_file << "extern const sublevel< "
+			<< the_sublevel.compressed_block_data_vec.size() << ", " 
+			<< the_sublevel.real_size_2d.x << ", " 
+			<< the_sublevel.real_size_2d.y << ", "
+			<< the_sublevel.sprite_ipgws_vec_for_exporting.size() << ", "
+			<< the_sublevel.sublevel_entrance_vec.size() 
+			<< " > " << output_basename << "_sublevel_" << i << ";\n\n";
+	}
+	
+	
+	header_file << "\nextern const level " << output_basename << ";\n";
+	
+	header_file << "\n\n";
+	
+	header_file << "#endif\t\t// " << output_basename << "_hpp";
+}
+
+void primary_widget::generate_level_cpp_file( const string& output_dirname, 
+	const string& output_basename )
+{
+	
+}
+
+
 // File Menu Slots
 void primary_widget::file_menu_laugh()
 {
@@ -462,6 +507,39 @@ void primary_widget::level_menu_export()
 {
 	cout << "level_menu_export()\n";
 	
-	//the_central_widget->the_level;
+	if ( argv_copy.size() != 3 )
+	{
+		cout << "Error in primary_widget::level_menu_export():  "
+			<< "argv_copy.size() != 3.\n";
+		
+		return;
+	}
+	
+	string output_dirname = dirname(strdup(argv_copy.at(2).c_str())),
+		output_basename = basename(strdup(argv_copy.at(2).c_str()));
+	
+	
+	if ( !the_central_widget->the_level
+		.generate_compressed_block_data_vectors( output_dirname, 
+		output_basename ) )
+	{
+		cout << "Error in primary_widget::level_menu_export() after "
+			<< "attempting to generate compressed block data vectors.\n";
+		
+		return;
+	}
+	
+	if ( !the_central_widget->the_level
+		.generate_sprite_ipgws_and_sle_stuff_for_exporting() )
+	{
+		cout << "Error in primary_widget::level_menu_export() after "
+			<< "attempting to generate sprite and sublevel_entrance "
+			<< "vectors.\n";
+		
+		return;
+	}
+	
+	generate_level_header_file( output_dirname, output_basename );
+	
 }
 

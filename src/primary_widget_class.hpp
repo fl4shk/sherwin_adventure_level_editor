@@ -164,6 +164,11 @@ protected:		// functions
 	//	the_central_widget->mouseMoveEvent(event);
 	//}
 	
+	void generate_level_header_file( const string& output_dirname, 
+		const string& output_basename );
+	void generate_level_cpp_file( const string& output_dirname, 
+		const string& output_basename );
+	
 protected slots:		// slots
 	
 	// File Menu Slots

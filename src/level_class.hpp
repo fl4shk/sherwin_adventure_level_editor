@@ -56,11 +56,10 @@ public:		// functions
 	//}
 	
 	
-	void generate_compressed_block_data_vectors
-		( const string& temp_output_dirname,
-		const string& temp_output_basename );
+	bool generate_compressed_block_data_vectors
+		( const string& output_dirname, const string& output_basename );
 	
-	void generate_sprite_ipgws_and_sle_stuff_for_exporting();
+	bool generate_sprite_ipgws_and_sle_stuff_for_exporting();
 	
 };
 

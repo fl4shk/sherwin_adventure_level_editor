@@ -41,8 +41,8 @@ bool sprite_ipgws::operator == ( const sprite_ipgws& to_cmp ) const
 
 void sprite_ipgws::show_rejection_message() const
 {
-	cout << "The " << type << " sprite at the ("
-		<< initial_block_grid_x_coord << ", "
+	cout << "The " << sprite_type_helper::get_st_name(type) << " sprite "
+		<< "at the (" << initial_block_grid_x_coord << ", "
 		<< initial_block_grid_y_coord << ") coordinate has been "
 		<< "rejected!\n";
 }

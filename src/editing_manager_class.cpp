@@ -703,8 +703,11 @@ bool editing_manager::undo( level_editor_core_widget* the_core_widget )
 			const vec2_s32& block_grid_pos = iter.first;
 			const block& the_replaced_block = iter.second;
 			
-			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
-				= the_replaced_block;
+			if ( the_sublevel->contains_block_grid_pos(block_grid_pos) )
+			{
+				the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
+					= the_replaced_block;
+			}
 		}
 	}
 	else if ( the_action_type == at_place_sprite )
@@ -716,8 +719,11 @@ bool editing_manager::undo( level_editor_core_widget* the_core_widget )
 			( new_sprite_ipgws.initial_block_grid_x_coord, 
 			new_sprite_ipgws.initial_block_grid_y_coord );
 		
-		the_sublevel->get_sprite_ipgws_at_block_grid_pos
-			(block_grid_pos) = sprite_ipgws();
+		if ( the_sublevel->contains_block_grid_pos(block_grid_pos) )
+		{
+			the_sublevel->get_sprite_ipgws_at_block_grid_pos
+				(block_grid_pos) = sprite_ipgws();
+		}
 	}
 	else if ( the_action_type == at_erase_sprites )
 	{
@@ -726,9 +732,12 @@ bool editing_manager::undo( level_editor_core_widget* the_core_widget )
 			const vec2_s32& block_grid_pos = iter.first;
 			const sprite_ipgws& the_erased_sprite_ipgws = iter.second;
 			
-			the_sublevel
-				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
-				= the_erased_sprite_ipgws;
+			if ( the_sublevel->contains_block_grid_pos(block_grid_pos) )
+			{
+				the_sublevel
+					->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
+					= the_erased_sprite_ipgws;
+			}
 		}
 	}
 	else if ( the_action_type == at_modify_sprite )
@@ -756,8 +765,11 @@ bool editing_manager::undo( level_editor_core_widget* the_core_widget )
 			const vec2_s32& block_grid_pos = rbum_iter.first;
 			const block& the_block = rbum_iter.second;
 			
-			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
-				= the_block;
+			if ( the_sublevel->contains_block_grid_pos(block_grid_pos) )
+			{
+				the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
+					= the_block;
+			}
 		}
 		
 		for ( auto obum_iter : curr_ur_action.old_block_umap )
@@ -765,8 +777,11 @@ bool editing_manager::undo( level_editor_core_widget* the_core_widget )
 			const vec2_s32& block_grid_pos = obum_iter.first;
 			const block& the_block = obum_iter.second;
 			
-			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
-				= the_block;
+			if ( the_sublevel->contains_block_grid_pos(block_grid_pos) )
+			{
+				the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
+					= the_block;
+			}
 		}
 	}
 	else if ( the_action_type == at_finish_moving_non_pasted_sprites )
@@ -776,9 +791,11 @@ bool editing_manager::undo( level_editor_core_widget* the_core_widget )
 			const vec2_s32& block_grid_pos = iter.first;
 			const sprite_ipgws& the_sprite_ipgws = iter.second;
 			
-			the_sublevel
-				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
-				= the_sprite_ipgws;
+			if ( the_sublevel->contains_block_grid_pos(block_grid_pos) )
+			{
+				the_sublevel->get_sprite_ipgws_at_block_grid_pos
+					(block_grid_pos) = the_sprite_ipgws;
+			}
 		}
 		
 		for ( auto iter : curr_ur_action.old_sprite_ipgws_umap )
@@ -786,9 +803,11 @@ bool editing_manager::undo( level_editor_core_widget* the_core_widget )
 			const vec2_s32& block_grid_pos = iter.first;
 			const sprite_ipgws& the_sprite_ipgws = iter.second;
 			
-			the_sublevel
-				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
-				= the_sprite_ipgws;
+			if ( the_sublevel->contains_block_grid_pos(block_grid_pos) )
+			{
+				the_sublevel->get_sprite_ipgws_at_block_grid_pos
+					(block_grid_pos) = the_sprite_ipgws;
+			}
 		}
 	}
 	else if ( the_action_type == at_finish_moving_pasted_blocks )
@@ -798,8 +817,11 @@ bool editing_manager::undo( level_editor_core_widget* the_core_widget )
 			const vec2_s32& block_grid_pos = rbum_iter.first;
 			const block& the_block = rbum_iter.second;
 			
-			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
-				= the_block;
+			if ( the_sublevel->contains_block_grid_pos(block_grid_pos) )
+			{
+				the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
+					= the_block;
+			}
 		}
 	}
 	else if ( the_action_type == at_finish_moving_pasted_sprites )
@@ -809,9 +831,11 @@ bool editing_manager::undo( level_editor_core_widget* the_core_widget )
 			const vec2_s32& block_grid_pos = iter.first;
 			const sprite_ipgws& the_sprite_ipgws = iter.second;
 			
-			the_sublevel
-				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
-				= the_sprite_ipgws;
+			if ( the_sublevel->contains_block_grid_pos(block_grid_pos) )
+			{
+				the_sublevel->get_sprite_ipgws_at_block_grid_pos
+					(block_grid_pos) = the_sprite_ipgws;
+			}
 		}
 	}
 	else if ( the_action_type == at_resize_sublevel )
@@ -841,17 +865,22 @@ bool editing_manager::undo( level_editor_core_widget* the_core_widget )
 			const vec2_s32& block_grid_pos = iter.first;
 			const block& the_backed_up_block = iter.second;
 			
-			the_sublevel->get_block_at_block_grid_pos(block_grid_pos) 
-				= the_backed_up_block;
+			if ( the_sublevel->contains_block_grid_pos(block_grid_pos) )
+			{
+				the_sublevel->get_block_at_block_grid_pos(block_grid_pos) 
+					= the_backed_up_block;
+			}
 		}
 		for ( auto iter : curr_ur_action.old_sprite_ipgws_umap )
 		{
 			const vec2_s32& block_grid_pos = iter.first;
 			const sprite_ipgws& the_backed_up_sprite_ipgws = iter.second;
 			
-			the_sublevel
-				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
-				= the_backed_up_sprite_ipgws;
+			if ( the_sublevel->contains_block_grid_pos(block_grid_pos) )
+			{
+				the_sublevel->get_sprite_ipgws_at_block_grid_pos
+					(block_grid_pos) = the_backed_up_sprite_ipgws;
+			}
 		}
 	}
 	
@@ -915,22 +944,13 @@ bool editing_manager::redo( level_editor_core_widget* the_core_widget )
 		for ( auto iter : next_ur_action.new_block_umap )
 		{
 			const vec2_s32& block_grid_pos = iter.first;
-			const block& the_replaced_block = iter.second;
+			const block& the_new_block = iter.second;
 			
-			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
-				= the_replaced_block;
-		}
-	}
-	else if ( the_action_type == at_erase_sprites )
-	{
-		for ( auto iter : next_ur_action.old_sprite_ipgws_umap )
-		{
-			const vec2_s32& block_grid_pos = iter.first;
-			//const sprite_ipgws& the_erased_sprite_ipgws = iter.second;
-			
-			the_sublevel
-				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
-				= sprite_ipgws();
+			if ( the_sublevel->contains_block_grid_pos(block_grid_pos) )
+			{
+				the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
+					= the_new_block;
+			}
 		}
 	}
 	else if ( the_action_type == at_place_sprite )
@@ -942,8 +962,26 @@ bool editing_manager::redo( level_editor_core_widget* the_core_widget )
 			( new_sprite_ipgws.initial_block_grid_x_coord, 
 			new_sprite_ipgws.initial_block_grid_y_coord );
 		
-		the_sublevel->get_sprite_ipgws_at_block_grid_pos
-			(block_grid_pos) = new_sprite_ipgws;
+		
+		if ( the_sublevel->contains_block_grid_pos(block_grid_pos) )
+		{
+			the_sublevel->get_sprite_ipgws_at_block_grid_pos
+				(block_grid_pos) = new_sprite_ipgws;
+		}
+	}
+	else if ( the_action_type == at_erase_sprites )
+	{
+		for ( auto iter : next_ur_action.old_sprite_ipgws_umap )
+		{
+			const vec2_s32& block_grid_pos = iter.first;
+			//const sprite_ipgws& the_erased_sprite_ipgws = iter.second;
+			
+			if ( the_sublevel->contains_block_grid_pos(block_grid_pos) )
+			{
+				the_sublevel->get_sprite_ipgws_at_block_grid_pos
+					(block_grid_pos) = sprite_ipgws();
+			}
+		}
 	}
 	else if ( the_action_type == at_modify_sprite )
 	{
@@ -970,8 +1008,11 @@ bool editing_manager::redo( level_editor_core_widget* the_core_widget )
 			const vec2_s32& block_grid_pos = obum_iter.first;
 			//const block& the_block = obum_iter.second;
 			
-			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
-				= block();
+			if ( the_sublevel->contains_block_grid_pos(block_grid_pos) )
+			{
+				the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
+					= block();
+			}
 		}
 		
 		for ( auto nbum_iter : next_ur_action.new_block_umap )
@@ -979,8 +1020,11 @@ bool editing_manager::redo( level_editor_core_widget* the_core_widget )
 			const vec2_s32& block_grid_pos = nbum_iter.first;
 			const block& the_block = nbum_iter.second;
 			
-			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
-				= the_block;
+			if ( the_sublevel->contains_block_grid_pos(block_grid_pos) )
+			{
+				the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
+					= the_block;
+			}
 		}
 	}
 	else if ( the_action_type == at_finish_moving_non_pasted_sprites )
@@ -990,9 +1034,11 @@ bool editing_manager::redo( level_editor_core_widget* the_core_widget )
 			const vec2_s32& block_grid_pos = iter.first;
 			//const sprite_ipgws& the_sprite_ipgws = iter.second;
 			
-			the_sublevel
-				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
-				= sprite_ipgws();
+			if ( the_sublevel->contains_block_grid_pos(block_grid_pos) )
+			{
+				the_sublevel->get_sprite_ipgws_at_block_grid_pos
+					(block_grid_pos) = sprite_ipgws();
+			}
 		}
 		
 		for ( auto iter : next_ur_action.new_sprite_ipgws_umap )
@@ -1000,9 +1046,11 @@ bool editing_manager::redo( level_editor_core_widget* the_core_widget )
 			const vec2_s32& block_grid_pos = iter.first;
 			const sprite_ipgws& the_sprite_ipgws = iter.second;
 			
-			the_sublevel
-				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
-				= the_sprite_ipgws;
+			if ( the_sublevel->contains_block_grid_pos(block_grid_pos) )
+			{
+				the_sublevel->get_sprite_ipgws_at_block_grid_pos
+					(block_grid_pos) = the_sprite_ipgws;
+			}
 		}
 		
 	}
@@ -1013,8 +1061,11 @@ bool editing_manager::redo( level_editor_core_widget* the_core_widget )
 			const vec2_s32& block_grid_pos = nbum_iter.first;
 			const block& the_block = nbum_iter.second;
 			
-			the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
-				= the_block;
+			if ( the_sublevel->contains_block_grid_pos(block_grid_pos) )
+			{
+				the_sublevel->get_block_at_block_grid_pos(block_grid_pos)
+					= the_block;
+			}
 		}
 	}
 	else if ( the_action_type == at_finish_moving_pasted_sprites )
@@ -1024,9 +1075,11 @@ bool editing_manager::redo( level_editor_core_widget* the_core_widget )
 			const vec2_s32& block_grid_pos = iter.first;
 			const sprite_ipgws& the_sprite_ipgws = iter.second;
 			
-			the_sublevel
-				->get_sprite_ipgws_at_block_grid_pos(block_grid_pos)
-				= the_sprite_ipgws;
+			if ( the_sublevel->contains_block_grid_pos(block_grid_pos) )
+			{
+				the_sublevel->get_sprite_ipgws_at_block_grid_pos
+					(block_grid_pos) = the_sprite_ipgws;
+			}
 		}
 	}
 	else if ( the_action_type == at_resize_sublevel )
