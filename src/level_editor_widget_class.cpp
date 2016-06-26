@@ -27,7 +27,8 @@ const QString level_editor_widget::default_parent_title
 level_editor_widget::level_editor_widget
 	( editing_manager* s_the_editing_manager, vector<string>* s_argv_copy,
 	QWidget* s_parent ) :  QWidget(s_parent), argv_copy(s_argv_copy),
-	parent(s_parent), the_editing_manager(s_the_editing_manager)
+	parent(s_parent), the_mouse_mode(mm_place_level_elements), 
+	the_editing_manager(s_the_editing_manager)
 {
 	the_editing_manager->set_the_level_editor_widget(this);
 	
@@ -793,7 +794,7 @@ void level_editor_widget::switch_mouse_mode_shared_code
 	the_editing_manager->finalize_movement_of_rs_contents
 		( the_core_widget, the_rect_selection_stuff );
 	
-	the_core_widget->the_mouse_mode = n_the_mouse_mode;
+	the_mouse_mode = n_the_mouse_mode;
 	
 	cout << "Current mouse mode:  mm_" << mouse_mode_suffix << endl;
 }

@@ -81,6 +81,9 @@ public:		// variables
 	unique_ptr<QTabWidget> level_element_selectors_tab_widget;
 	
 	unique_ptr<block_selector_widget> the_block_selector_widget;
+	
+	
+	// These should be merged into a single sprite selector widget.
 	unique_ptr<sprite_16x16_selector_widget> 
 		the_sprite_16x16_selector_widget;
 	unique_ptr<sprite_16x32_selector_widget> 
@@ -98,6 +101,9 @@ public:		// variables
 	
 	unique_ptr<sublevel_properties_widget> the_sublevel_properties_widget;
 	
+	
+	// The mouse mode
+	mouse_mode the_mouse_mode;
 	
 	editing_manager* the_editing_manager;
 	

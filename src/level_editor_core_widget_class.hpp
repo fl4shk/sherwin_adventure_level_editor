@@ -78,8 +78,8 @@ public:		// variables
 	vec2_s32 block_grid_coords_of_prev_mouse_pos;
 	
 	
-	// The mouse mode
-	mouse_mode the_mouse_mode;
+	//// The mouse mode
+	//mouse_mode the_mouse_mode;
 	
 	
 	
@@ -92,11 +92,11 @@ public:		// variables
 public:		// functions
 	level_editor_core_widget( QWidget* s_parent, const QPoint& s_position,
 		const string& s_level_file_name, sublevel* s_the_sublevel,
-		editing_manager* s_the_editing_manager);
+		editing_manager* s_the_editing_manager );
 	level_editor_core_widget( QWidget* s_parent, const QPoint& s_position,
 		const string& s_level_file_name, sublevel* s_the_sublevel,
 		const vec2_u32& s_sublevel_real_size_2d,
-		editing_manager* s_the_editing_manager);
+		editing_manager* s_the_editing_manager );
 	
 	void shared_constructor_code( const QPoint& s_position, 
 		 const vec2_u32& s_sublevel_real_size_2d );

@@ -35,7 +35,7 @@ level_editor_core_widget::level_editor_core_widget( QWidget* s_parent,
 	sublevel* s_the_sublevel, editing_manager* s_the_editing_manager )
 	: QWidget(s_parent), parent(s_parent),
 	level_file_name(s_level_file_name), current_position(s_position), 
-	the_sublevel(s_the_sublevel), the_mouse_mode(mm_place_level_elements),
+	the_sublevel(s_the_sublevel), 
 	the_editing_manager(s_the_editing_manager)
 {
 	shared_constructor_code( s_position, the_sublevel->real_size_2d );
@@ -48,7 +48,7 @@ level_editor_core_widget::level_editor_core_widget( QWidget* s_parent,
 	editing_manager* s_the_editing_manager )
 	: QWidget(s_parent), parent(s_parent),
 	level_file_name(s_level_file_name), current_position(s_position), 
-	the_sublevel(s_the_sublevel), the_mouse_mode(mm_place_level_elements),
+	the_sublevel(s_the_sublevel),
 	the_editing_manager(s_the_editing_manager)
 {
 	shared_constructor_code( s_position, s_sublevel_real_size_2d );

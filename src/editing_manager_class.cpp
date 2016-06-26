@@ -65,7 +65,7 @@ void editing_manager::key_press_event( QKeyEvent* event )
 	//			the_rect_selection_stuff );
 	//	}
 	//	
-	//	the_core_widget->the_mouse_mode = mm_place_level_elements;
+	//	the_level_editor_widget->the_mouse_mode = mm_place_level_elements;
 	//	
 	//	cout << "Current mouse mode:  place_level_elements\n";
 	//}
@@ -77,13 +77,13 @@ void editing_manager::key_press_event( QKeyEvent* event )
 	//			the_rect_selection_stuff );
 	//	}
 	//	
-	//	the_core_widget->the_mouse_mode = mm_select_single_sprite;
+	//	the_level_editor_widget->the_mouse_mode = mm_select_single_sprite;
 	//	
 	//	cout << "Current mouse mode:  select_sprites\n";
 	//}
 	//else if ( event->key() == Qt::Key_E )
 	//{
-	//	the_core_widget->the_mouse_mode = mm_rect_selection;
+	//	the_level_editor_widget->the_mouse_mode = mm_rect_selection;
 	//	
 	//	cout << "Current mouse mode:  rect_selection\n";
 	//}
@@ -138,7 +138,7 @@ void editing_manager::mouse_press_event
 		the_sprite_selection_ptr_group 
 		= the_core_widget->the_sprite_selection_ptr_group; 
 	
-	mouse_mode& the_mouse_mode = the_core_widget->the_mouse_mode; 
+	mouse_mode& the_mouse_mode = the_level_editor_widget->the_mouse_mode; 
 	vec2_s32& block_grid_coords_of_prev_mouse_pos = the_core_widget 
 		->block_grid_coords_of_prev_mouse_pos; 
 	
@@ -318,7 +318,7 @@ void editing_manager::mouse_move_event
 	//	the_sprite_selection_ptr_group 
 	//	= the_core_widget->the_sprite_selection_ptr_group; 
 	
-	mouse_mode& the_mouse_mode = the_core_widget->the_mouse_mode; 
+	mouse_mode& the_mouse_mode = the_level_editor_widget->the_mouse_mode; 
 	vec2_s32& block_grid_coords_of_prev_mouse_pos = the_core_widget 
 		->block_grid_coords_of_prev_mouse_pos; 
 	
@@ -429,7 +429,7 @@ void editing_manager::mouse_release_event
 	level_editor_sfml_canvas_widget* the_sfml_canvas_widget
 		= the_core_widget->the_sfml_canvas_widget.get();
 	
-	mouse_mode& the_mouse_mode = the_core_widget->the_mouse_mode;
+	mouse_mode& the_mouse_mode = the_level_editor_widget->the_mouse_mode;
 	vec2_s32& block_grid_coords_of_prev_mouse_pos = the_core_widget
 		->block_grid_coords_of_prev_mouse_pos;
 	
@@ -530,7 +530,7 @@ void editing_manager::copy_rs_contents
 	( level_editor_core_widget* the_core_widget,
 	rect_selection_stuff& the_rect_selection_stuff )
 {
-	if ( the_core_widget->the_mouse_mode == mm_rect_selection
+	if ( the_level_editor_widget->the_mouse_mode == mm_rect_selection
 		&& the_rect_selection_stuff.get_enabled() )
 	{
 		the_rect_selection_stuff.copy_rs_contents();
@@ -542,7 +542,7 @@ void editing_manager::paste_copied_rs_contents
 	( level_editor_core_widget* the_core_widget,
 	rect_selection_stuff& the_rect_selection_stuff )
 {
-	if ( the_core_widget->the_mouse_mode != mm_rect_selection )
+	if ( the_level_editor_widget->the_mouse_mode != mm_rect_selection )
 	{
 		return;
 	}
@@ -2723,7 +2723,8 @@ void editing_manager::finalize_movement_of_rs_contents_block_ur_stuff
 	const sf::IntRect& selection_rect, 
 	const sf::IntRect& selection_rect_before_moving, bool rs_was_pasted )
 {
-	//if ( the_core_widget->the_mouse_mode == mm_select_single_sprite )
+	//if ( the_level_editor_widget->the_mouse_mode 
+	//	== mm_select_single_sprite )
 	//{
 	//	return;
 	//}
@@ -2801,7 +2802,8 @@ void editing_manager::finalize_movement_of_rs_contents_sprite_ur_stuff
 	const sf::IntRect& selection_rect, 
 	const sf::IntRect& selection_rect_before_moving, bool rs_was_pasted )
 {
-	//if ( the_core_widget->the_mouse_mode == mm_select_single_sprite )
+	//if ( the_level_editor_widget->the_mouse_mode 
+	//	== mm_select_single_sprite )
 	//{
 	//	return;
 	//}
