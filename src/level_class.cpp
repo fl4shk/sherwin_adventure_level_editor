@@ -19,7 +19,7 @@
 
 #include "level_class.hpp"
 
-#include <unordered_set>
+#include <unordered_map>
 
 
 level::level( u32 s_num_sublevels, 
@@ -115,7 +115,7 @@ bool level::generate_sprite_ipgws_and_sle_stuff_for_exporting()
 	sprite_ipgws the_player;
 	bool found_player = false;
 	
-	unordered_set<u32> curr_sublevel_door_numbers_uset;
+	unordered_map< u32, sprite_ipgws > door_numbers_to_doors_umap;
 	
 	auto loop_contents = [&]( u32 k, sublevel& the_sublevel, 
 		const sprite_ipgws& the_sprite_ipgws ) -> void
@@ -155,7 +155,7 @@ bool level::generate_sprite_ipgws_and_sle_stuff_for_exporting()
 		}
 		else if ( the_sprite_ipgws.type == st_door )
 		{
-			if ( curr_sublevel_door_numbers_uset.count
+			if ( door_numbers_to_doors_umap.count
 				(the_sprite_ipgws.extra_param_2) )
 			{
 				cout << "Warning:  Multiple st_door sprites with the same "
@@ -164,16 +164,8 @@ bool level::generate_sprite_ipgws_and_sle_stuff_for_exporting()
 				return;
 			}
 			
-			vec2_f24p8 the_sprite_ipgws_starting_position_f24p8
-				( fixed24p8( the_sprite_ipgws.initial_block_grid_x_coord
-				* num_pixels_per_block_dim, 0 ), 
-				fixed24p8( the_sprite_ipgws.initial_block_grid_y_coord
-				* num_pixels_per_block_dim, 0 ) );
-			sublevel_entrance sle_to_push = { sle_from_door, 
-				the_sprite_ipgws_starting_position_f24p8 };
-			
-			the_sublevel.sublevel_entrance_vec.push_back(sle_to_push);
-			
+			door_numbers_to_doors_umap[the_sprite_ipgws.extra_param_2]
+				= the_sprite_ipgws;
 			the_sublevel.sprite_ipgws_vec_for_exporting.push_back
 				(the_sprite_ipgws);
 		}
@@ -190,7 +182,7 @@ bool level::generate_sprite_ipgws_and_sle_stuff_for_exporting()
 		
 		the_sublevel.sprite_ipgws_vec_for_exporting.clear();
 		the_sublevel.sublevel_entrance_vec.clear();
-		curr_sublevel_door_numbers_uset.clear();
+		door_numbers_to_doors_umap.clear();
 		
 		for ( u32 j=0; j<the_sublevel.real_size_2d.y; ++j )
 		{
@@ -199,6 +191,22 @@ bool level::generate_sprite_ipgws_and_sle_stuff_for_exporting()
 				loop_contents( k, the_sublevel, the_sublevel
 					.sprite_ipgws_vec_2d.at(j).at(i) );
 			}
+		}
+		
+		for ( pair< const u32, sprite_ipgws >& the_pair 
+			: door_numbers_to_doors_umap )
+		{
+			sprite_ipgws& the_door = the_pair.second;
+			
+			vec2_f24p8 the_door_starting_position_f24p8
+				( fixed24p8( the_door.initial_block_grid_x_coord
+				* num_pixels_per_block_dim, 0 ), 
+				fixed24p8( the_door.initial_block_grid_y_coord
+				* num_pixels_per_block_dim, 0 ) );
+			sublevel_entrance sle_to_push = { sle_from_door, 
+				the_door_starting_position_f24p8 };
+			
+			the_sublevel.sublevel_entrance_vec.push_back(sle_to_push);
 		}
 		
 		if ( k == 0 && found_player )
