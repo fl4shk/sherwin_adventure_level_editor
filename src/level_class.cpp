@@ -86,6 +86,42 @@ bool level::generate_compressed_block_data_vectors
 	
 	for ( sublevel& the_sublevel : sublevel_vec )
 	{
+		// Persistent block data stuff
+		u32 next_persistent_block_data_index = 1;
+		
+		vector< vector<block> >& uncompressed_block_data_vec_2d
+			= the_sublevel.uncompressed_block_data_vec_2d;
+		
+		for ( u32 j=0; j<uncompressed_block_data_vec_2d.size(); ++j )
+		{
+			vector<block>& the_block_row_vec 
+				= uncompressed_block_data_vec_2d.at(j);
+			
+			for ( u32 i=0; i<the_block_row_vec.size(); ++i )
+			{
+				block& the_block = the_block_row_vec.at(i);
+				
+				if ( block_stuff::bt_has_persistent_data
+					((block_type)the_block.type) )
+				{
+					if ( next_persistent_block_data_index
+						>= block_stuff::persistent_block_data_array_size )
+					{
+						cout << "Error:  Too many blocks have persistent "
+							<< "data!\n";
+						
+						return false;
+					}
+					
+					the_block.persistent_data_index 
+						= next_persistent_block_data_index;
+					
+					++next_persistent_block_data_index;
+				}
+				
+			}
+		}
+		
 		the_sublevel.write_uncompressed_block_data_to_file( output_dirname, 
 			output_basename );
 		

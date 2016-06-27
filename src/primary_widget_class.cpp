@@ -732,7 +732,7 @@ void primary_widget::level_menu_export()
 		.generate_compressed_block_data_vectors( output_dirname, 
 		output_basename ) )
 	{
-		cout << "Error in primary_widget::level_menu_export() after "
+		cout << "Error in primary_widget::level_menu_export() from "
 			<< "attempting to generate compressed block data vectors.\n";
 		
 		return;
@@ -741,7 +741,7 @@ void primary_widget::level_menu_export()
 	if ( !the_central_widget->the_level
 		.generate_sprite_ipgws_and_sle_stuff_for_exporting() )
 	{
-		cout << "Error in primary_widget::level_menu_export() after "
+		cout << "Error in primary_widget::level_menu_export() from "
 			<< "attempting to generate sprite and sublevel_entrance "
 			<< "vectors.\n";
 		
