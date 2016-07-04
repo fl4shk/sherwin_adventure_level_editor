@@ -234,11 +234,15 @@ bool primary_widget::generate_toolbar()
 	{
 		say_tool_related_vector_size_is_wrong("toolbar_action_text_vec");
 	}
-	if ( tool_button_shortcut_vec.size() != tbt_count )
+	if ( tool_button_shortcut_vec.size() != mm_tbt_count )
 	{
 		say_tool_related_vector_size_is_wrong("tool_button_shortcut_vec");
+		cout << "tool_button_shortcut_vec.size() == " 
+			<< tool_button_shortcut_vec.size() << endl;
+		cout << "tbt_count == " << tbt_count << endl;
 	}
 	
+	// Well, this is definitely
 	#define multi_equals_comparison(other_suffix) \
 		the_tbt == tbt_##other_suffix ||
 	
@@ -255,7 +259,7 @@ bool primary_widget::generate_toolbar()
 		if ( list_of_debug_tbt_suffixes_part_1(multi_equals_comparison)
 			false )
 		{
-			cout << "laugh\n";
+			//cout << "laugh\n";
 			
 			laugh_tool_button_action 
 				= toolbar->addAction( QIcon(curr_icon_pixmap), 
