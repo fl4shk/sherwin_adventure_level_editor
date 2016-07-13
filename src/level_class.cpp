@@ -151,7 +151,7 @@ bool level::generate_sprite_ipgws_and_sle_stuff_for_exporting()
 	sprite_ipgws the_player;
 	bool found_player = false;
 	
-	unordered_map< u32, sprite_ipgws > door_numbers_to_doors_umap;
+	map< u32, sprite_ipgws > door_numbers_to_doors_map;
 	
 	auto loop_contents = [&]( u32 k, sublevel& the_sublevel, 
 		const sprite_ipgws& the_sprite_ipgws ) -> void
@@ -191,7 +191,7 @@ bool level::generate_sprite_ipgws_and_sle_stuff_for_exporting()
 		}
 		else if ( the_sprite_ipgws.type == st_door )
 		{
-			if ( door_numbers_to_doors_umap.count
+			if ( door_numbers_to_doors_map.count
 				(the_sprite_ipgws.extra_param_2) )
 			{
 				cout << "Warning:  Multiple st_door sprites with the same "
@@ -200,7 +200,7 @@ bool level::generate_sprite_ipgws_and_sle_stuff_for_exporting()
 				return;
 			}
 			
-			door_numbers_to_doors_umap[the_sprite_ipgws.extra_param_2]
+			door_numbers_to_doors_map[the_sprite_ipgws.extra_param_2]
 				= the_sprite_ipgws;
 			the_sublevel.sprite_ipgws_vec_for_exporting.push_back
 				(the_sprite_ipgws);
@@ -218,7 +218,7 @@ bool level::generate_sprite_ipgws_and_sle_stuff_for_exporting()
 		
 		the_sublevel.sprite_ipgws_vec_for_exporting.clear();
 		the_sublevel.sublevel_entrance_vec.clear();
-		door_numbers_to_doors_umap.clear();
+		door_numbers_to_doors_map.clear();
 		
 		for ( u32 j=0; j<the_sublevel.real_size_2d.y; ++j )
 		{
@@ -230,7 +230,7 @@ bool level::generate_sprite_ipgws_and_sle_stuff_for_exporting()
 		}
 		
 		for ( pair< const u32, sprite_ipgws >& the_pair 
-			: door_numbers_to_doors_umap )
+			: door_numbers_to_doors_map )
 		{
 			sprite_ipgws& the_door = the_pair.second;
 			
